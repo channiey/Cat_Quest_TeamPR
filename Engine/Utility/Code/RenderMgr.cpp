@@ -111,17 +111,13 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-	for (auto iter : m_RenderGroup[RENDER_UI])
+	for (auto iter : m_RenderGroup[RENDER_VIEWUI])
 	{
-		if(iter->Get_Type() == )
-	}
 		iter->Render_Object();
-
+	}
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
-
-
 
 
 	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
@@ -129,7 +125,7 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	pGraphicDev->SetViewport(&m_BackupViewPort);                // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);    // UI 전체 출력 후 다시 원근투영 행렬 적용.
 
-	for (auto iter : m_RenderGroup[RENDER_UI])
+	for (auto iter : m_RenderGroup[RENDER_WDUI])
 		iter->Render_Object();
 }
 
