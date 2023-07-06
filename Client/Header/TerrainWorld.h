@@ -1,20 +1,20 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Terrain.h"
 
 BEGIN(Engine)
 
-class CTerrainTex;
-class CTexture;
+class CRcCol;
 
 END
 
-class CTerrain : public Engine::CGameObject
+class CTerrainWorld : public CTerrain
 {
-public:
-	explicit CTerrain(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CTerrain(const CTerrain& rhs);
-	virtual ~CTerrain();
+protected:
+	explicit CTerrainWorld(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CTerrainWorld(const CTerrain& rhs);
+	virtual ~CTerrainWorld();
 
 public:
 	virtual HRESULT		Ready_Object(void) override;
@@ -25,13 +25,10 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
-private:
-	CTexture*			m_pTextureCom = nullptr;
-
 public:
-	static CTerrain*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CTerrainWorld* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
-protected:
+private:
 	virtual void		Free() override;
 
 };

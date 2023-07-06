@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "MainApp.h"
 #include "InputDev.h"
+#include "Calculator.h"
 
 // 전역변수
 // 이미지 관련
@@ -26,7 +27,6 @@ static _bool bInit = false;
 CImGuiMgr::CImGuiMgr() 
 	: m_eArgTag(ARG_TILE), m_iTileType(TILE_GRASS_FIELD)
 {
-
 }
 
 CImGuiMgr::~CImGuiMgr()
@@ -37,8 +37,8 @@ CImGuiMgr::~CImGuiMgr()
 HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pGraphicDev = pGraphicDev;
-	pGraphicDev->AddRef();
-	Safe_Release(pGraphicDev);
+	m_pGraphicDev->AddRef();
+	// Safe_Release(pGraphicDev);
 
 	imagesPerRow = 4;
 
@@ -48,7 +48,7 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(g_hWnd);
-	ImGui_ImplDX9_Init(pGraphicDev);
+	ImGui_ImplDX9_Init(m_pGraphicDev);
 
 	return S_OK;
 }
@@ -66,7 +66,7 @@ void CImGuiMgr::ImGui_Update()
 
 	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
-		Mouse_Picking(pClientPt);
+		 CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
 	}
 
 
@@ -100,47 +100,6 @@ void CImGuiMgr::ImGui_Render()
 	ImGui::Render();
 
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-}
-
-D3DXVECTOR3 CImGuiMgr::Mouse_Picking(POINT mousePt)
-{
-	// 월드까지 가져갈 마우스 좌표
-	D3DXVECTOR3	 vMousePos;
-
-	// 뷰포트 정보 얻어오기
-	D3DVIEWPORT9 viewPort;
-	m_pGraphicDev->GetViewport(&viewPort);
-
-	// 마우스 좌표 투영 좌표로 변환.
-	vMousePos.x = mousePt.x / (viewPort.Width * 0.5f) - 1;
-	vMousePos.y = mousePt.y / -(viewPort.Height * 0.5f) + 1;
-	vMousePos.z = 0.f;
-
-	// 투영 -> 뷰 스페이스
-	D3DXMATRIX matProj;
-	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
-	D3DXMatrixInverse(&matProj, 0, &matProj);
-	D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
-
-	// 광선 위치, 방향 벡터
-	D3DXVECTOR3 vRayPos = { 0.f, 0.f, 0.f };
-	D3DXVECTOR3 vRayDir = vMousePos - vRayPos;
-
-	// 뷰 스페이스 -> 월드 스페이스
-	D3DXMATRIX matView;
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixInverse(&matView, 0, &matView);
-	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
-	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
-
-
-	// D3DXMATRIX		matWorld;
-	// // D3DXMatrixInverse(&matWorld, 0, &CCalculator::Get_Instance()->m_matTerrainWorld);
-	// D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
-	// D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
-
-	//return CCalculator::Get_Instance()->Pick_Tile(vRayPos, vRayDir);
-	return _vec3();
 }
 
 // 파일 경로
@@ -355,6 +314,5 @@ void CImGuiMgr::Free()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
-	// delete m_pGraphicDev;
-	// m_pGraphicDev = nullptr;
+	Safe_Release(m_pGraphicDev);
 }

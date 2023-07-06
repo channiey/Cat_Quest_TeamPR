@@ -3,13 +3,15 @@
 
 #include "Export_Function.h"
 
-#include "Terrain.h"
+// #include "Terrain.h"
+#include "TerrainWorld.h"
 #include "Player.h"
 #include "CuteMonster.h"
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 
 #include "ImGuiMgr.h"
+#include "Calculator.h"
 
 CScene_Tool::CScene_Tool(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::TOOL)
@@ -54,7 +56,7 @@ void CScene_Tool::Render_Scene()
 void CScene_Tool::Free()
 {
 	CImGuiMgr::GetInstance()->DestroyInstance();
-
+	CCalculator::GetInstance()->DestroyInstance();
 	__super::Free();
 }
 
@@ -80,6 +82,7 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	Engine::CGameObject* pGameObject = nullptr;
 
 	// Terrain
+	// TerrainWorld로 생성할 시 메모리 누수남. 구조 잘 파악하고 해결하자.
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);

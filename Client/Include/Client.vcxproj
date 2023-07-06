@@ -168,11 +168,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\Calculator.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
     <ClInclude Include="..\Header\EffectTest.h" />
     <ClInclude Include="..\Header\Dragon.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\TerrainWorld.h" />
     <ClInclude Include="..\Header\Tile.h" />
     <ClInclude Include="..\Header\Tool_Camera.h" />
     <ClInclude Include="..\Header\Effect.h" />
@@ -202,11 +204,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
     <ClCompile Include="..\Code\EffectTest.cpp" />
     <ClCompile Include="..\Code\Dragon.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
+    <ClCompile Include="..\Code\TerrainWorld.cpp" />
     <ClCompile Include="..\Code\Tile.cpp" />
     <ClCompile Include="..\Code\Tool_Camera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />

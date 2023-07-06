@@ -18,8 +18,6 @@ public: /* MainApp에서 돌아가야 할 기본적인 함수들 */
 	void						ImGui_Render();
 
 public:
-	// 마우스 픽킹 관련 함수
-	D3DXVECTOR3				Mouse_Picking(POINT mousePt);
 	// 파일 관련
 	void					FindFileList(const wstring& folderPath, vector<wstring>& fileList); // 파일 경로
 	string					wstring_to_utf8(const std::wstring& str); // 문자열 타입 변환
