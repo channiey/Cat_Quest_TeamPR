@@ -103,6 +103,7 @@ HRESULT CScene_World::Ready_Layer_Environment()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ENVIORMENT, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
@@ -111,7 +112,6 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::ENVIORMENT, pLayer });
 
 	return S_OK;
 }
@@ -120,6 +120,7 @@ HRESULT CScene_World::Ready_Layer_Camera()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
@@ -134,7 +135,6 @@ HRESULT CScene_World::Ready_Layer_Camera()
 	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
 	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
 	
-	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
 	return S_OK;
 }
@@ -143,10 +143,10 @@ HRESULT CScene_World::Ready_Layer_UI()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 
 	return S_OK;
 }
@@ -155,18 +155,15 @@ HRESULT CScene_World::Ready_Layer_Player()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
 
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
-
-	//m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
 	return S_OK;
 }
@@ -175,15 +172,14 @@ HRESULT CScene_World::Ready_Layer_Monster()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Monster
 	pGameObject = CCuteMonster::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster_01", pGameObject), E_FAIL);
-
-	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_01", pGameObject), E_FAIL);
 
 	return S_OK;
 }
@@ -194,8 +190,8 @@ HRESULT CScene_World::Ready_Layer_Item()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
-
 	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
+
 
 	return S_OK;
 }
@@ -206,8 +202,8 @@ HRESULT CScene_World::Ready_Layer_Projectile()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
-
 	m_mapLayer.insert({ OBJ_TYPE::PROJECTILE, pLayer });
+
 
 	return S_OK;
 }

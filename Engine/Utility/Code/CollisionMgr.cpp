@@ -51,10 +51,10 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 	for (_iter iter1 = mapObj1.begin(); iter1 != mapObj1.end(); ++iter1)
 	{
 		for (_iter iter2 = mapObj2.begin(); iter2 != mapObj2.end(); ++iter2)
-		{
+		{ 
 			pObj1 = iter1->second;	pObj2 = iter2->second;
 
-			if (pObj1 == pObj2 || nullptr == pObj1 || nullptr == pObj2 || !pObj1->Is_Active() || !pObj2->Is_Active()) continue;
+			if (pObj1 == pObj2 || nullptr == pObj1 || nullptr == pObj2) continue;
 
 			if (COL_TYPE::RECT == _eColType1 && COL_TYPE::RECT == _eColType2)
 			{
@@ -62,26 +62,38 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 				pCol1 = pObj1->Get_Collider();
 				pCol2 = pObj2->Get_Collider();
 
-				if (nullptr == pCol1 || nullptr == pCol2 || !pCol1->Is_Active() || !pCol2->Is_Active()) continue;
+				if (nullptr == pCol1 || nullptr == pCol2) continue;
 				Set_Info(iter, pCol1, pCol2);
 
-				if (Check_Rect(pObj1, pObj2))
+				if (Check_Rect(pObj1, pObj2)) // 충돌
 				{
-					if (iter->second)
+					if (iter->second) // 이전에도 충돌
 					{
-						pCol1->OnCollision_Stay(pObj2);
-						pCol2->OnCollision_Stay(pObj1);
+						if (!pObj1->Is_Active() || !pObj2->Is_Active()) // 둘 중 하나 삭제 예정
+						{
+							pCol1->OnCollision_Exit(pObj2);
+							pCol2->OnCollision_Exit(pObj1);
+							iter->second = false;
+						}
+						else // 삭제 예정 없음
+						{
+							pCol1->OnCollision_Stay(pObj2);
+							pCol2->OnCollision_Stay(pObj1);
+						}
 					}
-					else
+					else // 이번에 충돌
 					{
-						pCol1->OnCollision_Enter(pObj2);
-						pCol2->OnCollision_Enter(pObj1);
-						iter->second = true;
+						if (pObj1->Is_Active() && pObj2->Is_Active()) // 둘다 삭제될 예정이 아닐 때만 충돌 처리
+						{
+							pCol1->OnCollision_Enter(pObj2);
+							pCol2->OnCollision_Enter(pObj1);
+							iter->second = true;
+						}
 					}
 				}
-				else
+				else // 충돌 X
 				{
-					if (iter->second)
+					if (iter->second) // 이전에 충돌
 					{
 						pCol1->OnCollision_Exit(pObj2);
 						pCol2->OnCollision_Exit(pObj1);
@@ -94,26 +106,38 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 				pCol1 = pObj1->Get_Collider();
 				pCol2 = pObj2->Get_Collider();
 
-				if (nullptr == pCol1 || nullptr == pCol2 || !pCol1->Is_Active() || !pCol2->Is_Active()) continue;
+				if (nullptr == pCol1 || nullptr == pCol2) continue;
 				Set_Info(iter, pCol1, pCol2);
 
-				if (Check_Rect_Circle(pObj1, pObj2))
+				if (Check_Rect_Circle(pObj1, pObj2)) // 충돌
 				{
-					if (iter->second)
+					if (iter->second) // 이전에도 충돌
 					{
-						pCol1->OnCollision_Stay(pObj2);
-						pCol2->OnCollision_Stay(pObj1);
+						if (!pObj1->Is_Active() || !pObj2->Is_Active()) // 둘 중 하나 삭제 예정
+						{
+							pCol1->OnCollision_Exit(pObj2);
+							pCol2->OnCollision_Exit(pObj1);
+							iter->second = false;
+						}
+						else // 삭제 예정 없음
+						{
+							pCol1->OnCollision_Stay(pObj2);
+							pCol2->OnCollision_Stay(pObj1);
+						}
 					}
-					else
+					else // 이번에 충돌
 					{
-						pCol1->OnCollision_Enter(pObj2);
-						pCol2->OnCollision_Enter(pObj1);
-						iter->second = true;
+						if (pObj1->Is_Active() && pObj2->Is_Active()) // 둘다 삭제될 예정이 아닐 때만 충돌 처리
+						{
+							pCol1->OnCollision_Enter(pObj2);
+							pCol2->OnCollision_Enter(pObj1);
+							iter->second = true;
+						}
 					}
 				}
-				else
+				else // 충돌 X
 				{
-					if (iter->second)
+					if (iter->second) // 이전에 충돌
 					{
 						pCol1->OnCollision_Exit(pObj2);
 						pCol2->OnCollision_Exit(pObj1);
@@ -143,32 +167,44 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 		{
 			pObj1 = iter1->second;
 
-			if (nullptr == pObj1 || nullptr == pLine || !pObj1->Is_Active() || !pLine->Is_Active()) continue;
+			if (nullptr == pObj1 || nullptr == pLine ) continue;
 
 			pCol1 = static_cast<CCollider*>(pObj1->Get_Component(COMPONENT_TYPE::COL_RECT, ID_STATIC));
 			pCol2 = static_cast<CCollider*>(pLine->Get_Component(COMPONENT_TYPE::COL_LINE, ID_STATIC));
 
-			if (nullptr == pCol1 || nullptr == pCol2 || !pCol1->Is_Active() || !pCol2->Is_Active()) continue;
+			if (nullptr == pCol1 || nullptr == pCol2) continue;
 
 			Set_Info(iter, pCol1, pCol2);
 
-			if (Check_Line_Rect(pObj1, pLine))
+			if (Check_Line_Rect(pObj1, pLine)) // 충돌
 			{
-				if (iter->second)
+				if (iter->second) // 이전에도 충돌
 				{
-					pCol1->OnCollision_Stay(pLine);
-					pCol2->OnCollision_Stay(pObj1);
+					if (!pObj1->Is_Active() || !pLine->Is_Active()) // 둘 중 하나 삭제 예정
+					{
+						pCol1->OnCollision_Exit(pLine);
+						pCol2->OnCollision_Exit(pObj1);
+						iter->second = false;
+					}
+					else // 삭제 예정 없음
+					{
+						pCol1->OnCollision_Stay(pLine);
+						pCol2->OnCollision_Stay(pObj1);
+					}
 				}
-				else
+				else // 이번에 충돌
 				{
-					pCol1->OnCollision_Enter(pLine);
-					pCol2->OnCollision_Enter(pObj1);
-					iter->second = true;
+					if (pObj1->Is_Active() && pLine->Is_Active()) // 둘다 삭제될 예정이 아닐 때만 충돌 처리
+					{
+						pCol1->OnCollision_Enter(pLine);
+						pCol2->OnCollision_Enter(pObj1);
+						iter->second = true;
+					}
 				}
 			}
-			else
+			else // 충돌 X
 			{
-				if (iter->second)
+				if (iter->second) // 이전에 충돌
 				{
 					pCol1->OnCollision_Exit(pLine);
 					pCol2->OnCollision_Exit(pObj1);

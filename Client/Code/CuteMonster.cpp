@@ -3,6 +3,8 @@
 
 #include "Export_Function.h"
 
+#include "EventMgr.h"
+
 CCuteMonster::CCuteMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
 {
@@ -50,6 +52,23 @@ void CCuteMonster::LateUpdate_Object()
 void CCuteMonster::Render_Object()
 {
 	CMonster::Render_Object();
+}
+
+void CCuteMonster::OnCollision_Enter(CGameObject* _pColObj)
+{
+	if (OBJ_TYPE::PLAYER == _pColObj->Get_Type())
+	{
+		Set_Active(false);
+		CEventMgr::GetInstance()->Delete_Obj(this);
+	}
+}
+
+void CCuteMonster::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CCuteMonster::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CCuteMonster::Add_Component()

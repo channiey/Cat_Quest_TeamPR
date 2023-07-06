@@ -46,9 +46,10 @@ HRESULT CLayer::Delete_GameObject(CGameObject* pGameObject)
 		{
 			iter->second->Release();
 			m_mapObject.erase(iter);
+			return S_OK;
 		}
 	}
-	return S_OK;
+	return E_FAIL;
 }
 
 HRESULT CLayer::Return_GameObject(CGameObject* pGameObject)
