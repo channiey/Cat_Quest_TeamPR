@@ -46,13 +46,21 @@ void CRenderMgr::Clear_RenderGroup()
 void CRenderMgr::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
+	{
+		if (!iter->Is_Active()) continue;
+
 		iter->Render_Object();
+	}
 }
 
 void CRenderMgr::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])
+	{
+		if (!iter->Is_Active()) continue;
+
 		iter->Render_Object();
+	}
 }
 
 void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
@@ -69,7 +77,11 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
 
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
+	{
+		if (!iter->Is_Active()) continue;
+
 		iter->Render_Object();
+	}
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // 다시 z 버퍼 자동정렬 켠다.
@@ -82,7 +94,11 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	for (auto iter : m_RenderGroup[RENDER_UI])
+	{
+		if (!iter->Is_Active()) continue;
+
 		iter->Render_Object();
+	}
 }
 
 void CRenderMgr::Free()

@@ -84,6 +84,8 @@ void CTool_Camera::Key_Input(const _float& fTimeDelta)
 			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
 	}
 
+
+
 	m_pCameraCom->m_tVspace.Eye		= m_pTransformCom->Get_Info(INFO_POS);
 	m_pCameraCom->m_tVspace.LookAt  = m_pTransformCom->Get_Info(INFO_POS) + _vec3{ 0.f, -1.f, 1.f };
 	m_pCameraCom->m_tVspace.Up		= vec3.up;

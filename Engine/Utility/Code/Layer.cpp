@@ -38,6 +38,24 @@ HRESULT CLayer::Add_GameObject(const _tchar * pObjTag, CGameObject * pGameObject
 	return S_OK;
 }
 
+HRESULT CLayer::Delete_GameObject(CGameObject* pGameObject)
+{
+	for (map<const _tchar*, CGameObject*>::iterator iter = m_mapObject.begin(); iter != m_mapObject.end(); ++iter)
+	{
+		if (iter->second == pGameObject)
+		{
+			iter->second->Release();
+			m_mapObject.erase(iter);
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CLayer::Return_GameObject(CGameObject* pGameObject)
+{
+	return S_OK;
+}
+
 HRESULT CLayer::Ready_Layer()
 {
 	return S_OK;
@@ -49,6 +67,8 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 
 	for (auto& iter : m_mapObject)
 	{
+		if (!iter.second->Is_Active()) continue;
+
 		iResult = iter.second->Update_Object(fTimeDelta);
 
 		if (iResult & 0x80000000)
@@ -61,7 +81,11 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 void CLayer::LateUpdate_Layer()
 {
 	for (auto& iter : m_mapObject)
+	{
+		if (!iter.second->Is_Active()) continue;
+
 		iter.second->LateUpdate_Object();
+	}
 }
 
 CLayer * CLayer::Create()

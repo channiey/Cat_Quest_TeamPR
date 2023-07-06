@@ -188,6 +188,14 @@ namespace Engine
 #pragma endregion
 
 
+	typedef struct MyEvent
+	{
+		DWORD_PTR	lParam;
+		const _tchar* wParam;
+		//wstring		wParam;
+		EVENT_TYPE  eType;
+
+	}EVENT;
 }
 
 

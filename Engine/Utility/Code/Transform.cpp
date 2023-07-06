@@ -121,7 +121,11 @@ void CTransform::Set_Pos(const _vec3 & _vPos)
 
 void CTransform::Set_Rot(const _vec3& _vRot, const SPACEID _eSpace)
 {
-	
+	if (LOCAL == _eSpace)
+		D3DXQuaternionRotationYawPitchRoll(&m_quatQ, _vRot.y, _vRot.x, _vRot.z);
+
+	Cal_WorldMat();
+
 }
 
 void CTransform::Set_Scale(const _vec3& _vPos)

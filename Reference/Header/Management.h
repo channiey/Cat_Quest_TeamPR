@@ -36,6 +36,8 @@ public:
 
 	HRESULT				Set_Scene		(CScene* pScene);
 
+	HRESULT				Change_Scene(const SCENE_TYPE& _eScene_Type) { return S_OK; };
+
 	void				Set_PlayMode	(const PLAY_MODE& _eMode) { m_ePlayMode = _eMode; }
 	void				Set_GameStatus  (const GAME_STATUS& _eStatus) {m_eGameStatus = _eStatus; }
 
