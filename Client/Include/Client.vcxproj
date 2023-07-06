@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
+    <ClInclude Include="..\Header\EffectTest.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
     <ClInclude Include="..\Header\Tool_Camera.h" />
@@ -199,6 +200,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
+    <ClCompile Include="..\Code\EffectTest.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
     <ClCompile Include="..\Code\Tool_Camera.cpp" />
