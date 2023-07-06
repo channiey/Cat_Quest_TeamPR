@@ -13,7 +13,9 @@ CAnimator::CAnimator(LPDIRECT3DDEVICE9 pGraphicDev)
 CAnimator::CAnimator(const CAnimator& rhs, CGameObject* _pOwnerObject)
 	: CComponent(rhs, _pOwnerObject)
 {
-	Ready_Animator();
+	m_AnimationMap = rhs.m_AnimationMap;
+	m_pCurAnimation = rhs.m_pCurAnimation;
+	m_eCurState = rhs.m_eCurState;
 }
 
 CAnimator::~CAnimator()
@@ -23,14 +25,41 @@ CAnimator::~CAnimator()
 
 HRESULT CAnimator::Ready_Animator()
 {
+	return S_OK;
+}
 
+void CAnimator::Update_Animator(const _float& fTimeDelta)
+{
+	m_pCurAnimation->Update_Animation(fTimeDelta);
+}
+
+void CAnimator::Render_Animator()
+{
+	m_pCurAnimation->Render_Animation();
+}
+
+HRESULT CAnimator::Add_Animation(STATE_TYPE eState, CAnimation* pAnimation)
+{
+	if (nullptr == pAnimation)
+		return E_FAIL;
+
+	m_AnimationMap.insert({ eState, pAnimation });
 
 	return S_OK;
 }
 
-_int CAnimator::Update_Component(const _float& fTimeDelta)
+void CAnimator::Set_Animation(STATE_TYPE eState)
 {
-	return 0;
+	auto	iter = find_if(m_AnimationMap.begin(), m_AnimationMap.end(), [&](const pair<STATE_TYPE, CAnimation*>& pair) {
+					return eState == pair.first;
+		});
+
+	if (iter == m_AnimationMap.end())
+		return;
+
+	m_pCurAnimation = iter->second;
+	m_eCurState = eState;
+	m_pCurAnimation->Reset_Ani(0);
 }
 
 CAnimator* CAnimator::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -54,5 +83,8 @@ CComponent* CAnimator::Clone(CGameObject* _pOwnerObject)
 
 void CAnimator::Free()
 {
+	for_each(m_AnimationMap.begin(), m_AnimationMap.end(), CDeleteMap());
+	m_AnimationMap.clear();
+
 	CComponent::Free();
 }

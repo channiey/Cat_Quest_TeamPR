@@ -180,6 +180,7 @@ call CopyUtility.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Header\Animation.h" />
     <ClInclude Include="..\..\Header\Animator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\CameraMgr.h" />
@@ -199,6 +200,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\RectCollider.h" />
     <ClInclude Include="..\..\Header\RenderMgr.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
+    <ClInclude Include="..\..\Header\State.h" />
     <ClInclude Include="..\..\Header\StateMachine.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
@@ -207,6 +209,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\CameraObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Animation.cpp" />
     <ClCompile Include="..\Code\Animator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CameraMgr.cpp" />
@@ -225,6 +228,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\RectCollider.cpp" />
     <ClCompile Include="..\Code\RenderMgr.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\State.cpp" />
     <ClCompile Include="..\Code\StateMachine.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />

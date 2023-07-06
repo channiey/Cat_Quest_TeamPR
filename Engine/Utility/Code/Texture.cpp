@@ -17,6 +17,7 @@ CTexture::CTexture(const CTexture & rhs, CGameObject* _pOwnerObject)
 	m_vecTexture.reserve(iContainer);
 
 	m_vecTexture = rhs.m_vecTexture;
+	m_iTexCnt = rhs.m_iTexCnt;
 
 	for (_uint i = 0; i < iContainer; ++i) 
 		m_vecTexture[i]->AddRef(); // 1텍스처당 1컴객체이다. 따라서 레퍼런스 카운트를 올려준다.
@@ -30,6 +31,7 @@ CTexture::~CTexture()
 HRESULT CTexture::Ready_Texture(TEXTUREID eType, const _tchar * pPath, const _uint & iCnt)
 {
 	m_vecTexture.reserve(iCnt); 
+	m_iTexCnt = iCnt;
 
 	IDirect3DBaseTexture9*		pTexture = nullptr;
 
