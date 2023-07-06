@@ -169,7 +169,6 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
-    <ClInclude Include="..\Header\EffectTest.h" />
     <ClInclude Include="..\Header\Dragon.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
@@ -203,7 +202,6 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
-    <ClCompile Include="..\Code\EffectTest.cpp" />
     <ClCompile Include="..\Code\Dragon.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />

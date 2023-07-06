@@ -21,7 +21,7 @@ namespace Engine
 		_vec3 zero = { 0.f,  0.f,  0.f };
 
 	}MYVEC3;
-	static const MYVEC3 vec3;
+	static const MYVEC3 vec3; 
 
 	typedef struct tagMyColor
 	{

@@ -36,6 +36,7 @@ HRESULT CScene_World::Ready_Scene()
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
+	//CInputDev::Get
 	__super::Update_Scene(fTimeDelta);
 
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::RECT);

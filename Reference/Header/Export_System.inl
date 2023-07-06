@@ -49,6 +49,18 @@ _long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
 {
 	return CInputDev::GetInstance()->Get_DIMouseMove(eMouseState);
 }
+inline _bool Key_Pressing(_int _iKey)
+{
+	return CInputDev::GetInstance()->Key_Pressing(_iKey);
+}
+inline _bool Key_Down(_int _iKey)
+{
+	return CInputDev::GetInstance()->Key_Down(_iKey);
+}
+inline _bool Key_Up(_int _iKey)
+{
+	return CInputDev::GetInstance()->Key_Up(_iKey);
+}
 HRESULT	Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 {
 	return CInputDev::GetInstance()->Ready_InputDev(hInst, hWnd);

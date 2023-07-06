@@ -32,6 +32,8 @@ HRESULT CScene_Tool::Ready_Scene()
 
 Engine::_int CScene_Tool::Update_Scene(const _float& fTimeDelta)
 {
+	__super::Update_Scene(fTimeDelta);
+
 	CImGuiMgr::GetInstance()->ImGui_Update();
 
 	return 0;

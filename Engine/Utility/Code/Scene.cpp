@@ -59,6 +59,7 @@ CLayer * CScene::Get_Layer(const OBJ_TYPE& _eType)
 HRESULT CScene::Ready_Scene()
 {
 	return S_OK;
+
 }
 
 _int CScene::Update_Scene(const _float & fTimeDelta)
