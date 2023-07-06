@@ -40,6 +40,8 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::RECT);
 
+	CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+
 	return 0;
 }
 

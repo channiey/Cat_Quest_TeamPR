@@ -30,6 +30,11 @@ public:
 	CGameObject*			Get_LookAt() const { return m_pLookAt; }
 	CGameObject*			Get_Follow() const { return m_pFollow; }
 
+	const VIEWSPACE&		Get_ViewSpace() const { return m_tVspace; }
+	const PROJECTION&		Get_Projection() const { return m_tProj; }
+	const D3DVIEWPORT9&		Get_ViewPort() const { return m_tVport; }
+	const _matrix&			Get_MatWorld() const { return m_matWorld; }
+
 	const _bool				Is_LookAt() const { NULL_CHECK_RETURN(m_pLookAt, FALSE); return TRUE; }
 	const _bool				Is_Follow() const { NULL_CHECK_RETURN(m_pFollow, FALSE); return TRUE; }
 
