@@ -24,6 +24,13 @@ namespace Engine
 
 	enum class GAME_STATUS			{ PLAYING, PAUSE, END }; // 현재 게임의 상태를 나타낸다.
 
+	// 성혁
+	enum ARG_TAG { ARG_TILE, ARG_OBJ, ARG_END }; // 레이아웃 탭 분류
+
+	// 타일 폴더 경로 불러오기 위한 타일 종류 분류
+	enum TILE_TAG {TILE_GRASS_FIELD, TILE_WATER_FIELD, TILE_ICE_FIELD, TILE_ICE_DUNGEON, TILE_STONE_DUNGEON, TILE_STONE_DUNGEON2, TILE_TEMPLE_DUNGEON, TILE_SMITH, TILE_END };
+	//
+
 	enum WINMODE					{ MODE_FULL	, MODE_WIN };
 	
 	enum COMPONENTID				{ ID_DYNAMIC, ID_STATIC, ID_END };		
