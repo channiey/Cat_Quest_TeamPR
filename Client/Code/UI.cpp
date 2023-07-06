@@ -6,8 +6,10 @@
 CUI::CUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::UI)
 	, m_pTextureCom(nullptr)
-	, m_eUItype(UITYPE_END)
+	, m_bViewUI(false)
+
 {
+
 }
 
 CUI::CUI(const CUI& rhs)
@@ -23,6 +25,7 @@ CUI::~CUI()
 HRESULT CUI::Ready_Object()
 {
 	CGameObject::Ready_Object();
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
@@ -30,9 +33,19 @@ HRESULT CUI::Ready_Object()
 
 _int CUI::Update_Object(const _float& fTimeDelta)
 {
-	__super::Update_Object(fTimeDelta);
 
-	return 0;
+	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (m_bViewUI)
+	{
+		Engine::Add_RenderGroup(RENDER_VIEWUI, this);
+	}
+	else
+	{
+		Engine::Add_RenderGroup(RENDER_WDUI, this);
+	}
+
+	return iExit;
 }
 
 void CUI::LateUpdate_Object()
@@ -42,29 +55,13 @@ void CUI::LateUpdate_Object()
 
 void CUI::Render_Object()
 {
-
-
-	m_pTextureCom->Render_Texture();
-	m_pBufferCom->Render_Buffer();
+	
 
 
 }
 
 HRESULT CUI::Add_Component()
 {
-	CComponent* pComponent = nullptr;
-
-
-	// Texture
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(COMPONENT_TYPE::TEXTURE, this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-
-	// RcTex
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
 	return S_OK;
 }

@@ -6,7 +6,7 @@ BEGIN(Engine)
 
 class CTexture;
 class CRcTex;
-class CTransform;
+
 
 END
 
@@ -19,24 +19,28 @@ protected:
 	explicit CUI(const CUI& rhs);
 	virtual ~CUI();
 
+
+public: 
 	virtual HRESULT			Ready_Object() override;
 	virtual _int			Update_Object(const _float& fTimeDelta) override;
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
 
+public:
 
-private:
+	bool					Get_UIType() { return m_bViewUI; }
+	void					Set_UIType(bool bViewUI) { m_bViewUI = bViewUI; }
+
+protected:
 	HRESULT					Add_Component();
-
 
 protected:
 	CTexture*				m_pTextureCom = nullptr;
-	UITYPE					m_eUItype;
-
+	bool					m_bViewUI;
 
 public:
-	static CUI*				Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CUI*				Create(LPDIRECT3DDEVICE9 pGraphicDev );
 	
 
 protected:
