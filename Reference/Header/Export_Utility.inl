@@ -54,6 +54,26 @@ inline CComponent* Clone_Proto(const COMPONENT_TYPE& _eComType, CGameObject* _pO
 	return CProtoMgr::GetInstance()->Clone_Proto(_eComType, _pOwnerObject);
 }
 
+inline HRESULT Add_Obj(const _tchar* pObjTag, CGameObject* const _pObj)
+{
+	return CEventMgr::GetInstance()->Add_Obj(pObjTag, _pObj);
+}
+
+inline HRESULT Delete_Obj(CGameObject* const _pObj)
+{
+	return CEventMgr::GetInstance()->Delete_Obj(_pObj);
+}
+
+inline HRESULT Return_Obj(CGameObject* const _pObj)
+{
+	return CEventMgr::GetInstance()->Return_Obj(_pObj);
+}
+
+inline HRESULT Change_Scene(const SCENE_TYPE& _eSceneType)
+{
+	return CEventMgr::GetInstance()->Change_Scene(_eSceneType);
+}
+
 void			Add_RenderGroup(RENDERID eType, CGameObject* pGameObject)
 {
 	CRenderMgr::GetInstance()->Add_RenderGroup(eType, pGameObject);
@@ -146,4 +166,5 @@ void			Release_Utility()
 	CRenderMgr::GetInstance()->DestroyInstance();
 	CCameraMgr::GetInstance()->DestroyInstance();
 	CCollisionMgr::GetInstance()->DestroyInstance();
+	CEventMgr::GetInstance()->DestroyInstance();
 }

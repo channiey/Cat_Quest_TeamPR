@@ -9,6 +9,7 @@
 #include "RenderMgr.h"
 #include "CameraMgr.h"
 #include "CollisionMgr.h"
+#include "EventMgr.h"
 
 // Component
 #include "TerrainTex.h"
@@ -54,6 +55,12 @@ inline CComponent*		Clone_Texture(const _tchar* pProtoTag, CGameObject* _pOwnerO
 inline HRESULT			Ready_Proto(const COMPONENT_TYPE& _eComType, CComponent* pComponent);
 inline CComponent*		Clone_Proto(const COMPONENT_TYPE& _eComType, CGameObject* _pOwnerObject);
 
+
+// EventMgr
+inline HRESULT			Add_Obj(const _tchar* pObjTag, CGameObject* const _pObj);
+inline HRESULT			Delete_Obj(CGameObject* const _pObj);
+inline HRESULT			Return_Obj(CGameObject* const _pObj);
+inline HRESULT			Change_Scene(const SCENE_TYPE& _eSceneType);
 
 // Renderer
 inline void				Add_RenderGroup(RENDERID eType, CGameObject* pGameObject);

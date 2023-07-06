@@ -8,6 +8,7 @@
 #include "CuteMonster.h"
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
+#include "EventMgr.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -68,15 +69,15 @@ void CScene_World::Render_Scene()
 	swprintf_s(szBuf, L"FPS : %.d", _int(1.f / Engine::Get_TimeDelta(L"Timer_FPS65")));
 	SCREEN_MSG(szBuf, rc);
 
-	// Camera Pos
-	vPos = CCameraMgr::GetInstance()->Get_CurCamera()->Get_Transform()->Get_Info(INFO_POS);
-	swprintf_s(szBuf, L"CAM : %.2f, %.2f, %.2f", vPos.x, vPos.y, vPos.z);
-	SCREEN_MSG(szBuf, rc);
+	//// Camera Pos
+	//vPos = CCameraMgr::GetInstance()->Get_CurCamera()->Get_Transform()->Get_Info(INFO_POS);
+	//swprintf_s(szBuf, L"CAM : %.2f, %.2f, %.2f", vPos.x, vPos.y, vPos.z);
+	//SCREEN_MSG(szBuf, rc);
 
-	// Player Pos
-	vPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
-	swprintf_s(szBuf, L"PLAYER : %.2f, %.2f, %.2f", vPos.x, vPos.y, vPos.z);
-	SCREEN_MSG(szBuf, rc);
+	//// Player Pos
+	//vPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
+	//swprintf_s(szBuf, L"PLAYER : %.2f, %.2f, %.2f", vPos.x, vPos.y, vPos.z);
+	//SCREEN_MSG(szBuf, rc);
 }
 
 void CScene_World::Free()
@@ -160,9 +161,12 @@ HRESULT CScene_World::Ready_Layer_Player()
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
+	
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
+
+	//m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
 	return S_OK;
 }

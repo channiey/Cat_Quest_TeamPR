@@ -43,7 +43,7 @@ void CEventMgr::Update_Event()
 	m_vecEvent.clear();
 }
 
-HRESULT CEventMgr::Add_Obj(CGameObject* const _pObj)
+HRESULT CEventMgr::Add_Obj(const _tchar* pObjTag, CGameObject* const _pObj)
 {
 	NULL_CHECK_RETURN(_pObj, E_FAIL);
 
@@ -51,6 +51,7 @@ HRESULT CEventMgr::Add_Obj(CGameObject* const _pObj)
 	ZeroMemory(&event, sizeof(EVENT));
 
 	event.lParam = (DWORD_PTR)_pObj;
+	event.wParam = pObjTag;
 	event.eType = EVENT_TYPE::ADD_OBJ;
 
 	for (auto& iter : m_vecEvent) 

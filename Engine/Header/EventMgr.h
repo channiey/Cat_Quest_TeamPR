@@ -16,7 +16,7 @@ public:
 	void					Update_Event();
 
 public:
-	HRESULT					Add_Obj(CGameObject* const _pObj);
+	HRESULT					Add_Obj(const _tchar* pObjTag, CGameObject* const _pObj);
 	HRESULT					Delete_Obj(CGameObject* const _pObj);
 	HRESULT					Return_Obj(CGameObject* const _pObj);
 	HRESULT					Change_Scene(const SCENE_TYPE& _eSceneType);

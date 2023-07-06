@@ -7,6 +7,8 @@
 #include "Scene_Intro.h"
 #include "Scene_Tool.h"
 
+#include "EventMgr.h"
+
 CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pManagementClass(nullptr)
 {
 	
@@ -49,6 +51,8 @@ void CMainApp::Render_MainApp()
 
 	NULL_CHECK(m_pManagementClass);
 	m_pManagementClass->Render_Scene(m_pGraphicDev); // 렌더러 싱글톤의 렌더 함수 호출 
+
+	CEventMgr::GetInstance()->Update_Event(); // 이벤트 매니저 업데이트 호출
 
 	Engine::Render_End();
 }
