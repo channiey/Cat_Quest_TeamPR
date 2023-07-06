@@ -111,10 +111,10 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region LEE
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fIdle",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource//Player/Front/Idle/%d.png", 4)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Idle/%d.png", 4)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fWalk",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource//Player/Front/Walk/%d.png", 12)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Walk/%d.png", 12)), E_FAIL);
 
 
 #pragma endregion
