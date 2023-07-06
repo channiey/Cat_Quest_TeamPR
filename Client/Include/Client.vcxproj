@@ -168,11 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
-    <ClInclude Include="..\Header\CLee.h" />
-    <ClInclude Include="..\Header\CKim.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
+    <ClInclude Include="..\Header\Dragon.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
-    <ClInclude Include="..\Header\Kang.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
     <ClInclude Include="..\Header\Tool_Camera.h" />
     <ClInclude Include="..\Header\Effect.h" />
@@ -201,10 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
-    <ClCompile Include="..\Code\CLee.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
+    <ClCompile Include="..\Code\Dragon.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
-    <ClCompile Include="..\Code\Kang.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
     <ClCompile Include="..\Code\Tool_Camera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
