@@ -23,16 +23,16 @@ _bool CInputDev::Key_Pressing(_int _iKey)
 
 _bool CInputDev::Key_Down(_int _iKey)
 {
-	if (!m_byKeyState[_iKey] && (GetAsyncKeyState(_iKey) & 0x8000))
+	if (!m_bKeyState[_iKey] && (GetAsyncKeyState(_iKey) & 0x8000))
 	{
-		m_byKeyState[_iKey] = !m_byKeyState[_iKey];
+		m_bKeyState[_iKey] = !m_bKeyState[_iKey];
 		return true;
 	}
 
-	for (int i = 0; i < 256; ++i)
+	for (int i = 0; i < VK_MAX; ++i)
 	{
-		if (m_byKeyState[i] && !(GetAsyncKeyState(i) & 0x8000))
-			m_byKeyState[i] = !m_byKeyState[i];
+		if (m_bKeyState[i] && !(GetAsyncKeyState(i) & 0x8000))
+			m_bKeyState[i] = !m_bKeyState[i];
 	}
 
 	return false;
@@ -40,16 +40,16 @@ _bool CInputDev::Key_Down(_int _iKey)
 
 _bool CInputDev::Key_Up(_int _iKey)
 {
-	if (m_byKeyState[_iKey] && !(GetAsyncKeyState(_iKey) & 0x8000))
+	if (m_bKeyState[_iKey] && !(GetAsyncKeyState(_iKey) & 0x8000))
 	{
-		m_byKeyState[_iKey] = !m_byKeyState[_iKey];
+		m_bKeyState[_iKey] = !m_bKeyState[_iKey];
 		return true;
 	}
 
-	for (int i = 0; i < 256; ++i)
+	for (int i = 0; i < VK_MAX; ++i)
 	{
-		if (!m_byKeyState[_iKey] && (GetAsyncKeyState(_iKey) & 0x8000))
-			m_byKeyState[i] = !m_byKeyState[i];
+		if (!m_bKeyState[_iKey] && (GetAsyncKeyState(_iKey) & 0x8000))
+			m_bKeyState[i] = !m_bKeyState[i];
 	}
 
 	return false;

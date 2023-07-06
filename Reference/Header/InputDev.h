@@ -15,7 +15,7 @@ private:
 	virtual ~CInputDev(void);
 	
 public:
-
+	// API 때 사용하던 키 인풋 함수
 	_bool			Key_Pressing(_int _iKey);
 	_bool			Key_Down(_int _iKey);
 	_bool			Key_Up(_int _iKey);
@@ -59,6 +59,8 @@ private:
 private:
 	_byte					m_byKeyState[256];		// 키보드에 있는 모든 키값을 저장하기 위한 변수
 	DIMOUSESTATE			m_tMouseState;	
+
+	bool					m_bKeyState[VK_MAX];
 
 public:
 	virtual void			Free(void);

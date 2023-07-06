@@ -3,6 +3,8 @@
 
 namespace Engine
 {
+#define	VK_MAX			0xff
+
 #define	WINCX				1280
 #define	WINCY				720
 
