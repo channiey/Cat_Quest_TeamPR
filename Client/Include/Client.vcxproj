@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\CLee.h" />
+    <ClInclude Include="..\Header\CKim.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Kang.h" />
