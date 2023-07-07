@@ -71,10 +71,9 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); // z 버퍼 자동 정렬 해제 (알파 소팅 위해서)
-	//pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // 컬링도
+	//pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); // z 버퍼 자동 정렬 해제 (알파 소팅 위해서)
 
-	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
+ 	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
 
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
 	{
@@ -84,19 +83,11 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	}
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // 다시 z 버퍼 자동정렬 켠다.
-
-	//pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW); // 컬링도
-
-
+//	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // 다시 z 버퍼 자동정렬 켠다.
 }
 
 void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	/*for (auto iter : m_RenderGroup[RENDER_UI])
-	{
-		if (!iter->Is_Active()) continue;*/
-
 	D3DVIEWPORT9 m_BackupViewPort;
 	pGraphicDev->GetViewport(&m_BackupViewPort); // 현재 뷰 포트 백업
 
@@ -128,9 +119,7 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 
 
 	for (auto iter : m_RenderGroup[RENDER_VIEWUI])
-	{
 		iter->Render_Object();
-	}
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON

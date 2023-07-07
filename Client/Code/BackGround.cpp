@@ -46,6 +46,8 @@ void CBackGround::Render_Object(void)
 	//		1. m_pTextureCom->Render_Texture(0); 
 	//		2. m_pBufferCom->Render_Buffer();
 
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
 	m_pTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();
 }

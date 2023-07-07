@@ -127,6 +127,9 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region YUN
 
+	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Logo",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/title.png")), E_FAIL);*/
+
 #pragma endregion
 
 #pragma endregion
