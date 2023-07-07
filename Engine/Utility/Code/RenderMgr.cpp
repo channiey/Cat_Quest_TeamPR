@@ -57,12 +57,14 @@ void CRenderMgr::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderMgr::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
+
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])
 	{
 		if (!iter->Is_Active()) continue;
 
 		iter->Render_Object();
 	}
+
 }
 
 void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
@@ -136,6 +138,8 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 
 
 
+	
+
 	// 다시 원래 행렬 정보 복구
 	pGraphicDev->SetViewport(&BackUpViewPort);                   // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &BackUpProj);    // UI 전체 출력 후 다시 원근투영 행렬 적용.
@@ -145,7 +149,6 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	for (auto iter : m_RenderGroup[RENDER_WDUI])
 		iter->Render_Object();
 	
-
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
 

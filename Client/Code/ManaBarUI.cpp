@@ -84,7 +84,7 @@ void CManaBarUI::Follow_Pos()
 	_vec3		vPlayerPosition;
 	vPlayerPosition =  pPlayerTransform->Get_Info(INFO_POS);
 
-	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y - 5.f, vPlayerPosition.z });
+	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z  - 5.f});
 
 }
 
