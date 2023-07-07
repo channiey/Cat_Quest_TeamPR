@@ -20,9 +20,9 @@ public:
 	_bool			Key_Down(_int _iKey);
 	_bool			Key_Up(_int _iKey);
 
-	_byte					Get_DIKeyState(_ubyte byKeyID)				{ return m_byKeyState[byKeyID]; }
-	_byte					Get_DIMouseState(MOUSEKEYSTATE eMouse) 		{ return m_tMouseState.rgbButtons[eMouse]; 	}
-	_long					Get_DIMouseMove(MOUSEMOVESTATE eMouseState)	{ return *(((_long*)&m_tMouseState) + eMouseState); } // 마우스 무브 인풋 사용법
+	_byte			Get_DIKeyState(_ubyte byKeyID)				{ return m_byKeyState[byKeyID]; }
+	_byte			Get_DIMouseState(MOUSEKEYSTATE eMouse) 		{ return m_tMouseState.rgbButtons[eMouse]; 	}
+	_long			Get_DIMouseMove(MOUSEMOVESTATE eMouseState)	{ return *(((_long*)&m_tMouseState) + eMouseState); } // 마우스 무브 인풋 사용법
 																																/*
 							
 							if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Y))
