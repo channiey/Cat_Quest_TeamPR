@@ -1,5 +1,6 @@
 #include "ManaBarUI.h"
 #include "Export_Function.h"
+#include "Transform.h"
 
 CManaBarUI::CManaBarUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev)
@@ -24,10 +25,10 @@ HRESULT CManaBarUI::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 1.f });
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
+	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 0.5f, 1.f });
+	
 
-
+	
 
 	return S_OK;
 }
@@ -42,7 +43,11 @@ _int CManaBarUI::Update_Object(const _float& fTimeDelta)
 
 void CManaBarUI::LateUpdate_Object()
 {
+	Follow_Pos();
+
 	__super::LateUpdate_Object();
+
+	
 }
 
 void CManaBarUI::Render_Object()
@@ -69,6 +74,18 @@ HRESULT CManaBarUI::Add_Component()
 
 
 	return S_OK;
+}
+
+void CManaBarUI::Follow_Pos()
+{
+ 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
+
+	_vec3		vPlayerPosition;
+	vPlayerPosition =  pPlayerTransform->Get_Info(INFO_POS);
+
+	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y - 5.f, vPlayerPosition.z });
+
 }
 
 CManaBarUI* CManaBarUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)

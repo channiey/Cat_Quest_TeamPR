@@ -134,8 +134,6 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	for (auto iter : m_RenderGroup[RENDER_VIEWUI]) 
 		iter->Render_Object();
 
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
-	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
 
 
 	// 다시 원래 행렬 정보 복구
@@ -147,6 +145,10 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	for (auto iter : m_RenderGroup[RENDER_WDUI])
 		iter->Render_Object();
 	
+
+	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
+	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
+
 }
 
 void CRenderMgr::Free()

@@ -24,6 +24,8 @@ private:
 
 	HRESULT		Add_Component();
 
+	void		Follow_Pos();
+
 public:
 
 	static CManaBarUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
