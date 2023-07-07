@@ -101,6 +101,12 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region KIM
 
+	// UI - Level
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Level",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI_Level.png")), E_FAIL);
+
+
+
 #pragma endregion
 
 #pragma region LEE

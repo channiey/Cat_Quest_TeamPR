@@ -31,7 +31,7 @@ HRESULT CMonster::Ready_Object()
 
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
-	__super::LateUpdate_Object();
+	__super::Update_Object(fTimeDelta);
 
 	return 0;
 }
