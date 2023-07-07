@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "State.h" 
+#include "Player.h"
 
 BEGIN(Engine)
 

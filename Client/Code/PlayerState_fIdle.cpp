@@ -1,5 +1,7 @@
 #include "PlayerState_fIdle.h"
 
+#include "Export_Function.h"
+
 CPlayerState_fIdle::CPlayerState_fIdle(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev)
 {
@@ -37,7 +39,13 @@ void CPlayerState_fIdle::Render_State()
 
 STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 {
-	if (GetAsyncKeyState('N'))
+	if (CInputDev::GetInstance()->Key_Down('A'))
+		return STATE_TYPE::WALK;
+	else if (CInputDev::GetInstance()->Key_Down('D'))
+		return STATE_TYPE::WALK;
+	else if (CInputDev::GetInstance()->Key_Down('W'))
+		return STATE_TYPE::WALK;
+	else if (CInputDev::GetInstance()->Key_Down('S'))
 		return STATE_TYPE::WALK;
 	else
 		return m_eState;
