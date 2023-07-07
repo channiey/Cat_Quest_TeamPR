@@ -24,7 +24,7 @@ static _bool bInit = false;
 
 ////////////////////////////
 
-CImGuiMgr::CImGuiMgr() 
+CImGuiMgr::CImGuiMgr()
 	: m_eArgTag(ARG_TILE), m_iTileType(TILE_GRASS_FIELD)
 {
 }
@@ -66,8 +66,9 @@ void CImGuiMgr::ImGui_Update()
 
 	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
-		 CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
-		 Safe_Release(m_pGraphicDev); // 여기 추가
+		_vec3 temp = CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
+		
+		Safe_Release(m_pGraphicDev); // 여기 추가
 	}
 
 
@@ -149,7 +150,7 @@ LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
 	if (FAILED(hr)) return nullptr;
 
 	hr = D3DXCreateTextureFromFileA(m_pGraphicDev, filePath, &pTexture);
-	Safe_Release(m_pGraphicDev);
+	// Safe_Release(m_pGraphicDev);
 
 	if (FAILED(hr)) return nullptr;
 

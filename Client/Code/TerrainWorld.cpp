@@ -42,7 +42,9 @@ void CTerrainWorld::LateUpdate_Object(void)
 
 void CTerrainWorld::Render_Object(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CTerrain::Render_Object();
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 HRESULT CTerrainWorld::Add_Component(void)

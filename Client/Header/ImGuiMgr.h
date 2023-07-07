@@ -3,6 +3,11 @@
 #include "Engine_Define.h"
 #include "Base.h"
 
+BEGIN(Engine)
+
+
+END
+
 class CImGuiMgr : public CBase
 {
 	DECLARE_SINGLETON(CImGuiMgr)
