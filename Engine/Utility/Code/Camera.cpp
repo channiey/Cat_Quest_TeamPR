@@ -16,6 +16,9 @@ CCamera::CCamera()
 	ZeroMemory(&m_tVport, sizeof(D3DVIEWPORT9));
 	ZeroMemory(&m_matBillboardX, sizeof(_matrix));
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
+	ZeroMemory(&m_matProj, sizeof(_matrix));
+	ZeroMemory(&m_matView, sizeof(_matrix));
+
 }
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
@@ -32,7 +35,8 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	ZeroMemory(&m_tVport, sizeof(D3DVIEWPORT9));
 	ZeroMemory(&m_matBillboardX, sizeof(_matrix));
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
-
+	ZeroMemory(&m_matProj, sizeof(_matrix));
+	ZeroMemory(&m_matView, sizeof(_matrix));
 }
 
 CCamera::CCamera(const CCamera & rhs, CGameObject* _pOwnerObject)
@@ -93,23 +97,22 @@ HRESULT CCamera::Set_ViewSpace()
 	
 	NULL_CHECK_RETURN(m_pGraphicDev, E_FAIL);
 
-	D3DXMATRIX	matView;
-	D3DXMatrixIdentity(&matView);
+	D3DXMatrixIdentity(&m_matView);
 	
 	m_pGraphicDev->SetTransform(D3DTS_VIEW,
-		D3DXMatrixLookAtLH(&matView, &m_tVspace.Eye, &m_tVspace.LookAt, &m_tVspace.Up));
+		D3DXMatrixLookAtLH(&m_matView, &m_tVspace.Eye, &m_tVspace.LookAt, &m_tVspace.Up));
 
 
 	// 여러 곳에서 카메라의 월드행렬을 사용하기 위해 세팅
-	D3DXMatrixInverse(&m_matWorld, NULL, &matView);
+	D3DXMatrixInverse(&m_matWorld, NULL, &m_matView);
 
 	// 뷰스페이스 설정 때 빌보드 행렬을 세팅해둔다 (셋트랜스폼 최소화)
 	D3DXMatrixIdentity(&m_matBillboardX);
 
-	m_matBillboardX._22 = matView._22;
-	m_matBillboardX._23 = matView._23;
-	m_matBillboardX._32 = matView._32;
-	m_matBillboardX._33 = matView._33;
+	m_matBillboardX._22 = m_matView._22;
+	m_matBillboardX._23 = m_matView._23;
+	m_matBillboardX._32 = m_matView._32;
+	m_matBillboardX._33 = m_matView._33;
 
 	D3DXMatrixInverse(&m_matBillboardX, NULL, &m_matBillboardX);
 
@@ -124,13 +127,12 @@ HRESULT CCamera::Set_Projection()
 	RECT rc{};
 	GetClientRect(*m_pHwnd, &rc);
 
-	_matrix matProj;
-	D3DXMatrixIdentity(&matProj);
+	D3DXMatrixIdentity(&m_matProj);
 
 	if (PERSPECTIVE == m_eProjectID)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, 
-			D3DXMatrixPerspectiveFovLH(&matProj, m_tProj.FOV, m_tProj.Aspect, m_tProj.Near, m_tProj.Far));
+			D3DXMatrixPerspectiveFovLH(&m_matProj, m_tProj.FOV, m_tProj.Aspect, m_tProj.Near, m_tProj.Far));
 	}
 	else if (ORTHOGRAPHIC == m_eProjectID)
 	{

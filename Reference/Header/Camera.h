@@ -34,6 +34,8 @@ public:
 	const PROJECTION&		Get_Projection() const { return m_tProj; }
 	const D3DVIEWPORT9&		Get_ViewPort() const { return m_tVport; }
 	const _matrix&			Get_MatWorld() const { return m_matWorld; }
+	const _matrix&			Get_MatProj() const { return m_matProj; }
+	const _matrix&			Get_MatView() const { return m_matView; }
 
 	const _bool				Is_LookAt() const { NULL_CHECK_RETURN(m_pLookAt, FALSE); return TRUE; }
 	const _bool				Is_Follow() const { NULL_CHECK_RETURN(m_pFollow, FALSE); return TRUE; }
@@ -60,6 +62,8 @@ public:
 
 	_matrix					m_matBillboardX;
 	_matrix					m_matWorld;
+	_matrix					m_matProj;
+	_matrix                 m_matView;
 
 private:
 	virtual void			Free();
