@@ -4,6 +4,7 @@
 #include "Management.h"
 #include "TerrainTex.h"
 #include "Transform.h"
+#include "CameraMgr.h"
 
 IMPLEMENT_SINGLETON(CCalculator)
 
@@ -30,8 +31,8 @@ _vec3 CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt)
     vMousePos.z = 0.f;
 
     // 투영 -> 뷰 스페이스
-    D3DXMATRIX matProj;
-    pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMATRIX matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+    //pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
     D3DXMatrixInverse(&matProj, 0, &matProj);
     D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
 
@@ -40,8 +41,8 @@ _vec3 CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt)
     D3DXVECTOR3 vRayDir = vMousePos - vRayPos;
 
     // 뷰 스페이스 -> 월드 스페이스
-    D3DXMATRIX matView;
-    pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMATRIX matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
+    //pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
     D3DXMatrixInverse(&matView, 0, &matView);
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
@@ -82,10 +83,10 @@ _vec3 CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt)
                 &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
                 // V1 + U(V2 - V1) + V(V3 - V1)
-
-                return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-                    0.f,
-                    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
+                return pTerrainVtxPos[dwIndex];
+                //return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
+                //    0.f,
+                //    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
             }
 
             // 왼쪽 아래
@@ -99,10 +100,10 @@ _vec3 CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt)
                 &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
                 // V1 + U(V2 - V1) + V(V3 - V1)
-
-                return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-                    0.f,
-                    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
+                return pTerrainVtxPos[dwIndex];
+                //return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
+                //    0.f,
+                //    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
             }
         }
     }

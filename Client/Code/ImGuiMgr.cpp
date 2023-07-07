@@ -67,7 +67,7 @@ void CImGuiMgr::ImGui_Update()
 	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
 		_vec3 temp = CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
-		
+
 		Safe_Release(m_pGraphicDev); // 여기 추가
 	}
 

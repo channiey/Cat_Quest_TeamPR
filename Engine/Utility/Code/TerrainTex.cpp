@@ -38,8 +38,6 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
 
-	m_pPos = new _vec3[m_dwVtxCnt];
-
 	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
 	//m_hFile = CreateFile(L"../Bin/Resource/Texture/Terrain/Height1.bmp", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -67,12 +65,14 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	//CloseHandle(m_hFile);
 
+	m_pPos = new _vec3[m_dwVtxCnt];
 	VTXCOL*		pVertex = nullptr;
 	_plane		tPlane;
 
 	_ulong		dwIndex = 0;
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
 
 	for (_ulong i = 0; i < dwCntZ; ++i)
 	{
@@ -178,4 +178,12 @@ CComponent * CTerrainTex::Clone(CGameObject* _pOwnerObject)
 void CTerrainTex::Free()
 {
 	CVIBuffer::Free();
+	if (m_bClone == false) {
+		if (nullptr != m_pPos)
+		{
+			delete[] m_pPos;
+			m_pPos = nullptr;
+		}
+	}
+
 }
