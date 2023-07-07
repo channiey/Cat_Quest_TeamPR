@@ -22,21 +22,7 @@ HRESULT CTabUI::Ready_Object()
 {
 	m_bViewUI = true;
 
-	D3DXMatrixIdentity(&matWorld);
 
-	m_fX = 70;
-	m_fY = WINCY - 656;
-
-	m_fSizeX = 62.5f;
-	m_fSizeY = 50;
-
-	matWorld._41 = m_fX;
-	matWorld._42 = m_fY;
-
-	matWorld._11 = m_fSizeX;
-	matWorld._22 = m_fSizeY;
-
-	m_UIRect = { long(m_fX - m_fSizeX/2.f) , long(m_fY - m_fSizeY/2.f) , long(m_fX + m_fSizeX/2.f) , long(m_fY + m_fSizeY/ 2.f)};
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -54,6 +40,31 @@ _int CTabUI::Update_Object(const _float& fTimeDelta)
 
 void CTabUI::LateUpdate_Object()
 {
+	D3DXMatrixIdentity(&matWorld);
+
+	m_fX = 70;
+	m_fY = WINCY - 656;
+
+	if (m_bPick)
+	{
+		m_fSizeX = 75.f;
+		m_fSizeY = 60.f;
+	}
+	else
+	{
+		m_fSizeX = 62.5f;
+		m_fSizeY = 50.f;
+	}
+
+	matWorld._41 = m_fX;
+	matWorld._42 = m_fY;
+
+	matWorld._11 = m_fSizeX;
+	matWorld._22 = m_fSizeY;
+
+	m_UIRect = { long(m_fX - m_fSizeX / 2.f) , long(m_fY - m_fSizeY / 2.f) , long(m_fX + m_fSizeX / 2.f) , long(m_fY + m_fSizeY / 2.f) };
+
+
 	__super::LateUpdate_Object();
 }
 
@@ -84,11 +95,12 @@ void CTabUI::Picking_UI()
 
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	pt.y = WINCY - pt.y;
+	pt.y = WINCY - pt.y;  
 
 	if (PtInRect(&m_UIRect, pt))
 	{
 		m_bPick = true;
+	
 	}
 	else
 	{
