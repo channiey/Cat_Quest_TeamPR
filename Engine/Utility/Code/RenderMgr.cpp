@@ -73,7 +73,7 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); // z 버퍼 자동 정렬 해제 (알파 소팅 위해서)
 
-  	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
+	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
 
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
 	{
@@ -82,8 +82,8 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 		iter->Render_Object();
 	}
 
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // 다시 z 버퍼 자동정렬 켠다.
+	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
