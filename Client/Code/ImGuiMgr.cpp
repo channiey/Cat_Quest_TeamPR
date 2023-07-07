@@ -8,6 +8,9 @@
 #include "MainApp.h"
 #include "InputDev.h"
 #include "Calculator.h"
+#include "Building.h"
+
+#include "Export_Function.h"
 
 // 전역변수
 // 이미지 관련
@@ -25,7 +28,7 @@ static _bool bInit = false;
 ////////////////////////////
 
 CImGuiMgr::CImGuiMgr()
-	: m_eArgTag(ARG_TILE), m_iTileType(TILE_GRASS_FIELD)
+	: m_eArgTag(ARG_TILE), m_iTileType(TILE_GRASS_FIELD), m_iObjType(OBJ_BUILDING)
 {
 }
 
@@ -66,9 +69,15 @@ void CImGuiMgr::ImGui_Update()
 
 	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
-		_vec3 temp = CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
+		_vec3 vArgPos;
 
-		Safe_Release(m_pGraphicDev); // 여기 추가
+		if (CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt, &vArgPos)) {
+			//CScene::Add_Object();
+			//
+			//const OBJ_TYPE& _eObjType,
+			//	const _tchar* pObjTag, CGameObject* _pObj
+		}
+
 	}
 
 
@@ -186,10 +195,9 @@ void CImGuiMgr::Show_Arrangement()
 	if (m_eArgTag == ARG_OBJ) {
 		Show_Arg_Obj();
 	}
-
 }
 
-// 타일 드롭 다운
+// 타일
 void CImGuiMgr::Show_Arg_Tile()
 {
 	// 썸네일
@@ -271,8 +279,81 @@ void CImGuiMgr::Show_Arg_Tile()
 	Show_ImageButton();
 }
 
+// 오브젝트
 void CImGuiMgr::Show_Arg_Obj()
 {
+	// 썸네일
+	if (imgThumbnail)
+		ImGui::Image(imgThumbnail, ImVec2(100.f, 100.f));
+	else {
+		ImGui::Image(nullptr, ImVec2(100.f, 100.f), ImVec2(), ImVec2(), ImVec4(0.5f, 0.5f, 0.5f, 0.f), ImVec4(0.5f, 0.5f, 0.2f, 1.f));
+	}
+
+	// 콤보 박스(하위 분류)
+	const char* Objitems[] = { "Building",
+		"Chest", "Environment", "MageShop",
+		"SmithHouse", "Tower", "Other"};
+	ImGui::Text("Object Type");
+	if (ImGui::Combo("##Object Type", &m_iObjType, Objitems, IM_ARRAYSIZE(Objitems))) {
+		fileList.clear();
+		bLoadFile = true;
+		iImgCount = 0;
+	}
+
+	// 빌딩(집)
+	if (m_iObjType == OBJ_BUILDING) {
+		folderPath = L"../Bin/Resource/Texture/Object/Building";
+		m_iObjType = OBJ_BUILDING;
+	}
+	// 상자
+	if (m_iObjType == OBJ_CHEST) {
+		folderPath = L"../Bin/Resource/Texture/Object/Chest";
+		m_iObjType = OBJ_CHEST;
+	}
+	// 환경
+	if (m_iObjType == OBJ_ENVIRONMENT) {
+		folderPath = L"../Bin/Resource/Texture/Object/Environment";
+		m_iObjType = OBJ_ENVIRONMENT;
+	}
+	// 매직 숍
+	if (m_iObjType == OBJ_MAGESHOP) {
+		folderPath = L"../Bin/Resource/Texture/Object/MageShop";
+		m_iObjType = OBJ_MAGESHOP;
+	}
+	// 대장간
+	if (m_iObjType == OBJ_SMITHHOUSE) {
+		folderPath = L"../Bin/Resource/Texture/Object/SmithHouse";
+		m_iObjType = OBJ_SMITHHOUSE;
+	}
+	// 타워
+	if (m_iObjType == OBJ_TOWER) {
+		folderPath = L"../Bin/Resource/Texture/Object/Tower";
+		m_iObjType = OBJ_TOWER;
+	}
+	// 그 외
+	if (m_iObjType == OBJ_OTHER) {
+		folderPath = L"../Bin/Resource/Texture/Object/Other";
+		m_iObjType = OBJ_OTHER;
+	}
+
+
+	if (bLoadFile) {
+		FindFileList(folderPath, fileList); // 폴더 경로를 찾아서 그 안에 있는 png 전부 배열에 담기.
+
+		vecImgListFile.resize(fileList.size());
+
+		for (int i = 0; i < fileList.size(); ++i) {
+			// 이미지 출력.
+			wstring imgPath = folderPath + L"/" + fileList[i];
+			imgListFile = LoadImageFile(wstring_to_utf8(imgPath).c_str());
+			vecImgListFile[i] = imgListFile;
+
+			// ImGui::TextWrapped("%s", wstring_to_utf8(fileName).c_str()); // 파일명.
+			iImgCount++;
+		}
+	}
+
+	Show_ImageButton();
 }
 
 void CImGuiMgr::Show_Line()
@@ -316,6 +397,4 @@ void CImGuiMgr::Free()
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
-
-	Safe_Release(m_pGraphicDev);
 }
