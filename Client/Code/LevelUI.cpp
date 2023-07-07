@@ -85,7 +85,7 @@ CLevelUI* CLevelUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("CLevelUI Create Failed");
+		MSG_BOX("LevelUI Create Failed");
 		return nullptr;
 	}
 

@@ -172,6 +172,7 @@
     <ClInclude Include="..\Header\CuteMonster.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
+    <ClInclude Include="..\Header\ManaBarUI.h" />
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\Code\CuteMonster.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
+    <ClCompile Include="..\Code\ManaBarUI.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />

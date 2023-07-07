@@ -22,8 +22,6 @@ HRESULT CTabUI::Ready_Object()
 {
 	m_bViewUI = true;
 
-
-
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
@@ -40,6 +38,8 @@ _int CTabUI::Update_Object(const _float& fTimeDelta)
 
 void CTabUI::LateUpdate_Object()
 {
+
+	// 새로운 뷰포트에서 쓸 월드스페이스 구성
 	D3DXMatrixIdentity(&matWorld);
 
 	m_fX = 70;
@@ -134,7 +134,7 @@ CTabUI* CTabUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("CTabUI Create Failed");
+		MSG_BOX("TabUI Create Failed");
 		return nullptr;
 	}
 

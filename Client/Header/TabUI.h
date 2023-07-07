@@ -1,7 +1,7 @@
 #pragma once
 #include "UI.h"
 
-class CTabUI : public CUI
+class CTabUI : public CUI  // 뷰포트 사용 | 피킹이 가능한 형태의 UI 입니다
 {
 
 protected:
