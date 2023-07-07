@@ -45,6 +45,9 @@ _int CUI::Update_Object(const _float& fTimeDelta)
 		Engine::Add_RenderGroup(RENDER_WDUI, this);
 	}
 
+
+	
+
 	return iExit;
 }
 

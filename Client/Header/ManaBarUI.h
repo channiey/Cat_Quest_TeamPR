@@ -1,16 +1,13 @@
 #pragma once
 #include "UI.h"
 
-
-
-class CLevelUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
+class CManaBarUI : public CUI    // 월드 스페이스 사용 |
 {
-
 protected:
 
-	explicit CLevelUI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CLevelUI(const CLevelUI& rhs);
-	virtual ~CLevelUI();
+	explicit CManaBarUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CManaBarUI(const CManaBarUI& rhs);
+	virtual ~CManaBarUI();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -19,31 +16,23 @@ public:
 	virtual void			Render_Object() override;
 
 
-
 protected:
 
 	CTexture* m_pTextureCom = nullptr;
-
-
-	_matrix matWorld;
-
-	float m_fX;
-	float m_fY;
-
-	float m_fSizeX;
-	float m_fSizeY;
 
 private:
 
 	HRESULT		Add_Component();
 
+	void		Follow_Pos();
 
 public:
 
-	static CLevelUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
+	static CManaBarUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 protected:
 	virtual void			Free() override;
+
+
 };
 

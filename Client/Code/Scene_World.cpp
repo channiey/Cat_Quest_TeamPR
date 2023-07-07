@@ -12,6 +12,7 @@
 
 #include "LevelUI.h"
 #include "TabUI.h"
+#include "ManaBarUI.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -160,7 +161,10 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Tab", pGameObject), E_FAIL);
 
-
+	// UI - ManaBar
+	pGameObject = CManaBarUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_ManaBar", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
