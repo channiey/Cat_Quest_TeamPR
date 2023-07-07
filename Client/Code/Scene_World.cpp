@@ -9,7 +9,9 @@
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 #include "EventMgr.h"
+
 #include "LevelUI.h"
+#include "TabUI.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -154,6 +156,12 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CLevelUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Level", pGameObject), E_FAIL);
+
+	// UI - Tab
+	pGameObject = CTabUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Tab", pGameObject), E_FAIL);
+
 
 
 
