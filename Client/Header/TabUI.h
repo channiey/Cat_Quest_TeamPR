@@ -25,14 +25,17 @@ protected:
 
 	CTexture* m_pTextureCom = nullptr;
 
+	bool		m_bPick;
 
-	_matrix matWorld;
+	RECT       m_UIRect;
 
-	float m_fX;
-	float m_fY;
+	_matrix		matWorld;
 
-	float m_fSizeX;
-	float m_fSizeY;
+	float	m_fX;
+	float	m_fY;
+
+	float	m_fSizeX;
+	float	m_fSizeY;
 
 private:
 

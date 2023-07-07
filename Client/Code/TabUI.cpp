@@ -1,13 +1,16 @@
+#include "stdafx.h"
 #include "TabUI.h"
 #include "Export_Function.h"
 
 CTabUI::CTabUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev)
+	,m_bPick(false)
 {
 }
 
 CTabUI::CTabUI(const CTabUI& rhs)
 	: CUI(rhs)
+	, m_bPick(rhs.m_bPick)
 {
 }
 
@@ -22,7 +25,7 @@ HRESULT CTabUI::Ready_Object()
 	D3DXMatrixIdentity(&matWorld);
 
 	m_fX = 70;
-	m_fY = 64;
+	m_fY = WINCY - 656;
 
 	m_fSizeX = 62.5f;
 	m_fSizeY = 50;
@@ -33,6 +36,8 @@ HRESULT CTabUI::Ready_Object()
 	matWorld._11 = m_fSizeX;
 	matWorld._22 = m_fSizeY;
 
+	m_UIRect = { long(m_fX - m_fSizeX/2.f) , long(m_fY - m_fSizeY/2.f) , long(m_fX + m_fSizeX/2.f) , long(m_fY + m_fSizeY/ 2.f)};
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
@@ -41,6 +46,8 @@ HRESULT CTabUI::Ready_Object()
 _int CTabUI::Update_Object(const _float& fTimeDelta)
 {
 	__super::Update_Object(fTimeDelta);
+
+	Picking_UI();
 
 	return 0;
 }
@@ -54,17 +61,39 @@ void CTabUI::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	if (m_bPick)
+	{
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
+	}
+
+
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	
 }
 
 void CTabUI::Picking_UI()
 {
-	
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
 
+	D3DVIEWPORT9 ViewPort;
 
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	pt.y = WINCY - pt.y;
+
+	if (PtInRect(&m_UIRect, pt))
+	{
+		m_bPick = true;
+	}
+	else
+	{
+		m_bPick = false;
+	}
 
 }
 
