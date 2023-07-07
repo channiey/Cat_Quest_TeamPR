@@ -29,11 +29,12 @@ HRESULT CTabUI::Ready_Object()
 
 _int CTabUI::Update_Object(const _float& fTimeDelta)
 {
-	__super::Update_Object(fTimeDelta);
-
+	_int iExit = __super::Update_Object(fTimeDelta);
 	Picking_UI();
 
-	return 0;
+
+
+	return iExit;
 }
 
 void CTabUI::LateUpdate_Object()
@@ -63,7 +64,8 @@ void CTabUI::LateUpdate_Object()
 	matWorld._22 = m_fSizeY;
 
 	m_UIRect = { long(m_fX - m_fSizeX / 2.f) , long(m_fY - m_fSizeY / 2.f) , long(m_fX + m_fSizeX / 2.f) , long(m_fY + m_fSizeY / 2.f) };
-
+	
+	
 
 	__super::LateUpdate_Object();
 }
@@ -72,12 +74,14 @@ void CTabUI::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-
 	if (m_bPick)
 	{
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
 	}
-
+	else
+	{
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+	}
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();

@@ -40,9 +40,9 @@ HRESULT CLevelUI::Ready_Object()
 
 _int CLevelUI::Update_Object(const _float& fTimeDelta)
 {
-	__super::Update_Object(fTimeDelta);
+	_int iExit = __super::Update_Object(fTimeDelta);
 
-	return 0;
+	return iExit;
 }
 
 void CLevelUI::LateUpdate_Object()
@@ -52,6 +52,7 @@ void CLevelUI::LateUpdate_Object()
 
 void CLevelUI::Render_Object()
 {
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
 	m_pTextureCom->Render_Texture();

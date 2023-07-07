@@ -36,7 +36,6 @@ HRESULT CManaBarUI::Ready_Object()
 _int CManaBarUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	
 
 	return iExit;
 }
@@ -52,8 +51,10 @@ void CManaBarUI::LateUpdate_Object()
 
 void CManaBarUI::Render_Object()
 {
-
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
