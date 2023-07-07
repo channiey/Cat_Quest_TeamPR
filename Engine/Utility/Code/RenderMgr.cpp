@@ -65,19 +65,23 @@ void CRenderMgr::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	// 알파소팅 강사님 코드 참고
-
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE); // z 버퍼 자동 정렬 해제 (알파 소팅 위해서)
 
-	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
+	if (m_RenderGroup[RENDER_ALPHA].size() > 0)
+	{
+		int k = 0;
+	}
+	m_RenderGroup[RENDER_ALPHA].sort([&](CGameObject* pDst, CGameObject* pSrc) { return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
 
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
 	{
 		if (!iter->Is_Active()) continue;
+
+		float z = iter->Get_ViewZ();
 
 		iter->Render_Object();
 	}
@@ -110,13 +114,11 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);   // 직교투영 행렬 적용.
 
-
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);    // Z버퍼 OFF
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE); // 알파렌더링 ON
 
 	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
 
 	for (auto iter : m_RenderGroup[RENDER_VIEWUI])
 		iter->Render_Object();

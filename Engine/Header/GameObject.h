@@ -30,7 +30,7 @@ public:
 	CGameObject*						Get_Child(const _uint& _iIndex = 0);
 
 	const _float&						Get_ViewZ();  // 알파 출력 오브젝트들의 알파소팅
-
+	void								Set_ViewZ();  // 알파 출력 오브젝트들의 알파소팅
 	const OBJ_TYPE						Get_Type() const { return m_eType; }
 
 	void								Set_Parent(CGameObject* const _pParent) { m_pParentObj = _pParent; }
@@ -75,6 +75,9 @@ protected:
 	
 	OBJ_TYPE							m_eType;
 	_bool								m_bActive;
+
+	_float                              m_fViewZ;// 알파 출력 오브젝트들의 알파소팅
+
 
 public:
 	virtual void						Free();

@@ -63,6 +63,8 @@ void CGameObject::LateUpdate_Object(void)
 {
 	for (auto& iter : m_mapComponent[ID_DYNAMIC])
 		iter.second->LateUpdate_Component();
+	
+	Set_ViewZ();
 }
 
 void CGameObject::Render_Object(void)
@@ -82,24 +84,23 @@ CGameObject * CGameObject::Get_Child(const _uint & _iIndex)
 
 const _float& CGameObject::Get_ViewZ()
 {
+	return m_fViewZ;
+}
+
+void CGameObject::Set_ViewZ()
+{
+	NULL_CHECK(m_pTransformCom);
+
 	_matrix		matCamWorld;
+	_vec3		vCamPos;
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matCamWorld);
 
 	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
 
-	_vec3	vCamPos;
 	memcpy(&vCamPos, &matCamWorld.m[3][0], sizeof(_vec3));
 
-	_float m_fViewZ = D3DXVec3Length(&(vCamPos - m_pTransformCom->Get_Info(INFO_POS)));
-
-	return m_fViewZ;
-
-	/*_vec3	vCamPos;
-	
-	memcpy(&vCamPos, &CCameraMgr::GetInstance()->Get_WorldMat().m[3][0], sizeof(_vec3));
-
-	return D3DXVec3Length(&(vCamPos - m_pTransformCom->Get_Info(INFO_POS)));*/
+	m_fViewZ = D3DXVec3Length(&(vCamPos - m_pTransformCom->Get_Info(INFO_POS)));
 }
 
 const _bool CGameObject::Is_Component(const COMPONENT_TYPE& _eType, COMPONENTID eID) 
