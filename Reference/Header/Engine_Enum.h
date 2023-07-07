@@ -24,6 +24,8 @@ namespace Engine
 
 	enum class GAME_STATUS			{ PLAYING, PAUSE, END }; // 현재 게임의 상태를 나타낸다.
 
+	enum class STATE_TYPE			{ IDLE, WALK, ATTACK, HIT, DEAD, TYPEEND }; // 원하는 상태 있으면 추가
+
 	enum WINMODE					{ MODE_FULL	, MODE_WIN };
 	
 	enum COMPONENTID				{ ID_DYNAMIC, ID_STATIC, ID_END };		
@@ -45,7 +47,5 @@ namespace Engine
 	enum SPACEID					{ LOCAL, WORLD, SPACE_END };
 
 	enum RENDERID					{ RENDER_PRIORITY, RENDER_NONALPHA, RENDER_ALPHA, RENDER_VIEWUI, RENDER_WDUI, RENDER_END };	// 현재는 장치를 통한 렌더 그룹이지만, 이후에는 셰이더에 대한 속성으로도 나뉘게 된다.
-
-	
 }
 #endif // Engine_Enum_h__

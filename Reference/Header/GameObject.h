@@ -63,7 +63,7 @@ private:
 protected:
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 
-	map<COMPONENT_TYPE, CComponent*>	m_mapComponent[ID_END];
+	multimap<COMPONENT_TYPE, CComponent*>	m_mapComponent[ID_END];
 
 	CTransform*							m_pTransformCom;	
 	CCollider*							m_pColliderCom;

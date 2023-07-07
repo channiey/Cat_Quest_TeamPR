@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Component.h"
+#include "Animation.h"
 
 BEGIN(Engine)
+
+class CAnimation;
 
 class ENGINE_DLL CAnimator : public CComponent
 {
@@ -13,14 +16,23 @@ private:
 	virtual ~CAnimator();
 
 public:
-
+	HRESULT					Ready_Animator();
+	void					Update_Animator(const _float& fTimeDelta);
+	void					Render_Animator();
 
 public:
-	HRESULT					Ready_Animator();
-	virtual _int			Update_Component(const _float& fTimeDelta);
+	CAnimation*				Get_CurAniamtion() { return m_pCurAnimation; }
+
+public:
+	HRESULT					Add_Animation(STATE_TYPE eState, CAnimation* pAnimation);
+	void					Set_Animation(STATE_TYPE eState);
 
 
 private:
+	map<STATE_TYPE, CAnimation*>	m_AnimationMap;
+	CAnimation*						m_pCurAnimation;
+	STATE_TYPE						m_eCurState;
+
 
 public:
 	static CAnimator*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

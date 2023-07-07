@@ -6,6 +6,8 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CStateMachine;
+class CAnimator;
 
 END
 
@@ -90,7 +92,8 @@ private:
 	STATINFO			m_tStatInfo;
 
 private:
-	CTexture*			m_pTextureCom = nullptr;
+	CTexture*			m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
+	CStateMachine*		m_pStateMachineCom = nullptr;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

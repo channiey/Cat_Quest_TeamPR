@@ -1,0 +1,52 @@
+#pragma once
+#include "Base.h"
+#include "Engine_Define.h"
+
+BEGIN(Engine)
+
+class CStateMachine;
+
+class ENGINE_DLL CState :
+	public CBase
+{
+public:
+	explicit CState(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CState();
+
+public:
+	virtual HRESULT			Ready_State(CStateMachine* pOwner) PURE;
+	virtual STATE_TYPE		Update_State(const _float& fTimeDelta) PURE;
+	virtual void			LateUpdate_State() PURE;
+	virtual void			Render_State() PURE;
+
+	virtual STATE_TYPE		Key_Input(const _float& fTimeDelta) PURE;
+
+	virtual	STATE_TYPE		Get_State() { return m_eState; }
+
+protected:
+	CStateMachine*			m_pOwner = nullptr;
+	STATE_TYPE				m_eState = STATE_TYPE::TYPEEND;
+
+	LPDIRECT3DDEVICE9		m_pGraphicDev;
+
+	// State를 상속받는 상태클래스를 만들때 이걸 넣어주면 됨
+	/*static C(만들상태클래스)* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	{
+		C(만들상태클래스)* pInstance = new CC(만들상태클래스)(pGraphicDev);
+
+		if (FAILED(pInstance->Ready_State(pOwner)))
+		{
+			Safe_Release(pInstance);
+			MSG_BOX("(만들상태클래스) Create Failed");
+			return nullptr;
+		}
+
+		return pInstance;
+	}*/
+
+public:
+	virtual void	Free();
+};
+
+END
+
