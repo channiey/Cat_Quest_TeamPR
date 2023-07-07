@@ -169,10 +169,8 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
-    <ClInclude Include="..\Header\Dragon.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
-    <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
@@ -188,6 +186,7 @@
     <ClInclude Include="..\Header\Scene_World.h" />
     <ClInclude Include="..\Header\Player_Camera.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\UI.h" />
     <ClInclude Include="..\ImGui\imconfig.h" />
     <ClInclude Include="..\ImGui\imgui.h" />
     <ClInclude Include="..\ImGui\imgui_impl_dx9.h" />
@@ -204,10 +203,8 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
-    <ClCompile Include="..\Code\Dragon.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
-    <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
@@ -223,6 +220,7 @@
     <ClCompile Include="..\Code\Scene_World.cpp" />
     <ClCompile Include="..\Code\Player_Camera.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\ImGui\imgui_draw.cpp" />
