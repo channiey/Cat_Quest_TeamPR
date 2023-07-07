@@ -1,16 +1,14 @@
 #pragma once
 #include "UI.h"
 
-
-
-class CLevelUI : public CUI
+class CTabUI : public CUI
 {
 
 protected:
 
-	explicit CLevelUI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CLevelUI(const CLevelUI& rhs);
-	virtual ~CLevelUI();
+	explicit CTabUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CTabUI(const CTabUI& rhs);
+	virtual ~CTabUI();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -18,20 +16,26 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+
+	void			Picking_UI();
 
 
 protected:
 
 	CTexture* m_pTextureCom = nullptr;
 
+	bool		m_bPick;
 
-	_matrix matWorld;
+	RECT       m_UIRect;
 
-	float m_fX;
-	float m_fY;
+	_matrix		matWorld;
 
-	float m_fSizeX;
-	float m_fSizeY;
+	float	m_fX;
+	float	m_fY;
+
+	float	m_fSizeX;
+	float	m_fSizeY;
 
 private:
 
@@ -40,10 +44,13 @@ private:
 
 public:
 
-	static CLevelUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CTabUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
 protected:
 	virtual void			Free() override;
+
+
+
 };
 

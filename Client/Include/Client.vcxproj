@@ -175,6 +175,7 @@
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\TabUI.h" />
     <ClInclude Include="..\Header\TerrainWorld.h" />
     <ClInclude Include="..\Header\Tool_Camera.h" />
     <ClInclude Include="..\Header\Effect.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
+    <ClCompile Include="..\Code\TabUI.cpp" />
     <ClCompile Include="..\Code\TerrainWorld.cpp" />
     <ClCompile Include="..\Code\Tool_Camera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
