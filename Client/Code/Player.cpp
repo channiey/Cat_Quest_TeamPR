@@ -33,15 +33,16 @@ HRESULT CPlayer::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
 
+	// 앞 걷기상태 추가
 	CState* pState = CPlayerState_fWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::WALK, pState);
-
+	// 앞 서기상태 추가
 	pState = CPlayerState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::IDLE, pState);
-
+	// 앞 걷기애니메이션 추가
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::WALK)], STATE_TYPE::WALK, 0.12f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::WALK, pAnimation);
-
+	// 앞 서기애니메이션 추가
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::IDLE)], STATE_TYPE::IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::IDLE, pAnimation);
 
@@ -82,7 +83,7 @@ void CPlayer::LateUpdate_Object()
 void CPlayer::Render_Object()
 {	
 	//m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
-	m_pStateMachineCom->Render_StateMachine();
+	
 
 	if(m_pColliderCom->Is_Collision())
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
@@ -90,7 +91,8 @@ void CPlayer::Render_Object()
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat()); 
-
+	
+	m_pStateMachineCom->Render_StateMachine();
 	m_pBufferCom->Render_Buffer();						
 
 	m_pGraphicDev->SetTexture(0, NULL);

@@ -18,7 +18,6 @@ CStateMachine::CStateMachine(const CStateMachine& rhs, CGameObject* _pOwnerObjec
 	m_StateMap = rhs.m_StateMap;
 	m_pCurState = rhs.m_pCurState;
 	m_pAnimator = rhs.m_pAnimator;
-	m_pTransform = rhs.m_pTransform;
 }	
 
 CStateMachine::~CStateMachine()
@@ -37,6 +36,7 @@ void CStateMachine::Update_StateMachine(const _float& fTimeDelta)
 
 	m_pAnimator->Update_Animator(fTimeDelta);
 
+	// 현재 상태와 다른상태가 반환되면 반환된 상태로 변경
 	if (eState != m_eCurState)
 		Set_State(eState);
 }

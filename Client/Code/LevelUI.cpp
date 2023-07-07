@@ -56,8 +56,6 @@ void CLevelUI::Render_Object()
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	
-
 }
 
 HRESULT CLevelUI::Add_Component()
