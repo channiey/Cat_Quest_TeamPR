@@ -65,10 +65,9 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
-
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 	return iExit;
 }

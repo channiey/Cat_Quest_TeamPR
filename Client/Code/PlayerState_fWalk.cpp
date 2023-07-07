@@ -1,5 +1,7 @@
 #include "PlayerState_fWalk.h"
 
+#include "Export_Function.h"
+
 CPlayerState_fWalk::CPlayerState_fWalk(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
 {
@@ -37,10 +39,57 @@ void CPlayerState_fWalk::Render_State()
 
 STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
 {
-    if (GetAsyncKeyState('M'))
-        return STATE_TYPE::IDLE;
-    else
+    if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(vec3.forward + vec3.right
+            , fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
         return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(vec3.forward + -vec3.right
+            , fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(-vec3.forward + vec3.right
+            , fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(-vec3.forward - vec3.right
+            , fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(DIR_FORWARD
+            , fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(DIR_FORWARD
+            , fTimeDelta * -static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(DIR_RIGHT
+            , fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+    else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(DIR_RIGHT
+            , fTimeDelta * -static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        return m_eState;
+    }
+     
+
+    return STATE_TYPE::IDLE;
 }
 
 CPlayerState_fWalk* CPlayerState_fWalk::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
