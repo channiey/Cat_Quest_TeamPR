@@ -83,9 +83,9 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 
 	// Terrain
 	// TerrainWorld로 생성할 시 메모리 누수남. 구조 잘 파악하고 해결하자.
-	pGameObject = CTerrain::Create(m_pGraphicDev);
+	pGameObject = CTerrainWorld::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::ENVIORMENT, pLayer });
 

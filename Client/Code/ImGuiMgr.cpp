@@ -24,7 +24,7 @@ static _bool bInit = false;
 
 ////////////////////////////
 
-CImGuiMgr::CImGuiMgr() 
+CImGuiMgr::CImGuiMgr()
 	: m_eArgTag(ARG_TILE), m_iTileType(TILE_GRASS_FIELD)
 {
 }
@@ -37,8 +37,8 @@ CImGuiMgr::~CImGuiMgr()
 HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pGraphicDev = pGraphicDev;
-	m_pGraphicDev->AddRef();
-	// Safe_Release(pGraphicDev);
+	if (m_pGraphicDev)
+		m_pGraphicDev->AddRef();
 
 	imagesPerRow = 4;
 
@@ -48,7 +48,7 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(g_hWnd);
-	ImGui_ImplDX9_Init(m_pGraphicDev);
+	ImGui_ImplDX9_Init(pGraphicDev);
 
 	return S_OK;
 }
@@ -66,7 +66,9 @@ void CImGuiMgr::ImGui_Update()
 
 	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
-		 CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
+		_vec3 temp = CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt);
+		
+		Safe_Release(m_pGraphicDev); // 여기 추가
 	}
 
 
@@ -148,6 +150,7 @@ LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
 	if (FAILED(hr)) return nullptr;
 
 	hr = D3DXCreateTextureFromFileA(m_pGraphicDev, filePath, &pTexture);
+	// Safe_Release(m_pGraphicDev);
 
 	if (FAILED(hr)) return nullptr;
 
