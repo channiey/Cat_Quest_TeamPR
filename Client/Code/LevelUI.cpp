@@ -54,10 +54,8 @@ void CLevelUI::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CLevelUI::Add_Component()

@@ -15,6 +15,7 @@ public:
 
 public:
 	virtual HRESULT			Ready_State(CStateMachine* pOwner) PURE;
+	// 상태타입을 반환
 	virtual STATE_TYPE		Update_State(const _float& fTimeDelta) PURE;
 	virtual void			LateUpdate_State() PURE;
 	virtual void			Render_State() PURE;
@@ -24,7 +25,9 @@ public:
 	virtual	STATE_TYPE		Get_State() { return m_eState; }
 
 protected:
+	// 어떤 상태머신이 자신을 지니고 있는지 알려주는 변수
 	CStateMachine*			m_pOwner = nullptr;
+	// 어떤 상태인지 정해주는 변수
 	STATE_TYPE				m_eState = STATE_TYPE::TYPEEND;
 
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
