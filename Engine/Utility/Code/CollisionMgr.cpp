@@ -13,6 +13,8 @@
 
 #include "Transform.h"
 
+#include <iostream>
+
 IMPLEMENT_SINGLETON(CCollisionMgr)
 
 inline _float DotProduct(const _float v0[3], const _float v1[3])
@@ -228,12 +230,16 @@ const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* co
 
 	CTransform* pTrans1 = _pObj1->Get_Transform();
 	CTransform* pTrans2 = _pObj2->Get_Transform();
-
+	
 	_float fX = fabs(pTrans1->Get_Info(INFO_POS).x - pTrans2->Get_Info(INFO_POS).x);
 	_float fZ = fabs(pTrans1->Get_Info(INFO_POS).z - pTrans2->Get_Info(INFO_POS).z);
 
-	_float fRadiusX = fabs(pTrans1->Get_Scale().x + pTrans2->Get_Scale().x) * 0.5f;
-	_float fRadiusZ = fabs(pTrans1->Get_Scale().z + pTrans2->Get_Scale().z) * 0.5f;
+	// 애니메이션에서 스케일을 -로 사용하는 경우에 대한 예외처리
+	_float fRadiusX = (fabs(pTrans1->Get_Scale().x) + fabs(pTrans2->Get_Scale().x)) * 0.5f;
+	_float fRadiusZ = (fabs(pTrans1->Get_Scale().z) + fabs(pTrans2->Get_Scale().z)) * 0.5f;
+	if (pTrans1->Get_Info(INFO_POS).z < pTrans2->Get_Info(INFO_POS).z)
+		fRadiusZ += fabs(pTrans2->Get_Scale().z);
+
 
 	if ((fRadiusX >= fX) && (fRadiusZ >= fZ))
 	{

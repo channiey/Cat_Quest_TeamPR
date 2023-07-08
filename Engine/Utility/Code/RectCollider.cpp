@@ -23,7 +23,7 @@ CRectCollider::CRectCollider(const CRectCollider& rhs, CGameObject* _pOwnerObjec
 
 	m_vSize = m_pOwnerObject->Get_Transform()->Get_Scale();
 
-	D3DXCreateBox(m_pGraphicDev, m_vSize.x, m_vSize.y, m_vSize.z, &m_pMesh, NULL);
+	D3DXCreateBox(m_pGraphicDev, m_vSize.x, m_vSize.y, 0.f, &m_pMesh, NULL);
 
 	NULL_CHECK_MSG(m_pMesh, L"Failed Create Box Mesh");
 }
@@ -69,7 +69,7 @@ void CRectCollider::Render_Collider()
 	if (0 < m_iCol)
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.red));
 	else
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.gray ));
 
 	m_pMesh->DrawSubset(0);
 

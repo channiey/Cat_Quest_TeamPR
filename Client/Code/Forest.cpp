@@ -47,7 +47,7 @@ void CForest::LateUpdate_Object()
 
 void CForest::Render_Object()
 {
-	CEnvironment::Render_Object();
+	__super::Render_Object();
 }
 
 void CForest::OnCollision_Enter(CGameObject* _pColObj)

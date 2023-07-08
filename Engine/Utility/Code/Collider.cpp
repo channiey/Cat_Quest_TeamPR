@@ -40,7 +40,6 @@ void CCollider::OnCollision_Enter(CGameObject * _pColObj)
 {
 	++m_iCol;
 	m_pOwnerObject->OnCollision_Enter(_pColObj);
-	
 }
 
 void CCollider::OnCollision_Stay(CGameObject * _pColObj)

@@ -154,7 +154,7 @@ namespace Engine
 		_float	fMoveSpeed;
 		_float	fRotSpeed;
 
-		tagMoveInfo() : fMoveSpeed(40.f), fRotSpeed(5.f) {}
+		tagMoveInfo() : fMoveSpeed(30.f), fRotSpeed(5.f) {}
 
 	}MOVEINFO;
 

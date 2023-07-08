@@ -186,7 +186,7 @@ void CPlayer::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-	CGameObject::Render_Object(); // 콜라이더 출력
+	__super::Render_Object(); // 콜라이더 출력
 }
 
 HRESULT CPlayer::Add_Component()

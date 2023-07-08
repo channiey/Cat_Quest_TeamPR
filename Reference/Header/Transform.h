@@ -42,7 +42,6 @@ private:
 private:
 	_vec3					m_vInfo[INFO_END];	// 외부에서 현재 트랜스폼 정보를 알고 싶을 때 (로컬 뱡향벡터, 월드 포지션)
 	_matrix					m_matWorld;			// 실질 월드 매트릭스
-	
 	_quat					m_quatQ;		
 	_vec3					m_vScale;		
 	_vec3					m_vAngle;	
@@ -61,6 +60,8 @@ private:
 	friend class CRectCollider;
 	friend class CCircleCollider;
 	friend class CLineCollider;
+	friend class CCollider;
+
 };
 
 END
