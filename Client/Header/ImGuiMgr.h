@@ -42,7 +42,8 @@ private:
 	bool m_bEnabled;
 
 	ARG_TAG	 m_eArgTag; // 배치 레이아웃에서 현재 선택된 탭
-	int		 m_iTileType; // 선택된 하위 분류
+	int		 m_iTileType; // 선택된 하위 분류(타일)
+	int      m_iObjType; // 선택된 하위 분료(오브젝트)
 
 	// 파일 경로 관련.
 	wstring		    folderPath; // 폴더 경로.

@@ -4,12 +4,16 @@
 #include "Export_Function.h"
 
 #include "Terrain.h"
+#include "Building.h"
+#include "Forest.h"
+#include "Mountain.h"
+#include "Dungeon.h"
+
 #include "Player.h"
 #include "CuteMonster.h"
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 #include "EventMgr.h"
-
 #include "LevelUI.h"
 #include "TabUI.h"
 #include "ManaBarUI.h"
@@ -105,7 +109,7 @@ HRESULT CScene_World::Ready_Layer_Environment()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::ENVIORMENT, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::ARGOBJECT, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
@@ -114,6 +118,27 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
 
+	// Building
+	pGameObject = CBuilding::Create(m_pGraphicDev); 
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Building", pGameObject), E_FAIL);
+
+	// Forest
+	pGameObject = CForest::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Forest", pGameObject), E_FAIL);
+
+	// Mountain
+	pGameObject = CMountain::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Mountain", pGameObject), E_FAIL);
+
+	// Dungeon
+	pGameObject = CDungeon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dungeon", pGameObject), E_FAIL);
+
+	m_mapLayer.insert({ OBJ_TYPE::ARGOBJECT, pLayer });
 
 	return S_OK;
 }

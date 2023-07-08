@@ -7,6 +7,7 @@
 #include "TerrainWorld.h"
 #include "Player.h"
 #include "CuteMonster.h"
+#include "ArgObject.h"
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 
@@ -82,12 +83,11 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	Engine::CGameObject* pGameObject = nullptr;
 
 	// Terrain
-	// TerrainWorld로 생성할 시 메모리 누수남. 구조 잘 파악하고 해결하자.
 	pGameObject = CTerrainWorld::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::ENVIORMENT, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::ARGOBJECT, pLayer });
 
 	return S_OK;
 }

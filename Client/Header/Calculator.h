@@ -13,7 +13,7 @@ private:
 	virtual ~CCalculator();
 
 public:
-	_vec3	Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt);
+	bool	Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* pVPos);
 
 private:
 	virtual void Free() override;

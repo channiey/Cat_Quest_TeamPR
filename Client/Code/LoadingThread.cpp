@@ -102,7 +102,21 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
 #pragma region KANG
+	// 건물
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Building",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/town_1.png")), E_FAIL);
 
+	// 수풀
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Forest",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Environment/GrassField/forest_3.png")), E_FAIL);
+
+	// 산
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Mountain",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Environment/GrassField/mountains_1.png")), E_FAIL);
+
+	// 던전
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dungeon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Environment/Dungeon/dungeon_1.png")), E_FAIL);
 #pragma endregion
 
 #pragma region KIM
@@ -162,7 +176,7 @@ _uint CLoadingThread::Loading_For_Tool()
 	// Vertex
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX,
 		CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
-
+	
 	// Collider
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
 		CLineCollider::Create(m_pGraphicDev)), E_FAIL);
