@@ -1,17 +1,17 @@
 #pragma once
 #include "GameObject.h"
-#include "ArgObject.h"
+#include "Enviornment.h"
 
 BEGIN(Engine)
 class CRcCol;
 class CCollider;
 END
 
-class CDungeon : public CArgObject
+class CDungeon : public CEnviornment
 {
 protected:
 	explicit CDungeon(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CDungeon(const CArgObject& rhs);
+	explicit CDungeon(const CEnviornment& rhs);
 	virtual ~CDungeon();
 
 public:

@@ -6,12 +6,12 @@
 #include "EventMgr.h"
 
 CBuilding::CBuilding(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
-	: CArgObject(pGraphicDev)
+	: CEnviornment(pGraphicDev)
 {
 }
 
-CBuilding::CBuilding(const CArgObject& rhs)
-	: CArgObject(rhs)
+CBuilding::CBuilding(const CEnviornment& rhs)
+	: CEnviornment(rhs)
 {
 
 }
@@ -22,7 +22,7 @@ CBuilding::~CBuilding()
 
 HRESULT CBuilding::Ready_Object()
 {
-	CArgObject::Ready_Object();
+	CEnviornment::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -34,7 +34,7 @@ HRESULT CBuilding::Ready_Object()
 
 Engine::_int CBuilding::Update_Object(const _float& fTimeDelta)
 {
-	_int iExit = CArgObject::Update_Object(fTimeDelta);
+	_int iExit = CEnviornment::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -43,12 +43,12 @@ Engine::_int CBuilding::Update_Object(const _float& fTimeDelta)
 
 void CBuilding::LateUpdate_Object()
 {
-	CArgObject::LateUpdate_Object();
+	CEnviornment::LateUpdate_Object();
 }
 
 void CBuilding::Render_Object()
 {
-	CArgObject::Render_Object();
+	CEnviornment::Render_Object();
 }
 
 void CBuilding::OnCollision_Enter(CGameObject* _pColObj)
@@ -76,7 +76,7 @@ HRESULT CBuilding::Add_Component()
 
 void CBuilding::Free()
 {
-	CArgObject::Free();
+	CEnviornment::Free();
 }
 
 CBuilding* CBuilding::Create(LPDIRECT3DDEVICE9 pGraphicDev)

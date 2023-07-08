@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "..\Header\ArgObject.h"
+#include "..\Header\Enviornment.h"
 
 #include "Export_Function.h"
 
-CArgObject::CArgObject(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ARGOBJECT)
+CEnviornment::CEnviornment(LPDIRECT3DDEVICE9 pGraphicDev)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ENVIRONMENT)
 	, m_pTextureCom(nullptr)
 {
 }
 
-CArgObject::CArgObject(const CArgObject& rhs)
+CEnviornment::CEnviornment(const CEnviornment& rhs)
 	: Engine::CGameObject(rhs)
 {
 }
 
-CArgObject::~CArgObject()
+CEnviornment::~CEnviornment()
 {
 }
 
-HRESULT CArgObject::Ready_Object()
+HRESULT CEnviornment::Ready_Object()
 {
 	CGameObject::Ready_Object();
 
@@ -27,19 +27,19 @@ HRESULT CArgObject::Ready_Object()
 	return S_OK;
 }
 
-Engine::_int CArgObject::Update_Object(const _float& fTimeDelta)
+Engine::_int CEnviornment::Update_Object(const _float& fTimeDelta)
 {
 	__super::Update_Object(fTimeDelta);
 
 	return 0;
 }
 
-void CArgObject::LateUpdate_Object()
+void CEnviornment::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CArgObject::Render_Object()
+void CEnviornment::Render_Object()
 {
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -57,7 +57,7 @@ void CArgObject::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 }
 
-HRESULT CArgObject::Add_Component()
+HRESULT CEnviornment::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -72,14 +72,14 @@ HRESULT CArgObject::Add_Component()
 	return S_OK;
 }
 
-void CArgObject::Free()
+void CEnviornment::Free()
 {
 	__super::Free();
 }
 
-//CArgObject* CArgObject::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+//CEnviornment* CEnviornment::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 //{
-//	CArgObject* pInstance = new CArgObject(pGraphicDev);
+//	CEnviornment* pInstance = new CEnviornment(pGraphicDev);
 //
 //	if (FAILED(pInstance->Ready_Object()))
 //	{

@@ -5,12 +5,12 @@
 #include "EventMgr.h"
 
 CDungeon::CDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
-	:	CArgObject(pGraphicDev)
+	:	CEnviornment(pGraphicDev)
 {
 }
 
-CDungeon::CDungeon(const CArgObject& rhs)
-	:	CArgObject(rhs)
+CDungeon::CDungeon(const CEnviornment& rhs)
+	:	CEnviornment(rhs)
 {
 }
 
@@ -20,7 +20,7 @@ CDungeon::~CDungeon()
 
 HRESULT CDungeon::Ready_Object()
 {
-	CArgObject::Ready_Object();
+	CEnviornment::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -32,7 +32,7 @@ HRESULT CDungeon::Ready_Object()
 
 _int CDungeon::Update_Object(const _float& fTimeDelta)
 {
-	_int iExit = CArgObject::Update_Object(fTimeDelta);
+	_int iExit = CEnviornment::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -41,12 +41,12 @@ _int CDungeon::Update_Object(const _float& fTimeDelta)
 
 void CDungeon::LateUpdate_Object()
 {
-	CArgObject::LateUpdate_Object();
+	CEnviornment::LateUpdate_Object();
 }
 
 void CDungeon::Render_Object()
 {
-	CArgObject::Render_Object();
+	CEnviornment::Render_Object();
 }
 
 void CDungeon::OnCollision_Enter(CGameObject* _pColObj)
@@ -87,5 +87,5 @@ CDungeon* CDungeon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CDungeon::Free()
 {
-	CArgObject::Free();
+	CEnviornment::Free();
 }

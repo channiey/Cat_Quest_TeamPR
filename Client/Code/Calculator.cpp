@@ -50,7 +50,7 @@ bool CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* 
     // 월드 스페이스 -> 로컬 스페이스
     _matrix pTerrainWorld = dynamic_cast<CTransform*>
         (CManagement::GetInstance()->Get_GameObject(
-            OBJ_TYPE::ARGOBJECT,
+            OBJ_TYPE::ENVIRONMENT,
             L"TerrainWorld")->Get_Transform())->Get_WorldMat();
     
     D3DXMatrixInverse(&pTerrainWorld, 0, &pTerrainWorld);
@@ -58,7 +58,7 @@ bool CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* 
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &pTerrainWorld);
 
     const _vec3* pTerrainVtxPos = 
-    dynamic_cast<CTerrainTex*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::ARGOBJECT, L"TerrainWorld")->Get_VIBuffer())->Get_VtxPos();
+    dynamic_cast<CTerrainTex*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"TerrainWorld")->Get_VIBuffer())->Get_VtxPos();
 
     // NULL_CHECK_RETURN(pTerrainVtxPos, _vec3());
 

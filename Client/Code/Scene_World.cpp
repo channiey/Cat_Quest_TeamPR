@@ -109,7 +109,7 @@ HRESULT CScene_World::Ready_Layer_Environment()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::ARGOBJECT, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
@@ -138,7 +138,7 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dungeon", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::ARGOBJECT, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	return S_OK;
 }

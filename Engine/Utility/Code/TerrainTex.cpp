@@ -30,10 +30,10 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 		높이맵을 사용하기 위해서는 지형의 정점 개수보다 높이맵 bmp 파일의 픽셀 개수가 같거나 많아야 한다.
 
 	*/
-	m_dwFVF = FVF_COL;
+	m_dwFVF = FVF_TEX;
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwVtxCnt = dwCntX * dwCntZ;
-	m_dwVtxSize = sizeof(VTXCOL);
+	m_dwVtxSize = sizeof(VTXTEX);
 
 	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
@@ -66,7 +66,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 	//CloseHandle(m_hFile);
 
 	m_pPos = new _vec3[m_dwVtxCnt];
-	VTXCOL*		pVertex = nullptr;
+	VTXTEX*		pVertex = nullptr;
 	_plane		tPlane;
 
 	_ulong		dwIndex = 0;
@@ -91,26 +91,26 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 				_float(i * dwVtxItv)
 			};
 
-			pVertex[dwIndex].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+			// pVertex[dwIndex].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 
 			m_pPos[dwIndex] = pVertex[dwIndex].vPosition;
 
 			//m_vVertex[dwIndex] = pVertex[dwIndex].vPosition; // >> : 추가
 
-			//pVertex[dwIndex].vTexUV = 
-			//{
-			//	_float(j) / (dwCntX - 1) * 10.f, 
-			//	_float(i) / (dwCntZ - 1) * 10.f 
-			//	/*
-			//	
-			//		*	디테일 맵
-			//
-			//		*	텍스처 UV 좌표는 원래 0 ~ 1 사이의 값이지만 1을 넘어가면 다시 0부터 시작하는 것이 가능하다 (디폴트 옵션)
-			//		*	즉 기본 1 * 1 이라면 각 좌표에 20씩 곱하면 20 * 20으로 출력이 된다.
-			//		*	레디 단계에서 다 세팅되므로 연산량의 차이는 없다
-			//
-			//	*/
-			//};
+			pVertex[dwIndex].vTexUV = 
+			{
+				_float(j) / (dwCntX - 1) * 10.f, 
+				_float(i) / (dwCntZ - 1) * 10.f 
+				/*
+				
+					*	디테일 맵
+			
+					*	텍스처 UV 좌표는 원래 0 ~ 1 사이의 값이지만 1을 넘어가면 다시 0부터 시작하는 것이 가능하다 (디폴트 옵션)
+					*	즉 기본 1 * 1 이라면 각 좌표에 20씩 곱하면 20 * 20으로 출력이 된다.
+					*	레디 단계에서 다 세팅되므로 연산량의 차이는 없다
+			
+				*/
+			};
 		}
 	}
 	m_pVB->Unlock();
