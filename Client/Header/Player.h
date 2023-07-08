@@ -92,8 +92,8 @@ private:
 	STATINFO			m_tStatInfo;
 
 private:
-	CTexture* m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
-	CStateMachine* m_pStateMachineCom = nullptr;
+	CTexture*			m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
+	CStateMachine*		m_pStateMachineCom;
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDev);

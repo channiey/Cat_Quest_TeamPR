@@ -34,20 +34,26 @@ void CPlayerState_fIdle::LateUpdate_State()
 
 void CPlayerState_fIdle::Render_State()
 {
-	cout << "지금은 서있기" << endl;
+	cout << "지금은 앞서있기" << endl;
 }
 
 STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down('A'))
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 		return STATE_TYPE::FRONT_WALK;
-	else if (CInputDev::GetInstance()->Key_Down('D'))
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
 		return STATE_TYPE::FRONT_WALK;
-	else if (CInputDev::GetInstance()->Key_Down('W'))
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 		return STATE_TYPE::BACK_WALK;
-	else if (CInputDev::GetInstance()->Key_Down('S'))
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 		return STATE_TYPE::FRONT_WALK;
-	else
+
+	if (CInputDev::GetInstance()->Key_Down(VK_SPACE))
+		return STATE_TYPE::FRONT_ROLL;
+
+	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
+		return STATE_TYPE::FRONT_ATTACK; // 나중에 공격으로 바꿀것
+
 		return m_eState;
 }
 
@@ -58,7 +64,7 @@ CPlayerState_fIdle* CPlayerState_fIdle::Create(LPDIRECT3DDEVICE9 pGraphicDev, CS
 	if (FAILED(pInstance->Ready_State(pOwner)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Player IdleState Create Failed");
+		MSG_BOX("Player fIdleState Create Failed");
 		return nullptr;
 	}
 

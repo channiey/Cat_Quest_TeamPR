@@ -5,23 +5,36 @@
 
 #include "CubeCol.h"
 
+#include "PlayerState_Hit.h"
 #include "PlayerState_fIdle.h"
 #include "PlayerState_fWalk.h"
-
+#include "PlayerState_fRoll.h"
+#include "PlayerState_fAttack.h"
+#include "PlayerState_fAttack1.h"
+#include "PlayerState_fAttack2.h"
 #include "PlayerState_bIdle.h"
 #include "PlayerState_bWalk.h"
+#include "PlayerState_bRoll.h"
+#include "PlayerState_bAttack.h"
+#include "PlayerState_bAttack1.h"
+#include "PlayerState_bAttack2.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
 {
+	ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 }
 
 CPlayer::CPlayer(const CPlayer& rhs)
 	: Engine::CGameObject(rhs)
 	, m_tMoveInfo(rhs.m_tMoveInfo)
 	, m_tStatInfo(rhs.m_tStatInfo)
+	, m_pStateMachineCom(rhs.m_pStateMachineCom)
 {
-
+	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
+	{
+		m_pTextureCom[i] = rhs.m_pTextureCom[i];
+	}
 }
 
 CPlayer::~CPlayer()
@@ -34,37 +47,95 @@ HRESULT CPlayer::Ready_Object()
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
+	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
+	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
 
 #pragma region 상태추가
+	// 앞 피격상태 추가
+	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_HIT, pState);
 	// 앞 걷기상태 추가
-	CState* pState = CPlayerState_fWalk::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CPlayerState_fWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_WALK, pState);
 	// 앞 서기상태 추가
 	pState = CPlayerState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_IDLE, pState);
+	// 앞 구르기상태 추가
+	pState = CPlayerState_fRoll::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ROLL, pState);
+	// 앞 공격상태 추가
+	pState = CPlayerState_fAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+	// 앞 공격1상태 추가
+	pState = CPlayerState_fAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK1, pState);
+	// 앞 공격2상태 추가
+	pState = CPlayerState_fAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK2, pState);
+
 	// 뒤 서기상태 추가
 	pState = CPlayerState_bIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_IDLE, pState);
 	// 뒤 걷기상태 추가
 	pState = CPlayerState_bWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_WALK, pState);
+	// 뒤 구르기상태 추가
+	pState = CPlayerState_bRoll::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ROLL, pState);
+	// 뒤 공격상태 추가
+	pState = CPlayerState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK, pState);
+	// 뒤 공격1상태 추가
+	pState = CPlayerState_bAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK1, pState);
+	// 뒤 공격2상태 추가
+	pState = CPlayerState_bAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK2, pState);
 #pragma endregion
 
 #pragma region 애니메추가
+	// 피격애니메이션 추가
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
 	// 앞 걷기애니메이션 추가
-	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
 	// 앞 서기애니메이션 추가
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
+	// 앞 공격애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.08f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+	// 앞 공격1애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)], STATE_TYPE::FRONT_ATTACK1, 0.08f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK1, pAnimation);
+	// 앞 공격2애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)], STATE_TYPE::FRONT_ATTACK2, 0.08f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
+	// 앞 구르기애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
+	
+
 	// 뒤 서기애니메이션 추가
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
 	// 뒤 걷기애니메이션 추가
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.09f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
+	// 뒤 공격애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
+	// 뒤 걷기애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)], STATE_TYPE::BACK_ATTACK1, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK1, pAnimation);
+	// 뒤 걷기애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)], STATE_TYPE::BACK_ATTACK2, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
+	// 뒤 구르기애니메이션 추가
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
 #pragma endregion
 
 
