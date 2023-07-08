@@ -12,6 +12,7 @@ CTabUI::CTabUI(const CTabUI& rhs)
 	: CUI(rhs)
 	, m_bPick(rhs.m_bPick)
 {
+	// 그냥 텍스쳐 cpp 터레인 띠우는 리소스
 }
 
 CTabUI::~CTabUI()

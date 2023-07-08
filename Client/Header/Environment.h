@@ -8,12 +8,12 @@ class CTexture;
 
 END
 
-class CEnviornment : public Engine::CGameObject
+class CEnvironment : public Engine::CGameObject
 {
 protected:
-	explicit CEnviornment(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CEnviornment(const CEnviornment& rhs);
-	virtual ~CEnviornment();
+	explicit CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CEnvironment(const CEnvironment& rhs);
+	virtual ~CEnvironment();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -28,7 +28,7 @@ protected:
 	CTexture* m_pTextureCom = nullptr;
 
 public:
-	// static CEnviornment* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	// static CEnvironment* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 protected:
 	virtual void			Free() override;

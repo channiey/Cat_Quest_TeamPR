@@ -5,12 +5,12 @@
 #include "EventMgr.h"
 
 CMountain::CMountain(LPDIRECT3DDEVICE9 pGraphicDev)
-	:	CEnviornment(pGraphicDev)
+	:	CEnvironment(pGraphicDev)
 {
 }
 
-CMountain::CMountain(const CEnviornment& rhs)
-	:	CEnviornment(rhs)
+CMountain::CMountain(const CEnvironment& rhs)
+	:	CEnvironment(rhs)
 {
 }
 
@@ -20,7 +20,7 @@ CMountain::~CMountain()
 
 HRESULT CMountain::Ready_Object()
 {
-	CEnviornment::Ready_Object();
+	CEnvironment::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -32,7 +32,7 @@ HRESULT CMountain::Ready_Object()
 
 _int CMountain::Update_Object(const _float& fTimeDelta)
 {
-	_int iExit = CEnviornment::Update_Object(fTimeDelta);
+	_int iExit = CEnvironment::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -41,12 +41,12 @@ _int CMountain::Update_Object(const _float& fTimeDelta)
 
 void CMountain::LateUpdate_Object()
 {
-	CEnviornment::LateUpdate_Object();
+	CEnvironment::LateUpdate_Object();
 }
 
 void CMountain::Render_Object()
 {
-	CEnviornment::Render_Object();
+	CEnvironment::Render_Object();
 }
 
 void CMountain::OnCollision_Enter(CGameObject* _pColObj)
@@ -87,5 +87,5 @@ CMountain* CMountain::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CMountain::Free()
 {
-	CEnviornment::Free();
+	CEnvironment::Free();
 }

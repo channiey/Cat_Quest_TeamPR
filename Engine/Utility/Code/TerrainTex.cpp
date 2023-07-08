@@ -30,6 +30,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 		높이맵을 사용하기 위해서는 지형의 정점 개수보다 높이맵 bmp 파일의 픽셀 개수가 같거나 많아야 한다.
 
 	*/
+
 	m_dwFVF = FVF_TEX;
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwVtxCnt = dwCntX * dwCntZ;
@@ -37,8 +38,6 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
-
-	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
 	//m_hFile = CreateFile(L"../Bin/Resource/Texture/Terrain/Height1.bmp", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
@@ -65,6 +64,8 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	//CloseHandle(m_hFile);
 
+	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
+
 	m_pPos = new _vec3[m_dwVtxCnt];
 	VTXTEX*		pVertex = nullptr;
 	_plane		tPlane;
@@ -72,7 +73,6 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 	_ulong		dwIndex = 0;
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
-
 
 	for (_ulong i = 0; i < dwCntZ; ++i)
 	{

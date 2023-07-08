@@ -203,6 +203,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Scene.h" />
     <ClInclude Include="..\..\Header\State.h" />
     <ClInclude Include="..\..\Header\StateMachine.h" />
+    <ClInclude Include="..\..\Header\TerrainRcTex.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\Transform.h" />
@@ -232,6 +233,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Scene.cpp" />
     <ClCompile Include="..\Code\State.cpp" />
     <ClCompile Include="..\Code\StateMachine.cpp" />
+    <ClCompile Include="..\Code\TerrainRcTex.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Enviornment.h"
+#include "Environment.h"
 
 BEGIN(Engine)
 
@@ -9,11 +9,11 @@ class CCollider;
 
 END
 
-class CForest : public CEnviornment
+class CForest : public CEnvironment
 {
 protected:
 	explicit CForest(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CForest(const CEnviornment& rhs);
+	explicit CForest(const CEnvironment& rhs);
 	virtual ~CForest();
 
 public:

@@ -8,7 +8,7 @@
 
 #include "Player.h"
 #include "CuteMonster.h"
-#include "Enviornment.h"
+#include "Environment.h"
 #include "Tool_Camera.h"
 #include "CameraTargetObj.h"
 

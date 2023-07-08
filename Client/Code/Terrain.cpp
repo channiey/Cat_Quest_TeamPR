@@ -44,7 +44,7 @@ void CTerrain::Render_Object(void)
 {
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-	// m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
@@ -57,9 +57,9 @@ HRESULT CTerrain::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX, this));
+	pComponent = m_pBufferCom = dynamic_cast<CTerrainRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_TEX, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, pComponent);
 
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Terrain", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

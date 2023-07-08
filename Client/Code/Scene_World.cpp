@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "Terrain.h"
+#include "TerrainWorld.h"
 #include "Building.h"
 #include "Forest.h"
 #include "Mountain.h"
@@ -114,9 +115,9 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Terrain
-	pGameObject = CTerrain::Create(m_pGraphicDev);
+	pGameObject = CTerrainWorld::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
 	// Building
 	pGameObject = CBuilding::Create(m_pGraphicDev); 

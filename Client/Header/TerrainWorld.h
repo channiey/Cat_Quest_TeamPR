@@ -6,6 +6,7 @@
 BEGIN(Engine)
 
 class CRcCol;
+class CTerrainRcTex;
 
 END
 
