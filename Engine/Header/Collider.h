@@ -34,6 +34,9 @@ protected:
 
 	COL_TYPE					m_eColType;	// 렉트인지, 써클인지, 라인인지
 
+	_mesh*						m_pMesh;
+
+
 public:
 	static CCollider*			Create(LPDIRECT3DDEVICE9 pGraphicDev, const COMPONENT_TYPE& _eType);
 	virtual CComponent*			Clone(CGameObject* _pOwnerObject);
