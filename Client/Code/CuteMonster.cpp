@@ -20,7 +20,7 @@ CCuteMonster::~CCuteMonster()
 {
 }
 
-static float iZ = 0;
+//static float iZ = 0;
 HRESULT CCuteMonster::Ready_Object()
 {
 	CMonster::Ready_Object();
@@ -89,12 +89,16 @@ HRESULT CCuteMonster::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+
+
 	return S_OK;
 }
 
 void CCuteMonster::Move(const _float& fTimeDelta)
 {
 	m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * -m_tMoveInfo.fMoveSpeed * 0.1f);
+
+
 }
 
 void CCuteMonster::Free()
@@ -110,7 +114,7 @@ CCuteMonster* CCuteMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Monster Create Failed");
+		MSG_BOX("CuteMonster Create Failed");
 		return nullptr;
 	}
 

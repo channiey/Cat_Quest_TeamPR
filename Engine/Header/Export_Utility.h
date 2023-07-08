@@ -28,6 +28,9 @@
 
 #include "StateMachine.h"
 #include "Animator.h"
+
+#include "AIComponent.h"
+
 // Object
 #include "CameraObject.h"
 #include "LineObject.h"
@@ -85,6 +88,7 @@ inline const _matrix&   Get_WorldMat();
 
 // CollisionMgr
 inline void				Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const COL_TYPE& _eColType1, const COL_TYPE& _eColType2);
+
 
 
 // Release

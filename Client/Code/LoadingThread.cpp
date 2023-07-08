@@ -85,7 +85,9 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::ANIMATOR,
 		CAnimator::Create(m_pGraphicDev)), E_FAIL);
 
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::AICOM,
+		CAIComponent::Create(m_pGraphicDev)), E_FAIL);
+	
 #pragma endregion
 
 
@@ -133,6 +135,11 @@ _uint CLoadingThread::Loading_For_World()
 	// UI - ManaBar
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_ManaBar",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/ManaBar.png")), E_FAIL);
+
+	// Monster - Hedgehog
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Hedgehog",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/basic_hedgehog.png")), E_FAIL);
+
 
 #pragma endregion
 

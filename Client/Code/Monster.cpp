@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "..\Header\Monster.h"
-
+#include "AIComponent.h"
 #include "Export_Function.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER)
 	, m_pTextureCom(nullptr)
+	, m_pAICom(nullptr)
 {
+	ZeroMemory(&m_tMoveInfo, sizeof(MOVEINFO));
+	ZeroMemory(&m_tStatInfo, sizeof(STATINFO));
 }
 
 CMonster::CMonster(const CMonster& rhs)
@@ -61,12 +64,22 @@ HRESULT CMonster::Add_Component()
 	CComponent* pComponent = nullptr;
 
 	/*pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+=======
+	// Rect Collider
+	pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+>>>>>>> origin/feature/Kim
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);*/
 
+	// Rc Texture
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+
+	
+
+
+
 
 	return S_OK;
 }
@@ -76,17 +89,3 @@ void CMonster::Free()
 	__super::Free();
 }
 
-CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev)
-{
-	CMonster*	pInstance = new CMonster(pGraphicDev);
-
-	if (FAILED(pInstance->Ready_Object()))
-	{
-		Safe_Release(pInstance);
-
-		MSG_BOX("Monster Create Failed");
-		return nullptr;
-	}
-
-	return pInstance;
-}

@@ -11,13 +11,15 @@
 #include "Dungeon.h"
 
 #include "Player.h"
-#include "CuteMonster.h"
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 #include "EventMgr.h"
 #include "LevelUI.h"
 #include "TabUI.h"
 #include "ManaBarUI.h"
+
+#include "CuteMonster.h"
+#include "Hedgehog.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -240,6 +242,71 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	pGameObject = CCuteMonster::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_011", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_021", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_031", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_041", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_051", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_01112", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_02112", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_03112", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_04112", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05112", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_01113", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_02113", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_03113", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_04114", pGameObject), E_FAIL);
+
+	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05115", pGameObject), E_FAIL);
+
+
+	pGameObject = CHedgehog::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
 	return S_OK;
 }

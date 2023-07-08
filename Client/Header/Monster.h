@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 class CTexture;
+class CAIComponent;
+
 END
 
 class CMonster : public Engine::CGameObject
@@ -87,10 +89,9 @@ protected:
 	STATINFO				m_tStatInfo;
 
 protected:
-	CTexture*				m_pTextureCom = nullptr;
+	CTexture*				m_pTextureCom;
+	CAIComponent*			m_pAICom;
 
-public:
-	static CMonster*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 protected:
 	virtual void			Free() override;
