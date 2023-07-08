@@ -40,11 +40,11 @@ public:
 protected:
 	// 상태들을 담을 맵컨테이너 
 	map<STATE_TYPE, CState*>		m_StateMap;
-	CState*							m_pCurState = nullptr;
+	CState*							m_pCurState;
 	// 현재가 어떤 상태타입인지 정하는 변수
-	STATE_TYPE					    m_eCurState = STATE_TYPE::TYPEEND;
+	STATE_TYPE					    m_eCurState;
 
-	CAnimator*						m_pAnimator = nullptr;
+	CAnimator*						m_pAnimator;
 
 public:
 	static	CStateMachine* Create(LPDIRECT3DDEVICE9 pGraphicDev);

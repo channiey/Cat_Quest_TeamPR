@@ -16,7 +16,7 @@ HRESULT CPlayerState_fIdle::Ready_State(CStateMachine* pOwner)
 	if (nullptr != pOwner)
 		m_pOwner = pOwner;
 
-	m_eState = STATE_TYPE::IDLE;
+	m_eState = STATE_TYPE::FRONT_IDLE;
 
 	return S_OK;
 }
@@ -40,13 +40,13 @@ void CPlayerState_fIdle::Render_State()
 STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 {
 	if (CInputDev::GetInstance()->Key_Down('A'))
-		return STATE_TYPE::WALK;
+		return STATE_TYPE::FRONT_WALK;
 	else if (CInputDev::GetInstance()->Key_Down('D'))
-		return STATE_TYPE::WALK;
+		return STATE_TYPE::FRONT_WALK;
 	else if (CInputDev::GetInstance()->Key_Down('W'))
-		return STATE_TYPE::WALK;
+		return STATE_TYPE::BACK_WALK;
 	else if (CInputDev::GetInstance()->Key_Down('S'))
-		return STATE_TYPE::WALK;
+		return STATE_TYPE::FRONT_WALK;
 	else
 		return m_eState;
 }

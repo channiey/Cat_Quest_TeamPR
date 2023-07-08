@@ -8,7 +8,7 @@ CStateMachine::CStateMachine()
 }
 
 CStateMachine::CStateMachine(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CComponent(pGraphicDev, COMPONENT_TYPE::STATEMACHINE)
+	: CComponent(pGraphicDev, COMPONENT_TYPE::STATEMACHINE), m_pCurState(nullptr), m_pAnimator(nullptr), m_eCurState(STATE_TYPE::TYPEEND)
 {
 }
 

@@ -179,6 +179,8 @@
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\ManaBarUI.h" />
     <ClInclude Include="..\Header\Mountain.h" />
+    <ClInclude Include="..\Header\PlayerState_bIdle.h" />
+    <ClInclude Include="..\Header\PlayerState_bWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
@@ -224,6 +226,8 @@
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\ManaBarUI.cpp" />
     <ClCompile Include="..\Code\Mountain.cpp" />
+    <ClCompile Include="..\Code\PlayerState_bIdle.cpp" />
+    <ClCompile Include="..\Code\PlayerState_bWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />

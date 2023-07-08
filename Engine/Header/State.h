@@ -26,9 +26,9 @@ public:
 
 protected:
 	// 어떤 상태머신이 자신을 지니고 있는지 알려주는 변수
-	CStateMachine*			m_pOwner = nullptr;
+	CStateMachine*			m_pOwner;
 	// 어떤 상태인지 정해주는 변수
-	STATE_TYPE				m_eState = STATE_TYPE::TYPEEND;
+	STATE_TYPE				m_eState;
 
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 
