@@ -6,12 +6,12 @@
 #include "EventMgr.h"
 
 CForest::CForest(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CArgObject(pGraphicDev)
+	: CEnviornment(pGraphicDev)
 {
 }
 
-CForest::CForest(const CArgObject& rhs)
-	: CArgObject(rhs)
+CForest::CForest(const CEnviornment& rhs)
+	: CEnviornment(rhs)
 {
 }
 
@@ -21,7 +21,7 @@ CForest::~CForest()
 
 HRESULT CForest::Ready_Object()
 {
-	CArgObject::Ready_Object();
+	CEnviornment::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -33,7 +33,7 @@ HRESULT CForest::Ready_Object()
 
 _int CForest::Update_Object(const _float& fTimeDelta)
 {
-	_int iExit = CArgObject::Update_Object(fTimeDelta);
+	_int iExit = CEnviornment::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -42,12 +42,12 @@ _int CForest::Update_Object(const _float& fTimeDelta)
 
 void CForest::LateUpdate_Object()
 {
-	CArgObject::LateUpdate_Object();
+	CEnviornment::LateUpdate_Object();
 }
 
 void CForest::Render_Object()
 {
-	CArgObject::Render_Object();
+	CEnviornment::Render_Object();
 }
 
 void CForest::OnCollision_Enter(CGameObject* _pColObj)
@@ -90,5 +90,5 @@ CForest* CForest::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CForest::Free()
 {
-	CArgObject::Free();
+	CEnviornment::Free();
 }

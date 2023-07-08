@@ -7,7 +7,7 @@
 #include "TerrainWorld.h"
 #include "Player.h"
 #include "CuteMonster.h"
-#include "ArgObject.h"
+#include "Enviornment.h"
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 
@@ -87,7 +87,7 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::ARGOBJECT, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	return S_OK;
 }
