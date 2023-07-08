@@ -244,7 +244,7 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_011", pGameObject), E_FAIL);
 
-	pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	/*pGameObject = CCuteMonster::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_021", pGameObject), E_FAIL);
 
@@ -298,7 +298,7 @@ HRESULT CScene_World::Ready_Layer_Monster()
 
 	pGameObject = CCuteMonster::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05115", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05115", pGameObject), E_FAIL);*/
 
 	return S_OK;
 }
