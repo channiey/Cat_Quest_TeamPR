@@ -7,7 +7,7 @@ CCamera::CCamera()
 	: m_pLookAt(nullptr)
 	, m_pFollow(nullptr)
 	, m_eProjectID(PERSPECTIVE)
-	, m_fSpeedZoom(100.f)
+	, m_fSpeedZoom(50.f)
 	, m_fDistance(0.f)
 	, m_pHwnd(nullptr)
 {

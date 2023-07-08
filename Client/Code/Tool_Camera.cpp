@@ -10,7 +10,6 @@ CTool_Camera::CTool_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 CTool_Camera::CTool_Camera(const CTool_Camera& rhs)
 	: Engine::CCameraObject(rhs)
-	, m_tMoveInfo(rhs.m_tMoveInfo)
 {
 
 }
@@ -24,9 +23,17 @@ HRESULT CTool_Camera::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.5f, 50.f, VTXCNTZ * 0.5f });
+	m_fDefaultHeight = 80.f;
+	m_fNearZoom = CAM_DEFAULT_DISTANCE;
+	m_fFarZoom = 60.f;
+	m_pCameraCom->m_fDistance = m_fNearZoom;
 
-	m_tMoveInfo.fMoveSpeed *= 2.f;
+	m_pTransformCom->Set_Pos(_vec3{ 0.f, m_fDefaultHeight, -m_pCameraCom->m_fDistance });
+	m_pCameraCom->m_fSpeedZoom = 100.f;
+
+
+	m_eView = TOOL_VIEW::DEFAULT;
+
 	return S_OK;
 }
 
@@ -36,6 +43,22 @@ Engine::_int CTool_Camera::Update_Object(const _float& fTimeDelta)
 
 	Key_Input(fTimeDelta);
 
+	switch (m_eView)
+	{
+	case TOOL_VIEW::DEFAULT:
+		Update_Perspevtive(fTimeDelta);
+		break;
+	case TOOL_VIEW::INGAME:
+		Update_Perspevtive(fTimeDelta);
+		break;
+	case TOOL_VIEW::LINE:
+		Update_Orthographic(fTimeDelta);
+		break;
+	case TOOL_VIEW::TYPEEND:
+		break;
+	default:
+		break;
+	}
 	return iExit;
 }
 
@@ -44,6 +67,25 @@ void CTool_Camera::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 }
 
+void CTool_Camera::Key_Input(const _float& fTimeDelta)
+{
+	if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	{
+		m_pCameraCom->m_fDistance = m_fNearZoom * 2.f;
+		m_eView = TOOL_VIEW::DEFAULT;
+	}
+	else if (CInputDev::GetInstance()->Key_Down(VK_F2))
+	{
+		m_pCameraCom->m_fDistance = m_fNearZoom;
+		m_eView = TOOL_VIEW::INGAME;
+	}
+	else if (CInputDev::GetInstance()->Key_Down(VK_F3))
+	{
+		m_eView = TOOL_VIEW::LINE;
+	}
+}
+
+
 HRESULT CTool_Camera::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
@@ -51,44 +93,51 @@ HRESULT CTool_Camera::Add_Component(void)
 	return S_OK;
 }
 
-void CTool_Camera::Key_Input(const _float& fTimeDelta)
+void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 {
 	_long dwMouse = 0;
 
-	// Translate
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
-		m_pTransformCom->Translate(vec3.forward + vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
-		m_pTransformCom->Translate(vec3.forward + -vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
-		m_pTransformCom->Translate(-vec3.forward + vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
-		m_pTransformCom->Translate(-vec3.forward - vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
-		m_pTransformCom->Translate(DIR_FORWARD, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
-		m_pTransformCom->Translate(DIR_FORWARD, fTimeDelta * -m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
-		m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
-		m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * -m_tMoveInfo.fMoveSpeed);
 
-	// Zoom
 	if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Z))
 	{
-		// 최대 최소 예외 처리 필요 (굳이 툴이니까 보간까지 필요 X)
-
+		if (TOOL_VIEW::DEFAULT == m_eView)
+		{
 		if (0 < dwMouse)
-			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
-		else
 			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+		else
+			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+
+		}
+		else if (TOOL_VIEW::INGAME == m_eView)
+		{
+			m_pCameraCom->m_fDistance = m_fNearZoom;
+		}
 	}
 
+	// 02. Update View Space Data
+	NULL_CHECK(m_pCameraCom->m_pLookAt);
+	NULL_CHECK(m_pCameraCom->m_pFollow);
+	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 
+	// 03. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
+	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vDir2 = { vDir1.x, 0.f, vDir1.z };
+	D3DXVec3Normalize(&vDir1, &vDir1);
+	D3DXVec3Normalize(&vDir2, &vDir2);
+	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
+	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * 2.f;
 
-	m_pCameraCom->m_tVspace.Eye		= m_pTransformCom->Get_Info(INFO_POS);
-	m_pCameraCom->m_tVspace.LookAt  = m_pTransformCom->Get_Info(INFO_POS) + _vec3{ 0.f, -1.f, 1.f };
-	m_pCameraCom->m_tVspace.Up		= vec3.up;
+	m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
+									fY,
+									vFollowPos.z - m_pCameraCom->m_fDistance });
+
+	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
+	m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
+	m_pCameraCom->m_tVspace.Up = vec3.up;
+}
+
+void CTool_Camera::Update_Orthographic(const _float& fTimeDelta)
+{
 }
 
 void CTool_Camera::Free()
@@ -104,7 +153,7 @@ CTool_Camera* CTool_Camera::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Tool Camera Create Failed");
+		MSG_BOX("Player Camera Create Failed");
 		return nullptr;
 	}
 

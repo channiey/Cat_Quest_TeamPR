@@ -71,7 +71,10 @@ void CImGuiMgr::ImGui_Update()
 	{
 		_vec3 vArgPos;
 
-		if (CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt, &vArgPos)) {
+		if (CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt, &vArgPos)) 
+		{
+			Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
+
 			//CScene::Add_Object();
 			//
 			//const OBJ_TYPE& _eObjType,
@@ -159,7 +162,7 @@ LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
 	if (FAILED(hr)) return nullptr;
 
 	hr = D3DXCreateTextureFromFileA(m_pGraphicDev, filePath, &pTexture);
-	// Safe_Release(m_pGraphicDev);
+	Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
 
 	if (FAILED(hr)) return nullptr;
 
@@ -394,6 +397,8 @@ void CImGuiMgr::Show_ImageButton()
 
 void CImGuiMgr::Free()
 {
+	Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
+
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();

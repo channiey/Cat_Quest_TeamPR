@@ -8,6 +8,8 @@ namespace Engine
 #define	WINCX				1280
 #define	WINCY				720
 
+#define CAM_DEFAULT_DISTANCE 20
+
 #define	VTXCNTX				129
 #define VTXCNTZ				129
 #define VTXITV				1

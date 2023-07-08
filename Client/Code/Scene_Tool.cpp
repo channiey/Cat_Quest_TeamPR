@@ -5,11 +5,9 @@
 
 // #include "Terrain.h"
 #include "TerrainWorld.h"
-#include "Player.h"
-#include "CuteMonster.h"
 #include "ArgObject.h"
-#include "Player_Camera.h"
 #include "Tool_Camera.h"
+#include "CameraTargetObj.h"
 
 #include "ImGuiMgr.h"
 #include "Calculator.h"
@@ -100,15 +98,16 @@ HRESULT CScene_Tool::Ready_Layer_Camera()
 	Engine::CGameObject* pGameObject = nullptr;
 
 	// Camera
-	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
-		pGameObject = CPlayer_Camera::Create(m_pGraphicDev);
-	else
-		pGameObject = CTool_Camera::Create(m_pGraphicDev);
+	pGameObject = CTool_Camera::Create(m_pGraphicDev);
 
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Camera", pGameObject), E_FAIL);
 	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
 	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
+
+	pGameObject = CCameraTargetObj::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CameraTargetObj", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
