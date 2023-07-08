@@ -167,7 +167,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Header\Enviornment.h" />
+    <ClInclude Include="..\Header\Environment.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Building.h" />
     <ClInclude Include="..\Header\Calculator.h" />
@@ -214,7 +214,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Code\Enviornment.cpp" />
+    <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Building.cpp" />
     <ClCompile Include="..\Code\Calculator.cpp" />

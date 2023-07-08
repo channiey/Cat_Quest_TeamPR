@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "..\Header\Enviornment.h"
+#include "..\Header\Environment.h"
 
 #include "Export_Function.h"
 
-CEnviornment::CEnviornment(LPDIRECT3DDEVICE9 pGraphicDev)
+CEnvironment::CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ENVIRONMENT)
 	, m_pTextureCom(nullptr)
 {
 }
 
-CEnviornment::CEnviornment(const CEnviornment& rhs)
+CEnvironment::CEnvironment(const CEnvironment& rhs)
 	: Engine::CGameObject(rhs)
 {
 }
 
-CEnviornment::~CEnviornment()
+CEnvironment::~CEnvironment()
 {
 }
 
-HRESULT CEnviornment::Ready_Object()
+HRESULT CEnvironment::Ready_Object()
 {
 	CGameObject::Ready_Object();
 
@@ -27,19 +27,19 @@ HRESULT CEnviornment::Ready_Object()
 	return S_OK;
 }
 
-Engine::_int CEnviornment::Update_Object(const _float& fTimeDelta)
+Engine::_int CEnvironment::Update_Object(const _float& fTimeDelta)
 {
 	__super::Update_Object(fTimeDelta);
 
 	return 0;
 }
 
-void CEnviornment::LateUpdate_Object()
+void CEnvironment::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CEnviornment::Render_Object()
+void CEnvironment::Render_Object()
 {
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -57,7 +57,7 @@ void CEnviornment::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 }
 
-HRESULT CEnviornment::Add_Component()
+HRESULT CEnvironment::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -72,14 +72,14 @@ HRESULT CEnviornment::Add_Component()
 	return S_OK;
 }
 
-void CEnviornment::Free()
+void CEnvironment::Free()
 {
 	__super::Free();
 }
 
-//CEnviornment* CEnviornment::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+//CEnvironment* CEnvironment::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 //{
-//	CEnviornment* pInstance = new CEnviornment(pGraphicDev);
+//	CEnvironment* pInstance = new CEnvironment(pGraphicDev);
 //
 //	if (FAILED(pInstance->Ready_Object()))
 //	{

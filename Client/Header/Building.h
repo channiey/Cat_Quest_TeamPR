@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Enviornment.h"
+#include "Environment.h"
 
 BEGIN(Engine)
 
@@ -10,11 +10,11 @@ class CCollider;
 
 END
 
-class CBuilding : public CEnviornment
+class CBuilding : public CEnvironment
 {
 protected:
 	explicit CBuilding(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos = {4.f, 4.f, 4.f});
-	explicit CBuilding(const CEnviornment& rhs);
+	explicit CBuilding(const CEnvironment& rhs);
 	virtual ~CBuilding();
 
 public:

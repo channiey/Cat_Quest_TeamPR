@@ -19,9 +19,20 @@ CTerrainWorld::~CTerrainWorld()
 
 HRESULT CTerrainWorld::Ready_Object(void)
 {
+	/*
+	
+	터레인 텍스는버텍스를 설정할떄 x, z를 사용하는데
+	RC 텍스는 버텍스 설정때 x, y사용하니까
+
+	형이 별도의 텍스를 하나 만들어서 그걸로 사요하면 될듯 rC 텍스에서 y, z만 바꾼걸로
+	
+	*/
 	CTerrain::Ready_Object();
 
-	//FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pTransformCom->Set_Scale(_vec3(100.f, 0.f, 100.f));
+	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
@@ -42,18 +53,16 @@ void CTerrainWorld::LateUpdate_Object(void)
 
 void CTerrainWorld::Render_Object(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	// m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CTerrain::Render_Object();
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	// m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 HRESULT CTerrainWorld::Add_Component(void)
 {
-	CComponent* pComponent = nullptr;
-
-	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX, this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_TEX, pComponent);
+	// pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Terrain", this));
+	// NULL_CHECK_RETURN(pComponent, E_FAIL);
+	// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	return S_OK;
 }
@@ -66,7 +75,7 @@ CTerrainWorld* CTerrainWorld::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Terrain Create Failed");
+		MSG_BOX("TerrainWorld Create Failed");
 		return nullptr;
 	}
 

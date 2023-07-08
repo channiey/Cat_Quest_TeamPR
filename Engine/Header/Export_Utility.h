@@ -13,6 +13,7 @@
 
 // Component
 #include "TerrainTex.h"
+#include "TerrainRcTex.h"
 #include "RcCol.h"
 #include "RcTex.h"
 

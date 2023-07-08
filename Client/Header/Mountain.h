@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Enviornment.h"
+#include "Environment.h"
 
 BEGIN(Engine)
 
@@ -9,11 +9,11 @@ class CCollider;
 
 END
 
-class CMountain : public CEnviornment
+class CMountain : public CEnvironment
 {
 protected:
 	explicit CMountain(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CMountain(const CEnviornment& rhs);
+	explicit CMountain(const CEnvironment& rhs);
 	virtual ~CMountain();
 
 public:
