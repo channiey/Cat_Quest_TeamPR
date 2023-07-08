@@ -75,7 +75,7 @@ CComponent * CCollider::Clone(CGameObject* _pOwnerObject)
 
 void CCollider::Free()
 {
-	Safe_Release(m_pMesh);
+	//Safe_Release(m_pMesh);
 
 	CComponent::Free();
 }
