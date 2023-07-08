@@ -101,7 +101,8 @@ _uint CLoadingThread::Loading_For_World()
 #pragma region KANG
 	// 터레인 월드
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
-	CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
+		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
+
 	// 건물
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Building",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/town_1.png")), E_FAIL);
@@ -209,6 +210,8 @@ _uint CLoadingThread::Loading_For_Tool()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX,
 		CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
+		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
 	
 	// Collider
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
@@ -225,18 +228,13 @@ _uint CLoadingThread::Loading_For_Tool()
 
 
 #pragma region Texture
-
 	// Texture
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Tile0.jpg")), E_FAIL);
+ 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/test2.png")), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/cutscene_intro_drakoth_01.png")), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
 #pragma region KANG
+
 
 #pragma endregion
 

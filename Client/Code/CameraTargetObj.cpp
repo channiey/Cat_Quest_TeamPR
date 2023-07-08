@@ -35,6 +35,7 @@ HRESULT CCameraTargetObj::Ready_Object()
 		CCameraMgr::GetInstance()->Set_LookAt(this);
 	}
 
+	m_tMoveInfo.fMoveSpeed *= 3.f;
 	return S_OK;
 }
 

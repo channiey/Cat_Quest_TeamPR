@@ -63,9 +63,13 @@ void CPlayer_Camera::Move(const _float & fTimeDelta)
 	if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Z))
 	{
 		if (0 < dwMouse)
+			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+		else
+			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+		/*if (0 < dwMouse)
 			m_pCameraCom->m_fDistance = m_fNearZoom;
 		else
-			m_pCameraCom->m_fDistance = m_fFarZoom;
+			m_pCameraCom->m_fDistance = m_fFarZoom;*/
 	}
 
 	// 02. Update View Space Data
