@@ -5,6 +5,7 @@
 
 // #include "Terrain.h"
 #include "TerrainWorld.h"
+#include "TerrainTool.h"
 
 #include "Player.h"
 #include "CuteMonster.h"
@@ -29,6 +30,7 @@ HRESULT CScene_Tool::Ready_Scene()
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL)
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
 
 	return S_OK;
 }
@@ -87,6 +89,10 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
+	pGameObject = CTerrainTool::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	return S_OK;
@@ -112,6 +118,21 @@ HRESULT CScene_Tool::Ready_Layer_Camera()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CameraTargetObj", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
+
+	return S_OK;
+}
+
+HRESULT CScene_Tool::Ready_Layer_Monster()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	// pGameObject = CCuteMonster::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// CEventMgr::GetInstance()->Add_Obj(L"Monster_01", pGameObject);
 
 	return S_OK;
 }

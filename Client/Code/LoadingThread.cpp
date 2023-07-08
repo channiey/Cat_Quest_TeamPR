@@ -239,9 +239,12 @@ _uint CLoadingThread::Loading_For_Tool()
  	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/test2.png")), E_FAIL);
 
-
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 #pragma region KANG
-
+	// °Ç¹°
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Building",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/town_1.png")), E_FAIL);
 
 #pragma endregion
 

@@ -3,6 +3,9 @@
 #include "imgui_impl_dx9.h"
 
 #include "ImGuiMgr.h"
+// #include "CuteMonster.h"
+#include "Building.h"
+#include "TerrainTex.h"
 
 #include "stdafx.h"
 #include "MainApp.h"
@@ -73,7 +76,19 @@ void CImGuiMgr::ImGui_Update()
 
 		if (CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pClientPt, &vArgPos)) 
 		{
-			Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
+
+			if (!Engine::CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Building")) {
+
+				Engine::CGameObject* pGameObject = CBuilding::Create(m_pGraphicDev);
+				NULL_CHECK(pGameObject);
+				CEventMgr::GetInstance()->Add_Obj(L"Building", pGameObject);
+
+				// 현재 버퍼들의 위치를 전부 이동시켰기에 그에 맞춰 임시로 위치 설정.
+				pGameObject->Get_Transform()->Set_Pos(_vec3(vArgPos.x, vArgPos.y + 3, (vArgPos.z) - VTXCNTZ / 2));
+			
+			}
+
+			// Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
 
 			//CScene::Add_Object();
 			//
