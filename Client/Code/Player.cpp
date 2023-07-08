@@ -105,12 +105,6 @@ void CPlayer::LateUpdate_Object()
 void CPlayer::Render_Object()
 {	
 	//m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
-	
-
-	if(m_pColliderCom->Is_Collision())
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
-	else
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat()); 
 	
@@ -120,6 +114,8 @@ void CPlayer::Render_Object()
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+	CGameObject::Render_Object(); // 콜라이더 출력
 }
 
 HRESULT CPlayer::Add_Component()

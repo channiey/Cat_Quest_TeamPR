@@ -213,15 +213,15 @@ _uint CLoadingThread::Loading_For_Tool()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
 		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
 	
-	// Collider
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
-		CLineCollider::Create(m_pGraphicDev)), E_FAIL);
+	//// Collider
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
+	//	CLineCollider::Create(m_pGraphicDev)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_CIRCLE,
-		CCircleCollider::Create(m_pGraphicDev)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_CIRCLE,
+	//	CCircleCollider::Create(m_pGraphicDev)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_RECT,
-		CRectCollider::Create(m_pGraphicDev)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_RECT,
+	//	CRectCollider::Create(m_pGraphicDev)), E_FAIL);
 
 
 #pragma endregion

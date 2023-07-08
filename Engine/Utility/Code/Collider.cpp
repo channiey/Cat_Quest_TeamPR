@@ -75,7 +75,8 @@ CComponent * CCollider::Clone(CGameObject* _pOwnerObject)
 
 void CCollider::Free()
 {
-	//Safe_Release(m_pMesh);
+	if(m_bClone) Safe_Release(m_pMesh); 
+	// 클론만 메시를 할당하므로 원본은 릴리즈 하지 않는다.
 
 	CComponent::Free();
 }

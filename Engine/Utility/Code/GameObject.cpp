@@ -69,7 +69,9 @@ void CGameObject::LateUpdate_Object(void)
 
 void CGameObject::Render_Object(void)
 {
+	NULL_CHECK(m_pColliderCom);
 
+	m_pColliderCom->Render_Collider();
 }
 
 CGameObject * CGameObject::Get_Child(const _uint & _iIndex)

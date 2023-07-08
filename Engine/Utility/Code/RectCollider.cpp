@@ -11,7 +11,6 @@ CRectCollider::CRectCollider(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	ZeroMemory(&m_vSize, sizeof(_vec3));
 	ZeroMemory(&m_vOverlap, sizeof(_vec3));
-
 }
 
 CRectCollider::CRectCollider(const CRectCollider& rhs, CGameObject* _pOwnerObject)
@@ -19,7 +18,14 @@ CRectCollider::CRectCollider(const CRectCollider& rhs, CGameObject* _pOwnerObjec
 	, m_vSize(rhs.m_vSize)
 	, m_vOverlap(rhs.m_vOverlap)
 {
-	Ready_Collider();
+	NULL_CHECK(m_pOwnerObject);
+	NULL_CHECK(m_pOwnerObject->Get_Transform());
+
+	m_vSize = m_pOwnerObject->Get_Transform()->Get_Scale();
+
+	D3DXCreateBox(m_pGraphicDev, m_vSize.x, m_vSize.y, m_vSize.z, &m_pMesh, NULL);
+
+	NULL_CHECK_MSG(m_pMesh, L"Failed Create Box Mesh");
 }
 
 CRectCollider::~CRectCollider()
@@ -28,6 +34,7 @@ CRectCollider::~CRectCollider()
 
 HRESULT CRectCollider::Ready_Collider()
 {
+
 	return S_OK;
 }
 
@@ -64,6 +71,9 @@ void CRectCollider::Render_Collider()
 	else
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
 
+	m_pMesh->DrawSubset(0);
 
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
 }
