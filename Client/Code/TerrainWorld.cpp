@@ -60,10 +60,6 @@ void CTerrainWorld::Render_Object(void)
 
 HRESULT CTerrainWorld::Add_Component(void)
 {
-	// pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Terrain", this));
-	// NULL_CHECK_RETURN(pComponent, E_FAIL);
-	// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
 	return S_OK;
 }
 

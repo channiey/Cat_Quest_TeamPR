@@ -31,6 +31,7 @@ HRESULT CCuteMonster::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 2.f + ((rand() % 10 + 1) * 0.1f), 
 										2.f + ((rand() % 10 + 1) * 0.1f), 
 										2.f + ((rand() % 10 + 1) * 0.1f) });
+
 	/*iZ += 5.f;
 	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX - 30.f), 
 		m_pTransformCom->Get_Scale().y, 

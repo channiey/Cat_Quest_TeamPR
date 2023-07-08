@@ -17,7 +17,7 @@ public:
 private:
 	HRESULT				Ready_Layer_Environment();
 	HRESULT				Ready_Layer_Camera();
-
+	HRESULT				Ready_Layer_Monster();
 
 public:
 	static CScene_Tool* Create(LPDIRECT3DDEVICE9 pGraphicDev);

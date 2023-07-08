@@ -19,6 +19,8 @@ CTerrain::~CTerrain()
 
 HRESULT CTerrain::Ready_Object(void)
 {
+	m_bTool = false;
+
 	CGameObject::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -44,7 +46,9 @@ void CTerrain::Render_Object(void)
 {
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	if (!m_bTool) {
+		m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
