@@ -52,7 +52,7 @@ Engine::_int CTool_Camera::Update_Object(const _float& fTimeDelta)
 		Update_Perspevtive(fTimeDelta);
 		break;
 	case TOOL_VIEW::LINE:
-		//Update_Perspevtive(fTimeDelta);
+		Update_Perspevtive(fTimeDelta);
 		break;
 	case TOOL_VIEW::TYPEEND:
 		break;

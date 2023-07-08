@@ -3,7 +3,7 @@
 IMPLEMENT_SINGLETON(CManagement)
 
 /* 툴모드로 시작할지, 게임모드로 시작할지 m_ePlayMode(PLAY_MODE::GAME) 매개변수로 결정하면 됩니다. */
-CManagement::CManagement() : m_pScene(nullptr), m_ePlayMode(PLAY_MODE::GAME), m_eGameStatus(GAME_STATUS::PLAYING)
+CManagement::CManagement() : m_pScene(nullptr), m_ePlayMode(PLAY_MODE::TOOL), m_eGameStatus(GAME_STATUS::PLAYING)
 {
 }
 
