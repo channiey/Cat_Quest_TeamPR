@@ -5,7 +5,8 @@
 
 CTransform::CTransform()
 	: m_vAngle(vec3.zero)
-	, m_vScale(vec3.one)	
+	, m_vScale(vec3.one)
+	, m_vDir(vec3.right)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
 	D3DXMatrixIdentity(&m_matWorld);
@@ -74,6 +75,15 @@ void CTransform::Translate(const _vec3 & _vDir, const _float & fSpeed)
 	Cal_WorldMat();
 }
 
+void CTransform::Translate(const _float& fSpeed)
+{
+	m_vInfo[INFO_POS] += *D3DXVec3Normalize(&m_vDir, &m_vDir) * fSpeed;
+
+	memcpy(&m_matWorld.m[INFO_POS][0], &m_vInfo[INFO_POS], sizeof(_vec3));
+
+	Cal_WorldMat();
+}
+
 void CTransform::Rotate(const DIRID & _eDir, const _float& fSpeed, const SPACEID _eSpace)
 {
 	// 현재 자신의 회전 상태에서 매개변수로 받은 축을 기준으로 매개변수로 받은 값 만큼 회전한다.(eDir : 축, _eSpace 스페이스 공간)
@@ -134,7 +144,11 @@ void CTransform::Set_Scale(const _vec3& _vPos)
 	Cal_WorldMat();
 }
 
-
+void CTransform::Reverse()
+{
+	m_vScale.x *= -1;
+	Cal_WorldMat();
+}
 
 void CTransform::Cal_WorldMat()
 {

@@ -39,16 +39,22 @@ void CPlayerState_bIdle::Render_State()
 
 STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down('A'))
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 		return STATE_TYPE::FRONT_WALK;
-	else if (CInputDev::GetInstance()->Key_Down('D'))
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
 		return STATE_TYPE::FRONT_WALK;
-	else if (CInputDev::GetInstance()->Key_Down('W'))
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 		return STATE_TYPE::BACK_WALK;
-	else if (CInputDev::GetInstance()->Key_Down('S'))
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 		return STATE_TYPE::FRONT_WALK;
-	else
-		return m_eState;
+
+	if (CInputDev::GetInstance()->Key_Down(VK_SPACE))
+		return STATE_TYPE::BACK_ROLL;
+
+	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
+		return STATE_TYPE::BACK_ATTACK;
+
+	return m_eState;
 }
 
 CPlayerState_bIdle* CPlayerState_bIdle::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
