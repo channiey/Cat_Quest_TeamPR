@@ -85,7 +85,9 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::ANIMATOR,
 		CAnimator::Create(m_pGraphicDev)), E_FAIL);
 
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::AICOM,
+		CAIComponent::Create(m_pGraphicDev)), E_FAIL);
+	
 #pragma endregion
 
 

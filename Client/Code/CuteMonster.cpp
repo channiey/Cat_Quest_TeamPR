@@ -85,9 +85,11 @@ HRESULT CCuteMonster::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Monster", this));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Monster", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
 
 	return S_OK;
 }
@@ -112,7 +114,7 @@ CCuteMonster* CCuteMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Monster Create Failed");
+		MSG_BOX("CuteMonster Create Failed");
 		return nullptr;
 	}
 
