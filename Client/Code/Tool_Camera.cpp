@@ -52,7 +52,7 @@ Engine::_int CTool_Camera::Update_Object(const _float& fTimeDelta)
 		Update_Perspevtive(fTimeDelta);
 		break;
 	case TOOL_VIEW::LINE:
-		Update_Orthographic(fTimeDelta);
+		//Update_Perspevtive(fTimeDelta);
 		break;
 	case TOOL_VIEW::TYPEEND:
 		break;
@@ -71,17 +71,30 @@ void CTool_Camera::Key_Input(const _float& fTimeDelta)
 {
 	if (CInputDev::GetInstance()->Key_Down(VK_F1))
 	{
-		m_pCameraCom->m_fDistance = m_fNearZoom * 2.f;
 		m_eView = TOOL_VIEW::DEFAULT;
+
+		// Set Up
+		m_pCameraCom->m_fDistance = m_fNearZoom * 2.f;
+		CCameraMgr::GetInstance()->Set_Projection();
+		CCameraMgr::GetInstance()->Set_Viewport();
 	}
 	else if (CInputDev::GetInstance()->Key_Down(VK_F2))
 	{
-		m_pCameraCom->m_fDistance = m_fNearZoom;
 		m_eView = TOOL_VIEW::INGAME;
+
+		// Set Up
+		m_pCameraCom->m_fDistance = m_fNearZoom;
+		CCameraMgr::GetInstance()->Set_Projection();
+		CCameraMgr::GetInstance()->Set_Viewport();
 	}
 	else if (CInputDev::GetInstance()->Key_Down(VK_F3))
 	{
 		m_eView = TOOL_VIEW::LINE;
+		m_pCameraCom->m_fDistance = 30.f;
+
+		_matrix    matProj;
+		D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.1f, 500.f);
+		m_pCameraCom->Set_Projection(matProj);  
 	}
 }
 
@@ -100,12 +113,12 @@ void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 
 	if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Z))
 	{
-		if (TOOL_VIEW::DEFAULT == m_eView)
+		if (TOOL_VIEW::DEFAULT == m_eView || TOOL_VIEW::LINE == m_eView)
 		{
-		if (0 < dwMouse)
-			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
-		else
-			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+			if (0 < dwMouse)
+				m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+			else
+				m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
 
 		}
 		else if (TOOL_VIEW::INGAME == m_eView)
@@ -127,9 +140,19 @@ void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
 	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * 2.f;
 
-	m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
-									fY,
-									vFollowPos.z - m_pCameraCom->m_fDistance });
+	if (TOOL_VIEW::LINE == m_eView)
+	{
+		m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
+										m_pCameraCom->m_fDistance,
+										vFollowPos.z});
+
+	}
+	else
+	{
+		m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
+										fY,
+										vFollowPos.z - m_pCameraCom->m_fDistance });
+	}
 
 	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
 	m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
@@ -138,6 +161,30 @@ void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 
 void CTool_Camera::Update_Orthographic(const _float& fTimeDelta)
 {
+	_long dwMouse = 0;
+	_matrix matView;
+	D3DXMatrixIdentity(&matView);
+
+	if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Z))
+	{
+		if (0 < dwMouse)
+			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+		else
+			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+	}
+
+	NULL_CHECK(m_pCameraCom->m_pLookAt);
+	NULL_CHECK(m_pCameraCom->m_pFollow);
+
+	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vCamPos = { vFollowPos.x, m_pCameraCom->m_fDistance, vFollowPos.z };
+	
+	D3DXMatrixLookAtLH(&matView, &vCamPos, &vFollowPos, &vec3.up);
+
+	m_pCameraCom->Set_ViewSpace(matView);
+
+	/*_vec3 vPos = vFollowPos;
+	cout <<  vPos.x << "\t" << vPos.y << "\t" << vPos.z << endl;*/
 }
 
 void CTool_Camera::Free()

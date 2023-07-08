@@ -21,7 +21,7 @@ HRESULT CTerrainWorld::Ready_Object(void)
 {
 	CTerrain::Ready_Object();
 
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	//FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
@@ -30,7 +30,7 @@ _int CTerrainWorld::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CTerrain::Update_Object(fTimeDelta);
 
-	Engine::Add_RenderGroup(RENDER_NONALPHA, this);
+	//Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
 	return _int();
 }

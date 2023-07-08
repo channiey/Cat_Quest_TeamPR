@@ -27,7 +27,6 @@ CScene_Tool::~CScene_Tool()
 HRESULT CScene_Tool::Ready_Scene()
 {
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL)
-
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
 

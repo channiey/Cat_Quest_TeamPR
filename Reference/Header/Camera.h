@@ -23,6 +23,10 @@ public:
 	HRESULT					Set_Projection();	// 투영 변환
 	HRESULT					Set_Viewport();		// 뷰포트 변환
 
+	HRESULT					Set_ViewSpace(const _matrix& _matView);
+	HRESULT					Set_Projection(const _matrix& _matProj);	
+	HRESULT					Set_Viewport(const D3DVIEWPORT9& _tViewport);
+
 public:
 	void					Set_LookAt(CGameObject* _pLookAt) { m_pLookAt = _pLookAt; }
 	void					Set_Follow(CGameObject*	_pFollow) { m_pFollow = _pFollow; }

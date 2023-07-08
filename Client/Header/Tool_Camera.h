@@ -23,7 +23,7 @@ public:
 
 public:
 	void					Key_Input(const _float& fTimeDelta);
-
+	const TOOL_VIEW&		Get_ViewType() const { return m_eView; }
 
 private:
 	HRESULT					Add_Component(void);

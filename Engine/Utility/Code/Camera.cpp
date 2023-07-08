@@ -155,6 +155,25 @@ HRESULT CCamera::Set_Viewport()
 	return S_OK;
 }
 
+
+HRESULT CCamera::Set_ViewSpace(const _matrix& _matView)
+{
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &_matView);
+	return S_OK;
+}
+
+HRESULT CCamera::Set_Projection(const _matrix& _matProj)
+{
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &_matProj);
+	return S_OK;
+}
+
+HRESULT CCamera::Set_Viewport(const D3DVIEWPORT9& _tViewport)
+{
+	m_pGraphicDev->SetViewport(&_tViewport);
+	return S_OK;
+}
+
 CCamera * CCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, HWND* const _pHwnd)
 {
 	CCamera*		pInstance = new CCamera(pGraphicDev, _pHwnd);
