@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Engine_Define.h"
 
+
 BEGIN(Engine)
 
 class CTexture;
@@ -27,20 +28,15 @@ public:
 	virtual void			Render_Object() override;
 
 
-public:
-
-	bool					Get_UIType() { return m_bViewUI; }
-	void					Set_UIType(bool bViewUI) { m_bViewUI = bViewUI; }
 
 protected:
 	HRESULT					Add_Component();
 
 protected:
-	CTexture*				m_pTextureCom = nullptr;
-	bool					m_bViewUI;
-
-public:
-	static CUI*				Create(LPDIRECT3DDEVICE9 pGraphicDev );
+	
+	CTexture*				m_pTextureCom;
+	UI_TYPE					m_eUIType;
+	
 	
 
 protected:

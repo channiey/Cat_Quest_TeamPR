@@ -27,15 +27,15 @@ protected:
 
 	bool		m_bPick;
 
-	RECT       m_UIRect;
+	RECT       m_rcUI;
 
 	_matrix		matWorld;
 
-	float	m_fX;
-	float	m_fY;
+	_float	m_fX;
+	_float	m_fY;
 
-	float	m_fSizeX;
-	float	m_fSizeY;
+	_float	m_fSizeX;
+	_float	m_fSizeY;
 
 private:
 

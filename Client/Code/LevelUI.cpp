@@ -17,7 +17,7 @@ CLevelUI::~CLevelUI()
 
 HRESULT CLevelUI::Ready_Object()
 {
-	m_bViewUI = true;
+	m_eUIType = UI_TYPE::VIEW;
 	
 	D3DXMatrixIdentity(&matWorld);
 

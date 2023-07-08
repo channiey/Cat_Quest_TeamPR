@@ -20,7 +20,7 @@ CTabUI::~CTabUI()
 
 HRESULT CTabUI::Ready_Object()
 {
-	m_bViewUI = true;
+	m_eUIType = UI_TYPE::VIEW;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -63,7 +63,7 @@ void CTabUI::LateUpdate_Object()
 	matWorld._11 = m_fSizeX;
 	matWorld._22 = m_fSizeY;
 
-	m_UIRect = { long(m_fX - m_fSizeX / 2.f) , long(m_fY - m_fSizeY / 2.f) , long(m_fX + m_fSizeX / 2.f) , long(m_fY + m_fSizeY / 2.f) };
+	m_rcUI = { long(m_fX - m_fSizeX / 2.f) , long(m_fY - m_fSizeY / 2.f) , long(m_fX + m_fSizeX / 2.f) , long(m_fY + m_fSizeY / 2.f) };
 	
 	
 
@@ -101,7 +101,7 @@ void CTabUI::Picking_UI()
 
 	pt.y = WINCY - pt.y;  
 
-	if (PtInRect(&m_UIRect, pt))
+	if (PtInRect(&m_rcUI, pt))
 	{
 		m_bPick = true;
 	
