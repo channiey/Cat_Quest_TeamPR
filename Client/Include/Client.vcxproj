@@ -175,6 +175,7 @@
     <ClInclude Include="..\Header\Dungeon.h" />
     <ClInclude Include="..\Header\Forest.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
+    <ClInclude Include="..\Header\Hedgehog.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\ManaBarUI.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="..\Code\Dungeon.cpp" />
     <ClCompile Include="..\Code\Forest.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
+    <ClCompile Include="..\Code\Hedgehog.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\ManaBarUI.cpp" />

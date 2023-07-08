@@ -6,6 +6,7 @@
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER)
 	, m_pTextureCom(nullptr)
+	, m_pAICom(nullptr)
 {
 }
 
@@ -63,13 +64,27 @@ HRESULT CMonster::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
+	// Rect Collider
 	pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
 
+	// Rc Texture
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+
+	// Texture
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Monster", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Ai
+	/*pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);*/
+
+
 
 	return S_OK;
 }
@@ -79,17 +94,17 @@ void CMonster::Free()
 	__super::Free();
 }
 
-CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev)
-{
-	CMonster*	pInstance = new CMonster(pGraphicDev);
-
-	if (FAILED(pInstance->Ready_Object()))
-	{
-		Safe_Release(pInstance);
-
-		MSG_BOX("Monster Create Failed");
-		return nullptr;
-	}
-
-	return pInstance;
-}
+//CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+//{
+//	CMonster*	pInstance = new CMonster(pGraphicDev);
+//
+//	if (FAILED(pInstance->Ready_Object()))
+//	{
+//		Safe_Release(pInstance);
+//
+//		MSG_BOX("Monster Create Failed");
+//		return nullptr;
+//	}
+//
+//	return pInstance;
+//}

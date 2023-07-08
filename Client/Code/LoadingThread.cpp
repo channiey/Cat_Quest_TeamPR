@@ -133,6 +133,11 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_ManaBar",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/ManaBar.png")), E_FAIL);
 
+	// Monster - Hedgehog
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Hedgehog",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/basic_hedgehog.png")), E_FAIL);
+
+
 #pragma endregion
 
 #pragma region LEE

@@ -180,6 +180,7 @@ call CopyUtility.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Header\AIComponent.h" />
     <ClInclude Include="..\..\Header\Animation.h" />
     <ClInclude Include="..\..\Header\Animator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
@@ -210,6 +211,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\CameraObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\AIComponent.cpp" />
     <ClCompile Include="..\Code\Animation.cpp" />
     <ClCompile Include="..\Code\Animator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />

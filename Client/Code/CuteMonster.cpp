@@ -20,7 +20,7 @@ CCuteMonster::~CCuteMonster()
 {
 }
 
-static float iZ = 0;
+//static float iZ = 0;
 HRESULT CCuteMonster::Ready_Object()
 {
 	CMonster::Ready_Object();
@@ -85,9 +85,9 @@ HRESULT CCuteMonster::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Monster", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Monster", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	return S_OK;
 }
@@ -95,6 +95,8 @@ HRESULT CCuteMonster::Add_Component()
 void CCuteMonster::Move(const _float& fTimeDelta)
 {
 	m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * -m_tMoveInfo.fMoveSpeed * 0.1f);
+
+
 }
 
 void CCuteMonster::Free()
