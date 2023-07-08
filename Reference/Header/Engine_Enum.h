@@ -26,6 +26,10 @@ namespace Engine
 
 	enum class STATE_TYPE			{ IDLE, WALK, ATTACK, HIT, DEAD, TYPEEND }; // 원하는 상태 있으면 추가
 
+	enum class UI_TYPE				{ VIEW , WORLD , TYPEEND }; // UI 종류 (뷰포트 사용, 월드 사용)
+
+
+
 	enum ARG_TAG { ARG_TILE, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류
 
 	enum TILE_TAG {TILE_GRASS_FIELD, TILE_WATER_FIELD, TILE_ICE_FIELD, TILE_ICE_DUNGEON, TILE_STONE_DUNGEON, 
@@ -33,6 +37,7 @@ namespace Engine
 
 	enum OBJ_TAG { OBJ_BUILDING, OBJ_CHEST, OBJ_ENVIRONMENT, 
 		OBJ_MAGESHOP, OBJ_SMITHHOUSE, OBJ_TOWER, OBJ_OTHER }; // IMGUI 오브젝트 폴더 경로 불러오기 위한 타일 종류 분류
+
 
 	enum WINMODE					{ MODE_FULL	, MODE_WIN };
 	

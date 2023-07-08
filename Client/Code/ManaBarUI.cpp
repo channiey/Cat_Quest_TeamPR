@@ -21,7 +21,7 @@ HRESULT CManaBarUI::Ready_Object()
 	CGameObject::Ready_Object();
 
 
-	m_bViewUI = false;
+	m_eUIType = UI_TYPE::WORLD;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
