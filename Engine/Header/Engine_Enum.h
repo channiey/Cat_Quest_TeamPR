@@ -30,6 +30,8 @@ namespace Engine
 
 	enum class UI_TYPE				{ VIEW , WORLD , TYPEEND }; // UI 종류 (뷰포트 사용, 월드 사용)
 
+	enum class LINE_TYPE			{ LAND, SEA, ICE, TYPEEND }; // 라인 종류
+
 
 
 	enum ARG_TAG { ARG_TILE, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류

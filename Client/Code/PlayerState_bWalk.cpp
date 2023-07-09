@@ -34,7 +34,7 @@ void CPlayerState_bWalk::LateUpdate_State()
 
 void CPlayerState_bWalk::Render_State()
 {
-	cout << "지금은 뒤걷기" << endl;
+	//cout << "지금은 뒤걷기" << endl;
 }
 
 STATE_TYPE CPlayerState_bWalk::Key_Input(const _float& fTimeDelta)

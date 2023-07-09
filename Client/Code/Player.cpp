@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 
-#include "CubeCol.h"
+#include "RectCollider.h"
 
 #include "PlayerState_Hit.h"
 #include "PlayerState_fIdle.h"
@@ -187,6 +187,114 @@ void CPlayer::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object(); // 콜라이더 출력
+
+	_vec3 vPos = m_pTransformCom->Get_Info(INFO_POS);
+
+}
+
+void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
+{
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::MONSTER:
+	{
+		_vec3 vOverlap	= static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap();
+		_vec3 vMyPos	= m_pTransformCom->Get_Info(INFO_POS);
+		_vec3 vColPos	= _pColObj->Get_Transform()->Get_Info(INFO_POS);
+
+		if (vOverlap.x > vOverlap.z)
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x, 
+												vMyPos.y, 
+												vMyPos.z - vOverlap.z}); 
+			else  
+ 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x, 
+												vMyPos.y, 
+												vMyPos.z + vOverlap.z}); 
+		}
+		else 
+		{
+			if (vMyPos.x < vColPos.x) 
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y, 
+												vMyPos.z });  
+			else 
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y, 
+												vMyPos.z });
+		}
+		//cout << "Enter\t" << m_pTransformCom->Get_Info(INFO_POS).x << endl;
+	}
+		break;
+	case Engine::OBJ_TYPE::NPC:
+		break;
+	case Engine::OBJ_TYPE::ITEM:
+		break;
+	case Engine::OBJ_TYPE::PROJECTILE:
+		break;
+	case Engine::OBJ_TYPE::CAMERA:
+		break;
+	case Engine::OBJ_TYPE::ENVIRONMENT:
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
+{
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::MONSTER:
+	{
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap();
+		_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
+		_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+
+		if (vOverlap.x > vOverlap.z) 
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z - vOverlap.z}); 
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z + vOverlap.z}); 
+		}
+		else 
+		{
+			if (vMyPos.x < vColPos.x)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });  
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y,
+												vMyPos.z }); 
+		}
+		//cout << "Stay\t" << m_pTransformCom->Get_Info(INFO_POS).x << endl;
+
+	}
+	break;
+	case Engine::OBJ_TYPE::NPC:
+		break;
+	case Engine::OBJ_TYPE::ITEM:
+		break;
+	case Engine::OBJ_TYPE::PROJECTILE:
+		break;
+	case Engine::OBJ_TYPE::CAMERA:
+		break;
+	case Engine::OBJ_TYPE::ENVIRONMENT:
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CPlayer::Add_Component()

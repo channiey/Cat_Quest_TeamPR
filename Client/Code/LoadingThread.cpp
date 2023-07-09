@@ -29,7 +29,7 @@ unsigned int CLoadingThread::Thread_Main(void * pArg)
 		iFlag = pLoading->Loading_For_World();
 		break;
 	case Engine::LOADING_THREAD_TYPE::TOOL:
-		iFlag = pLoading->Loading_For_Tool();
+		iFlag = pLoading->Loading_For_World();
 		break;
 	case Engine::LOADING_THREAD_TYPE::TYPEEND:
 		break;
@@ -69,6 +69,9 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX,
 		CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
+		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
+
 	// Collider
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
 		CLineCollider::Create(m_pGraphicDev)), E_FAIL);
@@ -79,12 +82,15 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_RECT,
 		CRectCollider::Create(m_pGraphicDev)), E_FAIL);
 
+	// State Machine
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::STATEMACHINE,
 		CStateMachine::Create(m_pGraphicDev)), E_FAIL);
 
+	// Animator
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::ANIMATOR,
 		CAnimator::Create(m_pGraphicDev)), E_FAIL);
 
+	// AI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::AICOM,
 		CAIComponent::Create(m_pGraphicDev)), E_FAIL);
 	
@@ -93,17 +99,12 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region Texture
 
-	// Texture
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/test2.png")), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
 #pragma region KANG
+
 	// 터레인 월드
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
-		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/test2.png")), E_FAIL);
 
 	// 건물
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Building",
@@ -140,6 +141,8 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Hedgehog",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/basic_hedgehog.png")), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
 #pragma endregion
 
@@ -187,14 +190,10 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region YUN
 
-	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Logo",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/title.png")), E_FAIL);*/
 
 #pragma endregion
 
 #pragma endregion
-
-
 
 	m_bFinish = true;
 
@@ -203,67 +202,6 @@ _uint CLoadingThread::Loading_For_World()
 
 _uint CLoadingThread::Loading_For_Tool()
 {
-#pragma region Default
-
-	// Camera
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::CAMERA,
-		CCamera::Create(m_pGraphicDev, &g_hWnd)), E_FAIL);
-
-	// Transform
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::TRANSFORM,
-		CTransform::Create(m_pGraphicDev)), E_FAIL);
-
-	// Vertex
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX,
-		CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
-		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
-	
-	//// Collider
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
-	//	CLineCollider::Create(m_pGraphicDev)), E_FAIL);
-
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_CIRCLE,
-	//	CCircleCollider::Create(m_pGraphicDev)), E_FAIL);
-
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_RECT,
-	//	CRectCollider::Create(m_pGraphicDev)), E_FAIL);
-
-
-#pragma endregion
-
-
-#pragma region Texture
-	// Texture
- 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/test2.png")), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
-#pragma region KANG
-	// 건물
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Building",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/town_1.png")), E_FAIL);
-
-#pragma endregion
-
-#pragma region KIM
-
-#pragma endregion
-
-#pragma region LEE
-
-#pragma endregion
-
-#pragma region YUN
-
-#pragma endregion
-
-#pragma endregion
-
-
-
 	m_bFinish = true;
 
 	return 0;

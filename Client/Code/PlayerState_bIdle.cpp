@@ -34,7 +34,7 @@ void CPlayerState_bIdle::LateUpdate_State()
 
 void CPlayerState_bIdle::Render_State()
 {
-	cout << "지금은 뒤서있기" << endl;
+	//cout << "지금은 뒤서있기" << endl;
 }
 
 STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)

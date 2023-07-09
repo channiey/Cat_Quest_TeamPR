@@ -60,7 +60,6 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 
 			if (COL_TYPE::RECT == _eColType1 && COL_TYPE::RECT == _eColType2)
 			{
-				// 이거 연산 괜찮을까
 				pCol1 = pObj1->Get_Collider();
 				pCol2 = pObj2->Get_Collider();
 
@@ -220,9 +219,6 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 
 const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* const _pObj2)
 {
-	// 건물과 플레이어블 오브젝트 (밀어내기 필요) 
-	// 플레이어블 오브젝트와 투사체?
-	
 	// 밀어내기는 밀어낼 값을 콜라이더에 저장하고, 밀어내기에 대한 구현은 각 오브젝트의 OnCollision에서 구현하도록 한다.
 
 	CRectCollider* pCol1 = static_cast<CRectCollider*>(_pObj1->Get_Collider());
@@ -237,17 +233,18 @@ const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* co
 	// 애니메이션에서 스케일을 -로 사용하는 경우에 대한 예외처리
 	_float fRadiusX = (fabs(pTrans1->Get_Scale().x) + fabs(pTrans2->Get_Scale().x)) * 0.5f;
 	_float fRadiusZ = (fabs(pTrans1->Get_Scale().z) + fabs(pTrans2->Get_Scale().z)) * 0.5f;
+
+	// Z 포지션 예외처리
 	if (pTrans1->Get_Info(INFO_POS).z < pTrans2->Get_Info(INFO_POS).z)
 		fRadiusZ += fabs(pTrans2->Get_Scale().z);
-
 
 	if ((fRadiusX >= fX) && (fRadiusZ >= fZ))
 	{
 		_float fOverX = fRadiusX - fX;
-		_float fOverY = fRadiusZ - fZ;
+		_float fOverZ = fRadiusZ - fZ;
 
-		pCol1->Set_OverLap(_vec3{ fOverX, fOverY, 0.f });
-		pCol2->Set_OverLap(_vec3{ fOverX, fOverY, 0.f });
+		pCol1->Set_OverLap(_vec3{ fOverX, 0.f, fOverZ });
+		pCol2->Set_OverLap(_vec3{ fOverX, 0.f, fOverZ });
 
 		return TRUE;
 	}
@@ -257,15 +254,6 @@ const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* co
 
 const _bool CCollisionMgr::Check_Rect_Circle(CGameObject* const _pObj1, CGameObject* const _pObj2)
 {
-	// 몬스터 범위기반 콜라이더
-
-	// 아직 필요가 확실치 않다.
-
-	// 필요하면 그때 바로 구현
-
-	// Ref
-	// https://www.google.com/search?q=%EC%82%AC%EA%B0%81%ED%98%95+%EC%9B%90+%EC%B6%A9%EB%8F%8C&newwindow=1&sxsrf=AB5stBgc6PwOAQK7Ftd2ZsFN2JfzcZQq4w%3A1688429989915&ei=pWWjZOC_N9PWseMPmpGLyAM&ved=0ahUKEwigppvu4_P_AhVTa2wGHZrIAjkQ4dUDCA8&uact=5&oq=%EC%82%AC%EA%B0%81%ED%98%95+%EC%9B%90+%EC%B6%A9%EB%8F%8C&gs_lp=Egxnd3Mtd2l6LXNlcnAiFOyCrOqwge2YlSDsm5Ag7Lap64-MMgUQABiABEilG1AAWMUacAZ4AJABAZgBnwGgAa0TqgEEMC4yMrgBA8gBAPgBAcICBBAjGCfCAhAQLhiABBgUGIcCGLEDGIMBwgILEAAYgAQYsQMYgwHCAgcQABiKBRhDwgIOEC4YxwEYsQMY0QMYgATCAgsQLhiABBixAxiDAcICCBAAGIAEGLEDwgIKEAAYgAQYFBiHAsICBBAAGB7CAgYQABgeGA_CAggQABgeGA8YCsICBhAAGAUYHsICCBAAGAUYHhgPwgIGEAAYCBgewgIHECEYoAEYCsICBxAAGA0YgATiAwQYACBBiAYB&sclient=gws-wiz-serp
-
 
 	return TRUE;
 }
@@ -287,8 +275,6 @@ const _bool CCollisionMgr::Check_Line_Rect(CGameObject* const _pObj1, CLineObjec
 
 	// 반복문 돌면서 렉트를 구성하는 선분 4개와 라인 선분 1를 CCW해야한다.
 	// 사각형과 선분의 충돌 검사라면 CCW 16번인데 괜찮을까? -> 일단 해보고 최적화
-
-
 
 
 	return TRUE;

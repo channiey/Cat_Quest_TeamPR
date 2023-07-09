@@ -38,7 +38,7 @@ void CPlayerState_fRoll::LateUpdate_State()
 
 void CPlayerState_fRoll::Render_State()
 {
-    cout << "지금은 앞구르기" << endl;
+    //cout << "지금은 앞구르기" << endl;
 }
 
 STATE_TYPE CPlayerState_fRoll::Key_Input(const _float& fTimeDelta)

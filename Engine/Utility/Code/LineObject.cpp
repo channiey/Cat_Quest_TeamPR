@@ -4,14 +4,14 @@
 
 CLineObject::CLineObject(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::CAMERA)
-	, m_pLineColliderCom(nullptr)
+	, m_eLineType(LINE_TYPE::TYPEEND)
 {
 
 }
 
 CLineObject::CLineObject(const CLineObject& rhs)
 	: Engine::CGameObject(rhs)
-	, m_pLineColliderCom(rhs.m_pLineColliderCom)
+	, m_eLineType(rhs.m_eLineType)
 {
 }
 
@@ -31,8 +31,7 @@ HRESULT CLineObject::Ready_Object(void)
 HRESULT CLineObject::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
-
-	//pComponent = m_pLineColliderCom = dynamic_cast<CLineCollider*>(CProtoMgr::GetInstance()->Clone_Proto(L"Proto_LineCollider", this));
+	pComponent = m_pColliderCom = dynamic_cast<CLineCollider*>(CProtoMgr::GetInstance()->Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_LINE, pComponent);
 

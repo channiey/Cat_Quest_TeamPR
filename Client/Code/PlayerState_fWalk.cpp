@@ -34,7 +34,7 @@ void CPlayerState_fWalk::LateUpdate_State()
 
 void CPlayerState_fWalk::Render_State()
 {
-   cout << "Áö±ÝÀº °È±â" << endl;
+   //cout << "Áö±ÝÀº °È±â" << endl;
 }
 
 STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)

@@ -75,19 +75,9 @@ void CScene_World::Render_Scene()
 
 #pragma endregion
 
-	// FPS
 	swprintf_s(szBuf, L"FPS : %.d", _int(1.f / Engine::Get_TimeDelta(L"Timer_FPS65")));
 	SCREEN_MSG(szBuf, rc);
 
-	//// Camera Pos
-	//vPos = CCameraMgr::GetInstance()->Get_CurCamera()->Get_Transform()->Get_Info(INFO_POS);
-	//swprintf_s(szBuf, L"CAM : %.2f, %.2f, %.2f", vPos.x, vPos.y, vPos.z);
-	//SCREEN_MSG(szBuf, rc);
-
-	//// Player Pos
-	//vPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
-	//swprintf_s(szBuf, L"PLAYER : %.2f, %.2f, %.2f", vPos.x, vPos.y, vPos.z);
-	//SCREEN_MSG(szBuf, rc);
 }
 
 void CScene_World::Free()

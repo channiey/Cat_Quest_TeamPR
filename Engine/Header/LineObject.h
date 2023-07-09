@@ -16,13 +16,19 @@ protected:
 public:
 	virtual HRESULT						Ready_Object(void);
 
+public:
+	const LINE_TYPE&					Get_LineType() const { return m_eLineType; }
+	void								Set_LineType(const LINE_TYPE& _eLineType) { m_eLineType = _eLineType; }
+
 private:
 	HRESULT								Add_Component(void);
 
+
+private:
+	LINE_TYPE							m_eLineType;
+
 protected:
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
-	CLineCollider*						m_pLineColliderCom;
-
 
 public:
 	static CLineObject*					Create(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -30,7 +36,6 @@ public:
 public:
 	virtual void						Free();
 
-	//friend class CCollisionMgr;
 };
 
 END

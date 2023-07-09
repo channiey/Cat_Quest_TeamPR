@@ -39,7 +39,7 @@ public:
 
 public:
 	void							Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, // 오브젝트 vs 오브젝트
-										const COL_TYPE& _eColType1 = COL_TYPE::RECT, const COL_TYPE& _eColType2 = COL_TYPE::RECT);
+													const COL_TYPE& _eColType1 = COL_TYPE::RECT, const COL_TYPE& _eColType2 = COL_TYPE::RECT);
 
 	void							Check_Line_Collision(const OBJ_TYPE& _eType); // 오브젝트 vs 라인
 

@@ -17,6 +17,7 @@ public:
 	virtual void				Render_Collider() override;
 
 	void						Set_OverLap(const _vec3& _vOverlap) { memcpy(&m_vOverlap, &_vOverlap, sizeof(_vec3)); }
+	const _vec3&				Get_Overlap() const { return m_vOverlap; }
 
 private:
 	_vec3						m_vSize;
