@@ -12,6 +12,7 @@ namespace Engine
 										BUFFER_RC_TEX, BUFFER_RC_COL, BUFFER_CUBE, BUFFER_TERRAIN_TEX, BUFFER_TERRAIN_RC_TEX,
 										TEXTURE, CAMERA, AICOM, TYPEEND }; // 컴포넌트 종류
 
+
 	enum class EVENT_TYPE			{ ADD_OBJ, DELETE_OBJ, RETURN_OBJ, CHANGE_SCENE, TYPEEND }; // 이벤트 타입 (이벤트 매니저)
 
 	enum class COL_TYPE				{ RECT, CIRCLE, LINE, TYPEEND }; // 콜라이더 종류, 충돌 종류
