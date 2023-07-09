@@ -23,13 +23,10 @@ HRESULT CBat::Ready_Object()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 5.f;
+	m_tMoveInfo.fMoveSpeed = 10.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
-	// Stat Info
-	//m_tStatInfo.bDead = false;
-
-
+	
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 1.6f, 1.08f, 2.f });
 	
@@ -40,21 +37,31 @@ HRESULT CBat::Ready_Object()
 	m_vOriginPos = { 20.f, m_pTransformCom->Get_Scale().y, 10.f };
 
 
-	fPatternTime = CTimerMgr::GetInstance()->Get_TimeDelta(L"Timer_FPS65");
+	fPatternTime = 2.f;
+	fAccTime	 = 0.f;
 
     return S_OK;
 }
 
 _int CBat::Update_Object(const _float& fTimeDelta)
 {
+
+	_int iExit = CMonster::Update_Object(fTimeDelta);
+
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	
+	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
 
 
+	fAccTime += fTimeDelta;
 
+	if(fPatternTime <= fAccTime)
+	{
 		Move(fTimeDelta);
 
+		fAccTime = 0.f;
+	}
 	
-	_int iExit = CMonster::Update_Object(fTimeDelta);
 	return iExit;
 }
 
@@ -102,18 +109,13 @@ HRESULT CBat::Add_Component()
 
 void CBat::Move(const _float& fTimeDelta)
 {
-	if (fPatternTime + 2.f <= fTimeDelta)
-	{
-		m_pAICom->Random_Move(
+	
+	  m_pAICom->Random_Move(
 			&m_vOriginPos,
 			&m_pTransformCom->Get_Info(INFO_POS),
 			fTimeDelta,
 			m_tMoveInfo.fMoveSpeed
 		);
-
-		fPatternTime = fTimeDelta;
-	}
-
 
 }
 

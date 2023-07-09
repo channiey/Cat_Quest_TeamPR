@@ -36,31 +36,28 @@ _int CAIComponent::Update_Component(const _float& fTimeDelta)
 void CAIComponent::Random_Move(const _vec3* vOriginPos, const _vec3* vCurPos, const _float& fTimeDelta, const _float& fSpeed)
 {
 	_int RandomDir;
+	
 	RandomDir = rand() % 4 + 1;
 	
-
 	switch (RandomDir)
 	{
 	case 1:
+		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.right);
-		vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
-		m_pOwnerObject->Get_Transform()->Translate(fTimeDelta * fSpeed);
 		break;
 	case 2:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.forward);
-		vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
-		m_pOwnerObject->Get_Transform()->Translate(fTimeDelta * fSpeed);
+		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.left);
 		break;
 	case 3:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.left);
-		vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
-		m_pOwnerObject->Get_Transform()->Translate(fTimeDelta * fSpeed);
+		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.forward);
 		break;
 	case 4:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.back);
-		vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
-		m_pOwnerObject->Get_Transform()->Translate(fTimeDelta * fSpeed);
+		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
+		m_pOwnerObject->Get_Transform()->Set_Dir( vec3.back);
 		break;
+	
 	default:
 		break;
 	}

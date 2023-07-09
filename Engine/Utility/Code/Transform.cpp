@@ -19,6 +19,7 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
 	ZeroMemory(&m_vScale	, sizeof(_vec3));
 	ZeroMemory(&m_quatQ		, sizeof(_quat));
 	ZeroMemory(&m_vInfo		, sizeof(_vec3) * INFO_END);
+	ZeroMemory(& m_vDir     , sizeof(_vec3));
 	D3DXMatrixIdentity(&m_matWorld);
 
 	Cal_WorldMat();
@@ -193,6 +194,8 @@ HRESULT CTransform::Ready_Transform()
 	D3DXMatrixIdentity(&m_matWorld);
 	for (_int i = 0; i < INFO_END; ++i)
 		memcpy(&m_vInfo[i], &m_matWorld.m[i][0], sizeof(_vec3));
+
+	m_vDir = vec3.right;
 
 	return S_OK;
 }
