@@ -101,7 +101,7 @@ HRESULT CHedgehog::Add_Component()
 void CHedgehog::Move(const _float& fTimeDelta)
 {
 
-
+	// 플레이어 위치 가져오기
 	CTransform * pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 
