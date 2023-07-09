@@ -30,7 +30,7 @@ HRESULT CHedgehog::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
 	//m_pTransformCom->Set_Pos(_vec3{ 300.f, m_pTransformCom->Get_Scale().y, 300.f });
 
 	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX - 30.f + rand() % 40),
