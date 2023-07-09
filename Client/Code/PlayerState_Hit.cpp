@@ -34,7 +34,7 @@ void CPlayerState_Hit::LateUpdate_State()
 
 void CPlayerState_Hit::Render_State()
 {
-	cout << "지금은 맞음" << endl;
+	//cout << "지금은 맞음" << endl;
 }
 
 STATE_TYPE CPlayerState_Hit::Key_Input(const _float& fTimeDelta)

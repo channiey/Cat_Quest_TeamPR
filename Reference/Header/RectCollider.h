@@ -16,12 +16,13 @@ public:
 	HRESULT						Ready_Collider();
 	virtual void				Render_Collider() override;
 
-	void						Set_OverLap(const _vec3& _vOverlap) { memcpy(&m_vOverlap, &_vOverlap, sizeof(_vec3)); }
-	const _vec3&				Get_Overlap() const { return m_vOverlap; }
+public:
+	void						Set_OverLap_Rect(const _vec3& _vOverlap) { memcpy(&m_vOverlapRect, &_vOverlap, sizeof(_vec3)); }
+	const _vec3&				Get_Overlap_Rect() const { return m_vOverlapRect; }
 
 private:
 	_vec3						m_vSize;
-	_vec3						m_vOverlap; // 렉트끼리 겹친 부분에 대한 넓이를 가진다.
+	_vec3						m_vOverlapRect;
 
 public:
 	static CRectCollider*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

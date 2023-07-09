@@ -38,7 +38,7 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	Move(fTimeDelta);
+	Set_Zoom(fTimeDelta);
 
 	return iExit;
 }
@@ -46,6 +46,8 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 void CPlayer_Camera::LateUpdate_Object(void)
 {
 	__super::LateUpdate_Object();
+
+	Set_ViewSpace();
 }
 
 HRESULT CPlayer_Camera::Add_Component(void)
@@ -55,7 +57,8 @@ HRESULT CPlayer_Camera::Add_Component(void)
 	return S_OK;
 }
 
-void CPlayer_Camera::Move(const _float & fTimeDelta)
+
+void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 {
 	_long dwMouse = 0;
 
@@ -71,27 +74,32 @@ void CPlayer_Camera::Move(const _float & fTimeDelta)
 		else
 			m_pCameraCom->m_fDistance = m_fFarZoom;*/
 	}
+}
 
-	// 02. Update View Space Data
+void CPlayer_Camera::Set_ViewSpace() 
+{
+	// 플레이어의 최종 포지션 결정 이후에 해당 함수가 호출되어야 한다!
+
+	// 01. Update View Space Data
 	NULL_CHECK(m_pCameraCom->m_pLookAt);
 	NULL_CHECK(m_pCameraCom->m_pFollow);
 	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 
-	// 03. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
+	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
 	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
 	_vec3 vDir2 = { vDir1.x, 0.f, vDir1.z };
 	D3DXVec3Normalize(&vDir1, &vDir1);
 	D3DXVec3Normalize(&vDir2, &vDir2);
 	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
 	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * 2.f;
-	
+
 	m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
 									fY,
 									vFollowPos.z - m_pCameraCom->m_fDistance });
 
-	m_pCameraCom->m_tVspace.Eye		=	m_pTransformCom->Get_Info(INFO_POS);
-	m_pCameraCom->m_tVspace.LookAt	=	m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
-	m_pCameraCom->m_tVspace.Up		=	vec3.up;
+	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
+	m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
+	m_pCameraCom->m_tVspace.Up = vec3.up;
 }
 
 void CPlayer_Camera::Free()

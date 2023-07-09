@@ -86,6 +86,13 @@ public:
 	void				Add_Level(const _uint& _iLevel) { m_tStatInfo.iLevel += _iLevel; }
 #pragma endregion
 
+#pragma region OTHER
+
+	void				Set_CurGroudType(const LINE_TYPE& _eType)	{ m_eCurGroundType = _eType; }
+	const LINE_TYPE&	Get_CurGroundType() const					{ return m_eCurGroundType; }
+
+#pragma endregion
+
 #pragma endregion
 
 private:
@@ -96,12 +103,14 @@ private:
 	MOVEINFO			m_tMoveInfo;
 	STATINFO			m_tStatInfo;
 
+	LINE_TYPE			m_eCurGroundType; // 현재 플레이어가 위치한 그라운드 정보
+
 private:
 	CTexture*			m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CStateMachine*		m_pStateMachineCom;
 
 public:
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void		Free() override;

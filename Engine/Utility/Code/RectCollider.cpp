@@ -10,13 +10,14 @@ CRectCollider::CRectCollider(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCollider(pGraphicDev, COMPONENT_TYPE::COL_RECT)
 {
 	ZeroMemory(&m_vSize, sizeof(_vec3));
-	ZeroMemory(&m_vOverlap, sizeof(_vec3));
+	ZeroMemory(&m_vOverlapRect, sizeof(_vec3));
+
 }
 
 CRectCollider::CRectCollider(const CRectCollider& rhs, CGameObject* _pOwnerObject)
 	: CCollider(rhs, _pOwnerObject)
 	, m_vSize(rhs.m_vSize)
-	, m_vOverlap(rhs.m_vOverlap)
+	, m_vOverlapRect(rhs.m_vOverlapRect)
 {
 	NULL_CHECK(m_pOwnerObject);
 	NULL_CHECK(m_pOwnerObject->Get_Transform());
@@ -69,7 +70,7 @@ void CRectCollider::Render_Collider()
 	if (0 < m_iCol)
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.red));
 	else
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.gray ));
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green ));
 
 	m_pMesh->DrawSubset(0);
 

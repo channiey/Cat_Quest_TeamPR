@@ -20,7 +20,8 @@ public:
 
 private:
 	HRESULT					Add_Component(void);
-	void					Move(const _float& fTimeDelta);
+	void					Set_Zoom(const _float& fTimeDelta);
+	void					Set_ViewSpace();
 
 public:
 	static CPlayer_Camera*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

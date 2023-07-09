@@ -219,7 +219,7 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 
 const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* const _pObj2)
 {
-	// 밀어내기는 밀어낼 값을 콜라이더에 저장하고, 밀어내기에 대한 구현은 각 오브젝트의 OnCollision에서 구현하도록 한다.
+	// 밀어내기는 밀어낼 값을 콜라이더나 라인에 저장하고, 밀어내기에 대한 구현은 각 오브젝트의 OnCollision에서 구현하도록 한다.
 
 	CRectCollider* pCol1 = static_cast<CRectCollider*>(_pObj1->Get_Collider());
 	CRectCollider* pCol2 = static_cast<CRectCollider*>(_pObj2->Get_Collider());
@@ -235,16 +235,16 @@ const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* co
 	_float fRadiusZ = (fabs(pTrans1->Get_Scale().z) + fabs(pTrans2->Get_Scale().z)) * 0.5f;
 
 	// Z 포지션 예외처리
-	if (pTrans1->Get_Info(INFO_POS).z < pTrans2->Get_Info(INFO_POS).z)
-		fRadiusZ += fabs(pTrans2->Get_Scale().z);
+	//if (pTrans1->Get_Info(INFO_POS).z < pTrans2->Get_Info(INFO_POS).z)
+	//	fRadiusZ += fabs(pTrans2->Get_Scale().z);
 
 	if ((fRadiusX >= fX) && (fRadiusZ >= fZ))
 	{
 		_float fOverX = fRadiusX - fX;
 		_float fOverZ = fRadiusZ - fZ;
 
-		pCol1->Set_OverLap(_vec3{ fOverX, 0.f, fOverZ });
-		pCol2->Set_OverLap(_vec3{ fOverX, 0.f, fOverZ });
+		pCol1->Set_OverLap_Rect(_vec3{ fOverX, 0.f, fOverZ });
+		pCol2->Set_OverLap_Rect(_vec3{ fOverX, 0.f, fOverZ });
 
 		return TRUE;
 	}
@@ -260,41 +260,147 @@ const _bool CCollisionMgr::Check_Rect_Circle(CGameObject* const _pObj1, CGameObj
 
 const _bool CCollisionMgr::Check_Line_Rect(CGameObject* const _pObj1, CLineObject* const _pObj2)
 {
-	// 경계와 플레이어블 오브젝트
-
-	// 밀어내기는 밀어낼 값을 콜라이더에 저장하고, 밀어내기에 대한 구현은 각 오브젝트의 OnCollision에서 구현하도록 한다.
-
 	CRectCollider* pCol1 = static_cast<CRectCollider*>(_pObj1->Get_Component(COMPONENT_TYPE::COL_RECT, ID_STATIC));
 	CLineCollider* pCol2 = static_cast<CLineCollider*>(_pObj2->Get_Component(COMPONENT_TYPE::COL_LINE, ID_STATIC));
 
-	// 피벗이 적용된 오브젝트의 최종 콜라이더 포지션 설정
-	_vec3 vColPos = _pObj1->Get_Transform()->Get_Info(INFO_POS) + pCol1->m_vOffset;
+	_vec3 vPos = _pObj1->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vScale = _pObj1->Get_Transform()->Get_Scale();
 
-	// 콜라이더 스케일 설정 
-	_vec3 vColSize = pCol1->m_vSize;
+	if (0 > vScale.x) vScale.x *= -1.f;
+	if (0 > vScale.z) vScale.z *= -1.f;
 
-	// 반복문 돌면서 렉트를 구성하는 선분 4개와 라인 선분 1를 CCW해야한다.
-	// 사각형과 선분의 충돌 검사라면 CCW 16번인데 괜찮을까? -> 일단 해보고 최적화
+	_vec3 vRectPtList[4] =
+	{
+		_vec3{vPos.x - (vScale.x * 0.5f), 0.f, vPos.z + (vScale.z * 0.5f)},
+		_vec3{vPos.x + (vScale.x * 0.5f), 0.f, vPos.z + (vScale.z * 0.5f)},
+		_vec3{vPos.x + (vScale.x * 0.5f), 0.f, vPos.z - (vScale.z * 0.5f)},
+		_vec3{vPos.x - (vScale.x * 0.5f), 0.f, vPos.z - (vScale.z * 0.5f)}
+	};
+	_vec3 vLinePtList[2] =
+	{
+		_vec3{ pCol2->m_vPointList[0].x, 0.f, pCol2->m_vPointList[0].z - vScale.z }, // z예외처리
+		_vec3{ pCol2->m_vPointList[1].x, 0.f, pCol2->m_vPointList[1].z - vScale.z },
+	};
 
+	for (int i = 0; i < 3; ++i)
+	{
+		if ((Check_CCW(vRectPtList[i], vRectPtList[i + 1], vLinePtList[0])
+			!= Check_CCW(vRectPtList[i], vRectPtList[i + 1], vLinePtList[1]))
+			&&
+			(Check_CCW(vLinePtList[0], vLinePtList[1], vRectPtList[i])
+			!= Check_CCW(vLinePtList[0], vLinePtList[1], vRectPtList[i + 1])))
+		{
+			//if(지나갈 수 없는 라인이라면)
 
-	return TRUE;
+			pCol2->m_vOverlapLine = Get_LineCollision_Data(vRectPtList, vLinePtList);
+
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 const _int CCollisionMgr::Check_CCW(const _vec3& _vLineStart, const _vec3& _vLineEnd, const _vec3& _vPT)
 {
-	long long t1 = long long(_vLineStart.x * _vLineEnd.y + _vLineEnd.x * _vPT.y + _vPT.x * _vLineStart.y);
-	long long t2 = long long(_vLineStart.y * _vLineEnd.x + _vLineEnd.y * _vPT.x + _vPT.y * _vLineStart.x);
+	long long t1 = long long(_vLineStart.x * _vLineEnd.z + _vLineEnd.x * _vPT.z + _vPT.x * _vLineStart.z);
+	long long t2 = long long(_vLineStart.z * _vLineEnd.x + _vLineEnd.z * _vPT.x + _vPT.z * _vLineStart.x);
 
-	long long tRes = t1 - t2;
+	long long tres = t1 - t2;
 
-	if (tRes > 0)
+	if (tres > 0)
 		return 1;
-	else if (tRes == 0)
+	else if (tres == 0)
 		return 0;
 	else
 		return -1;
 
 	return 0;
+}
+
+const _vec3& CCollisionMgr::Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _vLinePtList)
+{
+	// 충돌 영역만큼 빼주기 위한 데이터 제공 -> 라인 콜라이더에 저장
+	_vec3 vCross, v1, v2;
+	_bool bPrevY[4]; // 외적된 y 값이 음수인지 양수인지
+	_int  iIndex = 0;
+	_vec3 vOutPoint; // 렉트 4점 중 나간 점
+	_vec3 vOverlap;  // 빼줘야할 영역
+	ZeroMemory(&vOverlap, sizeof(_vec3));
+
+	// 1. 외적으로 4점 중 어느 점이 라인밖으로 나갔는지 찾는다
+	for (int i = 0; i < 4; ++i)
+	{
+		v1 = _vRectPtList[i] - _vLinePtList[0];
+		v2 = _vLinePtList[1] - _vLinePtList[0];
+
+		D3DXVec3Cross(&vCross, &v1, &v2);
+		if (0 < vCross.y)
+			bPrevY[i] = true;
+		else
+			bPrevY[i] = false;
+	}
+
+	_bool bPrev;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (0 == i)
+		{
+			bPrev = bPrevY[i]; 
+			continue;
+		}
+
+		if (bPrev != bPrevY[i])
+		{
+			if (1 == i && bPrevY[0] == bPrevY[2])
+			{
+				vOutPoint = _vRectPtList[i];
+				iIndex = i;
+				break;
+			}
+			else if (1 == i && bPrevY[0] != bPrevY[2])
+			{
+				vOutPoint = _vRectPtList[0];
+				iIndex = 0;
+
+				break;
+			}
+			vOutPoint = _vRectPtList[i];
+			iIndex = i;
+			break;
+		}
+	}
+
+	// 2. 직선의 방정식으로 나간 만큼의 x, z 값을 구한다.
+	_vLinePtList[0]; _vLinePtList[1]; vOutPoint.x;
+
+	vOverlap.z = ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x)) 
+					* (vOutPoint.x - _vLinePtList[0].x) 
+					+ _vLinePtList[0].z;
+
+	vOverlap.x = ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x))
+					* (vOutPoint.z - _vLinePtList[0].z)
+					+ _vLinePtList[0].x;
+
+	switch (iIndex)
+	{
+	case 0:
+		vOverlap.z *= -1.f;
+		break;
+	case 1:
+		vOverlap.x *= -1.f;
+		vOverlap.z *= -1.f;
+		break;
+	case 2:
+		vOverlap.x *= -1.f;
+		break;
+	case 3:
+		break;
+	default:
+		break;
+	}
+	// 3. 위 정보들을 라인 콜라이더에 저장한다.
+	return vOverlap;
 }
 
 

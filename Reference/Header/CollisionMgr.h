@@ -38,10 +38,12 @@ public:
 	virtual ~CCollisionMgr();
 
 public:
-	void							Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, // 오브젝트 vs 오브젝트
-													const COL_TYPE& _eColType1 = COL_TYPE::RECT, const COL_TYPE& _eColType2 = COL_TYPE::RECT);
+	void							Check_Collision(const OBJ_TYPE& _eType1, 
+													const OBJ_TYPE& _eType2,
+													const COL_TYPE& _eColType1 = COL_TYPE::RECT, 
+													const COL_TYPE& _eColType2 = COL_TYPE::RECT);
 
-	void							Check_Line_Collision(const OBJ_TYPE& _eType); // 오브젝트 vs 라인
+	void							Check_Line_Collision(const OBJ_TYPE& _eType); 
 
 	HRESULT							Add_Line(CLineObject* const _pObj) { NULL_CHECK_RETURN(_pObj, E_FAIL);
 																			m_vecLine.push_back(_pObj); return S_OK; }
@@ -50,9 +52,10 @@ private:
 	const _bool						Check_Rect(CGameObject* const _pObj1, CGameObject* const _pObj2);
 	const _bool						Check_Rect_Circle(CGameObject* const _pObj1, CGameObject* const _pObj2);
 	const _bool						Check_Line_Rect(CGameObject* const _pObj1, CLineObject* const _pObj2);
-
 	const _int						Check_CCW(const _vec3& _vLineStart, const _vec3& _vLineEnd, const _vec3& _vPT);
+	const _vec3&						Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _vLinePtList);
 
+private:
 	void							Set_Info(map<_ulonglong, _bool>::iterator& _iter, CCollider* _pCol1, CCollider* _pCol2);
 
 private:

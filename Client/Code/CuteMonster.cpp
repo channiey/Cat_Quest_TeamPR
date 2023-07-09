@@ -27,18 +27,18 @@ HRESULT CCuteMonster::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
-	/*m_pTransformCom->Set_Scale(_vec3{ 2.f + ((rand() % 10 + 1) * 0.1f), 
+	//m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 2.f + ((rand() % 10 + 1) * 0.1f), 
 										2.f + ((rand() % 10 + 1) * 0.1f), 
-										2.f + ((rand() % 10 + 1) * 0.1f) });*/
+										2.f + ((rand() % 10 + 1) * 0.1f) });
 	/*iZ += 5.f;
 	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX - 30.f), 
 		m_pTransformCom->Get_Scale().y, 
 		iZ });*/
 
-	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX* 0.5f + rand() % 20),
+	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX* 0.5f + rand() % 40),
 									m_pTransformCom->Get_Scale().y,
-									_float(rand() % 30) });
+									_float(rand() % 50) });
 	
 	return S_OK;
 }
@@ -66,11 +66,7 @@ void CCuteMonster::Render_Object()
 
 void CCuteMonster::OnCollision_Enter(CGameObject* _pColObj)
 {
-	/*if (OBJ_TYPE::PLAYER == _pColObj->Get_Type())
-	{
-		Set_Active(false);
-		CEventMgr::GetInstance()->Delete_Obj(this);
-	}*/
+	
 }
 
 void CCuteMonster::OnCollision_Stay(CGameObject* _pColObj)

@@ -102,7 +102,6 @@ HRESULT CCamera::Set_ViewSpace()
 	m_pGraphicDev->SetTransform(D3DTS_VIEW,
 		D3DXMatrixLookAtLH(&m_matView, &m_tVspace.Eye, &m_tVspace.LookAt, &m_tVspace.Up));
 
-
 	// 여러 곳에서 카메라의 월드행렬을 사용하기 위해 세팅
 	D3DXMatrixInverse(&m_matWorld, NULL, &m_matView);
 

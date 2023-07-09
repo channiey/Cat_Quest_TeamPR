@@ -38,7 +38,7 @@ void CPlayerState_fAttack2::LateUpdate_State()
 
 void CPlayerState_fAttack2::Render_State()
 {
-	cout << "지금은 앞공격2" << endl;
+	//cout << "지금은 앞공격2" << endl;
 }
 
 STATE_TYPE CPlayerState_fAttack2::Key_Input(const _float& fTimeDelta)

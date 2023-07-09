@@ -21,6 +21,7 @@
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
+	, m_eCurGroundType(LINE_TYPE::LAND)
 {
 	ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 }
@@ -30,6 +31,7 @@ CPlayer::CPlayer(const CPlayer& rhs)
 	, m_tMoveInfo(rhs.m_tMoveInfo)
 	, m_tStatInfo(rhs.m_tStatInfo)
 	, m_pStateMachineCom(rhs.m_pStateMachineCom)
+	, m_eCurGroundType(rhs.m_eCurGroundType)
 {
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
 	{
@@ -160,8 +162,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
-	
-	//Key_Input(fTimeDelta);
 
 	return iExit;
 }
@@ -171,12 +171,11 @@ void CPlayer::LateUpdate_Object()
 	m_pStateMachineCom->LateUpdate_StateMachine();
 
 	__super::LateUpdate_Object();
+
 }
 
 void CPlayer::Render_Object()
 {	
-	//m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat()); 
 	
 	m_pStateMachineCom->Render_StateMachine();
@@ -187,95 +186,49 @@ void CPlayer::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object(); // 콜라이더 출력
-
-	_vec3 vPos = m_pTransformCom->Get_Info(INFO_POS);
-
 }
 
 void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 {
+	_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
+	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+
 	switch (_pColObj->Get_Type())
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
-		_vec3 vOverlap	= static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap();
-		_vec3 vMyPos	= m_pTransformCom->Get_Info(INFO_POS);
-		_vec3 vColPos	= _pColObj->Get_Transform()->Get_Info(INFO_POS);
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
 		if (vOverlap.x > vOverlap.z)
 		{
 			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x, 
-												vMyPos.y, 
-												vMyPos.z - vOverlap.z}); 
-			else  
- 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x, 
-												vMyPos.y, 
-												vMyPos.z + vOverlap.z}); 
-		}
-		else 
-		{
-			if (vMyPos.x < vColPos.x) 
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y, 
-												vMyPos.z });  
-			else 
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y, 
-												vMyPos.z });
-		}
-		//cout << "Enter\t" << m_pTransformCom->Get_Info(INFO_POS).x << endl;
-	}
-		break;
-	case Engine::OBJ_TYPE::NPC:
-		break;
-	case Engine::OBJ_TYPE::ITEM:
-		break;
-	case Engine::OBJ_TYPE::PROJECTILE:
-		break;
-	case Engine::OBJ_TYPE::CAMERA:
-		break;
-	case Engine::OBJ_TYPE::ENVIRONMENT:
-		break;
-	default:
-		break;
-	}
-}
-
-void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
-{
-	switch (_pColObj->Get_Type())
-	{
-	case Engine::OBJ_TYPE::MONSTER:
-	{
-		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap();
-		_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
-		_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
-
-		if (vOverlap.x > vOverlap.z) 
-		{
-			if (vMyPos.z < vColPos.z)
 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
 												vMyPos.y,
-												vMyPos.z - vOverlap.z}); 
+												vMyPos.z - vOverlap.z });
 			else
 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
 												vMyPos.y,
-												vMyPos.z + vOverlap.z}); 
+												vMyPos.z + vOverlap.z });
 		}
-		else 
+		else
 		{
 			if (vMyPos.x < vColPos.x)
 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
 												vMyPos.y,
-												vMyPos.z });  
+												vMyPos.z });
 			else
 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
 												vMyPos.y,
-												vMyPos.z }); 
+												vMyPos.z });
 		}
-		//cout << "Stay\t" << m_pTransformCom->Get_Info(INFO_POS).x << endl;
+	}
+	break;
+	case Engine::OBJ_TYPE::LINE:
+	{
+		_vec3 vOverlap = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
 
+		vMyPos += vOverlap;
+		m_pTransformCom->Set_Pos(vMyPos);
 	}
 	break;
 	case Engine::OBJ_TYPE::NPC:
@@ -287,6 +240,116 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	case Engine::OBJ_TYPE::CAMERA:
 		break;
 	case Engine::OBJ_TYPE::ENVIRONMENT:
+	{
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+		if (vOverlap.x > vOverlap.z)
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z - vOverlap.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z + vOverlap.z });
+		}
+		else
+		{
+			if (vMyPos.x < vColPos.x)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+		}
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
+{
+	_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
+	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::MONSTER:
+	{
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+		if (vOverlap.x > vOverlap.z)
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z - vOverlap.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z + vOverlap.z });
+		}
+		else
+		{
+			if (vMyPos.x < vColPos.x)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+		}
+	}
+	break;
+	case Engine::OBJ_TYPE::LINE:
+	{		
+		_vec3 vOverlap = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
+
+		vMyPos += vOverlap;
+		m_pTransformCom->Set_Pos(vMyPos);
+	}
+	break;
+	case Engine::OBJ_TYPE::NPC:
+		break;
+	case Engine::OBJ_TYPE::ITEM:
+		break;
+	case Engine::OBJ_TYPE::PROJECTILE:
+		break;
+	case Engine::OBJ_TYPE::CAMERA:
+		break;
+	case Engine::OBJ_TYPE::ENVIRONMENT:
+	{
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+		if (vOverlap.x > vOverlap.z)
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z - vOverlap.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z + vOverlap.z });
+		}
+		else
+		{
+			if (vMyPos.x < vColPos.x)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+		}
+	}
 		break;
 	default:
 		break;
