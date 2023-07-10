@@ -193,7 +193,7 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 						pCol1->OnCollision_Stay(pLine);
 						pCol2->OnCollision_Stay(pObj1);
 
-						cout << "Stay\n";
+						//cout << "Stay\n";
 					}
 				}
 				else // 이번에 충돌
@@ -204,7 +204,7 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 						pCol2->OnCollision_Enter(pObj1);
 						iter->second = true;
 
-						cout << "Enter\n";
+						//cout << "Enter\n";
 					}
 				}
 			}
@@ -216,7 +216,7 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 					pCol2->OnCollision_Exit(pObj1);
 					iter->second = false;
 
-					cout << "Exit\n";
+					//cout << "Exit\n";
 
 				}
 			}

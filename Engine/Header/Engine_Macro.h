@@ -21,7 +21,7 @@ namespace Engine
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\
-										DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(255, 255, 255, 255));\
+										DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(150, 0, 0, 0));\
 										rc.top += 20;
 
 #ifndef	MSG_BOX

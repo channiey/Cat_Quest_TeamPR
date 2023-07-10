@@ -50,7 +50,6 @@ Engine::_int CCameraTargetObj::Update_Object(const _float& fTimeDelta)
 
 void CCameraTargetObj::LateUpdate_Object()
 {
-
 	__super::LateUpdate_Object();
 }
 
@@ -82,10 +81,6 @@ void CCameraTargetObj::Key_Input(const _float& fTimeDelta)
 		m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * m_tMoveInfo.fMoveSpeed);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 		m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * -m_tMoveInfo.fMoveSpeed);
-
-	//_vec3 vPos = m_pTransformCom->Get_Info(INFO_POS);
-
-	//cout <<  vPos.x << "\t" << vPos.y << "\t" << vPos.z << endl;
 }
 
 void CCameraTargetObj::Free()

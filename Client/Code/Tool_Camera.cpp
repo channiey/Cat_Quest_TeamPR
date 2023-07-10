@@ -145,17 +145,21 @@ void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 										m_pCameraCom->m_fDistance,
 										vFollowPos.z});
 
+		m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
+		m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
+		m_pCameraCom->m_tVspace.Up = m_pTransformCom->Get_Info(INFO_UP);
 	}
 	else
 	{
 		m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
 										fY,
 										vFollowPos.z - m_pCameraCom->m_fDistance });
+
+		m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
+		m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
+		m_pCameraCom->m_tVspace.Up = vec3.up;
 	}
 
-	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
-	m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
-	m_pCameraCom->m_tVspace.Up = vec3.up;
 }
 
 void CTool_Camera::Update_Orthographic(const _float& fTimeDelta)
