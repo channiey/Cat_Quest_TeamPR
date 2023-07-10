@@ -30,7 +30,7 @@ HRESULT CHedgehog::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 2.f, 1.3f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
 	//m_pTransformCom->Set_Pos(_vec3{ 300.f, m_pTransformCom->Get_Scale().y, 300.f });
 
 	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX - 30.f + rand() % 40),
@@ -101,7 +101,7 @@ HRESULT CHedgehog::Add_Component()
 void CHedgehog::Move(const _float& fTimeDelta)
 {
 
-
+	// 플레이어 위치 가져오기
 	CTransform * pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 

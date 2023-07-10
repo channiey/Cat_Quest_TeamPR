@@ -144,6 +144,10 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
+	// Monster - Bat
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bat",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/bat_idle1.png")), E_FAIL);
+
 #pragma endregion
 
 #pragma region LEE

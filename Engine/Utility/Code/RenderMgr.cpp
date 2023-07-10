@@ -96,19 +96,27 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 {
+
 	// 원래 행렬 정보 백업 
 	D3DVIEWPORT9 BackUpViewPort;
-	pGraphicDev->GetViewport(&BackUpViewPort); // 현재 뷰 포트 백업
+	_matrix		 BackUpProj;
+	_matrix		 BackUpView;
 
-	_matrix BackUpProj;
-	pGraphicDev->GetTransform(D3DTS_PROJECTION, &BackUpProj);
+	NULL_CHECK((CCameraMgr::GetInstance()->Get_CurCamera()))
+	BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+	BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+	BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
 	
 
-	_matrix BackUpView;
-	pGraphicDev->GetTransform(D3DTS_VIEW, &BackUpView);
+	//pGraphicDev->GetViewport(&BackUpViewPort); 
+	//BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+	//pGraphicDev->GetTransform(D3DTS_PROJECTION, &BackUpProj);
+	//BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+	//pGraphicDev->GetTransform(D3DTS_VIEW, &BackUpView);
+	//BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
+	
 
-
-
+	
 	// UI 용 새로운 뷰 포트 생성 및 적용
 	D3DVIEWPORT9 UiViewPort;
 	UiViewPort.X = 0;

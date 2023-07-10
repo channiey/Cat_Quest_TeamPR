@@ -7,6 +7,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER)
 	, m_pTextureCom(nullptr)
 	, m_pAICom(nullptr)
+	, fPatternTime(0.f)
 {
 	ZeroMemory(&m_tMoveInfo, sizeof(MOVEINFO));
 	ZeroMemory(&m_tStatInfo, sizeof(STATINFO));
@@ -16,6 +17,7 @@ CMonster::CMonster(const CMonster& rhs)
 	: Engine::CGameObject(rhs)
 	, m_tMoveInfo(rhs.m_tMoveInfo)
 	, m_tStatInfo(rhs.m_tStatInfo)
+	, fPatternTime(rhs.fPatternTime)
 {
 }
 

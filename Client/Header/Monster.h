@@ -88,6 +88,9 @@ protected:
 	MOVEINFO				m_tMoveInfo;
 	STATINFO				m_tStatInfo;
 
+	_float					fPatternTime;
+	_float					fAccTime;
+
 protected:
 	CTexture*				m_pTextureCom;
 	CAIComponent*			m_pAICom;
