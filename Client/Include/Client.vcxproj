@@ -255,6 +255,7 @@
     <ClInclude Include="..\Header\Tower2.h" />
     <ClInclude Include="..\Header\Tower3.h" />
     <ClInclude Include="..\Header\UI.h" />
+    <ClInclude Include="..\Header\ZoomUI.h" />
     <ClInclude Include="..\ImGui\imconfig.h" />
     <ClInclude Include="..\ImGui\imgui.h" />
     <ClInclude Include="..\ImGui\imgui_impl_dx9.h" />
@@ -358,6 +359,7 @@
     <ClCompile Include="..\Code\Tower2.cpp" />
     <ClCompile Include="..\Code\Tower3.cpp" />
     <ClCompile Include="..\Code\UI.cpp" />
+    <ClCompile Include="..\Code\ZoomUI.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\ImGui\imgui_draw.cpp" />

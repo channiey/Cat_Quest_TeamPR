@@ -59,10 +59,13 @@
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 #include "EventMgr.h"
+
 #include "LevelUI.h"
 #include "TabUI.h"
 #include "ManaBarUI.h"
 #include "RingUI.h"
+#include "ZoomUI.h"
+
 #include "CuteMonster.h"
 #include "Hedgehog.h"
 #include "LineObject.h"
@@ -432,6 +435,10 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Ring", pGameObject), E_FAIL);
 
+	// UI - Zoom
+	pGameObject = CZoomUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 
