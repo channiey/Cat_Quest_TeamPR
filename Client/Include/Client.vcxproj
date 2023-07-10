@@ -209,7 +209,6 @@
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\ManaUI.h" />
-    <ClInclude Include="..\Header\ManaBarUI.h" />
     <ClInclude Include="..\Header\DragonState_fAttack.h" />
     <ClInclude Include="..\Header\DragonState_fIdle.h" />
     <ClInclude Include="..\Header\Mountain.h" />
@@ -320,7 +319,6 @@
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\ManaUI.cpp" />
-    <ClCompile Include="..\Code\ManaBarUI.cpp" />
     <ClCompile Include="..\Code\DragonState_fAttack.cpp" />
     <ClCompile Include="..\Code\DragonState_fIdle.cpp" />
     <ClCompile Include="..\Code\Mountain.cpp" />
