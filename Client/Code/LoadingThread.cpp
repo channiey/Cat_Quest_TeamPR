@@ -105,19 +105,15 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region KANG
 
-	// 터레인 월드
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/test2.png")), E_FAIL);
+	
 
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_IW",
+ 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_IW",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceWorld.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_ID",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceDungeon.png")), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
-
+	
 
 #pragma region Building
 
