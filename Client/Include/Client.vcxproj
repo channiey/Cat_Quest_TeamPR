@@ -212,6 +212,7 @@
     <ClInclude Include="..\Header\Player_Camera.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\UI.h" />
+    <ClInclude Include="..\Header\ZoomUI.h" />
     <ClInclude Include="..\ImGui\imconfig.h" />
     <ClInclude Include="..\ImGui\imgui.h" />
     <ClInclude Include="..\ImGui\imgui_impl_dx9.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Code\Player_Camera.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\UI.cpp" />
+    <ClCompile Include="..\Code\ZoomUI.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\ImGui\imgui_draw.cpp" />
