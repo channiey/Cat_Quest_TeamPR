@@ -56,6 +56,27 @@ CLayer * CScene::Get_Layer(const OBJ_TYPE& _eType)
 	return nullptr;
 }
 
+HRESULT CScene::Empty_Layer(const OBJ_TYPE& _eObjType)
+{
+	CLayer* pLayer = Get_Layer(_eObjType);
+
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	//map<const _tchar*, CGameObject*>* pObjectMap = &pLayer->Get_ObjectMap();
+	//
+	//for (auto iter = pObjectMap->begin(); iter != pObjectMap->end(); ++iter)
+	//{
+	//	if (iter->first == L"TerrainTool") {
+	//		continue;
+	//	}
+	//	delete &iter;
+	//	iter->second = nullptr;
+	//}
+	pLayer->Get_ObjectMap().clear();
+
+	return S_OK;
+}
+
 HRESULT CScene::Ready_Scene()
 {
 	return S_OK;

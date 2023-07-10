@@ -5,7 +5,6 @@
 BEGIN(Engine)
 class CTexture;
 class CAIComponent;
-
 END
 
 class CMonster : public Engine::CGameObject

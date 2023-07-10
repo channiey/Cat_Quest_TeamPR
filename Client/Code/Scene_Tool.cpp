@@ -6,6 +6,8 @@
 // #include "Terrain.h"
 #include "TerrainWorld.h"
 #include "TerrainTool.h"
+#include "TerrainIceWorld.h"
+#include "TerrainIceDungeon.h"
 
 #include "Player.h"
 #include "CuteMonster.h"
@@ -27,7 +29,8 @@ CScene_Tool::~CScene_Tool()
 
 HRESULT CScene_Tool::Ready_Scene()
 {
-	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL)
+	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
@@ -77,23 +80,57 @@ CScene_Tool* CScene_Tool::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	return pInstance;
 }
+HRESULT CScene_Tool::Ready_Layer_Terrain()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::TERRAIN, pLayer });
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	// pGameObject = CTerrainWorld::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+	// 
+	// pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld_Ice", pGameObject), E_FAIL);
+
+	// pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);
+
+	// pGameObject = CTerrainTool::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", pGameObject), E_FAIL);
+
+	return S_OK;
+}
+
 HRESULT CScene_Tool::Ready_Layer_Environment()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	Engine::CGameObject* pGameObject = nullptr;
 
 	// Terrain
-	pGameObject = CTerrainWorld::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+	// pGameObject = CTerrainWorld::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+	// 
+	// pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld_Ice", pGameObject), E_FAIL);
+	
+	// pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);
 
-	pGameObject = CTerrainTool::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", pGameObject), E_FAIL);
-
-	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
+	// pGameObject = CTerrainTool::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", pGameObject), E_FAIL);
 
 	return S_OK;
 }

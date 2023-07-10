@@ -1,16 +1,17 @@
 #include "stdafx.h"
-#include "../Header/Dungeon.h"
+#include "..\Header\Dungeon.h"
 
 #include "Export_Function.h"
+
 #include "EventMgr.h"
 
 CDungeon::CDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
-	:	CEnvironment(pGraphicDev)
+	: CEnvironment(pGraphicDev)
 {
 }
 
-CDungeon::CDungeon(const CEnvironment& rhs)
-	:	CEnvironment(rhs)
+CDungeon::CDungeon(const CDungeon& rhs)
+	: CEnvironment(rhs)
 {
 }
 
@@ -24,68 +25,54 @@ HRESULT CDungeon::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
-	m_pTransformCom->Set_Pos(_vec3{ 40.f, m_pTransformCom->Get_Scale().y, 50.f });
-
 	return S_OK;
 }
 
 _int CDungeon::Update_Object(const _float& fTimeDelta)
 {
-	_int iExit = CEnvironment::Update_Object(fTimeDelta);
-
-	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
 void CDungeon::LateUpdate_Object()
 {
-	CEnvironment::LateUpdate_Object();
+	__super::LateUpdate_Object();
 }
 
 void CDungeon::Render_Object()
 {
+	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTexture(0, NULL);
+
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
 	CEnvironment::Render_Object();
-}
-
-void CDungeon::OnCollision_Enter(CGameObject* _pColObj)
-{
-}
-
-void CDungeon::OnCollision_Stay(CGameObject* _pColObj)
-{
-}
-
-void CDungeon::OnCollision_Exit(CGameObject* _pColObj)
-{
 }
 
 HRESULT CDungeon::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dungeon", this));
+	// Rc Texture
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+
+	// Rect Collider
+	pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
 
 	return S_OK;
 }
 
-CDungeon* CDungeon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
-{
-	CDungeon* pInstnace = new CDungeon(pGraphicDev);
-
-	if (FAILED(pInstnace->Ready_Object()))
-	{
-		Safe_Release(pInstnace);
-		MSG_BOX("Mountain Create Failed");
-		return nullptr;
-	}
-	return pInstnace;
-}
-
 void CDungeon::Free()
 {
-	CEnvironment::Free();
+	__super::Free();
 }
