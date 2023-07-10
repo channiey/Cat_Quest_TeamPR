@@ -1,8 +1,10 @@
 #include "DefUI.h"
 #include "Export_Function.h"
 
+#include "Player.h"
+
 CDefUI::CDefUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev)
+     :CUI(pGraphicDev), m_pPlayer(nullptr), m_fDefRatio(1.f)
 {
 }
 
@@ -19,16 +21,13 @@ HRESULT CDefUI::Ready_Object()
 {
 	CGameObject::Ready_Object();
 
-
 	m_eUIType = UI_TYPE::WORLD;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
-
-	m_iTranslucent = 100;
-	m_bIsReach = false;
-	m_fAcc = 0;
+	m_pUITransformCom[0]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
+	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
 
 
 	return S_OK;
@@ -38,25 +37,11 @@ _int CDefUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	m_fAcc += fTimeDelta;
+	if (nullptr == m_pPlayer)
+		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
-	if (0.01f < m_fAcc)
-	{
-		if (m_bIsReach)
-		{
-			m_iTranslucent--;
-			if (100 >= m_iTranslucent)
-				m_bIsReach = false;
-		}
-		else if (!m_bIsReach)
-		{
-			m_iTranslucent++;
-			if (225 <= m_iTranslucent)
-				m_bIsReach = true;
-		}
-
-		m_fAcc = m_fAcc - 0.01f;
-	}
+	if (nullptr != m_pPlayer)
+		m_fDefRatio = m_pPlayer->Get_StatInfo().fCurDef / m_pPlayer->Get_StatInfo().fMaxDef;
 
 	return iExit;
 }
@@ -65,36 +50,59 @@ void CDefUI::LateUpdate_Object()
 {
 	Follow_Player();
 
+	_vec3 vInitPosition = m_pUITransformCom[0]->Get_Info(INFO::INFO_POS);
+
+	float fMoveX = (1.0f - m_fDefRatio) * 2.0f;
+	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
+
+	m_pUITransformCom[0]->Set_Scale(_vec3{ 2.0f * m_fDefRatio, 0.6f, 1.0f });
+	m_pUITransformCom[0]->Set_Pos(vNewPosition);
+
 	__super::LateUpdate_Object();
 
 }
 
 void CDefUI::Render_Object()
 {
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-	
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+	if (0 < m_pPlayer->Get_StatInfo().fCurDef)
+	{
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-	m_pTextureCom->Render_Texture();
-	m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(5);
+		m_pUIBufferCom[0]->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(4);
+		m_pUIBufferCom[1]->Render_Buffer();
 
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(6);
+		m_pUIBufferCom[2]->Render_Buffer();
+	}
 }
 
 HRESULT CDefUI::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Ring", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Bar", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+	for (_uint i = 0; i < 3; ++i)
+	{
+		pComponent = m_pUIBufferCom[i] = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+	}
 
+	for (_uint i = 0; i < 3; ++i)
+	{
+		pComponent = m_pUITransformCom[i] = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::TRANSFORM, pComponent);
+	}
 
 	return S_OK;
 }
@@ -107,7 +115,9 @@ void CDefUI::Follow_Player()
 	_vec3		vPlayerPosition;
 	vPlayerPosition = pPlayerTransform->Get_Info(INFO_POS);
 
-	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z + 0.1f });
+	m_pUITransformCom[0]->Set_Pos({ vPlayerPosition.x , vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[1]->Set_Pos({ vPlayerPosition.x - 2.6f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[2]->Set_Pos({ vPlayerPosition.x + 1.95f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 }
 
 CDefUI* CDefUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)

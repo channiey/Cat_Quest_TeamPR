@@ -1,6 +1,8 @@
 #pragma once
 #include "UI.h"
 
+class CPlayer;
+
 class CHpUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
 {
 
@@ -24,6 +26,9 @@ private:
 private:
 	CVIBuffer*				m_pUIBufferCom[4];
 	CTransform*				m_pUITransformCom[4];
+
+	CPlayer*				m_pPlayer;
+	_float					m_fHpRatio;
 
 public:
 	static CHpUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);

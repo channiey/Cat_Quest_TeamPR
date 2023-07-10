@@ -161,6 +161,8 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
+	//Key_Input(fTimeDelta);
+
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iExit;
@@ -434,6 +436,29 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
+	// 바UI 연동테스트
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Z))
+		Set_CurHP(30);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_X))
+		Set_CurHP(60);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_C))
+		Set_CurHP(Get_StatInfo().fMaxHP);
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_B))
+		Set_CurMP(30);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_N))
+		Set_CurMP(60);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_M))
+		Set_CurMP(Get_StatInfo().fMaxMP);
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_H))
+		Set_CurDef(0);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_J))
+		Set_CurDef(30);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_K))
+		Set_CurDef(60);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_L))
+		Set_CurDef(Get_StatInfo().fMaxDef);
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -1,7 +1,7 @@
 #pragma once
 #include "UI.h"
 
-
+class CPlayer;
 
 class CDefUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
 {
@@ -21,12 +21,14 @@ public:
 private:
 	virtual HRESULT			Add_Component() override;
 
-	void	Follow_Player();
+	void					Follow_Player();
 
 private:
-	_uint	m_iTranslucent;
-	_float	m_fAcc;
-	_bool	m_bIsReach;
+	CVIBuffer*				m_pUIBufferCom[3];
+	CTransform*				m_pUITransformCom[3];
+
+	CPlayer*				m_pPlayer;
+	_float					m_fDefRatio;
 
 public:
 	static CDefUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
