@@ -2,10 +2,10 @@
 
 #include "GameObject.h"
 #include "Monster.h"
+class CEffect;
 
 BEGIN(Engine)
 
-//class CCubeCol;
 class CCollider;
 
 END
@@ -36,6 +36,8 @@ private:
 protected:
 	MOVEINFO			m_tMoveInfo;
 	STATINFO			m_tStatInfo;
+
+	CEffect*			m_pEffect;
 
 public:
 	static				CCuteMonster* Create(LPDIRECT3DDEVICE9 pGraphicDev);

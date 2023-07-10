@@ -4,6 +4,8 @@
 #include "Export_Function.h"
 
 #include "EventMgr.h"
+#include "Effect.h"
+#include "Effect_Skill_Fire.h"
 
 CCuteMonster::CCuteMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
@@ -36,9 +38,17 @@ HRESULT CCuteMonster::Ready_Object()
 		m_pTransformCom->Get_Scale().y, 
 		iZ });*/
 
-	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX* 0.5f + rand() % 40),
+	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX * 0.5f), // + rand() % 40),
 									m_pTransformCom->Get_Scale().y,
-									_float(rand() % 50) });
+									10.f }); // _float(rand() % 50)
+
+
+
+	// Effect
+
+	m_pEffect = CEffect_Skill_Fire::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pEffect, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect", m_pEffect), E_FAIL);
 	
 	return S_OK;
 }
@@ -50,7 +60,8 @@ Engine::_int CCuteMonster::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	//Move(fTimeDelta);
-
+	if (!m_pEffect->Is_Active())
+		m_pEffect->Play_Effect(vec3.right * 5.f , _vec3{ 10.f, 10.f, 10.f });
 	return iExit;
 }
 

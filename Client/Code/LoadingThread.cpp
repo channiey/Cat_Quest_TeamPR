@@ -57,22 +57,18 @@ _uint CLoadingThread::Loading_For_World()
 {
 #pragma region Default
 
-	// Camera
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::CAMERA,
 		CCamera::Create(m_pGraphicDev, &g_hWnd)), E_FAIL);
 
-	// Transform
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::TRANSFORM,
 		CTransform::Create(m_pGraphicDev)), E_FAIL);
 
-	// Vertex
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX,
 		CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX,
 		CTerrainRcTex::Create(m_pGraphicDev)), E_FAIL);
 
-	// Collider
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_LINE,
 		CLineCollider::Create(m_pGraphicDev)), E_FAIL);
 
@@ -82,15 +78,12 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_RECT,
 		CRectCollider::Create(m_pGraphicDev)), E_FAIL);
 
-	// State Machine
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::STATEMACHINE,
 		CStateMachine::Create(m_pGraphicDev)), E_FAIL);
 
-	// Animator
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::ANIMATOR,
 		CAnimator::Create(m_pGraphicDev)), E_FAIL);
 
-	// AI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::AICOM,
 		CAIComponent::Create(m_pGraphicDev)), E_FAIL);
 	
@@ -98,14 +91,12 @@ _uint CLoadingThread::Loading_For_World()
 
 
 #pragma region Texture
-	// 맵
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_GW",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/GrassWorld.png")), E_FAIL);
 
 
 #pragma region KANG
 
-	
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_GW",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/GrassWorld.png")), E_FAIL);
 
  	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_IW",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceWorld.png")), E_FAIL);
@@ -114,10 +105,8 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceDungeon.png")), E_FAIL);
 
 	
-
 #pragma region Building
 
-	// Buliding(집)
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House2",
@@ -133,7 +122,7 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region Bush
-	// 수풀
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bush1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/forest_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bush2",
@@ -160,14 +149,16 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region Mountain
-	// Mountain
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Mountain_Grass",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Mountain/mountains_2.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Mountain_Ice",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Mountain/mountains_5.png")), E_FAIL);
+
 #pragma endregion
 
 #pragma region Pillar
+
 	// Rock Pillar
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Rock_Pillar1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Pillar/rockpillar_1.png")), E_FAIL);
@@ -189,6 +180,7 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region Rock
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Rock1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Rock/rocks_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Rock2",
@@ -201,7 +193,7 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region Dungeon
-	// Dungeon
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dungeon_Grass",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Dungeon/dungeon_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dungeon_Ice",
@@ -211,17 +203,18 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region Tower
-	// Tower
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Tower1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Tower/Tower_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Tower2",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Tower/Tower_2.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Tower3",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Tower/Tower_3.png")), E_FAIL);
+
 #pragma endregion
 
 #pragma region Chest
-	// 상자
+
 	// 화장품 상자
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Cosmetic_Chest",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Chest/chest_cosmetic.png")), E_FAIL);
@@ -263,6 +256,7 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region LEE
+
 	// 플레이어 텍스처
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fIdle",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Idle/%d.png", 4)), E_FAIL);
@@ -313,6 +307,13 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 
 #pragma region YUN
+
+#pragma region Skill Effect
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_skillrange_orange",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/range/skillrange_orange.png")), E_FAIL);
+
+#pragma endregion
 
 
 #pragma endregion

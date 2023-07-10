@@ -52,7 +52,7 @@ Engine::_int CScene_Intro::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Scene(fTimeDelta);
 
-	if (TRUE == m_pLoading->Get_Finish() && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_SPACE)) // 스테이지 로딩 쓰레드
+	if (TRUE == m_pLoading->Get_Finish()) // 스테이지 로딩 쓰레드
 	{
 		CScene* pScene = nullptr; 
 

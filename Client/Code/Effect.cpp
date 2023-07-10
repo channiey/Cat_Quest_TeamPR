@@ -3,9 +3,13 @@
 
 #include "Export_Function.h"
 
-CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
+CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT)
+	, m_pOwnerobject(_pOwnerObject)
 {
+	ZeroMemory(&m_vOffSet, sizeof(_vec3));
+	ZeroMemory(&m_vSize, sizeof(_vec3));
+
 }
 
 CEffect::CEffect(const CEffect & rhs)
@@ -23,6 +27,8 @@ HRESULT CEffect::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_bActive = false;
+
 	return S_OK;
 }
 
@@ -30,7 +36,7 @@ _int CEffect::Update_Object(const _float & fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	//Engine::Add_RenderGroup(RENDER_NONALPHA, this);
+	//m_pAnimatorCom->Update_Animator(fTimeDelta);
 
 	return iExit;
 }
@@ -42,22 +48,30 @@ void CEffect::LateUpdate_Object()
 
 void CEffect::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//m_pAnimatorCom->Render_Animator();
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-
-	//m_pBufferCom->Render_Buffer();
-
+	__super::Render_Object(); // 콜라이더 출력
 }
+
 
 HRESULT CEffect::Add_Component()
 {
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
+
+	pComponent = m_pBufferCom = dynamic_cast<CTerrainRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, pComponent);
+
 	return S_OK;
 }
 
-CEffect * CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CEffect * CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CEffect*	pInstance = new CEffect(pGraphicDev);
+	CEffect*	pInstance = new CEffect(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

@@ -92,7 +92,7 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Monster()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Projectile()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
-
+	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
 	return S_OK;
 }
 
@@ -473,23 +473,7 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	// Monster
 	pGameObject = CCuteMonster::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_01", pGameObject), E_FAIL);
-
-	pGameObject = CCuteMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_02", pGameObject), E_FAIL);
-
-	pGameObject = CCuteMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_03", pGameObject), E_FAIL);
-
-	pGameObject = CCuteMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_04", pGameObject), E_FAIL);
-
-	pGameObject = CCuteMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Cute", pGameObject), E_FAIL);
 
 	pGameObject = CHedgehog::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -522,6 +506,18 @@ HRESULT CScene_World::Ready_Layer_Projectile()
 
 	Engine::CGameObject*		pGameObject = nullptr;
 	m_mapLayer.insert({ OBJ_TYPE::PROJECTILE, pLayer });
+
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_Effect()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	Engine::CGameObject* pGameObject = nullptr;
+	m_mapLayer.insert({ OBJ_TYPE::EFFECT, pLayer });
 
 
 	return S_OK;

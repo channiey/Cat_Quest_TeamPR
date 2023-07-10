@@ -183,6 +183,7 @@
     <ClInclude Include="..\Header\Chest_Cosmetic.h" />
     <ClInclude Include="..\Header\Chest_Gold.h" />
     <ClInclude Include="..\Header\Chest_Regular.h" />
+    <ClInclude Include="..\Header\Effect_Skill_Fire.h" />
     <ClInclude Include="..\Header\Dungeon_Grass.h" />
     <ClInclude Include="..\Header\Dungeon_Ice.h" />
     <ClInclude Include="..\Header\Dungeon_Temple.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="..\Code\Chest_Cosmetic.cpp" />
     <ClCompile Include="..\Code\Chest_Gold.cpp" />
     <ClCompile Include="..\Code\Chest_Regular.cpp" />
+    <ClCompile Include="..\Code\Effect_Skill_Fire.cpp" />
     <ClCompile Include="..\Code\Dungeon_Grass.cpp" />
     <ClCompile Include="..\Code\Dungeon_Ice.cpp" />
     <ClCompile Include="..\Code\Dungeon_Temple.cpp" />

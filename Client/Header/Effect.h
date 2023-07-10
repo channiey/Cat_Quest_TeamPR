@@ -9,8 +9,8 @@ END
 class CEffect :
 	public CGameObject
 {
-private:
-	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev);
+protected:
+	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CEffect(const CEffect& rhs);
 	virtual ~CEffect();
 
@@ -20,13 +20,21 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	virtual void			Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) {};
+
 private:
 	HRESULT					Add_Component();
 
-public:
-	static CEffect*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
+protected:
+	CGameObject*			m_pOwnerobject;
+	_vec3					m_vOffSet;
+	_vec3					m_vSize;
 
-private:
+public:
+	static CEffect*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+
+protected:
 	virtual void			Free() override;
 };
 
