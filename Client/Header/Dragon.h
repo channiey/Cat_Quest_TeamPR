@@ -9,14 +9,11 @@ class CCollider;
 
 END
 
-class CHedgehog : public CMonster
+class CDragon : public CMonster
 {
-
-protected:
-		
-	explicit CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CHedgehog(const CMonster& rhs);
-	virtual ~CHedgehog();
+	explicit CDragon(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CDragon(const CMonster& rhs);
+	virtual ~CDragon();
 
 
 public:
@@ -37,16 +34,21 @@ private:
 private:
 	void				Move(const _float& fTimeDelta);
 
-public:
-	static				CHedgehog* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
-
-protected:
+private:
+	_vec3	m_vOriginPos;
 	//CTexture* m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
-		
+
+public:
+	static				CDragon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
+
 
 protected:
 	virtual void		Free() override;
+
+
+
+
 
 
 };

@@ -5,6 +5,9 @@
 BEGIN(Engine)
 class CTexture;
 class CAIComponent;
+class CRcTex;
+class CStateMachine;
+class CAnimator;
 
 END
 
@@ -21,6 +24,11 @@ public:
 	virtual void			LateUpdate_Object	() override;
 	virtual void			Render_Object		() override;
 
+
+public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
 
 #pragma region Access Methood
 
@@ -92,8 +100,9 @@ protected:
 	_float					fAccTime;
 
 protected:
-	CTexture*				m_pTextureCom;
+	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CAIComponent*			m_pAICom;
+	CStateMachine*			m_pStateMachineCom;
 
 
 protected:
