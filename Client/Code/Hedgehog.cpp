@@ -82,9 +82,9 @@ HRESULT CHedgehog::Add_Component()
 	CComponent*		pComponent = nullptr;
 
 	// Texture
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Hedgehog", this));
+	/*pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Hedgehog", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);*/
 
 
 	// AI
@@ -113,7 +113,7 @@ void CHedgehog::Move(const _float& fTimeDelta)
 	
 	_vec3		vLook;
 	vLook = vOwnerPos - vPlayerPos;
-	// _float fDistance = D3DXVec3Length(&vLook);
+	_float fDistance = D3DXVec3Length(&vLook);
 
 	m_pAICom->Chase_Target(&vPlayerPos, fTimeDelta, m_tMoveInfo.fMoveSpeed);
 

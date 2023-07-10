@@ -24,9 +24,9 @@ public:
 	virtual void		Render_Object() override;
 
 public:
-	virtual void		OnCollision_Enter(CGameObject* _pColObj);
-	virtual void		OnCollision_Stay(CGameObject* _pColObj);
-	virtual void		OnCollision_Exit(CGameObject* _pColObj);
+	virtual void		OnCollision_Enter(CGameObject* _pColObj) override;
+	virtual void		OnCollision_Stay(CGameObject* _pColObj) override;
+	virtual void		OnCollision_Exit(CGameObject* _pColObj) override;
 
 private:
 	HRESULT				Add_Component();

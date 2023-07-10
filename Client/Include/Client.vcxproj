@@ -188,6 +188,7 @@
     <ClInclude Include="..\Header\Dungeon_Grass.h" />
     <ClInclude Include="..\Header\Dungeon_Ice.h" />
     <ClInclude Include="..\Header\Dungeon_Temple.h" />
+    <ClInclude Include="..\Header\Dragon.h" />
     <ClInclude Include="..\Header\Environment.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\House.h" />
@@ -208,6 +209,9 @@
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\ManaUI.h" />
+    <ClInclude Include="..\Header\ManaBarUI.h" />
+    <ClInclude Include="..\Header\DragonState_fAttack.h" />
+    <ClInclude Include="..\Header\DragonState_fIdle.h" />
     <ClInclude Include="..\Header\Mountain.h" />
     <ClInclude Include="..\Header\Mountain_Grass.h" />
     <ClInclude Include="..\Header\Mountain_Ice.h" />
@@ -295,6 +299,7 @@
     <ClCompile Include="..\Code\Dungeon_Grass.cpp" />
     <ClCompile Include="..\Code\Dungeon_Ice.cpp" />
     <ClCompile Include="..\Code\Dungeon_Temple.cpp" />
+    <ClCompile Include="..\Code\Dragon.cpp" />
     <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\House.cpp" />
@@ -315,6 +320,9 @@
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\ManaUI.cpp" />
+    <ClCompile Include="..\Code\ManaBarUI.cpp" />
+    <ClCompile Include="..\Code\DragonState_fAttack.cpp" />
+    <ClCompile Include="..\Code\DragonState_fIdle.cpp" />
     <ClCompile Include="..\Code\Mountain.cpp" />
     <ClCompile Include="..\Code\Mountain_Grass.cpp" />
     <ClCompile Include="..\Code\Mountain_Ice.cpp" />

@@ -103,7 +103,7 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	_matrix		 BackUpView;
 
 	NULL_CHECK((CCameraMgr::GetInstance()->Get_CurCamera()))
-	BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+ 	BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
 	BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
 	BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
 	
