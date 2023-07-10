@@ -26,9 +26,7 @@ HRESULT CManaBarUI::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 0.5f, 1.f });
-	
 
-	
 
 	return S_OK;
 }
@@ -45,8 +43,6 @@ void CManaBarUI::LateUpdate_Object()
 	Follow_Pos();
 
 	__super::LateUpdate_Object();
-
-	
 }
 
 void CManaBarUI::Render_Object()
@@ -57,7 +53,6 @@ void CManaBarUI::Render_Object()
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-
 }
 
 HRESULT CManaBarUI::Add_Component()
@@ -85,7 +80,7 @@ void CManaBarUI::Follow_Pos()
 	_vec3		vPlayerPosition;
 	vPlayerPosition =  pPlayerTransform->Get_Info(INFO_POS);
 
-	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z  - 5.f});
+	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z  - 3.f});
 
 }
 

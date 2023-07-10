@@ -193,6 +193,7 @@
     <ClInclude Include="..\Header\PlayerState_fRoll.h" />
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
+    <ClInclude Include="..\Header\RingUI.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
     <ClInclude Include="..\Header\TabUI.h" />
     <ClInclude Include="..\Header\TerrainTool.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\Code\PlayerState_fRoll.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
+    <ClCompile Include="..\Code\RingUI.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
     <ClCompile Include="..\Code\TabUI.cpp" />
     <ClCompile Include="..\Code\TerrainTool.cpp" />

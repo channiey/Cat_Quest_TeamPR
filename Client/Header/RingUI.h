@@ -1,14 +1,16 @@
 #pragma once
 #include "UI.h"
 
-class CTabUI : public CUI  // 뷰포트 사용 | 피킹이 가능한 형태의 UI 입니다
+
+
+class CRingUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
 {
 
 protected:
 
-	explicit CTabUI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CTabUI(const CTabUI& rhs);
-	virtual ~CTabUI();
+	explicit CRingUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CRingUI(const CRingUI& rhs);
+	virtual ~CRingUI();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -18,19 +20,19 @@ public:
 
 private:
 	virtual HRESULT			Add_Component() override;
-	void					Picking_UI();
 
+	void	Follow_Player();
 
-protected:
-	bool					m_bPick;
-	RECT					m_rcUI;
+private:
+	_uint	m_iTranslucent;
+	_float	m_fAcc;
+	_bool	m_bIsReach;
 
 public:
-	static CTabUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CRingUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
 protected:
 	virtual void			Free() override;
-
 };
 

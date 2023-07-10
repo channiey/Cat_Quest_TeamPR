@@ -9,13 +9,23 @@ CUI::CUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_eUIType(UI_TYPE::TYPEEND)
 
 {
-
+	D3DXMatrixIdentity(&m_UImatWorld);
+	m_fPosX = 0.f;
+	m_fPosY = 0.f;
+	m_fSizeX = 0.f;
+	m_fSizeY = 0.f;
 }
 
 CUI::CUI(const CUI& rhs)
 	:Engine::CGameObject(rhs)
 {
-
+	m_pTextureCom = rhs.m_pTextureCom;
+	m_eUIType = rhs.m_eUIType;
+	m_UImatWorld = rhs.m_UImatWorld;
+	m_fPosX = rhs.m_fPosX;
+	m_fPosY = rhs.m_fPosY;
+	m_fSizeX = rhs.m_fSizeX;
+	m_fSizeY = rhs.m_fSizeY;
 }
 
 CUI::~CUI()
@@ -45,8 +55,6 @@ _int CUI::Update_Object(const _float& fTimeDelta)
 		Engine::Add_RenderGroup(RENDER_WDUI, this);
 	}
 
-
-
 	return iExit;
 }
 
@@ -56,16 +64,8 @@ void CUI::LateUpdate_Object()
 }
 
 void CUI::Render_Object()
-{
-	
+{	
 }
-
-HRESULT CUI::Add_Component()
-{
-
-	return S_OK;
-}
-
 
 void CUI::Free()
 {

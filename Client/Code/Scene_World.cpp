@@ -17,6 +17,7 @@
 #include "LevelUI.h"
 #include "TabUI.h"
 #include "ManaBarUI.h"
+#include "RingUI.h"
 #include "CuteMonster.h"
 #include "Hedgehog.h"
 #include "LineObject.h"
@@ -216,6 +217,11 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CManaBarUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_ManaBar", pGameObject), E_FAIL);
+
+	// UI - Ring
+	pGameObject = CRingUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Ring", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });

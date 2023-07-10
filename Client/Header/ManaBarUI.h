@@ -15,20 +15,14 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
-
-protected:
-
-	CTexture* m_pTextureCom = nullptr;
-
 private:
+	virtual	HRESULT			Add_Component() override;
 
-	HRESULT		Add_Component();
-
-	void		Follow_Pos();
+	void					Follow_Pos();
 
 public:
 
-	static CManaBarUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CManaBarUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 protected:
 	virtual void			Free() override;

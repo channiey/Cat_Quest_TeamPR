@@ -434,27 +434,6 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
-		m_pTransformCom->Translate(vec3.forward + vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
-		m_pTransformCom->Translate(vec3.forward + -vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
-		m_pTransformCom->Translate(-vec3.forward + vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
-		m_pTransformCom->Translate(-vec3.forward - vec3.right, fTimeDelta * m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
-		m_pTransformCom->Translate(DIR_FORWARD	, fTimeDelta *	 m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
-		m_pTransformCom->Translate(DIR_FORWARD	, fTimeDelta *	-m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
-		m_pTransformCom->Translate(DIR_RIGHT	, fTimeDelta *	 m_tMoveInfo.fMoveSpeed);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
-		m_pTransformCom->Translate(DIR_RIGHT	, fTimeDelta *	-m_tMoveInfo.fMoveSpeed);
-}
-
-void CPlayer::Free()
-{
-	__super::Free();
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -470,4 +449,9 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 
 	return pInstance;
+}
+
+void CPlayer::Free()
+{
+	__super::Free();
 }

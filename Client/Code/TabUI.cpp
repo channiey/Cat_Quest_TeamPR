@@ -31,9 +31,8 @@ HRESULT CTabUI::Ready_Object()
 _int CTabUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
 	Picking_UI();
-
-
 
 	return iExit;
 }
@@ -42,10 +41,10 @@ void CTabUI::LateUpdate_Object()
 {
 
 	// 새로운 뷰포트에서 쓸 월드스페이스 구성
-	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&m_UImatWorld);
 
-	m_fX = 70;
-	m_fY = WINCY - 656;
+	m_fPosX = 70;
+	m_fPosY = WINCY - 656;
 
 	if (m_bPick)
 	{
@@ -58,13 +57,13 @@ void CTabUI::LateUpdate_Object()
 		m_fSizeY = 50.f;
 	}
 
-	matWorld._41 = m_fX;
-	matWorld._42 = m_fY;
+	m_UImatWorld._41 = m_fPosX;
+	m_UImatWorld._42 = m_fPosY;
 
-	matWorld._11 = m_fSizeX;
-	matWorld._22 = m_fSizeY;
+	m_UImatWorld._11 = m_fSizeX;
+	m_UImatWorld._22 = m_fSizeY;
 
-	m_rcUI = { long(m_fX - m_fSizeX / 2.f) , long(m_fY - m_fSizeY / 2.f) , long(m_fX + m_fSizeX / 2.f) , long(m_fY + m_fSizeY / 2.f) };
+	m_rcUI = { long(m_fPosX - m_fSizeX / 2.f) , long(m_fPosY - m_fSizeY / 2.f) , long(m_fPosX + m_fSizeX / 2.f) , long(m_fPosY + m_fSizeY / 2.f) };
 	
 	
 
@@ -73,7 +72,7 @@ void CTabUI::LateUpdate_Object()
 
 void CTabUI::Render_Object()
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
 
 	if (m_bPick)
 	{

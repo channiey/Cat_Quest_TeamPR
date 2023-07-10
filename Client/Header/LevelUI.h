@@ -18,29 +18,14 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
-
-
-protected:
-
-	CTexture* m_pTextureCom = nullptr;
-
-
-	_matrix matWorld;
-
-	_float m_fX;
-	_float m_fY;
-
-	_float m_fSizeX;
-	_float m_fSizeY;
-
 private:
 
-	HRESULT		Add_Component();
+	virtual HRESULT			Add_Component() override;
 
 
 public:
 
-	static CLevelUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CLevelUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
 protected:

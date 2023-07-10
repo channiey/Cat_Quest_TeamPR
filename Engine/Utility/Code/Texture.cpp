@@ -65,7 +65,7 @@ void CTexture::Render_Texture(const _uint & iIndex)
 		return;
 
 	m_pGraphicDev->SetTexture(0, m_vecTexture[iIndex]); 
-
+	
 	// 디바이스에 텍스처 정보가 먼저 세팅된 뒤, 버퍼가 출력되어야 한다
 	// (게임 오브젝트 Render_Object()함수 내에서 아래 서순)
 	//		1. m_pTextureCom->Render_Texture(0); 

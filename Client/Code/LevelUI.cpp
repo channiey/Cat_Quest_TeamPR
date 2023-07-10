@@ -19,19 +19,19 @@ HRESULT CLevelUI::Ready_Object()
 {
 	m_eUIType = UI_TYPE::VIEW;
 	
-	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&m_UImatWorld);
 
-	m_fX = 50;
-	m_fY = WINCY - 64;
+	m_fPosX = 64;
+	m_fPosY = WINCY - 72;
 
 	m_fSizeX =  48;
 	m_fSizeY =  64;
 
-	matWorld._41 = m_fX;
-	matWorld._42 = m_fY;
+	m_UImatWorld._41 = m_fPosX;
+	m_UImatWorld._42 = m_fPosY;
 
-	matWorld._11 = m_fSizeX;
-	matWorld._22 = m_fSizeY;
+	m_UImatWorld._11 = m_fSizeX;
+	m_UImatWorld._22 = m_fSizeY;
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -53,7 +53,7 @@ void CLevelUI::LateUpdate_Object()
 void CLevelUI::Render_Object()
 {
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
