@@ -1,7 +1,6 @@
 #include "Dragon.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
-#include "TimerMgr.h"
 
 #include "DragonState_fIdle.h"
 #include "DragonState_fAttack.h"
@@ -41,7 +40,7 @@ HRESULT CDragon::Ready_Object()
 									m_pTransformCom->Get_Scale().y,
 									10.f });
 
-	m_vOriginPos = { 20.f, m_pTransformCom->Get_Scale().y, 10.f };
+	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
 
 	fPatternTime = 2.f;
@@ -139,9 +138,12 @@ HRESULT CDragon::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
+
+
+	// Animator
+	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
 
 
 #pragma region Texture

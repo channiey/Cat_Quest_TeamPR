@@ -35,7 +35,7 @@ private:
 	void				Move(const _float& fTimeDelta);
 
 private:
-	_vec3	m_vOriginPos;
+	
 	
 public:
 	static				CDragon* Create(LPDIRECT3DDEVICE9 pGraphicDev);

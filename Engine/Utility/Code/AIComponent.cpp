@@ -33,45 +33,51 @@ _int CAIComponent::Update_Component(const _float& fTimeDelta)
 }
 
 
-void CAIComponent::Random_Move(const _vec3* vOriginPos, const _vec3* vCurPos, const _float& fTimeDelta, const _float& fSpeed)
+void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
 {
 	_int RandomDir;
-	
-	RandomDir = rand() % 4 + 1;
-	
+
+	srand(_int(time(NULL)));
+
+	RandomDir = rand() % 5 + 1;
+
+
 	switch (RandomDir)
 	{
 	case 1:
-		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.right);
 		break;
 	case 2:
-		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.left);
 		break;
 	case 3:
-		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.forward);
 		break;
 	case 4:
-		//vCurPos = &m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
-		m_pOwnerObject->Get_Transform()->Set_Dir( vec3.back);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.back);
 		break;
-	
+	case 5:
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
 	default:
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
 		break;
 	}
 	
 
 
-}
+};
+
+
+
 
 void CAIComponent::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed)
 {
+
 	_vec3 OwnerPos;
 	OwnerPos = CComponent::Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS);
 
 	_vec3 vDir = *pTargetPos - OwnerPos;
+
 	OwnerPos += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
 
 	_matrix		matRot = *Compute_LookAtTarget(pTargetPos);
@@ -100,18 +106,26 @@ const _matrix* CAIComponent::Compute_LookAtTarget(const _vec3* pTargetPos)
 	_vec3 OwnerLook;
 	OwnerLook = CComponent::Get_OwnerObject()->Get_Transform()->Get_Info(INFO_LOOK);
 	
+	_vec3 OwnerUp;
+	OwnerUp = CComponent::Get_OwnerObject()->Get_Transform()->Get_Info(INFO_UP);
+
 	_vec3 vDir = *pTargetPos - OwnerPos;
 
 	_matrix		matRot;
-	_vec3		vAxis, vUp;
+	_vec3		vAxis;
 
+	
+
+	D3DXMatrixLookAtLH(&matRot, &OwnerPos, pTargetPos, &OwnerUp);
 
 	return D3DXMatrixRotationAxis(
-		&matRot,
-		D3DXVec3Cross(&vAxis, &OwnerLook, &vDir),
-		acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir),
-		D3DXVec3Normalize(&vDir, &OwnerLook))));
-		
+									&matRot,
+									D3DXVec3Cross(&vAxis, &OwnerUp, &vDir),
+									acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir),
+									D3DXVec3Normalize(&OwnerUp, &OwnerUp))));
+	
+	
+
 }
 
 CAIComponent* CAIComponent::Create(LPDIRECT3DDEVICE9 pGraphicDev)

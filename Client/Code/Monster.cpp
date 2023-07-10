@@ -8,6 +8,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_pAICom(nullptr)
 	, m_pStateMachineCom(nullptr)
 	, fPatternTime(0.f)
+	, m_vOriginPos({0.f,0.f,0.f})
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -20,6 +21,7 @@ CMonster::CMonster(const CMonster& rhs)
 	, m_tMoveInfo(rhs.m_tMoveInfo)
 	, m_tStatInfo(rhs.m_tStatInfo)
 	, fPatternTime(rhs.fPatternTime)
+	, m_vOriginPos(rhs.m_vOriginPos)
 {
 
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
@@ -39,38 +41,18 @@ HRESULT CMonster::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	// 각각의 몬스터에서 스케일 방향 위치 선정
-	//m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
-	//m_pTransformCom->Set_Dir(vec3.right);
-	//m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
-
-
-
-#pragma region State Add
-
-	
-
-#pragma endregion
-
-
-#pragma region Anim Add
-
-
-
-#pragma endregion
-
 
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
-
-
-
 	return S_OK;
 }
 
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
+	
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
@@ -90,10 +72,9 @@ void CMonster::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
-	//m_pTextureCom->Render_Texture();
 	m_pStateMachineCom->Render_StateMachine();
-	m_pBufferCom->Render_Buffer();
 
+	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetTexture(0, NULL);
 
@@ -135,11 +116,10 @@ HRESULT CMonster::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::STATEMACHINE, pComponent);
 
-
-	// Animator
-	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
+	// AI
+	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
 
 
 

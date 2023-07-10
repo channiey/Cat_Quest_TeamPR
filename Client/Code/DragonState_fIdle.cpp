@@ -110,7 +110,7 @@ CDragonState_fIdle* CDragonState_fIdle::Create(LPDIRECT3DDEVICE9 pGraphicDev, CS
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Monster fIdleState Create Failed");
+        MSG_BOX("DragonState fIdleState Create Failed");
         return nullptr;
 
     }

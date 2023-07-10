@@ -34,11 +34,12 @@ STATE_TYPE CDragonState_bIdle::Update_State(const _float& fTimeDelta)
 
 void CDragonState_bIdle::LateUpdate_State()
 {
-    //cout << "Back_Idle" << endl;
+   
 }
 
 void CDragonState_bIdle::Render_State()
 {
+    //cout << "Back_Idle" << endl;
 }
 
 STATE_TYPE CDragonState_bIdle::Key_Input(const _float& fTimeDelta)
@@ -109,7 +110,7 @@ CDragonState_bIdle* CDragonState_bIdle::Create(LPDIRECT3DDEVICE9 pGraphicDev, CS
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Monster bIdleState Create Failed");
+        MSG_BOX("DragonState bIdleState Create Failed");
         return nullptr;
 
     }

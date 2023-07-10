@@ -2,6 +2,15 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
+#include "HedgehogState_fIdle.h"
+#include "HedgehogState_fAttack.h"
+
+#include "HedgehogState_bIdle.h"
+#include "HedgehogState_bAttack.h"
+
+#include "HedgehogState_Patrol.h"
+#include "HedgehogState_Chase.h"
+
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
 {
@@ -37,17 +46,62 @@ HRESULT CHedgehog::Ready_Object()
 									m_pTransformCom->Get_Scale().y,
 									_float(rand() % 70) });
 
+	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
+
+
+	
+
+	fPatternTime = 2.f;
+
+
+#pragma region State Add
+
+	CState* pState;
+
+	// Patrol
+	pState = CHedgehogState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
+
+	// Chase
+	pState = CHedgehogState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::CHASE, pState);
+
+	//// Front - Idle
+	//pState = CHedgehogState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_IDLE, pState);
+	
+	//// Front - Attack
+	//pState = CHedgehogState_fAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+
+
+	//// Back - Idle
+	//pState = CHedgehogState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BACK_IDLE, pState);
+	
+	//// Back - Attack
+	//pState = CHedgehogState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK, pState);
+
+
+
+#pragma endregion
+
+	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+
 
 	return S_OK;
 }
 
 _int CHedgehog::Update_Object(const _float& fTimeDelta)
 {
+	
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	Move(fTimeDelta);
 
+	Move(fTimeDelta);
+	
 
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	return iExit;
@@ -55,13 +109,25 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 
 void CHedgehog::LateUpdate_Object()
 {
+	
 	__super::LateUpdate_Object();
 
 }
 
 void CHedgehog::Render_Object()
 {
-	__super::Render_Object();
+	m_pTextureCom[14]->Render_Texture();
+	
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+	
+	m_pBufferCom->Render_Buffer();
+	
+	m_pGraphicDev->SetTexture(0, NULL);
+
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+	
+
+	//__super::Render_Object();
 
 }
 
@@ -81,18 +147,28 @@ HRESULT CHedgehog::Add_Component()
 {
 	CComponent*		pComponent = nullptr;
 
-	// Texture
-	/*pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Hedgehog", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);*/
-
-
 	// AI
 	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
 
 
+	
+
+
+#pragma region Texture
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Hedgehog", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Hedgehog", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+#pragma endregion
 
 
 	return S_OK;
@@ -100,23 +176,7 @@ HRESULT CHedgehog::Add_Component()
 
 void CHedgehog::Move(const _float& fTimeDelta)
 {
-
-	// 플레이어 위치 가져오기
-	CTransform * pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
-
-	_vec3	vPlayerPos;
-	vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
-
-	_vec3	vOwnerPos;
-	vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
-	
-	_vec3		vLook;
-	vLook = vOwnerPos - vPlayerPos;
-	_float fDistance = D3DXVec3Length(&vLook);
-
-	m_pAICom->Chase_Target(&vPlayerPos, fTimeDelta, m_tMoveInfo.fMoveSpeed);
-
+	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
 
 }
 

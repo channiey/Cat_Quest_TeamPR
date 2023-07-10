@@ -30,12 +30,18 @@ HRESULT CAnimator::Ready_Animator()
 
 void CAnimator::Update_Animator(const _float& fTimeDelta)
 {
+
+	
 	m_pCurAnimation->Update_Animation(fTimeDelta);
+	
+
 }
 
 void CAnimator::Render_Animator()
 {
+	
 	m_pCurAnimation->Render_Animation();
+	
 }
 
 HRESULT CAnimator::Add_Animation(STATE_TYPE eState, CAnimation* pAnimation)

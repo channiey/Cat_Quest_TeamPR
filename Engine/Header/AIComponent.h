@@ -24,7 +24,7 @@ public:
 	const	_matrix* Compute_LookAtTarget(const _vec3* pTargetPos);
 	
 	
-	void	Random_Move(const _vec3* vOriginPos, const _vec3* vCurPos, const _float& fTimeDelta, const _float& fSpeed);
+	void	Random_Move(const _float& fTimeDelta, const _float& fSpeed);
 
 
 public:
