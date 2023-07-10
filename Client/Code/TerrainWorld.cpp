@@ -19,16 +19,7 @@ CTerrainWorld::~CTerrainWorld()
 
 HRESULT CTerrainWorld::Ready_Object(void)
 {
-	/*
-	
-	터레인 텍스는버텍스를 설정할떄 x, z를 사용하는데
-	RC 텍스는 버텍스 설정때 x, y사용하니까
-
-	형이 별도의 텍스를 하나 만들어서 그걸로 사요하면 될듯 rC 텍스에서 y, z만 바꾼걸로
-	
-	*/
 	CTerrain::Ready_Object();
-
 
 	m_pTransformCom->Set_Scale(_vec3(100.f, 0.f, 100.f));
 	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
@@ -60,6 +51,12 @@ void CTerrainWorld::Render_Object(void)
 
 HRESULT CTerrainWorld::Add_Component(void)
 {
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Terrain_GW", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 	return S_OK;
 }
 

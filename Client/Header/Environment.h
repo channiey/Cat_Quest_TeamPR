@@ -27,9 +27,6 @@ private:
 protected:
 	CTexture* m_pTextureCom = nullptr;
 
-public:
-	// static CEnvironment* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
 protected:
 	virtual void			Free() override;
 

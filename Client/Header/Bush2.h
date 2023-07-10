@@ -1,20 +1,19 @@
 #pragma once
 #include "GameObject.h"
-#include "Environment.h"
+#include "Bush.h"
 
 BEGIN(Engine)
 
-class CRcCol;
 class CCollider;
 
 END
 
-class CForest : public CEnvironment
+class CBush2 : public CBush
 {
 protected:
-	explicit CForest(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CForest(const CEnvironment& rhs);
-	virtual ~CForest();
+	explicit CBush2(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CBush2(const CBush& rhs);
+	virtual ~CBush2();
 
 public:
 	virtual HRESULT		Ready_Object() override;
@@ -29,8 +28,9 @@ public:
 
 private:
 	HRESULT				Add_Component();
+
 public:
-	static				CForest* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static				CBush2* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 protected:
 	virtual void		Free() override;

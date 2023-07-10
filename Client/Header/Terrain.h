@@ -25,7 +25,7 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
-private:
+protected:
 	CTexture*			m_pTextureCom = nullptr;
 
 public:
