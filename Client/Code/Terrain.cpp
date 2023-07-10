@@ -6,7 +6,7 @@
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::TERRAIN)
 {
-
+	m_bTool = false;
 }
 CTerrain::CTerrain(const CTerrain& rhs)
 	: Engine::CGameObject(rhs)
@@ -19,8 +19,6 @@ CTerrain::~CTerrain()
 
 HRESULT CTerrain::Ready_Object(void)
 {
-	m_bTool = false;
-
 	CGameObject::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -64,7 +62,7 @@ HRESULT CTerrain::Add_Component(void)
 	pComponent = m_pBufferCom = dynamic_cast<CTerrainRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, pComponent);
-
+	
 	return S_OK;
 }
 

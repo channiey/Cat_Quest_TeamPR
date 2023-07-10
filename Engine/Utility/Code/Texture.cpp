@@ -17,6 +17,7 @@ CTexture::CTexture(const CTexture & rhs, CGameObject* _pOwnerObject)
 	m_vecTexture.reserve(iContainer);
 
 	m_vecTexture = rhs.m_vecTexture;
+	m_vecPath = rhs.m_vecPath; // ¼ºÇõ Ãß°¡
 	m_iTexCnt = rhs.m_iTexCnt;
 
 	for (_uint i = 0; i < iContainer; ++i) 
@@ -53,6 +54,7 @@ HRESULT CTexture::Ready_Texture(TEXTUREID eType, const _tchar * pPath, const _ui
 			break;
 		}
 
+		m_vecPath.push_back(pPath); // ¼ºÇõ Ãß°¡
 		m_vecTexture.push_back(pTexture);
 	}
 

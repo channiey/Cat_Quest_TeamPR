@@ -6,6 +6,7 @@
 CTerrainTool::CTerrainTool(LPDIRECT3DDEVICE9 pGraphicDev)
 	:	CTerrain(pGraphicDev)
 {
+	m_bTool = true;
 }
 
 CTerrainTool::CTerrainTool(const CTerrain& rhs)
@@ -19,10 +20,7 @@ CTerrainTool::~CTerrainTool()
 
 HRESULT CTerrainTool::Ready_Object(void)
 {
-	m_bTool = true;
-	CGameObject::Ready_Object();
-
-	m_pTransformCom->Set_Pos(_vec3{ 0.f, m_pTransformCom->Get_Scale().y, -VTXCNTZ / 2 });
+	CTerrain::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
