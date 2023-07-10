@@ -21,6 +21,9 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	CTexture*				Get_Texture() { return m_pTextureCom; }
+
 private:
 	HRESULT					Add_Component();
 

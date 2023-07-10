@@ -27,6 +27,7 @@ public:
 	const SCENE_TYPE&				Get_SceneType() const { return m_eType; }
 
 public:
+	// ¼ºÇõ Ãß°¡
 	HRESULT							Empty_Layer(const OBJ_TYPE& _eObjType);
 
 public:

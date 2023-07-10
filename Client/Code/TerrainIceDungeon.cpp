@@ -6,6 +6,7 @@
 CTerrainIceDungeon::CTerrainIceDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTerrain(pGraphicDev)
 {
+	m_bTool = false;
 }
 
 CTerrainIceDungeon::CTerrainIceDungeon(const CTerrain& rhs)

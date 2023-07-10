@@ -20,8 +20,13 @@ public:
 
 	_uint&								Get_TexCnt() { return m_iTexCnt; }
 
+	// ¼ºÇõ Ãß°¡
+	LPDIRECT3DTEXTURE9*					Get_Texture()		{ return (LPDIRECT3DTEXTURE9*)&m_vecTexture[0]; };
+	const _tchar*						Get_TexturePath()	{ return m_vecPath[0]; }
+
 private:
 	vector<IDirect3DBaseTexture9*>		m_vecTexture;
+	vector<const _tchar*>				m_vecPath; // ¼ºÇõ Ãß°¡
 	_uint								m_iTexCnt;
 
 public:
