@@ -237,17 +237,7 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region KIM
 
-	// UI - Level
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Level",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI_Level.png")), E_FAIL);
-
-	// UI - Tab
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Tab",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI_Tab.png")), E_FAIL);
-
-	// UI - ManaBar
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_ManaBar",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/ManaBar.png")), E_FAIL);
+	
 
 	// Monster - Hedgehog
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Hedgehog",
@@ -309,6 +299,16 @@ _uint CLoadingThread::Loading_For_World()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Zoom",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Zoom/%d.png", 2)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Tab",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Level",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI_Level.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Bar",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Bar/%d.png", 8)), E_FAIL);
+
 
 #pragma endregion
 

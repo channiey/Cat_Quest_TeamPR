@@ -23,8 +23,8 @@ HRESULT CZoomUI::Ready_Object()
 
 	m_iZoomState = 0;
 
-	m_fPosX = WINCX - 70;
-	m_fPosY = WINCY - 656;
+	m_fPosX = WINCX - 75;
+	m_fPosY = WINCY - 650;
 
 	m_fSizeX = 52.5;
 	m_fSizeY = 56;

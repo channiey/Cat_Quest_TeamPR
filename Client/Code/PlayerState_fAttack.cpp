@@ -23,7 +23,7 @@ HRESULT CPlayerState_fAttack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 {
-	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 5.f);
+	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
 
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 

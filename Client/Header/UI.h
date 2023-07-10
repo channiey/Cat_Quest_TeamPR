@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "GameObject.h"
 #include "Engine_Define.h"
 

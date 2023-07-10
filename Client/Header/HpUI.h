@@ -1,16 +1,14 @@
 #pragma once
 #include "UI.h"
 
-class CPlayer;
-
-class CLevelUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
+class CHpUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
 {
 
 protected:
 
-	explicit CLevelUI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CLevelUI(const CLevelUI& rhs);
-	virtual ~CLevelUI();
+	explicit CHpUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CHpUI(const CHpUI& rhs);
+	virtual ~CHpUI();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -21,15 +19,14 @@ public:
 private:
 	virtual HRESULT			Add_Component() override;
 
-private:
-	CPlayer*	m_pPlayer;
+	void					Follow_Player();
 
-	wstring		m_strPlayerLevel;
-	RECT		m_rcLevel;
+private:
+	CVIBuffer*				m_pUIBufferCom[4];
+	CTransform*				m_pUITransformCom[4];
 
 public:
-
-	static CLevelUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CHpUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
 protected:

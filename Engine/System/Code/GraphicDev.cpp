@@ -66,6 +66,26 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		MSG_BOX("Create Font Failed");
 		return E_FAIL;
 	}
+
+	// 타이틀 폰트
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 30, 10, 650, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Germania One", &m_pTitleFont)))
+	{
+		MSG_BOX("Create TitleFont Failed");
+		return E_FAIL;
+	}
+	// 인게임 폰트
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 30, 10, 650, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pInGameFont)))
+	{
+		MSG_BOX("Create InGameFont Failed");
+		return E_FAIL;
+	}
+	// 레벨UI 폰트
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 100, 30, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pLevelFont)))
+	{
+		MSG_BOX("Create LevelFont Failed");
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -87,6 +107,15 @@ void CGraphicDev::Free()
 	_ulong	dwRefCnt = 0;
 
 	if (dwRefCnt = Safe_Release(m_pFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pTitleFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pInGameFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pLevelFont))
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pGraphicDev))

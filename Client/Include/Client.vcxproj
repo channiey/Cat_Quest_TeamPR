@@ -183,6 +183,7 @@
     <ClInclude Include="..\Header\Chest_Cosmetic.h" />
     <ClInclude Include="..\Header\Chest_Gold.h" />
     <ClInclude Include="..\Header\Chest_Regular.h" />
+    <ClInclude Include="..\Header\DefUI.h" />
     <ClInclude Include="..\Header\Dungeon_Grass.h" />
     <ClInclude Include="..\Header\Dungeon_Ice.h" />
     <ClInclude Include="..\Header\Dungeon_Temple.h" />
@@ -201,10 +202,11 @@
     <ClInclude Include="..\Header\House4.h" />
     <ClInclude Include="..\Header\House5.h" />
     <ClInclude Include="..\Header\House6.h" />
+    <ClInclude Include="..\Header\HpUI.h" />
     <ClInclude Include="..\Header\Ice_Pillar1.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
-    <ClInclude Include="..\Header\ManaBarUI.h" />
+    <ClInclude Include="..\Header\ManaUI.h" />
     <ClInclude Include="..\Header\Mountain.h" />
     <ClInclude Include="..\Header\Mountain_Grass.h" />
     <ClInclude Include="..\Header\Mountain_Ice.h" />
@@ -287,6 +289,7 @@
     <ClCompile Include="..\Code\Chest_Cosmetic.cpp" />
     <ClCompile Include="..\Code\Chest_Gold.cpp" />
     <ClCompile Include="..\Code\Chest_Regular.cpp" />
+    <ClCompile Include="..\Code\DefUI.cpp" />
     <ClCompile Include="..\Code\Dungeon_Grass.cpp" />
     <ClCompile Include="..\Code\Dungeon_Ice.cpp" />
     <ClCompile Include="..\Code\Dungeon_Temple.cpp" />
@@ -305,10 +308,11 @@
     <ClCompile Include="..\Code\House4.cpp" />
     <ClCompile Include="..\Code\House5.cpp" />
     <ClCompile Include="..\Code\House6.cpp" />
+    <ClCompile Include="..\Code\HpUI.cpp" />
     <ClCompile Include="..\Code\Ice_Pillar1.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
-    <ClCompile Include="..\Code\ManaBarUI.cpp" />
+    <ClCompile Include="..\Code\ManaUI.cpp" />
     <ClCompile Include="..\Code\Mountain.cpp" />
     <ClCompile Include="..\Code\Mountain_Grass.cpp" />
     <ClCompile Include="..\Code\Mountain_Ice.cpp" />

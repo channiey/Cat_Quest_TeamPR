@@ -62,7 +62,6 @@
 
 #include "LevelUI.h"
 #include "TabUI.h"
-#include "ManaBarUI.h"
 #include "RingUI.h"
 #include "ZoomUI.h"
 
@@ -86,12 +85,13 @@ HRESULT CScene_World::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_UI()			, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Player()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Monster()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Projectile()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
+	
 
 	return S_OK;
 }
@@ -424,11 +424,6 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CTabUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Tab", pGameObject), E_FAIL);
-
-	// UI - ManaBar
-	pGameObject = CManaBarUI::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_ManaBar", pGameObject), E_FAIL);
 
 	// UI - Ring
 	pGameObject = CRingUI::Create(m_pGraphicDev);

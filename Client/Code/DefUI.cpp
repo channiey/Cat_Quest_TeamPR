@@ -1,21 +1,21 @@
-#include "RingUI.h"
+#include "DefUI.h"
 #include "Export_Function.h"
 
-CRingUI::CRingUI(LPDIRECT3DDEVICE9 pGraphicDev)
+CDefUI::CDefUI(LPDIRECT3DDEVICE9 pGraphicDev)
      :CUI(pGraphicDev)
 {
 }
 
-CRingUI::CRingUI(const CRingUI& rhs)
+CDefUI::CDefUI(const CDefUI& rhs)
 	: CUI(rhs)
 {
 }
 
-CRingUI::~CRingUI()
+CDefUI::~CDefUI()
 {
 }
 
-HRESULT CRingUI::Ready_Object()
+HRESULT CDefUI::Ready_Object()
 {
 	CGameObject::Ready_Object();
 
@@ -34,7 +34,7 @@ HRESULT CRingUI::Ready_Object()
 	return S_OK;
 }
 
-_int CRingUI::Update_Object(const _float& fTimeDelta)
+_int CDefUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -61,7 +61,7 @@ _int CRingUI::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CRingUI::LateUpdate_Object()
+void CDefUI::LateUpdate_Object()
 {
 	Follow_Player();
 
@@ -69,7 +69,7 @@ void CRingUI::LateUpdate_Object()
 
 }
 
-void CRingUI::Render_Object()
+void CDefUI::Render_Object()
 {
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -83,7 +83,7 @@ void CRingUI::Render_Object()
 
 }
 
-HRESULT CRingUI::Add_Component()
+HRESULT CDefUI::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -99,7 +99,7 @@ HRESULT CRingUI::Add_Component()
 	return S_OK;
 }
 
-void CRingUI::Follow_Player()
+void CDefUI::Follow_Player()
 {
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
@@ -110,22 +110,22 @@ void CRingUI::Follow_Player()
 	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z + 0.1f });
 }
 
-CRingUI* CRingUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CDefUI* CDefUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CRingUI* pInstance = new CRingUI(pGraphicDev);
+	CDefUI* pInstance = new CDefUI(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("RingUI Create Failed");
+		MSG_BOX("DefUI Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CRingUI::Free()
+void CDefUI::Free()
 {
 	__super::Free();
 
