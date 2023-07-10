@@ -169,6 +169,8 @@
   <ItemGroup>
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\Dragon.h" />
+    <ClInclude Include="..\Header\DragonState_bAttack.h" />
+    <ClInclude Include="..\Header\DragonState_bIdle.h" />
     <ClInclude Include="..\Header\Environment.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Building.h" />
@@ -178,6 +180,7 @@
     <ClInclude Include="..\Header\Forest.h" />
     <ClInclude Include="..\Header\CuteMonster.h" />
     <ClInclude Include="..\Header\Hedgehog.h" />
+    <ClInclude Include="..\Header\Hedgehog_fIdle.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\ManaBarUI.h" />
@@ -231,6 +234,8 @@
   <ItemGroup>
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\Dragon.cpp" />
+    <ClCompile Include="..\Code\DragonState_bAttack.cpp" />
+    <ClCompile Include="..\Code\DragonState_bIdle.cpp" />
     <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Building.cpp" />
@@ -240,6 +245,7 @@
     <ClCompile Include="..\Code\Forest.cpp" />
     <ClCompile Include="..\Code\CuteMonster.cpp" />
     <ClCompile Include="..\Code\Hedgehog.cpp" />
+    <ClCompile Include="..\Code\Hedgehog_fIdle.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\ManaBarUI.cpp" />

@@ -36,8 +36,7 @@ private:
 
 private:
 	_vec3	m_vOriginPos;
-	//CTexture* m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
-
+	
 public:
 	static				CDragon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

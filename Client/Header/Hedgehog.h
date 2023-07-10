@@ -39,11 +39,7 @@ private:
 
 public:
 	static				CHedgehog* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
-
-protected:
-	//CTexture* m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
-		
+	
 
 protected:
 	virtual void		Free() override;
