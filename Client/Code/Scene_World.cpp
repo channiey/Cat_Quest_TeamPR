@@ -59,12 +59,14 @@
 #include "Player_Camera.h"
 #include "Tool_Camera.h"
 #include "EventMgr.h"
-
+// UI
 #include "LevelUI.h"
 #include "TabUI.h"
-#include "ManaBarUI.h"
 #include "RingUI.h"
 #include "ZoomUI.h"
+#include "HpUI.h"
+#include "ManaUI.h"
+#include "DefUI.h"
 
 #include "CuteMonster.h"
 #include "Hedgehog.h"
@@ -86,13 +88,15 @@ HRESULT CScene_World::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_UI()			, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Player()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Monster()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Projectile()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
+	
+
 	return S_OK;
 }
 
@@ -425,20 +429,33 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Tab", pGameObject), E_FAIL);
 
-	// UI - ManaBar
-	pGameObject = CManaBarUI::Create(m_pGraphicDev);
+	
+
+	// UI - Zoom
+	pGameObject = CZoomUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_ManaBar", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
+
+	// UI - Hp
+	pGameObject = CHpUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Hp", pGameObject), E_FAIL);
+
+	// UI - Def
+	pGameObject = CDefUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Def", pGameObject), E_FAIL);
+
+	// UI - Mana
+	pGameObject = CManaUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Mana", pGameObject), E_FAIL);
 
 	// UI - Ring
 	pGameObject = CRingUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Ring", pGameObject), E_FAIL);
 
-	// UI - Zoom
-	pGameObject = CZoomUI::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 

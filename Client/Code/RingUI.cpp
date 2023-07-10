@@ -40,7 +40,7 @@ _int CRingUI::Update_Object(const _float& fTimeDelta)
 
 	m_fAcc += fTimeDelta;
 
-	if (0.000001f < m_fAcc)
+	if (0.01f < m_fAcc)
 	{
 		if (m_bIsReach)
 		{
@@ -51,11 +51,11 @@ _int CRingUI::Update_Object(const _float& fTimeDelta)
 		else if (!m_bIsReach)
 		{
 			m_iTranslucent++;
-			if (200 <= m_iTranslucent)
+			if (225 <= m_iTranslucent)
 				m_bIsReach = true;
 		}
 
-		m_fAcc = m_fAcc - 0.000001f;
+		m_fAcc = m_fAcc - 0.01f;
 	}
 
 	return iExit;
@@ -73,12 +73,11 @@ void CRingUI::Render_Object()
 {
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-
+	
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 

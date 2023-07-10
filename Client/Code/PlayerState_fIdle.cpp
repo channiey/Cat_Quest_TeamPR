@@ -48,11 +48,14 @@ STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 		return STATE_TYPE::FRONT_WALK;
 
+	
+	// 구르기
 	if (CInputDev::GetInstance()->Key_Down(VK_SPACE))
 		return STATE_TYPE::FRONT_ROLL;
 
+	// 공격
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
-		return STATE_TYPE::FRONT_ATTACK; // 나중에 공격으로 바꿀것
+		return STATE_TYPE::FRONT_ATTACK; 
 
 		return m_eState;
 }

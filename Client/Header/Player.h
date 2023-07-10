@@ -59,6 +59,9 @@ public:
 	void				Set_MaxMP(const _float& _fMaxMp) { m_tStatInfo.fMaxMP = _fMaxMp; }
 	void				Set_CurMP(const _float& _fCurMp) { m_tStatInfo.fCurMP = _fCurMp; }
 
+	void				Set_MaxDef(const _float& _fMaxDef) { m_tStatInfo.fMaxDef = _fMaxDef; }
+	void				Set_CurDef(const _float& _fCurDef) { m_tStatInfo.fCurDef = _fCurDef; }
+
 	void				Set_MaxExp(const _float& _fMaxExp) { m_tStatInfo.fMaxExp = _fMaxExp; }
 	void				Set_CurExp(const _float& _fCurExp) { m_tStatInfo.fCurExp = _fCurExp; }
 
@@ -74,6 +77,9 @@ public:
 
 	void				Add_MaxMP(const _float& _fMaxMp) { m_tStatInfo.fMaxMP += _fMaxMp; }
 	void				Add_CurMP(const _float& _fCurMp) { m_tStatInfo.fCurMP += _fCurMp; }
+
+	void				Add_MaxDef(const _float& _fMaxDef) { m_tStatInfo.fMaxDef += _fMaxDef; }
+	void				Add_CurDef(const _float& _fCurDef) { m_tStatInfo.fCurDef += _fCurDef; }
 
 	void				Add_MaxExp(const _float& _fMaxExp) { m_tStatInfo.fMaxExp += _fMaxExp; }
 	void				Add_CurExp(const _float& _fCurExp) { m_tStatInfo.fCurExp += _fCurExp; }

@@ -43,18 +43,18 @@ void CTabUI::LateUpdate_Object()
 	// 새로운 뷰포트에서 쓸 월드스페이스 구성
 	D3DXMatrixIdentity(&m_UImatWorld);
 
-	m_fPosX = 70;
-	m_fPosY = WINCY - 656;
+	m_fPosX = 75;
+	m_fPosY = WINCY - 650;
 
 	if (m_bPick)
 	{
-		m_fSizeX = 75.f;
-		m_fSizeY = 60.f;
+		m_fSizeX = 72.5f;
+		m_fSizeY = 60.5f;
 	}
 	else
 	{
-		m_fSizeX = 62.5f;
-		m_fSizeY = 50.f;
+		m_fSizeX = 66.5f;
+		m_fSizeY = 54.5;
 	}
 
 	m_UImatWorld._41 = m_fPosX;

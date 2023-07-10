@@ -16,6 +16,9 @@ private:
 public:
 	LPDIRECT3DDEVICE9		Get_GraphicDev() { return m_pGraphicDev; }
 	LPD3DXFONT				Get_Font(void) { return m_pFont; }
+	LPD3DXFONT				Get_TitleFont(void) { return m_pTitleFont; }
+	LPD3DXFONT				Get_InGameFont(void) { return m_pInGameFont; }
+	LPD3DXFONT				Get_LevelFont(void) { return m_pLevelFont; }
 
 public:
 	HRESULT					Ready_GraphicDev(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY, CGraphicDev** ppGraphicDev);
@@ -26,6 +29,9 @@ private:
 	LPDIRECT3D9				m_pSDK;
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 	LPD3DXFONT				m_pFont;
+	LPD3DXFONT				m_pTitleFont;
+	LPD3DXFONT				m_pInGameFont;
+	LPD3DXFONT				m_pLevelFont;
 
 
 public:

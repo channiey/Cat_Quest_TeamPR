@@ -1,14 +1,18 @@
 #include "LevelUI.h"
 #include "Export_Function.h"
 
+#include "Player.h"
+
 CLevelUI::CLevelUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev)
+     :CUI(pGraphicDev), m_pPlayer(nullptr)
 {
 }
 
 CLevelUI::CLevelUI(const CLevelUI& rhs)
 	: CUI(rhs)
 {
+	m_pPlayer = rhs.m_pPlayer;
+	m_strPlayerLevel = rhs.m_strPlayerLevel;
 }
 
 CLevelUI::~CLevelUI()
@@ -22,16 +26,21 @@ HRESULT CLevelUI::Ready_Object()
 	D3DXMatrixIdentity(&m_UImatWorld);
 
 	m_fPosX = 64;
-	m_fPosY = WINCY - 72;
+	m_fPosY = 72;
 
 	m_fSizeX =  48;
 	m_fSizeY =  64;
 
 	m_UImatWorld._41 = m_fPosX;
-	m_UImatWorld._42 = m_fPosY;
+	m_UImatWorld._42 = WINCY - m_fPosY;
 
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;
+
+	m_rcLevel.left = m_fPosX - m_fSizeX + 3;
+	m_rcLevel.right = m_fPosX + m_fSizeX + 3;
+	m_rcLevel.top = m_fPosY - m_fSizeY + 10;
+	m_rcLevel.bottom = m_fPosY + m_fSizeY + 10;
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -41,6 +50,12 @@ HRESULT CLevelUI::Ready_Object()
 _int CLevelUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (nullptr == m_pPlayer)
+		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+		
+	if (nullptr != m_pPlayer)
+		m_strPlayerLevel = to_wstring(m_pPlayer->Get_StatInfo().iLevel);
 
 	return iExit;
 }
@@ -57,6 +72,8 @@ void CLevelUI::Render_Object()
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
+
+	CGraphicDev::GetInstance()->Get_LevelFont()->DrawTextW(NULL, m_strPlayerLevel.c_str(), -1, &m_rcLevel, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
 }
 
 HRESULT CLevelUI::Add_Component()
