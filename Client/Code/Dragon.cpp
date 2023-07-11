@@ -36,7 +36,7 @@ HRESULT CDragon::Ready_Object()
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 12.f, 12.f, 2.f });
 
-	m_pTransformCom->Set_Pos(_vec3{ 100.f,
+	m_pTransformCom->Set_Pos(_vec3{ 150.f,
 									m_pTransformCom->Get_Scale().y,
 									10.f });
 

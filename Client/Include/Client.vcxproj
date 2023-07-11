@@ -193,6 +193,8 @@
     <ClInclude Include="..\Header\DragonState_bIdle.h" />
     <ClInclude Include="..\Header\Environment.h" />
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\HedgehogState_Attack.h" />
+    <ClInclude Include="..\Header\HedgehogState_ComeBack.h" />
     <ClInclude Include="..\Header\House.h" />
     <ClInclude Include="..\Header\Calculator.h" />
     <ClInclude Include="..\Header\CameraTargetObj.h" />
@@ -311,6 +313,8 @@
     <ClCompile Include="..\Code\DragonState_bIdle.cpp" />
     <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_Attack.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_ComeBack.cpp" />
     <ClCompile Include="..\Code\House.cpp" />
     <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\CameraTargetObj.cpp" />

@@ -10,6 +10,8 @@
 
 #include "HedgehogState_Patrol.h"
 #include "HedgehogState_Chase.h"
+#include "HedgehogState_ComeBack.h"
+#include "HedgehogState_Attack.h"
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
@@ -42,9 +44,9 @@ HRESULT CHedgehog::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
 	//m_pTransformCom->Set_Pos(_vec3{ 300.f, m_pTransformCom->Get_Scale().y, 300.f });
 
-	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX - 30.f + rand() % 40),
+	m_pTransformCom->Set_Pos(_vec3{ _float(VTXCNTX / 2.f),
 									m_pTransformCom->Get_Scale().y,
-									_float(rand() % 70) });
+									_float(20.f) });
 
 	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
@@ -65,6 +67,16 @@ HRESULT CHedgehog::Ready_Object()
 	// Chase
 	pState = CHedgehogState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::CHASE, pState);
+
+
+	// ComeBack
+	pState = CHedgehogState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::COMEBACK, pState);
+
+	// Attack
+	pState = CHedgegohState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+
 
 	//// Front - Idle
 	//pState = CHedgehogState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
