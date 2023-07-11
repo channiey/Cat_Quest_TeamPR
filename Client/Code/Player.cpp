@@ -299,20 +299,6 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 												vMyPos.y,
 												vMyPos.z });
 		}
-		// 입장 가능 UI
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_ENTER) {
-			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-			m_pEnterUI->EnterUI_On(UIENTER_TYPE::ENTER, _pColObj);
-		}
-		// 탐색 가능 UI
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
-			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-			m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
-		}
 	}
 	break;
 	case Engine::OBJ_TYPE::LINE:
@@ -355,6 +341,21 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 													vMyPos.y,
 													vMyPos.z });
 			}
+		}
+
+		// 입장 가능 UI
+		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_ENTER) {
+			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+			m_pEnterUI->EnterUI_On(UIENTER_TYPE::ENTER, _pColObj);
+		}
+		// 탐색 가능 UI
+		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
+			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+			m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
 		}
 	}
 	break;
