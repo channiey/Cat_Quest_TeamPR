@@ -19,7 +19,7 @@
 #include "PlayerState_bAttack1.h"
 #include "PlayerState_bAttack2.h"
 
-#include "Environment.h"
+#include "EnterUI.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
@@ -48,7 +48,7 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Ready_Object()
 {
 	CGameObject::Ready_Object();
-	
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
@@ -120,7 +120,7 @@ HRESULT CPlayer::Ready_Object()
 	// 앞 구르기애니메이션 추가
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
-	
+
 
 	// 뒤 서기애니메이션 추가
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
@@ -163,7 +163,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -179,11 +179,11 @@ void CPlayer::LateUpdate_Object()
 }
 
 void CPlayer::Render_Object()
-{	
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat()); 
-	
+{
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
 	m_pStateMachineCom->Render_StateMachine();
-	m_pBufferCom->Render_Buffer();						
+	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetTexture(0, NULL);
 
@@ -244,35 +244,30 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-			if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO)
-			{
-				if (vOverlap.x > vOverlap.z)
-				{
-					if (vMyPos.z < vColPos.z)
-						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-														vMyPos.y,
-														vMyPos.z - vOverlap.z });
-					else
-						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-														vMyPos.y,
-														vMyPos.z + vOverlap.z });
-				}
-				else
-				{
-					if (vMyPos.x < vColPos.x)
-						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-														vMyPos.y,
-														vMyPos.z });
-					else
-						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-														vMyPos.y,
-														vMyPos.z });
-				}
-			}
-			dynamic_cast<CEnvironment*>(_pColObj)->Set_EventSwitch(true);
-			dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(true);
+		if (vOverlap.x > vOverlap.z)
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z - vOverlap.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z + vOverlap.z });
 		}
-		break;
+		else
+		{
+			if (vMyPos.x < vColPos.x)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+		}
+	}
+	break;
 	default:
 		break;
 	}
@@ -314,7 +309,7 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	}
 	break;
 	case Engine::OBJ_TYPE::LINE:
-	{		
+	{
 		m_pTransformCom->Set_Pos(vMyPos + static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line());
 	}
 	break;
@@ -330,32 +325,30 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO) {
-			if (vOverlap.x > vOverlap.z)
-			{
-				if (vMyPos.z < vColPos.z)
-					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-													vMyPos.y,
-													vMyPos.z - vOverlap.z });
-				else
-					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-													vMyPos.y,
-													vMyPos.z + vOverlap.z });
-			}
+		if (vOverlap.x > vOverlap.z)
+		{
+			if (vMyPos.z < vColPos.z)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z - vOverlap.z });
 			else
-			{
-				if (vMyPos.x < vColPos.x)
-					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-													vMyPos.y,
-													vMyPos.z });
-				else
-					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-													vMyPos.y,
-													vMyPos.z });
-			}
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+												vMyPos.y,
+												vMyPos.z + vOverlap.z });
+		}
+		else
+		{
+			if (vMyPos.x < vColPos.x)
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
+			else
+				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+												vMyPos.y,
+												vMyPos.z });
 		}
 	}
-		break;
+	break;
 	default:
 		break;
 	}
@@ -363,21 +356,11 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
-	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
-
-	switch (_pColObj->Get_Type())
-	{
-	case Engine::OBJ_TYPE::ENVIRONMENT:
-	{
-		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(false);
-	}
-	break;
-	}
 }
 
 HRESULT CPlayer::Add_Component()
 {
-	CComponent*		pComponent = nullptr;
+	CComponent* pComponent = nullptr;
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -398,7 +381,7 @@ HRESULT CPlayer::Add_Component()
 
 
 
-	
+
 #pragma region Texture
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -482,11 +465,27 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_CurDef(60);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_L))
 		Set_CurDef(Get_StatInfo().fMaxDef);
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_I))
+		Set_CurExp(100);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_O))
+		Set_CurExp(300);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_P))
+		Set_CurExp(500);
+
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Q))
+	{
+		CEnterUI* pEnterUI = static_cast<CEnterUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+		pEnterUI->EnterUI_On(this);
+	}
+
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CPlayer*	pInstance = new CPlayer(pGraphicDev);
+	CPlayer* pInstance = new CPlayer(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

@@ -44,6 +44,9 @@ _int CHpUI::Update_Object(const _float& fTimeDelta)
 	if (nullptr != m_pPlayer)
 		m_fHpRatio = m_pPlayer->Get_StatInfo().fCurHP / m_pPlayer->Get_StatInfo().fMaxHP;
 
+	if (1.f < m_fHpRatio)
+		m_fHpRatio = 1.f;
+
 	return iExit;
 }
 

@@ -44,6 +44,9 @@ _int CManaUI::Update_Object(const _float& fTimeDelta)
 	if (nullptr != m_pPlayer)
 		m_fMpRatio = m_pPlayer->Get_StatInfo().fCurMP / m_pPlayer->Get_StatInfo().fMaxMP;
 
+	if (1.f < m_fMpRatio)
+		m_fMpRatio = 1.f;
+
 	return iExit;
 }
 
