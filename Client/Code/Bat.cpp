@@ -96,7 +96,6 @@ HRESULT CBat::Ready_Object()
 
 #pragma endregion
 
-	
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
@@ -107,9 +106,10 @@ HRESULT CBat::Ready_Object()
 _int CBat::Update_Object(const _float& fTimeDelta)
 {
 
-
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
-	
+
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
+
 	Move(fTimeDelta);
 
 	_int iExit = CMonster::Update_Object(fTimeDelta);

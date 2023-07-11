@@ -49,11 +49,9 @@ HRESULT CMonster::Ready_Object()
 
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
-	
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
-
 
 	return iExit;
 }
@@ -61,7 +59,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 void CMonster::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
-
+	
 	m_pStateMachineCom->LateUpdate_StateMachine();
 
 }
