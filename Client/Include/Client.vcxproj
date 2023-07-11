@@ -210,11 +210,7 @@
     <ClInclude Include="..\Header\House6.h" />
     <ClInclude Include="..\Header\HpUI.h" />
     <ClInclude Include="..\Header\Ice_Pillar1.h" />
-    <ClInclude Include="..\Header\HedgehogState_bAttack.h" />
-    <ClInclude Include="..\Header\HedgehogState_bIdle.h" />
     <ClInclude Include="..\Header\HedgehogState_Chase.h" />
-    <ClInclude Include="..\Header\HedgehogState_fAttack.h" />
-    <ClInclude Include="..\Header\HedgehogState_fIdle.h" />
     <ClInclude Include="..\Header\HedgehogState_Patrol.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
@@ -330,11 +326,7 @@
     <ClCompile Include="..\Code\House6.cpp" />
     <ClCompile Include="..\Code\HpUI.cpp" />
     <ClCompile Include="..\Code\Ice_Pillar1.cpp" />
-    <ClCompile Include="..\Code\HedgehogState_bAttack.cpp" />
-    <ClCompile Include="..\Code\HedgehogState_bIdle.cpp" />
     <ClCompile Include="..\Code\HedgehogState_Chase.cpp" />
-    <ClCompile Include="..\Code\HedgehogState_fAttack.cpp" />
-    <ClCompile Include="..\Code\HedgehogState_fIdle.cpp" />
     <ClCompile Include="..\Code\HedgehogState_Patrol.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
