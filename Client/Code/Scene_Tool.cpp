@@ -155,18 +155,18 @@ HRESULT CScene_Tool::Ready_Layer_Terrain()
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
-	// 
-	// pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld_Ice", pGameObject), E_FAIL);
+	
+	 pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
+	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld_Ice", pGameObject), E_FAIL);
 
-	// pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);
+	 pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
+	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);
 
-	// pGameObject = CTerrainTool::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", pGameObject), E_FAIL);
+	/* pGameObject = CTerrainTool::Create(m_pGraphicDev);
+	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", pGameObject), E_FAIL);*/
 
 	return S_OK;
 }
@@ -344,35 +344,6 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	pGameObject = CChest_Regular::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Regular_Chest", pGameObject), E_FAIL);
-
-
-	// Line Test
-/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f - 20.f, 0.f, -20.f }, _vec3{ VTXCNTX * 0.5f, 0.f, 0.f });
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_01", pGameObject), E_FAIL);
-
-pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f - 60.f, 0.f, -20.f }, _vec3{ VTXCNTX * 0.5f - 30.f, 0.f, 0.f });
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_02", pGameObject), E_FAIL);*/
-
-
-/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 20.f, 0.f, 0.f }, _vec3{ VTXCNTX * 0.5f + 20.f, 0.f, 20.f });
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_03", pGameObject), E_FAIL);*/
-
-//pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{  VTXCNTX * 0.5f + 40.f, 0.f, 20.f }, _vec3{ VTXCNTX * 0.5f + 40.f, 0.f, 0.f });
-//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_04", pGameObject), E_FAIL);
-
-
-/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 30.f, 0.f, -30.f }, _vec3{ VTXCNTX * 0.5f + 10.f, 0.f, -10.f });
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_05", pGameObject), E_FAIL);*/
-
-
-//pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 50.f, 0.f, -30.f }, _vec3{ VTXCNTX * 0.5f + 30.f, 0.f, -30.f });
-//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_06", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 

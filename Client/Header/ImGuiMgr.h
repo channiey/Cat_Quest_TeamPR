@@ -3,20 +3,9 @@
 #include "Engine_Define.h"
 #include "Base.h"
 
-#pragma region Global
-
-enum class				IMG_OBJ_TYPE { TERRAIN, ENVIRONMENT, MONSTER, NPC, ITEM, LINE, TYPEEND };
-
-static const char*		arr_ImgObjType[(UINT)IMG_OBJ_TYPE::TYPEEND] = { "Trrain", "Environment", "Monster", "Npc", "Item", "Line" };
-
-static _bool			bInit = false;
-
-static const int		g_iImagPerRow = 4;
-
-#pragma endregion
-
-
 BEGIN(Engine)
+
+class CLayer;
 END
 
 class CImGuiMgr : public CBase
@@ -29,7 +18,7 @@ private:
 
 
 public: 
-	HRESULT						ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev);
+	HRESULT						ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev); // 이벤트 매니저 생성 전
 	void						ImGui_Update();
 	void						ImGui_Render();
 
@@ -43,6 +32,7 @@ private:
 private:
 	LPDIRECT3DTEXTURE9			LoadImageFile(const char* filePath); 
 	string						wstring_to_utf8(const std::wstring& str); 
+	const _vec3&				Get_ClickPos();
 
 private:
 	LPDIRECT3DDEVICE9			m_pGraphicDev;

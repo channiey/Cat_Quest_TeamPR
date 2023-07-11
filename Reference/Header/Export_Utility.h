@@ -3,6 +3,9 @@
 
 // Strucutre & SingleTon
 #include "Management.h"
+#include "Scene.h"
+#include "Layer.h"
+#include "GameObject.h"
 
 // Manager
 #include "ProtoMgr.h"
