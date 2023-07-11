@@ -226,6 +226,7 @@
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\KingHouse.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
+    <ClInclude Include="..\Header\MagicShop.h" />
     <ClInclude Include="..\Header\ManaUI.h" />
     <ClInclude Include="..\Header\DragonState_fAttack.h" />
     <ClInclude Include="..\Header\DragonState_fIdle.h" />
@@ -260,6 +261,7 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Squirrel.h" />
     <ClInclude Include="..\Header\SquirrelState_Attack.h" />
     <ClInclude Include="..\Header\SquirrelState_Chase.h" />
@@ -369,6 +371,7 @@
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\KingHouse.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
+    <ClCompile Include="..\Code\MagicShop.cpp" />
     <ClCompile Include="..\Code\ManaUI.cpp" />
     <ClCompile Include="..\Code\DragonState_fAttack.cpp" />
     <ClCompile Include="..\Code\DragonState_fIdle.cpp" />
@@ -403,6 +406,7 @@
     <ClCompile Include="..\Code\Rock_Pillar2.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
+    <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Squirrel.cpp" />
     <ClCompile Include="..\Code\SquirrelState_Attack.cpp" />
     <ClCompile Include="..\Code\SquirrelState_Chase.cpp" />

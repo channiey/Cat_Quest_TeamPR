@@ -1,25 +1,23 @@
 #include "stdafx.h"
-#include "..\Header\Dungeon.h"
+#include "Smithy.h"
 
 #include "Export_Function.h"
 
-#include "EventMgr.h"
-
-CDungeon::CDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
+CSmithy::CSmithy(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CEnvironment(pGraphicDev)
 {
 }
 
-CDungeon::CDungeon(const CDungeon& rhs)
+CSmithy::CSmithy(const CSmithy& rhs)
 	: CEnvironment(rhs)
 {
 }
 
-CDungeon::~CDungeon()
+CSmithy::~CSmithy()
 {
 }
 
-HRESULT CDungeon::Ready_Object()
+HRESULT CSmithy::Ready_Object()
 {
 	CEnvironment::Ready_Object();
 
@@ -28,22 +26,27 @@ HRESULT CDungeon::Ready_Object()
 	m_eEnter = ENTER_TYPE::ENTER_NO;
 	m_eInteraction = INTERACTION_TYPE::INTERACTION_ENTER;
 
+	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
+	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) - 20.f, m_pTransformCom->Get_Scale().y, 25.f });
+
 	return S_OK;
 }
 
-_int CDungeon::Update_Object(const _float& fTimeDelta)
+_int CSmithy::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iExit;
 }
 
-void CDungeon::LateUpdate_Object()
+void CSmithy::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CDungeon::Render_Object()
+void CSmithy::Render_Object()
 {
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -58,28 +61,53 @@ void CDungeon::Render_Object()
 	CEnvironment::Render_Object();
 }
 
-void CDungeon::Play_ColLogic(const _float& fTimeDelta)
+void CSmithy::OnCollision_Enter(CGameObject* _pColObj)
 {
 }
 
-HRESULT CDungeon::Add_Component()
+void CSmithy::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSmithy::OnCollision_Exit(CGameObject* _pColObj)
+{
+}
+
+HRESULT CSmithy::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	// Rc Texture
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
-	// Rect Collider
 	pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
 
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Smithy", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 	return S_OK;
 }
 
-void CDungeon::Free()
+CSmithy* CSmithy::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	CSmithy* pInstance = new CSmithy(pGraphicDev);
+
+	if (FAILED(pInstance->Ready_Object()))
+	{
+		Safe_Release(pInstance);
+
+		MSG_BOX("Smithy Create Failed");
+		return nullptr;
+	}
+
+	return pInstance;
+}
+
+void CSmithy::Free()
 {
 	__super::Free();
 }

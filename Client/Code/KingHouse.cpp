@@ -24,6 +24,7 @@ HRESULT CKingHouse::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_eEnter = ENTER_TYPE::ENTER;
+	m_eInteraction = INTERACTION_TYPE::INTERACTION_ALPHA;
 	m_iTranslucent = 255;
 
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 6.f, 6.f });

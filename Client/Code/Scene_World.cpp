@@ -8,7 +8,7 @@
 #include "Bush.h"
 #include "Mountain.h"
 #include "Dungeon.h"
-// ºôµù(Áý)
+// ºôµù
 #include "House1.h"
 #include "House2.h"
 #include "House3.h"
@@ -16,6 +16,8 @@
 #include "House5.h"
 #include "House6.h"
 #include "KingHouse.h"
+#include "Smithy.h"
+#include "MagicShop.h"
 // ºÎ½¬
 #include "Bush1.h"
 #include "Bush2.h"
@@ -212,6 +214,16 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	pGameObject = CKingHouse::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"KingHouse", pGameObject), E_FAIL);
+
+	// Smithy
+	pGameObject = CSmithy::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Smithy", pGameObject), E_FAIL);
+
+	// Magic Shop
+	pGameObject = CMagicShop::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MagicShop", pGameObject), E_FAIL);
 
 #pragma endregion
 	

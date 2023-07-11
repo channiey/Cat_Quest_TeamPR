@@ -149,7 +149,7 @@ void CEnterUI::EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj)
 	_float ScreenY = -vObjWorldPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2);
 
 	m_UImatWorld._41 = ScreenX;
-	m_UImatWorld._42 = ScreenY + 70;
+	m_UImatWorld._42 = ScreenY + 170;
 }
 
 void CEnterUI::EnterUI_Off()

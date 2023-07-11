@@ -109,23 +109,31 @@ _uint CLoadingThread::Loading_For_World()
 
 	// House
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House1",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_1.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/town_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House2",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_2.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/town_2.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House3",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_3.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/town_3.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House4",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_4.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/town_4.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House5",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_5.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/town_5.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House6",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_6.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/town_6.png")), E_FAIL);
 
 	// KingHouse
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_KingHouse_In",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/capital_city_interior.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/capital_city_interior.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_KingHouse_Out",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/capital_city.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/House/capital_city.png")), E_FAIL);
+
+	// Smithy
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Smithy",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/kit_cat_smithy.png")), E_FAIL);
+
+	// Magic Shop
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_MagicShop",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/arcane_temples.png")), E_FAIL);
 
 
 #pragma endregion
