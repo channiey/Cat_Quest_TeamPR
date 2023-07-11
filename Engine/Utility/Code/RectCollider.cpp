@@ -25,7 +25,6 @@ CRectCollider::CRectCollider(const CRectCollider& rhs, CGameObject* _pOwnerObjec
 	m_vSize = m_pOwnerObject->Get_Transform()->Get_Scale();
 
 	D3DXCreateBox(m_pGraphicDev, m_vSize.x, m_vSize.y, 0.f, &m_pMesh, NULL);
-
 	NULL_CHECK_MSG(m_pMesh, L"Failed Create Box Mesh");
 }
 

@@ -177,7 +177,6 @@ HRESULT CHedgehog::Add_Component()
 void CHedgehog::Move(const _float& fTimeDelta)
 {
 	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-
 }
 
 

@@ -112,6 +112,7 @@ void CScene_World::LateUpdate_Scene()
 {
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::MONSTER);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ENVIRONMENT);
+
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
 	__super::LateUpdate_Scene();

@@ -20,13 +20,7 @@
 #include "TerrainIceWorld.h"
 #include "TerrainIceDungeon.h"
 
-
 #include <iostream>
-#ifdef UNICODE
-#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
-#else
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-#endif
 
 // 전역변수
 // 이미지 관련
