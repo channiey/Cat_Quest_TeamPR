@@ -1,28 +1,28 @@
-#include "HedgehogState_Patrol.h"
+#include "HedgehogState_Attack.h"
 #include "Export_Function.h"
 
 
-CHedgehogState_Patrol::CHedgehogState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CHedgegohState_Attack::CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CHedgehogState_Patrol::~CHedgehogState_Patrol()
+CHedgegohState_Attack::~CHedgegohState_Attack()
 {
 }
 
-HRESULT CHedgehogState_Patrol::Ready_State(CStateMachine* pOwner)
+HRESULT CHedgegohState_Attack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::PATROL;
+    m_eState = STATE_TYPE::FRONT_ATTACK;
     return S_OK;
 }
 
-STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
 {
     
     STATE_TYPE eState;
@@ -61,61 +61,57 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
 
    if (OwnerPatternTime <= m_fAccTime)
    {
-       pOwnerAI->Random_Move(fTimeDelta, OwnerSpeed);
+       pOwnerAI->Chase_Target(&PlayerPos, fTimeDelta, OwnerSpeed*2);
        m_fAccTime = 0.f;
    }
 
 
 
    // CHASE 전이 조건
-   if (fDistance <= 10.f)
+   if (fDistance >= 10.f  &&  fDistance < 30.f)
    {
-       cout << "CHASe 전이" << endl;
+       cout << "chase  전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::CHASE;
    }
-
+ 
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 20.f  && fDistance> 20.f )
+   if (fOriginDistance >= 20.f)
    {
-       cout << "comback 전이" << endl;
+       cout << "COMBACK  전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::COMEBACK;
    }
-   if (fDistance <= 5.f)  // Attack 전이 조건
-   {
-       cout << "attack 전이" << endl;
-       pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::FRONT_ATTACK;
-   }
-
-
-   return STATE_TYPE::PATROL;
   
 
+   return STATE_TYPE::FRONT_ATTACK;
+  
+
+   // Patrol 전이 조건
+   //chase -> patrol 가게 해둠
 
   
 }
 
-void CHedgehogState_Patrol::LateUpdate_State()
+void CHedgegohState_Attack::LateUpdate_State()
 {
 
 }
 
-void CHedgehogState_Patrol::Render_State()
+void CHedgegohState_Attack::Render_State()
 {
     
 }
 
-STATE_TYPE CHedgehogState_Patrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CHedgegohState_Attack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CHedgehogState_Patrol* CHedgehogState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CHedgegohState_Attack* CHedgegohState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CHedgehogState_Patrol* pInstance = new CHedgehogState_Patrol(pGraphicDev);
+    CHedgegohState_Attack* pInstance = new CHedgegohState_Attack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -128,7 +124,7 @@ CHedgehogState_Patrol* CHedgehogState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicD
     return pInstance;
 }
 
-void CHedgehogState_Patrol::Free()
+void CHedgegohState_Attack::Free()
 {
     __super::Free();
 }
