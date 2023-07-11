@@ -20,6 +20,7 @@
 #include "PlayerState_bAttack2.h"
 
 #include "Environment.h"
+#include "EnterUI.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
@@ -55,89 +56,61 @@ HRESULT CPlayer::Ready_Object()
 	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
 
-#pragma region �����߰�
-	// �� �ǰݻ��� �߰�
+#pragma region State
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_HIT, pState);
-	// �� �ȱ���� �߰�
 	pState = CPlayerState_fWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_WALK, pState);
-	// �� ������� �߰�
 	pState = CPlayerState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_IDLE, pState);
-	// �� ��������� �߰�
 	pState = CPlayerState_fRoll::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ROLL, pState);
-	// �� ���ݻ��� �߰�
 	pState = CPlayerState_fAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
-	// �� ����1���� �߰�
 	pState = CPlayerState_fAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK1, pState);
-	// �� ����2���� �߰�
 	pState = CPlayerState_fAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK2, pState);
-
-	// �� ������� �߰�
 	pState = CPlayerState_bIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_IDLE, pState);
-	// �� �ȱ���� �߰�
 	pState = CPlayerState_bWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_WALK, pState);
-	// �� ��������� �߰�
 	pState = CPlayerState_bRoll::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ROLL, pState);
-	// �� ���ݻ��� �߰�
 	pState = CPlayerState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK, pState);
-	// �� ����1���� �߰�
 	pState = CPlayerState_bAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK1, pState);
-	// �� ����2���� �߰�
 	pState = CPlayerState_bAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK2, pState);
 #pragma endregion
 
-#pragma region �ִϸ��߰�
-	// �ǰݾִϸ��̼� �߰�
+#pragma region Animation
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
-	// �� �ȱ�ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
-	// �� ����ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
-	// �� ���ݾִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.08f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
-	// �� ����1�ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)], STATE_TYPE::FRONT_ATTACK1, 0.08f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK1, pAnimation);
-	// �� ����2�ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)], STATE_TYPE::FRONT_ATTACK2, 0.08f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
-	// �� ������ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
 
-
-	// �� ����ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
-	// �� �ȱ�ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.09f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
-	// �� ���ݾִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
-	// �� �ȱ�ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)], STATE_TYPE::BACK_ATTACK1, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK1, pAnimation);
-	// �� �ȱ�ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)], STATE_TYPE::BACK_ATTACK2, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
-	// �� ������ִϸ��̼� �߰�
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
 #pragma endregion
@@ -163,7 +136,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -459,7 +432,7 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	// ��UI �����׽�Ʈ
+	// UI 테스트 용
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Z))
 		Set_CurHP(30);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_X))
@@ -482,6 +455,23 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_CurDef(60);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_L))
 		Set_CurDef(Get_StatInfo().fMaxDef);
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_I))
+		Set_CurExp(0);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_O))
+		Set_CurExp(200);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_P))
+		Set_CurExp(500);
+
+	CEnterUI* pEnterUI = static_cast<CEnterUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Q))
+	{
+		pEnterUI->EnterUI_On(this);
+		
+	}
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_E))
+		pEnterUI->EnterUI_Off(this);
+		
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

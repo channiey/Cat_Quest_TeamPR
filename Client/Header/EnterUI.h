@@ -28,6 +28,8 @@ private:
 
 	_bool					m_bIsShirk;
 	_bool					m_bIsExpand;
+	_bool					m_bIsStart;
+	_bool					m_bIsEnd;
 
 public:
 

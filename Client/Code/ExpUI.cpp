@@ -65,7 +65,7 @@ _int CExpUI::Update_Object(const _float& fTimeDelta)
 	{
 		m_fAcc += fTimeDelta;
 
-		if (3.5f < m_fAcc)
+		if (3.f < m_fAcc)
 		{
 			m_bIsExpChange = false;
 			m_fAcc = 0.f;
