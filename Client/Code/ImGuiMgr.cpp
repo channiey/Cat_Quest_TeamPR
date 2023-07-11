@@ -56,11 +56,9 @@ void CImGuiMgr::ImGui_Update()
 	ImGui::Begin("Tool Tab");
 
 #pragma region Scene Header
-
 	if (ImGui::CollapsingHeader("Scene"))
 	{
 #pragma region Button
-
 		if (ImGui::Button("New"))                         
 		{
 
@@ -80,22 +78,31 @@ void CImGuiMgr::ImGui_Update()
 		{
 
 		}
-
 #pragma endregion
+#pragma region List Box (Image)
 
-		
+		//ImTextureID image = L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
 
+		//if (ImGui::BeginListBox("##", ImVec2(280.f, 300.f)))
+		//{
+		//	for (int i = 0; i < 1; ++i) 
+		//	{
+
+		//		if (ImGui::ImageButton(image, ImVec2(50.f, 50.f)))
+		//		{
+
+		//		}
+		//		// 한 줄에 4개씩 이미지 출력
+
+		//	}
+		//	ImGui::EndListBox();
+		//}
+#pragma endregion
 	}
 #pragma endregion
-
-
-
-
 #pragma region Obj Header
-
 	if (ImGui::CollapsingHeader("Object"))
 	{
-	
 #pragma region Combo
 		static ImGuiComboFlags flags = 0;
 
@@ -116,20 +123,13 @@ void CImGuiMgr::ImGui_Update()
 			}
 			ImGui::EndCombo();
 		}
-
 #pragma endregion
-
 	}
-
 #pragma endregion
-
 #pragma region Light Header
-
 	if (ImGui::CollapsingHeader("Light"))
 	{
-
 	}
-
 #pragma endregion
 
 	ImGui::End();

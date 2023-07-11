@@ -24,7 +24,8 @@ public: /* MainApp에서 돌아가야 할 기본적인 함수들 */
 	void						ImGui_Render();
 
 public:
-
+private:
+	//LPDIRECT3DTEXTURE9      LoadImageFile(const char* filePath); 
 
 private:
 	LPDIRECT3DDEVICE9			m_pGraphicDev;
