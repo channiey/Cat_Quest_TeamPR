@@ -21,6 +21,7 @@ public:
 
 public:
 	HRESULT			Ready_StateMachine();
+
 	// 현재상태의 업데이트의 반환 상태타입을 받아 비교하여 상태가 변했는지 판단함
 	void			Update_StateMachine(const _float& fTimeDelta);
 	void			LateUpdate_StateMachine();
@@ -55,5 +56,6 @@ private:
 	virtual void	Free();
 
 };
+
 
 END

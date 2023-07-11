@@ -32,9 +32,11 @@ HRESULT CStateMachine::Ready_StateMachine()
 
 void CStateMachine::Update_StateMachine(const _float& fTimeDelta)
 {
-	STATE_TYPE eState = m_pCurState->Update_State(fTimeDelta);
 
-	m_pAnimator->Update_Animator(fTimeDelta);
+	STATE_TYPE eState = m_pCurState->Update_State(fTimeDelta);
+	
+	if(nullptr != m_pAnimator)
+		m_pAnimator->Update_Animator(fTimeDelta);
 
 	// 현재 상태와 다른상태가 반환되면 반환된 상태로 변경
 	if (eState != m_eCurState)
@@ -49,7 +51,9 @@ void CStateMachine::LateUpdate_StateMachine()
 void CStateMachine::Render_StateMachine()
 {
 	m_pCurState->Render_State();
-	m_pAnimator->Render_Animator();
+	
+	if (nullptr != m_pAnimator)
+		m_pAnimator->Render_Animator();
 }
 
 _bool CStateMachine::Is_AnimationEnd()

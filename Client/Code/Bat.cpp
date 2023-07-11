@@ -110,12 +110,7 @@ HRESULT CBat::Add_Component()
 void CBat::Move(const _float& fTimeDelta)
 {
 	
-	  m_pAICom->Random_Move(
-			&m_vOriginPos,
-			&m_pTransformCom->Get_Info(INFO_POS),
-			fTimeDelta,
-			m_tMoveInfo.fMoveSpeed
-		);
+	  m_pAICom->Random_Move(fTimeDelta,m_tMoveInfo.fMoveSpeed);
 
 }
 

@@ -105,7 +105,6 @@ void CCuteMonster::Move(const _float& fTimeDelta)
 {
 	m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * -m_tMoveInfo.fMoveSpeed * 0.1f);
 
-
 }
 
 void CCuteMonster::Free()

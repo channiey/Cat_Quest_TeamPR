@@ -73,7 +73,7 @@ CDragonState_fAttack* CDragonState_fAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Monster fAttackState Create Failed");
+        MSG_BOX("DragonState fAttackState Create Failed");
         return nullptr;
 
     }

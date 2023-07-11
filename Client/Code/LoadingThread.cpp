@@ -232,9 +232,7 @@ _uint CLoadingThread::Loading_For_World()
 
 	
 
-	// Monster - Hedgehog
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Hedgehog",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/basic_hedgehog.png")), E_FAIL);
+	
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
@@ -249,6 +247,21 @@ _uint CLoadingThread::Loading_For_World()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dragon_fAttack",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Dragon/Front/Attack/%d.png", 6)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dragon_bIdle",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Dragon/Back/Idle/%d.png", 5)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dragon_bAttack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Dragon/BAck/Attack/%d.png", 6)), E_FAIL);
+
+
+	// Monster - Hedgehog
+ 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Hedgehog",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/hedgehog.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/hedgehog_back.png")), E_FAIL);
+
 
 #pragma endregion
 

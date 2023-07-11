@@ -87,6 +87,11 @@ public:
 	void				Add_Level(const _uint& _iLevel) { m_tStatInfo.iLevel += _iLevel; }
 #pragma endregion
 
+	const _vec3& Get_OriginPos() const    { return m_vOriginPos; }
+	const _float& Get_PatternTime() const { return fPatternTime; }
+
+	void		Set_AccTime(_float AccTime) { fAccTime = AccTime; }
+
 #pragma endregion
 
 private:
@@ -99,7 +104,10 @@ protected:
 	_float					fPatternTime;
 	_float					fAccTime;
 
+	_vec3					m_vOriginPos;
+
 protected:
+
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CAIComponent*			m_pAICom;
 	CStateMachine*			m_pStateMachineCom;

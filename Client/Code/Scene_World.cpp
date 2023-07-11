@@ -513,18 +513,26 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_05", pGameObject), E_FAIL);
 
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
 
 	//pGameObject = CBat::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
 
+	//// Dragon
+	//pGameObject = CDragon::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
 
 	// pGameObject = CDragon::Create(m_pGraphicDev);
 	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
+
+	// Hedgehog
+	pGameObject = CHedgehog::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
 
 
 	return S_OK;

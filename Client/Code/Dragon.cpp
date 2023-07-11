@@ -1,11 +1,12 @@
 #include "Dragon.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
-#include "TimerMgr.h"
 
 #include "DragonState_fIdle.h"
 #include "DragonState_fAttack.h"
 
+#include "DragonState_bIdle.h"
+#include "DragonState_bAttack.h"
 
 
 CDragon::CDragon(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -39,7 +40,7 @@ HRESULT CDragon::Ready_Object()
 									m_pTransformCom->Get_Scale().y,
 									10.f });
 
-	m_vOriginPos = { 20.f, m_pTransformCom->Get_Scale().y, 10.f };
+	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
 
 	fPatternTime = 2.f;
@@ -58,6 +59,14 @@ HRESULT CDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
 
 
+	// Back - Idle
+	pState = CDragonState_bIdle::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_IDLE, pState);
+	// Back - Attack
+	pState = CDragonState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK, pState);
+
+
 #pragma endregion
 
 
@@ -65,18 +74,28 @@ HRESULT CDragon::Ready_Object()
 
 	CAnimation* pAnimation;
 
+	// Front - Idle
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
-
+	// Front - Attack
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+
+
+	// Back - Idle
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
+
+	// Back - Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
+
+
 
 #pragma endregion
 
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
-
-
 
 
 	return S_OK;
@@ -119,33 +138,37 @@ HRESULT CDragon::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
+
+
+	// Animator
+	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
 
 
 #pragma region Texture
 
 	
-
+	// Front Idle
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dragon_fIdle", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-
-	/*pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dragon_bIdle", this));
+	// Back Idle
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dragon_bIdle", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);*/
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-
+	// Front Attack
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dragon_fAttack", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dragon_bAttack", this));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	// Back Attack
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dragon_bAttack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 
