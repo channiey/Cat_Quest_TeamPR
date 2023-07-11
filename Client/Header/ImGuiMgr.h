@@ -25,7 +25,12 @@ public: /* MainApp에서 돌아가야 할 기본적인 함수들 */
 
 public:
 private:
+	void						Show_Header_Scene();
+	void						Show_Header_Object();
+	void						Show_Header_Light();
+
 	LPDIRECT3DTEXTURE9      LoadImageFile(const char* filePath); 
+	string					wstring_to_utf8(const std::wstring& str); 
 
 private:
 	LPDIRECT3DDEVICE9			m_pGraphicDev;

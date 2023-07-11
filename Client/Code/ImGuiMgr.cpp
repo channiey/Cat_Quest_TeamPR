@@ -12,10 +12,12 @@
 #include "Export_Function.h"
 #include "TerrainTex.h"
 
-
 #include <iostream>
 
 IMPLEMENT_SINGLETON(CImGuiMgr)
+
+static _bool	bInit = false;
+const int		g_iImagPerRow = 4;
 
 CImGuiMgr::CImGuiMgr()
 {
@@ -51,92 +53,22 @@ void CImGuiMgr::ImGui_Update()
 
 	ImGui::Begin("Tool Tab");
 
-#pragma region Scene Header
 	if (ImGui::CollapsingHeader("Scene"))
 	{
-#pragma region Button
-		if (ImGui::Button("New"))                         
-		{
-
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Load"))                        
-		{
-
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Save"))                        
-		{
-
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Delete"))
-		{
-
-		}
-#pragma endregion
-#pragma region List Box (Image)
-
-		//folderPath = L"../Bin/Resource/Texture/Terrain";
-		//wstring imgPath = L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
-
-		//ImTextureID image = LoadImageFile()
-		//	//L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
-
-		//if (ImGui::BeginListBox("##", ImVec2(280.f, 300.f)))
-		//{
-		//	for (int i = 0; i < 1; ++i) 
-		//	{
-
-		//		if (ImGui::ImageButton(image, ImVec2(50.f, 50.f)))
-		//		{
-
-		//		}
-		//		// 한 줄에 4개씩 이미지 출력
-
-		//	}
-		//	ImGui::EndListBox();
-		//}
-#pragma endregion
+		Show_Header_Scene();
 	}
-#pragma endregion
-#pragma region Obj Header
 	if (ImGui::CollapsingHeader("Object"))
 	{
-#pragma region Combo
-		static ImGuiComboFlags flags = 0;
-
-		const char* items[] = { "Trrain", "Environment", "Monster", "Npc" };
-		static int item_current_idx = 0; 
-		const char* combo_preview_value = items[item_current_idx];
-
-		if (ImGui::BeginCombo("Object Type", combo_preview_value, flags))
-		{
-			for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-			{
-				const bool is_selected = (item_current_idx == n);
-				if (ImGui::Selectable(items[n], is_selected))
-					item_current_idx = n;
-
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
-			}
-			ImGui::EndCombo();
-		}
-#pragma endregion
+		Show_Header_Object();
 	}
-#pragma endregion
-#pragma region Light Header
-	if (ImGui::CollapsingHeader("Light"))
+	/*if (ImGui::CollapsingHeader("Light"))
 	{
-	}
-#pragma endregion
+		Show_Header_Light();
+	}*/
 
 	ImGui::End();
-
 }
 
-static _bool bInit = false;
 void CImGuiMgr::ImGui_Render()
 {
 	// 이벤트 매니저 생성 전 임시 처방
@@ -148,6 +80,110 @@ void CImGuiMgr::ImGui_Render()
 	ImGui::Render();
 
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+}
+
+void CImGuiMgr::Show_Header_Scene()
+{	
+	// 01. Button (Action)
+	ImGui::SeparatorText("Action Button");
+	if (ImGui::Button("New"))
+	{
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Save"))
+	{
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Delete"))
+	{
+	}
+
+	// 02. List Box (Scene Image)
+	ImGui::SeparatorText("Scene List");
+
+	int			iCurIdxRow		= 0; // 줄 맞추기 위한 변수
+	static int	iCurIdx_Scene	= 0; // 현재 선택된 인덱스
+
+	wstring strImgPath = L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
+	ImTextureID image = LoadImageFile(wstring_to_utf8(strImgPath).c_str());
+
+
+	if (ImGui::BeginListBox(" ", ImVec2(280.f, 180.f)))
+	{
+		for (int i = 0; i < 10; ++i)
+		{
+			if (ImGui::ImageButton(image, ImVec2(50.f, 50.f))) // 이미지 출력
+			{
+				iCurIdx_Scene = i;
+			}
+
+			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
+			{
+				ImGui::SameLine();
+				iCurIdxRow++;
+			}
+			else
+				iCurIdxRow = 0;
+		}
+		ImGui::EndListBox();
+	}
+}
+
+void CImGuiMgr::Show_Header_Object()
+{
+	// 01. Combo (Object Type)
+	ImGui::SeparatorText("Object Type");
+	static int iCurIdx_Object_Type = 0; // 현재 선택된 인덱스
+	static ImGuiComboFlags flags = 0;
+	const char* items[] = { "Trrain", "Environment", "Monster", "Npc" };
+
+	const char* combo_preview_value = items[iCurIdx_Object_Type];
+
+	if (ImGui::BeginCombo("  ", combo_preview_value, flags))
+	{
+		for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+		{
+			const bool is_selected = (iCurIdx_Object_Type == n);
+			if (ImGui::Selectable(items[n], is_selected))
+				iCurIdx_Object_Type = n;
+
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	// 02. List Box (Object Image)
+	int			iCurIdxRow		= 0; // 줄 맞추기 위한 변수
+	static int	iCurIdx_Object	= 0; // 현재 선택된 인덱스
+
+	ImGui::SeparatorText("Object List");
+	wstring strImgPath = L"../Bin/Resource/Texture/Object/Bush/forest_3.png";
+	ImTextureID image = LoadImageFile(wstring_to_utf8(strImgPath).c_str());
+
+	if (ImGui::BeginListBox("  ", ImVec2(280.f, 180.f)))
+	{
+		for (int i = 0; i < 10; ++i)
+		{
+			if (ImGui::ImageButton(image, ImVec2(50.f, 50.f))) // 이미지 출력
+			{
+				iCurIdx_Object = i;
+			}
+
+			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
+			{
+				ImGui::SameLine();
+				iCurIdxRow++;
+			}
+			else
+				iCurIdxRow = 0;
+		}
+		ImGui::EndListBox();
+	}
+}
+
+void CImGuiMgr::Show_Header_Light()
+{
 }
 
 LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
@@ -165,6 +201,18 @@ LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
 	if (FAILED(hr)) return nullptr;
 
 	return pTexture;
+}
+
+string CImGuiMgr::wstring_to_utf8(const std::wstring& str)
+{
+	string result;
+	int size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	if (size > 0)
+	{
+		result.resize(size);
+		WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, &result[0], size, nullptr, nullptr);
+	}
+	return result;
 }
 
 void CImGuiMgr::Free()
