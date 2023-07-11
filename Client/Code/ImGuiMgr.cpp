@@ -12,35 +12,16 @@
 #include "Export_Function.h"
 #include "TerrainTex.h"
 
-// 
-#include "House1.h"
-//
-#include "TerrainTool.h"
-#include "TerrainWorld.h"
-#include "TerrainIceWorld.h"
-#include "TerrainIceDungeon.h"
 
 #include <iostream>
 
-// 전역변수
-// 이미지 관련
-ImTextureID 			imgThumbnail; // 상단 큰 이미지
-ImTextureID				imgListFile; // 요소 이미지
-int						imagesPerRow; // 한 줄에 출력할 이미지 개수.
 
-// vector<ImTextureID>     vecImgObjListFile; // 수정 전에 쓰던 오브젝트 이미지 배열
-vector<ImTextureID>     vecImgTerListFile; // 터레인 이미지 배열
-vector<ImTextureID>     vecImgObjListFile; // 오트젝트 이미지 배열
 
 IMPLEMENT_SINGLETON(CImGuiMgr)
 
-static _bool bInit = false;
 
-////////////////////////////
 
 CImGuiMgr::CImGuiMgr()
-	: m_eArgTag(ARG_TERRAIN), m_iObjType(OBJ_BUILDING)
-	, m_iAddCount(0), tempCount(0)
 {
 }
 
@@ -55,8 +36,6 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	if (m_pGraphicDev)
 		m_pGraphicDev->AddRef();
 
-	imagesPerRow = 4;
-
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
@@ -65,69 +44,7 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(pGraphicDev);
 
-	Ready_Terrain();
-
 	return S_OK;
-}
-
-// 터레인 초기화
-void CImGuiMgr::Ready_Terrain()
-{
-	// 터레인 파일들 최초에 한번만 초기화
-	folderPath = L"../Bin/Resource/Texture/Terrain";
-	FindFileList(folderPath, m_objFileList);
-
-	vecImgTerListFile.resize(m_objFileList.size());
-
-	for (int i = 0; i < m_objFileList.size(); ++i) {
-		// 이미지 출력.
-		wstring imgPath = folderPath + L"/" + m_objFileList[i];
-		imgListFile = LoadImageFile(wstring_to_utf8(imgPath).c_str());
-		vecImgTerListFile[i] = imgListFile;
-
-		// ImGui::TextWrapped("%s", wstring_to_utf8(fileName).c_str()); // 파일명.
-		iImgCount++;
-	}
-}
-// 환경 오브젝트 초기화
-void CImGuiMgr::Ready_Environment()
-{
-	// 환경 오브젝트들 정보 전부 얻어오기
-	map<const _tchar*, CGameObject*> EnvironmentMap =
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ENVIRONMENT)->Get_ObjectMap();
-
-	// 딱 한번만 저장.
-	if (vecImgObjListFile.size() < EnvironmentMap.size()) {
-
-		// 환경 객체 정보 담기
-		int icopyCount = 0;
-		for (auto iter = EnvironmentMap.begin(); iter != EnvironmentMap.end(); ++iter) {
-			m_vecLoadObj.push_back(iter->second);
-		}
-		// 이미지 경로 정보 담기
-		for (auto iter = EnvironmentMap.begin(); iter != EnvironmentMap.end(); ++iter) {
-			const _tchar* tempPath = dynamic_cast<CTexture*>
-				(iter->second->Get_Component
-				(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
-
-			m_vecLoadObjImgPath.push_back(tempPath);
-		}
-
-		// 환경 이미지 세팅 최초에 한번만
-		vecImgObjListFile.resize(m_vecLoadObjImgPath.size());
-
-		for (int i = 0; i < m_vecLoadObjImgPath.size(); ++i) {
-			// 이미지 출력.
-			wstring imgPath = m_vecLoadObjImgPath[i];
-			imgListFile = LoadImageFile(wstring_to_utf8(imgPath).c_str());
-			vecImgObjListFile[i] = imgListFile;
-
-			// ImGui::TextWrapped("%s", wstring_to_utf8(fileName).c_str()); // 파일명.
-			iImgCount++;
-		}
-	}
-
-	
 }
 
 void CImGuiMgr::ImGui_Update()
@@ -136,30 +53,90 @@ void CImGuiMgr::ImGui_Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	// 스크린 좌표
-	POINT pClientPt;
-	GetCursorPos(&pClientPt);
-	ScreenToClient(g_hWnd, &pClientPt);
+	ImGui::Begin("Tool Tab");
 
-	// Mouse 레이아웃
-	ImGui::Begin("MousePos(Client)");
+#pragma region Scene Header
 
-	ImGui::Text("MouseX : %d", pClientPt.x);
-	ImGui::Text("MouseY : %d", pClientPt.y);
+	if (ImGui::CollapsingHeader("Scene"))
+	{
+#pragma region Button
+
+		if (ImGui::Button("New"))                         
+		{
+
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Load"))                        
+		{
+
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Save"))                        
+		{
+
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Delete"))
+		{
+
+		}
+
+#pragma endregion
+
+		
+
+	}
+#pragma endregion
+
+
+
+
+#pragma region Obj Header
+
+	if (ImGui::CollapsingHeader("Object"))
+	{
+	
+#pragma region Combo
+		static ImGuiComboFlags flags = 0;
+
+		const char* items[] = { "Trrain", "Environment", "Monster", "Npc" };
+		static int item_current_idx = 0; 
+		const char* combo_preview_value = items[item_current_idx];
+
+		if (ImGui::BeginCombo("Object Type", combo_preview_value, flags))
+		{
+			for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+			{
+				const bool is_selected = (item_current_idx == n);
+				if (ImGui::Selectable(items[n], is_selected))
+					item_current_idx = n;
+
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+
+#pragma endregion
+
+	}
+
+#pragma endregion
+
+#pragma region Light Header
+
+	if (ImGui::CollapsingHeader("Light"))
+	{
+
+	}
+
+#pragma endregion
 
 	ImGui::End();
 
-	// Arrangement 레이아웃
-	ImGui::Begin("Arrangement");
-	Show_Arrangement(); // Tab 관련
-	ImGui::End();
-
-	// Line 레이아웃
-	ImGui::Begin("Line");
-	Show_Line();
-	ImGui::End();
 }
 
+static _bool bInit = false;
 void CImGuiMgr::ImGui_Render()
 {
 	// 이벤트 매니저 생성 전 임시 처방
@@ -171,311 +148,6 @@ void CImGuiMgr::ImGui_Render()
 	ImGui::Render();
 
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-}
-
-// 파일 경로
-void CImGuiMgr::FindFileList(const wstring& folderPath, vector<wstring>& m_objFileList)
-{
-	wstring searchPath = folderPath + L"\\*.png";
-
-	WIN32_FIND_DATA findData;
-	HANDLE hFind = FindFirstFile(searchPath.c_str(), &findData);
-
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				continue;
-
-			m_objFileList.push_back(findData.cFileName);
-		} while (FindNextFile(hFind, &findData));
-
-		FindClose(hFind);
-	}
-}
-
-// wstring utf8 형식으로 변환.
-string CImGuiMgr::wstring_to_utf8(const std::wstring& str)
-{
-	string result;
-	int size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
-	if (size > 0)
-	{
-		result.resize(size);
-		WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, &result[0], size, nullptr, nullptr);
-	}
-	return result;
-}
-
-// 경로로 이미지 가져오기.
-LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
-{
-	LPDIRECT3DTEXTURE9 pTexture = nullptr;
-
-	D3DXIMAGE_INFO imageInfo;
-	HRESULT hr = D3DXGetImageInfoFromFileA(filePath, &imageInfo);
-
-	if (FAILED(hr)) return nullptr;
-
-	hr = D3DXCreateTextureFromFileA(m_pGraphicDev, filePath, &pTexture);
-	Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
-
-	if (FAILED(hr)) return nullptr;
-
-	//	imgThumbnail = pTexture; // 초기 NonSelect상태 시 빈화면 방지
-
-	return pTexture;
-}
-
-// 큰 탭 분류
-void CImGuiMgr::Show_Arrangement()
-{
-	// 탭 선택
-	if (ImGui::BeginTabBar("Tag")) {
-		// 타일 탭
-		if (ImGui::BeginTabItem("Terrain")) {
-			m_eArgTag = ARG_TERRAIN;
-			ImGui::EndTabItem();
-		}
-		// 오브젝트 탭
-		if (ImGui::BeginTabItem("Object")) {
-			m_eArgTag = ARG_OBJ;
-			ImGui::EndTabItem();
-		}
-		ImGui::EndTabBar();
-	}
-
-	// 지형 컨텐츠
-	if (m_eArgTag == ARG_TERRAIN) {
-		Show_Arg_Terrain();
-	}
-
-	// 오브젝트 컨텐츠
-	if (m_eArgTag == ARG_OBJ) {
-		Show_Arg_Obj();
-	}
-}
-
-// 터레인
-void CImGuiMgr::Show_Arg_Terrain()
-{
-	// 썸네일
-	if (imgThumbnail)
-		ImGui::Image(imgThumbnail, ImVec2(100.f, 100.f));
-	else {
-		ImGui::Image(nullptr, ImVec2(100.f, 100.f), ImVec2(), ImVec2(), ImVec4(0.5f, 0.5f, 0.5f, 0.f), ImVec4(0.5f, 0.5f, 0.2f, 1.f));
-	}
-	ImGui::SameLine();
-
-	if (ImGui::Button("Create")) {
-		// 맵 정보 지우기
-		CManagement::GetInstance()->Get_Scene()->Empty_Layer(OBJ_TYPE::TERRAIN);
-
-		if (m_iSelTerrain == TERRAIN_WORLD) {
-			Engine::CGameObject* pGameObject = CTerrainTool::Create(m_pGraphicDev);
-			NULL_CHECK(pGameObject);
-			CEventMgr::GetInstance()->Add_Obj(L"TerrainTool", pGameObject);
-
-			pGameObject = CTerrainWorld::Create(m_pGraphicDev);
-			NULL_CHECK(pGameObject);
-			CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pGameObject);
-
-			// if (m_pGraphicDev) Safe_Release(m_pGraphicDev);
-
-		}
-		else if (m_iSelTerrain == TERRAIN_TEMP)
-		{
-			Engine::CGameObject* pGameObject = CTerrainTool::Create(m_pGraphicDev);
-			NULL_CHECK(pGameObject);
-			CEventMgr::GetInstance()->Add_Obj(L"TerrainTool", pGameObject);
-
-			pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
-			NULL_CHECK(pGameObject);
-			CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld_Ice", pGameObject);
-
-			// if (m_pGraphicDev) Safe_Release(m_pGraphicDev);
-		}
-		else if (m_iSelTerrain == TERRAIN_DUNGEON_ICE)
-		{
-			Engine::CGameObject* pGameObject = CTerrainTool::Create(m_pGraphicDev);
-			NULL_CHECK(pGameObject);
-			CEventMgr::GetInstance()->Add_Obj(L"TerrainTool", pGameObject);
-
-			pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
-			NULL_CHECK(pGameObject);
-			CEventMgr::GetInstance()->Add_Obj(L"TerrainDungeon_Ice", pGameObject);
-
-			// if(m_pGraphicDev) Safe_Release(m_pGraphicDev);
-		}
-	}
-
-	Show_ImageButton();
-}
-
-// 오브젝트
-void CImGuiMgr::Show_Arg_Obj()
-{
-	Ready_Environment();
-
-	// 썸네일
-	if (imgThumbnail)
-		ImGui::Image(imgThumbnail, ImVec2(100.f, 100.f));
-	else {
-		ImGui::Image(nullptr, ImVec2(100.f, 100.f), ImVec2(), ImVec2(), ImVec4(0.5f, 0.5f, 0.5f, 0.f), ImVec4(0.5f, 0.5f, 0.2f, 1.f));
-	}
-
-	// 콤보 박스(하위 분류)
-	const char* Objitems[] = { "Building",
-		"Chest", "Environment", "MageShop",
-		"SmithHouse", "Tower", "Other"};
-	ImGui::Text("Object Type");
-	if (ImGui::Combo("##Object Type", &m_iObjType, Objitems, IM_ARRAYSIZE(Objitems))) {
-		// 폴더에서 불러올게 아니라 이제 필요 없다.
-		//m_objFileList.clear();
-		//bLoadFile = true;
-		//iImgCount = 0;
-	}
-
-	// 빌딩(집)
-	if (m_iObjType == OBJ_BUILDING) {
-		//folderPath = L"../Bin/Resource/Texture/Object/Building";
-		m_iObjType = OBJ_BUILDING;
-	}
-	// 상자
-	if (m_iObjType == OBJ_CHEST) {
-		//folderPath = L"../Bin/Resource/Texture/Object/Chest";
-		m_iObjType = OBJ_CHEST;
-	}
-	// 환경
-	if (m_iObjType == OBJ_ENVIRONMENT) {
-		//folderPath = L"../Bin/Resource/Texture/Object/Environment";
-		m_iObjType = OBJ_ENVIRONMENT;
-	}
-	// 매직 숍
-	if (m_iObjType == OBJ_MAGESHOP) {
-		//folderPath = L"../Bin/Resource/Texture/Object/MageShop";
-		m_iObjType = OBJ_MAGESHOP;
-	}
-	// 대장간
-	if (m_iObjType == OBJ_SMITHHOUSE) {
-		//folderPath = L"../Bin/Resource/Texture/Object/SmithHouse";
-		m_iObjType = OBJ_SMITHHOUSE;
-	}
-	// 타워
-	if (m_iObjType == OBJ_TOWER) {
-		//folderPath = L"../Bin/Resource/Texture/Object/Tower";
-		m_iObjType = OBJ_TOWER;
-	}
-	// 그 외
-	if (m_iObjType == OBJ_OTHER) {
-		//folderPath = L"../Bin/Resource/Texture/Object/Other";
-		m_iObjType = OBJ_OTHER;
-	}
-
-	// 폴더에서 불러올게 아니라 이제 필요 없다.
-	//if (bLoadFile) {
-	//	FindFileList(folderPath, m_objFileList); // 폴더 경로를 찾아서 그 안에 있는 png 전부 배열에 담기.
-	//
-	//	vecImgObjListFile.resize(m_objFileList.size());
-	//
-	//	for (int i = 0; i < m_objFileList.size(); ++i) {
-	//		// 이미지 출력.
-	//		wstring imgPath = folderPath + L"/" + m_objFileList[i];
-	//		imgListFile = LoadImageFile(wstring_to_utf8(imgPath).c_str());
-	//		vecImgObjListFile[i] = imgListFile;
-	//
-	//		// ImGui::TextWrapped("%s", wstring_to_utf8(fileName).c_str()); // 파일명.
-	//		iImgCount++;
-	//	}
-	//}
-
-	Show_ImageButton();
-	Pick_Create_Object();
-}
-
-void CImGuiMgr::Show_Line()
-{
-}
-
-// 이미지 4x4 출력
-void CImGuiMgr::Show_ImageButton()
-{
-	int currentImageIndex = 0; // 이미지를 4개씩 출력하기 위한 변수
-	int iSelect = 0; // 선택된 이미지를 썸네일로 표시하기 위해.
-
-	// 환경
-	if (m_eArgTag == ARG_OBJ) {
-		if (ImGui::BeginListBox("##", ImVec2(280.f, 300.f))) {
-			for (int i = 0; i < vecImgObjListFile.size(); ++i) {
-
-				if (ImGui::ImageButton(vecImgObjListFile[i], ImVec2(50.f, 50.f))) {
-					imgThumbnail = vecImgObjListFile[i];
-					m_iSelObj = i;
-				}
-				// 한 줄에 4개씩 이미지 출력
-				if (currentImageIndex < imagesPerRow - 1)
-				{
-					ImGui::SameLine(); // 오른쪽으로 이동.
-					currentImageIndex++;
-				}
-				else
-					currentImageIndex = 0; // 0으로 초기화 함과 동시에 자동으로 다음줄로.
-			}
-			ImGui::EndListBox();
-		}
-
-		if (iImgCount) bLoadFile = false;
-	}
-
-	// 터레인
-	// 이미지가 계속해서 출력되겠지만 얼마 안되기 때문에 그냥 진행.
-	else if (m_eArgTag == ARG_TERRAIN) {
-		if (ImGui::BeginListBox("##", ImVec2(280.f, 300.f))) {
-			for (int i = 0; i < vecImgTerListFile.size(); ++i) {
-
-				if (ImGui::ImageButton(vecImgTerListFile[i], ImVec2(50.f, 50.f))) {
-					imgThumbnail = vecImgTerListFile[i];
-					m_iSelTerrain = i;
-				}
-				// 한 줄에 4개씩 이미지 출력
-				if (currentImageIndex < imagesPerRow - 1)
-				{
-					ImGui::SameLine(); // 오른쪽으로 이동.
-					currentImageIndex++;
-				}
-				else
-					currentImageIndex = 0; // 0으로 초기화 함과 동시에 자동으로 다음줄로.
-			}
-			ImGui::EndListBox();
-		}
-
-		if (iImgCount) bLoadFile = false;
-	}
-	
-}
-
-void CImGuiMgr::Pick_Create_Object()
-{	
-	// 스크린 좌표
-	POINT pPickingPt;
-	GetCursorPos(&pPickingPt);
-	ScreenToClient(g_hWnd, &pPickingPt);
-
-	_vec3 vArgPos;
-
-	// 마우스가 눌리면
-	if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON) && m_eArgTag == ARG_OBJ &&
-		CCalculator::GetInstance()->Mouse_Picking(m_pGraphicDev, pPickingPt, &vArgPos))
-	{
-		// 추가하고
-		Engine::CGameObject* pGameObject = m_vecLoadObj[m_iSelObj];
-		NULL_CHECK(pGameObject);
-		pGameObject->Get_Transform()->Set_Pos(_vec3(vArgPos.x, vArgPos.y + 3, vArgPos.z));
-		// 카운트 증가.
-		CEventMgr::GetInstance()->Add_Obj(L"Environment" + m_iAddCount, pGameObject);
-		m_iAddCount += 1;
-	}
 }
 
 void CImGuiMgr::Free()

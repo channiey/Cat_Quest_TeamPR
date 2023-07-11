@@ -76,10 +76,10 @@ CScene_Tool::~CScene_Tool()
 
 HRESULT CScene_Tool::Ready_Scene()
 {
-	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
+	//(Ready_Layer_Terrain(), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL);
 
 	return S_OK;
@@ -384,12 +384,12 @@ HRESULT CScene_Tool::Ready_Layer_Camera()
 
 	// Camera
 	pGameObject = CTool_Camera::Create(m_pGraphicDev);
-
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Camera", pGameObject), E_FAIL);
 	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
 	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
 
+	// Camera Target Obj
 	pGameObject = CCameraTargetObj::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CameraTargetObj", pGameObject), E_FAIL);
