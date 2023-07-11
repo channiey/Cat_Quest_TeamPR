@@ -1,7 +1,13 @@
 #include "Bat.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
-#include "TimerMgr.h"
+
+#include "BatState_Patrol.h"
+#include "BatState_Chase.h"
+#include "BatState_Attack.h"
+#include "BatState_ComeBack.h"
+
+
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev)
@@ -26,19 +32,73 @@ HRESULT CBat::Ready_Object()
 	m_tMoveInfo.fMoveSpeed = 10.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
-	
+	// Stat Info
+	//m_tStatInfo.bDead = false;
+
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1.6f, 1.08f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 	
-	m_pTransformCom->Set_Pos(_vec3{ 20.f,
-									m_pTransformCom->Get_Scale().y,
-									10.f });
+	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.5f, m_pTransformCom->Get_Scale().y, 30.f });
 
-	m_vOriginPos = { 20.f, m_pTransformCom->Get_Scale().y, 10.f };
+	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
 
-	fPatternTime = 2.f;
-	fAccTime	 = 0.f;
+	fPatternTime = 1.f;
+	
+#pragma region State Add
+
+	CState* pState;
+
+	// Patrol
+	pState = CBatState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
+
+	// Chase
+	pState = CBatState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::CHASE, pState);
+
+
+	// ComeBack
+	pState = CBatState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::COMEBACK, pState);
+
+	// Attack
+	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+
+
+
+	
+#pragma endregion
+
+
+
+#pragma region Anim Add
+
+	CAnimation* pAnimation;
+
+	// Patrol
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::PATROL)], STATE_TYPE::PATROL, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::PATROL, pAnimation);
+
+	// ComeBack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::COMEBACK)], STATE_TYPE::COMEBACK, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::COMEBACK, pAnimation);
+
+	// Chase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::CHASE)], STATE_TYPE::CHASE, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::CHASE, pAnimation);
+
+	// Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+
+#pragma endregion
+
+	
+	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
+
+	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
     return S_OK;
 }
@@ -46,22 +106,12 @@ HRESULT CBat::Ready_Object()
 _int CBat::Update_Object(const _float& fTimeDelta)
 {
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
+	Move(fTimeDelta);
 
-
-	fAccTime += fTimeDelta;
-
-	if(fPatternTime <= fAccTime)
-	{
-		Move(fTimeDelta);
-
-		fAccTime = 0.f;
-	}
-	
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 	return iExit;
 }
 
@@ -91,16 +141,45 @@ HRESULT CBat::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	//// Texture
-	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Bat", this));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
+	// Animator
+	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
 
 	// AI
 	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
+
+
+#pragma region Texture
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+#pragma endregion
 
 
 
@@ -109,9 +188,7 @@ HRESULT CBat::Add_Component()
 
 void CBat::Move(const _float& fTimeDelta)
 {
-	
-	  m_pAICom->Random_Move(fTimeDelta,m_tMoveInfo.fMoveSpeed);
-
+	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
 }
 
 CBat* CBat::Create(LPDIRECT3DDEVICE9 pGraphicDev)

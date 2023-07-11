@@ -168,6 +168,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\Bat.h" />
+    <ClInclude Include="..\Header\BatState_Attack.h" />
+    <ClInclude Include="..\Header\BatState_Chase.h" />
+    <ClInclude Include="..\Header\BatState_ComeBack.h" />
+    <ClInclude Include="..\Header\BatState_Patrol.h" />
     <ClInclude Include="..\Header\Bush1.h" />
     <ClInclude Include="..\Header\Bush10.h" />
     <ClInclude Include="..\Header\Bush11.h" />
@@ -284,6 +288,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Bat.cpp" />
+    <ClCompile Include="..\Code\BatState_Attack.cpp" />
+    <ClCompile Include="..\Code\BatState_Chase.cpp" />
+    <ClCompile Include="..\Code\BatState_ComeBack.cpp" />
+    <ClCompile Include="..\Code\BatState_Patrol.cpp" />
     <ClCompile Include="..\Code\Bush1.cpp" />
     <ClCompile Include="..\Code\Bush10.cpp" />
     <ClCompile Include="..\Code\Bush11.cpp" />

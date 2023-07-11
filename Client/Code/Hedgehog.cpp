@@ -2,12 +2,6 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-#include "HedgehogState_fIdle.h"
-#include "HedgehogState_fAttack.h"
-
-#include "HedgehogState_bIdle.h"
-#include "HedgehogState_bAttack.h"
-
 #include "HedgehogState_Patrol.h"
 #include "HedgehogState_Chase.h"
 #include "HedgehogState_ComeBack.h"
@@ -44,12 +38,9 @@ HRESULT CHedgehog::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
 	//m_pTransformCom->Set_Pos(_vec3{ 300.f, m_pTransformCom->Get_Scale().y, 300.f });
 
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.5f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.7f, m_pTransformCom->Get_Scale().y, 30.f });
 
 	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
-
-
-	
 
 	fPatternTime = 2.f;
 
@@ -75,27 +66,8 @@ HRESULT CHedgehog::Ready_Object()
 	pState = CHedgegohState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
 
-
-	//// Front - Idle
-	//pState = CHedgehogState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
-	//m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_IDLE, pState);
-	
-	//// Front - Attack
-	//pState = CHedgehogState_fAttack::Create(m_pGraphicDev, m_pStateMachineCom);
-	//m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
-
-
-	//// Back - Idle
-	//pState = CHedgehogState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
-	//m_pStateMachineCom->Add_State(STATE_TYPE::BACK_IDLE, pState);
-	
-	//// Back - Attack
-	//pState = CHedgehogState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
-	//m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK, pState);
-
-
-
 #pragma endregion
+
 
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 

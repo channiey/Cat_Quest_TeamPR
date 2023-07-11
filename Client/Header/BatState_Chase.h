@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CHedgehogState_fIdle : public CState
+class CBatState_Chase : public CState
 {
 public:
-	explicit			CHedgehogState_fIdle(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CHedgehogState_fIdle();
+	explicit			CBatState_Chase(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CBatState_Chase();
 
 
 public:
@@ -24,13 +24,18 @@ public:
 	// 사용 안함
 	virtual STATE_TYPE		Key_Input(const _float& fTimeDelta);
 
+
+
 public:
-	static CHedgehogState_fIdle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CBatState_Chase* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:
 	virtual void Free();
 
+private:
+
+	_float m_fAccTime;
 
 
 };

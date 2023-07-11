@@ -36,9 +36,7 @@ private:
 private:
 	void				Move(const _float& fTimeDelta);
 
-private:
-	_vec3	m_vOriginPos;
-	
+
 
 public:
 	static				CBat* Create(LPDIRECT3DDEVICE9 pGraphicDev);
