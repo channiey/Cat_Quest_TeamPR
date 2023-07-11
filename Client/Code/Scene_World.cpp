@@ -524,9 +524,9 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
 
-	// pGameObject = CDragon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
+	 pGameObject = CDragon::Create(m_pGraphicDev);
+	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	 FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
 
 	// Hedgehog
 	pGameObject = CHedgehog::Create(m_pGraphicDev);
