@@ -42,6 +42,7 @@ HRESULT CBat::Ready_Object()
 
 	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
+	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
 	

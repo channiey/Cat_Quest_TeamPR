@@ -1,27 +1,27 @@
-#include "Hedgehog.h"
+#include "Ram.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-#include "HedgehogState_Patrol.h"
-#include "HedgehogState_Chase.h"
-#include "HedgehogState_ComeBack.h"
-#include "HedgehogState_Attack.h"
+#include "RamState_Patrol.h"
+#include "RamState_Chase.h"
+#include "RamState_ComeBack.h"
+#include "RamState_Attack.h"
 
-CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
+CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
 {
 }
 
-CHedgehog::CHedgehog(const CMonster& rhs)
+CRam::CRam(const CMonster& rhs)
 	: CMonster(rhs)
 {
 }
 
-CHedgehog::~CHedgehog()
+CRam::~CRam()
 {
 }
 
-HRESULT CHedgehog::Ready_Object()
+HRESULT CRam::Ready_Object()
 {
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
@@ -35,12 +35,12 @@ HRESULT CHedgehog::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 1.44f, 1.48f, 2.f });
+	//m_pTransformCom->Set_Pos(_vec3{ 300.f, m_pTransformCom->Get_Scale().y, 300.f });
 
+	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.9f, m_pTransformCom->Get_Scale().y, 30.f });
 
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.7f, m_pTransformCom->Get_Scale().y, 30.f });
-
-	m_pTransformCom->Set_Dir({ 0.f, 0.f, -1.f });
+	m_pTransformCom->Set_Dir({ 0.f, 0.f, 1.f });
 
 	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
@@ -52,20 +52,20 @@ HRESULT CHedgehog::Ready_Object()
 	CState* pState;
 
 	// Patrol
-	pState = CHedgehogState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CRamState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
 
 	// Chase
-	pState = CHedgehogState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CRamState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::CHASE, pState);
 
 
 	// ComeBack
-	pState = CHedgehogState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CRamState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::COMEBACK, pState);
 
 	// Attack
-	pState = CHedgegohState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CRamState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
 
 #pragma endregion
@@ -77,7 +77,7 @@ HRESULT CHedgehog::Ready_Object()
 	return S_OK;
 }
 
-_int CHedgehog::Update_Object(const _float& fTimeDelta)
+_int CRam::Update_Object(const _float& fTimeDelta)
 {
 	
 
@@ -91,14 +91,14 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CHedgehog::LateUpdate_Object()
+void CRam::LateUpdate_Object()
 {
 	
 	__super::LateUpdate_Object();
 
 }
 
-void CHedgehog::Render_Object()
+void CRam::Render_Object()
 {
 	m_pTextureCom[14]->Render_Texture();
 	
@@ -115,19 +115,19 @@ void CHedgehog::Render_Object()
 
 }
 
-void CHedgehog::OnCollision_Enter(CGameObject* _pColObj)
+void CRam::OnCollision_Enter(CGameObject* _pColObj)
 {
 }
 
-void CHedgehog::OnCollision_Stay(CGameObject* _pColObj)
+void CRam::OnCollision_Stay(CGameObject* _pColObj)
 {
 }
 
-void CHedgehog::OnCollision_Exit(CGameObject* _pColObj)
+void CRam::OnCollision_Exit(CGameObject* _pColObj)
 {
 }
 
-HRESULT CHedgehog::Add_Component()
+HRESULT CRam::Add_Component()
 {
 	CComponent*		pComponent = nullptr;
 
@@ -142,12 +142,12 @@ HRESULT CHedgehog::Add_Component()
 
 #pragma region Texture
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Hedgehog", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Ram", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Hedgehog", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Ram", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -158,29 +158,29 @@ HRESULT CHedgehog::Add_Component()
 	return S_OK;
 }
 
-void CHedgehog::Move(const _float& fTimeDelta)
+void CRam::Move(const _float& fTimeDelta)
 {
 	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
 }
 
 
 
-CHedgehog* CHedgehog::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CRam* CRam::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CHedgehog* pInstance = new CHedgehog(pGraphicDev);
+	CRam* pInstance = new CRam(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Hedgehog Create Failed");
+		MSG_BOX("Ram Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CHedgehog::Free()
+void CRam::Free()
 {
 	__super::Free();
 }
