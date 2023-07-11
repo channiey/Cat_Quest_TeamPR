@@ -17,17 +17,23 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
-	void					EnterUI_On(CGameObject* pObj);
-	void					EnterUI_Off(CGameObject* pObj);
+	void					EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj);
+	void					EnterUI_Off();
 
 private:
 	virtual HRESULT			Add_Component() override;
 
 private:
+	UIENTER_TYPE			m_eUIEnter;
+
 	_bool					m_bIsOn;
+
+	_bool					m_bIsStart;
+	_bool					m_bIsEnd;
 
 	_bool					m_bIsShirk;
 	_bool					m_bIsExpand;
+	
 
 public:
 
