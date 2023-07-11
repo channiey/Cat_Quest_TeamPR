@@ -1,19 +1,17 @@
 #pragma once
+#include "stdafx.h"
 #include "State.h"
 #include "Monster.h"
-#include "stdafx.h"
 
 BEGIN(Engine)
 
 END
 
-class CHedgehogState_bAttack :  public CState
+class CBatState_ComeBack : public CState
 {
-
-
 public:
-	explicit			CHedgehogState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CHedgehogState_bAttack();
+	explicit			CBatState_ComeBack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CBatState_ComeBack();
 
 
 public:
@@ -26,15 +24,18 @@ public:
 	// 사용 안함
 	virtual STATE_TYPE		Key_Input(const _float& fTimeDelta);
 
+
+
 public:
-	static CHedgehogState_bAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CBatState_ComeBack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:
 	virtual void Free();
 
+private:
 
-
+	_float m_fAccTime;
 
 
 };

@@ -52,9 +52,8 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	
-
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+
 
 	return iExit;
 }
