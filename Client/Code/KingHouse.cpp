@@ -23,8 +23,11 @@ HRESULT CKingHouse::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) + 30.f, m_pTransformCom->Get_Scale().y, 40.f });
+	m_eEnter = ENTER_TYPE::ENTER;
+	m_iTranslucent = 255;
+
+	m_pTransformCom->Set_Scale(_vec3{ 4.f, 6.f, 6.f });
+	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) + 0.f, m_pTransformCom->Get_Scale().y, 25.f });
 
 	return S_OK;
 }
@@ -34,6 +37,8 @@ _int CKingHouse::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+	Alpha_Update();
 
 	return iExit;
 }
@@ -46,28 +51,47 @@ void CKingHouse::LateUpdate_Object()
 void CKingHouse::Render_Object()
 {
 	__super::Render_Object();
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+
+	m_pTextureCom2->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+	m_pBufferCom2->Render_Buffer();
+	
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-void CKingHouse::OnCollision_Enter(CGameObject* _pColObj)
+void CKingHouse::Alpha_Update()
 {
-}
-
-void CKingHouse::OnCollision_Stay(CGameObject* _pColObj)
-{
-}
-
-void CKingHouse::OnCollision_Exit(CGameObject* _pColObj)
-{
+	// 알파값 조절
+	if (m_bEnter) {
+		if (m_iTranslucent > 10) {
+			m_iTranslucent -= 10;
+		}
+	}
+	else {
+		if (m_iTranslucent < 255) {
+			m_iTranslucent += 10;
+		}
+	}
 }
 
 HRESULT CKingHouse::Add_Component()
 {
 	CComponent* pComponent = nullptr;
-
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_KingHouse", this));
+	// Proto_Texture_KingHouse_In
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_KingHouse_In", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	pComponent = m_pTextureCom2 = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_KingHouse_Out", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pBufferCom2 = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+	
 	return S_OK;
 }
 

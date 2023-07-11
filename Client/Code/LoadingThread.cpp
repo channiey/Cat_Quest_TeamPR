@@ -107,6 +107,7 @@ _uint CLoadingThread::Loading_For_World()
 	
 #pragma region Building
 
+	// House
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_1.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House2",
@@ -119,6 +120,14 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_5.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_House6",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/town_6.png")), E_FAIL);
+
+	// KingHouse
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_KingHouse_In",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/capital_city_interior.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_KingHouse_Out",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/House/capital_city.png")), E_FAIL);
+
+
 #pragma endregion
 
 #pragma region Bush

@@ -15,6 +15,7 @@
 #include "House4.h"
 #include "House5.h"
 #include "House6.h"
+#include "KingHouse.h"
 // ºÎ½¬
 #include "Bush1.h"
 #include "Bush2.h"
@@ -181,7 +182,8 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
 #pragma region Building
-	// Buliding(Áý)
+
+	// House
 	pGameObject = CHouse1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"House1", pGameObject), E_FAIL);
@@ -205,6 +207,11 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	pGameObject = CHouse6::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"House6", pGameObject), E_FAIL);
+
+	// King House
+	pGameObject = CKingHouse::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"KingHouse", pGameObject), E_FAIL);
 
 #pragma endregion
 	
