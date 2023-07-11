@@ -217,6 +217,7 @@
     <ClInclude Include="..\Header\HedgehogState_Chase.h" />
     <ClInclude Include="..\Header\HedgehogState_Patrol.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
+    <ClInclude Include="..\Header\KingHouse.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\ManaUI.h" />
     <ClInclude Include="..\Header\DragonState_fAttack.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="..\Code\HedgehogState_Chase.cpp" />
     <ClCompile Include="..\Code\HedgehogState_Patrol.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
+    <ClCompile Include="..\Code\KingHouse.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\ManaUI.cpp" />
     <ClCompile Include="..\Code\DragonState_fAttack.cpp" />
