@@ -56,6 +56,18 @@
 #include "Chest_Regular.h"
 
 
+// Monster
+#include "ExpUI.h"
+#include "EnterUI.h"
+#include "Hedgehog.h"
+#include "LineObject.h"
+#include "Bat.h"
+#include "Dragon.h"
+#include "Ram.h"
+#include "Fox.h"
+#include "Wyvern.h"
+#include "Squirrel.h"
+
 #include "Player.h"
 #include "CuteMonster.h"
 #include "Environment.h"
@@ -76,11 +88,15 @@ CScene_Tool::~CScene_Tool()
 
 HRESULT CScene_Tool::Ready_Scene()
 {
-	//(Ready_Layer_Terrain(), E_FAIL);
-	//FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
-	//FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Npc(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Item(), E_FAIL);
+
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL);
+	// 모든 오브젝트가 생성된 뒤 IMGUI가 모든 오브젝트들의 정보를 받아와야 한다.
 
 	return S_OK;
 }
@@ -135,9 +151,10 @@ HRESULT CScene_Tool::Ready_Layer_Terrain()
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	// pGameObject = CTerrainWorld::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+	 pGameObject = CTerrainWorld::Create(m_pGraphicDev);
+	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+
 	// 
 	// pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
 	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -158,10 +175,11 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-#pragma region Building
+	// Building
 	pGameObject = CHouse1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"House1", pGameObject), E_FAIL);
@@ -186,9 +204,8 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"House6", pGameObject), E_FAIL);
 
-#pragma endregion
 
-#pragma region Bush
+	// Bush
 	pGameObject = CBush1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bush1", pGameObject), E_FAIL);
@@ -233,9 +250,7 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bush11", pGameObject), E_FAIL);
 
-#pragma endregion
 
-#pragma region Mountain
 	// Mountain
 	pGameObject = CMountain_Grass::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -245,9 +260,8 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Mountain_Ice", pGameObject), E_FAIL);
 
-#pragma endregion
 
-#pragma region Rock
+	// Rock
 	pGameObject = CRock1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Rock1", pGameObject), E_FAIL);
@@ -263,10 +277,9 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	pGameObject = CRock4::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Rock4", pGameObject), E_FAIL);
-#pragma endregion
 
-#pragma region Pillar
-	// Rock Pillar
+
+	// Pillar
 	pGameObject = CRock_Pillar1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Rock_Pillar1", pGameObject), E_FAIL);
@@ -278,7 +291,7 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	pGameObject = CRock_Pillar3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Rock_Pillar3", pGameObject), E_FAIL);
-	// Temple Pillar
+
 	pGameObject = CTemple_Pillar1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Temple_Pillar1", pGameObject), E_FAIL);
@@ -286,45 +299,16 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	pGameObject = CTemple_Pillar2::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Temple_Pillar2", pGameObject), E_FAIL);
-	// Ice Pillar
+
 	pGameObject = CIce_Pillar1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ice_Pillar1", pGameObject), E_FAIL);
-#pragma endregion
 
-#pragma region Dungeon
+
 	// Dungeon
 	pGameObject = CDungeon_Grass::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dungeon_Grass", pGameObject), E_FAIL);
-
-	// Line Test
-	/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f - 20.f, 0.f, -20.f }, _vec3{ VTXCNTX * 0.5f, 0.f, 0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_01", pGameObject), E_FAIL);
-
-	pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f - 60.f, 0.f, -20.f }, _vec3{ VTXCNTX * 0.5f - 30.f, 0.f, 0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_02", pGameObject), E_FAIL);*/
-
-
-	/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 20.f, 0.f, 0.f }, _vec3{ VTXCNTX * 0.5f + 20.f, 0.f, 20.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_03", pGameObject), E_FAIL);*/
-
-	//pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{  VTXCNTX * 0.5f + 40.f, 0.f, 20.f }, _vec3{ VTXCNTX * 0.5f + 40.f, 0.f, 0.f });
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_04", pGameObject), E_FAIL);
-
-
-	/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 30.f, 0.f, -30.f }, _vec3{ VTXCNTX * 0.5f + 10.f, 0.f, -10.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_05", pGameObject), E_FAIL);*/
-
-
-	//pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 50.f, 0.f, -30.f }, _vec3{ VTXCNTX * 0.5f + 30.f, 0.f, -30.f });
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_06", pGameObject), E_FAIL);
 
 	pGameObject = CDungeon_Ice::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -333,9 +317,7 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	pGameObject = CDungeon_Temple::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dungeon_Temple", pGameObject), E_FAIL);
-#pragma endregion
 
-#pragma region Tower
 	// Tower
 	pGameObject = CTower1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -348,27 +330,49 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	pGameObject = CTower3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Tower3", pGameObject), E_FAIL);
-#pragma endregion
 
-#pragma region Chest
 
 	// Chest
-	// Cosmetic Chest
 	pGameObject = CChest_Cosmetic::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cosmetic_Chest", pGameObject), E_FAIL);
 
-	// Gold Chest
 	pGameObject = CChest_Gold::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Gold_Chest", pGameObject), E_FAIL);
 
-	// Regular Chest
 	pGameObject = CChest_Regular::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Regular_Chest", pGameObject), E_FAIL);
 
-#pragma endregion
+
+	// Line Test
+/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f - 20.f, 0.f, -20.f }, _vec3{ VTXCNTX * 0.5f, 0.f, 0.f });
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_01", pGameObject), E_FAIL);
+
+pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f - 60.f, 0.f, -20.f }, _vec3{ VTXCNTX * 0.5f - 30.f, 0.f, 0.f });
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_02", pGameObject), E_FAIL);*/
+
+
+/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 20.f, 0.f, 0.f }, _vec3{ VTXCNTX * 0.5f + 20.f, 0.f, 20.f });
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_03", pGameObject), E_FAIL);*/
+
+//pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{  VTXCNTX * 0.5f + 40.f, 0.f, 20.f }, _vec3{ VTXCNTX * 0.5f + 40.f, 0.f, 0.f });
+//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_04", pGameObject), E_FAIL);
+
+
+/*pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 30.f, 0.f, -30.f }, _vec3{ VTXCNTX * 0.5f + 10.f, 0.f, -10.f });
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_05", pGameObject), E_FAIL);*/
+
+
+//pGameObject = CLineObject::Create(m_pGraphicDev, _vec3{ VTXCNTX * 0.5f + 50.f, 0.f, -30.f }, _vec3{ VTXCNTX * 0.5f + 30.f, 0.f, -30.f });
+//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LineObjct_06", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
@@ -379,6 +383,7 @@ HRESULT CScene_Tool::Ready_Layer_Camera()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
 	Engine::CGameObject* pGameObject = nullptr;
 
@@ -389,12 +394,11 @@ HRESULT CScene_Tool::Ready_Layer_Camera()
 	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
 	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
 
-	// Camera Target Obj
+	// Camera Target Obj -> Player
 	pGameObject = CCameraTargetObj::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CameraTargetObj", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
 	return S_OK;
 }
@@ -404,12 +408,66 @@ HRESULT CScene_Tool::Ready_Layer_Monster()
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
-
 	Engine::CGameObject* pGameObject = nullptr;
 
-	// pGameObject = CCuteMonster::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// CEventMgr::GetInstance()->Add_Obj(L"Monster_01", pGameObject);
+	//Bat
+	pGameObject = CBat::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
+
+	// Dragon
+	pGameObject = CDragon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
+
+	// Hedgehog
+	pGameObject = CHedgehog::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
+	// Ram
+	pGameObject = CRam::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram", pGameObject), E_FAIL);
+
+	// Fox
+	pGameObject = CFox::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
+
+	// Wyvern
+	pGameObject = CWyvern::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
+
+	// Squirrel
+	pGameObject = CSquirrel::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel", pGameObject), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CScene_Tool::Ready_Layer_Npc()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::NPC, pLayer });
+	Engine::CGameObject* pGameObject = nullptr;
+
+
+
+	return S_OK;
+}
+
+HRESULT CScene_Tool::Ready_Layer_Item()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
+	Engine::CGameObject* pGameObject = nullptr;
+
+
 
 	return S_OK;
 }

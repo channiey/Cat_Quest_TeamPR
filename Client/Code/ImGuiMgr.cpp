@@ -14,12 +14,18 @@
 
 #include <iostream>
 
+
+#pragma region ImGui
+
+vector<ImTextureID>			g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TYPEEND];
+
+#pragma endregion
+
+
 IMPLEMENT_SINGLETON(CImGuiMgr)
 
-static _bool	bInit = false;
-const int		g_iImagPerRow = 4;
-
 CImGuiMgr::CImGuiMgr()
+	: m_pGraphicDev(nullptr)
 {
 }
 
@@ -41,6 +47,8 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(pGraphicDev);
+
+	Set_ImgPath(); // 맵 및 오브젝트 이미지 경로 셋업
 
 	return S_OK;
 }
@@ -99,7 +107,7 @@ void CImGuiMgr::Show_Header_Scene()
 	}
 
 	// 02. List Box (Scene Image)
-	ImGui::SeparatorText("Scene List");
+	ImGui::SeparatorText("Scene Prefab List");
 
 	int			iCurIdxRow		= 0; // 줄 맞추기 위한 변수
 	static int	iCurIdx_Scene	= 0; // 현재 선택된 인덱스
@@ -135,16 +143,15 @@ void CImGuiMgr::Show_Header_Object()
 	ImGui::SeparatorText("Object Type");
 	static int iCurIdx_Object_Type = 0; // 현재 선택된 인덱스
 	static ImGuiComboFlags flags = 0;
-	const char* items[] = { "Trrain", "Environment", "Monster", "Npc" };
 
-	const char* combo_preview_value = items[iCurIdx_Object_Type];
+	const char* combo_preview_value = arr_ImgObjType[iCurIdx_Object_Type];
 
 	if (ImGui::BeginCombo("  ", combo_preview_value, flags))
 	{
-		for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+		for (int n = 0; n < IM_ARRAYSIZE(arr_ImgObjType); n++)
 		{
 			const bool is_selected = (iCurIdx_Object_Type == n);
-			if (ImGui::Selectable(items[n], is_selected))
+			if (ImGui::Selectable(arr_ImgObjType[n], is_selected))
 				iCurIdx_Object_Type = n;
 
 			if (is_selected)
@@ -157,7 +164,7 @@ void CImGuiMgr::Show_Header_Object()
 	int			iCurIdxRow		= 0; // 줄 맞추기 위한 변수
 	static int	iCurIdx_Object	= 0; // 현재 선택된 인덱스
 
-	ImGui::SeparatorText("Object List");
+	ImGui::SeparatorText("Object Prefab List");
 	wstring strImgPath = L"../Bin/Resource/Texture/Object/Bush/forest_3.png";
 	ImTextureID image = LoadImageFile(wstring_to_utf8(strImgPath).c_str());
 
@@ -184,6 +191,30 @@ void CImGuiMgr::Show_Header_Object()
 
 void CImGuiMgr::Show_Header_Light()
 {
+}
+
+HRESULT CImGuiMgr::Set_ImgPath()
+{
+	return S_OK;
+	map<const _tchar*, CGameObject*> mapObj;
+
+	// TERRAIN, ENVIRONMENT, MONSTER, NPC, ITEM, LINE, TYPEEND
+
+	// Terrain
+	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::TERRAIN)->Get_ObjectMap();
+	
+	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
+	{
+		wstring imgPath = dynamic_cast<CTexture*>
+			(iter->second->Get_Component
+			(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
+
+		ImTextureID fildID = LoadImageFile(wstring_to_utf8(imgPath).c_str());
+
+		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(fildID);
+	}
+
+	return S_OK;
 }
 
 LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)

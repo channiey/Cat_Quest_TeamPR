@@ -15,10 +15,12 @@ public:
 	virtual void		Render_Scene() override;
 
 private:
+	HRESULT				Ready_Layer_Camera();
 	HRESULT				Ready_Layer_Terrain();
 	HRESULT				Ready_Layer_Environment();
-	HRESULT				Ready_Layer_Camera();
 	HRESULT				Ready_Layer_Monster();
+	HRESULT				Ready_Layer_Npc();
+	HRESULT				Ready_Layer_Item();
 
 public:
 	static CScene_Tool* Create(LPDIRECT3DDEVICE9 pGraphicDev);
