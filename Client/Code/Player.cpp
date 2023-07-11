@@ -370,6 +370,10 @@ void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 	case Engine::OBJ_TYPE::ENVIRONMENT:
 	{
 		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(false);
+
+		// 부쉬면 한번 더 진행
+		if(dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_BUSH)
+			dynamic_cast<CEnvironment*>(_pColObj)->Set_EventSwitch(true);
 	}
 	break;
 	}

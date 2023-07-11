@@ -22,12 +22,14 @@ public:
 	virtual void		Render_Object() override;
 
 public:
-	virtual void		OnCollision_Enter(CGameObject* _pColObj);
-	virtual void		OnCollision_Stay(CGameObject* _pColObj);
-	virtual void		OnCollision_Exit(CGameObject* _pColObj);
-
+	virtual void		Alpha_Update();
 private:
 	HRESULT				Add_Component();
+
+	CTexture*	m_pTextureCom2;
+	CVIBuffer*	m_pBufferCom2;
+
+	_int		m_iTranslucent;
 
 public:
 	static				CKingHouse* Create(LPDIRECT3DDEVICE9 pGraphicDev);
