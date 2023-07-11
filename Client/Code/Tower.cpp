@@ -23,6 +23,8 @@ HRESULT CTower::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_eEnter = ENTER_TYPE::ENTER_NO;
+
 	return S_OK;
 }
 
@@ -52,6 +54,10 @@ void CTower::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	CEnvironment::Render_Object();
+}
+
+void CTower::Play_ColLogic(const _float& fTimeDelta)
+{
 }
 
 HRESULT CTower::Add_Component()

@@ -25,6 +25,8 @@ HRESULT CPillar::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_eEnter = ENTER_TYPE::ENTER_NO;
+
 	return S_OK;
 }
 
@@ -53,6 +55,10 @@ void CPillar::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	CEnvironment::Render_Object();
+}
+
+void CPillar::Play_ColLogic(const _float& fTimeDelta)
+{
 }
 
 HRESULT CPillar::Add_Component()

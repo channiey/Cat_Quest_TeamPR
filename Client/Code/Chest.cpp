@@ -23,6 +23,8 @@ HRESULT CChest::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_eEnter = ENTER_TYPE::ENTER_NO;
+
 	return S_OK;
 }
 
@@ -51,6 +53,11 @@ void CChest::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	CEnvironment::Render_Object(); 
+}
+
+void CChest::Play_ColLogic(const _float& fTimeDelta)
+{
+	int i = 0;
 }
 
 HRESULT CChest::Add_Component()

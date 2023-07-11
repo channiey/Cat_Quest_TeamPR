@@ -12,6 +12,7 @@ namespace Engine
 										BUFFER_RC_TEX, BUFFER_RC_COL, BUFFER_CUBE, BUFFER_TERRAIN_TEX, BUFFER_TERRAIN_RC_TEX,
 										TEXTURE, CAMERA, AICOM, TYPEEND }; // 컴포넌트 종류
 
+	enum class INTERACTION_TYPE		{ INTERACTION_BUSH, INTERACTION_DUNGEON, TYPEEND };
 
 	enum class EVENT_TYPE			{ ADD_OBJ, DELETE_OBJ, RETURN_OBJ, CHANGE_SCENE, TYPEEND }; // 이벤트 타입 (이벤트 매니저)
 
@@ -33,6 +34,8 @@ namespace Engine
 	enum class LINE_TYPE			{ LAND, SEA, ICE, TYPEEND }; // 라인 종류
 	
 	enum class EFFECT_TYPE			{ SKILL, TYPEEND };
+
+	enum class ENTER_TYPE { ENTER, ENTER_NO, TYPEEND };
 
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류
 

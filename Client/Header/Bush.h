@@ -20,8 +20,19 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+	virtual void			Play_ColLogic(const _float& fTimeDelta) override; // 충돌 로직
+	virtual void			Alpha_Update();
 private:
 	HRESULT					Add_Component();
+
+protected:
+	_vec3					m_vecInitScale;
+	_vec3					m_vecEndScale;
+
+	_bool					m_bTransSwitch1;
+	_bool					m_bTransSwitch2;
+
+	_int					m_iTranslucent;
 
 protected:
 	virtual void			Free() override;
