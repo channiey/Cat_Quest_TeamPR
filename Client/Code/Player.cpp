@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "..\Header\Player.h"
 
 #include "Export_Function.h"
@@ -19,7 +19,7 @@
 #include "PlayerState_bAttack1.h"
 #include "PlayerState_bAttack2.h"
 
-#include "EnterUI.h"
+#include "Environment.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
@@ -55,89 +55,89 @@ HRESULT CPlayer::Ready_Object()
 	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
 
-#pragma region »óÅÂÃß°¡
-	// ¾Õ ÇÇ°Ý»óÅÂ Ãß°¡
+#pragma region ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½
+	// ï¿½ï¿½ ï¿½Ç°Ý»ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_HIT, pState);
-	// ¾Õ °È±â»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½È±ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_fWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_WALK, pState);
-	// ¾Õ ¼­±â»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_fIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_IDLE, pState);
-	// ¾Õ ±¸¸£±â»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_fRoll::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ROLL, pState);
-	// ¾Õ °ø°Ý»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½Ý»ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_fAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
-	// ¾Õ °ø°Ý1»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_fAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK1, pState);
-	// ¾Õ °ø°Ý2»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_fAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK2, pState);
 
-	// µÚ ¼­±â»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_bIdle::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_IDLE, pState);
-	// µÚ °È±â»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½È±ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_bWalk::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_WALK, pState);
-	// µÚ ±¸¸£±â»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_bRoll::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ROLL, pState);
-	// µÚ °ø°Ý»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½Ý»ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK, pState);
-	// µÚ °ø°Ý1»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_bAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK1, pState);
-	// µÚ °ø°Ý2»óÅÂ Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	pState = CPlayerState_bAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK2, pState);
 #pragma endregion
 
-#pragma region ¾Ö´Ï¸ÞÃß°¡
-	// ÇÇ°Ý¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+#pragma region ï¿½Ö´Ï¸ï¿½ï¿½ß°ï¿½
+	// ï¿½Ç°Ý¾Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
-	// ¾Õ °È±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½È±ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
-	// ¾Õ ¼­±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
-	// ¾Õ °ø°Ý¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¾Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.08f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
-	// ¾Õ °ø°Ý1¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½1ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)], STATE_TYPE::FRONT_ATTACK1, 0.08f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK1, pAnimation);
-	// ¾Õ °ø°Ý2¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½2ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)], STATE_TYPE::FRONT_ATTACK2, 0.08f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
-	// ¾Õ ±¸¸£±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
 
 
-	// µÚ ¼­±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
-	// µÚ °È±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½È±ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.09f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
-	// µÚ °ø°Ý¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¾Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
-	// µÚ °È±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½È±ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)], STATE_TYPE::BACK_ATTACK1, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK1, pAnimation);
-	// µÚ °È±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½È±ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)], STATE_TYPE::BACK_ATTACK2, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
-	// µÚ ±¸¸£±â¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
 #pragma endregion
@@ -163,7 +163,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -189,7 +189,7 @@ void CPlayer::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-	__super::Render_Object(); // ÄÝ¶óÀÌ´õ Ãâ·Â
+	__super::Render_Object(); // ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½
 }
 
 void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
@@ -244,28 +244,33 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (vOverlap.x > vOverlap.z)
+		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO)
 		{
-			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z - vOverlap.z });
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
 			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z + vOverlap.z });
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
 		}
-		else
-		{
-			if (vMyPos.x < vColPos.x)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-		}
+		dynamic_cast<CEnvironment*>(_pColObj)->Set_EventSwitch(true);
+		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(true);
 	}
 	break;
 	default:
@@ -325,27 +330,29 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (vOverlap.x > vOverlap.z)
-		{
-			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z - vOverlap.z });
+		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO) {
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
 			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z + vOverlap.z });
-		}
-		else
-		{
-			if (vMyPos.x < vColPos.x)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
 		}
 	}
 	break;
@@ -356,6 +363,16 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
+	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::ENVIRONMENT:
+	{
+		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(false);
+	}
+	break;
+	}
 }
 
 HRESULT CPlayer::Add_Component()
@@ -442,7 +459,7 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	// ¹ÙUI ¿¬µ¿Å×½ºÆ®
+	// ï¿½ï¿½UI ï¿½ï¿½ï¿½ï¿½ï¿½×½ï¿½Æ®
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Z))
 		Set_CurHP(30);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_X))
@@ -465,22 +482,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_CurDef(60);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_L))
 		Set_CurDef(Get_StatInfo().fMaxDef);
-
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_I))
-		Set_CurExp(100);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_O))
-		Set_CurExp(300);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_P))
-		Set_CurExp(500);
-
-
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Q))
-	{
-		CEnterUI* pEnterUI = static_cast<CEnterUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-		pEnterUI->EnterUI_On(this);
-	}
-
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
