@@ -15,11 +15,7 @@
 
 #include <iostream>
 
-
-
 IMPLEMENT_SINGLETON(CImGuiMgr)
-
-
 
 CImGuiMgr::CImGuiMgr()
 {
@@ -81,7 +77,11 @@ void CImGuiMgr::ImGui_Update()
 #pragma endregion
 #pragma region List Box (Image)
 
-		//ImTextureID image = L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
+		//folderPath = L"../Bin/Resource/Texture/Terrain";
+		//wstring imgPath = L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
+
+		//ImTextureID image = LoadImageFile()
+		//	//L"../Bin/Resource/Texture/Object/Bush/forest_5.png";
 
 		//if (ImGui::BeginListBox("##", ImVec2(280.f, 300.f)))
 		//{
@@ -150,9 +150,26 @@ void CImGuiMgr::ImGui_Render()
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
+LPDIRECT3DTEXTURE9 CImGuiMgr::LoadImageFile(const char* filePath)
+{
+	LPDIRECT3DTEXTURE9 pTexture = nullptr;
+
+	D3DXIMAGE_INFO imageInfo;
+	HRESULT hr = D3DXGetImageInfoFromFileA(filePath, &imageInfo);
+
+	if (FAILED(hr)) return nullptr;
+
+	hr = D3DXCreateTextureFromFileA(m_pGraphicDev, filePath, &pTexture);
+	Safe_Release(m_pGraphicDev); 
+
+	if (FAILED(hr)) return nullptr;
+
+	return pTexture;
+}
+
 void CImGuiMgr::Free()
 {
-	Safe_Release(m_pGraphicDev); // 지우지 마세요 (레퍼런스 카운트 맞춰뒀습니다)
+	Safe_Release(m_pGraphicDev);
 
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
