@@ -466,11 +466,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	CEnterUI* pEnterUI = static_cast<CEnterUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Q))
 	{
-		pEnterUI->EnterUI_On(this);
+		pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, this);
 		
 	}
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_E))
-		pEnterUI->EnterUI_Off(this);
+		pEnterUI->EnterUI_Off();
 		
 }
 

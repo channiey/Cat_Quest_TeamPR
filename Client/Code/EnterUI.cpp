@@ -3,6 +3,7 @@
 
 CEnterUI::CEnterUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev), m_bIsOn(false), m_bIsShirk(false), m_bIsExpand(false), m_bIsStart(false), m_bIsEnd(false)
+	, m_eUIEnter(UIENTER_TYPE::TYPEEND)
 {
 }
 
@@ -22,7 +23,7 @@ HRESULT CEnterUI::Ready_Object()
 	D3DXMatrixIdentity(&m_UImatWorld);
 
 	m_fSizeX = 0.f;
-	m_fSizeY = 12.f;
+	m_fSizeY = 10.f;
 
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;
@@ -120,19 +121,20 @@ void CEnterUI::Render_Object()
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
 
-		m_pTextureCom->Render_Texture();
+		m_pTextureCom->Render_Texture(_uint(m_eUIEnter));
 		m_pBufferCom->Render_Buffer();
 	}
 	
 }
 
-void CEnterUI::EnterUI_On(CGameObject* pObj)
+void CEnterUI::EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj)
 {
 	if (m_bIsOn)
 		return;
 
 	m_bIsOn = true;
 	m_bIsStart = true;
+	m_eUIEnter = eUIEnter;
 
 	_vec3 vObjWorldPos = pObj->Get_Transform()->Get_Info(INFO::INFO_POS);
 	_matrix matWorld = pObj->Get_Transform()->Get_WorldMat();
@@ -150,7 +152,7 @@ void CEnterUI::EnterUI_On(CGameObject* pObj)
 	m_UImatWorld._42 = ScreenY + 70;
 }
 
-void CEnterUI::EnterUI_Off(CGameObject* pObj)
+void CEnterUI::EnterUI_Off()
 {
 	if (m_bIsStart)
 		return;
