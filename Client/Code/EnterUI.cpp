@@ -18,6 +18,8 @@ CEnterUI::~CEnterUI()
 
 HRESULT CEnterUI::Ready_Object()
 {
+	CGameObject::Ready_Object();
+
 	m_eUIType = UI_TYPE::WORLD;
 
 	D3DXMatrixIdentity(&m_UImatWorld);
@@ -119,6 +121,8 @@ void CEnterUI::Render_Object()
 
 		m_pTextureCom->Render_Texture(_uint(m_eUIEnter));
 		m_pBufferCom->Render_Buffer();
+
+		__super::Render_Object();
 	}
 	
 }
@@ -162,9 +166,9 @@ HRESULT CEnterUI::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
+	/*pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TRANSFORM, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TRANSFORM, pComponent);*/
 
 
 	return S_OK;
