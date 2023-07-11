@@ -34,6 +34,8 @@ namespace Engine
 	
 	enum class EFFECT_TYPE			{ SKILL, TYPEEND };
 
+	enum class ENTER_TYPE			{ ENTER, ENTER_NO, TYPEEND};
+
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류
 
 	enum TERRIAN_TAG {TERRAIN_WORLD, TERRAIN_TEMP, TERRAIN_DUNGEON_ICE, TERRAIN_END }; 	// IMGUI 터레인 저장을 위한 분류

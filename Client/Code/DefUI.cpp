@@ -43,6 +43,9 @@ _int CDefUI::Update_Object(const _float& fTimeDelta)
 	if (nullptr != m_pPlayer)
 		m_fDefRatio = m_pPlayer->Get_StatInfo().fCurDef / m_pPlayer->Get_StatInfo().fMaxDef;
 
+	if (1.f < m_fDefRatio)
+		m_fDefRatio = 1.f;
+
 	return iExit;
 }
 

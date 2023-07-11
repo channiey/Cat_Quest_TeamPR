@@ -191,8 +191,10 @@
     <ClInclude Include="..\Header\Dragon.h" />
     <ClInclude Include="..\Header\DragonState_bAttack.h" />
     <ClInclude Include="..\Header\DragonState_bIdle.h" />
+    <ClInclude Include="..\Header\EnterUI.h" />
     <ClInclude Include="..\Header\Environment.h" />
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\ExpUI.h" />
     <ClInclude Include="..\Header\House.h" />
     <ClInclude Include="..\Header\Calculator.h" />
     <ClInclude Include="..\Header\CameraTargetObj.h" />
@@ -309,8 +311,10 @@
     <ClCompile Include="..\Code\Dragon.cpp" />
     <ClCompile Include="..\Code\DragonState_bAttack.cpp" />
     <ClCompile Include="..\Code\DragonState_bIdle.cpp" />
+    <ClCompile Include="..\Code\EnterUI.cpp" />
     <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\ExpUI.cpp" />
     <ClCompile Include="..\Code\House.cpp" />
     <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\CameraTargetObj.cpp" />

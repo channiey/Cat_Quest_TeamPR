@@ -67,6 +67,8 @@
 #include "HpUI.h"
 #include "ManaUI.h"
 #include "DefUI.h"
+#include "ExpUI.h"
+#include "EnterUI.h"
 
 #include "CuteMonster.h"
 #include "Hedgehog.h"
@@ -432,10 +434,20 @@ HRESULT CScene_World::Ready_Layer_UI()
 
 	
 
+	// UI - Enter
+	pGameObject = CEnterUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Enter", pGameObject), E_FAIL);
+
 	// UI - Zoom
 	pGameObject = CZoomUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
+
+	// UI - Exp
+	pGameObject = CExpUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Exp", pGameObject), E_FAIL);
 
 	// UI - Hp
 	pGameObject = CHpUI::Create(m_pGraphicDev);

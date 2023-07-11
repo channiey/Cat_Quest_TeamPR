@@ -19,6 +19,8 @@
 #include "PlayerState_bAttack1.h"
 #include "PlayerState_bAttack2.h"
 
+#include "EnterUI.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
 	, m_eCurGroundType(LINE_TYPE::LAND)
@@ -161,7 +163,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -463,6 +465,22 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_CurDef(60);
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_L))
 		Set_CurDef(Get_StatInfo().fMaxDef);
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_I))
+		Set_CurExp(100);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_O))
+		Set_CurExp(300);
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_P))
+		Set_CurExp(500);
+
+
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Q))
+	{
+		CEnterUI* pEnterUI = static_cast<CEnterUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+		pEnterUI->EnterUI_On(this);
+	}
+		
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
