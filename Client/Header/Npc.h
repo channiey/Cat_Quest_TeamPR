@@ -3,13 +3,14 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-
+class CTexture;
+class CAIComponent;
+class CRcTex;
 END
 
-class CNpc :
-	public CGameObject
+class CNpc : public Engine::CGameObject
 {
-private:
+protected:
 	explicit CNpc(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CNpc(const CNpc& rhs);
 	virtual ~CNpc();
@@ -20,13 +21,21 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
+
 private:
 	HRESULT					Add_Component();
 
-public:
-	static CNpc*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
+protected:
 
-private:
+	CTexture* m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
+
+
+protected:
 	virtual void			Free() override;
+
 };
 

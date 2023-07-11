@@ -234,6 +234,12 @@
     <ClInclude Include="..\Header\Mountain.h" />
     <ClInclude Include="..\Header\Mountain_Grass.h" />
     <ClInclude Include="..\Header\Mountain_Ice.h" />
+    <ClInclude Include="..\Header\Npc_BlackSmith.h" />
+    <ClInclude Include="..\Header\Npc_Citizen1.h" />
+    <ClInclude Include="..\Header\Npc_Citizen2.h" />
+    <ClInclude Include="..\Header\Npc_King.h" />
+    <ClInclude Include="..\Header\Npc_Mage.h" />
+    <ClInclude Include="..\Header\Npc_Soldier.h" />
     <ClInclude Include="..\Header\Pillar.h" />
     <ClInclude Include="..\Header\PlayerState_Hit.h" />
     <ClInclude Include="..\Header\PlayerState_fAttack1.h" />
@@ -380,6 +386,12 @@
     <ClCompile Include="..\Code\Mountain.cpp" />
     <ClCompile Include="..\Code\Mountain_Grass.cpp" />
     <ClCompile Include="..\Code\Mountain_Ice.cpp" />
+    <ClCompile Include="..\Code\Npc_BlackSmith.cpp" />
+    <ClCompile Include="..\Code\Npc_Citizen1.cpp" />
+    <ClCompile Include="..\Code\Npc_Citizen2.cpp" />
+    <ClCompile Include="..\Code\Npc_King.cpp" />
+    <ClCompile Include="..\Code\Npc_Mage.cpp" />
+    <ClCompile Include="..\Code\Npc_Soldier.cpp" />
     <ClCompile Include="..\Code\Pillar.cpp" />
     <ClCompile Include="..\Code\PlayerState_Hit.cpp" />
     <ClCompile Include="..\Code\PlayerState_fAttack1.cpp" />
