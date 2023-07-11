@@ -37,7 +37,7 @@ void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
 {
 	_int RandomDir;
 
-	srand(_int(time(NULL)));
+	
 
 	RandomDir = rand() % 5 + 1;
 
@@ -57,7 +57,19 @@ void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.back);
 		break;
 	case 5:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // 멈춤
+	case 6:
+		m_pOwnerObject->Get_Transform()->Set_Dir({1.f,0.f,1.f}); // 오른 대각 위
+		break;
+	case 7:
+		m_pOwnerObject->Get_Transform()->Set_Dir({ -1.f,0.f,1.f }); // 왼 대각 위
+		break;
+	case 8:
+		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,-1.f }); // 오른 대각 아래
+		break;
+	case 9:
+		m_pOwnerObject->Get_Transform()->Set_Dir({-1.f, 0.f, -1.f}); // 왼 대각 아래 
+		break;
 	default:
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
 		break;

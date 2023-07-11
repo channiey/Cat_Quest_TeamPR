@@ -73,6 +73,7 @@
 #include "LineObject.h"
 #include "Bat.h"
 #include "Dragon.h"
+#include "Ram.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -531,6 +532,10 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
+	// Ram
+	pGameObject = CRam::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram", pGameObject), E_FAIL);
 
 
 	return S_OK;

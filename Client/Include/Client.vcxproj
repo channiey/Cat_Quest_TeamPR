@@ -237,6 +237,11 @@
     <ClInclude Include="..\Header\PlayerState_fRoll.h" />
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
+    <ClInclude Include="..\Header\Ram.h" />
+    <ClInclude Include="..\Header\RamState_Attack.h" />
+    <ClInclude Include="..\Header\RamState_Chase.h" />
+    <ClInclude Include="..\Header\RamState_ComeBack.h" />
+    <ClInclude Include="..\Header\RamState_Patrol.h" />
     <ClInclude Include="..\Header\RingUI.h" />
     <ClInclude Include="..\Header\Rock.h" />
     <ClInclude Include="..\Header\Rock1.h" />
@@ -357,6 +362,11 @@
     <ClCompile Include="..\Code\PlayerState_fRoll.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
+    <ClCompile Include="..\Code\Ram.cpp" />
+    <ClCompile Include="..\Code\RamState_Attack.cpp" />
+    <ClCompile Include="..\Code\RamState_Chase.cpp" />
+    <ClCompile Include="..\Code\RamState_ComeBack.cpp" />
+    <ClCompile Include="..\Code\RamState_Patrol.cpp" />
     <ClCompile Include="..\Code\RingUI.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
     <ClCompile Include="..\Code\Rock1.cpp" />
