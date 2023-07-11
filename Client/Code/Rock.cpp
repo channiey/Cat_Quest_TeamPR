@@ -25,6 +25,8 @@ HRESULT CRock::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_eEnter = ENTER_TYPE::ENTER;
+
 	return S_OK;
 }
 
@@ -53,6 +55,10 @@ void CRock::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	// CEnvironment::Render_Object(); // 콜라이더 필요 없음.
+}
+
+void CRock::Play_ColLogic(const _float& fTimeDelta)
+{
 }
 
 HRESULT CRock::Add_Component()

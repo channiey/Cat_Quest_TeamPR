@@ -72,7 +72,6 @@ void CZoomUI::Render_Object()
 
 HRESULT CZoomUI::Add_Component()
 {
-
 	CComponent* pComponent = nullptr;
 
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Zoom", this));

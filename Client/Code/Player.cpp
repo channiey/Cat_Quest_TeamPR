@@ -19,6 +19,8 @@
 #include "PlayerState_bAttack1.h"
 #include "PlayerState_bAttack2.h"
 
+#include "Environment.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
 	, m_eCurGroundType(LINE_TYPE::LAND)
@@ -242,29 +244,34 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (vOverlap.x > vOverlap.z)
-		{
-			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z - vOverlap.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z + vOverlap.z });
+			if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO)
+			{
+				if (vOverlap.x > vOverlap.z)
+				{
+					if (vMyPos.z < vColPos.z)
+						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+														vMyPos.y,
+														vMyPos.z - vOverlap.z });
+					else
+						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+														vMyPos.y,
+														vMyPos.z + vOverlap.z });
+				}
+				else
+				{
+					if (vMyPos.x < vColPos.x)
+						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+														vMyPos.y,
+														vMyPos.z });
+					else
+						m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+														vMyPos.y,
+														vMyPos.z });
+				}
+			}
+			dynamic_cast<CEnvironment*>(_pColObj)->Set_EventSwitch(true);
+			dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(true);
 		}
-		else
-		{
-			if (vMyPos.x < vColPos.x)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-		}
-	}
 		break;
 	default:
 		break;
@@ -323,27 +330,29 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (vOverlap.x > vOverlap.z)
-		{
-			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z - vOverlap.z });
+		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO) {
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
 			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z + vOverlap.z });
-		}
-		else
-		{
-			if (vMyPos.x < vColPos.x)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
 		}
 	}
 		break;
@@ -354,6 +363,16 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
+	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::ENVIRONMENT:
+	{
+		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(false);
+	}
+	break;
+	}
 }
 
 HRESULT CPlayer::Add_Component()

@@ -25,12 +25,27 @@ HRESULT CBush::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_eEnter = ENTER_TYPE::ENTER;
+	m_eInteraction = INTERACTION_TYPE::INTERACTION_BUSH;
+
+	m_vecInitScale = { 4.0f, 3.5f, 3.5f };
+	m_vecEndScale = {4.2f, 3.3f, 3.5f};
+
+	m_bTransSwitch1 = false;
+	m_bTransSwitch2 = false;
+	m_iTranslucent = 255;
+
+	m_pTransformCom->Set_Scale(m_vecInitScale);
+
 	return S_OK;
 }
 
 _int CBush::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	Play_ColLogic(fTimeDelta);
+	Alpha_Update();
 
 	return iExit;
 }
@@ -42,6 +57,8 @@ void CBush::LateUpdate_Object()
 
 void CBush::Render_Object()
 {
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -52,7 +69,65 @@ void CBush::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+
 	CEnvironment::Render_Object(); 
+}
+
+void CBush::Play_ColLogic(const _float& fTimeDelta)
+{
+	if (m_bEventSwitch) {
+		// 줄어들었다
+		if (!m_bTransSwitch1 && !m_bTransSwitch2) {
+			m_pTransformCom->Set_Scale(_vec3{
+			m_pTransformCom->Get_Scale().x + 1.f * fTimeDelta * 3.f,
+			m_pTransformCom->Get_Scale().y - 1.f * fTimeDelta * 3.f,
+			m_pTransformCom->Get_Scale().z });
+
+			if (m_pTransformCom->Get_Scale().y <= m_vecEndScale.y) 
+				m_bTransSwitch1 = true;
+		}
+		// 커졌다가 
+		else if(m_bTransSwitch1){
+			m_pTransformCom->Set_Scale(_vec3{
+			m_pTransformCom->Get_Scale().x - 1.f * fTimeDelta * 2.f,
+			m_pTransformCom->Get_Scale().y + 1.f * fTimeDelta * 2.f,
+			m_pTransformCom->Get_Scale().z });
+
+			if (m_pTransformCom->Get_Scale().y >= m_vecInitScale.y + 0.2f) {
+				m_bTransSwitch1 = false;
+				m_bTransSwitch2 = true;
+			}
+		}
+		// 다시 원상태로
+		else if (m_bTransSwitch2) {
+			m_pTransformCom->Set_Scale(_vec3{
+			m_pTransformCom->Get_Scale().x + 1.f * fTimeDelta * 3.f,
+			m_pTransformCom->Get_Scale().y - 1.f * fTimeDelta * 3.f,
+			m_pTransformCom->Get_Scale().z });
+
+			if (m_pTransformCom->Get_Scale().y <= m_vecInitScale.y) {
+				m_bTransSwitch2 = false;
+				m_bEventSwitch = false;
+			}
+		}
+	}
+}
+
+void CBush::Alpha_Update()
+{
+	// 알파값 조절
+	if (m_bEnter) {
+		if (m_iTranslucent > 150) {
+			m_iTranslucent -= 3;
+		}
+	}
+	else {
+		if (m_iTranslucent < 255) {
+			m_iTranslucent += 3;
+		}
+	}
+
 }
 
 HRESULT CBush::Add_Component()
