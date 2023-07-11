@@ -119,12 +119,12 @@ void CBush::Alpha_Update()
 	// 알파값 조절
 	if (m_bEnter) {
 		if (m_iTranslucent > 150) {
-			m_iTranslucent -= 3;
+			m_iTranslucent -= 5;
 		}
 	}
 	else {
 		if (m_iTranslucent < 255) {
-			m_iTranslucent += 3;
+			m_iTranslucent += 5;
 		}
 	}
 
