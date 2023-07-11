@@ -274,6 +274,29 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/ram_back.png")), E_FAIL);
 
 
+	// Monster - Fox
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Fox",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Fox/fox.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Fox",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Fox/fox_back.png")), E_FAIL);
+
+
+	// Monster - Wyvern
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Wyvern",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Front/%d.png", 4)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Wyvern",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Back/%d.png", 4)), E_FAIL);
+
+	// Monster - Squirrel
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Squirrel",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Squirrel/squirrel.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Squirrel",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Squirrel/squirrel.png")), E_FAIL);
+
+
 #pragma endregion
 
 #pragma region LEE
