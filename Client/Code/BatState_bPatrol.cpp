@@ -74,7 +74,7 @@ STATE_TYPE CBatState_bPatrol::Update_State(const _float& fTimeDelta)
    //  Patrol 전이 조건
    if (vOwnerDir.z < 0)
    {
-
+       cout << "patrol  전이" << endl;
        return STATE_TYPE::PATROL;
    }
 
@@ -83,35 +83,35 @@ STATE_TYPE CBatState_bPatrol::Update_State(const _float& fTimeDelta)
    // CHASE 전이 조건
    if (fDistance <= 10.f)
    {
-       //cout << "CHASe 전이" << endl;
-       /*pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::CHASE;*/
+     
        if (vOwnerDir.z < 0)
        {
+           cout << "chase  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::CHASE;
        }
        else
        {
+           cout << "back chase  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_CHASE;
        }
    }
 
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 20.f  && fDistance> 20.f )
+   if (fOriginDistance >= 50.f  &&  fDistance> 15.f )
    {
-       ////cout << "comback 전이" << endl;
-       //pOwnerTransform->Set_Dir(vec3.zero);
-       //return STATE_TYPE::COMEBACK;
+   
 
        if (vOwnerDir.z < 0)
        {
+           cout << "COMBACK  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::COMEBACK;
        }
        else
        {
+           cout << "back COMBACK  전이1" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_COMEBACK;
        }
@@ -121,17 +121,17 @@ STATE_TYPE CBatState_bPatrol::Update_State(const _float& fTimeDelta)
 
        if (vOwnerDir.z < 0)
        {
+           cout << "attack  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::MONATTACK;
        }
        else
        {
+           cout << "back attack  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_MONATTACK;
        }
-       ////cout << "attack 전이" << endl;
-       //pOwnerTransform->Set_Dir(vec3.zero);
-       //return STATE_TYPE::MONATTACK;
+    
    }
 
 

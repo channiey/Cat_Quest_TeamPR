@@ -61,34 +61,70 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
 
     _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
-    if (vOwnerDir.z < 0)
+    if (vOwnerDir.z > 0)
     {
+        cout << "Back_chase  전이" << endl;
+        pOwnerTransform->Set_Dir(vec3.zero);
+
         return STATE_TYPE::BACK_CHASE;
     }
 
 
 
-    if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
+    if (fOriginDistance >= 50.f &&  fDistance > 15.f   )// Comeback 전이 조건
     {
-       // cout << "COMBACK  전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        return STATE_TYPE::COMEBACK;
+        
+    
+        if (vOwnerDir.z < 0)
+        {
+            cout << "COMBACK  전이" << endl;
+            pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::COMEBACK;
+        }
+        else
+        {
+            cout << "Back_COMBACK  전이 1" << endl;
+            pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_COMEBACK;
+        }
     }
     
     if (fDistance >= 20.f)  // PATROL 전이 조건
     {
-       // cout << "patrol 전이" << endl;
-      pOwnerTransform->Set_Dir(vec3.zero);
-      return STATE_TYPE::PATROL; 
+      
+     
+        if (vOwnerDir.z < 0)
+        {
+            cout << "patrol 전이" << endl;
+            pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::PATROL;
+        }
+        else
+        {
+            cout << "Back patrol 전이" << endl;
+            pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_PATROL;
+
+        }
     }
 
   
 
     if (fDistance <= 5.f) // Attack 전이 조건
     {
-       // cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        return STATE_TYPE::MONATTACK;
+        
+        if (vOwnerDir.z < 0)
+        {
+            cout << "attack 전이" << endl;
+            pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::MONATTACK;
+        }
+        else
+        {
+            cout << "Back attack 전이" << endl;
+            pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_MONATTACK;
+        }
     }
  
    

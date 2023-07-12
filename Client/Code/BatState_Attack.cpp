@@ -57,30 +57,64 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
   
 
    // 기능
-   m_fAccTime += fTimeDelta;
+  // m_fAccTime += fTimeDelta;
 
-   if (OwnerPatternTime <= m_fAccTime)
+   /*if (OwnerPatternTime <= m_fAccTime)
    {
        pOwnerAI->Chase_Target(&PlayerPos, fTimeDelta, OwnerSpeed*2);
+
        m_fAccTime = 0.f;
-   }
+   }*/
+
+   pOwnerTransform->Set_Dir(vec3.zero);
    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
 
-   // CHASE 전이 조건
-   if (fDistance >= 10.f  &&  fDistance < 30.f)
+   
+   _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
+   if (vOwnerDir.z > 0)
    {
-      // cout << "chase  전이" << endl;
-       pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::CHASE;
+       cout <<  "back monattack 전이" << endl;
+       return STATE_TYPE::BACK_MONATTACK;
+   }
+
+
+
+
+   // CHASE 전이 조건
+   if (fDistance >= 10.f)
+   {
+       if (vOwnerDir.z < 0)
+       {
+           cout << "chase  전이" << endl;
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::CHASE;
+       }
+       else
+       {
+           cout << "back chase  전이" << endl;
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::BACK_CHASE;
+       }
    }
  
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 20.f)
+   if (fOriginDistance >= 50.f && fDistance >15.f)
    {
-      // cout << "COMBACK  전이" << endl;
-       pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::COMEBACK;
+     
+     
+       if (vOwnerDir.z < 0)
+       {
+           cout << "COMBACK  전이" << endl;
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::COMEBACK;
+       }
+       else
+       {
+           cout << "back COMBACK  전이" << endl;
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::BACK_COMEBACK;
+       }
    }
   
 

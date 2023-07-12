@@ -74,20 +74,20 @@ HRESULT CBat::Ready_Object()
 
 	// Back
 	// Patrol
-	pState = CBatState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
 
 	// Chase
-	pState = CBatState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
 
 
 	// ComeBack
-	pState = CBatState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
 
 	// Attack
-	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 #pragma endregion
