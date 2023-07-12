@@ -74,7 +74,7 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
    // CHASE 전이 조건
    if (fDistance >= 10.f  &&  fDistance < 30.f)
    {
-       cout << "chase  전이" << endl;
+       //cout << "chase  전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::CHASE;
@@ -83,7 +83,7 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
    // COMEBACK 전이 조건
    if (fOriginDistance >= 20.f)
    {
-       cout << "COMBACK  전이" << endl;
+       //cout << "COMBACK  전이" << endl;
        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::COMEBACK;

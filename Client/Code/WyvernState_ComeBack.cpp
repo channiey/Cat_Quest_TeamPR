@@ -61,21 +61,21 @@ STATE_TYPE CWyvernState_ComeBack::Update_State(const _float& fTimeDelta)
   
     if (fOriginDistance <= 5.f)    // PATROL 전이 조건
     {
-        cout << "patrol 전이" << endl;
+       // cout << "patrol 전이" << endl;
       pOwnerTransform->Set_Dir(vec3.zero);
       return STATE_TYPE::PATROL; 
     }
     
     if (fDistance <= 10.f)   // CHASE 전이 조건
     {
-        cout << "chase  전이" << endl;
+        //cout << "chase  전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         return STATE_TYPE::CHASE;
     }
     
     if (fDistance <= 5.f)  // Attack 전이 조건
     {
-        cout << "attack 전이" << endl;
+        //cout << "attack 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         return STATE_TYPE::FRONT_ATTACK;
     }

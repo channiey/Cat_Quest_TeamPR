@@ -59,14 +59,14 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
 
     if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
     {
-        cout << "COMBACK  전이" << endl;
+       // cout << "COMBACK  전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         return STATE_TYPE::COMEBACK;
     }
     
     if (fDistance >= 20.f)  // PATROL 전이 조건
     {
-        cout << "patrol 전이" << endl;
+       // cout << "patrol 전이" << endl;
       pOwnerTransform->Set_Dir(vec3.zero);
       return STATE_TYPE::PATROL; 
     }
@@ -75,7 +75,7 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
 
     if (fDistance <= 5.f) // Attack 전이 조건
     {
-        cout << "attack 전이" << endl;
+       // cout << "attack 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         return STATE_TYPE::FRONT_ATTACK;
     }

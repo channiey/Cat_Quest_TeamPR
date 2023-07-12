@@ -32,12 +32,12 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
    
     _vec3  OwnerOriginPos = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_OriginPos();
 
-
     _float  OwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
   
 
   CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-   _vec3 OwnerPos = pOwnerTransform->Get_Info(INFO_POS);
+   
+  _vec3 OwnerPos = pOwnerTransform->Get_Info(INFO_POS);
 
 
    _float OwnerPatternTime = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_PatternTime();
@@ -78,7 +78,7 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
    // CHASE 전이 조건
    if (fDistance <= 10.f)
    {
-       cout << "CHASe 전이" << endl;
+       //cout << "CHASe 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::CHASE;
@@ -87,14 +87,15 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
    // COMEBACK 전이 조건
    if (fOriginDistance >= 20.f  && fDistance> 20.f )
    {
-       cout << "comback 전이" << endl;
+       //cout << "comback 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::COMEBACK;
    }
+
    if (fDistance <= 5.f)  // Attack 전이 조건
    {
-       cout << "attack 전이" << endl;
+       //cout << "attack 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::FRONT_ATTACK;
