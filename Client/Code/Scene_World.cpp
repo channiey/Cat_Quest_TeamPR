@@ -72,6 +72,14 @@
 #include "DefUI.h"
 #include "IndicatorUI.h"
 
+// NPC
+#include "Npc_King.h"
+#include "Npc_Mage.h"
+#include "Npc_BlackSmith.h"
+#include "Npc_Soldier.h"
+#include "Npc_Citizen1.h"
+#include "Npc_Citizen2.h"
+
 // Monster
 #include "ExpUI.h"
 #include "EnterUI.h"
@@ -102,6 +110,7 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Player()		, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Npc()			, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Monster()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Projectile()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
@@ -121,6 +130,7 @@ void CScene_World::LateUpdate_Scene()
 {
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::MONSTER);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ENVIRONMENT);
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
@@ -516,6 +526,48 @@ HRESULT CScene_World::Ready_Layer_Player()
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
+
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_Npc()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::NPC, pLayer });
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	// King
+	pGameObject = CNpc_King::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Npc_King", pGameObject), E_FAIL);
+
+	// Mage
+	pGameObject = CNpc_Mage::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Npc_Mage", pGameObject), E_FAIL);
+	
+	// BlackSmith
+	pGameObject = CNpc_BlackSmith::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Npc_BlackSmith", pGameObject), E_FAIL);
+
+	// Soldier
+	pGameObject = CNpc_Soldier::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Npc_Soldier", pGameObject), E_FAIL);
+
+	// Citizen1
+	pGameObject = CNpc_Citizen1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Npc_Citizen1", pGameObject), E_FAIL);
+
+	// Citizen2
+	pGameObject = CNpc_Citizen2::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Npc_Citizen2", pGameObject), E_FAIL);
 
 
 	return S_OK;

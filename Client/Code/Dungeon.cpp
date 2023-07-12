@@ -26,7 +26,7 @@ HRESULT CDungeon::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_eEnter = ENTER_TYPE::ENTER_NO;
-	m_eInteraction = INTERACTION_TYPE::INTERACTION_ENTER;
+	m_eInterType = INTERACTION_TYPE::INTERACTION_ENTER;
 
 	return S_OK;
 }

@@ -20,6 +20,7 @@
 #include "PlayerState_bAttack2.h"
 
 #include "Environment.h"
+#include "Npc.h"
 #include "EnterUI.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -206,18 +207,10 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	}
 	break;
 	case Engine::OBJ_TYPE::NPC:
-		break;
-	case Engine::OBJ_TYPE::ITEM:
-		break;
-	case Engine::OBJ_TYPE::PROJECTILE:
-		break;
-	case Engine::OBJ_TYPE::CAMERA:
-		break;
-	case Engine::OBJ_TYPE::ENVIRONMENT:
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO)
+		if (_pColObj->Get_EnterType() == ENTER_TYPE::ENTER_NO)
 		{
 			if (vOverlap.x > vOverlap.z)
 			{
@@ -242,18 +235,61 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 													vMyPos.z });
 			}
 		}
-		dynamic_cast<CEnvironment*>(_pColObj)->Set_EventSwitch(true);
-		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(true);
+		// 대화 가능 UI
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT) {
+			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+			m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+		}
+	}
+	case Engine::OBJ_TYPE::ITEM:
+		break;
+	case Engine::OBJ_TYPE::PROJECTILE:
+		break;
+	case Engine::OBJ_TYPE::CAMERA:
+		break;
+	case Engine::OBJ_TYPE::ENVIRONMENT:
+	{
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+		if (_pColObj->Get_EnterType() == ENTER_TYPE::ENTER_NO)
+		{
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
+			else
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
+		}
+		_pColObj->Set_EventSwitch(true);
+		_pColObj->Set_IsEnter(true);
 
 		// 입장 가능 UI
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_ENTER) {
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_ENTER) {
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
 			m_pEnterUI->EnterUI_On(UIENTER_TYPE::ENTER, _pColObj);
 		}
 		// 탐색 가능 UI
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
@@ -307,6 +343,42 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	}
 	break;
 	case Engine::OBJ_TYPE::NPC:
+	{
+		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+		if (_pColObj->Get_EnterType() == ENTER_TYPE::ENTER_NO)
+		{
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
+			else
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
+		}
+		// 대화 가능 UI
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT) {
+			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+			m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+		}
+	}
 		break;
 	case Engine::OBJ_TYPE::ITEM:
 		break;
@@ -318,7 +390,7 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	{
 		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_EnterType() == ENTER_TYPE::ENTER_NO) {
+		if (_pColObj->Get_EnterType() == ENTER_TYPE::ENTER_NO) {
 			if (vOverlap.x > vOverlap.z)
 			{
 				if (vMyPos.z < vColPos.z)
@@ -344,14 +416,14 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		}
 
 		// 입장 가능 UI
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_ENTER) {
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_ENTER) {
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
 			m_pEnterUI->EnterUI_On(UIENTER_TYPE::ENTER, _pColObj);
 		}
 		// 탐색 가능 UI
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
@@ -368,28 +440,22 @@ void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
 
-	switch (_pColObj->Get_Type())
+	_pColObj->Set_IsEnter(false);
+
+	// 부쉬면 Event 한번 더 진행
+	if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_ALPHA)
+		_pColObj->Set_EventSwitch(true);
+
+	// UI 끄기
+	if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_ENTER ||
+		_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_INSPECT ||
+		_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT)
 	{
-	case Engine::OBJ_TYPE::ENVIRONMENT:
-	{
-		dynamic_cast<CEnvironment*>(_pColObj)->Set_IsEnter(false);
+		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
-		// 부쉬면 Event 한번 더 진행
-		if(dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_ALPHA)
-			dynamic_cast<CEnvironment*>(_pColObj)->Set_EventSwitch(true);
-
-		// 환경 오브젝트 UI 끄기
-		if (dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_ENTER ||
-			dynamic_cast<CEnvironment*>(_pColObj)->Get_InteractionType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
-			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-			m_pEnterUI->EnterUI_Off();
-		}
+		m_pEnterUI->EnterUI_Off();
 	}
-	break;
-	}
-
 }
 
 HRESULT CPlayer::Add_Component()

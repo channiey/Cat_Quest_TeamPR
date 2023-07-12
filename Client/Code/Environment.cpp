@@ -5,7 +5,7 @@
 
 CEnvironment::CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ENVIRONMENT)
-	, m_pTextureCom(nullptr), m_bEventSwitch(false)
+	, m_pTextureCom(nullptr)
 {
 }
 

@@ -24,28 +24,29 @@ HRESULT CNpc_King::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) - 40.f, m_pTransformCom->Get_Scale().y, -20.f });
+	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
+
+	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) + 5.f, m_pTransformCom->Get_Scale().y + 3.f, 20.f });
+	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 
 	return S_OK;
 }
 
 _int CNpc_King::Update_Object(const _float& fTimeDelta)
 {
-	_int iExit = CNpc_King::Update_Object(fTimeDelta);
-
-	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	_int iExit = CNpc::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
 void CNpc_King::LateUpdate_Object()
 {
-	CNpc_King::LateUpdate_Object();
+	CNpc::LateUpdate_Object();
 }
 
 void CNpc_King::Render_Object()
 {
-	CNpc_King::Render_Object();
+	CNpc::Render_Object();
 }
 
 void CNpc_King::OnCollision_Enter(CGameObject* _pColObj)
@@ -64,7 +65,7 @@ HRESULT CNpc_King::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fRoll", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Npc_King", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -88,5 +89,5 @@ CNpc_King* CNpc_King::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CNpc_King::Free()
 {
-	CNpc_King::Free();
+	CNpc::Free();
 }

@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 class CTexture;
-class CAIComponent;
+class CAnimation;
 class CRcTex;
 END
 
@@ -22,17 +22,17 @@ public:
 	virtual void			Render_Object() override;
 
 public:
-	virtual void			OnCollision_Enter(CGameObject* _pColObj);
-	virtual void			OnCollision_Stay(CGameObject* _pColObj);
-	virtual void			OnCollision_Exit(CGameObject* _pColObj);
+	// 모두 같은 기능이라 부모에서 통일
+	void					Play_ColLogic(const _float& fTimeDelta); // 충돌 로직
+
+	CTexture*				Get_Texture() { return m_pTextureCom; }
 
 private:
 	HRESULT					Add_Component();
 
 protected:
-
-	CTexture* m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
-
+	CTexture*	m_pTextureCom; // 현재 Idle 상태만 있고 모든 Npc가 8프레임 고정.
+	CAnimation* m_pAnimation;
 
 protected:
 	virtual void			Free() override;
