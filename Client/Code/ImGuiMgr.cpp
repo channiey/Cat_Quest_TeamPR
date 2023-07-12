@@ -329,8 +329,8 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 		return E_FAIL;
 
 	// 클론
-	CGameObject* pClone = g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]; // 클론
-
+	CGameObject* pClone = g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj];
+		
 	NULL_CHECK_RETURN(pClone, E_FAIL);
 
 	// 포지션 세팅
@@ -339,7 +339,7 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 	pClone->Get_Transform()->Set_Pos(vClonePos); 
 
 	// 추가
-	CEventMgr::GetInstance()->Add_Obj(pClone->Get_Name(), pClone);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pClone->Get_Name(), pClone), E_FAIL);
 
 	return S_OK;
 }

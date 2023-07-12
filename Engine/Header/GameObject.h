@@ -17,6 +17,7 @@ protected:
 	explicit CGameObject(const CGameObject& rhs);
 	virtual ~CGameObject();
 
+//	public:
 #pragma region Access Methods
 
 public:
