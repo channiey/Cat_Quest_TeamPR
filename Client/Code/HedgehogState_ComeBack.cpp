@@ -24,17 +24,20 @@ HRESULT CHedgehogState_ComeBack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
 {
+   //m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
+    
   
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 
-
     CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 
+   
     _float OwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
 
     _vec3 OwnerOriginPos = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_OriginPos();
+    
 
-
+  
     _vec3	vPlayerPos;
    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
 
@@ -57,19 +60,26 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     pOwnerTransform->Set_Dir(vec3.zero);
     pOwnerAI->Chase_Target(&OwnerOriginPos, fTimeDelta, OwnerSpeed);
    
+    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
+
+
+    _vec3 vOwnerScale = pOwnerTransform->Get_Scale();
+
  
-  
+
     if (fOriginDistance <= 5.f)    // PATROL 전이 조건
     {
         cout << "patrol 전이" << endl;
       pOwnerTransform->Set_Dir(vec3.zero);
+      pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
       return STATE_TYPE::PATROL; 
     }
     
-    if (fDistance <= 10.f)   // CHASE 전이 조건
+    if (fDistance <= 5.f)   // CHASE 전이 조건
     {
         cout << "chase  전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
+        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
     }
     
@@ -77,6 +87,7 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     {
         cout << "attack 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
+        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::FRONT_ATTACK;
     }
   

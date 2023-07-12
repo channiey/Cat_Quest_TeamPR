@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include <ctime>
 
+#include <iostream>
+
 CAIComponent::CAIComponent()
 {
 }
@@ -33,14 +35,17 @@ _int CAIComponent::Update_Component(const _float& fTimeDelta)
 }
 
 
-void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
+void CAIComponent::Random_Move(const _float& fTimeDelta, const _float& fSpeed)
 {
 	_int RandomDir;
 
-	
+	_vec3 vOwnerScale = m_pOwnerObject->Get_Transform()->Get_Scale();
 
-	RandomDir = rand() % 5 + 1;
 
+	RandomDir = rand() % 9 + 1;
+	//m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
+
+	//float PreDirX = m_pOwnerObject->Get_Transform()->Get_Dir().x;
 
 	switch (RandomDir)
 	{
@@ -59,7 +64,7 @@ void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
 	case 5:
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // 멈춤
 	case 6:
-		m_pOwnerObject->Get_Transform()->Set_Dir({1.f,0.f,1.f}); // 오른 대각 위
+		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,1.f }); // 오른 대각 위
 		break;
 	case 7:
 		m_pOwnerObject->Get_Transform()->Set_Dir({ -1.f,0.f,1.f }); // 왼 대각 위
@@ -68,14 +73,30 @@ void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
 		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,-1.f }); // 오른 대각 아래
 		break;
 	case 9:
-		m_pOwnerObject->Get_Transform()->Set_Dir({-1.f, 0.f, -1.f}); // 왼 대각 아래 
+		m_pOwnerObject->Get_Transform()->Set_Dir({ -1.f, 0.f, -1.f }); // 왼 대각 아래 
 		break;
 	default:
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
 		break;
 	}
-	
 
+	float CurDirX = m_pOwnerObject->Get_Transform()->Get_Dir().x;
+
+	//cout << PreDirX << "\t" << CurDirX << endl;
+
+
+	if (CurDirX < 0  && vOwnerScale.x >0)
+	{
+		m_pOwnerObject->Get_Transform()->Set_Scale({ -vOwnerScale.x, vOwnerScale.y, vOwnerScale.z });
+	}
+	else if (CurDirX > 0 && vOwnerScale.x < 0)
+	{
+		m_pOwnerObject->Get_Transform()->Set_Scale({ -vOwnerScale.x, vOwnerScale.y, vOwnerScale.z });
+	}
+	else
+	{
+		m_pOwnerObject->Get_Transform()->Set_Scale({ vOwnerScale.x, vOwnerScale.y, vOwnerScale.z });
+	}
 
 };
 
@@ -84,29 +105,50 @@ void CAIComponent::Random_Move( const _float& fTimeDelta, const _float& fSpeed)
 
 void CAIComponent::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed)
 {
+	_vec3 vOwnerDir;
+	vOwnerDir = CComponent::Get_OwnerObject()->Get_Transform()->Get_Dir();
 
-	_vec3 OwnerPos;
-	OwnerPos = CComponent::Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vOwnerPos;
+	vOwnerPos = CComponent::Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS);
 
-	_vec3 vDir = *pTargetPos - OwnerPos;
+	_vec3 vDir = *pTargetPos - vOwnerPos;
 
-	OwnerPos += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
+	//float PreX = vOwnerPos.x - (*pTargetPos).x;
+
+
+	vOwnerPos += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
 
 	_matrix		matRot = *Compute_LookAtTarget(pTargetPos);
 	_matrix		matScale, matTrans;
 
-	_vec3	OwnerScale;
-	OwnerScale = CComponent::Get_OwnerObject()->Get_Transform()->Get_Scale();
-	D3DXMatrixScaling(&matScale, OwnerScale.x, OwnerScale.y, OwnerScale.z);
+	_vec3	vOwnerScale;
+	vOwnerScale = CComponent::Get_OwnerObject()->Get_Transform()->Get_Scale();
+
+	D3DXMatrixScaling(&matScale, vOwnerScale.x, vOwnerScale.y, vOwnerScale.z);
 	
-	D3DXMatrixTranslation(&matTrans, OwnerPos.x, OwnerPos.y, OwnerPos.z);
+	D3DXMatrixTranslation(&matTrans, vOwnerPos.x, vOwnerPos.y, vOwnerPos.z);
 
 
 	_matrix		m_matWorld = CComponent::Get_OwnerObject()->Get_Transform()->Get_WorldMat();
-
 	m_matWorld = matScale * matRot * matTrans;
 
+	// 기능
 	CComponent::Get_OwnerObject()->Get_Transform()->Set_Pos({ m_matWorld._41, m_matWorld._42, m_matWorld._43 });
+
+
+	
+	
+	if (vOwnerPos.x < (*pTargetPos).x && vOwnerScale.x <0)
+	{
+		m_pOwnerObject->Get_Transform()->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+	}
+	else if (vOwnerPos.x > (*pTargetPos).x  && vOwnerScale.x > 0  )
+	{
+		m_pOwnerObject->Get_Transform()->Set_Scale({- vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+	}
+
+	
+
 
 }
 const _matrix* CAIComponent::Compute_LookAtTarget(const _vec3* pTargetPos)

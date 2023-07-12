@@ -96,9 +96,8 @@ HRESULT CWyvern::Ready_Object()
 
 #pragma endregion
 
-	
+	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
     return S_OK;
@@ -106,14 +105,16 @@ HRESULT CWyvern::Ready_Object()
 
 _int CWyvern::Update_Object(const _float& fTimeDelta)
 {
-
-
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	
+
+
+
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
-	Move(fTimeDelta);
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
+	
 	return iExit;
 }
 
@@ -124,6 +125,7 @@ void CWyvern::LateUpdate_Object()
 
 void CWyvern::Render_Object()
 {
+	// 애니메이터 사용 o
 	__super::Render_Object();
 }
 
@@ -188,10 +190,7 @@ HRESULT CWyvern::Add_Component()
 	return S_OK;
 }
 
-void CWyvern::Move(const _float& fTimeDelta)
-{
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-}
+
 
 CWyvern* CWyvern::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

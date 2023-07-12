@@ -70,7 +70,7 @@ HRESULT CFox::Ready_Object()
 
 #pragma endregion
 
-
+	// 상태 세팅 - 상태만 사용 몬스터
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
@@ -81,14 +81,14 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 {
 	
 
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
-	Move(fTimeDelta);
+	
 	
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
 	return iExit;
 }
 
@@ -101,6 +101,7 @@ void CFox::LateUpdate_Object()
 
 void CFox::Render_Object()
 {
+	// 애니메이터 사용 x
 	m_pTextureCom[14]->Render_Texture();
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -112,7 +113,7 @@ void CFox::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
 
-	//__super::Render_Object();
+
 
 }
 
@@ -159,10 +160,6 @@ HRESULT CFox::Add_Component()
 	return S_OK;
 }
 
-void CFox::Move(const _float& fTimeDelta)
-{
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-}
 
 
 

@@ -67,9 +67,6 @@ HRESULT CBat::Ready_Object()
 	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
 
-
-
-	
 #pragma endregion
 
 
@@ -96,8 +93,8 @@ HRESULT CBat::Ready_Object()
 
 #pragma endregion
 
+	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
     return S_OK;
@@ -107,12 +104,11 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 {
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
-	Move(fTimeDelta);
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
 	return iExit;
 }
 
@@ -123,7 +119,8 @@ void CBat::LateUpdate_Object()
 
 void CBat::Render_Object()
 {
-	__super::Render_Object();
+	// 애니메이터 사용 o
+	__super::Render_Object(); 
 }
 
 void CBat::OnCollision_Enter(CGameObject* _pColObj)
@@ -187,10 +184,7 @@ HRESULT CBat::Add_Component()
 	return S_OK;
 }
 
-void CBat::Move(const _float& fTimeDelta)
-{
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-}
+
 
 CBat* CBat::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

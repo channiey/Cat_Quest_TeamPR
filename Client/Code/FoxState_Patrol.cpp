@@ -65,7 +65,7 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
        m_fAccTime = 0.f;
    }
 
-
+   pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
    // CHASE 전이 조건
    if (fDistance <= 10.f)

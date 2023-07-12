@@ -70,7 +70,7 @@ HRESULT CRam::Ready_Object()
 
 #pragma endregion
 
-
+	// 상태 세팅 - 상태만 사용 몬스터
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
@@ -79,16 +79,17 @@ HRESULT CRam::Ready_Object()
 
 _int CRam::Update_Object(const _float& fTimeDelta)
 {
-	
-
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
 
-	Move(fTimeDelta);
+
 	
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
+
 	return iExit;
 }
 
@@ -101,6 +102,8 @@ void CRam::LateUpdate_Object()
 
 void CRam::Render_Object()
 {
+
+	// 애니메이터 사용 x
 	m_pTextureCom[14]->Render_Texture();
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -111,9 +114,6 @@ void CRam::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
-
-	//__super::Render_Object();
-
 }
 
 void CRam::OnCollision_Enter(CGameObject* _pColObj)
@@ -157,11 +157,6 @@ HRESULT CRam::Add_Component()
 
 
 	return S_OK;
-}
-
-void CRam::Move(const _float& fTimeDelta)
-{
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
 }
 
 

@@ -37,19 +37,19 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
   
 
   CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-   _vec3 OwnerPos = pOwnerTransform->Get_Info(INFO_POS);
+   _vec3 vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
 
 
    _float OwnerPatternTime = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_PatternTime();
   
   
    CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-   _vec3 PlayerPos = pPlayerTransform->Get_Info(INFO_POS);
+   _vec3 vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
 
-   _vec3 vDir = PlayerPos - OwnerPos;
+   _vec3 vDir = vPlayerPos - vOwnerPos;
 
    _vec3       vOriginDir;
-   vOriginDir = OwnerOriginPos - OwnerPos;
+   vOriginDir = OwnerOriginPos - vOwnerPos;
    _float fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
@@ -61,9 +61,13 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
 
    if (OwnerPatternTime <= m_fAccTime)
    {
-       pOwnerAI->Chase_Target(&PlayerPos, fTimeDelta, OwnerSpeed*2);
+       pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, OwnerSpeed*2);
        m_fAccTime = 0.f;
-   }
+   }   
+   pOwnerTransform->Translate(fTimeDelta* OwnerSpeed);
+
+  
+   _vec3 vOwnerScale = pOwnerTransform->Get_Scale();
 
 
 
@@ -72,6 +76,7 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
    {
        cout << "chase  전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
+       pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::CHASE;
    }
  
@@ -79,6 +84,7 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
    if (fOriginDistance >= 20.f)
    {
        cout << "COMBACK  전이" << endl;
+       pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::COMEBACK;
    }

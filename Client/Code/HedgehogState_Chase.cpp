@@ -41,6 +41,9 @@ STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
     _vec3	vOwnerPos;
     vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
 
+    _vec3   vOwnerScale;
+    vOwnerScale = pOwnerTransform->Get_Scale();
+
 
     _vec3		vDir;
     vDir = vPlayerPos- vOwnerPos;
@@ -54,12 +57,24 @@ STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
     // 기능
     CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
     pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, OwnerSpeed);
-   
+    \
+    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
+
+    
+
+    if (fDistance <= 5.f) // Attack 전이 조건
+    {
+        cout << "attack 전이" << endl;
+        pOwnerTransform->Set_Dir(vec3.zero);
+        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        return STATE_TYPE::FRONT_ATTACK;
+    }
 
     if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
     {
         cout << "COMBACK  전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
+        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::COMEBACK;
     }
     
@@ -67,17 +82,12 @@ STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
     {
         cout << "patrol 전이" << endl;
       pOwnerTransform->Set_Dir(vec3.zero);
+      pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
       return STATE_TYPE::PATROL; 
     }
 
   
 
-    if (fDistance <= 5.f) // Attack 전이 조건
-    {
-        cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        return STATE_TYPE::FRONT_ATTACK;
-    }
  
    
      return STATE_TYPE::CHASE;
@@ -93,7 +103,7 @@ void CHedgehogState_Chase::LateUpdate_State()
 
 void CHedgehogState_Chase::Render_State()
 {
-    cout << "고슴도치 patro 상태" << endl;
+  
 
 }
 

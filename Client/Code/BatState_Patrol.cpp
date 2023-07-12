@@ -64,7 +64,7 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
        pOwnerAI->Random_Move(fTimeDelta, OwnerSpeed);
        m_fAccTime = 0.f;
    }
-
+   pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
 
    // CHASE 전이 조건
