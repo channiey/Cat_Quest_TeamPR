@@ -3,6 +3,8 @@
 
 #include "Export_Function.h"
 
+#include "IndicatorUI.h"
+
 CKingHouse::CKingHouse(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CHouse(pGraphicDev)
 {
@@ -40,6 +42,9 @@ _int CKingHouse::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	Alpha_Update();
+
+	CIndicatorUI* pUI = static_cast<CIndicatorUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Indicator"));
+	pUI->Set_IndicTarget(this);
 
 	return iExit;
 }
