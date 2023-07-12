@@ -17,7 +17,7 @@ public:
 														const COMPONENT_TYPE& _eComponentType, 
 														COMPONENTID eID);
 
-	map<const _tchar*, CGameObject*>&	Get_ObjectMap() { return m_mapObject; }
+	multimap<const _tchar*, CGameObject*>&	Get_ObjectMap() { return m_mapObject; }
 
 public:
 	HRESULT								Add_GameObject(const _tchar* pObjTag, CGameObject* pGameObject);
@@ -30,7 +30,7 @@ public:
 	void								LateUpdate_Layer();
 
 private:
-	map<const _tchar*, CGameObject*>	m_mapObject;
+	multimap<const _tchar*, CGameObject*>	m_mapObject;
 
 public:
 	static CLayer*						Create();

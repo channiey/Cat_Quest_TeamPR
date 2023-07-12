@@ -50,6 +50,7 @@ void CTerrainIceWorld::LateUpdate_Object(void)
 
 void CTerrainIceWorld::Render_Object(void)
 {
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	CTerrain::Render_Object();
 }
 

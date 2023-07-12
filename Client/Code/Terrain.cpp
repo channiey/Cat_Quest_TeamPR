@@ -42,7 +42,6 @@ void CTerrain::LateUpdate_Object(void)
 
 void CTerrain::Render_Object(void)
 {
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	if (!m_bTool) {
 		m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!

@@ -23,7 +23,7 @@ inline _float DotProduct(const _float v0[3], const _float v1[3])
 }
 
 
-typedef		map<const _tchar*, CGameObject*>	_mapObj;
+typedef		multimap<const _tchar*, CGameObject*>	_mapObj;
 typedef		_mapObj::iterator					_iter;
 
 CCollisionMgr::CCollisionMgr()

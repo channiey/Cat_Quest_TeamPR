@@ -42,11 +42,18 @@ void CTerrainTool::LateUpdate_Object(void)
 
 void CTerrainTool::Render_Object(void)
 {
+	m_pGraphicDev->SetTexture(0, NULL);
+
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(_color{ 1.f, 1.f, 1.f, 0.3f }));
+
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	CTerrain::Render_Object();
 
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
 }
 
 HRESULT CTerrainTool::Add_Component(void)

@@ -19,21 +19,36 @@
 
 #pragma region Global
 
-static _bool			g_bInit = false; // 이벤트 매니저 생성 전
+// 이벤트 매니저 생성 전 초기화 관련
 
-static _bool			g_bPathInit = false; // ""
+static _bool			g_bInit = false;
 
-static const int		g_iImagPerRow = 4;
+static _bool			g_bPathInit = false; 
 
+// 열거체
 enum class				IMG_OBJ_TYPE { TERRAIN, ENVIRONMENT, MONSTER, NPC, ITEM, LINE, TYPEEND };
 
 static const char*		arr_ImgObjType[(UINT)IMG_OBJ_TYPE::TYPEEND] = { "Trrain", "Environment", "Monster", "Npc", "Item", "Line" };
 
-vector<ImTextureID>		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TYPEEND];
 
-CGameObject*			g_pCurGameObject = nullptr;
+// 공용 변수 관련
+
+static _int				g_iSelScene = -1; // 현재 선택된 씬 인덱스
+
+static IMG_OBJ_TYPE     g_eSelObjType = IMG_OBJ_TYPE::TYPEEND; // 현재 선택된 오브젝트 타입 인덱스
+
+static _int				g_iSelObj = -1; // 현재 선택된 오브젝트 인덱스
+
+
+
+// 기타
+vector<ImTextureID>		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 이미지 아이디 경로 저장 벡터 배열
+
+vector<CGameObject*>	g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 원본 객체 저장 배열
 
 CGameObject*			g_pVtxTerrain = nullptr; // 피킹처리를 위한 버텍스 터레인
+
+static const _int		g_iImagPerRow = 4; // 한줄당 나열할 이미지 수
 
 #pragma endregion
 
@@ -102,10 +117,8 @@ void CImGuiMgr::ImGui_Update()
 
 	if (/*g_pCurGameObject != nullptr &&*/ CInputDev::GetInstance()->Key_Down(MK_LBUTTON)) // 탭 등을 눌렀을 때의 예외처리
 	{
-		_vec3 vPickPos = Get_ClickPos();
-
+		Clone_Object(Get_ClickPos());
 	}
-
 }
 
 void CImGuiMgr::ImGui_Render()
@@ -154,6 +167,7 @@ void CImGuiMgr::Show_Header_Scene()
 			if (ImGui::ImageButton(image, ImVec2(50.f, 50.f))) // 이미지 출력
 			{
 				iCurIdx_Scene = i;
+				g_iSelScene = iCurIdx_Scene;
 			}
 
 			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
@@ -183,7 +197,10 @@ void CImGuiMgr::Show_Header_Object()
 		{
 			const bool is_selected = (iCurIdx_Object_Type == n);
 			if (ImGui::Selectable(arr_ImgObjType[n], is_selected))
+			{
 				iCurIdx_Object_Type = n;
+				g_eSelObjType = (IMG_OBJ_TYPE)iCurIdx_Object_Type;
+			}
 
 			if (is_selected)
 				ImGui::SetItemDefaultFocus();
@@ -204,6 +221,8 @@ void CImGuiMgr::Show_Header_Object()
 			if (ImGui::ImageButton(g_vecObjImgPath[iCurIdx_Object_Type][i], ImVec2(50.f, 50.f))) // 이미지 출력
 			{
 				iCurIdx_Object = i;
+
+				g_iSelObj = iCurIdx_Object;
 			}
 
 			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
@@ -224,11 +243,14 @@ void CImGuiMgr::Show_Header_Light()
 
 HRESULT CImGuiMgr::Set_ImgPath()
 {
-	map<const _tchar*, CGameObject*> mapObj;
+	multimap<const _tchar*, CGameObject*> mapObj;
 	
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::TERRAIN)->Get_ObjectMap();
+
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+
 		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
 			continue;
 		
@@ -240,6 +262,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ENVIRONMENT)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::ENVIRONMENT].push_back(iter->second);
+
 		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
 			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
@@ -250,6 +274,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::MONSTER].push_back(iter->second);
+
 		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
 			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
@@ -260,6 +286,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::NPC)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::NPC].push_back(iter->second);
+
 		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
 			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
@@ -269,7 +297,10 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	// Item
 	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+	{
+			g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+
+	if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
 			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::ITEM].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
@@ -278,11 +309,31 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	// Line
 	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::LINE)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+	{		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
 			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::LINE].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}*/
+
+	return S_OK;
+}
+
+HRESULT CImGuiMgr::Clone_Object(const _vec3 _vClonePos)
+{
+	// 예외처리
+	if (IMG_OBJ_TYPE::TYPEEND == g_eSelObjType || 0 > g_iSelObj || g_vecObjOrigin[(UINT)g_eSelObjType].size() < g_iSelObj)
+		return E_FAIL;
+
+	CGameObject* pClone = g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]; // 클론
+
+	NULL_CHECK_RETURN(pClone, E_FAIL);
+
+	pClone->Get_Transform()->Set_Pos(_vClonePos); // 포지션 세팅
+
+	// 이름 어떻게 할까?
+	
+	//CEventMgr::GetInstance()->Add_Obj(pClone->Get)
 
 	return S_OK;
 }

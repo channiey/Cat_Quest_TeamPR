@@ -50,6 +50,7 @@ void CTerrainWorld::LateUpdate_Object(void)
 
 void CTerrainWorld::Render_Object(void)
 {
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	// m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CTerrain::Render_Object();
 	// m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);

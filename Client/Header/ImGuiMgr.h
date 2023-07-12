@@ -27,7 +27,11 @@ private:
 	void						Show_Header_Object();
 	void						Show_Header_Light();
 
+private:
 	HRESULT						Set_ImgPath(); // 맵 및 오브젝트 이미지 경로 셋업
+
+	HRESULT						Clone_Object(const _vec3 _vClonePos); // 피킹시 오브젝트 클론
+
 
 private:
 	LPDIRECT3DTEXTURE9			LoadImageFile(const char* filePath); 

@@ -25,6 +25,7 @@ public:
 	CCollider*							Get_Collider() const { return m_pColliderCom; }
 	CAnimator*							Get_Animator() const { return m_pAnimatorCom; }
 	CVIBuffer*							Get_VIBuffer() const { return m_pBufferCom; }
+	const _tchar*						Get_Name() const { return m_szName; } // 팀장 허락 받고 사용
 
 	CGameObject*						Get_Parent() const { return m_pParentObj; }
 	CGameObject*						Get_Child(const _uint& _iIndex = 0);
@@ -34,7 +35,7 @@ public:
 	const OBJ_TYPE						Get_Type() const { return m_eType; }
 
 	void								Set_Parent(CGameObject* const _pParent) { m_pParentObj = _pParent; }
-
+	void								Set_Name(const _tchar* _szName) { m_szName = _szName; } // 팀장 허락 받고 사용
 	void								Set_Active(const _bool& _bActive) { m_bActive = _bActive; }
 
 	const _bool&						Is_Active() const { return m_bActive; }
@@ -63,6 +64,7 @@ private:
 protected:
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 
+	const _tchar*						m_szName;
 	multimap<COMPONENT_TYPE, CComponent*>	m_mapComponent[ID_END];
 
 	CTransform*							m_pTransformCom;	
