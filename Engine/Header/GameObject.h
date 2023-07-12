@@ -17,7 +17,9 @@ protected:
 	explicit CGameObject(const CGameObject& rhs);
 	virtual ~CGameObject();
 
-//	public:
+public:
+	virtual CGameObject* Clone() { return nullptr; }
+
 #pragma region Access Methods
 
 public:

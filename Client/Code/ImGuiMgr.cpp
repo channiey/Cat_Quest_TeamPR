@@ -115,7 +115,7 @@ void CImGuiMgr::ImGui_Update()
 
 	ImGui::End();
 
-	if (/*g_pCurGameObject != nullptr &&*/ CInputDev::GetInstance()->Key_Down(MK_LBUTTON)) // 탭 등을 눌렀을 때의 예외처리
+	if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 	{
 		_vec3 vPickPos = Get_ClickPos();
 
@@ -273,6 +273,18 @@ HRESULT CImGuiMgr::Set_ImgPath()
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::ENVIRONMENT].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
 
+	// Npc
+	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::NPC)->Get_ObjectMap();
+	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
+	{
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::NPC].push_back(iter->second);
+
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
+			continue;
+		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
+		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::NPC].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
+	}
+
 	// Monster
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
@@ -285,17 +297,7 @@ HRESULT CImGuiMgr::Set_ImgPath()
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::MONSTER].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
 
-	// Npc
-	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::NPC)->Get_ObjectMap();
-	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{
-		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::NPC].push_back(iter->second);
-
-		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
-			continue;
-		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
-		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::NPC].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
-	}
+	
 	
 	// Item
 	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Get_ObjectMap();
@@ -324,12 +326,13 @@ if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
 
 HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 {
+	return S_OK;
 	// 예외처리
 	if (IMG_OBJ_TYPE::TYPEEND == g_eSelObjType || 0 > g_iSelObj || g_vecObjOrigin[(UINT)g_eSelObjType].size() < g_iSelObj)
 		return E_FAIL;
 
 	// 클론
-	CGameObject* pClone = g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj];
+	CGameObject* pClone = nullptr; // = CGameObject::Clone(*g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]);
 		
 	NULL_CHECK_RETURN(pClone, E_FAIL);
 

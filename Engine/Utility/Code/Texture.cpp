@@ -1,6 +1,12 @@
 #include "..\..\Header\Texture.h"
 
 #include "GameObject.h"
+
+#include <iostream>
+#include <Windows.h>
+#include <Shlwapi.h>
+#pragma comment( lib, "shlwapi.lib" )
+
 CTexture::CTexture()
 {
 }
@@ -17,7 +23,7 @@ CTexture::CTexture(const CTexture & rhs, CGameObject* _pOwnerObject)
 	m_vecTexture.reserve(iContainer);
 
 	m_vecTexture = rhs.m_vecTexture;
-	m_vecPath = rhs.m_vecPath; // 성혁 추가
+	m_vecPathForImGui = rhs.m_vecPathForImGui; // 성혁 추가
 	m_iTexCnt = rhs.m_iTexCnt;
 
 	for (_uint i = 0; i < iContainer; ++i) 
@@ -53,11 +59,36 @@ HRESULT CTexture::Ready_Texture(TEXTUREID eType, const _tchar * pPath, const _ui
 			FAILED_CHECK_RETURN(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture), E_FAIL);
 			break;
 		}
+		
+		// << : IMGUI
+		wstring wstrPath(pPath);
+		string strPath(wstrPath.begin(), wstrPath.end());
+		string strFind = "%";
 
-		m_vecPath.push_back(pPath); // 성혁 추가
+		if (strPath.find(strFind) != string::npos) // 해당 문자열 존재
+		{
+			/*int find = strPath.rfind("/") + 1;
+			string filePath = strPath.substr(0, find);
+			filePath += "0.png";
+			
+			wstrPath.assign(filePath.begin(), filePath.end());*/
+
+			//if(m_vecPathForImGui.empty())
+			//	m_vecPathForImGui.push_back(szFileName); // 이거 살리고
+			//int k = 0;
+		}
+		else
+		{
+			//if (m_vecPathForImGui.empty())
+			//	m_vecPathForImGui.push_back(pPath); // 이거 살리고
+			//int k = 0;
+		}
 		m_vecTexture.push_back(pTexture);
+		m_vecPathForImGui.push_back(pPath); // 이거 지우고
+
 	}
 
+	
 	return S_OK;
 }
 
