@@ -26,7 +26,7 @@ HRESULT CTool_Camera::Ready_Object(void)
 	m_fDefaultHeight = 80.f;
 	m_fNearZoom = CAM_DEFAULT_DISTANCE;
 	m_fFarZoom = 60.f;
-	m_pCameraCom->m_fDistance = m_fNearZoom * 4.f;
+	m_pCameraCom->m_fDistance = m_fNearZoom * 3.f;
 
 	m_pTransformCom->Set_Pos(_vec3{ 0.f, m_fDefaultHeight, -m_pCameraCom->m_fDistance });
 	m_pCameraCom->m_fSpeedZoom = 100.f;

@@ -100,9 +100,10 @@ void CImGuiMgr::ImGui_Update()
 
 	ImGui::End();
 
-	if (g_pCurGameObject != nullptr && CInputDev::GetInstance()->Key_Down(MK_LBUTTON)) // 탭 등을 눌렀을 때의 예외처리
+	if (/*g_pCurGameObject != nullptr &&*/ CInputDev::GetInstance()->Key_Down(MK_LBUTTON)) // 탭 등을 눌렀을 때의 예외처리
 	{
-		// 크리에이트 
+		_vec3 vPickPos = Get_ClickPos();
+
 	}
 
 }
@@ -225,7 +226,6 @@ HRESULT CImGuiMgr::Set_ImgPath()
 {
 	map<const _tchar*, CGameObject*> mapObj;
 	
-	// Terrain -> 알파 처리
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::TERRAIN)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{

@@ -24,6 +24,7 @@ HRESULT CTerrainTool::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransformCom->Set_Pos(_vec3{ m_pTransformCom->Get_Info(INFO_POS).x, 0.1f, m_pTransformCom->Get_Info(INFO_POS).z });
 	return S_OK;
 }
 

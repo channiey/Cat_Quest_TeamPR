@@ -10,9 +10,9 @@ namespace Engine
 
 #define CAM_DEFAULT_DISTANCE 20
 
-#define	VTXCNTX				129
-#define VTXCNTZ				129
-#define VTXITV				1
+#define	VTXCNTX				65
+#define VTXCNTZ				65
+#define VTXITV				3
 
 #define	MIN_STR				64
 #define	MAX_STR				256

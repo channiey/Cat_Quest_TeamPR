@@ -22,8 +22,8 @@ bool CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* 
     D3DXVECTOR3     vMousePos;
 
     // 뷰포트 정보 얻어오기
-    D3DVIEWPORT9 viewPort;
-    pGraphicDev->GetViewport(&viewPort);
+    D3DVIEWPORT9 viewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+    //pGraphicDev->GetViewport(&viewPort);
 
     // 마우스 좌표 투영 좌표로 변환.
     vMousePos.x = pt.x / (viewPort.Width * 0.5f) - 1.f;

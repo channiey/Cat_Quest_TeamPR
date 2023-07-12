@@ -22,11 +22,21 @@ HRESULT CTerrainIceDungeon::Ready_Object(void)
 {
 	CTerrain::Ready_Object();
 
-	m_pTransformCom->Set_Scale(_vec3(100.f, 0.f, 100.f));
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
+	//m_pTransformCom->Set_Scale(_vec3(100.f, 0.f, 100.f));
+	//m_pTransformCom->Set_Pos(_vec3{ VTXCNTX / 2.f, m_pTransformCom->Get_Scale().y, 10.f });
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransformCom->Set_Scale(_vec3{ 100.f, 
+										0.f, 
+										100.f });
+
+	m_pTransformCom->Set_Pos(_vec3{ m_pTransformCom->Get_Scale().x,
+									m_pTransformCom->Get_Scale().y,
+									m_pTransformCom->Get_Scale().z });
+
 	return S_OK;
+
 }
 
 _int CTerrainIceDungeon::Update_Object(const _float& fTimeDelta)

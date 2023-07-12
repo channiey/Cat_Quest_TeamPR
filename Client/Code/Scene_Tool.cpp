@@ -156,13 +156,13 @@ HRESULT CScene_Tool::Ready_Layer_Terrain()
 	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
 
 	
-	 pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
+	/* pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld_Ice", pGameObject), E_FAIL);
 
 	 pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);*/
 
 	return S_OK;
 }
