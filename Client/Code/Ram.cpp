@@ -83,7 +83,6 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 
-	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
 
 

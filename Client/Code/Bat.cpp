@@ -106,7 +106,6 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 
-	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
 
 	return iExit;

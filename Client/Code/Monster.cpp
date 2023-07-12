@@ -51,7 +51,9 @@ HRESULT CMonster::Ready_Object()
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+
+	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 
+		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
 	return iExit;
 }
@@ -59,14 +61,13 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 void CMonster::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
-	
-	m_pStateMachineCom->LateUpdate_StateMachine();
+	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
+		m_pStateMachineCom->LateUpdate_StateMachine();
 
 }
 
 void CMonster::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 {
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
 	m_pStateMachineCom->Render_StateMachine();
@@ -76,7 +77,6 @@ void CMonster::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
 
 	__super::Render_Object(); // 콜라이더 출력
 }

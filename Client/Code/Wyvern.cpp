@@ -110,10 +110,6 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	
 
 
-
-	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
-
-
 	
 	return iExit;
 }
