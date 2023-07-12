@@ -38,7 +38,7 @@ HRESULT CBat::Ready_Object()
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 	
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.5f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 110.f });
 
 	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 

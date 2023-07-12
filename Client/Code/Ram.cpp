@@ -36,9 +36,9 @@ HRESULT CRam::Ready_Object()
 
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 1.44f, 1.48f, 2.f });
-	//m_pTransformCom->Set_Pos(_vec3{ 300.f, m_pTransformCom->Get_Scale().y, 300.f });
 
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.9f, m_pTransformCom->Get_Scale().y, 30.f });
+
+	m_pTransformCom->Set_Pos(_vec3{ 110.f, m_pTransformCom->Get_Scale().y, 110.f });
 
 	m_pTransformCom->Set_Dir({ 0.f, 0.f, 1.f });
 
