@@ -27,7 +27,7 @@ HRESULT CEnterUI::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fSizeX = 0.f;
-	m_fSizeY = 0.f;
+	m_fSizeY = 1.f;
 
 	m_pTransformCom->Set_Scale(_vec3{ m_fSizeX, m_fSizeY, 0.f });
 
@@ -45,7 +45,7 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			m_fSizeX += 10.f * fTimeDelta;
 			m_fSizeY += 10.f * fTimeDelta;
 
-			if (m_fSizeX >= 3.5)
+			if (3.f <= m_fSizeX)
 			{
 				m_bIsShirk = true;
 				m_bIsStart = false;
@@ -58,10 +58,10 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			m_fSizeX -= 10.f * fTimeDelta;
 			m_fSizeY -= 10.f * fTimeDelta;
 
-			if (m_fSizeX <= 0)
+			if (0 >= m_fSizeX)
 			{
 				m_fSizeX = 0.f;
-				m_fSizeY = 0.f;
+				m_fSizeY = 1.f;
 
 				m_bIsOn = false;
 				m_bIsEnd = false;
@@ -69,13 +69,12 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			}
 		}
 
-
 		if (m_bIsExpand)
 		{
-			m_fSizeX += 2.5f * fTimeDelta;
-			m_fSizeY += 2.5f * fTimeDelta;
+			m_fSizeX += 1.f * fTimeDelta;
+			m_fSizeY += 1.f * fTimeDelta;
 
-			if ( 3.5f < m_fSizeX)
+			if (3.f < m_fSizeX)
 			{
 				m_bIsExpand = false;
 				m_bIsShirk = true;
@@ -84,10 +83,10 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 
 		if (m_bIsShirk)
 		{
-			m_fSizeX -= 3.5f * fTimeDelta;
-			m_fSizeY -= 3.5f * fTimeDelta;
+			m_fSizeX -= 1.5f * fTimeDelta;
+			m_fSizeY -= 1.5f * fTimeDelta;
 
-			if ( 2.5f > m_fSizeX)
+			if (2.5f > m_fSizeX)
 			{
 				m_bIsExpand = true;
 				m_bIsShirk = false;
@@ -138,8 +137,7 @@ void CEnterUI::EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj)
 
 	_vec3 vObjWorldPos = pObj->Get_Transform()->Get_Info(INFO::INFO_POS);
 
-	vObjWorldPos.y += 4;
-
+	vObjWorldPos.y += 5.f;
 
 	m_pTransformCom->Set_Pos(vObjWorldPos);
 
@@ -165,10 +163,6 @@ HRESULT CEnterUI::Add_Component()
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
-
-	/*pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TRANSFORM, pComponent);*/
 
 
 	return S_OK;

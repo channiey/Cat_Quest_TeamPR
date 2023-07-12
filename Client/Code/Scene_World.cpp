@@ -70,6 +70,8 @@
 #include "HpUI.h"
 #include "ManaUI.h"
 #include "DefUI.h"
+#include "IndicatorUI.h"
+
 // Monster
 #include "ExpUI.h"
 #include "EnterUI.h"
@@ -453,17 +455,11 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Tab", pGameObject), E_FAIL);
 
-	
-
-	// UI - Enter
-	pGameObject = CEnterUI::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Enter", pGameObject), E_FAIL);
-
 	// UI - Zoom
 	pGameObject = CZoomUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
+
 
 	// UI - Exp
 	pGameObject = CExpUI::Create(m_pGraphicDev);
@@ -485,10 +481,22 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Mana", pGameObject), E_FAIL);
 
+	// UI - Enter
+	pGameObject = CEnterUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Enter", pGameObject), E_FAIL);
+
 	// UI - Ring
 	pGameObject = CRingUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Ring", pGameObject), E_FAIL);
+
+	
+
+	// UI - Indicator
+	pGameObject = CIndicatorUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Indicator", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
