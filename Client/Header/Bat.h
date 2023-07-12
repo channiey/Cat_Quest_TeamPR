@@ -33,9 +33,6 @@ public:
 private:
 	HRESULT				Add_Component();
 
-private:
-	void				Move(const _float& fTimeDelta);
-
 
 
 public:

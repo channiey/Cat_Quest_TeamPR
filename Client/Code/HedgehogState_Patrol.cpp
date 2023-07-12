@@ -54,17 +54,25 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
 
 
    _float fDistance = (D3DXVec3Length(&vDir));
-  
+   
+ 
 
    // 기능
    m_fAccTime += fTimeDelta;
 
    if (OwnerPatternTime <= m_fAccTime)
    {
+      
        pOwnerAI->Random_Move(fTimeDelta, OwnerSpeed);
        m_fAccTime = 0.f;
+       
    }
 
+   pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
+
+
+
+   _vec3 vOwnerScale = pOwnerTransform->Get_Scale();
 
 
    // CHASE 전이 조건
@@ -72,6 +80,7 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
    {
        cout << "CHASe 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
+       pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::CHASE;
    }
 
@@ -80,12 +89,14 @@ STATE_TYPE CHedgehogState_Patrol::Update_State(const _float& fTimeDelta)
    {
        cout << "comback 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
+       pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::COMEBACK;
    }
    if (fDistance <= 5.f)  // Attack 전이 조건
    {
        cout << "attack 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
+       pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
        return STATE_TYPE::FRONT_ATTACK;
    }
 

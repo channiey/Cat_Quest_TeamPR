@@ -107,12 +107,13 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 {
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
-	Move(fTimeDelta);
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
+
+
 	return iExit;
 }
 
@@ -187,10 +188,7 @@ HRESULT CBat::Add_Component()
 	return S_OK;
 }
 
-void CBat::Move(const _float& fTimeDelta)
-{
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-}
+
 
 CBat* CBat::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

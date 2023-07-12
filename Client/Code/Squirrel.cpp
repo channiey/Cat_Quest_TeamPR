@@ -79,16 +79,16 @@ HRESULT CSquirrel::Ready_Object()
 
 _int CSquirrel::Update_Object(const _float& fTimeDelta)
 {
-	
-
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
 
-	Move(fTimeDelta);
+	
 	
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
+	
 	return iExit;
 }
 
@@ -159,10 +159,6 @@ HRESULT CSquirrel::Add_Component()
 	return S_OK;
 }
 
-void CSquirrel::Move(const _float& fTimeDelta)
-{
-	m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-}
 
 
 
