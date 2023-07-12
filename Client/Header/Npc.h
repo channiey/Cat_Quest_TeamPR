@@ -31,7 +31,7 @@ private:
 	HRESULT					Add_Component();
 
 protected:
-	CTexture*	m_pTextureCom; // 현재 Idle 상태만 있고 모든 Npc가 8프레임 고정.
+	CTexture*	m_pTextureCom = nullptr; 
 	CAnimation* m_pAnimation;
 
 protected:

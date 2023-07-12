@@ -10,6 +10,7 @@ class CEffect :
 	public CGameObject
 {
 protected:
+	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CEffect(const CEffect& rhs);
 	virtual ~CEffect();

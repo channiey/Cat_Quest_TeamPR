@@ -23,8 +23,8 @@ HRESULT CRock3::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 1.f, 1.f, 1.f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f), m_pTransformCom->Get_Scale().y, 0.f });
+	m_pTransformCom->Set_Scale(_vec3{ 0.5f, 0.5f, 0.5f });
+	m_pTransformCom->Set_Pos(_vec3{ 100.f, m_pTransformCom->Get_Scale().y, 90.f });
 	return S_OK;
 }
 

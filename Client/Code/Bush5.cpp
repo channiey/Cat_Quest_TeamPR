@@ -23,7 +23,7 @@ HRESULT CBush5::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) - 30.f, m_pTransformCom->Get_Scale().y, -30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 60.f });
 
 	return S_OK;
 }

@@ -277,6 +277,19 @@ _uint CLoadingThread::Loading_For_World()
 #pragma endregion
 	// ===============================================================
 
+	// =========================== Effect ============================
+#pragma region EFFECT
+
+	// 구름 1
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Colud1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_1.png")), E_FAIL);
+	// 구름 1 그림자
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Colud1_Shadow",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_1_shadow.png")), E_FAIL);
+
+#pragma endregion
+	// ===============================================================
+
 #pragma endregion
 
 #pragma region KIM

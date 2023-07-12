@@ -27,7 +27,7 @@ HRESULT CChest_Gold::Ready_Object()
 	m_eInterType = INTERACTION_TYPE::INTERACTION_INSPECT;
 
 	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 1.5f, 1.5f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) - 5.f, m_pTransformCom->Get_Scale().y, -10.f });
+	m_pTransformCom->Set_Pos(_vec3{ 95.f, m_pTransformCom->Get_Scale().y, 80.f });
 
 	return S_OK;
 }

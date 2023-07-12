@@ -93,6 +93,9 @@
 #include "Wyvern.h"
 #include "Squirrel.h"
 
+// Effect
+#include "Cloud1.h"
+
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
 {
@@ -651,6 +654,14 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	Engine::CGameObject* pGameObject = nullptr;
 	m_mapLayer.insert({ OBJ_TYPE::EFFECT, pLayer });
 
+#pragma region KANG
+
+	// Cloud
+	pGameObject = CCloud1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1", pGameObject), E_FAIL);
+
+#pragma endregion
 
 	return S_OK;
 }

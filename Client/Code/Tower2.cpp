@@ -23,8 +23,8 @@ HRESULT CTower2::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 4.f, 6.f, 4.f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) + 30.f, m_pTransformCom->Get_Scale().y, 10.f });
+	m_pTransformCom->Set_Scale(_vec3{ 3.f, 5.f, 3.f });
+	m_pTransformCom->Set_Pos(_vec3{ 130.f, m_pTransformCom->Get_Scale().y, 125.f });
 
 	return S_OK;
 }

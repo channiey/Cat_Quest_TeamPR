@@ -26,7 +26,7 @@ HRESULT CNpc_King::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) + 5.f, m_pTransformCom->Get_Scale().y + 3.f, 20.f });
+	m_pTransformCom->Set_Pos(_vec3{ 115.f, m_pTransformCom->Get_Scale().y + 3.f, 110.f });
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 
 	return S_OK;
