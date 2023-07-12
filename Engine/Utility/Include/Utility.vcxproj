@@ -186,6 +186,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\CameraMgr.h" />
     <ClInclude Include="..\..\Header\CircleCollider.h" />
+    <ClInclude Include="..\..\Header\CloudMgr.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\CollisionMgr.h" />
     <ClInclude Include="..\..\Header\Component.h" />
@@ -218,6 +219,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CameraMgr.cpp" />
     <ClCompile Include="..\Code\CircleCollider.cpp" />
+    <ClCompile Include="..\Code\CloudMgr.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\CollisionMgr.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />

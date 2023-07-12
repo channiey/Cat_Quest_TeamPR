@@ -23,6 +23,7 @@
 #include "Npc.h"
 #include "EnterUI.h"
 
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
 	, m_eCurGroundType(LINE_TYPE::LAND)

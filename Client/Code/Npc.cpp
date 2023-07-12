@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\Npc.h"
-#include "AIComponent.h"
+
 #include "Export_Function.h"
 
 CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev)

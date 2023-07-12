@@ -24,7 +24,7 @@ HRESULT CHouse1::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) - 20.f, m_pTransformCom->Get_Scale().y, 40.f });
+	m_pTransformCom->Set_Pos(_vec3{ 80.f, m_pTransformCom->Get_Scale().y, 130.f });
 
 	return S_OK;
 }

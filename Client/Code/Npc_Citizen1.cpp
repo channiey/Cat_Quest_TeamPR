@@ -26,7 +26,7 @@ HRESULT CNpc_Citizen1::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) - 20.f, m_pTransformCom->Get_Scale().y + 3.f, 35.f });
+	m_pTransformCom->Set_Pos(_vec3{ 80.f, m_pTransformCom->Get_Scale().y + 3.f, 125.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 
 	return S_OK;

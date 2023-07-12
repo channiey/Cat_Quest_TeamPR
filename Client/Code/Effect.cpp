@@ -3,6 +3,11 @@
 
 #include "Export_Function.h"
 
+CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT)
+{
+}
+
 CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT)
 	, m_pOwnerobject(_pOwnerObject)

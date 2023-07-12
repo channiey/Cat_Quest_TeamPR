@@ -23,8 +23,8 @@ HRESULT CMountain_Grass::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 8.f, 4.f, 6.f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f) + 40.f, m_pTransformCom->Get_Scale().y - 1.f, 0.f });
+	m_pTransformCom->Set_Scale(_vec3{ 9.f, 5.f, 7.f });
+	m_pTransformCom->Set_Pos(_vec3{ 140.f, m_pTransformCom->Get_Scale().y - 1.f, 80.f });
 
 	return S_OK;
 }

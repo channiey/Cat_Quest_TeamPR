@@ -28,7 +28,7 @@ HRESULT CKingHouse::Ready_Object()
 	m_iTranslucent = 255;
 
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 6.f, 6.f });
-	m_pTransformCom->Set_Pos(_vec3{ (VTXCNTX / 2.f), m_pTransformCom->Get_Scale().y, 25.f });
+	m_pTransformCom->Set_Pos(_vec3{ 110.f, m_pTransformCom->Get_Scale().y, 115.f });
 
 	return S_OK;
 }
