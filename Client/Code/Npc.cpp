@@ -74,7 +74,7 @@ HRESULT CNpc::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	// Rc Texture
+	// Rc Tex
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
