@@ -12,6 +12,8 @@
 #include "Export_Function.h"
 #include "TerrainTex.h"
 
+#include "TerrainTool.h"
+
 #include <iostream>
 
 
@@ -30,6 +32,8 @@ static const char*		arr_ImgObjType[(UINT)IMG_OBJ_TYPE::TYPEEND] = { "Trrain", "E
 vector<ImTextureID>		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TYPEEND];
 
 CGameObject*			g_pCurGameObject = nullptr;
+
+CGameObject*			g_pVtxTerrain = nullptr; // 피킹처리를 위한 버텍스 터레인
 
 #pragma endregion
 
@@ -60,6 +64,10 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(pGraphicDev);
 
+	g_pVtxTerrain = CTerrainTool::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(g_pVtxTerrain, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"TerrainTool", g_pVtxTerrain);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainTool", g_pVtxTerrain), E_FAIL);
 	return S_OK;
 }
 
@@ -217,10 +225,13 @@ HRESULT CImGuiMgr::Set_ImgPath()
 {
 	map<const _tchar*, CGameObject*> mapObj;
 	
-	// Terrain
+	// Terrain -> 알파 처리
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::TERRAIN)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+			continue;
+		
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
@@ -229,6 +240,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ENVIRONMENT)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
+			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::ENVIRONMENT].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
@@ -237,6 +250,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
+			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::MONSTER].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
@@ -245,6 +260,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::NPC)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
+			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::NPC].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
@@ -252,7 +269,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	// Item
 	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{
+	{if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::ITEM].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}*/
@@ -260,7 +278,8 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	// Line
 	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::LINE)->Get_ObjectMap();
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{
+	{if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+			continue;
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::LINE].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}*/
