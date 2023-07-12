@@ -1,28 +1,28 @@
-#include "BatState_Patrol.h"
+#include "BatState_bPatrol.h"
 #include "Export_Function.h"
 
 
-CBatState_Patrol::CBatState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CBatState_bPatrol::CBatState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CBatState_Patrol::~CBatState_Patrol()
+CBatState_bPatrol::~CBatState_bPatrol()
 {
 }
 
-HRESULT CBatState_Patrol::Ready_State(CStateMachine* pOwner)
+HRESULT CBatState_bPatrol::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::PATROL;
+    m_eState = STATE_TYPE::BACK_PATROL;
     return S_OK;
 }
 
-STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CBatState_bPatrol::Update_State(const _float& fTimeDelta)
 {
     
     STATE_TYPE eState;
@@ -69,21 +69,23 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
 
 
 
-
    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
-   // BACK Patrol 전이 조건
-   if (vOwnerDir.z > 0)
+   //  Patrol 전이 조건
+   if (vOwnerDir.z < 0)
    {
-     
-       return STATE_TYPE::BACK_PATROL;
+
+       return STATE_TYPE::PATROL;
    }
+
 
 
    // CHASE 전이 조건
    if (fDistance <= 10.f)
    {
        //cout << "CHASe 전이" << endl;
+       /*pOwnerTransform->Set_Dir(vec3.zero);
+       return STATE_TYPE::CHASE;*/
        if (vOwnerDir.z < 0)
        {
            pOwnerTransform->Set_Dir(vec3.zero);
@@ -99,7 +101,9 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
    // COMEBACK 전이 조건
    if (fOriginDistance >= 20.f  && fDistance> 20.f )
    {
-       //cout << "comback 전이" << endl;
+       ////cout << "comback 전이" << endl;
+       //pOwnerTransform->Set_Dir(vec3.zero);
+       //return STATE_TYPE::COMEBACK;
 
        if (vOwnerDir.z < 0)
        {
@@ -112,11 +116,8 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
            return STATE_TYPE::BACK_COMEBACK;
        }
    }
-
-
    if (fDistance <= 5.f)  // Attack 전이 조건
    {
-       //cout << "attack 전이" << endl;
 
        if (vOwnerDir.z < 0)
        {
@@ -128,36 +129,38 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_MONATTACK;
        }
-       
+       ////cout << "attack 전이" << endl;
+       //pOwnerTransform->Set_Dir(vec3.zero);
+       //return STATE_TYPE::MONATTACK;
    }
 
 
-   return STATE_TYPE::PATROL;
+   return STATE_TYPE::BACK_PATROL;
   
 
 
   
 }
 
-void CBatState_Patrol::LateUpdate_State()
+void CBatState_bPatrol::LateUpdate_State()
 {
 
 }
 
-void CBatState_Patrol::Render_State()
+void CBatState_bPatrol::Render_State()
 {
     
 }
 
-STATE_TYPE CBatState_Patrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CBatState_bPatrol::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_Patrol* CBatState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CBatState_bPatrol* CBatState_bPatrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
  {
-    CBatState_Patrol* pInstance = new CBatState_Patrol(pGraphicDev);
+    CBatState_bPatrol* pInstance = new CBatState_bPatrol(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -170,7 +173,7 @@ CBatState_Patrol* CBatState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CState
     return pInstance;
 }
 
-void CBatState_Patrol::Free()
+void CBatState_bPatrol::Free()
 {
     __super::Free();
 }

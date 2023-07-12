@@ -169,6 +169,10 @@
   <ItemGroup>
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\BatState_Attack.h" />
+    <ClInclude Include="..\Header\BatState_bAttack.h" />
+    <ClInclude Include="..\Header\BatState_bChase.h" />
+    <ClInclude Include="..\Header\BatState_bComeBack.h" />
+    <ClInclude Include="..\Header\BatState_bPatrol.h" />
     <ClInclude Include="..\Header\BatState_Chase.h" />
     <ClInclude Include="..\Header\BatState_ComeBack.h" />
     <ClInclude Include="..\Header\BatState_Patrol.h" />
@@ -300,6 +304,10 @@
     <ClInclude Include="..\Header\UI.h" />
     <ClInclude Include="..\Header\Wyvern.h" />
     <ClInclude Include="..\Header\WyvernState_Attack.h" />
+    <ClInclude Include="..\Header\WyvernState_bAttack.h" />
+    <ClInclude Include="..\Header\WyvernState_bChase.h" />
+    <ClInclude Include="..\Header\WyvernState_bComeBack.h" />
+    <ClInclude Include="..\Header\WyvernState_bPatrol.h" />
     <ClInclude Include="..\Header\WyvernState_Chase.h" />
     <ClInclude Include="..\Header\WyvernState_ComeBack.h" />
     <ClInclude Include="..\Header\WyvernState_Patrol.h" />
@@ -321,6 +329,10 @@
   <ItemGroup>
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\BatState_Attack.cpp" />
+    <ClCompile Include="..\Code\BatState_bAttack.cpp" />
+    <ClCompile Include="..\Code\BatState_bChase.cpp" />
+    <ClCompile Include="..\Code\BatState_bComeBack.cpp" />
+    <ClCompile Include="..\Code\BatState_bPatrol.cpp" />
     <ClCompile Include="..\Code\BatState_Chase.cpp" />
     <ClCompile Include="..\Code\BatState_ComeBack.cpp" />
     <ClCompile Include="..\Code\BatState_Patrol.cpp" />
@@ -452,6 +464,10 @@
     <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="..\Code\Wyvern.cpp" />
     <ClCompile Include="..\Code\WyvernState_Attack.cpp" />
+    <ClCompile Include="..\Code\WyvernState_bAttack.cpp" />
+    <ClCompile Include="..\Code\WyvernState_bChase.cpp" />
+    <ClCompile Include="..\Code\WyvernState_bComeBack.cpp" />
+    <ClCompile Include="..\Code\WyvernState_bPatrol.cpp" />
     <ClCompile Include="..\Code\WyvernState_Chase.cpp" />
     <ClCompile Include="..\Code\WyvernState_ComeBack.cpp" />
     <ClCompile Include="..\Code\WyvernState_Patrol.cpp" />

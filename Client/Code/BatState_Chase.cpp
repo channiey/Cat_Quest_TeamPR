@@ -57,6 +57,17 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
    
     pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
+    
+
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
+
+    if (vOwnerDir.z < 0)
+    {
+        return STATE_TYPE::BACK_CHASE;
+    }
+
+
+
     if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
     {
        // cout << "COMBACK  전이" << endl;
@@ -77,7 +88,7 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
     {
        // cout << "attack 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
-        return STATE_TYPE::FRONT_ATTACK;
+        return STATE_TYPE::MONATTACK;
     }
  
    

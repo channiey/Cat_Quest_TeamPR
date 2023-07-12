@@ -27,6 +27,9 @@ public:
 	void	Random_Move(const _float& fTimeDelta, const _float& fSpeed);
 
 
+	void	Jumping_Motion(const _float& fTimeDelta, const _float& fSpeed, const _float &Y);
+
+
 public:
 	static	CAIComponent*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

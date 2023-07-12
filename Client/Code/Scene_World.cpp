@@ -529,10 +529,10 @@ HRESULT CScene_World::Ready_Layer_Monster()
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	//Bat
-	pGameObject = CBat::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
+	////Bat
+	//pGameObject = CBat::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
 
 	// Dragon
 	pGameObject = CDragon::Create(m_pGraphicDev);
@@ -554,10 +554,10 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
 
-	// Wyvern
-	pGameObject = CWyvern::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
+	//// Wyvern
+	//pGameObject = CWyvern::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
 
 	// Squirrel
 	pGameObject = CSquirrel::Create(m_pGraphicDev);

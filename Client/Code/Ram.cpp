@@ -106,13 +106,12 @@ void CRam::Render_Object()
 	_vec3 Dir = m_pTransformCom->Get_Dir();
 
 	//cout << Dir.z << endl;
-
 	if (m_pTransformCom->Get_Dir().z <= 0)
 	{
-		m_pTextureCom[14]->Render_Texture();
+		m_pTextureCom[(_uint)STATE_TYPE::PATROL]->Render_Texture();
 	}
 	else
-		m_pTextureCom[0]->Render_Texture();
+		m_pTextureCom[(_uint)STATE_TYPE::BACK_PATROL]->Render_Texture();
 
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -159,7 +158,7 @@ HRESULT CRam::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	// 임시 상태 값 - 추후 수정
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Ram", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Ram", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

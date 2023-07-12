@@ -7,6 +7,10 @@
 #include "BatState_Attack.h"
 #include "BatState_ComeBack.h"
 
+#include "BatState_bPatrol.h"
+#include "BatState_bChase.h"
+#include "BatState_bAttack.h"
+#include "BatState_bComeBack.h"
 
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -65,7 +69,26 @@ HRESULT CBat::Ready_Object()
 
 	// Attack
 	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
+
+
+	// Back
+	// Patrol
+	pState = CBatState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
+
+	// Chase
+	pState = CBatState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
+
+
+	// ComeBack
+	pState = CBatState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
+
+	// Attack
+	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 #pragma endregion
 
@@ -88,8 +111,27 @@ HRESULT CBat::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.1f, TRUE);
-	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONATTACK, pAnimation);
+
+	// Back
+	// Patrol
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)], STATE_TYPE::BACK_PATROL, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_PATROL, pAnimation);
+
+	// ComeBack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)], STATE_TYPE::BACK_COMEBACK, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_COMEBACK, pAnimation);
+
+	// Chase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)], STATE_TYPE::BACK_CHASE, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_CHASE, pAnimation);
+
+	// Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONATTACK, pAnimation);
+
+
 
 #pragma endregion
 
@@ -151,29 +193,45 @@ HRESULT CBat::Add_Component()
 
 #pragma region Texture
 
+	//  Front
+
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
 
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+
+
+	// Back
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 
 
 #pragma endregion

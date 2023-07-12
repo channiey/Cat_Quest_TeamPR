@@ -55,6 +55,9 @@ void CTransform::Translate(const DIRID& _eDir, const _float& fSpeed, const SPACE
 			break;
 		case DIR_FORWARD:
 			m_vInfo[INFO_POS] += vec3.forward * fSpeed;
+		// 임시 추가 
+		case DIR_DOWN:
+			m_vInfo[INFO_POS] += vec3.down * fSpeed;
 			break;
 		}
 

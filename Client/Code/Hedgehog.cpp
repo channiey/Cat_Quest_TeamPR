@@ -66,7 +66,7 @@ HRESULT CHedgehog::Ready_Object()
 
 	// Attack
 	pState = CHedgegohState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
 #pragma endregion
 
@@ -83,12 +83,17 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+
+	//m_pAICom->Jumping_Motion(fTimeDelta, 10.f, 2.f);
+
 	return iExit;
 }
 
 void CHedgehog::LateUpdate_Object()
 {
 	
+	
+
 	__super::LateUpdate_Object();
 
 }
@@ -103,10 +108,10 @@ void CHedgehog::Render_Object()
 
 	if (m_pTransformCom->Get_Dir().z <= 0)
 	{
-		m_pTextureCom[14]->Render_Texture();
+		m_pTextureCom[(_uint)STATE_TYPE::PATROL]->Render_Texture();
 	}
 	else
-		m_pTextureCom[0]->Render_Texture();
+		m_pTextureCom[(_uint)STATE_TYPE::BACK_PATROL]->Render_Texture();
 
 	
 	
@@ -153,7 +158,7 @@ HRESULT CHedgehog::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Hedgehog", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Hedgehog", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

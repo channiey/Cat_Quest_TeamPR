@@ -1,28 +1,28 @@
-#include "WyvernState_ComeBack.h"
+#include "WyvernState_bComeBack.h"
 #include "Export_Function.h"
 
 
-CWyvernState_ComeBack::CWyvernState_ComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernState_bComeBack::CWyvernState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CWyvernState_ComeBack::~CWyvernState_ComeBack()
+CWyvernState_bComeBack::~CWyvernState_bComeBack()
 {
 }
 
-HRESULT CWyvernState_ComeBack::Ready_State(CStateMachine* pOwner)
+HRESULT CWyvernState_bComeBack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::COMEBACK;
+    m_eState = STATE_TYPE::BACK_COMEBACK;
     return S_OK;
 }
 
-STATE_TYPE CWyvernState_ComeBack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CWyvernState_bComeBack::Update_State(const _float& fTimeDelta)
 {
   
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -77,7 +77,7 @@ STATE_TYPE CWyvernState_ComeBack::Update_State(const _float& fTimeDelta)
     {
         //cout << "attack ÀüÀÌ" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
-        return STATE_TYPE::MONATTACK;
+        return STATE_TYPE::FRONT_ATTACK;
     }
   
         return STATE_TYPE::COMEBACK;
@@ -86,26 +86,26 @@ STATE_TYPE CWyvernState_ComeBack::Update_State(const _float& fTimeDelta)
 
 }
 
-void CWyvernState_ComeBack::LateUpdate_State()
+void CWyvernState_bComeBack::LateUpdate_State()
 {
     
 }
 
-void CWyvernState_ComeBack::Render_State()
+void CWyvernState_bComeBack::Render_State()
 {
    
 
 }
 
-STATE_TYPE CWyvernState_ComeBack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CWyvernState_bComeBack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CWyvernState_ComeBack* CWyvernState_ComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CWyvernState_bComeBack* CWyvernState_bComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CWyvernState_ComeBack* pInstance = new CWyvernState_ComeBack(pGraphicDev);
+    CWyvernState_bComeBack* pInstance = new CWyvernState_bComeBack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -118,7 +118,7 @@ CWyvernState_ComeBack* CWyvernState_ComeBack::Create(LPDIRECT3DDEVICE9 pGraphicD
     return pInstance;
 }
 
-void CWyvernState_ComeBack::Free()
+void CWyvernState_bComeBack::Free()
 {
     __super::Free();
 }

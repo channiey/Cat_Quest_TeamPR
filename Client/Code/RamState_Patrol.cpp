@@ -89,7 +89,7 @@ STATE_TYPE CRamState_Patrol::Update_State(const _float& fTimeDelta)
    {
       // cout << "attack ÀüÀÌ" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::FRONT_ATTACK;
+       return STATE_TYPE::MONATTACK;
    }
 
 

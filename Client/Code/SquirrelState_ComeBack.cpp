@@ -77,7 +77,7 @@ STATE_TYPE CSquirrelState_ComeBack::Update_State(const _float& fTimeDelta)
     {
         //cout << "attack ÀüÀÌ" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
-        return STATE_TYPE::FRONT_ATTACK;
+        return STATE_TYPE::MONATTACK;
     }
   
         return STATE_TYPE::COMEBACK;

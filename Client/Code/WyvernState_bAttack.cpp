@@ -1,28 +1,28 @@
-#include "WyvernState_Patrol.h"
+#include "WyvernState_bAttack.h"
 #include "Export_Function.h"
 
 
-CWyvernState_Patrol::CWyvernState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernState_bAttack::CWyvernState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CWyvernState_Patrol::~CWyvernState_Patrol()
+CWyvernState_bAttack::~CWyvernState_bAttack()
 {
 }
 
-HRESULT CWyvernState_Patrol::Ready_State(CStateMachine* pOwner)
+HRESULT CWyvernState_bAttack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::PATROL;
+    m_eState = STATE_TYPE::BACK_MONATTACK;
     return S_OK;
 }
 
-STATE_TYPE CWyvernState_Patrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CWyvernState_bAttack::Update_State(const _float& fTimeDelta)
 {
     
     STATE_TYPE eState;
@@ -61,66 +61,62 @@ STATE_TYPE CWyvernState_Patrol::Update_State(const _float& fTimeDelta)
 
    if (OwnerPatternTime <= m_fAccTime)
    {
-       pOwnerAI->Random_Move(fTimeDelta, OwnerSpeed);
+       pOwnerAI->Chase_Target(&PlayerPos, fTimeDelta, OwnerSpeed*2);
        m_fAccTime = 0.f;
    }
    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
 
    // CHASE 전이 조건
-   if (fDistance <= 10.f)
+   if (fDistance >= 10.f  &&  fDistance < 30.f)
    {
-      // cout << "CHASe 전이" << endl;
+      // cout << "chase  전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::CHASE;
    }
-
+ 
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 20.f  && fDistance> 20.f )
+   if (fOriginDistance >= 20.f)
    {
-     //  cout << "comback 전이" << endl;
+      // cout << "COMBACK  전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::COMEBACK;
    }
-   if (fDistance <= 5.f)  // Attack 전이 조건
-   {
-     //  cout << "attack 전이" << endl;
-       pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::MONATTACK;
-   }
-
-
-   return STATE_TYPE::PATROL;
   
 
+   return STATE_TYPE::MONATTACK;
+  
+
+   // Patrol 전이 조건
+   //chase -> patrol 가게 해둠
 
   
 }
 
-void CWyvernState_Patrol::LateUpdate_State()
+void CWyvernState_bAttack::LateUpdate_State()
 {
 
 }
 
-void CWyvernState_Patrol::Render_State()
+void CWyvernState_bAttack::Render_State()
 {
     
 }
 
-STATE_TYPE CWyvernState_Patrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CWyvernState_bAttack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CWyvernState_Patrol* CWyvernState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
- {
-    CWyvernState_Patrol* pInstance = new CWyvernState_Patrol(pGraphicDev);
+CWyvernState_bAttack* CWyvernState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+{
+    CWyvernState_bAttack* pInstance = new CWyvernState_bAttack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Wyvern Patrol Create Failed");
+        MSG_BOX("WyvernState Attack Create Failed");
         return nullptr;
 
     }
@@ -128,7 +124,7 @@ CWyvernState_Patrol* CWyvernState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, 
     return pInstance;
 }
 
-void CWyvernState_Patrol::Free()
+void CWyvernState_bAttack::Free()
 {
     __super::Free();
 }

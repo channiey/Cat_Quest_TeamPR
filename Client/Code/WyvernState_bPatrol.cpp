@@ -1,28 +1,28 @@
-#include "WyvernState_Patrol.h"
+#include "WyvernState_bPatrol.h"
 #include "Export_Function.h"
 
 
-CWyvernState_Patrol::CWyvernState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernState_bPatrol::CWyvernState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CWyvernState_Patrol::~CWyvernState_Patrol()
+CWyvernState_bPatrol::~CWyvernState_bPatrol()
 {
 }
 
-HRESULT CWyvernState_Patrol::Ready_State(CStateMachine* pOwner)
+HRESULT CWyvernState_bPatrol::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::PATROL;
+    m_eState = STATE_TYPE::BACK_PATROL;
     return S_OK;
 }
 
-STATE_TYPE CWyvernState_Patrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CWyvernState_bPatrol::Update_State(const _float& fTimeDelta)
 {
     
     STATE_TYPE eState;
@@ -86,7 +86,7 @@ STATE_TYPE CWyvernState_Patrol::Update_State(const _float& fTimeDelta)
    {
      //  cout << "attack ÀüÀÌ" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::MONATTACK;
+       return STATE_TYPE::FRONT_ATTACK;
    }
 
 
@@ -97,25 +97,25 @@ STATE_TYPE CWyvernState_Patrol::Update_State(const _float& fTimeDelta)
   
 }
 
-void CWyvernState_Patrol::LateUpdate_State()
+void CWyvernState_bPatrol::LateUpdate_State()
 {
 
 }
 
-void CWyvernState_Patrol::Render_State()
+void CWyvernState_bPatrol::Render_State()
 {
     
 }
 
-STATE_TYPE CWyvernState_Patrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CWyvernState_bPatrol::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CWyvernState_Patrol* CWyvernState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CWyvernState_bPatrol* CWyvernState_bPatrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
  {
-    CWyvernState_Patrol* pInstance = new CWyvernState_Patrol(pGraphicDev);
+    CWyvernState_bPatrol* pInstance = new CWyvernState_bPatrol(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -128,7 +128,7 @@ CWyvernState_Patrol* CWyvernState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, 
     return pInstance;
 }
 
-void CWyvernState_Patrol::Free()
+void CWyvernState_bPatrol::Free()
 {
     __super::Free();
 }
