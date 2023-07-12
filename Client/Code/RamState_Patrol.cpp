@@ -73,7 +73,7 @@ STATE_TYPE CRamState_Patrol::Update_State(const _float& fTimeDelta)
    // CHASE 전이 조건
    if (fDistance <= 10.f)
    {
-       cout << "CHASe 전이" << endl;
+       //cout << "CHASe 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::CHASE;
    }
@@ -81,13 +81,13 @@ STATE_TYPE CRamState_Patrol::Update_State(const _float& fTimeDelta)
    // COMEBACK 전이 조건
    if (fOriginDistance >= 20.f  && fDistance> 20.f )
    {
-       cout << "comback 전이" << endl;
+       //cout << "comback 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::COMEBACK;
    }
    if (fDistance <= 5.f)  // Attack 전이 조건
    {
-       cout << "attack 전이" << endl;
+      // cout << "attack 전이" << endl;
        pOwnerTransform->Set_Dir(vec3.zero);
        return STATE_TYPE::FRONT_ATTACK;
    }

@@ -111,7 +111,8 @@ void CFox::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
-
+	// monster class보다 상위에서 바로 가져옴
+	CGameObject::Render_Object(); // 콜라이더 출력
 
 
 }

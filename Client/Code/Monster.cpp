@@ -41,8 +41,8 @@ HRESULT CMonster::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
+	//m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
+	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
 	return S_OK;
