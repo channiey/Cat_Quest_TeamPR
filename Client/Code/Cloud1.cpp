@@ -42,7 +42,7 @@ _int CCloud1::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_pTransformCom->Set_Pos(
-		{this->m_pTransformCom->Get_Info(INFO_POS).x + 0.2f * fTimeDelta * 1.f ,
+		{this->m_pTransformCom->Get_Info(INFO_POS).x + 0.2f * fTimeDelta * 3.f ,
 		 this->m_pTransformCom->Get_Info(INFO_POS).y ,
 		 this->m_pTransformCom->Get_Info(INFO_POS).z }
 	);
