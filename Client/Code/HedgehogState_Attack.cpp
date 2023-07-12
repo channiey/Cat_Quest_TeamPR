@@ -90,7 +90,7 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
    }
   
 
-   return STATE_TYPE::FRONT_ATTACK;
+   return STATE_TYPE::MONATTACK;
   
 
    // Patrol 전이 조건

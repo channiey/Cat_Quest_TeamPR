@@ -26,7 +26,8 @@ namespace Engine
 	enum class GAME_STATUS			{ PLAYING, PAUSE, END }; // 현재 게임의 상태를 나타낸다.
 
 	enum class STATE_TYPE			{ FRONT_IDLE, FRONT_WALK, FRONT_ROLL, FRONT_ATTACK, FRONT_ATTACK1, FRONT_ATTACK2, FRONT_HIT,
-									BACK_IDLE, BACK_WALK, BACK_ROLL, BACK_ATTACK, BACK_ATTACK1, BACK_ATTACK2, DEAD, PATROL, CHASE, COMEBACK, TYPEEND }; // 원하는 상태 있으면 추가
+									BACK_IDLE, BACK_WALK, BACK_ROLL, BACK_ATTACK, BACK_ATTACK1, BACK_ATTACK2, DEAD, 
+									PATROL, CHASE, COMEBACK, MONATTACK, BACK_PATROL, BACK_CHASE, BACK_COMEBACK, BACK_MONATTACK, TYPEEND }; // 원하는 상태 있으면 추가
 
 	enum class UI_TYPE				{ VIEW , WORLD , TYPEEND }; // UI 종류 (뷰포트 사용, 월드 사용)
 
@@ -57,7 +58,7 @@ namespace Engine
 	
 	enum ROTATION					{ ROT_X, ROT_Y, ROT_Z, ROT_END };
 	
-	enum DIRID						{ DIR_RIGHT, DIR_UP, DIR_FORWARD, DIR_END };
+	enum DIRID						{ DIR_RIGHT, DIR_UP, DIR_FORWARD, DIR_DOWN,  DIR_END };
 	
 	enum TEXTUREID					{ TEX_NORMAL, TEX_CUBE,	TEX_END };		// 해당 텍스처가 일반 노말 텍스처인지 큐브 텍스처인지
 	

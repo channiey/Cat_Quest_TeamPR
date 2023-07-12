@@ -18,7 +18,7 @@ HRESULT CWyvernState_Attack::Ready_State(CStateMachine* pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::FRONT_ATTACK;
+    m_eState = STATE_TYPE::MONATTACK;
     return S_OK;
 }
 
@@ -84,7 +84,7 @@ STATE_TYPE CWyvernState_Attack::Update_State(const _float& fTimeDelta)
    }
   
 
-   return STATE_TYPE::FRONT_ATTACK;
+   return STATE_TYPE::MONATTACK;
   
 
    // Patrol 전이 조건

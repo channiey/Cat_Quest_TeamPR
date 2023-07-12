@@ -38,7 +38,7 @@ HRESULT CFox::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 1, 1.04f, 2.f });
 
 
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.3f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 130, m_pTransformCom->Get_Scale().y, 110.f });
 
 	m_pTransformCom->Set_Dir({ 1.42f, 0.f, 1.38f });
 
@@ -66,7 +66,7 @@ HRESULT CFox::Ready_Object()
 
 	// Attack
 	pState = CFoxState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
 #pragma endregion
 
@@ -101,7 +101,17 @@ void CFox::LateUpdate_Object()
 void CFox::Render_Object()
 {
 	// 애니메이터 사용 x
-	m_pTextureCom[14]->Render_Texture();
+	_vec3 Dir = m_pTransformCom->Get_Dir();
+
+	//cout << Dir.z << endl;
+
+	if (m_pTransformCom->Get_Dir().z <= 0)
+	{
+		m_pTextureCom[(_uint)STATE_TYPE::PATROL]->Render_Texture();
+	}
+	else
+		m_pTextureCom[(_uint)STATE_TYPE::BACK_PATROL]->Render_Texture();
+
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	
@@ -149,7 +159,7 @@ HRESULT CFox::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fox", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fox", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

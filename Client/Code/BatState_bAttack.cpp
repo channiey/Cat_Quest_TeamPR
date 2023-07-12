@@ -1,28 +1,28 @@
-#include "BatState_Attack.h"
+#include "BatState_bAttack.h"
 #include "Export_Function.h"
 
 
-CBatState_Attack::CBatState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
+CBatState_bAttack::CBatState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CBatState_Attack::~CBatState_Attack()
+CBatState_bAttack::~CBatState_bAttack()
 {
 }
 
-HRESULT CBatState_Attack::Ready_State(CStateMachine* pOwner)
+HRESULT CBatState_bAttack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::MONATTACK;
+    m_eState = STATE_TYPE::BACK_MONATTACK;
     return S_OK;
 }
 
-STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CBatState_bAttack::Update_State(const _float& fTimeDelta)
 {
     
     STATE_TYPE eState;
@@ -67,20 +67,49 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
 
+   _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
+   if (vOwnerDir.z > 0)
+   {
+
+       return STATE_TYPE::BACK_MONATTACK;
+   }
+
+
+
    // CHASE 전이 조건
    if (fDistance >= 10.f  &&  fDistance < 30.f)
    {
       // cout << "chase  전이" << endl;
-       pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::CHASE;
+     /*  pOwnerTransform->Set_Dir(vec3.zero);
+       return STATE_TYPE::CHASE;*/
+       if (vOwnerDir.z < 0)
+       {
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::CHASE;
+       }
+       else
+       {
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::BACK_CHASE;
+       }
    }
  
    // COMEBACK 전이 조건
    if (fOriginDistance >= 20.f)
    {
       // cout << "COMBACK  전이" << endl;
-       pOwnerTransform->Set_Dir(vec3.zero);
-       return STATE_TYPE::COMEBACK;
+      /* pOwnerTransform->Set_Dir(vec3.zero);
+       return STATE_TYPE::COMEBACK;*/
+       if (vOwnerDir.z < 0)
+       {
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::COMEBACK;
+       }
+       else
+       {
+           pOwnerTransform->Set_Dir(vec3.zero);
+           return STATE_TYPE::BACK_COMEBACK;
+       }
    }
   
 
@@ -93,25 +122,25 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
   
 }
 
-void CBatState_Attack::LateUpdate_State()
+void CBatState_bAttack::LateUpdate_State()
 {
 
 }
 
-void CBatState_Attack::Render_State()
+void CBatState_bAttack::Render_State()
 {
     
 }
 
-STATE_TYPE CBatState_Attack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CBatState_bAttack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_Attack* CBatState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CBatState_bAttack* CBatState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CBatState_Attack* pInstance = new CBatState_Attack(pGraphicDev);
+    CBatState_bAttack* pInstance = new CBatState_bAttack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -124,7 +153,7 @@ CBatState_Attack* CBatState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CState
     return pInstance;
 }
 
-void CBatState_Attack::Free()
+void CBatState_bAttack::Free()
 {
     __super::Free();
 }

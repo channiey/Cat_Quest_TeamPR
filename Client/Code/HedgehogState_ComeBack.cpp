@@ -24,8 +24,6 @@ HRESULT CHedgehogState_ComeBack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
 {
-   //m_pTransformCom->Translate(fTimeDelta * m_tMoveInfo.fMoveSpeed);
-    
   
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 
@@ -57,7 +55,9 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
    
     // ±â´É
-    pOwnerTransform->Set_Dir(vec3.zero);
+
+    pPlayerTransform->Set_Dir(vOriginDir);
+
     pOwnerAI->Chase_Target(&OwnerOriginPos, fTimeDelta, OwnerSpeed);
    
     pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);

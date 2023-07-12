@@ -49,9 +49,14 @@ STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
     vDir = vPlayerPos- vOwnerPos;
     _float fDistance = (D3DXVec3Length(&vDir)); // 플레이어와의 거리
 
+    pPlayerTransform->Set_Dir(vDir);
+
+
     _vec3       vOriginDir;
     vOriginDir = OwnerOriginPos - vOwnerPos;
     _float fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
+
+
 
 
     // 기능

@@ -38,7 +38,7 @@ HRESULT CSquirrel::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 1, 1.04f, 2.f });
 
 
-	m_pTransformCom->Set_Pos(_vec3{ VTXCNTX * 0.3f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 170.f, m_pTransformCom->Get_Scale().y, 110.f });
 
 	m_pTransformCom->Set_Dir({ 1.38f, 0.f, 1.46f });
 
@@ -101,7 +101,17 @@ void CSquirrel::LateUpdate_Object()
 void CSquirrel::Render_Object()
 {
 	// 애니메이터 사용 x
-	m_pTextureCom[14]->Render_Texture();
+	_vec3 Dir = m_pTransformCom->Get_Dir();
+
+	//cout << Dir.z << endl;
+
+	if (m_pTransformCom->Get_Dir().z <= 0)
+	{
+		m_pTextureCom[(_uint)STATE_TYPE::PATROL]->Render_Texture();
+	}
+	else
+		m_pTextureCom[(_uint)STATE_TYPE::BACK_PATROL]->Render_Texture();
+
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	
@@ -148,7 +158,7 @@ HRESULT CSquirrel::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Squirrel", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Squirrel", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
