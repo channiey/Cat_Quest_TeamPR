@@ -117,7 +117,10 @@ void CImGuiMgr::ImGui_Update()
 
 	if (/*g_pCurGameObject != nullptr &&*/ CInputDev::GetInstance()->Key_Down(MK_LBUTTON)) // 탭 등을 눌렀을 때의 예외처리
 	{
-		Clone_Object(Get_ClickPos());
+		_vec3 vPickPos = Get_ClickPos();
+
+		if(vec3.zero != vPickPos) // 터레인 영역을 벗어난 피킹에 대한 예외 처리
+			Clone_Object(vPickPos);
 	}
 }
 
@@ -319,21 +322,24 @@ if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))
 	return S_OK;
 }
 
-HRESULT CImGuiMgr::Clone_Object(const _vec3 _vClonePos)
+HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 {
 	// 예외처리
 	if (IMG_OBJ_TYPE::TYPEEND == g_eSelObjType || 0 > g_iSelObj || g_vecObjOrigin[(UINT)g_eSelObjType].size() < g_iSelObj)
 		return E_FAIL;
 
+	// 클론
 	CGameObject* pClone = g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]; // 클론
 
 	NULL_CHECK_RETURN(pClone, E_FAIL);
 
-	pClone->Get_Transform()->Set_Pos(_vClonePos); // 포지션 세팅
+	// 포지션 세팅
+	_vec3 vClonePos = { _vPickPos.x, pClone->Get_Transform()->Get_Info(INFO_POS).y, _vPickPos.z };
 
-	// 이름 어떻게 할까?
-	
-	//CEventMgr::GetInstance()->Add_Obj(pClone->Get)
+	pClone->Get_Transform()->Set_Pos(vClonePos); 
+
+	// 추가
+	CEventMgr::GetInstance()->Add_Obj(pClone->Get_Name(), pClone);
 
 	return S_OK;
 }

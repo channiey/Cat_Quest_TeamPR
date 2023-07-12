@@ -30,7 +30,7 @@ private:
 private:
 	HRESULT						Set_ImgPath(); // 맵 및 오브젝트 이미지 경로 셋업
 
-	HRESULT						Clone_Object(const _vec3 _vClonePos); // 피킹시 오브젝트 클론
+	HRESULT						Clone_Object(const _vec3 _vPickPos); // 피킹시 오브젝트 클론
 
 
 private:
