@@ -123,7 +123,7 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	UiViewPort.Y = 0;
 	UiViewPort.Width = WINCX;
 	UiViewPort.Height = WINCY;
-	UiViewPort.MinZ = -1;
+	UiViewPort.MinZ = 0;
 	UiViewPort.MaxZ = 1;
 	pGraphicDev->SetViewport(&UiViewPort);
 
@@ -133,7 +133,7 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	// 투영 
 	_matrix    m_matProj;
-	D3DXMatrixOrthoOffCenterLH(&m_matProj, 0, WINCX, 0, WINCY, -1.f, 1.f);
+	D3DXMatrixOrthoOffCenterLH(&m_matProj, 0, WINCX, 0, WINCY, 0.f, 1.f);
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);   // 직교투영 행렬 적용.
 
 	// 렌더 옵션

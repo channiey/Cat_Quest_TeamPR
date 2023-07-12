@@ -8,6 +8,8 @@ class CGameObject;
 
 END
 
+class CPlayer;
+
 class CIndicatorUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프로토타입 입니다.
 {
 
@@ -22,17 +24,28 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+
 public:
+	void	Set_IndicTarget(CGameObject* pTarget) { m_pTarget = pTarget; }
+
+
+	void	Get_ViewPos_Target();
+
+private:
+	CGameObject*			m_pTarget;
+	CPlayer*				m_pPlayer;
+
+	_vec3					m_vIndicDir;
+
+	_bool					m_bIsShirk;
+	_bool					m_bIsExpand;
+
 
 private:
 	virtual HRESULT			Add_Component() override;
 
-private:
-	CGameObject*			m_pTarget;
-
 public:
 	static CIndicatorUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
 
 protected:
 	virtual void			Free() override;
