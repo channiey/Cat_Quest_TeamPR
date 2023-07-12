@@ -55,6 +55,7 @@ STATE_TYPE CRamState_Chase::Update_State(const _float& fTimeDelta)
     CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Ram", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
     pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, OwnerSpeed);
    
+    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
     if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
     {
@@ -93,7 +94,7 @@ void CRamState_Chase::LateUpdate_State()
 
 void CRamState_Chase::Render_State()
 {
-    cout << "고슴도치 patro 상태" << endl;
+
 
 }
 

@@ -63,7 +63,8 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
    {
        pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, OwnerSpeed*2);
        m_fAccTime = 0.f;
-   }
+   }   
+   pOwnerTransform->Translate(fTimeDelta* OwnerSpeed);
 
   
    _vec3 vOwnerScale = pOwnerTransform->Get_Scale();

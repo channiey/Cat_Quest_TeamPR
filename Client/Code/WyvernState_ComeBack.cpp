@@ -57,7 +57,7 @@ STATE_TYPE CWyvernState_ComeBack::Update_State(const _float& fTimeDelta)
     pOwnerTransform->Set_Dir(vec3.zero);
     pOwnerAI->Chase_Target(&OwnerOriginPos, fTimeDelta, OwnerSpeed);
    
- 
+    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
   
     if (fOriginDistance <= 5.f)    // PATROL 전이 조건
     {

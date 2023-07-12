@@ -59,6 +59,7 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     // ±â´É
     pOwnerTransform->Set_Dir(vec3.zero);
     pOwnerAI->Chase_Target(&OwnerOriginPos, fTimeDelta, OwnerSpeed);
+   
     pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
 
 

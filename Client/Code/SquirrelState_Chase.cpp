@@ -55,6 +55,8 @@ STATE_TYPE CSquirrelState_Chase::Update_State(const _float& fTimeDelta)
     CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Squirrel", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
     pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, OwnerSpeed);
    
+    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
+
 
     if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
     {
