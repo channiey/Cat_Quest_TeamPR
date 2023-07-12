@@ -41,16 +41,16 @@ HRESULT CMonster::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
+
+
 	return S_OK;
 }
 
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
 	return iExit;
@@ -124,8 +124,6 @@ HRESULT CMonster::Add_Component()
 	// 각각의 몬스터 객체에서 진행 
 
 #pragma endregion
-
-
 
 
 	return S_OK;

@@ -70,7 +70,7 @@ HRESULT CSquirrel::Ready_Object()
 
 #pragma endregion
 
-
+	// 상태 세팅 - 상태만 사용 몬스터
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
@@ -101,6 +101,7 @@ void CSquirrel::LateUpdate_Object()
 
 void CSquirrel::Render_Object()
 {
+	// 애니메이터 사용 x
 	m_pTextureCom[14]->Render_Texture();
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -111,8 +112,6 @@ void CSquirrel::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
-
-	//__super::Render_Object();
 
 }
 

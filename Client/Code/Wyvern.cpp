@@ -96,9 +96,8 @@ HRESULT CWyvern::Ready_Object()
 
 #pragma endregion
 
-	
+	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
     return S_OK;
@@ -126,6 +125,7 @@ void CWyvern::LateUpdate_Object()
 
 void CWyvern::Render_Object()
 {
+	// 애니메이터 사용 o
 	__super::Render_Object();
 }
 

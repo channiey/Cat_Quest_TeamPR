@@ -93,7 +93,7 @@ HRESULT CDragon::Ready_Object()
 
 
 #pragma endregion
-
+	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
 
@@ -103,10 +103,12 @@ HRESULT CDragon::Ready_Object()
 
 _int CDragon::Update_Object(const _float& fTimeDelta)
 {
+	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) return 0;
 
-	_int iExit = CMonster::Update_Object(fTimeDelta);
+
 
 
 	return iExit;
@@ -121,6 +123,7 @@ void CDragon::LateUpdate_Object()
 void CDragon::Render_Object()
 {
 
+	// 애니메이터 사용 o
 	__super::Render_Object();
 }
 
