@@ -193,6 +193,10 @@
     <ClInclude Include="..\Header\Chest_Regular.h" />
     <ClInclude Include="..\Header\Cloud1.h" />
     <ClInclude Include="..\Header\Cloud1_Shadow.h" />
+    <ClInclude Include="..\Header\Cloud2.h" />
+    <ClInclude Include="..\Header\Cloud2_Shadow.h" />
+    <ClInclude Include="..\Header\Cloud3.h" />
+    <ClInclude Include="..\Header\Cloud3_Shadow.h" />
     <ClInclude Include="..\Header\Effect_Skill_Fire.h" />
     <ClInclude Include="..\Header\DefUI.h" />
     <ClInclude Include="..\Header\Dungeon_Grass.h" />
@@ -355,6 +359,10 @@
     <ClCompile Include="..\Code\Chest_Regular.cpp" />
     <ClCompile Include="..\Code\Cloud1.cpp" />
     <ClCompile Include="..\Code\Cloud1_Shadow.cpp" />
+    <ClCompile Include="..\Code\Cloud2.cpp" />
+    <ClCompile Include="..\Code\Cloud2_Shadow.cpp" />
+    <ClCompile Include="..\Code\Cloud3.cpp" />
+    <ClCompile Include="..\Code\Cloud3_Shadow.cpp" />
     <ClCompile Include="..\Code\Effect_Skill_Fire.cpp" />
     <ClCompile Include="..\Code\DefUI.cpp" />
     <ClCompile Include="..\Code\Dungeon_Grass.cpp" />

@@ -95,6 +95,8 @@
 
 // Effect
 #include "Cloud1.h"
+#include "Cloud2.h"
+#include "Cloud3.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -659,7 +661,98 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	// Cloud
 	pGameObject = CCloud1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_1", pGameObject), E_FAIL);
+
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({80.f, 12.f, 102.f});
+
+	pGameObject = CCloud2::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud2_1", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 50.f, 12.f, 42.f });
+
+	pGameObject = CCloud3::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_1", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 75.f, 12.f, 122.f });
+
+
+
+
+
+
+	// 시연 끝나고 지울거
+	pGameObject = CCloud1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_2", pGameObject), E_FAIL);
+
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 90.f, 12.f, 72.f });
+
+	pGameObject = CCloud1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_3", pGameObject), E_FAIL);
+
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 100.f, 12.f, 112.f });
+
+	pGameObject = CCloud1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_4", pGameObject), E_FAIL);
+
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 50.f, 10.f, 70.f });
+
+	pGameObject = CCloud1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_5", pGameObject), E_FAIL);
+
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 40.f, 11.f, 110.f });
+
+	pGameObject = CCloud3::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_2", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 10.f, 12.f, 40.f });
+
+	pGameObject = CCloud3::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_3", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 120.f, 12.f, 40.f });
+
+	pGameObject = CCloud3::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_4", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 125.f, 12.f, 150.f });
+
+	pGameObject = CCloud3::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_5", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 145.f, 12.f, 130.f });
+
+	pGameObject = CCloud2::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud2_2", pGameObject), E_FAIL);
+	dynamic_cast<CTransform*>
+		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
+		Set_Pos({ 145.f, 12.f, 70.f });
 
 #pragma endregion
 

@@ -1,25 +1,25 @@
 #include "stdafx.h"
-#include "Cloud1_Shadow.h"
+#include "Cloud2_Shadow.h"
 
 #include "Export_Function.h"
 
-CCloud1_Shadow::CCloud1_Shadow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CCloud2_Shadow::CCloud2_Shadow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject), m_pTextureCom(nullptr)
 {
 	m_pOwnerobject = _pOwnerObject;
 }
 
-CCloud1_Shadow::CCloud1_Shadow(const CCloud1_Shadow& rhs)
+CCloud2_Shadow::CCloud2_Shadow(const CCloud2_Shadow& rhs)
 	: CEffect(rhs)
 	, m_pTextureCom(rhs.m_pTextureCom)
 {
 }
 
-CCloud1_Shadow::~CCloud1_Shadow()
+CCloud2_Shadow::~CCloud2_Shadow()
 {
 }
 
-HRESULT CCloud1_Shadow::Ready_Object()
+HRESULT CCloud2_Shadow::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -37,24 +37,24 @@ HRESULT CCloud1_Shadow::Ready_Object()
 	return S_OK;
 }
 
-_int CCloud1_Shadow::Update_Object(const _float& fTimeDelta)
+_int CCloud2_Shadow::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_pTransformCom->Set_Pos(
 		dynamic_cast<CTransform*>(m_pOwnerobject->
-		Get_Component(COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC))->Get_Info(INFO_POS));
+			Get_Component(COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC))->Get_Info(INFO_POS));
 
 	return iExit;
 }
 
-void CCloud1_Shadow::LateUpdate_Object()
+void CCloud2_Shadow::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CCloud1_Shadow::Render_Object()
+void CCloud2_Shadow::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
 	// 장판 텍스처 출력
@@ -89,40 +89,40 @@ void CCloud1_Shadow::Render_Object()
 	// CEffect::Render_Object();
 }
 
-HRESULT CCloud1_Shadow::Add_Component()
+HRESULT CCloud2_Shadow::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Colud1_Shadow", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Colud2_Shadow", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	return S_OK;
 }
 
-void CCloud1_Shadow::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
+void CCloud2_Shadow::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 {
 	m_vOffSet = _vPos;
 	m_vSize = _vSize;
 	m_bActive = true;
 }
 
-CCloud1_Shadow* CCloud1_Shadow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CCloud2_Shadow* CCloud2_Shadow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CCloud1_Shadow* pInstance = new CCloud1_Shadow(pGraphicDev, _pOwnerObject);
+	CCloud2_Shadow* pInstance = new CCloud2_Shadow(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("CCloud1_Shadow Effect Create Failed");
+		MSG_BOX("CCloud2_Shadow Effect Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CCloud1_Shadow::Free()
+void CCloud2_Shadow::Free()
 {
 	__super::Free();
 }
