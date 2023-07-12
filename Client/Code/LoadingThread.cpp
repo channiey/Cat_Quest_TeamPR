@@ -95,6 +95,7 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region KANG
 
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_GW",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/GrassWorld.png")), E_FAIL);
 
@@ -104,7 +105,7 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_ID",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceDungeon.png")), E_FAIL);
 
-	
+	// ========================= Environment =========================
 #pragma region Building
 
 	// House
@@ -242,6 +243,16 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Regular_Chest",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Chest/chest_regular.png")), E_FAIL);
 #pragma endregion
+
+	// ===============================================================
+	
+	// ============================= NPC =============================
+#pragma region NPC
+
+	// King
+
+#pragma endregion
+	// ===============================================================
 
 #pragma endregion
 
