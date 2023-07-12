@@ -113,7 +113,6 @@ void CAIComponent::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelt
 
 	_vec3 vDir = *pTargetPos - vOwnerPos;
 
-	//float PreX = vOwnerPos.x - (*pTargetPos).x;
 
 
 	vOwnerPos += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
@@ -136,6 +135,9 @@ void CAIComponent::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelt
 	CComponent::Get_OwnerObject()->Get_Transform()->Set_Pos({ m_matWorld._41, m_matWorld._42, m_matWorld._43 });
 
 
+	 _vec3 vNormalDir = *D3DXVec3Normalize(&vDir, &vDir);
+
+	CComponent::Get_OwnerObject()->Get_Transform()->Set_Dir(vNormalDir);
 	
 	
 	if (vOwnerPos.x < (*pTargetPos).x && vOwnerScale.x <0)
@@ -162,13 +164,14 @@ const _matrix* CAIComponent::Compute_LookAtTarget(const _vec3* pTargetPos)
 	
 	_vec3 OwnerUp;
 	OwnerUp = CComponent::Get_OwnerObject()->Get_Transform()->Get_Info(INFO_UP);
-
+	
 	_vec3 vDir = *pTargetPos - OwnerPos;
+
 
 	_matrix		matRot;
 	_vec3		vAxis;
 
-	
+
 
 	D3DXMatrixLookAtLH(&matRot, &OwnerPos, pTargetPos, &OwnerUp);
 

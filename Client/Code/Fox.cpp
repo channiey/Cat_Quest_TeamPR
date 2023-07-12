@@ -101,7 +101,17 @@ void CFox::LateUpdate_Object()
 void CFox::Render_Object()
 {
 	// 애니메이터 사용 x
-	m_pTextureCom[14]->Render_Texture();
+	_vec3 Dir = m_pTransformCom->Get_Dir();
+
+	//cout << Dir.z << endl;
+
+	if (m_pTransformCom->Get_Dir().z <= 0)
+	{
+		m_pTextureCom[14]->Render_Texture();
+	}
+	else
+		m_pTextureCom[0]->Render_Texture();
+
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	
@@ -149,7 +159,7 @@ HRESULT CFox::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fox", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fox", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
