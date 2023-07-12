@@ -8,10 +8,11 @@ CNpc_King::CNpc_King(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CNpc_King::CNpc_King(const CNpc_King& rhs)
+CNpc_King::CNpc_King(const CNpc& rhs)
 	: CNpc(rhs)
 {
 }
+
 
 CNpc_King::~CNpc_King()
 {
