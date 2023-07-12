@@ -26,7 +26,7 @@ HRESULT CBush::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_eEnter = ENTER_TYPE::ENTER;
-	m_eInteraction = INTERACTION_TYPE::INTERACTION_ALPHA;
+	m_eInterType = INTERACTION_TYPE::INTERACTION_ALPHA;
 
 	m_vecInitScale = { 4.0f, 3.5f, 3.5f };
 	m_vecEndScale = {4.2f, 3.3f, 3.5f};

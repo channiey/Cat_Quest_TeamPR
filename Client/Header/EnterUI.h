@@ -33,7 +33,7 @@ private:
 
 	_bool					m_bIsShirk;
 	_bool					m_bIsExpand;
-	
+
 
 public:
 

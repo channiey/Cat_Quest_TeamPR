@@ -39,7 +39,13 @@ public:
 
 	const _bool&						Is_Active() const { return m_bActive; }
 	const _bool							Is_Component(const COMPONENT_TYPE& _eType, COMPONENTID eID);
+	
+	// 상호작용 및 충돌 시 이벤트 관련
+	ENTER_TYPE				Get_EnterType() { return m_eEnter; }
+	INTERACTION_TYPE		Get_InterType() { return m_eInterType; }
 
+	void					Set_IsEnter(_bool _switch) { m_bEnter = _switch; }
+	void					Set_EventSwitch(_bool _switch) { m_bEventSwitch = _switch; }
 #pragma endregion
 
 #pragma region Collision Methods
@@ -78,7 +84,11 @@ protected:
 
 	_float                              m_fViewZ;// 알파 출력 오브젝트들의 알파소팅
 
-
+	// 상호작용 및 충돌 시 이벤트 관련
+	ENTER_TYPE				m_eEnter;
+	INTERACTION_TYPE		m_eInterType;
+	_bool					m_bEventSwitch = false;
+	_bool					m_bEnter = false;
 public:
 	virtual void						Free();
 };

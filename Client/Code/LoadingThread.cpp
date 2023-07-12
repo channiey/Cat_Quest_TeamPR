@@ -250,6 +250,29 @@ _uint CLoadingThread::Loading_For_World()
 #pragma region NPC
 
 	// King
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_King",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Npc/King/%d.png", 8)), E_FAIL);
+
+	// Mage
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_Mage",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Npc/Mage/%d.png", 8)), E_FAIL);
+
+	// BlackSmith
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_BlackSmith",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Npc/Smith/%d.png", 8)), E_FAIL);
+
+	// Soldier
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_Soldier",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Npc/Soldier/%d.png", 8)), E_FAIL);
+
+	// Citizen1
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_Citizen1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Npc/TownNpc1/%d.png", 8)), E_FAIL);
+
+	// Citizen2
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_Citizen2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Npc/TownNpc2/%d.png", 8)), E_FAIL);
+
 
 #pragma endregion
 	// ===============================================================

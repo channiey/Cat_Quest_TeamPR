@@ -27,7 +27,7 @@ HRESULT CEnterUI::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fSizeX = 0.f;
-	m_fSizeY = 1.f;
+	m_fSizeY = 0.5f;
 
 	m_pTransformCom->Set_Scale(_vec3{ m_fSizeX, m_fSizeY, 0.f });
 
@@ -45,12 +45,12 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			m_fSizeX += 10.f * fTimeDelta;
 			m_fSizeY += 10.f * fTimeDelta;
 
-			if (3.f <= m_fSizeX)
+			if (2.5f <= m_fSizeX)
 			{
 				m_bIsShirk = true;
 				m_bIsStart = false;
 			}
-				
+
 		}
 
 		if (m_bIsEnd)
@@ -61,7 +61,7 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			if (0 >= m_fSizeX)
 			{
 				m_fSizeX = 0.f;
-				m_fSizeY = 1.f;
+				m_fSizeY = 0.5f;
 
 				m_bIsOn = false;
 				m_bIsEnd = false;
@@ -74,7 +74,7 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			m_fSizeX += 1.f * fTimeDelta;
 			m_fSizeY += 1.f * fTimeDelta;
 
-			if (3.f < m_fSizeX)
+			if (2.5f < m_fSizeX)
 			{
 				m_bIsExpand = false;
 				m_bIsShirk = true;
@@ -86,7 +86,7 @@ _int CEnterUI::Update_Object(const _float& fTimeDelta)
 			m_fSizeX -= 1.5f * fTimeDelta;
 			m_fSizeY -= 1.5f * fTimeDelta;
 
-			if (2.5f > m_fSizeX)
+			if (2.f > m_fSizeX)
 			{
 				m_bIsExpand = true;
 				m_bIsShirk = false;
@@ -108,7 +108,7 @@ void CEnterUI::LateUpdate_Object()
 
 		__super::LateUpdate_Object();
 	}
-	
+
 }
 
 void CEnterUI::Render_Object()
@@ -123,7 +123,7 @@ void CEnterUI::Render_Object()
 
 		__super::Render_Object();
 	}
-	
+
 }
 
 void CEnterUI::EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj)
@@ -137,7 +137,7 @@ void CEnterUI::EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj)
 
 	_vec3 vObjWorldPos = pObj->Get_Transform()->Get_Info(INFO::INFO_POS);
 
-	vObjWorldPos.y += 5.f;
+	vObjWorldPos.y += 4.f;
 
 	m_pTransformCom->Set_Pos(vObjWorldPos);
 
