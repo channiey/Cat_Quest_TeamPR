@@ -85,7 +85,6 @@ void CIndicatorUI::Get_ViewPos_Target()
 	_float fLength = D3DXVec3Length(&vTargetDir);
 	D3DXVec3Normalize(&vTargetDir, &vTargetDir);
 	
-	cout << fLength << endl;
 	if (30.f < fLength)
 	{
 		_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 26);
