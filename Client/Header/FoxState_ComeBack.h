@@ -37,6 +37,13 @@ private:
 
 	_float m_fAccTime;
 
+	_float  m_fPatrolRange;
+	_float  m_fChaseRange;
+	_float  m_fAttackRange;
+	_float  m_fComeBackRange;
+	_float  m_fPlayerTargetRange;
+
+
 
 };
 

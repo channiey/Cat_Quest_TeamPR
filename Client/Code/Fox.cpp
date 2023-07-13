@@ -27,7 +27,7 @@ HRESULT CFox::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 10.f;
+	m_tMoveInfo.fMoveSpeed = 6.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
 	// Stat Info
@@ -36,7 +36,6 @@ HRESULT CFox::Ready_Object()
 
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 1, 1.04f, 2.f });
-
 
 	m_pTransformCom->Set_Pos(_vec3{ 130, m_pTransformCom->Get_Scale().y, 110.f });
 

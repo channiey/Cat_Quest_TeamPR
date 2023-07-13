@@ -124,7 +124,7 @@ void CHedgehogState_ComeBack::LateUpdate_State()
 
 void CHedgehogState_ComeBack::Render_State()
 {
-    cout << "고슴도치 patro 상태" << endl;
+   
 
 }
 
@@ -141,7 +141,7 @@ CHedgehogState_ComeBack* CHedgehogState_ComeBack::Create(LPDIRECT3DDEVICE9 pGrap
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Hedgehog fAttackState Create Failed");
+        MSG_BOX("HedgehogState Comeback Create Failed");
         return nullptr;
 
     }
