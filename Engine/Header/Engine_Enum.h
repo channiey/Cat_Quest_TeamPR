@@ -31,6 +31,8 @@ namespace Engine
 
 	enum class UI_TYPE				{ VIEW , WORLD , TYPEEND }; // UI 종류 (뷰포트 사용, 월드 사용)
 
+	enum class UI_LAYER				{ LV0, LV1, LV2, Lv3, TYPEEND };
+
 	enum class LINE_TYPE			{ LAND, SEA, ICE, TYPEEND }; // 라인 종류
 	
 	enum class EFFECT_TYPE			{ SKILL, TYPEEND };

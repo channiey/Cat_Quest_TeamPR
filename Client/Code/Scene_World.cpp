@@ -71,6 +71,7 @@
 #include "ManaUI.h"
 #include "DefUI.h"
 #include "IndicatorUI.h"
+#include "FieldSkillUI.h"
 
 // NPC
 #include "Npc_King.h"
@@ -512,6 +513,11 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CIndicatorUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Indicator", pGameObject), E_FAIL);
+
+	// UI - Indicator
+	pGameObject = CFieldSkillUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });

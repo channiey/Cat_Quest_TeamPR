@@ -1,6 +1,7 @@
 #include "..\..\Header\RenderMgr.h"
 #include "CameraMgr.h"
 #include "Management.h"
+#include "Export_Function.h"
 
 IMPLEMENT_SINGLETON(CRenderMgr)
 
@@ -96,25 +97,28 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 {
+	// 렌더 옵션
+	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);    // Z버퍼 OFF
+
+	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE); // 알파렌더링 ON
+
+	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	// 월드 UI 렌더
+	for (auto iter : m_RenderGroup[RENDER_WDUI])
+		iter->Render_Object();
+
 
 	// 원래 행렬 정보 백업 
 	D3DVIEWPORT9 BackUpViewPort;
 	_matrix		 BackUpProj;
 	_matrix		 BackUpView;
-
 	NULL_CHECK((CCameraMgr::GetInstance()->Get_CurCamera()))
  	BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
 	BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
 	BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
-	
-
-	//pGraphicDev->GetViewport(&BackUpViewPort); 
-	//BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
-	//pGraphicDev->GetTransform(D3DTS_PROJECTION, &BackUpProj);
-	//BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
-	//pGraphicDev->GetTransform(D3DTS_VIEW, &BackUpView);
-	//BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
-	
 
 	
 	// UI 용 새로운 뷰 포트 생성 및 적용
@@ -136,25 +140,21 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	D3DXMatrixOrthoOffCenterLH(&m_matProj, 0, WINCX, 0, WINCY, 0.f, 1.f);
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);   // 직교투영 행렬 적용.
 
-	// 렌더 옵션
-	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);    // Z버퍼 OFF
-
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE); // 알파렌더링 ON
-
-	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	for (auto iter : m_RenderGroup[RENDER_VIEWUI]) 
-		iter->Render_Object();
-
+	for (auto iter : m_RenderGroup[RENDER_VIEWUI])
+	{
+		if (UI_LAYER::LV0 == iter->Get_LayerLv())
+			iter->Render_Object();
+	}
+	for (auto iter : m_RenderGroup[RENDER_VIEWUI])
+	{
+		if (UI_LAYER::LV1 == iter->Get_LayerLv())
+			iter->Render_Object();
+	}
+		
 	// 다시 원래 행렬 정보 복구
 	pGraphicDev->SetViewport(&BackUpViewPort);                   // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &BackUpProj);    // UI 전체 출력 후 다시 원근투영 행렬 적용.
 	pGraphicDev->SetTransform(D3DTS_VIEW, &BackUpView);
-	
-
-	for (auto iter : m_RenderGroup[RENDER_WDUI])
-		iter->Render_Object();
 	
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON

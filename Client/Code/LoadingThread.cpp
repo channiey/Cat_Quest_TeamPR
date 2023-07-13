@@ -435,6 +435,20 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Indicator",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Indicator.png")), E_FAIL);
 
+	// 쉐이드느낌
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Shade",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Shade.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Dropshade",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Dropshade.png")), E_FAIL);
+	//  스킬
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Skill",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Skill/%d.png", 7)), E_FAIL);
+	// 마나서클
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_MpCircle",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/MpCircle.png")), E_FAIL);
+	// 작은화살표
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_SmallArrow",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/SmallArrow.png")), E_FAIL);
 
 #pragma endregion
 
