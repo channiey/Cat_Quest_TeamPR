@@ -35,7 +35,7 @@ HRESULT CHedgehog::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 0.73f *2.5 , 0.52f* 2.5, 2.f });
 
 	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -44,6 +44,8 @@ HRESULT CHedgehog::Ready_Object()
 	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
 	fPatternTime = 2.f;
+
+	m_fJumpingSpeed = 0.05;
 
 
 #pragma region State Add
@@ -84,6 +86,23 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	
 
 
+
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
 
 	return iExit;
 }

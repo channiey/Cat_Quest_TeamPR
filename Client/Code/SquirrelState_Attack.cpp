@@ -40,10 +40,10 @@ STATE_TYPE CSquirrelState_Attack::Update_State(const _float& fTimeDelta)
 {
     
     // Monster - Ai Com
-    CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
+    CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Squirrel", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
 
     // Monster - Transform Com
-    CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+    CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Squirrel", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -73,9 +73,9 @@ STATE_TYPE CSquirrelState_Attack::Update_State(const _float& fTimeDelta)
 
 
    // 현재 상태의 기능
-    pOwnerTransform->Set_Dir(vec3.zero);
+ /*   pOwnerTransform->Set_Dir(vec3.zero);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-  
+  */
 
 
 #pragma region State Change
@@ -85,8 +85,8 @@ STATE_TYPE CSquirrelState_Attack::Update_State(const _float& fTimeDelta)
     if (fPlayerDistance >= m_fChaseRange)
     {
         //cout << "chase  전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // pOwnerTransform->Set_Dir(vec3.zero);
+       // pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
     }
 
@@ -94,8 +94,8 @@ STATE_TYPE CSquirrelState_Attack::Update_State(const _float& fTimeDelta)
     if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
         //cout << "COMBACK  전이" << endl;
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        pOwnerTransform->Set_Dir(vec3.zero);
+       // pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // pOwnerTransform->Set_Dir(vec3.zero);
         return STATE_TYPE::COMEBACK;
     }
 

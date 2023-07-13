@@ -85,24 +85,24 @@ STATE_TYPE CSquirrelState_Chase::Update_State(const _float& fTimeDelta)
     if (fPlayerDistance <= m_fAttackRange)
     {
         //cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        //pOwnerTransform->Set_Dir(vec3.zero);
+       // pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::MONATTACK;
     }
     // COMEBACK 전이 조건
     if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
         //cout << "COMBACK  전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        //pOwnerTransform->Set_Dir(vec3.zero);
+       // pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::COMEBACK;
     }
     // PATROL 전이 조건
     if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
     {
        // cout << "patrol 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // pOwnerTransform->Set_Dir(vec3.zero);
+       // pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::PATROL;
     }
     // Default 

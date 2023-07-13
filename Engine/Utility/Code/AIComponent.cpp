@@ -99,27 +99,6 @@ void CAIComponent::Random_Move(const _float& fTimeDelta, const _float& fSpeed)
 	}
 
 }
-void CAIComponent::Jumping_Motion(const _float& fTimeDelta, const _float& fSpeed, const _float& Y)
-{
-	_bool bJump = true;
-
-
-	_vec3 vOwnerPos =  m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
-
-	// y = v * sin t -1/2 g t^2
-
-	float y(0.f);
-
-	y = fSpeed * fTimeDelta * (0.5 * 9.8 * fTimeDelta);
-
-	
-	m_pOwnerObject->Get_Transform()->Translate(DIR_UP, 0.1f, SPACEID::WORLD);
-	
-	
-
-}
-
-
 
 
 void CAIComponent::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed)
@@ -150,15 +129,20 @@ void CAIComponent::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelt
 	_matrix		m_matWorld = CComponent::Get_OwnerObject()->Get_Transform()->Get_WorldMat();
 	m_matWorld = matScale * matRot * matTrans;
 
-	// 기능
-	CComponent::Get_OwnerObject()->Get_Transform()->Set_Pos({ m_matWorld._41, m_matWorld._42, m_matWorld._43 });
 
+	// 월드 반영
+	//CComponent::Get_OwnerObject()->Get_Transform()->Set_Pos({ m_matWorld._41, m_matWorld._42, m_matWorld._43 });
+	
 
 	 _vec3 vNormalDir = *D3DXVec3Normalize(&vDir, &vDir);
 
-	CComponent::Get_OwnerObject()->Get_Transform()->Set_Dir(vNormalDir);
-	
-	
+
+	 // Y값은 안따라가게 제거한 방향 벡터로 설정
+	 CComponent::Get_OwnerObject()->Get_Transform()->Set_Dir({ vNormalDir.x , 0.f, vNormalDir.z });
+
+	 
+
+	 // x 이동 방향에 따라 스케일 전환 
 	if (vOwnerPos.x < (*pTargetPos).x && vOwnerScale.x <0)
 	{
 		m_pOwnerObject->Get_Transform()->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });

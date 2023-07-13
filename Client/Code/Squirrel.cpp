@@ -35,7 +35,7 @@ HRESULT CSquirrel::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1, 1.04f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 0.5f * 2.5f, 0.52f * 2.5f , 1.f });
 
 
 	m_pTransformCom->Set_Pos(_vec3{ 170.f, m_pTransformCom->Get_Scale().y, 110.f });
@@ -46,6 +46,7 @@ HRESULT CSquirrel::Ready_Object()
 
 	fPatternTime = 2.f;
 
+	m_fJumpingSpeed = 0.05;
 
 #pragma region State Add
 
@@ -66,7 +67,7 @@ HRESULT CSquirrel::Ready_Object()
 
 	// Attack
 	pState = CSquirrelState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
 #pragma endregion
 
@@ -80,11 +81,26 @@ HRESULT CSquirrel::Ready_Object()
 _int CSquirrel::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CMonster::Update_Object(fTimeDelta);
-	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	Engine::Add_RenderGroup(RENDER_ALPHA, this); 
 
 
 
-	
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
 	
 
 	

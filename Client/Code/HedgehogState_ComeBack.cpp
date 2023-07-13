@@ -84,25 +84,22 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     if (fOriginDistance <= m_fPatrolRange)    
     {
         //cout << "patrol 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::PATROL;
     }
 
     // CHASE 전이 조건
     if (fPlayerDistance <= m_fChaseRange)   
     {
-        //cout << "chase  전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // cout << "chase  전이" << endl;
+        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
     }
     // Attack 전이 조건
     if (fPlayerDistance <= m_fAttackRange)  
     {
         //cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::MONATTACK;
     }
 

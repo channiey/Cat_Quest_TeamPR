@@ -35,7 +35,7 @@ HRESULT CFox::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1, 1.04f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 0.5f * 2.5f , 0.52f *2.5f, 2.f });
 
 	m_pTransformCom->Set_Pos(_vec3{ 130, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -45,6 +45,7 @@ HRESULT CFox::Ready_Object()
 
 	fPatternTime = 2.f;
 
+	m_fJumpingSpeed = 0.05;
 
 #pragma region State Add
 
@@ -82,6 +83,24 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
 
 
 	

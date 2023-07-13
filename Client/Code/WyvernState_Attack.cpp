@@ -74,8 +74,8 @@ STATE_TYPE CWyvernState_Attack::Update_State(const _float& fTimeDelta)
 
 
    // 현재 상태의 기능
-    pOwnerTransform->Set_Dir(vec3.zero);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+  /*  pOwnerTransform->Set_Dir(vec3.zero);
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
 
   
 
@@ -97,13 +97,13 @@ STATE_TYPE CWyvernState_Attack::Update_State(const _float& fTimeDelta)
         if (vOwnerDir.z < 0)
         {
           //  cout << "Chase 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::CHASE;
         }
         else
         {
           //  cout << "Back Chase 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
     }
@@ -114,13 +114,13 @@ STATE_TYPE CWyvernState_Attack::Update_State(const _float& fTimeDelta)
         if (vOwnerDir.z < 0)
         {
            // cout << "comback 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::COMEBACK;
         }
         else
         {
            // cout << "back comback 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_COMEBACK;
         }
     }

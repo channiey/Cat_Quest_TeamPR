@@ -51,6 +51,8 @@ HRESULT CWyvern::Ready_Object()
 
 	fPatternTime = 1.f;
 	
+	m_fJumpingSpeed = 0.05;
+
 #pragma region State Add
 
 	CState* pState;
@@ -153,6 +155,25 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+
+
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
+
 
 
 	

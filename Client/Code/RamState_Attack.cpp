@@ -70,9 +70,10 @@ STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
+
    // 현재 상태의 기능
-    pOwnerTransform->Set_Dir(vec3.zero);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+    //pOwnerTransform->Set_Dir(vec3.zero);
+    //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
 
 
@@ -84,8 +85,8 @@ STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
     if (fPlayerDistance >= m_fChaseRange)
     {
         //cout << "chase  전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // pOwnerTransform->Set_Dir(vec3.zero);
+       // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
     }
 
@@ -93,8 +94,9 @@ STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
     if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
         //cout << "COMBACK  전이" << endl;
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        pOwnerTransform->Set_Dir(vec3.zero);
+        //pOwnerTransform->Set_Dir(vec3.zero);
+        //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        
         return STATE_TYPE::COMEBACK;
     }
 

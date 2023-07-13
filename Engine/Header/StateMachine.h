@@ -38,6 +38,9 @@ public:
 	// 상태를 맵컨테이너에다가 추가해주는 함수
 	HRESULT			Add_State(STATE_TYPE eState, CState* pState);
 
+	// 현재 상태를 얻어도는 함수
+	STATE_TYPE		Get_CurState() { return m_eCurState; }
+
 protected:
 	// 상태들을 담을 맵컨테이너 
 	map<STATE_TYPE, CState*>		m_StateMap;

@@ -35,7 +35,7 @@ HRESULT CRam::Ready_Object()
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1.44f, 1.48f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 0.72f * 2.5, 0.74 * 2.5f, 2.f });
 
 	m_pTransformCom->Set_Pos(_vec3{ 110.f, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -45,6 +45,7 @@ HRESULT CRam::Ready_Object()
 
 	fPatternTime = 2.f;
 
+	m_fJumpingSpeed = 0.05;
 
 #pragma region State Add
 
@@ -80,6 +81,27 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+
+
+
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
+
 
 
 	return iExit;

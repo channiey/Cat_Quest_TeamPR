@@ -95,13 +95,13 @@ STATE_TYPE CWyvernState_bComeBack::Update_State(const _float& fTimeDelta)
         if (vOwnerDir.z < 0)
         {
             //cout << "patrol 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::PATROL;
         }
         else
         {
             //cout << "Back patrol 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_PATROL;
         }
     }
@@ -112,13 +112,13 @@ STATE_TYPE CWyvernState_bComeBack::Update_State(const _float& fTimeDelta)
         if (vOwnerDir.z < 0)
         {
           //  cout << "Chase 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::CHASE;
         }
         else
         {
            // cout << "Back Chase 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
     }
@@ -128,13 +128,13 @@ STATE_TYPE CWyvernState_bComeBack::Update_State(const _float& fTimeDelta)
         if (vOwnerDir.z < 0)
         {
           //  cout << "attack 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::MONATTACK;
         }
         else
         {
           //  cout << "back attack 전이" << endl;
-            pOwnerTransform->Set_Dir(vec3.zero);
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_MONATTACK;
         }
     }

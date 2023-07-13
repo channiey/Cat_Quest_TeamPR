@@ -106,6 +106,8 @@ protected:
 
 	_vec3					m_vOriginPos;
 
+	float					m_fJumpingSpeed;
+
 protected:
 
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];

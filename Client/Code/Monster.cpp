@@ -9,6 +9,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_pStateMachineCom(nullptr)
 	, fPatternTime(0.f)
 	, m_vOriginPos({0.f,0.f,0.f})
+	, m_fJumpingSpeed(0.f)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -22,6 +23,7 @@ CMonster::CMonster(const CMonster& rhs)
 	, m_tStatInfo(rhs.m_tStatInfo)
 	, fPatternTime(rhs.fPatternTime)
 	, m_vOriginPos(rhs.m_vOriginPos)
+	, m_fJumpingSpeed(rhs.m_fJumpingSpeed)
 {
 
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
@@ -41,6 +43,8 @@ HRESULT CMonster::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+
+	// 각 몬스터에서 배치
 	//m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
