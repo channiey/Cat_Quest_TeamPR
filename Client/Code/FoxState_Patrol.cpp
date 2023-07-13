@@ -98,7 +98,7 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     // CHASE 전이 조건
     if (fPlayerDistance <= m_fChaseRange)
     {
-        cout << "chase 전이" << endl;
+       // cout << "chase 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
@@ -107,7 +107,7 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     // COMEBACK 전이 조건
     if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
-        cout << "comback 전이" << endl;
+        //cout << "comback 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::COMEBACK;
@@ -116,7 +116,7 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     //  ATTACK 전이 조건
     if (fPlayerDistance <= 5.f)
     {
-        cout << "attack 전이" << endl;
+      //  cout << "attack 전이" << endl;
         pOwnerTransform->Set_Dir(vec3.zero);
         pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::MONATTACK;

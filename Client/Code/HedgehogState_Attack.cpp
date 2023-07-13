@@ -78,7 +78,8 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
   
 
 #pragma region State Change
-
+    // Attack 우선순위
+    // chase - Comeback
 
     // CHASE 전이 조건
     if (fPlayerDistance >= m_fChaseRange)

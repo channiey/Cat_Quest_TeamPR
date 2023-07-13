@@ -586,19 +586,19 @@ HRESULT CScene_World::Ready_Layer_Monster()
 
 	// ============= Basic Mosnter
 	// Hedgehog
-	pGameObject = CHedgehog::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+	//pGameObject = CHedgehog::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
-	// Ram
-	pGameObject = CRam::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram", pGameObject), E_FAIL);
+	//// Ram
+	//pGameObject = CRam::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram", pGameObject), E_FAIL);
 
-	// Fox
-	pGameObject = CFox::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
+	//// Fox
+	//pGameObject = CFox::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
 
 	//// Squirrel
 	//pGameObject = CSquirrel::Create(m_pGraphicDev);
@@ -608,15 +608,15 @@ HRESULT CScene_World::Ready_Layer_Monster()
 
 	// =========== Fly Monster 
 	//Bat
-	//pGameObject = CBat::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
+	pGameObject = CBat::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
 
 
-	//// Wyvern
-	//pGameObject = CWyvern::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
+	// Wyvern
+	pGameObject = CWyvern::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
 
 
 	//// ========== Boss Monster
