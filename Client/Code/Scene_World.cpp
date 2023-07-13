@@ -585,25 +585,25 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// ============= Basic Mosnter
-	// Hedgehog
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+	//Hedgehog
+	pGameObject = CHedgehog::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
-	//// Ram
-	//pGameObject = CRam::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram", pGameObject), E_FAIL);
+	// Ram
+	pGameObject = CRam::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram", pGameObject), E_FAIL);
 
-	//// Fox
-	//pGameObject = CFox::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
+	// Fox
+	pGameObject = CFox::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
 
-	//// Squirrel
-	//pGameObject = CSquirrel::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel", pGameObject), E_FAIL);
+	// Squirrel
+	pGameObject = CSquirrel::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel", pGameObject), E_FAIL);
 
 
 	// =========== Fly Monster 
@@ -619,11 +619,11 @@ HRESULT CScene_World::Ready_Layer_Monster()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
 
 
-	//// ========== Boss Monster
-	//// Dragon
-	//pGameObject = CDragon::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
+	// ========== Boss Monster
+	// Dragon
+	pGameObject = CDragon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
 
 
 	return S_OK;

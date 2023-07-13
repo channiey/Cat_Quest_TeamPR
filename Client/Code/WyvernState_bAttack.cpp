@@ -86,7 +86,7 @@ STATE_TYPE CWyvernState_bAttack::Update_State(const _float& fTimeDelta)
     // BACK_ Attack 전이
     if (vOwnerDir.z < 0)
     {
-        cout << "monattack 전이" << endl;
+       // cout << "monattack 전이" << endl;
         return STATE_TYPE::MONATTACK;
     }
 
@@ -96,13 +96,13 @@ STATE_TYPE CWyvernState_bAttack::Update_State(const _float& fTimeDelta)
     {
         if (vOwnerDir.z < 0)
         {
-            cout << "Chase 전이" << endl;
+           // cout << "Chase 전이" << endl;
             pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::CHASE;
         }
         else
         {
-            cout << "Back Chase 전이" << endl;
+           // cout << "Back Chase 전이" << endl;
             pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
@@ -113,13 +113,13 @@ STATE_TYPE CWyvernState_bAttack::Update_State(const _float& fTimeDelta)
     {
         if (vOwnerDir.z < 0)
         {
-            cout << "comback 전이" << endl;
+          //  cout << "comback 전이" << endl;
             pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::COMEBACK;
         }
         else
         {
-            cout << "back comback 전이" << endl;
+           // cout << "back comback 전이" << endl;
             pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_COMEBACK;
         }

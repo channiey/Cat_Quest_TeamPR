@@ -27,7 +27,7 @@ HRESULT CHedgehog::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed  = 8.f;
+	m_tMoveInfo.fMoveSpeed  = 3.f;
 	m_tMoveInfo.fRotSpeed	= 1.f;
 
 	// Stat Info
