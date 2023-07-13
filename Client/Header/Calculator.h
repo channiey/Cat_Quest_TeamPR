@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+class CGameObject;
+
 class CCalculator : public CBase
 {
 	DECLARE_SINGLETON(CCalculator)
@@ -13,7 +15,7 @@ private:
 	virtual ~CCalculator();
 
 public:
-	bool	Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* pVPos);
+	bool	Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* pVPos, CGameObject* pTerrainVertex);
 
 private:
 	virtual void Free() override;

@@ -13,7 +13,6 @@
 #include "CameraMgr.h"
 #include "CollisionMgr.h"
 #include "EventMgr.h"
-#include "CloudMgr.h"
 
 // Component
 #include "TerrainTex.h"

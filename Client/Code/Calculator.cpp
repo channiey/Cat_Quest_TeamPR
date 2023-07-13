@@ -16,7 +16,7 @@ CCalculator::~CCalculator()
 {
 }
 
-bool CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* pVPos)
+bool CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* pVPos, CGameObject* pTerrainVertex)
 {
     // 월드까지 가져갈 마우스 좌표
     D3DXVECTOR3     vMousePos;
@@ -48,17 +48,14 @@ bool CCalculator::Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* 
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
     // 월드 스페이스 -> 로컬 스페이스
-    _matrix pTerrainWorld = dynamic_cast<CTransform*>
-        (CManagement::GetInstance()->Get_GameObject(
-            OBJ_TYPE::TERRAIN,
-            L"TerrainTool")->Get_Transform())->Get_WorldMat();
+    _matrix pTerrainWorld = pTerrainVertex->Get_Transform()->Get_WorldMat();
     
     D3DXMatrixInverse(&pTerrainWorld, 0, &pTerrainWorld);
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &pTerrainWorld);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &pTerrainWorld);
 
     const _vec3* pTerrainVtxPos = 
-    dynamic_cast<CTerrainTex*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::TERRAIN, L"TerrainTool")->Get_VIBuffer())->Get_VtxPos();
+    dynamic_cast<CTerrainTex*>(pTerrainVertex->Get_VIBuffer())->Get_VtxPos();
 
     // NULL_CHECK_RETURN(pTerrainVtxPos, _vec3());
 

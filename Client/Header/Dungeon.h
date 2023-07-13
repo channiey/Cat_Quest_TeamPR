@@ -10,7 +10,7 @@ END
 class CDungeon : public CEnvironment
 {
 protected:
-	explicit CDungeon(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CDungeon(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CDungeon(const CDungeon& rhs);
 	virtual ~CDungeon();
 

@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CDungeon_Temple::CDungeon_Temple(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CDungeon(pGraphicDev)
+	: CDungeon(pGraphicDev, OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_TEMPLE)
 {
 }
 

@@ -29,9 +29,13 @@ private:
 
 private:
 	HRESULT						Set_ImgPath(); // 맵 및 오브젝트 이미지 경로 셋업
+	void						Set_UnActive_Origin(); // 초기 프리팹 모두 비활성화 상태로 전환
 
-	HRESULT						Clone_Object(const _vec3 _vPickPos); // 피킹시 오브젝트 클론
+	HRESULT						Clone_Object(const _vec3 _vPickPos); // 좌 클릭 오브젝트 클론
+	HRESULT						Delete_Object(const _vec3 _vPickPos); // 우 클릭 오브젝트 삭제
 
+	HRESULT						Save() { return S_OK; }; // 기존 오리진은 날려야 하는데 벡터 하나 잡아둘까?
+	HRESULT						Load() { return S_OK; };
 
 private:
 	LPDIRECT3DTEXTURE9			LoadImageFile(const char* filePath); 
