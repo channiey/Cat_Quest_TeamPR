@@ -96,6 +96,51 @@ namespace Engine
 
 		// Light
 
+
+
+
+		/* ========================================= Effect ========================================*/
+
+
+		// Cloud
+		EFFECT_CLOUD_1, EFFECT_CLOUD_2, EFFECT_CLOUD_3,
+
+
+
+		/* ========================================= BackGround ========================================*/
+
+
+		// BackGround
+		BACKGROUND,
+
+
+
+
+		/* ========================================= UI ========================================*/
+
+
+		// UI - WORLD
+		// 
+		// UI - VIEWPORT
+		UI_ENTER, UI_EXP, UI_LEVEL, UI_TAB, UI_ZOOM, UI_DEF, UI_HP, UI_MANA, UI_RING, UI_INDICATOR,
+
+
+
+
+		/* ========================================= CAMERA ========================================*/
+
+
+		// CAMERA
+		CAMERA_PLAYER, CAMERA_TOOL, CAMERA_TARGET_OBJ,
+
+
+
+
+		/* ========================================= PLAYER ========================================*/
+
+
+		PLAYER
+
 	};
 	enum class COMPONENT_TYPE		{ TRANSFORM, COL_RECT, COL_CIRCLE, COL_LINE, ANIMATOR, STATEMACHINE,
 										BUFFER_RC_TEX, BUFFER_RC_COL, BUFFER_CUBE, BUFFER_TERRAIN_TEX, BUFFER_TERRAIN_RC_TEX,
