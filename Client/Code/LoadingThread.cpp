@@ -294,6 +294,11 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_2_shadow.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Colud2_Shadow",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_3_shadow.png")), E_FAIL);
+	// 플레이어 이동 효과
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_MOVE_DUST",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/dust/%d.png", 5)), E_FAIL);
+
+
 
 #pragma endregion
 	// ===============================================================

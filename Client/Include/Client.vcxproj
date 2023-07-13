@@ -244,6 +244,7 @@
     <ClInclude Include="..\Header\Mountain.h" />
     <ClInclude Include="..\Header\Mountain_Grass.h" />
     <ClInclude Include="..\Header\Mountain_Ice.h" />
+    <ClInclude Include="..\Header\MoveDust.h" />
     <ClInclude Include="..\Header\Npc_BlackSmith.h" />
     <ClInclude Include="..\Header\Npc_Citizen1.h" />
     <ClInclude Include="..\Header\Npc_Citizen2.h" />
@@ -410,6 +411,7 @@
     <ClCompile Include="..\Code\Mountain.cpp" />
     <ClCompile Include="..\Code\Mountain_Grass.cpp" />
     <ClCompile Include="..\Code\Mountain_Ice.cpp" />
+    <ClCompile Include="..\Code\MoveDust.cpp" />
     <ClCompile Include="..\Code\Npc_BlackSmith.cpp" />
     <ClCompile Include="..\Code\Npc_Citizen1.cpp" />
     <ClCompile Include="..\Code\Npc_Citizen2.cpp" />

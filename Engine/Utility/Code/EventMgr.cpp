@@ -4,7 +4,7 @@
 #include "Scene.h"
 
 IMPLEMENT_SINGLETON(CEventMgr)
-
+#include <iostream>
 CEventMgr::CEventMgr()
 {
 
@@ -82,6 +82,8 @@ HRESULT CEventMgr::Delete_Obj(CGameObject* const _pObj)
 
 	FAILED_CHECK_RETURN(Add_Event(event), E_FAIL);
 
+	_pObj->Set_Active(false);
+
 	return S_OK;
 }
 
@@ -141,6 +143,7 @@ HRESULT CEventMgr::Execute_Event(const EVENT& _event)
 	case EVENT_TYPE::ADD_OBJ:
 	{
 		CGameObject* pGameObject = (CGameObject*)_event.lParam;
+		
 
 		FAILED_CHECK_RETURN(CManagement::GetInstance()->Add_Object(pGameObject->Get_Type(), _event.wParam, pGameObject), E_FAIL);
 	}
@@ -149,6 +152,7 @@ HRESULT CEventMgr::Execute_Event(const EVENT& _event)
 	{
 		CGameObject* pGameObject = (CGameObject*)_event.lParam;
 		m_vecDeleteObj.push_back(pGameObject);
+
 	}
 	break;
 	case EVENT_TYPE::RETURN_OBJ:

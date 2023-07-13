@@ -23,6 +23,7 @@
 #include "Npc.h"
 #include "EnterUI.h"
 
+#include "MoveDust.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER), m_pStateMachineCom(nullptr)
@@ -56,7 +57,7 @@ HRESULT CPlayer::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
-	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });
+	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
 
 #pragma region State
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
@@ -142,6 +143,21 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+	// Move Effect 생성
+	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL) {
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 0 || 
+			m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 7) {
+			if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust"))
+			{
+				CGameObject* p = CMoveDust::Create(m_pGraphicDev, this);
+				CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
+			}
+		}
+	}
+	
 	return iExit;
 }
 

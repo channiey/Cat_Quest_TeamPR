@@ -31,13 +31,13 @@ public:
 	// 어떤 객체의 애니메이터를 담을 설정해주는 함수
 	void			Set_Animator(CAnimator* pAnimator) { m_pAnimator = pAnimator; }
 	_bool			Is_AnimationEnd();
-
 public:
 	// 상태를 설정 및 변경해주는 함수(애니메이터까지 같이 바꿔줌)
 	void			Set_State(STATE_TYPE eState);
 	// 상태를 맵컨테이너에다가 추가해주는 함수
 	HRESULT			Add_State(STATE_TYPE eState, CState* pState);
-
+	// 현재 상태를 반환해주는 함수
+	const STATE_TYPE& Get_CurState() { return m_eCurState; }
 protected:
 	// 상태들을 담을 맵컨테이너 
 	map<STATE_TYPE, CState*>		m_StateMap;
