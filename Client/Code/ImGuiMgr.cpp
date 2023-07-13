@@ -4,14 +4,19 @@
 
 #include "ImGuiMgr.h"
 
+#include <iostream>
+#include <Windows.h>
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi")
+
 #include "stdafx.h"
 #include "MainApp.h"
 #include "InputDev.h"
 #include "Calculator.h"
 
+// 터레인
 #include "Export_Function.h"
 #include "TerrainTex.h"
-
 #include "TerrainWorld.h"
 #include "TerrainTool.h"
 #include "TerrainIceWorld.h"
@@ -107,12 +112,16 @@ static const char*		arr_ImgObjType[(UINT)IMG_OBJ_TYPE::TYPEEND] = { "Trrain", "E
 
 // 공용 변수 관련
 
-static _int				g_iSelScene = -1; // 현재 선택된 씬 인덱스
+static _int				g_iSelLayer = 0; // 현재 선택된 f레이어 인덱스
 
 static IMG_OBJ_TYPE     g_eSelObjType = IMG_OBJ_TYPE::TERRAIN; // 현재 선택된 오브젝트 타입 인덱스
 
 static _int				g_iSelObj = -1; // 현재 선택된 오브젝트 인덱스
 
+// 저장 관련
+typedef vector<map<OBJ_TYPE, CLayer*>>	_vecMapLayer; // == Scene List
+
+vector<CGameObject*>	g_vecCloneObj; // 현재 씬에서 추가된 모든 오브젝트 저장
 
 
 // 기타
@@ -120,7 +129,7 @@ vector<ImTextureID>		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 이미지 아�
 
 vector<CGameObject*>	g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 원본 객체 최초 저장 배열 (저장할 때 얘네는 레이어에서 뺴줘야 한다)
 
-CGameObject*			g_pVtxTerrain = nullptr; // 피킹처리를 위한 버텍스 터레인
+CGameObject*			g_pVtxTerrain = nullptr; // 피킹처리를 위한 버텍스 터레인 (여기서 생성하고 여기서 삭제한다)
 
 static const _int		g_iImagPerRow = 4; // 한줄당 나열할 이미지 수
 
@@ -157,17 +166,21 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	g_pVtxTerrain = CTerrainTool::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(g_pVtxTerrain, E_FAIL);
 	
+
 	return S_OK;
 }
 
 void CImGuiMgr::ImGui_Update()
 {
-	// Init
+	// Init (이벤트 매니저 생성 전)
 	if (!g_bPathInit)
 	{
 		g_bPathInit = !g_bPathInit;
-		Set_ImgPath(); // 맵 및 오브젝트 이미지 경로 셋업
-		Set_UnActive_Origin(); // 모든 프리팹 오브젝트 비활성화
+		Set_ImgPath();			// 맵 및 오브젝트 이미지 경로 셋업
+		Set_UnActive_Origin();	// 모든 프리팹 오브젝트 비활성화
+
+		// DB 로드
+		Load_Scene();
 	}
 
 
@@ -178,7 +191,7 @@ void CImGuiMgr::ImGui_Update()
 
 	ImGui::Begin("Tool Tab");
 
-	if (ImGui::CollapsingHeader("Scene"))
+	if (ImGui::CollapsingHeader("Layer"))
 	{
 		Show_Header_Scene();
 	}
@@ -236,11 +249,11 @@ void CImGuiMgr::Show_Header_Scene()
 	ImGui::SeparatorText("Action Button");
 	if (ImGui::Button("New"))
 	{
-		Save();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Save"))
 	{
+		Save_Scene();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Delete"))
@@ -248,7 +261,7 @@ void CImGuiMgr::Show_Header_Scene()
 	}
 
 	// 02. List Box (Scene Image)
-	ImGui::SeparatorText("Scene Prefab List");
+	ImGui::SeparatorText("Layer Prefab List");
 
 	int			iCurIdxRow		= 0; // 줄 맞추기 위한 변수
 	static int	iCurIdx_Scene	= 0; // 현재 선택된 인덱스
@@ -263,7 +276,7 @@ void CImGuiMgr::Show_Header_Scene()
 			if (ImGui::ImageButton(image, ImVec2(50.f, 50.f))) // 이미지 출력
 			{
 				iCurIdx_Scene = i;
-				g_iSelScene = iCurIdx_Scene;
+				g_iSelLayer = iCurIdx_Scene;
 			}
 
 			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
@@ -394,28 +407,34 @@ HRESULT CImGuiMgr::Set_ImgPath()
 	
 	
 	// Item
-	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Get_ObjectMap();
+	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Get_ObjectMap();
+	if (mapObj.empty())  return E_FAIL;	
+
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
-			g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
 
-	if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
 			continue;
+
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::ITEM].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
-	}*/
+	}
 
 	// Line
-	/*mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::LINE)->Get_ObjectMap();
+	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::LINE)->Get_ObjectMap();
+	if (mapObj.empty())  return E_FAIL;
+
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
-if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+	{		
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+
+		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
 			continue;
+
 		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::LINE].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
-	}*/
-
-
+	}
 	
 	return S_OK;
 }
@@ -438,181 +457,8 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 	// 클론
 	CGameObject* pClone = nullptr;
 
-	OBJ_ID eID = g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]->Get_ID();
+	pClone = Clone(g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]->Get_ID());
 
-#pragma region Clone Logic
-	switch (eID)
-	{
-
-		/* ========================================= Terrain ========================================*/
-
-
-	case Engine::OBJ_ID::TERRAIN_WORLD:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::TERRAIN_DUNGEON:
-		pClone = CTerrainIceDungeon::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::TERRAIN_ICEWORLD:
-		pClone = CTerrainIceWorld::Create(m_pGraphicDev); break;
-
-
-
-		/* ========================================= Environment ========================================*/
-
-
-		// Environment - Chest
-	case Engine::OBJ_ID::ENVIRONMENT_CHEST_COSMETIC:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_CHEST_GOLD:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_CHEST__REGULAR:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-
-		// Environment - Building - House
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_1:
-		pClone = CHouse1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_2:
-		pClone = CHouse2::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_3:
-		pClone = CHouse3::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_4:
-		pClone = CHouse4::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_5:
-		pClone = CHouse5::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_6:
-		pClone = CHouse6::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_KINGHOUSE:
-		pClone = CKingHouse::Create(m_pGraphicDev); break;
-
-		// Environment - Building - Tower
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_TOWER_1:
-		pClone = CTower1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_TOWER_2:
-		pClone = CTower2::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_TOWER_3:
-		pClone = CTower3::Create(m_pGraphicDev); break;
-
-		// Environment - Natural - Bush
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_1:
-		pClone = CBush1::Create(m_pGraphicDev);
-		break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_2:
-		pClone = CBush2::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_3:
-		pClone = CBush3::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_4:
-		pClone = CBush4::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_5:
-		pClone = CBush5::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_6:
-		pClone = CBush6::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_7:
-		pClone = CBush7::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_8:
-		pClone = CBush8::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_9:
-		pClone = CBush9::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_10:
-		pClone = CBush10::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_11:
-		pClone = CBush11::Create(m_pGraphicDev); break;
-
-		// Environment - Natural - Mountain
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_MOUNTAIN_GRASS:
-		pClone = CMountain_Grass::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_MOUNTAIN_ICE:
-		pClone = CMountain_Ice::Create(m_pGraphicDev); break;
-
-		// Environment - Natural - Pillar
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ICE:
-		pClone = CIce_Pillar1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_1:
-		pClone = CRock_Pillar1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_2:
-		pClone = CRock_Pillar2::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_3:
-		pClone = CRock_Pillar3::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_TEMPLE_1:
-		pClone = CTemple_Pillar1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_TEMPLE_2:
-		pClone = CTemple_Pillar2::Create(m_pGraphicDev); break;
-
-		// Environment - Natural - Rock
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_1:
-		pClone = CRock1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_2:
-		pClone = CRock2::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_3:
-		pClone = CRock3::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_4:
-		pClone = CRock4::Create(m_pGraphicDev); break;
-
-		// Environment - Enterance
-	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_SMITHY:
-		pClone = CSmithy::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_MAGICSHOP:
-		pClone = CMagicShop::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_GRASS:
-		pClone = CDungeon_Grass::Create(m_pGraphicDev); break; 
-	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_ICE:
-		pClone = CDungeon_Ice::Create(m_pGraphicDev); break; 
-	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_TEMPLE:
-		pClone = CDungeon_Temple::Create(m_pGraphicDev); break;
-
-		/* ========================================= Monster ========================================*/
-
-
-		// Monster
-	case Engine::OBJ_ID::MONSTER_HEDGEHOG:
-		pClone = CHedgehog::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::MONSTER_DRAGON:
-		pClone = CDragon::Create(m_pGraphicDev);	 break;
-	case Engine::OBJ_ID::MONSTER_BAT:
-		pClone = CBat::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::MONSTER_RAM:
-		pClone = CRam::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::MONSTER_FOX:
-		pClone = CFox::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::MONSTER_SQUIRREL:
-		pClone = CSquirrel::Create(m_pGraphicDev);	 break;
-	case Engine::OBJ_ID::MONSTER_WYVERN:
-		pClone = CWyvern::Create(m_pGraphicDev);	 break;
-
-
-		/* ========================================= Npc ========================================*/
-
-
-		// Npc
-
-	case Engine::OBJ_ID::NPC_BLACKSMITH:
-		pClone = CNpc_BlackSmith::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::NPC_CITIZEN_1:
-		pClone = CNpc_Citizen1::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::NPC_CITIZEN_2:
-		pClone = CNpc_Citizen2::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::NPC_KING:
-		pClone = CNpc_King::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::NPC_MAGE:
-		pClone = CNpc_Mage::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::NPC_SOLLIDER:
-		pClone = CNpc_Soldier::Create(m_pGraphicDev); break;
-
-
-		/* ========================================= Line ========================================*/
-
-
-		// Line
-
-	case Engine::OBJ_ID::LINE:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-
-	default:
-		break;
-	}
-	
-
-#pragma endregion
-	
-		
 	NULL_CHECK_RETURN(pClone, E_FAIL);
 
 	// 포지션 세팅
@@ -625,11 +471,15 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 
 	pClone->Get_Transform()->Set_Pos(vClonePos); 
 
-	// 추가
+	// 매니지먼트에 추가 (렌더용)
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]->Get_Name(), pClone), E_FAIL);
+
+	// 저장 단위에 추가 (저장용)
+	g_vecCloneObj.push_back(pClone);
 
 	return S_OK;
 }
+
 
 HRESULT CImGuiMgr::Delete_Object(const _vec3 _vPickPos)
 {
@@ -641,6 +491,127 @@ HRESULT CImGuiMgr::Delete_Object(const _vec3 _vPickPos)
 	// 02. 존재하지 않거나, 해당 오브젝트가 터레인일 경우 리턴
 
 	// 03. 존재한다면 이벤트 매니저 통해 삭제
+
+	return S_OK;
+}
+
+
+HRESULT CImGuiMgr::Create_Scene()
+{
+
+
+	return S_OK;
+}
+
+HRESULT CImGuiMgr::Delete_Scene()
+{
+
+	return S_OK;
+}
+
+HRESULT CImGuiMgr::Change_Scene()
+{
+	return E_NOTIMPL;
+}
+
+HRESULT CImGuiMgr::Load_All_Scene()
+{
+
+	return S_OK;
+}
+
+HRESULT CImGuiMgr::Load_Scene()
+{
+	// 파일에 저장되어 있는 데이터를 통해 오브젝트를 생성하여 g_vecCloneObj 및 매니지먼트 레이어에 추가(이벤트매니저)한다.
+
+	// 파일 생성
+	HANDLE	hFile = CreateFile(L"../Bin/Data/Level/Test.dat",
+		GENERIC_READ, 
+		NULL,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	// 생성 여부 검사
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, _T("Load File"), L"Fail", MB_OK);
+		return E_FAIL;
+	}
+
+	DWORD		dwByte = 0;
+
+	_vec3		vPos{};
+	OBJ_TYPE	eType = OBJ_TYPE::TYPEEND;
+	OBJ_ID		eID = OBJ_ID::TYPEEND;
+
+	while (true)
+	{
+		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &eType, sizeof(OBJ_TYPE), &dwByte, nullptr);
+		ReadFile(hFile, &eID, sizeof(OBJ_ID), &dwByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+		
+		CGameObject* pClone = Clone(eID);
+		
+		if (nullptr == pClone) continue;
+		
+		// 벡터와 매니지먼트 모두 푸시
+		g_vecCloneObj.push_back(pClone); // 저장용
+		CEventMgr::GetInstance()->Add_Obj(pClone->Get_Name(), pClone); // 렌더용
+		
+		// 저장된 포지션으로 세팅
+		pClone->Get_Transform()->Set_Pos(vPos);
+	}
+
+	CloseHandle(hFile);
+
+	return S_OK;
+}
+
+
+HRESULT CImGuiMgr::Save_Scene()
+{
+	// 현재 씬에서 추가한 오브젝트들은 전부 g_vecCloneObj에 저장되어 있다.
+	// g_vecCloneObj를 모두 파일로 저장한다.
+
+	// 파일 생성
+	HANDLE	hFile = CreateFile(L"../Bin/Data/Level/Test.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	// 생성 여부 검사
+	if (INVALID_HANDLE_VALUE == hFile)	
+	{
+		MessageBox(g_hWnd, _T("Save File"), L"Fail", MB_OK);
+		return E_FAIL;
+	}
+
+	DWORD		dwByte = 0;
+
+	_vec3		vPos{}; 
+	OBJ_TYPE	eType = OBJ_TYPE::TYPEEND;
+	OBJ_ID		eID = OBJ_ID::TYPEEND;
+
+	// 저장
+	for (auto& iter : g_vecCloneObj)
+	{
+		eType = iter->Get_Type();
+		eID = iter->Get_ID();
+
+		WriteFile(hFile, &(iter->Get_Transform()->Get_Info(INFO_POS)), sizeof(_vec3), &dwByte, nullptr);
+		WriteFile(hFile, &(eType), sizeof(OBJ_TYPE), &dwByte, nullptr);
+		WriteFile(hFile, &(eID), sizeof(OBJ_ID), &dwByte, nullptr);
+	}
+
+	CloseHandle(hFile);
 
 	return S_OK;
 }
@@ -698,4 +669,187 @@ void CImGuiMgr::Free()
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+}
+
+CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
+{
+
+	CGameObject* pClone = nullptr;
+	switch (_eID)
+	{
+
+	/* ========================================= Terrain ========================================*/
+
+
+	// Terrain
+	case Engine::OBJ_ID::TERRAIN_WORLD:
+		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::TERRAIN_DUNGEON:
+		pClone = CTerrainIceDungeon::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::TERRAIN_ICEWORLD:
+		pClone = CTerrainIceWorld::Create(m_pGraphicDev); break;
+
+
+
+	/* ========================================= Environment ========================================*/
+
+
+	// Environment - Chest
+	case Engine::OBJ_ID::ENVIRONMENT_CHEST_COSMETIC:
+		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_CHEST_GOLD:
+		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_CHEST__REGULAR:
+		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+
+	// Environment - Building - House
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_1:
+		pClone = CHouse1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_2:
+		pClone = CHouse2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_3:
+		pClone = CHouse3::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_4:
+		pClone = CHouse4::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_5:
+		pClone = CHouse5::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_6:
+		pClone = CHouse6::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_KINGHOUSE:
+		pClone = CKingHouse::Create(m_pGraphicDev); break;
+
+	// Environment - Building - Tower
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_TOWER_1:
+		pClone = CTower1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_TOWER_2:
+		pClone = CTower2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_TOWER_3:
+		pClone = CTower3::Create(m_pGraphicDev); break;
+
+	// Environment - Natural - Bush
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_1:
+		pClone = CBush1::Create(m_pGraphicDev);
+		break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_2:
+		pClone = CBush2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_3:
+		pClone = CBush3::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_4:
+		pClone = CBush4::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_5:
+		pClone = CBush5::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_6:
+		pClone = CBush6::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_7:
+		pClone = CBush7::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_8:
+		pClone = CBush8::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_9:
+		pClone = CBush9::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_10:
+		pClone = CBush10::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_11:
+		pClone = CBush11::Create(m_pGraphicDev); break;
+
+	// Environment - Natural - Mountain
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_MOUNTAIN_GRASS:
+		pClone = CMountain_Grass::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_MOUNTAIN_ICE:
+		pClone = CMountain_Ice::Create(m_pGraphicDev); break;
+
+	// Environment - Natural - Pillar
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ICE:
+		pClone = CIce_Pillar1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_1:
+		pClone = CRock_Pillar1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_2:
+		pClone = CRock_Pillar2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_3:
+		pClone = CRock_Pillar3::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_TEMPLE_1:
+		pClone = CTemple_Pillar1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_TEMPLE_2:
+		pClone = CTemple_Pillar2::Create(m_pGraphicDev); break;
+
+	// Environment - Natural - Rock
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_1:
+		pClone = CRock1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_2:
+		pClone = CRock2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_3:
+		pClone = CRock3::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_ROCK_4:
+		pClone = CRock4::Create(m_pGraphicDev); break;
+
+	// Environment - Enterance
+	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_SMITHY:
+		pClone = CSmithy::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_MAGICSHOP:
+		pClone = CMagicShop::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_GRASS:
+		pClone = CDungeon_Grass::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_ICE:
+		pClone = CDungeon_Ice::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_TEMPLE:
+		pClone = CDungeon_Temple::Create(m_pGraphicDev); break;
+
+
+
+
+	/* ========================================= Monster ========================================*/
+
+
+	// Monster
+	case Engine::OBJ_ID::MONSTER_HEDGEHOG:
+		pClone = CHedgehog::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::MONSTER_DRAGON:
+		pClone = CDragon::Create(m_pGraphicDev);	 break;
+	case Engine::OBJ_ID::MONSTER_BAT:
+		pClone = CBat::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::MONSTER_RAM:
+		pClone = CRam::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::MONSTER_FOX:
+		pClone = CFox::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::MONSTER_SQUIRREL:
+		pClone = CSquirrel::Create(m_pGraphicDev);	 break;
+	case Engine::OBJ_ID::MONSTER_WYVERN:
+		pClone = CWyvern::Create(m_pGraphicDev);	 break;
+
+
+
+
+	/* ========================================= Npc ========================================*/
+
+
+	// Npc
+
+	case Engine::OBJ_ID::NPC_BLACKSMITH:
+		pClone = CNpc_BlackSmith::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::NPC_CITIZEN_1:
+		pClone = CNpc_Citizen1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::NPC_CITIZEN_2:
+		pClone = CNpc_Citizen2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::NPC_KING:
+		pClone = CNpc_King::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::NPC_MAGE:
+		pClone = CNpc_Mage::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::NPC_SOLLIDER:
+		pClone = CNpc_Soldier::Create(m_pGraphicDev); break;
+
+
+
+
+	/* ========================================= Line ========================================*/
+
+
+	// Line
+
+	case Engine::OBJ_ID::LINE:
+		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+
+	default:
+		break;
+	}
+
+	return pClone;
 }
