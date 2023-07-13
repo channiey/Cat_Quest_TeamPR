@@ -544,26 +544,6 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	// UI 테스트 용
-	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_RB))
-	{
-		CFieldSkillUI* pFieldSkillUI = static_cast<CFieldSkillUI*>
-			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_FieldSkill"));
-
-		pFieldSkillUI->Set_Active(true);
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 235, 168, 35));
-
-	}
-	else
-	{
-		CFieldSkillUI* pFieldSkillUI = static_cast<CFieldSkillUI*>
-			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_FieldSkill"));
-
-		pFieldSkillUI->Set_Active(false);
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-	}
-	
-		
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

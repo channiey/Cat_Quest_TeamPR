@@ -19,12 +19,16 @@ public:
 private:
 	virtual HRESULT			Add_Component() override;
 	void					Picking_UI();
+	void					Mouse_Input();
 
 private:
 	RECT					m_rcUI[4];
 	
 	
 	_bool					m_bPick;
+
+	_bool					m_bIsOn;
+
 
 public:
 	static CFieldSkillUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
