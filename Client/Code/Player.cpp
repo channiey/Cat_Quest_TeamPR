@@ -133,7 +133,7 @@ HRESULT CPlayer::Ready_Object()
 	}
 
 	// 테스트용
-	m_iTempMode = 2;
+	m_iTempMode = 1;
 
 	return S_OK;
 }

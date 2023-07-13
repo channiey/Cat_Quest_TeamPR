@@ -25,6 +25,11 @@ HRESULT CBush11::Ready_Object()
 
 	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 50.f });
 
+	m_vecInitScale = { 2.8f, 2.3f, 2.3f };
+	m_vecEndScale = { 3.0f, 2.1f, 2.3f };
+
+	m_pTransformCom->Set_Scale(m_vecInitScale);
+
 	return S_OK;
 }
 

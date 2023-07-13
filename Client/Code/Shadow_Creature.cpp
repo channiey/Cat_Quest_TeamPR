@@ -27,10 +27,10 @@ HRESULT CShadow_Creature::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
-	m_pTransformCom->Set_Scale(_vec3{ 1.f, 1.f, 1.f });
+	//m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
+	//	m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y,
+	//	m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z - 3.f});
+	//m_pTransformCom->Set_Scale(_vec3{ 0.5f, 0.5f, 0.5f }); // 스케일을 여기서 줄일게 아니다.
 
 	m_bActive = true;
 
@@ -42,9 +42,10 @@ _int CShadow_Creature::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_pTransformCom->Set_Pos(
-		dynamic_cast<CTransform*>(m_pOwnerobject->
-			Get_Component(COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC))->Get_Info(INFO_POS));
+	m_pTransformCom->Set_Pos(m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS));
+	// m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
+	// m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y - 2.f,
+	// m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z - 3.f });
 
 	return iExit;
 }
@@ -66,14 +67,18 @@ void CShadow_Creature::Render_Object()
 	_vec3 vPos;
 
 	memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
-	vPos += m_vOffSet;
-	vPos.y = 0.02f;
-	vPos.z -= 7;
+	vPos = m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS);
+	//vPos.x += m_pOwnerobject->Get_Transform()->Get_Scale().x;
+	//vPos.y -= m_pOwnerobject->Get_Transform()->Get_Scale().y;
+	//vPos.z -= m_pOwnerobject->Get_Transform()->Get_Scale().z;
 
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
-	matWorld._33 = 2;
+	matWorld._11 = m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f;
+	matWorld._22 = m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f;
+	matWorld._33 = m_pOwnerobject->Get_Transform()->Get_Scale().z * 0.5f;
+
 
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
