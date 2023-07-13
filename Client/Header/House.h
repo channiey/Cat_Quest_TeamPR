@@ -10,7 +10,7 @@ END
 class CHouse : public CEnvironment
 {
 protected:
-	explicit CHouse(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CHouse(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CHouse(const CHouse& rhs);
 	virtual ~CHouse();
 

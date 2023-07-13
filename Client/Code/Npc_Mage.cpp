@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CNpc_Mage::CNpc_Mage(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CNpc(pGraphicDev)
+	: CNpc(pGraphicDev, OBJ_ID::NPC_MAGE)
 {
 }
 

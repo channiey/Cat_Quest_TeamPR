@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CTower3::CTower3(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CTower(pGraphicDev)
+	: CTower(pGraphicDev, OBJ_ID::ENVIRONMENT_BUILDING_TOWER_3)
 {
 }
 

@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CIndicatorUI::CIndicatorUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev), m_pTarget(nullptr), m_pPlayer(nullptr), m_bIsShirk(false), m_bIsExpand(true)
+	:CUI(pGraphicDev, OBJ_ID::UI_INDICATOR), m_pTarget(nullptr), m_pPlayer(nullptr), m_bIsShirk(false), m_bIsExpand(true)
 {
 }
 

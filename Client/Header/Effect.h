@@ -10,8 +10,8 @@ class CEffect :
 	public CGameObject
 {
 protected:
-	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
+	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
 	explicit CEffect(const CEffect& rhs);
 	virtual ~CEffect();
 
@@ -31,9 +31,9 @@ protected:
 	CGameObject*			m_pOwnerobject;
 	_vec3					m_vOffSet;
 	_vec3					m_vSize;
-
-public:
-	static CEffect*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+//
+//public:
+//	static CEffect*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 protected:
 	virtual void			Free() override;

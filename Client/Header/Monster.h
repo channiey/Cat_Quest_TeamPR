@@ -14,7 +14,7 @@ END
 class CMonster : public Engine::CGameObject
 {
 protected:
-	explicit CMonster(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CMonster(const CMonster& rhs);
 	virtual ~CMonster();
 

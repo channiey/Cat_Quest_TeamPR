@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CChest_Cosmetic::CChest_Cosmetic(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CChest(pGraphicDev)
+	: CChest(pGraphicDev, OBJ_ID::ENVIRONMENT_CHEST_COSMETIC)
 {
 }
 

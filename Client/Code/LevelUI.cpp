@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CLevelUI::CLevelUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev), m_pPlayer(nullptr)
+     :CUI(pGraphicDev, OBJ_ID::UI_LEVEL), m_pPlayer(nullptr)
 {
 }
 

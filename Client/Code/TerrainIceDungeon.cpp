@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CTerrainIceDungeon::CTerrainIceDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CTerrain(pGraphicDev)
+	: CTerrain(pGraphicDev, OBJ_ID::TERRAIN_ICEWORLD)
 {
 	m_bTool = false;
 }

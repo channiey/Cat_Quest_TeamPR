@@ -6,7 +6,7 @@
 #include "Cloud2_Shadow.h"
 
 CCloud2::CCloud2(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEffect(pGraphicDev)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CLOUD_2)
 {
 }
 

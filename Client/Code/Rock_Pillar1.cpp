@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CRock_Pillar1::CRock_Pillar1(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CPillar(pGraphicDev)
+	: CPillar(pGraphicDev, OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ROCK_1)
 {
 }
 

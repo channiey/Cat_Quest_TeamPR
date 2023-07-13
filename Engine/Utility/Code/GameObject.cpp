@@ -8,7 +8,7 @@
 #include "VIBuffer.h"
 #include "Animator.h"
 
-CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_TYPE& _eType)
+CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_TYPE& _eType, const OBJ_ID& _eID)
 	: m_pGraphicDev(pGraphicDev)
 	, m_pParentObj(nullptr)
 	, m_pTransformCom(nullptr)
@@ -17,6 +17,8 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_TYPE& _eType)
 	, m_pAnimatorCom(nullptr)
 	, m_eType(_eType)
 	, m_bEventSwitch(false)
+	, m_bEnter(false)
+	, m_eID(_eID)
 
 {
 	m_pGraphicDev->AddRef();

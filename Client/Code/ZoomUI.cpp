@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 
 CZoomUI::CZoomUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev)
+     :CUI(pGraphicDev, OBJ_ID::UI_ZOOM)
 {
 }
 

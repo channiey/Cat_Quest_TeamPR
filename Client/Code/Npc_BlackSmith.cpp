@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CNpc_BlackSmith::CNpc_BlackSmith(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CNpc(pGraphicDev)
+	: CNpc(pGraphicDev, OBJ_ID::NPC_BLACKSMITH)
 {
 }
 

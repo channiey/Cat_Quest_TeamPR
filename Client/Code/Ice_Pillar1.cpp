@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CIce_Pillar1::CIce_Pillar1(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CPillar(pGraphicDev)
+	: CPillar(pGraphicDev, OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_ICE)
 {
 }
 

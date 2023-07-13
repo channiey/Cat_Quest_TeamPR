@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CNpc_Citizen1::CNpc_Citizen1(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CNpc(pGraphicDev)
+	: CNpc(pGraphicDev, OBJ_ID::NPC_CITIZEN_1)
 {
 }
 

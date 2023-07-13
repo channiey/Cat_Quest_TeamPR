@@ -17,7 +17,7 @@ class CUI : public Engine::CGameObject
 
 protected:
 
-	explicit CUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CUI(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CUI(const CUI& rhs);
 	virtual ~CUI();
 

@@ -3,8 +3,8 @@
 
 
 
-CUI::CUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::UI)
+CUI::CUI(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::UI, _eID)
 	, m_pTextureCom(nullptr)
 	, m_eUIType(UI_TYPE::TYPEEND)
 

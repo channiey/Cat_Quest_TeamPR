@@ -3,8 +3,8 @@
 
 #include "Export_Function.h"
 
-CTower::CTower(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEnvironment(pGraphicDev)
+CTower::CTower(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: CEnvironment(pGraphicDev, _eID)
 {
 }
 

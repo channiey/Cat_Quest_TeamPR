@@ -3,8 +3,8 @@
 
 #include "Export_Function.h"
 
-CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::TERRAIN)
+CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::TERRAIN, _eID)
 {
 	m_bTool = false;
 }
@@ -70,9 +70,9 @@ void CTerrain::Free()
 	__super::Free();
 }
 
-CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 {
-	CTerrain*	pInstance = new CTerrain(pGraphicDev);
+	CTerrain*	pInstance = new CTerrain(pGraphicDev, _eID);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

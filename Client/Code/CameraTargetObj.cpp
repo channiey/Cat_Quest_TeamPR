@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CCameraTargetObj::CCameraTargetObj(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::CAMERA_TARGET_OBJ)
 {
 }
 

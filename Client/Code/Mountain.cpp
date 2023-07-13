@@ -5,8 +5,8 @@
 
 #include "EventMgr.h"
 
-CMountain::CMountain(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEnvironment(pGraphicDev)
+CMountain::CMountain(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: CEnvironment(pGraphicDev, _eID)
 {
 }
 

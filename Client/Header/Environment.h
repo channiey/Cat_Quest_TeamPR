@@ -11,7 +11,7 @@ END
 class CEnvironment : public Engine::CGameObject
 {
 protected:
-	explicit CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CEnvironment(const CEnvironment& rhs);
 	virtual ~CEnvironment();
 

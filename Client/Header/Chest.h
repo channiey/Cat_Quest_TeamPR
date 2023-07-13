@@ -10,7 +10,7 @@ END
 class CChest : public CEnvironment
 {
 protected:
-	explicit CChest(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CChest(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CChest(const CChest& rhs);
 	virtual ~CChest();
 

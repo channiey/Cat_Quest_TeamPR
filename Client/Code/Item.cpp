@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ITEM)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ITEM, OBJ_ID::TYPEEND)
 {
 }
 

@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CChest_Regular::CChest_Regular(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CChest(pGraphicDev)
+	: CChest(pGraphicDev, OBJ_ID::ENVIRONMENT_CHEST__REGULAR)
 {
 }
 

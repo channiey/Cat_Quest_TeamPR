@@ -6,7 +6,7 @@
 #include "Cloud3_Shadow.h"
 
 CCloud3::CCloud3(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEffect(pGraphicDev)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CLOUD_3)
 {
 }
 

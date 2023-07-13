@@ -5,7 +5,7 @@
 
 
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::BACKGROUND)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::BACKGROUND, OBJ_ID::BACKGROUND)
 {
 
 }

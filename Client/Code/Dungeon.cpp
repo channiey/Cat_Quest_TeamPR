@@ -6,7 +6,7 @@
 #include "EventMgr.h"
 
 CDungeon::CDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEnvironment(pGraphicDev)
+	: CEnvironment(pGraphicDev, OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON)
 {
 }
 

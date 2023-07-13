@@ -87,6 +87,7 @@ namespace Engine
 
 
 		// Line
+		LINE,
 
 
 
@@ -139,7 +140,10 @@ namespace Engine
 		/* ========================================= PLAYER ========================================*/
 
 
-		PLAYER
+		PLAYER,
+
+
+		TYPEEND
 
 	};
 	enum class COMPONENT_TYPE		{ TRANSFORM, COL_RECT, COL_CIRCLE, COL_LINE, ANIMATOR, STATEMACHINE,

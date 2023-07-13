@@ -10,7 +10,7 @@ END
 class CRock : public CEnvironment
 {
 protected:
-	explicit CRock(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CRock(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CRock(const CRock& rhs);
 	virtual ~CRock();
 

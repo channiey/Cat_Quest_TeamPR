@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CDefUI::CDefUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev), m_pPlayer(nullptr), m_fDefRatio(1.f)
+     :CUI(pGraphicDev, OBJ_ID::UI_DEF), m_pPlayer(nullptr), m_fDefRatio(1.f)
 {
 }
 

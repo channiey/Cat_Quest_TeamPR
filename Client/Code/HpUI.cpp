@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CHpUI::CHpUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev), m_pPlayer(nullptr), m_fHpRatio(1.f)
+     :CUI(pGraphicDev, OBJ_ID::UI_HP), m_pPlayer(nullptr), m_fHpRatio(1.f)
 {
 }
 

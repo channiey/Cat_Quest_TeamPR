@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CMountain_Ice::CMountain_Ice(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CMountain(pGraphicDev)
+	: CMountain(pGraphicDev, OBJ_ID::ENVIRONMENT_NATURAL_MOUNTAIN_ICE)
 {
 }
 

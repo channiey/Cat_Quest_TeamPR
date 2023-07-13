@@ -3,7 +3,7 @@
 #include "ProtoMgr.h"
 
 CCameraObject::CCameraObject(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::CAMERA)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::CAMERA, OBJ_ID::CAMERA_TARGET_OBJ)
 	, m_pCameraCom(nullptr)
 {
 	

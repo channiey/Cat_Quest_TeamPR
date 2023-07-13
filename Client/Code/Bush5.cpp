@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CBush5::CBush5(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CBush(pGraphicDev)
+	: CBush(pGraphicDev, OBJ_ID::ENVIRONMENT_NATURAL_BUSH_5)
 {
 }
 

@@ -3,8 +3,8 @@
 #include "AIComponent.h"
 #include "Export_Function.h"
 
-CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER)
+CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
 	, m_pAICom(nullptr)
 	, m_pStateMachineCom(nullptr)
 	, fPatternTime(0.f)

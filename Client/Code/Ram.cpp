@@ -8,7 +8,7 @@
 #include "RamState_Attack.h"
 
 CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CMonster(pGraphicDev)
+	: CMonster(pGraphicDev, OBJ_ID::MONSTER_RAM)
 {
 }
 

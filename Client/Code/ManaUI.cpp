@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CManaUI::CManaUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev), m_pPlayer(nullptr), m_fMpRatio(1.f)
+     :CUI(pGraphicDev, OBJ_ID::UI_MANA), m_pPlayer(nullptr), m_fMpRatio(1.f)
 {
 }
 

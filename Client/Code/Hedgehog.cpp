@@ -8,7 +8,7 @@
 #include "HedgehogState_Attack.h"
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CMonster(pGraphicDev)
+	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
 {
 }
 

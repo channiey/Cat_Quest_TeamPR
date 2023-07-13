@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CNpc_Soldier::CNpc_Soldier(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CNpc(pGraphicDev)
+	: CNpc(pGraphicDev, OBJ_ID::NPC_SOLLIDER)
 {
 }
 

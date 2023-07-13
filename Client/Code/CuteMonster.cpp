@@ -8,7 +8,7 @@
 #include "Effect_Skill_Fire.h"
 
 CCuteMonster::CCuteMonster(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CMonster(pGraphicDev)
+	: CMonster(pGraphicDev, OBJ_ID::TYPEEND)
 {
 }
 
@@ -46,9 +46,9 @@ HRESULT CCuteMonster::Ready_Object()
 
 	// Effect
 
-	m_pEffect = CEffect_Skill_Fire::Create(m_pGraphicDev, this);
+	/*m_pEffect = CEffect_Skill_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pEffect, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect", m_pEffect), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect", m_pEffect), E_FAIL);*/
 	
 	return S_OK;
 }

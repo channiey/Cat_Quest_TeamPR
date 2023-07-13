@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CRock2::CRock2(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CRock(pGraphicDev)
+	: CRock(pGraphicDev, OBJ_ID::ENVIRONMENT_NATURAL_ROCK_2)
 {
 }
 

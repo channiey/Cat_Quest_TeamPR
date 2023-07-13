@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CCloud2_Shadow::CCloud2_Shadow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: CEffect(pGraphicDev, _pOwnerObject), m_pTextureCom(nullptr)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_CLOUD_2), m_pTextureCom(nullptr)
 {
 	m_pOwnerobject = _pOwnerObject;
 }

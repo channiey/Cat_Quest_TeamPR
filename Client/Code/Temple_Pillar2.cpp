@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CTemple_Pillar2::CTemple_Pillar2(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CPillar(pGraphicDev)
+	: CPillar(pGraphicDev, OBJ_ID::ENVIRONMENT_NATURAL_PILLAR_TEMPLE_2)
 {
 }
 

@@ -10,7 +10,7 @@ END
 class CPillar : public CEnvironment
 {
 protected:
-	explicit CPillar(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CPillar(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CPillar(const CPillar& rhs);
 	virtual ~CPillar();
 

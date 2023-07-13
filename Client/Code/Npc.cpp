@@ -3,8 +3,8 @@
 
 #include "Export_Function.h"
 
-CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::NPC)
+CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::NPC, _eID)
 {
 
 }

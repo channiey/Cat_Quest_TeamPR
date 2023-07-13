@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CExpUI::CExpUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev), m_pPlayer(nullptr), m_bIsExpChange(false), m_fCurExpRatio(0.f), m_fAcc(0.f)
+	:CUI(pGraphicDev, OBJ_ID::UI_EXP), m_pPlayer(nullptr), m_bIsExpChange(false), m_fCurExpRatio(0.f), m_fAcc(0.f)
 {
 }
 

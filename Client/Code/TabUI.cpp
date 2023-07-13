@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 
 CTabUI::CTabUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev)
+	:CUI(pGraphicDev, OBJ_ID::UI_TAB)
 	,m_bPick(false)
 {
 }

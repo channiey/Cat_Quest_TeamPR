@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 
 CEnterUI::CEnterUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev), m_bIsOn(false), m_bIsShirk(false), m_bIsExpand(false), m_bIsStart(false), m_bIsEnd(false)
+	:CUI(pGraphicDev, OBJ_ID::UI_ENTER), m_bIsOn(false), m_bIsShirk(false), m_bIsExpand(false), m_bIsStart(false), m_bIsEnd(false)
 	, m_eUIEnter(UIENTER_TYPE::TYPEEND)
 {
 }

@@ -3,8 +3,8 @@
 
 #include "Export_Function.h"
 
-CHouse::CHouse(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEnvironment(pGraphicDev)
+CHouse::CHouse(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: CEnvironment(pGraphicDev, _eID)
 {
 }
 

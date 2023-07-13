@@ -12,7 +12,7 @@ END
 class CTerrain : public Engine::CGameObject
 {
 public:
-	explicit CTerrain(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CTerrain(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CTerrain(const CTerrain& rhs);
 	virtual ~CTerrain();
 
@@ -29,7 +29,7 @@ protected:
 	CTexture*			m_pTextureCom = nullptr;
 
 public:
-	static CTerrain*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CTerrain*	Create(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 
 protected:
 	_bool				m_bTool;

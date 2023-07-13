@@ -10,7 +10,7 @@ END
 class CTower : public CEnvironment
 {
 protected:
-	explicit CTower(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CTower(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CTower(const CTower& rhs);
 	virtual ~CTower();
 

@@ -6,7 +6,7 @@
 #include "IndicatorUI.h"
 
 CKingHouse::CKingHouse(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CHouse(pGraphicDev)
+	: CHouse(pGraphicDev, OBJ_ID::ENVIRONMENT_BUILDING_KINGHOUSE)
 {
 }
 

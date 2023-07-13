@@ -3,13 +3,13 @@
 
 #include "Export_Function.h"
 
-CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT)
+CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
 {
 }
 
-CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT)
+CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
 	, m_pOwnerobject(_pOwnerObject)
 {
 	ZeroMemory(&m_vOffSet, sizeof(_vec3));
@@ -74,20 +74,20 @@ HRESULT CEffect::Add_Component()
 	return S_OK;
 }
 
-CEffect * CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-{
-	CEffect*	pInstance = new CEffect(pGraphicDev, _pOwnerObject);
-
-	if (FAILED(pInstance->Ready_Object()))
-	{
-		Safe_Release(pInstance);
-
-		MSG_BOX("Effect Create Failed");
-		return nullptr;
-	}
-
-	return pInstance;
-}
+//CEffect * CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+//{
+//	CEffect*	pInstance = new CEffect(pGraphicDev, _pOwnerObject);
+//
+//	if (FAILED(pInstance->Ready_Object()))
+//	{
+//		Safe_Release(pInstance);
+//
+//		MSG_BOX("Effect Create Failed");
+//		return nullptr;
+//	}
+//
+//	return pInstance;
+//}
 
 void CEffect::Free()
 {

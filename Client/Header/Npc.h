@@ -11,7 +11,7 @@ END
 class CNpc : public Engine::CGameObject
 {
 protected:
-	explicit CNpc(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CNpc(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CNpc(const CNpc& rhs);
 	virtual ~CNpc();
 

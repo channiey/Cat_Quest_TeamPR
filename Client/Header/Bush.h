@@ -10,7 +10,7 @@ END
 class CBush : public CEnvironment
 {
 protected:
-	explicit CBush(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CBush(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CBush(const CBush& rhs);
 	virtual ~CBush();
 

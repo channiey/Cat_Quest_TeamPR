@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CHouse5::CHouse5(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CHouse(pGraphicDev)
+	: CHouse(pGraphicDev, OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_5)
 {
 }
 

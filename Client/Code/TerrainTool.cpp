@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CTerrainTool::CTerrainTool(LPDIRECT3DDEVICE9 pGraphicDev)
-	:	CTerrain(pGraphicDev)
+	:	CTerrain(pGraphicDev, OBJ_ID::TERRAIN_TOOL)
 {
 	m_bTool = true;
 }

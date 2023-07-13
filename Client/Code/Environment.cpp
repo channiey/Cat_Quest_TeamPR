@@ -3,8 +3,8 @@
 
 #include "Export_Function.h"
 
-CEnvironment::CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ENVIRONMENT)
+CEnvironment::CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ENVIRONMENT, _eID)
 	, m_pTextureCom(nullptr)
 {
 }
