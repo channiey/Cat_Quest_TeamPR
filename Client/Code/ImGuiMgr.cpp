@@ -191,7 +191,7 @@ void CImGuiMgr::ImGui_Update()
 
 	ImGui::Begin("Tool Tab");
 
-	if (ImGui::CollapsingHeader("Layer"))
+	if (ImGui::CollapsingHeader("Level"))
 	{
 		Show_Header_Scene();
 	}
@@ -260,8 +260,8 @@ void CImGuiMgr::Show_Header_Scene()
 	{
 	}
 
-	// 02. List Box (Scene Image)
-	ImGui::SeparatorText("Layer Prefab List");
+	// 02. List Box (Level Image)
+	ImGui::SeparatorText("Level Prefab List");
 
 	int			iCurIdxRow		= 0; // 줄 맞추기 위한 변수
 	static int	iCurIdx_Scene	= 0; // 현재 선택된 인덱스
@@ -271,13 +271,28 @@ void CImGuiMgr::Show_Header_Scene()
 
 	if (ImGui::BeginListBox(" ", ImVec2(280.f, 180.f)))
 	{
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 1; ++i) // 맵의 사이즈로 바뀌어야 한다.
 		{
-			if (ImGui::ImageButton(image, ImVec2(50.f, 50.f))) // 이미지 출력
+			CGameObject* pTerrain = nullptr;
+			wstring imgPath;
+
+			for (auto& iter : g_vecCloneObj)
 			{
-				iCurIdx_Scene = i;
-				g_iSelLayer = iCurIdx_Scene;
+				if (OBJ_TYPE::TERRAIN == iter->Get_Type())
+				{
+					imgPath = dynamic_cast<CTexture*>(iter->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
+					
+					if (ImGui::ImageButton(LoadImageFile(wstring_to_utf8(imgPath).c_str()), ImVec2(50.f, 50.f))) // 이미지 출력
+					{
+						iCurIdx_Scene = i;
+						g_iSelLayer = iCurIdx_Scene;
+					}
+
+					break;
+				}
 			}
+
+		
 
 			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
 			{
@@ -480,7 +495,6 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 	return S_OK;
 }
 
-
 HRESULT CImGuiMgr::Delete_Object(const _vec3 _vPickPos)
 {
 	// 검사 반경
@@ -504,10 +518,8 @@ HRESULT CImGuiMgr::Delete_Object(const _vec3 _vPickPos)
 			return S_OK;
 		}
 	}
-
 	return S_OK;
 }
-
 
 HRESULT CImGuiMgr::Create_Scene()
 {
