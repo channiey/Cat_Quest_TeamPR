@@ -81,7 +81,9 @@ HRESULT CEventMgr::Delete_Obj(CGameObject* const _pObj)
 	}
 
 	FAILED_CHECK_RETURN(Add_Event(event), E_FAIL);
-
+	
+	_pObj->Set_Active(false);
+	
 	return S_OK;
 }
 

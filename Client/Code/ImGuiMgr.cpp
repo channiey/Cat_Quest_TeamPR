@@ -483,14 +483,27 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 
 HRESULT CImGuiMgr::Delete_Object(const _vec3 _vPickPos)
 {
-	/*_float fRadius = 
-	CGameObject* pNearObj = nullptr;*/
+	// 검사 반경
+	_float fRadius = VTXITV * 2.f;
+	
+	// 검사 결과 오브젝트
+	CGameObject* pNearObj = nullptr;
 
-	// 01. 피킹 포즈 근처에 VTXITV + 오차값 만큼의 위치에 있는 오브젝트 조사
+	for (vector<CGameObject*>::iterator iter = g_vecCloneObj.begin(); iter != g_vecCloneObj.end(); ++iter)
+	{
+		_vec3 vNearObjPos{ (*iter)->Get_Transform()->Get_Info(INFO_POS).x, 0.f, (*iter)->Get_Transform()->Get_Info(INFO_POS).z };
 
-	// 02. 존재하지 않거나, 해당 오브젝트가 터레인일 경우 리턴
+		if (fRadius > D3DXVec3Length(&(_vPickPos - vNearObjPos)))
+		{
+			// 삭제 처리
 
-	// 03. 존재한다면 이벤트 매니저 통해 삭제
+			CEventMgr::GetInstance()->Delete_Obj((*iter)); // 저장용
+												 								  
+			g_vecCloneObj.erase(iter); // 렌더용
+
+			return S_OK;
+		}
+	}
 
 	return S_OK;
 }
