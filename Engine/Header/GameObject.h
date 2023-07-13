@@ -36,14 +36,18 @@ public:
 	const _float&						Get_ViewZ();  // 알파 출력 오브젝트들의 알파소팅
 	void								Set_ViewZ();  // 알파 출력 오브젝트들의 알파소팅
 	const OBJ_TYPE						Get_Type() const { return m_eType; }
+	const OBJ_ID						Get_ID() const { return m_eID; }
 
 	void								Set_Parent(CGameObject* const _pParent) { m_pParentObj = _pParent; }
 	void								Set_Name(const _tchar* _szName) { m_szName = _szName; } // 팀장 허락 받고 사용
 	void								Set_Active(const _bool& _bActive) { m_bActive = _bActive; }
+	void								Set_ID(const OBJ_ID& _eID) { m_eID = _eID; }
 
 	const _bool&						Is_Active() const { return m_bActive; }
 	const _bool							Is_Component(const COMPONENT_TYPE& _eType, COMPONENTID eID);
 	
+
+
 	// 상호작용 및 충돌 시 이벤트 관련
 	ENTER_TYPE				Get_EnterType() { return m_eEnter; }
 	INTERACTION_TYPE		Get_InterType() { return m_eInterType; }
@@ -85,9 +89,10 @@ protected:
 	vector<CGameObject*>				m_vecChilds;
 	
 	OBJ_TYPE							m_eType;
+	OBJ_ID								m_eID;
 	_bool								m_bActive;
 
-	_float                              m_fViewZ;// 알파 출력 오브젝트들의 알파소팅
+	_float                              m_fViewZ; // 알파 출력 오브젝트들의 알파소팅
 
 	// 상호작용 및 충돌 시 이벤트 관련
 	ENTER_TYPE				m_eEnter;

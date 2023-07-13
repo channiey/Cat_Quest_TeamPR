@@ -12,8 +12,82 @@
 #include "Export_Function.h"
 #include "TerrainTex.h"
 
+#include "TerrainWorld.h"
 #include "TerrainTool.h"
-
+#include "TerrainIceWorld.h"
+#include "TerrainIceDungeon.h"
+// 빌딩(집)
+#include "House1.h"
+#include "House2.h"
+#include "House3.h"
+#include "House4.h"
+#include "House5.h"
+#include "House6.h"
+#include "KingHouse.h"
+#include "Smithy.h"
+#include "MagicShop.h"
+// 부쉬
+#include "Bush1.h"
+#include "Bush2.h"
+#include "Bush3.h"
+#include "Bush4.h"
+#include "Bush5.h"
+#include "Bush6.h"
+#include "Bush7.h"
+#include "Bush8.h"
+#include "Bush9.h"
+#include "Bush10.h"
+#include "Bush11.h"
+// 산
+#include "Mountain_Grass.h"
+#include "Mountain_Ice.h"
+// 돌
+#include "Rock1.h"
+#include "Rock2.h"
+#include "Rock3.h"
+#include "Rock4.h"
+// 기둥
+#include "Rock_Pillar1.h"
+#include "Rock_Pillar2.h"
+#include "Rock_Pillar3.h"
+#include "Ice_Pillar1.h"
+#include "Temple_Pillar1.h"
+#include "Temple_Pillar2.h"
+// 던전
+#include "Dungeon_Grass.h"
+#include "Dungeon_Ice.h"
+#include "Dungeon_Temple.h"
+// 타워
+#include "Tower1.h"
+#include "Tower2.h"
+#include "Tower3.h"
+// 상자
+#include "Chest_Cosmetic.h"
+#include "Chest_Gold.h"
+#include "Chest_Regular.h"
+// NPC
+#include "Npc_King.h"
+#include "Npc_Mage.h"
+#include "Npc_BlackSmith.h"
+#include "Npc_Soldier.h"
+#include "Npc_Citizen1.h"
+#include "Npc_Citizen2.h"
+// Monster
+#include "ExpUI.h"
+#include "EnterUI.h"
+#include "Hedgehog.h"
+#include "LineObject.h"
+#include "Bat.h"
+#include "Dragon.h"
+#include "Ram.h"
+#include "Fox.h"
+#include "Wyvern.h"
+#include "Squirrel.h"
+#include "Player.h"
+#include "CuteMonster.h"
+#include "Environment.h"
+#include "Tool_Camera.h"
+#include "CameraTargetObj.h"
 #include <iostream>
 
 
@@ -44,7 +118,7 @@ static _int				g_iSelObj = -1; // 현재 선택된 오브젝트 인덱스
 // 기타
 vector<ImTextureID>		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 이미지 아이디 경로 저장 벡터 배열
 
-vector<CGameObject*>	g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 원본 객체 저장 배열
+vector<CGameObject*>	g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TYPEEND]; // 원본 객체 최초 저장 배열
 
 CGameObject*			g_pVtxTerrain = nullptr; // 피킹처리를 위한 버텍스 터레인
 
@@ -332,7 +406,289 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 		return E_FAIL;
 
 	// 클론
-	CGameObject* pClone = nullptr; // = CGameObject::Clone(*g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]);
+	CGameObject* pClone = nullptr;
+
+#pragma region Clone Logic
+
+	switch (IMG_OBJ_TYPE(g_eSelObjType))
+	{
+	case IMG_OBJ_TYPE::TERRAIN:
+	{
+		switch (g_iSelObj)
+		{
+		case 0:
+			pClone = CTerrainWorld::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 1:
+			pClone = CTerrainIceWorld::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld_Ice", pClone), E_FAIL);
+			break;
+		case 2:
+			pClone = CTerrainIceDungeon::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainDungeon_Ice", pClone), E_FAIL);
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
+	}
+		break;
+	case IMG_OBJ_TYPE::ENVIRONMENT:
+	{
+		switch (g_iSelObj)
+		{
+		case 0:
+			pClone = CHouse1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"House1", pClone), E_FAIL); // 00.Building - 00.House
+			break;
+		case 1:
+			pClone = CHouse2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"House2", pClone), E_FAIL);
+			break;
+		case 2:
+			pClone = CHouse3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"House3", pClone), E_FAIL);
+			break;
+		case 3:
+			pClone = CHouse4::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"House4", pClone), E_FAIL);
+			break;
+		case 4:
+			pClone = CHouse5::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"House5", pClone), E_FAIL);
+			break;
+		case 5:
+			pClone = CHouse6::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"House6", pClone), E_FAIL);
+			break;
+		case 6:
+			pClone = CKingHouse::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"KingHouse", pClone), E_FAIL); 
+			break;
+		case 7:
+			pClone = CSmithy::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Smithy", pClone), E_FAIL); 
+			break;
+		case 8:
+			pClone = CMagicShop::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"MagicShop", pClone), E_FAIL); 
+			break;
+		case 9:
+			pClone = CBush1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 01.Bush
+			break;
+		case 10:
+			pClone = CBush2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 11:
+			pClone = CBush3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 12:
+			pClone = CBush4::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 13:
+			pClone = CBush5::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 14:
+			pClone = CBush6::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 15:
+			pClone = CBush7::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 16:
+			pClone = CBush8::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 17:
+			pClone = CBush9::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 18:
+			pClone = CBush10::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 19:
+			pClone = CBush11::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 20:
+			pClone = CMountain_Grass::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 02.Mountain
+			break;
+		case 21:
+			pClone = CMountain_Ice::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 22:
+			pClone = CRock1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 03.Rock
+			break;
+		case 23:
+			pClone = CRock2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 24:
+			pClone = CRock3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 25:
+			pClone = CRock4::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 26:
+			pClone = CRock_Pillar1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 04.Pillar
+			break;
+		case 27:
+			pClone = CRock_Pillar2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 28:
+			pClone = CRock_Pillar3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 29:
+			pClone = CTemple_Pillar1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 30:
+			pClone = CTemple_Pillar2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 31:
+			pClone = CIce_Pillar1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 32:
+			pClone = CDungeon_Grass::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 05.Enterance
+			break;
+		case 33:
+			pClone = CDungeon_Ice::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 34:
+			pClone = CDungeon_Temple::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 35:
+			pClone = CTower1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 06.Tower
+			break;
+		case 36:
+			pClone = CTower2::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 37:
+			pClone = CTower3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 38:
+			pClone = CChest_Cosmetic::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL); // 07.Chest
+			break;
+		case 39:
+			pClone = CChest_Gold::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		case 40:
+			pClone = CChest_Regular::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pClone, E_FAIL);
+			FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TerrainWorld", pClone), E_FAIL);
+			break;
+		}
+	}
+		break;
+	case IMG_OBJ_TYPE::MONSTER:
+	{
+		switch (g_iSelObj)
+		{
+		case 0:
+		{
+		}
+		break;
+		default:
+			break;
+		}
+	}
+		break;
+	case IMG_OBJ_TYPE::NPC:
+	{
+
+	}
+		break;
+	case IMG_OBJ_TYPE::ITEM:
+	{
+
+	}
+		break;
+	case IMG_OBJ_TYPE::LINE:
+	{
+
+	}
+		break;
+	case IMG_OBJ_TYPE::TYPEEND:
+	{
+
+	}
+		break;
+	default:
+		break;
+	}
+
+#pragma endregion
+	
 		
 	NULL_CHECK_RETURN(pClone, E_FAIL);
 

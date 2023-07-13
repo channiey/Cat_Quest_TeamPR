@@ -3,11 +3,12 @@
 
 #include "Export_Function.h"
 
-// #include "Terrain.h"
+// 터레인
 #include "TerrainWorld.h"
 #include "TerrainTool.h"
 #include "TerrainIceWorld.h"
 #include "TerrainIceDungeon.h"
+
 // 빌딩(집)
 #include "House1.h"
 #include "House2.h"
@@ -18,6 +19,7 @@
 #include "KingHouse.h"
 #include "Smithy.h"
 #include "MagicShop.h"
+
 // 부쉬
 #include "Bush1.h"
 #include "Bush2.h"
@@ -30,14 +32,17 @@
 #include "Bush9.h"
 #include "Bush10.h"
 #include "Bush11.h"
+
 // 산
 #include "Mountain_Grass.h"
 #include "Mountain_Ice.h"
+
 // 돌
 #include "Rock1.h"
 #include "Rock2.h"
 #include "Rock3.h"
 #include "Rock4.h"
+
 // 기둥
 #include "Rock_Pillar1.h"
 #include "Rock_Pillar2.h"
@@ -45,14 +50,17 @@
 #include "Ice_Pillar1.h"
 #include "Temple_Pillar1.h"
 #include "Temple_Pillar2.h"
+
 // 던전
 #include "Dungeon_Grass.h"
 #include "Dungeon_Ice.h"
 #include "Dungeon_Temple.h"
+
 // 타워
 #include "Tower1.h"
 #include "Tower2.h"
 #include "Tower3.h"
+
 // 상자
 #include "Chest_Cosmetic.h"
 #include "Chest_Gold.h"
@@ -135,7 +143,9 @@ void CScene_Tool::Render_Scene()
 void CScene_Tool::Free()
 {
 	CImGuiMgr::GetInstance()->DestroyInstance();
+
 	CCalculator::GetInstance()->DestroyInstance();
+
 	__super::Free();
 }
 
@@ -148,6 +158,7 @@ CScene_Tool* CScene_Tool::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 		Safe_Release(pInstance);
 		
 		MSG_BOX("Scene_Tool Create Failed");
+
 		return nullptr;
 	}
 
