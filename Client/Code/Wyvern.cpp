@@ -75,20 +75,20 @@ HRESULT CWyvern::Ready_Object()
 
 	// Back 
 	// Patrol
-	pState = CWyvernState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
 
 	// Chase
-	pState = CWyvernState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
 
 
 	// ComeBack
-	pState = CWyvernState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
 
 	// Attack
-	pState = CWyvernState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 

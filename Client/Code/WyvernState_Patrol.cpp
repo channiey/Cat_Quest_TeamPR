@@ -114,7 +114,7 @@ STATE_TYPE CWyvernState_Patrol::Update_State(const _float& fTimeDelta)
         }
         else
         {
-            //cout << "Back Chase 전이" << endl;
+            cout << "Back Chase 전이" << endl;
             pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
