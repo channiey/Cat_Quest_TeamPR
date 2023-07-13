@@ -74,7 +74,7 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
    if (vOwnerDir.z > 0)
    {
-       cout <<  "back monattack 전이" << endl;
+      // cout <<  "back monattack 전이" << endl;
        return STATE_TYPE::BACK_MONATTACK;
    }
 
@@ -86,32 +86,32 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
    {
        if (vOwnerDir.z < 0)
        {
-           cout << "chase  전이" << endl;
+          // cout << "chase  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::CHASE;
        }
        else
        {
-           cout << "back chase  전이" << endl;
+         //  cout << "back chase  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_CHASE;
        }
    }
  
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 50.f && fDistance >15.f)
+   if (fOriginDistance >= 20.f && fDistance >10.f)
    {
      
      
        if (vOwnerDir.z < 0)
        {
-           cout << "COMBACK  전이" << endl;
+          // cout << "COMBACK  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::COMEBACK;
        }
        else
        {
-           cout << "back COMBACK  전이" << endl;
+          // cout << "back COMBACK  전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_COMEBACK;
        }

@@ -31,6 +31,14 @@ public:
 
 
 private:
+
+	_float fPatrol_Range;
+	_float fChase_Range;
+	_float fComeBack_Range;
+	_float fAttack_Range;
+
+
+private:
 	virtual void Free();
 
 private:

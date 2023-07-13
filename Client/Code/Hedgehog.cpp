@@ -27,8 +27,8 @@ HRESULT CHedgehog::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 10.f;
-	m_tMoveInfo.fRotSpeed = 1.f;
+	m_tMoveInfo.fMoveSpeed  = 8.f;
+	m_tMoveInfo.fRotSpeed	= 1.f;
 
 	// Stat Info
 	//m_tStatInfo.bDead = false;
@@ -36,7 +36,6 @@ HRESULT CHedgehog::Ready_Object()
 
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 1.46f, 1.04f, 2.f });
-
 
 	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -84,7 +83,7 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
 
-	//m_pAICom->Jumping_Motion(fTimeDelta, 10.f, 2.f);
+
 
 	return iExit;
 }

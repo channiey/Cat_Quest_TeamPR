@@ -5,6 +5,10 @@
 CBatState_Patrol::CBatState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
+    , fPatrol_Range(0.f)
+    , fChase_Range(0.f)
+    , fComeBack_Range(0.f)
+    , fAttack_Range(0.f)
 {
 }
 
@@ -14,12 +18,16 @@ CBatState_Patrol::~CBatState_Patrol()
 
 HRESULT CBatState_Patrol::Ready_State(CStateMachine* pOwner)
 {
+   // fPatrol_Range = 
+
+
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
     m_eState = STATE_TYPE::PATROL;
     return S_OK;
+
 }
 
 STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
@@ -75,7 +83,7 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
    // BACK Patrol 전이 조건
    if (vOwnerDir.z > 0)
    {
-       cout << "Back patrol 전이" << endl;
+       //cout << "Back patrol 전이" << endl;
        return STATE_TYPE::BACK_PATROL;
    }
 
@@ -86,32 +94,32 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
        
        if (vOwnerDir.z < 0)
        {
-           cout << "CHASe 전이" << endl;
+          // cout << "CHASe 전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::CHASE;
        }
        else
        {
-           cout << "back CHASe 전이" << endl;
+           //cout << "back CHASe 전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_CHASE;
        }
    }
 
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 50.f  &&  fDistance> 15.f )
+   if (fOriginDistance >= 20.f && fDistance > 10.f)
    {
       
 
        if (vOwnerDir.z < 0)
        {
-           cout << "comback 전이" << endl;
+          // cout << "comback 전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::COMEBACK;
        }
        else
        {
-           cout << "back comback 전이" << endl;
+           //cout << "back comback 전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_COMEBACK;
        }
@@ -124,13 +132,13 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
 
        if (vOwnerDir.z < 0)
        {
-           cout << "attack 전이" << endl;
+          // cout << "attack 전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::MONATTACK;
        }
        else
        {
-           cout << "back attack 전이" << endl;
+           //cout << "back attack 전이" << endl;
            pOwnerTransform->Set_Dir(vec3.zero);
            return STATE_TYPE::BACK_MONATTACK;
        }

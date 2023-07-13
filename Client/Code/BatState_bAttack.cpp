@@ -96,7 +96,7 @@ STATE_TYPE CBatState_bAttack::Update_State(const _float& fTimeDelta)
    }
  
    // COMEBACK 전이 조건
-   if (fOriginDistance >= 50.f && fDistance >15.f)
+   if (fOriginDistance >= 20.f && fDistance > 10.f)
    {
      
        if (vOwnerDir.z < 0)
