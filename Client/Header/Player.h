@@ -115,6 +115,8 @@ private:
 	CTexture*			m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CStateMachine*		m_pStateMachineCom;
 
+	// Move_Effect 테스트용. 나중에 바로 지워주시면 됩니다.
+	_uint				m_iTempMode;
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

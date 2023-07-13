@@ -2,24 +2,24 @@
 
 #include "Export_Function.h"
 
-#include "MoveDust.h"
+#include "MoveWater.h"
 
-CMoveDust::CMoveDust(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CMoveWater::CMoveWater(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject)
 {
 	m_pOwnerobject = _pOwnerObject;
 }
 
-CMoveDust::CMoveDust(const CMoveDust& rhs)
+CMoveWater::CMoveWater(const CMoveWater& rhs)
 	: CEffect(rhs), m_pTextureCom(rhs.m_pTextureCom)
 {
 }
 
-CMoveDust::~CMoveDust()
+CMoveWater::~CMoveWater()
 {
 }
 
-HRESULT CMoveDust::Ready_Object()
+HRESULT CMoveWater::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -40,12 +40,12 @@ HRESULT CMoveDust::Ready_Object()
 	return S_OK;
 }
 
-_int CMoveDust::Update_Object(const _float& fTimeDelta)
+_int CMoveWater::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_pTransformCom->Set_Pos({ 
+	m_pTransformCom->Set_Pos({
 		m_pTransformCom->Get_Info(INFO_POS).x,
 		m_pTransformCom->Get_Info(INFO_POS).y + 0.05f,
 		m_pTransformCom->Get_Info(INFO_POS).z
@@ -55,23 +55,23 @@ _int CMoveDust::Update_Object(const _float& fTimeDelta)
 
 	m_iTranslucent -= 5;
 
-	if (m_pAnimation->Is_End()) 
+	if (m_pAnimation->Is_End())
 	{
 		CEventMgr::GetInstance()->Delete_Obj(this);
 	}
-		
-	
+
+
 	return iExit;
 }
 
-void CMoveDust::LateUpdate_Object()
+void CMoveWater::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CMoveDust::Render_Object()
+void CMoveWater::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+	// m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pAnimation->Render_Animation();
@@ -83,17 +83,17 @@ void CMoveDust::Render_Object()
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	
+
 	// CEffect::Render_Object();
 
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	// m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-HRESULT CMoveDust::Add_Component()
+HRESULT CMoveWater::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Move_Dust", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Move_Water", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -104,16 +104,16 @@ HRESULT CMoveDust::Add_Component()
 	return S_OK;
 }
 
-void CMoveDust::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
+void CMoveWater::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 {
 	m_vOffSet = _vPos;
 	m_vSize = _vSize;
 	m_bActive = true;
 }
 
-CMoveDust* CMoveDust::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CMoveWater* CMoveWater::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CMoveDust* pInstance = new CMoveDust(pGraphicDev, _pOwnerObject);
+	CMoveWater* pInstance = new CMoveWater(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -126,7 +126,7 @@ CMoveDust* CMoveDust::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwner
 	return pInstance;
 }
 
-void CMoveDust::Free()
+void CMoveWater::Free()
 {
 	m_pAnimation->Release();
 	__super::Free();
