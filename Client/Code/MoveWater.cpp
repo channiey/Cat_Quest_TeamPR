@@ -72,19 +72,13 @@ void CMoveWater::LateUpdate_Object()
 void CMoveWater::Render_Object()
 {
 	// m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
-	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
-
 	m_pAnimation->Render_Animation();
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTexture(0, NULL);
-
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
-	// CEffect::Render_Object();
 
 	// m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }

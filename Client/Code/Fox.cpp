@@ -7,6 +7,8 @@
 #include "FoxState_ComeBack.h"
 #include "FoxState_Attack.h"
 
+#include "Shadow_Monster.h"
+
 CFox::CFox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_FOX)
 {
@@ -46,6 +48,8 @@ HRESULT CFox::Ready_Object()
 	fPatternTime = 2.f;
 
 	m_fJumpingSpeed = 0.05;
+
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
 
 #pragma region State Add
 

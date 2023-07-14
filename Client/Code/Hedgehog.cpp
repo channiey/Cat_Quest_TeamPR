@@ -7,6 +7,8 @@
 #include "HedgehogState_ComeBack.h"
 #include "HedgehogState_Attack.h"
 
+#include "Shadow_Monster.h"
+
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
 {
@@ -47,6 +49,7 @@ HRESULT CHedgehog::Ready_Object()
 
 	m_fJumpingSpeed = 0.05;
 
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
 
 #pragma region State Add
 

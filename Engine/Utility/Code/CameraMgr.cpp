@@ -152,6 +152,6 @@ void CCameraMgr::Blend_Camera()
 
 void CCameraMgr::Free()
 {
-	for_each(m_mapCamera.begin(), m_mapCamera.end(), CDeleteMap());
-	m_mapCamera.clear();
+	// for_each(m_mapCamera.begin(), m_mapCamera.end(), CDeleteMap());
+	// m_mapCamera.clear();
 }

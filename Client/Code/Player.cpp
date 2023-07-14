@@ -27,6 +27,8 @@
 // Move Effect
 #include "MoveDust.h"
 #include "MoveWater.h"
+// Shadow
+#include "Shadow_Player.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -62,6 +64,8 @@ HRESULT CPlayer::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
+
+	CEventMgr::GetInstance()->Add_Obj(L"Player_Shadow", CShadow_Player::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_PLAYABLE_SHADOW));
 
 #pragma region State
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
@@ -135,7 +139,7 @@ HRESULT CPlayer::Ready_Object()
 	}
 
 	// 테스트용
-	m_iTempMode = 1;
+	m_iTempMode = 2;
 
 	return S_OK;
 }

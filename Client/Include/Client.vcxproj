@@ -281,7 +281,9 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\Shadow_Monster.h" />
     <ClInclude Include="..\Header\Shadow_Npc.h" />
+    <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Squirrel.h" />
     <ClInclude Include="..\Header\SquirrelState_Attack.h" />
@@ -451,7 +453,9 @@
     <ClCompile Include="..\Code\Rock_Pillar2.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
+    <ClCompile Include="..\Code\Shadow_Monster.cpp" />
     <ClCompile Include="..\Code\Shadow_Npc.cpp" />
+    <ClCompile Include="..\Code\Shadow_Player.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Squirrel.cpp" />
     <ClCompile Include="..\Code\SquirrelState_Attack.cpp" />
