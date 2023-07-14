@@ -587,7 +587,7 @@ HRESULT CScene_World::Ready_Layer_Npc()
 
 HRESULT CScene_World::Ready_Layer_Monster()
 {
-	return S_OK;
+	//return S_OK;
 
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);

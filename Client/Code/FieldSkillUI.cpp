@@ -5,7 +5,7 @@
 #include "RingUI.h"
 
 CFieldSkillUI::CFieldSkillUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev)
+	:CUI(pGraphicDev, OBJ_ID::UI_FILEDSKILL)
 	, m_bPick(false), m_bIsOn(false)
 {
 }
@@ -131,8 +131,8 @@ void CFieldSkillUI::Mouse_Input()
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Ring"));
 
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
+		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
 
 		pRingUI->Set_Active(true);
 
