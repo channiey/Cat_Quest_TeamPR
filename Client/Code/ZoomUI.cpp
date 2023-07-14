@@ -68,6 +68,8 @@ void CZoomUI::Render_Object()
 
 	m_pTextureCom->Render_Texture(m_iZoomState);
 	m_pBufferCom->Render_Buffer();
+
+	__super::Render_Object();
 }
 
 HRESULT CZoomUI::Add_Component()

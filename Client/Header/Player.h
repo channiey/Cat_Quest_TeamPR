@@ -117,6 +117,10 @@ private:
 
 	// Move_Effect 테스트용. 나중에 바로 지워주시면 됩니다.
 	_uint				m_iTempMode;
+
+	_bool				m_bExpand;
+	_bool				m_bShirnk;
+
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

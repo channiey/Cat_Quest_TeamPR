@@ -24,7 +24,6 @@ private:
 	void					Follow_Player();
 
 private:
-	CVIBuffer*				m_pUIBufferCom[3];
 	CTransform*				m_pUITransformCom[3];
 
 	CPlayer*				m_pPlayer;

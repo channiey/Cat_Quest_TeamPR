@@ -2,6 +2,7 @@
 
 #include "CameraMgr.h"
 #include "GameObject.h"
+#include "Export_Function.h"
 
 CTransform::CTransform()
 	: m_vAngle(vec3.zero)
@@ -155,6 +156,35 @@ void CTransform::Reverse()
 }
 
 
+_vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta)
+{
+	if (m_fCurTime == fLerpTime)
+	{
+		m_bStart = false;
+		m_fCurTime = 0;
+		return _vec3{ -99, -99, -99 };
+	}
+
+	if (!m_bStart)
+	{
+		m_bStart = true;
+		m_vStart = vStart;
+	}
+
+	m_fCurTime += fTimeDelta;
+	if (m_fCurTime >= fLerpTime)
+	{
+		m_fCurTime = fLerpTime;
+	}
+
+	_vec3 vOut;
+	_float fTime = m_fCurTime / fLerpTime;
+	D3DXVec3Lerp(&vOut, &m_vStart, &vTarget, fTime);
+
+
+	return vOut;
+}
+
 void CTransform::Cal_WorldMat()
 {
 	// 저장된 정보를 바탕으로 최종 월드행렬을 계산한다.
@@ -200,6 +230,9 @@ HRESULT CTransform::Ready_Transform()
 		memcpy(&m_vInfo[i], &m_matWorld.m[i][0], sizeof(_vec3));
 
 	m_vDir = vec3.right;
+
+	m_bStart = false;
+	m_fCurTime = 0.f;
 
 	return S_OK;
 }

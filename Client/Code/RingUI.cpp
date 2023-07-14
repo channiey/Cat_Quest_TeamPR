@@ -81,6 +81,7 @@ void CRingUI::Render_Object()
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
+	__super::Render_Object();
 }
 
 HRESULT CRingUI::Add_Component()

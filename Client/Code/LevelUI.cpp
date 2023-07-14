@@ -73,7 +73,10 @@ void CLevelUI::Render_Object()
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
-	CGraphicDev::GetInstance()->Get_LevelFont()->DrawTextW(NULL, m_strPlayerLevel.c_str(), -1, &m_rcLevel, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+	CGraphicDev::GetInstance()->Get_LevelFont()->DrawTextW(NULL, m_strPlayerLevel.c_str(), -1, 
+		&m_rcLevel, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+	__super::Render_Object();
 }
 
 HRESULT CLevelUI::Add_Component()

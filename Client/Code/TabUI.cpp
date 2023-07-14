@@ -86,7 +86,7 @@ void CTabUI::Render_Object()
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
-	
+	__super::Render_Object();
 }
 
 void CTabUI::Picking_UI()
