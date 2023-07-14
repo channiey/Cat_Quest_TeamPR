@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 
 #include "RingUI.h"
+#include "Player.h"
 
 CFieldSkillUI::CFieldSkillUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_FILEDSKILL)
@@ -21,17 +22,21 @@ CFieldSkillUI::~CFieldSkillUI()
 
 HRESULT CFieldSkillUI::Ready_Object()
 {
-	//m_rcUI[0] = { long(m_fPosX - m_fSizeX / 2.f) , long(m_fPosY - m_fSizeY / 2.f) , long(m_fPosX + m_fSizeX / 2.f) , long(m_fPosY + m_fSizeY / 2.f) };
+	
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_bShirnk = true;
-	/*for (auto iter : m_bReach)
-		iter = false;
-	for (auto iter : m_bPick)
-		iter = false;*/
+	m_bReach = false;
+	m_fReach = 25.f;
+	for (_uint i = 0; i < 4; ++i)
+		m_bPick[i] = false;
+	for (_uint i = 0; i < 4; ++i)
+		m_bSkill[i] = false;
+
+
 
 	// 쉐이드 설정
 	D3DXMatrixIdentity(&m_UImatWorld);
@@ -59,9 +64,50 @@ HRESULT CFieldSkillUI::Ready_Object()
 	m_matWorldUI[0]._11 = m_RingSizeX[0];
 	m_matWorldUI[0]._22 = m_RingSizeY[0];
 
+	// 화살1 설정
+	m_ArrowPosX[0] = WINCX * 0.43f;
+	m_ArrowPosY[0] = WINCY * 0.5f;
+	m_ArrowSizeX = 25.6;
+	m_ArrowSizeY = 14;
+	m_matWorldUI[13]._11 = m_ArrowSizeX;
+	m_matWorldUI[13]._22 = m_ArrowSizeY;
+	_matrix matRot;
+	D3DXMatrixRotationZ(&matRot, D3DXToRadian(90));
+	m_matWorldUI[13] *= matRot;
+	m_matWorldUI[13]._41 = m_ArrowPosX[0];
+	m_matWorldUI[13]._42 = m_ArrowPosY[0];
+	// 화살2 설정
+	m_ArrowPosX[1] = WINCX * 0.57f;
+	m_ArrowPosY[1] = WINCY * 0.5f;
+	m_matWorldUI[14]._11 = m_ArrowSizeX;
+	m_matWorldUI[14]._22 = m_ArrowSizeY;
+	_matrix matRot1;
+	D3DXMatrixRotationZ(&matRot1, D3DXToRadian(270));
+	m_matWorldUI[14] *= matRot1;
+	m_matWorldUI[14]._41 = m_ArrowPosX[1];
+	m_matWorldUI[14]._42 = m_ArrowPosY[1];
+	// 화살3 설정
+	m_ArrowPosX[2] = WINCX * 0.5f;
+	m_ArrowPosY[2] = WINCY * 0.61f;
+	m_matWorldUI[15]._11 = m_ArrowSizeX;
+	m_matWorldUI[15]._22 = m_ArrowSizeY;
+	m_matWorldUI[15]._41 = m_ArrowPosX[2];
+	m_matWorldUI[15]._42 = m_ArrowPosY[2];
+	// 화살4 설정
+	m_ArrowPosX[3] = WINCX * 0.5f;
+	m_ArrowPosY[3] = WINCY * 0.39f;
+	m_matWorldUI[16]._11 = m_ArrowSizeX;
+	m_matWorldUI[16]._22 = m_ArrowSizeY;
+	_matrix matRot2;
+	D3DXMatrixRotationZ(&matRot2, D3DXToRadian(180));
+	m_matWorldUI[16] *= matRot2;
+	m_matWorldUI[16]._41 = m_ArrowPosX[3];
+	m_matWorldUI[16]._42 = m_ArrowPosY[3];
+
+
 	// 스킬1
 	m_SkillPosX[0] = WINCX * 0.5f;
-	m_SkillPosY[0] = WINCY * 0.82f;
+	m_SkillPosY[0] = WINCY * 0.84f;
 	m_SkillSizeX = 74.25f;
 	m_SkillSizeY = 74.25f;
 	m_matWorldUI[1]._41 = m_SkillPosX[0];
@@ -87,7 +133,7 @@ HRESULT CFieldSkillUI::Ready_Object()
 
 	// 스킬4
 	m_SkillPosX[3] = WINCX * 0.5f;
-	m_SkillPosY[3] = WINCY * 0.18f;
+	m_SkillPosY[3] = WINCY * 0.18;
 	m_matWorldUI[4]._41 = m_SkillPosX[3];
 	m_matWorldUI[4]._42 = m_SkillPosY[3];
 	m_matWorldUI[4]._11 = m_SkillSizeX;
@@ -139,7 +185,24 @@ HRESULT CFieldSkillUI::Ready_Object()
 	m_matWorldUI[12]._11 = m_RingSizeX[1];
 	m_matWorldUI[12]._22 = m_RingSizeY[1];
 
-
+	// 스킬 픽
+	 m_rcPick[0] = { long(m_SkillPosX[0] - m_SkillSizeX / 2.f) , long(m_SkillPosY[0] - m_SkillSizeY / 2.f) ,
+		 long(m_SkillPosX[0] + m_SkillSizeX / 2.f) , long(m_SkillPosY[0] + m_SkillSizeY / 2.f) };
+	 m_rcPick[1] = { long(m_SkillPosX[1] - m_SkillSizeX / 2.f) , long(m_SkillPosY[1] - m_SkillSizeY / 2.f) ,
+		long(m_SkillPosX[1] + m_SkillSizeX / 2.f) , long(m_SkillPosY[1] + m_SkillSizeY / 2.f) };
+	 m_rcPick[2] = { long(m_SkillPosX[2] - m_SkillSizeX / 2.f) , long(m_SkillPosY[2] - m_SkillSizeY / 2.f) ,
+		long(m_SkillPosX[2] + m_SkillSizeX / 2.f) , long(m_SkillPosY[2] + m_SkillSizeY / 2.f) };
+	 m_rcPick[3] = { long(m_SkillPosX[3] - m_SkillSizeX / 2.f) , long(m_SkillPosY[3] - m_SkillSizeY / 2.f) ,
+		long(m_SkillPosX[3] + m_SkillSizeX / 2.f) , long(m_SkillPosY[3] + m_SkillSizeY / 2.f) };
+	 // 마나링 폰트
+	 m_rcFont[0] = { long(m_SkillPosX[3] + 2 - m_ManaSizeX / 2.f) , long(m_SkillPosY[3] + 40 - m_ManaSizeY / 2.f) ,
+		long(m_SkillPosX[3] + m_ManaSizeX / 2.f) , long(m_SkillPosY[3] + m_ManaSizeY / 2.f) };
+	 m_rcFont[1] = { long(m_SkillPosX[1] + 2 - m_ManaSizeX / 2.f) , long(m_SkillPosY[1] + 52 - m_ManaSizeY / 2.f) ,
+		long(m_SkillPosX[1] + m_ManaSizeX / 2.f) , long(m_SkillPosY[1] + m_ManaSizeY / 2.f) };
+	 m_rcFont[2] = { long(m_SkillPosX[2] + 2 - m_ManaSizeX / 2.f) , long(m_SkillPosY[2] + 52 - m_ManaSizeY / 2.f) ,
+		long(m_SkillPosX[2] + m_ManaSizeX / 2.f) , long(m_SkillPosY[2] + m_ManaSizeY / 2.f) };
+	 m_rcFont[3] = { long(m_SkillPosX[0] + 2 - m_ManaSizeX / 2.f) , long(m_SkillPosY[0] + 40 - m_ManaSizeY / 2.f) ,
+	   long(m_SkillPosX[0] + m_ManaSizeX / 2.f) , long(m_SkillPosY[0] + m_ManaSizeY / 2.f) };
 	return S_OK;
 }
 
@@ -152,6 +215,9 @@ _int CFieldSkillUI::Update_Object(const _float& fTimeDelta)
 
 	if (m_bIsOn)
 	{
+		if (nullptr == m_pPlayer)
+			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
 		if (m_bShirnk)
 		{
 			_vec3 vOut = m_pUITransform[0]->Lerp(_vec3{ m_RingSizeX[0] , m_RingSizeY[0], 0.f }, _vec3{ 240.f , 230.f, 0.f }, 0.1f, fTimeDelta);
@@ -163,6 +229,73 @@ _int CFieldSkillUI::Update_Object(const _float& fTimeDelta)
 			else
 				m_bShirnk = false;
 		}
+		if (!m_bReach)
+		{
+			_vec3 vOut = m_pUITransform[1]->Lerp(_vec3{ m_ArrowPosX[0] , m_ArrowPosY[0], 0.f }
+			, _vec3{ m_ArrowPosX[0] - m_fReach , m_ArrowPosY[0], 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[13]._41 = vOut.x;
+				m_matWorldUI[13]._42 = vOut.y;
+			}
+			vOut = m_pUITransform[2]->Lerp(_vec3{ m_ArrowPosX[1] , m_ArrowPosY[1], 0.f }
+			, _vec3{ m_ArrowPosX[1] + m_fReach , m_ArrowPosY[1], 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[14]._41 = vOut.x;
+				m_matWorldUI[14]._42 = vOut.y;
+			}
+			vOut = m_pUITransform[3]->Lerp(_vec3{ m_ArrowPosX[2] , m_ArrowPosY[2], 0.f }
+			, _vec3{ m_ArrowPosX[2], m_ArrowPosY[2] + m_fReach, 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[15]._41 = vOut.x;
+				m_matWorldUI[15]._42 = vOut.y;
+			}
+			vOut = m_pUITransform[4]->Lerp(_vec3{ m_ArrowPosX[3] , m_ArrowPosY[3], 0.f }
+			, _vec3{ m_ArrowPosX[3], m_ArrowPosY[3] - m_fReach, 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[16]._41 = vOut.x;
+				m_matWorldUI[16]._42 = vOut.y;
+			}
+			else
+				m_bReach = true;
+		}
+		if (m_bReach)
+		{
+			_vec3 vOut = m_pUITransform[1]->Lerp(_vec3{ m_ArrowPosX[0] - m_fReach , m_ArrowPosY[0], 0.f }
+			, _vec3{ m_ArrowPosX[0], m_ArrowPosY[0], 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[13]._41 = vOut.x;
+				m_matWorldUI[13]._42 = vOut.y;
+			}
+			vOut = m_pUITransform[2]->Lerp(_vec3{ m_ArrowPosX[1] + m_fReach , m_ArrowPosY[1], 0.f }
+			, _vec3{ m_ArrowPosX[1] , m_ArrowPosY[1], 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[14]._41 = vOut.x;
+				m_matWorldUI[14]._42 = vOut.y;
+			}
+			vOut = m_pUITransform[3]->Lerp(_vec3{ m_ArrowPosX[2] , m_ArrowPosY[2] + m_fReach, 0.f }
+			, _vec3{ m_ArrowPosX[2], m_ArrowPosY[2], 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[15]._41 = vOut.x;
+				m_matWorldUI[15]._42 = vOut.y;
+			}
+			vOut = m_pUITransform[4]->Lerp(_vec3{ m_ArrowPosX[3] , m_ArrowPosY[3] - m_fReach, 0.f }
+			, _vec3{ m_ArrowPosX[3], m_ArrowPosY[3], 0.f }, 0.6f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matWorldUI[16]._41 = vOut.x;
+				m_matWorldUI[16]._42 = vOut.y;
+			}
+			else
+				m_bReach = false;
+		}
+
 	}
 	
 	return iExit;
@@ -173,9 +306,7 @@ void CFieldSkillUI::LateUpdate_Object()
 
 	if (m_bIsOn)
 	{
-		
-
-		
+		Picking_UI();
 
 		__super::LateUpdate_Object();
 	}
@@ -200,10 +331,29 @@ void CFieldSkillUI::Render_Object()
 		m_pUITextureCom[0]->Render_Texture();
 		m_pBufferCom->Render_Buffer();
 
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+		
 
 		if (!m_bShirnk)
 		{
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(200, 255, 255, 255));
+			// 작은 화살표
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[13]);
+			m_pUITextureCom[1]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[14]);
+			m_pUITextureCom[1]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[15]);
+			m_pUITextureCom[1]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[16]);
+			m_pUITextureCom[1]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			// 작은링1
 			if (m_bPick[0])
@@ -233,6 +383,7 @@ void CFieldSkillUI::Render_Object()
 				m_pUITextureCom[0]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 			}
+			
 			
 
 			// 스킬1
@@ -269,6 +420,14 @@ void CFieldSkillUI::Render_Object()
 			m_pBufferCom->Render_Buffer();
 			
 			
+			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"1", -1,
+				&m_rcFont[0], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"2", -1,
+				&m_rcFont[1], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"3", -1,
+				&m_rcFont[2], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"4", -1,
+				&m_rcFont[3], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
 
 		}
 		
@@ -283,12 +442,51 @@ void CFieldSkillUI::Picking_UI()
 	POINT pt;
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
-
-	D3DVIEWPORT9 ViewPort;
-
-	m_pGraphicDev->GetViewport(&ViewPort);
-
 	pt.y = WINCY - pt.y;
+
+	if (PtInRect(&m_rcPick[0], pt))
+	{
+		m_bPick[0] = true;
+
+		m_bSkill[0] = true;
+		m_bSkill[1] = false;
+		m_bSkill[2] = false;
+		m_bSkill[3] = false;
+	}
+	else if (PtInRect(&m_rcPick[1], pt))
+	{
+		m_bPick[1] = true;
+
+		m_bSkill[0] = false;
+		m_bSkill[1] = true;
+		m_bSkill[2] = false;
+		m_bSkill[3] = false;
+	}
+		
+	else if (PtInRect(&m_rcPick[2], pt))
+	{
+		m_bPick[2] = true;
+
+		m_bSkill[0] = false;
+		m_bSkill[1] = false;
+		m_bSkill[2] = true;
+		m_bSkill[3] = false;
+	}
+	else if (PtInRect(&m_rcPick[3], pt))
+	{
+		m_bPick[3] = true;
+
+		m_bSkill[0] = false;
+		m_bSkill[1] = false;
+		m_bSkill[2] = false;
+		m_bSkill[3] = true;
+	}
+	else
+	{
+		for (_uint i = 0; i < 4; ++i)
+			m_bPick[i] = false;
+	}
+
 
 }
 
@@ -312,7 +510,7 @@ void CFieldSkillUI::Mouse_Input()
 	{
 		m_bIsOn = false;
 		
-		Ready_Object();
+		Reset_SkillUI();
 
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
@@ -322,6 +520,22 @@ void CFieldSkillUI::Mouse_Input()
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Ring"));
 		pRingUI->Set_Active(true);
 
+	}
+}
+
+void CFieldSkillUI::Reset_SkillUI()
+{
+	m_bShirnk = true;
+	m_bReach = false;
+
+	for (_uint i = 0; i < 4; ++i)
+		m_bPick[i] = false;
+	for (_uint i = 0; i < 4; ++i)
+		m_bSkill[i] = false;
+
+	for (_uint i = 0; i < 5; ++i)
+	{
+		m_pUITransform[i]->Reset_Lerp();
 	}
 }
 

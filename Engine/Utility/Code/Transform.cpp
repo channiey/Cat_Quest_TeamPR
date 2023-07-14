@@ -185,6 +185,12 @@ _vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float&
 	return vOut;
 }
 
+void CTransform::Reset_Lerp()
+{
+	m_bStart = false;
+	m_fCurTime = 0;
+}
+
 void CTransform::Cal_WorldMat()
 {
 	// 저장된 정보를 바탕으로 최종 월드행렬을 계산한다.
