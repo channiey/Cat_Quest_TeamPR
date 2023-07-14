@@ -74,15 +74,20 @@ void CItem::OnCollision_Enter(CGameObject* _pColObj)
 	// Target - Pos
 	_vec3 vColPos =  _pColObj->Get_Transform()->Get_Info(INFO_POS);
 	
-
 	// Item - Pos
 	_vec3	vOwnerPos =  m_pTransformCom->Get_Info(INFO_POS);
 
+	// Overlap - 콜라이더끼리 충돌 시
+
 	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
+	if (_pColObj->Get_Type() == OBJ_TYPE::PLAYER)
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);
+	}
 
 	
-	CEventMgr::GetInstance()->Delete_Obj(this);
+
 	
 	
 
