@@ -5,7 +5,7 @@
 //#include "EventMgr.h"
 //
 //CEffect_Skill_Fire::CEffect_Skill_Fire(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-//	: CEffect(pGraphicDev, _pOwnerObject), m_pTextureCom(nullptr)
+//	: CEffect(pGraphicDev, _pOwnerObject, EFFECT_SKILL_FIRE), m_pTextureCom(nullptr)
 //{
 //}
 //

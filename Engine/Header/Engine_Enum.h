@@ -146,7 +146,21 @@ namespace Engine
 		/* ========================================= Effect ========================================*/
 
 
+
+		// ENVIRONMENT
 		EFFECT_MOVEDUST, EFFECT_MOVEWATER, EFFECT_PLAYABLE_SHADOW,
+
+		// SKILL
+		EFFECT_SKILL_FIRE,
+
+		// Cast
+		EFFECT_SKILL_CAST_YELLOW, EFFECT_SKILL_CAST_PURPLE, EFFECT_SKILL_CAST_BLUE,
+
+
+
+
+
+
 
 
 		TYPEEND

@@ -32,6 +32,7 @@ public:
 
 	void					Reverse			();
 
+
 public:
 	HRESULT					Ready_Transform	();
 	virtual _int			Update_Component(const _float& fTimeDelta);

@@ -14,7 +14,6 @@ CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, cons
 {
 	ZeroMemory(&m_vOffSet, sizeof(_vec3));
 	ZeroMemory(&m_vSize, sizeof(_vec3));
-
 }
 
 CEffect::CEffect(const CEffect & rhs)
@@ -41,7 +40,10 @@ _int CEffect::Update_Object(const _float & fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	//m_pAnimatorCom->Update_Animator(fTimeDelta);
+	if (nullptr != m_pAnimatorCom)
+		m_pAnimatorCom->Update_Animator(fTimeDelta);
+
+	//m_pAnimatorCom->Update_Animator(fTimeDelta); // 마지막 병합에서는 주석 처리 되어 있었음
 
 	return iExit;
 }
@@ -53,7 +55,10 @@ void CEffect::LateUpdate_Object()
 
 void CEffect::Render_Object()
 {
-	//m_pAnimatorCom->Render_Animator();
+	if(nullptr != m_pAnimatorCom)
+		m_pAnimatorCom->Render_Animator();
+
+	// m_pAnimatorCom->Render_Animator(); // 마지막 병합에서는 주석 처리 되어 있었음
 
 	__super::Render_Object(); // 콜라이더 출력
 }
@@ -62,10 +67,6 @@ void CEffect::Render_Object()
 HRESULT CEffect::Add_Component()
 {
 	CComponent* pComponent = nullptr;
-
-	pComponent = m_pAnimatorCom = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
 
 	pComponent = m_pBufferCom = dynamic_cast<CTerrainRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
