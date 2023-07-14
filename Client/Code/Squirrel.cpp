@@ -33,9 +33,15 @@ HRESULT CSquirrel::Ready_Object()
 	// Stat Info
 	//m_tStatInfo.bDead = false;
 
+	// 원래 이미지 크기
+	m_vImageSize.x = 0.61f;  // 100px = 1.f
+	m_vImageSize.y = 0.68f;
+	m_vImageSize.z = 2.f;   // 고정 값
+
+
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 0.5f * 2.5f, 0.52f * 2.5f , 1.f });
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f, m_vImageSize.y * 2.5f , m_vImageSize.z });
 
 
 	m_pTransformCom->Set_Pos(_vec3{ 170.f, m_pTransformCom->Get_Scale().y, 110.f });

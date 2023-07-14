@@ -106,7 +106,9 @@ protected:
 
 	_vec3					m_vOriginPos;
 
-	float					m_fJumpingSpeed;
+	_float					m_fJumpingSpeed; 
+
+	_vec3					m_vImageSize;
 
 protected:
 

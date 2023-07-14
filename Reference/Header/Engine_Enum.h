@@ -78,6 +78,7 @@ namespace Engine
 
 		/* ========================================= Item ========================================*/
 
+		ITEM_GOLD, ITEM_EXP, ITEM_KEY,
 
 		// Item
 
@@ -189,6 +190,9 @@ namespace Engine
 
 	enum class UIENTER_TYPE			{ ENTER, INSPECT, CATNAP, BUY, CHAT, TYPEEND };
 
+	enum class ITEM_TYPE			{ EQUIPMENT , WEAPON, OBJECT, TYPEEND};
+
+
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류
 
 	enum TERRIAN_TAG {TERRAIN_WORLD, TERRAIN_TEMP, TERRAIN_DUNGEON_ICE, TERRAIN_END }; 	// IMGUI 터레인 저장을 위한 분류
@@ -218,5 +222,7 @@ namespace Engine
 	enum SPACEID					{ LOCAL, WORLD, SPACE_END };
 
 	enum RENDERID					{ RENDER_PRIORITY, RENDER_NONALPHA, RENDER_ALPHA, RENDER_VIEWUI, RENDER_WDUI, RENDER_END };	// 현재는 장치를 통한 렌더 그룹이지만, 이후에는 셰이더에 대한 속성으로도 나뉘게 된다.
+
+
 }
 #endif // Engine_Enum_h__

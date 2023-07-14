@@ -4,8 +4,6 @@
 
 BEGIN(Engine)
 
-class CCubeCol;
-class CCollider;
 
 END
 

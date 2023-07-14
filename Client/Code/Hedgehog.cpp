@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
+//state
 #include "HedgehogState_Patrol.h"
 #include "HedgehogState_Chase.h"
 #include "HedgehogState_ComeBack.h"
@@ -34,17 +35,22 @@ HRESULT CHedgehog::Ready_Object()
 	//m_tStatInfo.bDead = false;
 
 
+
+	// 원래 이미지 크기
+	m_vImageSize.x = 0.73f;  // 100px = 1.f
+	m_vImageSize.y = 0.52f;
+	m_vImageSize.z = 2.f;   // 고정 값
+
+
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 0.73f *2.5 , 0.52f* 2.5, 2.f });
-
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x *2.5f , m_vImageSize.y  * 2.5f, m_vImageSize.z });
 	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 110.f });
-
 	m_pTransformCom->Set_Dir({ 0.f, 0.f, -1.f });
 
-	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
-	fPatternTime = 2.f;
+	m_vOriginPos	= m_pTransformCom->Get_Info(INFO_POS);
 
+	fPatternTime	= 2.f;
 	m_fJumpingSpeed = 0.05;
 
 

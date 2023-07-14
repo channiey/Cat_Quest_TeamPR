@@ -40,8 +40,15 @@ HRESULT CWyvern::Ready_Object()
 	// Stat Info
 	//m_tStatInfo.bDead = false;
 
+
+	// 원래 이미지 크기
+	m_vImageSize.x = 1.f;  // 100px = 1.f
+	m_vImageSize.y = 1.f;
+	m_vImageSize.z = 2.f;   // 고정 값
+
+
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.f, m_vImageSize.y * 2.f , m_vImageSize.z });
 	
 	m_pTransformCom->Set_Pos(_vec3{ 150, m_pTransformCom->Get_Scale().y, 110.f });
 
