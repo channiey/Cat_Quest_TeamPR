@@ -3,6 +3,8 @@
 
 #include "Export_Function.h"
 
+#include "Shadow_Npc.h"
+
 CNpc_BlackSmith::CNpc_BlackSmith(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_BLACKSMITH)
 {
@@ -26,8 +28,10 @@ HRESULT CNpc_BlackSmith::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	m_pTransformCom->Set_Pos(_vec3{ 85.f, m_pTransformCom->Get_Scale().y + 3.f, 110.f });
+	m_pTransformCom->Set_Pos(_vec3{ 85.f, m_pTransformCom->Get_Scale().y + 1.f, 110.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
+
+	CEventMgr::GetInstance()->Add_Obj(L"Npc_BlackSmith_Shadow", CShadow_Npc::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_NPC_SHADOW));
 
 	return S_OK;
 }

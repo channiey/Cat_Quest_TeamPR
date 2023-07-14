@@ -146,7 +146,7 @@ namespace Engine
 		/* ========================================= Effect ========================================*/
 
 
-		EFFECT_MOVEDUST, EFFECT_MOVEWATER, EFFECT_PLAYABLE_SHADOW,
+		EFFECT_MOVEDUST, EFFECT_MOVEWATER, EFFECT_PLAYABLE_SHADOW, EFFECT_NPC_SHADOW,
 
 
 		TYPEEND
