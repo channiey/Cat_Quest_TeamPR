@@ -276,6 +276,8 @@
     <ClInclude Include="..\Header\PlayerState_fRoll.h" />
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
+    <ClInclude Include="..\Header\Pollen.h" />
+    <ClInclude Include="..\Header\PollenGenerator.h" />
     <ClInclude Include="..\Header\Ram.h" />
     <ClInclude Include="..\Header\RamState_Attack.h" />
     <ClInclude Include="..\Header\RamState_Chase.h" />
@@ -291,6 +293,9 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\Shadow_Monster.h" />
+    <ClInclude Include="..\Header\Shadow_Npc.h" />
+    <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Blue.h" />
@@ -347,6 +352,7 @@
     <ClInclude Include="Effect_Cast_Purple.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shadow_Item.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -460,6 +466,8 @@
     <ClCompile Include="..\Code\PlayerState_fRoll.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
+    <ClCompile Include="..\Code\Pollen.cpp" />
+    <ClCompile Include="..\Code\PollenGenerator.cpp" />
     <ClCompile Include="..\Code\Ram.cpp" />
     <ClCompile Include="..\Code\RamState_Attack.cpp" />
     <ClCompile Include="..\Code\RamState_Chase.cpp" />
@@ -532,6 +540,7 @@
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Effect_Cast_Purple.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Shadow_Item.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -9,7 +9,7 @@ END
 
 class CShadow_Monster : public CEffect
 {
-	explicit CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
+	explicit CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CShadow_Monster(const CShadow_Monster& rhs);
 	virtual ~CShadow_Monster();
 
@@ -27,10 +27,10 @@ private:
 	CTexture* m_pTextureCom;
 
 	_float    m_InitY;
-	_float    m_fJumpPower;
+	_float    m_fSize;
 
 public:
-	static CShadow_Monster* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
+	static CShadow_Monster* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 private:
 	virtual void				Free() override;

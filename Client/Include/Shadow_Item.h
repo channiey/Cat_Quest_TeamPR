@@ -7,11 +7,11 @@ class CTexture;
 
 END
 
-class CShadow_Npc : public CEffect
+class CShadow_Item : public CEffect
 {
-	explicit CShadow_Npc(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
-	explicit CShadow_Npc(const CShadow_Npc& rhs);
-	virtual ~CShadow_Npc();
+	explicit CShadow_Item(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	explicit CShadow_Item(const CShadow_Item& rhs);
+	virtual ~CShadow_Item();
 
 public:
 	virtual HRESULT				Ready_Object() override;
@@ -26,8 +26,11 @@ private:
 private:
 	CTexture* m_pTextureCom;
 
+	_float    m_InitY;
+	_float    m_fSize;
+
 public:
-	static CShadow_Npc* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CShadow_Item* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 private:
 	virtual void				Free() override;

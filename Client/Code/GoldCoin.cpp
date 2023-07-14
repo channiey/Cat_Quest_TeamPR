@@ -2,6 +2,8 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
+#include "Shadow_Item.h"
+
 CGoldCoin::CGoldCoin(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem_Object(pGraphicDev, OBJ_ID::ITEM_GOLD)
 {
@@ -40,6 +42,7 @@ HRESULT CGoldCoin::Ready_Object()
 	
 	m_fJumpingSpeed = 0.01;
 
+	CEventMgr::GetInstance()->Add_Obj(L"Gold_Shadow", CShadow_Item::Create(m_pGraphicDev, this));
 
 	return S_OK;
 }

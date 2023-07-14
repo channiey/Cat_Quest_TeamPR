@@ -3,8 +3,10 @@
 
 #include "Export_Function.h"
 
-CShadow_Monster::CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
-	: CEffect(pGraphicDev, _pOwnerObject, _eID), m_pTextureCom(nullptr)
+#include "Monster.h"
+
+CShadow_Monster::CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MONSTER_SHADOW), m_pTextureCom(nullptr)
 {
 	m_pOwnerobject = _pOwnerObject;
 }
@@ -38,7 +40,7 @@ _int CShadow_Monster::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_fJumpPower = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
+	m_fSize = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
 
 	return iExit;
 }
@@ -66,11 +68,9 @@ void CShadow_Monster::Render_Object()
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
-	// _11 같은 경우는 왼쪽으로 틀면 x사이즈가 늘어나서 절대값으로
-	matWorld._11 = 0.5f + m_fJumpPower * 0.5f;
-	matWorld._33 = 0.5f + m_fJumpPower * 0.5f;
+	matWorld._11 = 0.5f + m_fSize * 0.5f;
+	matWorld._33 = 0.5f + m_fSize * 0.5f;
 	
-
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
@@ -101,9 +101,9 @@ void CShadow_Monster::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	m_bActive = true;
 }
 
-CShadow_Monster* CShadow_Monster::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
+CShadow_Monster* CShadow_Monster::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CShadow_Monster* pInstance = new CShadow_Monster(pGraphicDev, _pOwnerObject, _eID);
+	CShadow_Monster* pInstance = new CShadow_Monster(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
