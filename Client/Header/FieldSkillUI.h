@@ -48,16 +48,20 @@ private:
 
 	_float					m_SkillSizeX;
 	_float					m_SkillSizeY;
+	_float					m_ManaSizeX;
+	_float					m_ManaSizeY;
 	_float					m_SkillPosX[4];
 	_float					m_SkillPosY[4];
+	_uint					m_SkillKind[4];
 
+	RECT					m_rcPick[4];
+	_bool					m_bPick[4];
 
 	CTexture*				m_pUITextureCom[4];
 	CTransform*				m_pUITransform[5];
 
 	RECT					m_rcFont[4];
-	RECT					m_rcPick[4];
-	_bool					m_bPick[4];
+	
 
 	_bool					m_bIsOn;
 

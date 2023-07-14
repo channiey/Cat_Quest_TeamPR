@@ -28,10 +28,10 @@ HRESULT CFieldSkillUI::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_bShirnk = true;
-	for (auto iter : m_bReach)
+	/*for (auto iter : m_bReach)
 		iter = false;
 	for (auto iter : m_bPick)
-		iter = false;
+		iter = false;*/
 
 	// 쉐이드 설정
 	D3DXMatrixIdentity(&m_UImatWorld);
@@ -49,15 +49,95 @@ HRESULT CFieldSkillUI::Ready_Object()
 	{
 		D3DXMatrixIdentity(&m_matWorldUI[i]);
 	}
-	// 큰링설정 300.f, 288.f, 360.f; 345.f;
+	// 큰링설정 200.f 192.f
 	m_RingPosX[0] = WINCX * 0.5f;
 	m_RingPosY[0] = WINCY * 0.5f;
 	m_RingSizeX[0] = 320.f;
-	m_RingSizeY[0] = 307.2f;
+	m_RingSizeY[0] = 306.4f;
 	m_matWorldUI[0]._41 = m_RingPosX[0];
 	m_matWorldUI[0]._42 = m_RingPosY[0];
 	m_matWorldUI[0]._11 = m_RingSizeX[0];
 	m_matWorldUI[0]._22 = m_RingSizeY[0];
+
+	// 스킬1
+	m_SkillPosX[0] = WINCX * 0.5f;
+	m_SkillPosY[0] = WINCY * 0.82f;
+	m_SkillSizeX = 74.25f;
+	m_SkillSizeY = 74.25f;
+	m_matWorldUI[1]._41 = m_SkillPosX[0];
+	m_matWorldUI[1]._42 = m_SkillPosY[0];
+	m_matWorldUI[1]._11 = m_SkillSizeX;
+	m_matWorldUI[1]._22 = m_SkillSizeY;
+
+	// 스킬2
+	m_SkillPosX[1] = WINCX * 0.69f;
+	m_SkillPosY[1] = WINCY * 0.5f;
+	m_matWorldUI[2]._41 = m_SkillPosX[1];
+	m_matWorldUI[2]._42 = m_SkillPosY[1];
+	m_matWorldUI[2]._11 = m_SkillSizeX;
+	m_matWorldUI[2]._22 = m_SkillSizeY;
+
+	// 스킬3
+	m_SkillPosX[2] = WINCX * 0.31f;
+	m_SkillPosY[2] = WINCY * 0.5f;
+	m_matWorldUI[3]._41 = m_SkillPosX[2];
+	m_matWorldUI[3]._42 = m_SkillPosY[2];
+	m_matWorldUI[3]._11 = m_SkillSizeX;
+	m_matWorldUI[3]._22 = m_SkillSizeY;
+
+	// 스킬4
+	m_SkillPosX[3] = WINCX * 0.5f;
+	m_SkillPosY[3] = WINCY * 0.18f;
+	m_matWorldUI[4]._41 = m_SkillPosX[3];
+	m_matWorldUI[4]._42 = m_SkillPosY[3];
+	m_matWorldUI[4]._11 = m_SkillSizeX;
+	m_matWorldUI[4]._22 = m_SkillSizeY;
+
+	// 마나링1
+	m_ManaSizeX = 30.f;
+	m_ManaSizeY = 34.f;
+	m_matWorldUI[5]._41 = m_SkillPosX[0];
+	m_matWorldUI[5]._42 = m_SkillPosY[0] - 75;
+	m_matWorldUI[5]._11 = m_ManaSizeX;
+	m_matWorldUI[5]._22 = m_ManaSizeY;
+	// 마나링2
+	m_matWorldUI[6]._41 = m_SkillPosX[1];
+	m_matWorldUI[6]._42 = m_SkillPosY[1] - 75;
+	m_matWorldUI[6]._11 = m_ManaSizeX;
+	m_matWorldUI[6]._22 = m_ManaSizeY;
+	// 마나링3
+	m_matWorldUI[7]._41 = m_SkillPosX[2];
+	m_matWorldUI[7]._42 = m_SkillPosY[2] - 75;
+	m_matWorldUI[7]._11 = m_ManaSizeX;
+	m_matWorldUI[7]._22 = m_ManaSizeY;
+	// 마나링4
+	m_matWorldUI[8]._41 = m_SkillPosX[3];
+	m_matWorldUI[8]._42 = m_SkillPosY[3] - 75;
+	m_matWorldUI[8]._11 = m_ManaSizeX;
+	m_matWorldUI[8]._22 = m_ManaSizeY;
+
+	// 작은링 1
+	m_RingSizeX[1] = 90.f;
+	m_RingSizeY[1] = 86.175f;
+	m_matWorldUI[9]._41 = m_SkillPosX[0];
+	m_matWorldUI[9]._42 = m_SkillPosY[0];
+	m_matWorldUI[9]._11 = m_RingSizeX[1];
+	m_matWorldUI[9]._22 = m_RingSizeY[1];
+	// 작은링 2
+	m_matWorldUI[10]._41 = m_SkillPosX[1];
+	m_matWorldUI[10]._42 = m_SkillPosY[1];
+	m_matWorldUI[10]._11 = m_RingSizeX[1];
+	m_matWorldUI[10]._22 = m_RingSizeY[1];
+	// 작은링 3
+	m_matWorldUI[11]._41 = m_SkillPosX[2];
+	m_matWorldUI[11]._42 = m_SkillPosY[2];
+	m_matWorldUI[11]._11 = m_RingSizeX[1];
+	m_matWorldUI[11]._22 = m_RingSizeY[1];
+	// 작은링 4
+	m_matWorldUI[12]._41 = m_SkillPosX[3];
+	m_matWorldUI[12]._42 = m_SkillPosY[3];
+	m_matWorldUI[12]._11 = m_RingSizeX[1];
+	m_matWorldUI[12]._22 = m_RingSizeY[1];
 
 
 	return S_OK;
@@ -110,17 +190,88 @@ void CFieldSkillUI::Render_Object()
 	
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
-		
+		// 쉐이드 비스무리
 		m_pTextureCom->Render_Texture();
 		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(128, 255, 255, 255));
-
+		// 큰링
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[0]);
 		m_pUITextureCom[0]->Render_Texture();
 		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		if (!m_bShirnk)
+		{
+
+			// 작은링1
+			if (m_bPick[0])
+			{
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[9]);
+				m_pUITextureCom[0]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
+			}
+			// 작은링2
+			if (m_bPick[1])
+			{
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[10]);
+				m_pUITextureCom[0]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
+			}
+			// 작은링3
+			if (m_bPick[2])
+			{
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[11]);
+				m_pUITextureCom[0]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
+			}
+			if (m_bPick[3])
+			{
+				// 작은링4
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[12]);
+				m_pUITextureCom[0]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
+			}
+			
+
+			// 스킬1
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[1]);
+			m_pUITextureCom[2]->Render_Texture(0);
+			m_pBufferCom->Render_Buffer();
+			// 스킬2
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
+			m_pUITextureCom[2]->Render_Texture(4);
+			m_pBufferCom->Render_Buffer();
+			// 스킬3
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
+			m_pUITextureCom[2]->Render_Texture(2);
+			m_pBufferCom->Render_Buffer();
+			// 스킬4
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
+			m_pUITextureCom[2]->Render_Texture(1);
+			m_pBufferCom->Render_Buffer();
+			// 마나링1
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[5]);
+			m_pUITextureCom[3]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			// 마나링2
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[6]);
+			m_pUITextureCom[3]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			// 마나링3
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[7]);
+			m_pUITextureCom[3]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			// 마나링4
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[8]);
+			m_pUITextureCom[3]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			
+			
+
+		}
+		
 
 		__super::Render_Object();
 	

@@ -254,6 +254,7 @@
     <ClInclude Include="..\Header\Npc_Mage.h" />
     <ClInclude Include="..\Header\Npc_Soldier.h" />
     <ClInclude Include="..\Header\Pillar.h" />
+    <ClInclude Include="..\Header\PlayerState_bRoll.h" />
     <ClInclude Include="..\Header\PlayerState_Hit.h" />
     <ClInclude Include="..\Header\PlayerState_fAttack1.h" />
     <ClInclude Include="..\Header\PlayerState_bAttack.h" />
@@ -331,7 +332,6 @@
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="PlayerState_bRoll.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -424,6 +424,7 @@
     <ClCompile Include="..\Code\Npc_Mage.cpp" />
     <ClCompile Include="..\Code\Npc_Soldier.cpp" />
     <ClCompile Include="..\Code\Pillar.cpp" />
+    <ClCompile Include="..\Code\PlayerState_bRoll.cpp" />
     <ClCompile Include="..\Code\PlayerState_Hit.cpp" />
     <ClCompile Include="..\Code\PlayerState_fAttack1.cpp" />
     <ClCompile Include="..\Code\PlayerState_bAttack.cpp" />
@@ -500,7 +501,6 @@
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="PlayerState_bRoll.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
