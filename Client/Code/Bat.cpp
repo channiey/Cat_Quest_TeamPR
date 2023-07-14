@@ -66,7 +66,7 @@ HRESULT CBat::Ready_Object()
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 	
-	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 #pragma region State Add
 
 	CState* pState;

@@ -7,11 +7,11 @@ class CTexture;
 
 END
 
-class CShadow_Npc : public CEffect
+class CPollen : public CEffect
 {
-	explicit CShadow_Npc(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
-	explicit CShadow_Npc(const CShadow_Npc& rhs);
-	virtual ~CShadow_Npc();
+	explicit CPollen(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos);
+	explicit CPollen(const CPollen& rhs);
+	virtual ~CPollen();
 
 public:
 	virtual HRESULT				Ready_Object() override;
@@ -25,9 +25,10 @@ private:
 
 private:
 	CTexture* m_pTextureCom;
-
+	_float    m_fSpeed;
+	_vec3     m_InitPos;
 public:
-	static CShadow_Npc* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CPollen* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos);
 
 private:
 	virtual void				Free() override;

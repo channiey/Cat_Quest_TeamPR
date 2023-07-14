@@ -31,7 +31,7 @@ HRESULT CNpc_BlackSmith::Ready_Object()
 	m_pTransformCom->Set_Pos(_vec3{ 85.f, m_pTransformCom->Get_Scale().y + 1.f, 110.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Npc_BlackSmith_Shadow", CShadow_Npc::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_NPC_SHADOW));
+	CEventMgr::GetInstance()->Add_Obj(L"Npc_BlackSmith_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
 	return S_OK;
 }

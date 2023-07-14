@@ -68,7 +68,7 @@ HRESULT CPlayer::Ready_Object()
 	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
 
-	CEventMgr::GetInstance()->Add_Obj(L"Player_Shadow", CShadow_Player::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_PLAYABLE_SHADOW));
+	CEventMgr::GetInstance()->Add_Obj(L"Player_Shadow", CShadow_Player::Create(m_pGraphicDev, this));
 
 #pragma region State
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);

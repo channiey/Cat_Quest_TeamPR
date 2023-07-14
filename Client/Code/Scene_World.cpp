@@ -98,7 +98,6 @@
 #include "Cloud1.h"
 #include "Cloud2.h"
 #include "Cloud3.h"
-#include "MoveDust.h"
 
 #include "Effect_Cast_Blue.h"
 #include "Effect_Cast_Yellow.h"
@@ -116,6 +115,9 @@
 #include "GoldCoin.h"
 #include "ExpCoin.h"
 #include "Key.h"
+
+// Generator
+#include "PollenGenerator.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -804,6 +806,11 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
 		Set_Pos({ 145.f, 12.f, 70.f });
+
+	// Generator
+	// pGameObject = CPollenGenerator::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Pollen_Generator", pGameObject), E_FAIL);
 
 #pragma endregion
 

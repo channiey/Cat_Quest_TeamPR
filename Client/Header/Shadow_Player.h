@@ -9,7 +9,7 @@ END
 
 class CShadow_Player : public CEffect
 {
-	explicit CShadow_Player(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
+	explicit CShadow_Player(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CShadow_Player(const CShadow_Player& rhs);
 	virtual ~CShadow_Player();
 
@@ -27,7 +27,7 @@ private:
 	CTexture* m_pTextureCom;
 
 public:
-	static CShadow_Player* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
+	static CShadow_Player* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 private:
 	virtual void				Free() override;

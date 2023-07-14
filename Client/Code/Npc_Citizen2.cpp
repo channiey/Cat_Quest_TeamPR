@@ -31,7 +31,7 @@ HRESULT CNpc_Citizen2::Ready_Object()
 	m_pTransformCom->Set_Pos(_vec3{ 95.f , m_pTransformCom->Get_Scale().y + 1.f, 125.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen2_Shadow", CShadow_Npc::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_NPC_SHADOW));
+	CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen2_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
 	return S_OK;
 }

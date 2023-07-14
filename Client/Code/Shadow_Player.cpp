@@ -3,8 +3,8 @@
 
 #include "Export_Function.h"
 
-CShadow_Player::CShadow_Player(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
-	: CEffect(pGraphicDev, _pOwnerObject, _eID), m_pTextureCom(nullptr)
+CShadow_Player::CShadow_Player(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_PLAYABLE_SHADOW), m_pTextureCom(nullptr)
 {
 	m_pOwnerobject = _pOwnerObject;
 }
@@ -91,9 +91,9 @@ void CShadow_Player::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	m_bActive = true;
 }
 
-CShadow_Player* CShadow_Player::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
+CShadow_Player* CShadow_Player::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CShadow_Player* pInstance = new CShadow_Player(pGraphicDev, _pOwnerObject, _eID);
+	CShadow_Player* pInstance = new CShadow_Player(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
