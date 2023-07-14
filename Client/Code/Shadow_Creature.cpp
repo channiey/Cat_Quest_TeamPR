@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CShadow_Creature::CShadow_Creature(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: CEffect(pGraphicDev, _pOwnerObject), m_pTextureCom(nullptr)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_PLAYABLE_SHADOW), m_pTextureCom(nullptr)
 {
 	m_pOwnerobject = _pOwnerObject;
 }

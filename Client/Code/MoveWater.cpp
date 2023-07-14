@@ -5,7 +5,7 @@
 #include "MoveWater.h"
 
 CMoveWater::CMoveWater(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: CEffect(pGraphicDev, _pOwnerObject)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MOVEWATER)
 {
 	m_pOwnerobject = _pOwnerObject;
 }

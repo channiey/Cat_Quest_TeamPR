@@ -5,7 +5,7 @@
 #include "MoveDust.h"
 
 CMoveDust::CMoveDust(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: CEffect(pGraphicDev, _pOwnerObject)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MOVEDUST)
 {
 	m_pOwnerobject = _pOwnerObject;
 }
@@ -53,7 +53,7 @@ _int CMoveDust::Update_Object(const _float& fTimeDelta)
 
 	m_pAnimation->Update_Animation(fTimeDelta);
 
-	m_iTranslucent -= 5;
+	m_iTranslucent -= 2;
 
 	if (m_pAnimation->Is_End()) 
 	{

@@ -143,6 +143,11 @@ namespace Engine
 
 		PLAYER,
 
+		/* ========================================= Effect ========================================*/
+
+
+		EFFECT_MOVEDUST, EFFECT_MOVEWATER, EFFECT_PLAYABLE_SHADOW,
+
 
 		TYPEEND
 
