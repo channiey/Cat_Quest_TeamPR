@@ -25,7 +25,6 @@ public:
 	virtual STATE_TYPE		Key_Input(const _float& fTimeDelta);
 
 
-
 public:
 	static CHedgehogState_Patrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
@@ -35,7 +34,14 @@ private:
 
 private:
 
-	_float m_fAccTime;
+	_float m_fAccTime;  // 누적시간
+
+	_float  m_fPatrolRange;
+	_float  m_fChaseRange;
+	_float  m_fAttackRange;
+	_float  m_fComeBackRange;
+	_float  m_fPlayerTargetRange;
+
 
 
 };

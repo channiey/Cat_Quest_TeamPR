@@ -27,16 +27,15 @@ HRESULT CRam::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 10.f;
-	m_tMoveInfo.fRotSpeed = 1.f;
+	m_tMoveInfo.fMoveSpeed  = 3.f;
+	m_tMoveInfo.fRotSpeed	= 1.f;
 
 	// Stat Info
 	//m_tStatInfo.bDead = false;
 
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 1.44f, 1.48f, 2.f });
-
+	m_pTransformCom->Set_Scale(_vec3{ 0.72f * 2.5, 0.74 * 2.5f, 2.f });
 
 	m_pTransformCom->Set_Pos(_vec3{ 110.f, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -46,6 +45,7 @@ HRESULT CRam::Ready_Object()
 
 	fPatternTime = 2.f;
 
+	m_fJumpingSpeed = 0.05;
 
 #pragma region State Add
 
@@ -66,7 +66,7 @@ HRESULT CRam::Ready_Object()
 
 	// Attack
 	pState = CRamState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK, pState);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
 #pragma endregion
 
@@ -85,8 +85,23 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 
 
 
+	// Jumping 
 
-	
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
+
 
 
 	return iExit;
@@ -106,6 +121,7 @@ void CRam::Render_Object()
 	_vec3 Dir = m_pTransformCom->Get_Dir();
 
 	//cout << Dir.z << endl;
+
 	if (m_pTransformCom->Get_Dir().z <= 0)
 	{
 		m_pTextureCom[(_uint)STATE_TYPE::PATROL]->Render_Texture();
@@ -148,8 +164,6 @@ HRESULT CRam::Add_Component()
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
 
 
-	
-
 
 #pragma region Texture
 
@@ -157,7 +171,7 @@ HRESULT CRam::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	// 임시 상태 값 - 추후 수정
+
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Ram", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);

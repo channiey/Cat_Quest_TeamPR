@@ -5,6 +5,11 @@
 CHedgehogState_Chase::CHedgehogState_Chase(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
+    , m_fChaseRange(0.f)
+    , m_fComeBackRange(0.f)
+    , m_fPatrolRange(0.f)
+    , m_fPlayerTargetRange(0.f)
+    , m_fAttackRange(0.f)
 {
 }
 
@@ -14,90 +19,101 @@ CHedgehogState_Chase::~CHedgehogState_Chase()
 
 HRESULT CHedgehogState_Chase::Ready_State(CStateMachine* pOwner)
 {
+
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
     m_eState = STATE_TYPE::CHASE;
+
+
+    // 상태에 전이 조건 수치
+    m_fPatrolRange = 1.f;  // Patrol 전이
+    m_fChaseRange = 10.f; // Chase 전이
+    m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
+    m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
+    m_fAttackRange = 3.f;  // Attack 전이
+
+
     return S_OK;
 }
 
 STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
 {
-  
+
+    // Monster - Ai Com
+    CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
+
+    // Monster - Transform Com
+    CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+
+    // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
   
 
-    CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+    // Monster - Pos
+    _vec3	    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
+    // Monster - Origin Pos
+    _vec3       vOwnerOriginPos = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_OriginPos();
+    // Monster - Speed
+    _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
+    // Moanter - Scale
+    _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
+
+
+    // Player - Pos
+    _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
  
-    _float OwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
+    // Dir Vector
+    _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
+    _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
-    _vec3 OwnerOriginPos = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_OriginPos();
-
-
-    _vec3	vPlayerPos;
-    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
-
-    _vec3	vOwnerPos;
-    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
-
-    _vec3   vOwnerScale;
-    vOwnerScale = pOwnerTransform->Get_Scale();
-
-
-    _vec3		vDir;
-    vDir = vPlayerPos- vOwnerPos;
-    _float fDistance = (D3DXVec3Length(&vDir)); // 플레이어와의 거리
-
-    pPlayerTransform->Set_Dir(vDir);
-
-
-    _vec3       vOriginDir;
-    vOriginDir = OwnerOriginPos - vOwnerPos;
-    _float fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
+    // Distance
+    _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
+    _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
 
+ 
 
-    // 기능
-    CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
-    pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, OwnerSpeed);
-    
-    pOwnerTransform->Translate(fTimeDelta * OwnerSpeed);
+    // 현재 상태의 기능
+    pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+
+
 
     
+#pragma region State Change
+    // CHASE 우선순위
+    // Attack - Comeback - Patrol
 
-    if (fDistance <= 5.f) // Attack 전이 조건
+
+    // ATTACK 전이 조건
+    if (fPlayerDistance <= m_fAttackRange) 
     {
-       // cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        return STATE_TYPE::FRONT_ATTACK;
+        //cout << "attack 전이" << endl;
+        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        return STATE_TYPE::MONATTACK;
     }
-
-    if (fOriginDistance >= 30.f  && fDistance >10.f   )// Comeback 전이 조건
+    // COMEBACK 전이 조건
+    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
-       // cout << "COMBACK  전이" << endl;
-        pOwnerTransform->Set_Dir(vec3.zero);
-        pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        //cout << "COMBACK  전이" << endl;
+        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::COMEBACK;
     }
-    
-    if (fDistance >= 20.f)  // PATROL 전이 조건
+    // PATROL 전이 조건
+    if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
     {
-      //cout << "patrol 전이" << endl;
-      pOwnerTransform->Set_Dir(vec3.zero);
-      pOwnerTransform->Set_Scale({ fabs(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-      return STATE_TYPE::PATROL; 
+        //cout << "patrol 전이" << endl;
+        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        return STATE_TYPE::PATROL;
     }
+    // Default 
+    return STATE_TYPE::CHASE;
 
-  
 
- 
-   
-     return STATE_TYPE::CHASE;
-    
-
+#pragma endregion
   
 }
 
@@ -125,7 +141,7 @@ CHedgehogState_Chase* CHedgehogState_Chase::Create(LPDIRECT3DDEVICE9 pGraphicDev
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Hedgehog fAttackState Create Failed");
+        MSG_BOX("HedgehogState Chase Create Failed");
         return nullptr;
 
     }

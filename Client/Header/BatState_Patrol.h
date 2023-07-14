@@ -30,6 +30,7 @@ public:
 	static CBatState_Patrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
+
 private:
 	virtual void Free();
 
@@ -37,6 +38,11 @@ private:
 
 	_float m_fAccTime;
 
+	_float  m_fPatrolRange;
+	_float  m_fChaseRange;
+	_float  m_fAttackRange;
+	_float  m_fComeBackRange;
+	_float  m_fPlayerTargetRange;
 
 };
 

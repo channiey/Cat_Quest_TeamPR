@@ -8,6 +8,11 @@
 #include "WyvernState_ComeBack.h"
 
 
+#include "WyvernState_bPatrol.h"
+#include "WyvernState_bChase.h"
+#include "WyvernState_bAttack.h"
+#include "WyvernState_bComeBack.h"
+
 
 CWyvern::CWyvern(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_WYVERN)
@@ -29,7 +34,7 @@ HRESULT CWyvern::Ready_Object()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 5.f;
+	m_tMoveInfo.fMoveSpeed = 3.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
 	// Stat Info
@@ -46,10 +51,12 @@ HRESULT CWyvern::Ready_Object()
 
 	fPatternTime = 1.f;
 	
+	m_fJumpingSpeed = 0.05;
+
 #pragma region State Add
 
 	CState* pState;
-
+	// Front
 	// Patrol
 	pState = CWyvernState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
@@ -66,7 +73,25 @@ HRESULT CWyvern::Ready_Object()
 	// Attack
 	pState = CWyvernState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
+	
 
+	// Back 
+	// Patrol
+	pState = CWyvernState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
+
+	// Chase
+	pState = CWyvernState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
+
+
+	// ComeBack
+	pState = CWyvernState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
+
+	// Attack
+	pState = CWyvernState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 
 	
@@ -132,6 +157,25 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	
 
 
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
+
+
+
 	
 	return iExit;
 }
@@ -194,19 +238,19 @@ HRESULT CWyvern::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	// Back
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

@@ -23,11 +23,7 @@ public:
 	void	Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed);
 	const	_matrix* Compute_LookAtTarget(const _vec3* pTargetPos);
 	
-	
 	void	Random_Move(const _float& fTimeDelta, const _float& fSpeed);
-
-
-	void	Jumping_Motion(const _float& fTimeDelta, const _float& fSpeed, const _float &Y);
 
 
 public:

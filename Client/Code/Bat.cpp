@@ -33,14 +33,14 @@ HRESULT CBat::Ready_Object()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 10.f;
+	m_tMoveInfo.fMoveSpeed = 3.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
 	// Stat Info
 	//m_tStatInfo.bDead = false;
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
+	m_pTransformCom->Set_Scale(_vec3{ 2.5f, 2.5f, 2.5f });
 	
 	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -49,6 +49,8 @@ HRESULT CBat::Ready_Object()
 	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
+
+	m_fJumpingSpeed = 0.05;
 	
 #pragma region State Add
 
@@ -74,20 +76,20 @@ HRESULT CBat::Ready_Object()
 
 	// Back
 	// Patrol
-	pState = CBatState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
 
 	// Chase
-	pState = CBatState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
 
 
 	// ComeBack
-	pState = CBatState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
 
 	// Attack
-	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CBatState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 #pragma endregion
@@ -148,6 +150,24 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 
+
+
+	// Jumping 
+
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	float Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+
+	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
+	{
+
+		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		{
+			m_fJumpingSpeed *= -1;
+		}
+		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+	}
 
 
 	return iExit;
