@@ -34,6 +34,7 @@ public:
 
 
 	_vec3&					Lerp			(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta);
+	void					Reset_Lerp		();
 
 public:
 	HRESULT					Ready_Transform	();

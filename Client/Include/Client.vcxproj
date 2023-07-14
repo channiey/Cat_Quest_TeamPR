@@ -291,6 +291,9 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\Shadow_Monster.h" />
+    <ClInclude Include="..\Header\Shadow_Npc.h" />
+    <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Blue.h" />

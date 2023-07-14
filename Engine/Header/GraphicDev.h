@@ -19,6 +19,9 @@ public:
 	LPD3DXFONT				Get_TitleFont(void) { return m_pTitleFont; }
 	LPD3DXFONT				Get_InGameFont(void) { return m_pInGameFont; }
 	LPD3DXFONT				Get_LevelFont(void) { return m_pLevelFont; }
+	LPD3DXFONT				Get_SkillFont(void) { return m_pSkillFont; }
+
+public:
 
 public:
 	HRESULT					Ready_GraphicDev(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY, CGraphicDev** ppGraphicDev);
@@ -32,6 +35,7 @@ private:
 	LPD3DXFONT				m_pTitleFont;
 	LPD3DXFONT				m_pInGameFont;
 	LPD3DXFONT				m_pLevelFont;
+	LPD3DXFONT				m_pSkillFont;
 
 
 public:

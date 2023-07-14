@@ -85,6 +85,12 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		MSG_BOX("Create LevelFont Failed");
 		return E_FAIL;
 	}
+	// 스킬UI 폰트
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 60, 20, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pSkillFont)))
+	{
+		MSG_BOX("Create SkillFont Failed");
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -116,6 +122,9 @@ void CGraphicDev::Free()
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pLevelFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pSkillFont))
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pGraphicDev))
