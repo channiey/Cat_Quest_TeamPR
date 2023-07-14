@@ -167,9 +167,11 @@ namespace Engine
 		EFFECT_SKILL_RANGE_BIGCIRCLE, EFFECT_SKILL_RANGE_SMALLCIRCLE, EFFECT_SKILL_RANGE_ARROW,
 		EFFECT_SKILL_RITUAL_CIRCLE, EFFECT_SKILL_RANGE_SQUARE,
 		
-			/* ========================================= Generator ========================================*/
+			
+			
+		/* ========================================= Generator ========================================*/
 
-			// Generator
+		// Generator
 		GENERATOR_POLLEN,
 
 
