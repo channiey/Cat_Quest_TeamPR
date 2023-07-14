@@ -3,21 +3,21 @@
 
 #include "Export_Function.h"
 
-CSpellBrust_Purple::CSpellBrust_Purple(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_SpellBrust_Purple::CEffect_SpellBrust_Purple(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_CAST_BLUE)
 {
 }
 
-CSpellBrust_Purple::CSpellBrust_Purple(const CEffect& rhs)
+CEffect_SpellBrust_Purple::CEffect_SpellBrust_Purple(const CEffect& rhs)
 	: CSkillEffect(rhs)
 {
 }
 
-CSpellBrust_Purple::~CSpellBrust_Purple()
+CEffect_SpellBrust_Purple::~CEffect_SpellBrust_Purple()
 {
 }
 
-HRESULT CSpellBrust_Purple::Ready_Object()
+HRESULT CEffect_SpellBrust_Purple::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -33,24 +33,24 @@ HRESULT CSpellBrust_Purple::Ready_Object()
 	return S_OK;
 }
 
-_int CSpellBrust_Purple::Update_Object(const _float& fTimeDelta)
+_int CEffect_SpellBrust_Purple::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CSpellBrust_Purple::LateUpdate_Object()
+void CEffect_SpellBrust_Purple::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CSpellBrust_Purple::Render_Object()
+void CEffect_SpellBrust_Purple::Render_Object()
 {
 	__super::Render_Object();
 }
 
-HRESULT CSpellBrust_Purple::Add_Component()
+HRESULT CEffect_SpellBrust_Purple::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -64,9 +64,9 @@ HRESULT CSpellBrust_Purple::Add_Component()
 	return S_OK;
 }
 
-CSpellBrust_Purple* CSpellBrust_Purple::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_SpellBrust_Purple* CEffect_SpellBrust_Purple::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CSpellBrust_Purple* pInstance = new CSpellBrust_Purple(pGraphicDev, _pOwnerObject);
+	CEffect_SpellBrust_Purple* pInstance = new CEffect_SpellBrust_Purple(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -79,7 +79,7 @@ CSpellBrust_Purple* CSpellBrust_Purple::Create(LPDIRECT3DDEVICE9 pGraphicDev, CG
 	return pInstance;
 }
 
-void CSpellBrust_Purple::Free()
+void CEffect_SpellBrust_Purple::Free()
 {
 	__super::Free();
 }

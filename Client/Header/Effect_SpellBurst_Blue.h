@@ -3,13 +3,13 @@
 #include "SkillEffect.h"
 
 
-class CSpellBrust_Blue :
+class CEffect_SpellBrust_Blue :
 	public CSkillEffect
 {
 protected:
-	explicit CSpellBrust_Blue(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
-	explicit CSpellBrust_Blue(const CEffect& rhs);
-	virtual ~CSpellBrust_Blue();
+	explicit CEffect_SpellBrust_Blue(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	explicit CEffect_SpellBrust_Blue(const CEffect& rhs);
+	virtual ~CEffect_SpellBrust_Blue();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -21,7 +21,7 @@ private:
 	HRESULT					Add_Component();
 
 public:
-	static CSpellBrust_Blue* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CEffect_SpellBrust_Blue* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 protected:
 	virtual void			Free() override;

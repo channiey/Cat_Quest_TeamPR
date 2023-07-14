@@ -3,21 +3,21 @@
 
 #include "Export_Function.h"
 
-CSpellBrust_Yellow::CSpellBrust_Yellow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_SpellBrust_Yellow::CEffect_SpellBrust_Yellow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_CAST_BLUE)
 {
 }
 
-CSpellBrust_Yellow::CSpellBrust_Yellow(const CEffect& rhs)
+CEffect_SpellBrust_Yellow::CEffect_SpellBrust_Yellow(const CEffect& rhs)
 	: CSkillEffect(rhs)
 {
 }
 
-CSpellBrust_Yellow::~CSpellBrust_Yellow()
+CEffect_SpellBrust_Yellow::~CEffect_SpellBrust_Yellow()
 {
 }
 
-HRESULT CSpellBrust_Yellow::Ready_Object()
+HRESULT CEffect_SpellBrust_Yellow::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -33,24 +33,24 @@ HRESULT CSpellBrust_Yellow::Ready_Object()
 	return S_OK;
 }
 
-_int CSpellBrust_Yellow::Update_Object(const _float& fTimeDelta)
+_int CEffect_SpellBrust_Yellow::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CSpellBrust_Yellow::LateUpdate_Object()
+void CEffect_SpellBrust_Yellow::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CSpellBrust_Yellow::Render_Object()
+void CEffect_SpellBrust_Yellow::Render_Object()
 {
 	__super::Render_Object();
 }
 
-HRESULT CSpellBrust_Yellow::Add_Component()
+HRESULT CEffect_SpellBrust_Yellow::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -64,9 +64,9 @@ HRESULT CSpellBrust_Yellow::Add_Component()
 	return S_OK;
 }
 
-CSpellBrust_Yellow* CSpellBrust_Yellow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_SpellBrust_Yellow* CEffect_SpellBrust_Yellow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CSpellBrust_Yellow* pInstance = new CSpellBrust_Yellow(pGraphicDev, _pOwnerObject);
+	CEffect_SpellBrust_Yellow* pInstance = new CEffect_SpellBrust_Yellow(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -79,7 +79,7 @@ CSpellBrust_Yellow* CSpellBrust_Yellow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CG
 	return pInstance;
 }
 
-void CSpellBrust_Yellow::Free()
+void CEffect_SpellBrust_Yellow::Free()
 {
 	__super::Free();
 }

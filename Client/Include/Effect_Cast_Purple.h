@@ -2,13 +2,13 @@
 
 #include "SkillEffect.h"
 
-class CCast_Purple :
+class CEffect_Cast_Purple :
 	public CSkillEffect
 {
 protected:
-	explicit CCast_Purple(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
-	explicit CCast_Purple(const CEffect& rhs);
-	virtual ~CCast_Purple();
+	explicit CEffect_Cast_Purple(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	explicit CEffect_Cast_Purple(const CEffect& rhs);
+	virtual ~CEffect_Cast_Purple();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -20,7 +20,7 @@ private:
 	HRESULT					Add_Component();
 
 public:
-	static CCast_Purple* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CEffect_Cast_Purple* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 protected:
 	virtual void			Free() override;

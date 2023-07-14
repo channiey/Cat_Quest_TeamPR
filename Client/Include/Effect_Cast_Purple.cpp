@@ -3,21 +3,21 @@
 
 #include "Export_Function.h"
 
-CCast_Purple::CCast_Purple(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_Cast_Purple::CEffect_Cast_Purple(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_CAST_BLUE)
 {
 }
 
-CCast_Purple::CCast_Purple(const CEffect& rhs)
+CEffect_Cast_Purple::CEffect_Cast_Purple(const CEffect& rhs)
 	: CSkillEffect(rhs)
 {
 }
 
-CCast_Purple::~CCast_Purple()
+CEffect_Cast_Purple::~CEffect_Cast_Purple()
 {
 }
 
-HRESULT CCast_Purple::Ready_Object()
+HRESULT CEffect_Cast_Purple::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -33,24 +33,24 @@ HRESULT CCast_Purple::Ready_Object()
 	return S_OK;
 }
 
-_int CCast_Purple::Update_Object(const _float& fTimeDelta)
+_int CEffect_Cast_Purple::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CCast_Purple::LateUpdate_Object()
+void CEffect_Cast_Purple::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CCast_Purple::Render_Object()
+void CEffect_Cast_Purple::Render_Object()
 {
 	__super::Render_Object();
 }
 
-HRESULT CCast_Purple::Add_Component()
+HRESULT CEffect_Cast_Purple::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -64,9 +64,9 @@ HRESULT CCast_Purple::Add_Component()
 	return S_OK;
 }
 
-CCast_Purple* CCast_Purple::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_Cast_Purple* CEffect_Cast_Purple::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CCast_Purple* pInstance = new CCast_Purple(pGraphicDev, _pOwnerObject);
+	CEffect_Cast_Purple* pInstance = new CEffect_Cast_Purple(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -79,7 +79,7 @@ CCast_Purple* CCast_Purple::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _
 	return pInstance;
 }
 
-void CCast_Purple::Free()
+void CEffect_Cast_Purple::Free()
 {
 	__super::Free();
 }

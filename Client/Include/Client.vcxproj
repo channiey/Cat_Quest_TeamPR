@@ -199,6 +199,7 @@
     <ClInclude Include="..\Header\Cloud2_Shadow.h" />
     <ClInclude Include="..\Header\Cloud3.h" />
     <ClInclude Include="..\Header\Cloud3_Shadow.h" />
+    <ClInclude Include="..\Header\Effect_Fire.h" />
     <ClInclude Include="..\Header\Effect_Skill_Fire.h" />
     <ClInclude Include="..\Header\DefUI.h" />
     <ClInclude Include="..\Header\Dungeon_Grass.h" />
@@ -376,6 +377,7 @@
     <ClCompile Include="..\Code\Cloud2_Shadow.cpp" />
     <ClCompile Include="..\Code\Cloud3.cpp" />
     <ClCompile Include="..\Code\Cloud3_Shadow.cpp" />
+    <ClCompile Include="..\Code\Effect_Fire.cpp" />
     <ClCompile Include="..\Code\Effect_Skill_Fire.cpp" />
     <ClCompile Include="..\Code\DefUI.cpp" />
     <ClCompile Include="..\Code\Dungeon_Grass.cpp" />

@@ -100,13 +100,13 @@
 #include "Cloud3.h"
 #include "MoveDust.h"
 
-#include "Cast_Blue.h"
-#include "Cast_Yellow.h"
-#include "Cast_Purple.h"
+#include "Effect_Cast_Blue.h"
+#include "Effect_Cast_Yellow.h"
+#include "Effect_Cast_Purple.h"
 
-#include "SpellBurst_Blue.h"
-#include "SpellBurst_Purple.h"
-#include "SpellBurst_Yellow.h"
+#include "Effect_SpellBurst_Blue.h"
+#include "Effect_SpellBurst_Purple.h"
+#include "Effect_SpellBurst_Yellow.h"
 
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -780,27 +780,27 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 #pragma region Chan
 
-	pGameObject = CCast_Blue::Create(m_pGraphicDev, nullptr);
+	pGameObject = CEffect_Cast_Blue::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Blue", pGameObject), E_FAIL);
 
-	pGameObject = CCast_Purple::Create(m_pGraphicDev, nullptr);
+	pGameObject = CEffect_Cast_Purple::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Purple", pGameObject), E_FAIL);
 
-	pGameObject = CCast_Yellow::Create(m_pGraphicDev, nullptr);
+	pGameObject = CEffect_Cast_Yellow::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Yellow", pGameObject), E_FAIL);
 
-	pGameObject = CSpellBrust_Blue::Create(m_pGraphicDev, nullptr);
+	pGameObject = CEffect_SpellBrust_Blue::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Blue", pGameObject), E_FAIL);
 
-	pGameObject = CSpellBrust_Purple::Create(m_pGraphicDev, nullptr);
+	pGameObject = CEffect_SpellBrust_Purple::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Purple", pGameObject), E_FAIL);
 
-	pGameObject = CSpellBrust_Yellow::Create(m_pGraphicDev, nullptr);
+	pGameObject = CEffect_SpellBrust_Yellow::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Yellow", pGameObject), E_FAIL);
 

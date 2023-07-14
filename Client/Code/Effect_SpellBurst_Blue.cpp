@@ -3,21 +3,21 @@
 
 #include "Export_Function.h"
 
-CSpellBrust_Blue::CSpellBrust_Blue(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_SpellBrust_Blue::CEffect_SpellBrust_Blue(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_CAST_BLUE)
 {
 }
 
-CSpellBrust_Blue::CSpellBrust_Blue(const CEffect& rhs)
+CEffect_SpellBrust_Blue::CEffect_SpellBrust_Blue(const CEffect& rhs)
 	: CSkillEffect(rhs)
 {
 }
 
-CSpellBrust_Blue::~CSpellBrust_Blue()
+CEffect_SpellBrust_Blue::~CEffect_SpellBrust_Blue()
 {
 }
 
-HRESULT CSpellBrust_Blue::Ready_Object()
+HRESULT CEffect_SpellBrust_Blue::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -33,24 +33,24 @@ HRESULT CSpellBrust_Blue::Ready_Object()
 	return S_OK;
 }
 
-_int CSpellBrust_Blue::Update_Object(const _float& fTimeDelta)
+_int CEffect_SpellBrust_Blue::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CSpellBrust_Blue::LateUpdate_Object()
+void CEffect_SpellBrust_Blue::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CSpellBrust_Blue::Render_Object()
+void CEffect_SpellBrust_Blue::Render_Object()
 {
 	__super::Render_Object();
 }
 
-HRESULT CSpellBrust_Blue::Add_Component()
+HRESULT CEffect_SpellBrust_Blue::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -64,9 +64,9 @@ HRESULT CSpellBrust_Blue::Add_Component()
 	return S_OK;
 }
 
-CSpellBrust_Blue* CSpellBrust_Blue::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_SpellBrust_Blue* CEffect_SpellBrust_Blue::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CSpellBrust_Blue* pInstance = new CSpellBrust_Blue(pGraphicDev, _pOwnerObject);
+	CEffect_SpellBrust_Blue* pInstance = new CEffect_SpellBrust_Blue(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -79,7 +79,7 @@ CSpellBrust_Blue* CSpellBrust_Blue::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameO
 	return pInstance;
 }
 
-void CSpellBrust_Blue::Free()
+void CEffect_SpellBrust_Blue::Free()
 {
 	__super::Free();
 }
