@@ -97,6 +97,7 @@
 #include "Cloud1.h"
 #include "Cloud2.h"
 #include "Cloud3.h"
+#include "MoveDust.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -580,6 +581,8 @@ HRESULT CScene_World::Ready_Layer_Npc()
 
 HRESULT CScene_World::Ready_Layer_Monster()
 {
+	return S_OK;
+
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
@@ -687,9 +690,6 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
 		Set_Pos({ 75.f, 12.f, 122.f });
-
-
-
 
 
 

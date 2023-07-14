@@ -23,6 +23,9 @@
 #include "Npc.h"
 #include "EnterUI.h"
 
+// Move Effect
+#include "MoveDust.h"
+#include "MoveWater.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -57,7 +60,7 @@ HRESULT CPlayer::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
-	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });
+	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
 
 #pragma region State
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
@@ -130,6 +133,9 @@ HRESULT CPlayer::Ready_Object()
 		CCameraMgr::GetInstance()->Set_LookAt(this);
 	}
 
+	// 테스트용
+	m_iTempMode = 1;
+
 	return S_OK;
 }
 
@@ -143,6 +149,39 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+	// Move Effect 생성
+	if (m_iTempMode == 1) { // 육지
+		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL) {
+			if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 0 ||
+				m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 7) {
+				if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust"))
+				{
+					CGameObject* p = CMoveDust::Create(m_pGraphicDev, this);
+					CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
+				}
+			}
+		}
+	} 
+	else if (m_iTempMode == 2) { // 물
+		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL) {
+			if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 0 ||
+				m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 7) {
+				if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveWater"))
+				{
+					CGameObject* p = CMoveWater::Create(m_pGraphicDev, this);
+					CEventMgr::GetInstance()->Add_Obj(L"MoveWater", p);
+				}
+			}
+		}
+	}
+	
+	
 	return iExit;
 }
 

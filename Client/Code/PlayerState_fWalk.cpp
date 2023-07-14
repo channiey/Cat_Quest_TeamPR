@@ -2,6 +2,8 @@
 
 #include "Export_Function.h"
 
+#include "MoveDust.h"
+#include "MoveWater.h"
 CPlayerState_fWalk::CPlayerState_fWalk(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
 {
@@ -42,15 +44,22 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
     if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
         return STATE_TYPE::FRONT_ATTACK; 
 
-    if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_SPACE))
-        return STATE_TYPE::FRONT_ROLL; 
+    if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_SPACE)) {
+        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
+        return STATE_TYPE::FRONT_ROLL;
+    }
 
     if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
     {
+        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_WALK;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
     {
+        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_WALK;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
@@ -70,12 +79,15 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
     {
+        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_WALK;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back);
         m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        
         return m_eState;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
@@ -83,6 +95,13 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right);
         m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        
+        if (CInputDev::GetInstance()->Key_Down('A') &&
+            !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust")) {
+            CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+            CEventMgr::GetInstance()->Add_Obj(L"MoveDustL", p);
+        }
+        
         return m_eState;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
@@ -90,6 +109,13 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Scale(_vec3{ -3.f, 3.f, 3.f });
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left);
         m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+        
+        if (CInputDev::GetInstance()->Key_Down('D') &&
+            !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust")) {
+            CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+            CEventMgr::GetInstance()->Add_Obj(L"MoveDustR", p);
+        }
+
         return m_eState;
     }
      

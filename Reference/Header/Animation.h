@@ -20,9 +20,9 @@ public:
 
 	virtual void			Reset_Ani(_uint iFrame) { m_fFrame = iFrame, m_fAcc = 0.f; }
 
+	virtual _uint&			Get_CurFrame() { return m_fFrame; }
+
 	virtual _bool			Is_End();
-
-
 protected:
 	CTexture*				m_pTexture = nullptr;
 

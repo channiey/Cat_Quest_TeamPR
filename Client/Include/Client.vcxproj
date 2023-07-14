@@ -244,6 +244,8 @@
     <ClInclude Include="..\Header\Mountain.h" />
     <ClInclude Include="..\Header\Mountain_Grass.h" />
     <ClInclude Include="..\Header\Mountain_Ice.h" />
+    <ClInclude Include="..\Header\MoveDust.h" />
+    <ClInclude Include="..\Header\MoveWater.h" />
     <ClInclude Include="..\Header\Npc_BlackSmith.h" />
     <ClInclude Include="..\Header\Npc_Citizen1.h" />
     <ClInclude Include="..\Header\Npc_Citizen2.h" />
@@ -278,6 +280,7 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\Shadow_Creature.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Squirrel.h" />
     <ClInclude Include="..\Header\SquirrelState_Attack.h" />
@@ -410,6 +413,8 @@
     <ClCompile Include="..\Code\Mountain.cpp" />
     <ClCompile Include="..\Code\Mountain_Grass.cpp" />
     <ClCompile Include="..\Code\Mountain_Ice.cpp" />
+    <ClCompile Include="..\Code\MoveDust.cpp" />
+    <ClCompile Include="..\Code\MoveWater.cpp" />
     <ClCompile Include="..\Code\Npc_BlackSmith.cpp" />
     <ClCompile Include="..\Code\Npc_Citizen1.cpp" />
     <ClCompile Include="..\Code\Npc_Citizen2.cpp" />
@@ -444,6 +449,7 @@
     <ClCompile Include="..\Code\Rock_Pillar2.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
+    <ClCompile Include="..\Code\Shadow_Creature.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Squirrel.cpp" />
     <ClCompile Include="..\Code\SquirrelState_Attack.cpp" />
