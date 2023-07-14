@@ -11,6 +11,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_vOriginPos({0.f,0.f,0.f})
 	, m_fJumpingSpeed(0.f)
 	, m_vImageSize({0.f,0.f,0.f})
+	, m_fMaxJumpY(0.f)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -26,6 +27,7 @@ CMonster::CMonster(const CMonster& rhs)
 	, m_vOriginPos(rhs.m_vOriginPos)
 	, m_fJumpingSpeed(rhs.m_fJumpingSpeed)
 	, m_vImageSize(rhs.m_vImageSize)
+	, m_fMaxJumpY(rhs.m_fMaxJumpY)
 {
 
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)

@@ -59,6 +59,7 @@ HRESULT CWyvern::Ready_Object()
 	fPatternTime = 1.f;
 	
 	m_fJumpingSpeed = 0.05;
+	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 #pragma region State Add
 
@@ -173,7 +174,7 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	{
 
-		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		if (vOwnerPos.y < Y || vOwnerPos.y > m_fMaxJumpY )
 		{
 			m_fJumpingSpeed *= -1;
 		}

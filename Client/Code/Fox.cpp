@@ -53,7 +53,8 @@ HRESULT CFox::Ready_Object()
 
 	fPatternTime = 2.f;
 
-	m_fJumpingSpeed = 0.05;
+	m_fJumpingSpeed = 0.05f;
+	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 #pragma region State Add
 
@@ -96,13 +97,13 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	// Jumping 
 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
-	float Y = m_pTransformCom->Get_Scale().y;
-	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+	_float		Y = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE	eCurType = m_pStateMachineCom->Get_CurState();
 
 	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	{
 
-		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
 		{
 			m_fJumpingSpeed *= -1;
 		}
