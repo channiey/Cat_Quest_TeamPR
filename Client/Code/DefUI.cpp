@@ -73,15 +73,15 @@ void CDefUI::Render_Object()
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
 		m_pTextureCom->Render_Texture(5);
-		m_pUIBufferCom[0]->Render_Buffer();
+		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
 		m_pTextureCom->Render_Texture(4);
-		m_pUIBufferCom[1]->Render_Buffer();
+		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
 		m_pTextureCom->Render_Texture(6);
-		m_pUIBufferCom[2]->Render_Buffer();
+		m_pBufferCom->Render_Buffer();
 	}
 }
 
@@ -93,12 +93,9 @@ HRESULT CDefUI::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	for (_uint i = 0; i < 3; ++i)
-	{
-		pComponent = m_pUIBufferCom[i] = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
-		NULL_CHECK_RETURN(pComponent, E_FAIL);
-		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
-	}
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
 	for (_uint i = 0; i < 3; ++i)
 	{

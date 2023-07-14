@@ -32,6 +32,8 @@ public:
 
 	void					Reverse			();
 
+	_vec3&					Lerp			(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta);
+
 public:
 	HRESULT					Ready_Transform	();
 	virtual _int			Update_Component(const _float& fTimeDelta);
@@ -47,6 +49,11 @@ private:
 	_vec3					m_vAngle;	
 
 	_vec3					m_vDir;
+
+	_vec3					m_vStart;
+	_bool					m_bStart;
+	_float					m_fCurTime;
+
 
 public:
 	static CTransform*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

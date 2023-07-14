@@ -59,6 +59,9 @@ HRESULT CPlayer::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_bExpand = true;
+	m_bShirnk = false;
+
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
@@ -146,6 +149,34 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
+	/*if (m_pTransformCom->Get_Scale().x <= 6.f && m_bExpand)
+	{
+		_vec3 vOut = m_pTransformCom->Lerp(m_pTransformCom->Get_Scale(),
+			_vec3{ 6.f, 6.f, 6.f, }, 5.f, fTimeDelta);
+		if (vOut.y != -99)
+			m_pTransformCom->Set_Scale(vOut);
+		else
+		{
+			m_bExpand = false;
+			m_bShirnk = true;
+		}
+	}
+	if (m_pTransformCom->Get_Scale().x >= 3.f && m_bShirnk)
+	{
+		_vec3 vOut = m_pTransformCom->Lerp(m_pTransformCom->Get_Scale(),
+			_vec3{3.f, 3.f, 3.f,}, 5.f, fTimeDelta);
+		if (vOut.y != -99)
+			m_pTransformCom->Set_Scale(vOut);
+		else
+		{
+			m_bExpand = true;
+			m_bShirnk = false;
+		}
+	}
+	*/
+	
+
+
 	Key_Input(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -197,15 +228,15 @@ void CPlayer::LateUpdate_Object()
 void CPlayer::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-
 	m_pStateMachineCom->Render_StateMachine();
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+	__super::Render_Object(); 
 
-	__super::Render_Object(); // �ݶ��̴� ���
+
 }
 
 void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
@@ -584,6 +615,8 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
+	/*if (CInputDev::GetInstance()->Get_DIKeyState(DIK_Z))
+		Set_CurHP(10);*/
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

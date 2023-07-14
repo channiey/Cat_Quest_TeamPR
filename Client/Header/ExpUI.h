@@ -24,7 +24,6 @@ private:
 private:
 	CPlayer* m_pPlayer;
 
-	CVIBuffer*				m_pUIBufferCom[3];
 	_float					m_fCurExpRatio;
 	_matrix					m_matExpUI[3];
 	_bool					m_bIsExpChange;
