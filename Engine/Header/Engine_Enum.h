@@ -78,7 +78,7 @@ namespace Engine
 
 		/* ========================================= Item ========================================*/
 
-		ITEM_GOLD, ITEM_EXP, ITEM_KEY,
+		ITEM_GOLD, ITEM_EXP, ITEM_KEY, ITEM_WARRIOR, ITEM_NINJA, ITEM_MAGE,
 
 		// Item
 
@@ -126,6 +126,7 @@ namespace Engine
 		// 
 		// UI - VIEWPORT
 		UI_ENTER, UI_EXP, UI_LEVEL, UI_TAB, UI_ZOOM, UI_DEF, UI_HP, UI_MANA, UI_RING, UI_INDICATOR, UI_FILEDSKILL,
+		UI_INVENTORY,
 
 
 
@@ -243,6 +244,6 @@ namespace Engine
 
 	enum RENDERID					{ RENDER_PRIORITY, RENDER_NONALPHA, RENDER_ALPHA, RENDER_VIEWUI, RENDER_WDUI, RENDER_END };	// 현재는 장치를 통한 렌더 그룹이지만, 이후에는 셰이더에 대한 속성으로도 나뉘게 된다.
 
-
+	enum INVENTORYID				{ INVEN_BKG, INVEN_ARMORTAB, INVEN_SKILLTAB, INVEN_EXIT, INVENSORT, INVEN_BUTTON, INVENTORYID_END };
 }
 #endif // Engine_Enum_h__

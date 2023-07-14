@@ -243,6 +243,7 @@
     <ClInclude Include="..\Header\HedgehogState_Patrol.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\IndicatorUI.h" />
+    <ClInclude Include="..\Header\Inventory.h" />
     <ClInclude Include="..\Header\Item_Equipment.h" />
     <ClInclude Include="..\Header\Item_Object.h" />
     <ClInclude Include="..\Header\Item_Weapon.h" />
@@ -432,6 +433,7 @@
     <ClCompile Include="..\Code\HedgehogState_Patrol.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\IndicatorUI.cpp" />
+    <ClCompile Include="..\Code\Inventory.cpp" />
     <ClCompile Include="..\Code\Item_Equipment.cpp" />
     <ClCompile Include="..\Code\Item_Object.cpp" />
     <ClCompile Include="..\Code\Item_Weapon.cpp" />

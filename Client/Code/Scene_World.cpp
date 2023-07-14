@@ -159,6 +159,8 @@ void CScene_World::LateUpdate_Scene()
 
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
+
 	__super::LateUpdate_Scene();
 
 	CCameraMgr::GetInstance()->Set_ViewSpace();

@@ -25,6 +25,10 @@ public:
 private:
 	HRESULT					Add_Component();
 
+protected:
+	
+	STATINFO				m_eItemInfo;
+
 
 protected:
 
