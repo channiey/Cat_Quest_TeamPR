@@ -41,8 +41,18 @@ HRESULT CBat::Ready_Object()
 	// Stat Info
 	//m_tStatInfo.bDead = false;
 
+
+
+	
+
+	// 원래 이미지 크기
+	m_vImageSize.x = 1.f; // 100px = 1.f
+	m_vImageSize.y = 1.f;
+	m_vImageSize.z = 2.f; //  고정
+
+
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 2.5f, 2.5f, 2.5f });
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f, m_vImageSize.y * 2.5f, m_vImageSize.z });
 	
 	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 110.f });
 
@@ -51,8 +61,10 @@ HRESULT CBat::Ready_Object()
 	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
+	
+	m_fJumpingSpeed = 0.05f;
+	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
-	m_fJumpingSpeed = 0.05;
 	
 	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
 #pragma region State Add
@@ -158,19 +170,20 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	// Jumping 
 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
-	float Y = m_pTransformCom->Get_Scale().y;
-	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
+	_float		Y		  = m_pTransformCom->Get_Scale().y;
+	STATE_TYPE	eCurType  = m_pStateMachineCom->Get_CurState();
 
 	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	{
 
-		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
 		{
 			m_fJumpingSpeed *= -1;
 		}
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
+
 
 
 	return iExit;

@@ -108,6 +108,10 @@
 #include "Effect_SpellBurst_Purple.h"
 #include "Effect_SpellBurst_Yellow.h"
 
+// Item
+#include "GoldCoin.h"
+#include "ExpCoin.h"
+#include "Key.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -656,6 +660,24 @@ HRESULT CScene_World::Ready_Layer_Item()
 
 	Engine::CGameObject*		pGameObject = nullptr;
 	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
+
+
+	// Gold
+	pGameObject = CGoldCoin::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", pGameObject), E_FAIL);
+
+
+	// Exp
+	pGameObject = CExpCoin::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_ExpCoin", pGameObject), E_FAIL);
+
+	// Key
+	pGameObject = CKey::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_Key", pGameObject), E_FAIL);
+
 
 
 	return S_OK;

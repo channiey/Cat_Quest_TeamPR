@@ -87,10 +87,12 @@ public:
 	void				Add_Level(const _uint& _iLevel) { m_tStatInfo.iLevel += _iLevel; }
 #pragma endregion
 
-	const _vec3& Get_OriginPos() const    { return m_vOriginPos; }
-	const _float& Get_PatternTime() const { return fPatternTime; }
-
-	void		Set_AccTime(_float AccTime) { fAccTime = AccTime; }
+	const _vec3&		Get_OriginPos() const    { return m_vOriginPos; }
+	const _float&		Get_PatternTime() const { return fPatternTime; }
+	 
+	_float			Get_MaxJumpY()  { return m_fMaxJumpY; }
+	void			Set_MaxJumpY(_float MaxJumpY) { m_fMaxJumpY = MaxJumpY; }
+	void			Set_AccTime(_float AccTime) { fAccTime = AccTime; }
 
 #pragma endregion
 
@@ -106,7 +108,9 @@ protected:
 
 	_vec3					m_vOriginPos;
 
-	float					m_fJumpingSpeed;
+	_float					m_fJumpingSpeed; 
+	_float					m_fMaxJumpY;
+	_vec3					m_vImageSize;
 
 protected:
 

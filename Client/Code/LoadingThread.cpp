@@ -311,7 +311,7 @@ _uint CLoadingThread::Loading_For_World()
 
 #pragma region KIM
 
-	
+	// Monster - test - CuteMonster
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
@@ -376,6 +376,20 @@ _uint CLoadingThread::Loading_For_World()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Squirrel",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Squirrel/squirrel_back.png")), E_FAIL);
+
+
+
+	//  Item - Gold
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_Gold",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Object/Gold.png")), E_FAIL);
+
+	// Item - Exp
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_Exp",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Object/Exp.png")), E_FAIL);
+
+	// Item - Key
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_Key",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Object/Key.png")), E_FAIL);
 
 
 #pragma endregion

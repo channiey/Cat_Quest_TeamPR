@@ -189,6 +189,8 @@
     <ClInclude Include="..\Header\Bush9.h" />
     <ClInclude Include="..\Header\Effect_Cast_Blue.h" />
     <ClInclude Include="..\Header\Effect_Cast_Yellow.h" />
+    <ClInclude Include="..\Header\ExpCoin.h" />
+    <ClInclude Include="..\Header\GoldCoin.h" />
     <ClInclude Include="..\Header\Chest.h" />
     <ClInclude Include="..\Header\Chest_Cosmetic.h" />
     <ClInclude Include="..\Header\Chest_Gold.h" />
@@ -239,6 +241,10 @@
     <ClInclude Include="..\Header\HedgehogState_Patrol.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\IndicatorUI.h" />
+    <ClInclude Include="..\Header\Item_Equipment.h" />
+    <ClInclude Include="..\Header\Item_Object.h" />
+    <ClInclude Include="..\Header\Item_Weapon.h" />
+    <ClInclude Include="..\Header\Key.h" />
     <ClInclude Include="..\Header\KingHouse.h" />
     <ClInclude Include="..\Header\LevelUI.h" />
     <ClInclude Include="..\Header\MagicShop.h" />
@@ -320,6 +326,7 @@
     <ClInclude Include="..\Header\Tower2.h" />
     <ClInclude Include="..\Header\Tower3.h" />
     <ClInclude Include="..\Header\UI.h" />
+    <ClInclude Include="..\Header\WarriorWeapon.h" />
     <ClInclude Include="..\Header\Wyvern.h" />
     <ClInclude Include="..\Header\WyvernState_Attack.h" />
     <ClInclude Include="..\Header\WyvernState_bAttack.h" />
@@ -367,6 +374,8 @@
     <ClCompile Include="..\Code\Bush9.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Yellow.cpp" />
+    <ClCompile Include="..\Code\ExpCoin.cpp" />
+    <ClCompile Include="..\Code\GoldCoin.cpp" />
     <ClCompile Include="..\Code\Chest.cpp" />
     <ClCompile Include="..\Code\Chest_Cosmetic.cpp" />
     <ClCompile Include="..\Code\Chest_Gold.cpp" />
@@ -417,6 +426,10 @@
     <ClCompile Include="..\Code\HedgehogState_Patrol.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\IndicatorUI.cpp" />
+    <ClCompile Include="..\Code\Item_Equipment.cpp" />
+    <ClCompile Include="..\Code\Item_Object.cpp" />
+    <ClCompile Include="..\Code\Item_Weapon.cpp" />
+    <ClCompile Include="..\Code\Key.cpp" />
     <ClCompile Include="..\Code\KingHouse.cpp" />
     <ClCompile Include="..\Code\LevelUI.cpp" />
     <ClCompile Include="..\Code\MagicShop.cpp" />
@@ -501,6 +514,7 @@
     <ClCompile Include="..\Code\Tower2.cpp" />
     <ClCompile Include="..\Code\Tower3.cpp" />
     <ClCompile Include="..\Code\UI.cpp" />
+    <ClCompile Include="..\Code\WarriorWeapon.cpp" />
     <ClCompile Include="..\Code\Wyvern.cpp" />
     <ClCompile Include="..\Code\WyvernState_Attack.cpp" />
     <ClCompile Include="..\Code\WyvernState_bAttack.cpp" />

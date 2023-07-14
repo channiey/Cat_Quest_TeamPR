@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
+//state
 #include "HedgehogState_Patrol.h"
 #include "HedgehogState_Chase.h"
 #include "HedgehogState_ComeBack.h"
@@ -36,20 +37,26 @@ HRESULT CHedgehog::Ready_Object()
 	//m_tStatInfo.bDead = false;
 
 
+
+	// 원래 이미지 크기
+	m_vImageSize.x = 0.73f;  // 100px = 1.f
+	m_vImageSize.y = 0.52f;
+	m_vImageSize.z = 2.f;   // 고정 값
+
+
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ 0.73f *2.5 , 0.52f* 2.5, 2.f });
-
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x *2.5f , m_vImageSize.y  * 2.5f, m_vImageSize.z });
 	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 110.f });
-
 	m_pTransformCom->Set_Dir({ 0.f, 0.f, -1.f });
 
-	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
-	fPatternTime = 2.f;
+	m_vOriginPos	= m_pTransformCom->Get_Info(INFO_POS);
 
+	fPatternTime	= 2.f;
 	m_fJumpingSpeed = 0.05;
 
 	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
+	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 #pragma region State Add
 
@@ -93,19 +100,20 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	// Jumping 
 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
-	float Y = m_pTransformCom->Get_Scale().y;
+	_float Y = m_pTransformCom->Get_Scale().y;
 	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
 
 	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	{
 
-		if (vOwnerPos.y < Y || vOwnerPos.y > Y + 1.f)
+		if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
 		{
 			m_fJumpingSpeed *= -1;
 		}
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
+
 
 	return iExit;
 }

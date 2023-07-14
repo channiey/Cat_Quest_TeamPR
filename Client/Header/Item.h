@@ -4,13 +4,14 @@
 
 BEGIN(Engine)
 
+class CTexture;
+
 END
 
-class CItem :
-	public CGameObject
+class CItem : public Engine:: CGameObject
 {
-private:
-	explicit CItem(LPDIRECT3DDEVICE9 pGraphicDev);
+protected:
+	explicit CItem(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CItem(const CItem& rhs);
 	virtual ~CItem();
 
@@ -65,15 +66,24 @@ public:
 
 #pragma endregion
 
+	void				Play_ColLogic(const _float& fTimeDelta) {}; // 각 아이템 클래스에서 세부적으로 설정
+
+	ITEM_TYPE			Get_ItemType() { return m_eItemType; }
+
 #pragma endregion
 
-private:
-	STATINFO				m_tStatInfo;
 
-public:
-	static CItem*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
+protected:
 
-private:
+	STATINFO				m_tStatInfo;    // Item Info
+	CTexture*				m_pTextureCom;  // Texture com
+
+	_float					m_fJumpingSpeed; // jumping motion use
+	
+	ITEM_TYPE				m_eItemType;     // ItemType
+	_vec3					m_vImageSize;	 // Image Size
+
+protected:
 	virtual void			Free() override;
 };
 
