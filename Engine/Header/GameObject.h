@@ -46,7 +46,7 @@ public:
 	const _bool&						Is_Active() const { return m_bActive; }
 	const _bool							Is_Component(const COMPONENT_TYPE& _eType, COMPONENTID eID);
 	
-
+	UI_LAYER							Get_LayerLv() { return m_eUILayer; }
 
 	// 상호작용 및 충돌 시 이벤트 관련
 	ENTER_TYPE				Get_EnterType() { return m_eEnter; }
@@ -93,6 +93,9 @@ protected:
 	_bool								m_bActive;
 
 	_float                              m_fViewZ; // 알파 출력 오브젝트들의 알파소팅
+
+	// UI_Layer
+	UI_LAYER							m_eUILayer;
 
 	// 상호작용 및 충돌 시 이벤트 관련
 	ENTER_TYPE							m_eEnter;

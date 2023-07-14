@@ -19,7 +19,7 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_TYPE& _eType, 
 	, m_bEventSwitch(false)
 	, m_bEnter(false)
 	, m_eID(_eID)
-
+	, m_eUILayer(UI_LAYER::LV0)
 {
 	m_pGraphicDev->AddRef();
 }

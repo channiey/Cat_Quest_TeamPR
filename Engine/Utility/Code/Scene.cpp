@@ -1,5 +1,7 @@
 #include "..\..\Header\Scene.h"
 
+#include "Export_Function.h"
+
 CScene::CScene(LPDIRECT3DDEVICE9 pGraphicDev, const SCENE_TYPE& _eType)
 	: m_pGraphicDev(pGraphicDev), m_eType(_eType)
 {
@@ -78,8 +80,40 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 {
 	_int		iResult = 0;
 
+
 	for (auto& iter : m_mapLayer)
 	{
+		if (!iter.second->Is_LayerActive())
+		{
+			switch (iter.first)
+			{
+			case::OBJ_TYPE::PLAYER:
+			{
+				for (auto iter2 : iter.second->Get_ObjectMap())
+				{
+					Engine::Add_RenderGroup(RENDER_ALPHA, iter2.second);
+				}
+			}
+			case::OBJ_TYPE::MONSTER:
+			{
+				for (auto iter2 : iter.second->Get_ObjectMap())
+				{
+					Engine::Add_RenderGroup(RENDER_ALPHA, iter2.second);
+				}
+			}
+			case::OBJ_TYPE::EFFECT:
+			{
+				for (auto iter2 : iter.second->Get_ObjectMap())
+				{
+					Engine::Add_RenderGroup(RENDER_ALPHA, iter2.second);
+				}
+			}
+			default:
+				break;
+			}
+			continue;
+		}
+
 		iResult = iter.second->Update_Layer(fTimeDelta);
 
 		if (iResult & 0x80000000)
@@ -92,7 +126,12 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 void CScene::LateUpdate_Scene()
 {
 	for (auto& iter : m_mapLayer)
+	{
+		if (!iter.second->Is_LayerActive()) continue;
+
 		iter.second->LateUpdate_Layer();
+	}
+		
 }
 
 void CScene::Free()

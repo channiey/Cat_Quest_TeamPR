@@ -29,8 +29,14 @@ public:
 	_int								Update_Layer(const _float& fTimeDelta);
 	void								LateUpdate_Layer();
 
+	//¡ÿ √ﬂ∞°
+	const _bool&						Is_LayerActive() const { return m_bActive; }
+	void								Layer_SetActive(const _bool& bActive) { m_bActive = bActive; }
+	
 private:
 	multimap<const _tchar*, CGameObject*>	m_mapObject;
+
+	_bool	m_bActive;
 
 public:
 	static CLayer*						Create();

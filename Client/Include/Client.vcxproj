@@ -209,6 +209,7 @@
     <ClInclude Include="..\Header\Environment.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\ExpUI.h" />
+    <ClInclude Include="..\Header\FieldSkillUI.h" />
     <ClInclude Include="..\Header\Fox.h" />
     <ClInclude Include="..\Header\FoxState_Attack.h" />
     <ClInclude Include="..\Header\FoxState_Chase.h" />
@@ -377,6 +378,7 @@
     <ClCompile Include="..\Code\EnterUI.cpp" />
     <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\FieldSkillUI.cpp" />
     <ClCompile Include="..\Code\Fox.cpp" />
     <ClCompile Include="..\Code\FoxState_Attack.cpp" />
     <ClCompile Include="..\Code\FoxState_Chase.cpp" />

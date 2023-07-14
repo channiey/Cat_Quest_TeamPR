@@ -22,6 +22,7 @@
 #include "Environment.h"
 #include "Npc.h"
 #include "EnterUI.h"
+#include "FieldSkillUI.h"
 
 // Move Effect
 #include "MoveDust.h"
@@ -583,46 +584,6 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	// UI 테스트 용
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Z))
-		Set_CurHP(30);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_X))
-		Set_CurHP(60);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_C))
-		Set_CurHP(Get_StatInfo().fMaxHP);
-
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_B))
-		Set_CurMP(30);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_N))
-		Set_CurMP(60);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_M))
-		Set_CurMP(Get_StatInfo().fMaxMP);
-
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_H))
-		Set_CurDef(0);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_J))
-		Set_CurDef(30);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_K))
-		Set_CurDef(60);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_L))
-		Set_CurDef(Get_StatInfo().fMaxDef);
-
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_I))
-		Set_CurExp(0);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_O))
-		Set_CurExp(200);
-	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_P))
-		Set_CurExp(500);
-
-	CEnterUI* pEnterUI = static_cast<CEnterUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_Q))
-	{
-		pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, this);
-		
-	}
-	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_E))
-		pEnterUI->EnterUI_Off();
-		
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

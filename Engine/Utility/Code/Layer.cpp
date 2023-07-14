@@ -1,6 +1,7 @@
 #include "..\..\Header\Layer.h"
 
 CLayer::CLayer()
+	:	m_bActive(true)
 {
 }
 
