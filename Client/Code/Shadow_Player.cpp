@@ -62,7 +62,7 @@ void CShadow_Player::Render_Object()
 	matWorld._11 = matWorld._11 * 0.4f;
 	matWorld._33 = matWorld._33 * 0.3f;
 
-	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	m_pTextureCom->Render_Texture(); 
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -71,7 +71,6 @@ void CShadow_Player::Render_Object()
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-	// CEffect::Render_Object();
 }
 
 HRESULT CShadow_Player::Add_Component()

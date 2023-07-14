@@ -36,6 +36,7 @@ HRESULT CMoveDust::Ready_Object()
 
 	m_bActive = true;
 	m_iTranslucent = 200;
+	m_iDeAlpha = 2;
 
 	return S_OK;
 }
@@ -53,7 +54,7 @@ _int CMoveDust::Update_Object(const _float& fTimeDelta)
 
 	m_pAnimation->Update_Animation(fTimeDelta);
 
-	m_iTranslucent -= 2;
+	m_iTranslucent -= m_iDeAlpha;
 
 	if (m_pAnimation->Is_End()) 
 	{

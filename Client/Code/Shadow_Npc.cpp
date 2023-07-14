@@ -23,8 +23,6 @@ HRESULT CShadow_Npc::Ready_Object()
 {
 	__super::Ready_Object();
 
-	// CGameObject::Ready_Object();
-
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_bActive = true;
@@ -48,10 +46,9 @@ void CShadow_Npc::LateUpdate_Object()
 void CShadow_Npc::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
-	// 장판 텍스처 출력
-	// 빌보드 해제
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
+	// 빌보드 해제
 	_matrix matWorld = m_pOwnerobject->Get_Transform()->Get_WorldMat();
 	_matrix matBill;
 	_vec3 vPos;
@@ -59,17 +56,14 @@ void CShadow_Npc::Render_Object()
 	memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
 	vPos.y -= matWorld._22 + 0.02f;
 	vPos.z -= matWorld._22 * 0.75f;
-	
-
 
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 	
-	matWorld._11 = matWorld._11 * 0.6f;
-	matWorld._33 = matWorld._33 * 0.4f;
+	matWorld._11 = matWorld._11 * 0.6f; // 그림자 x사이즈
+	matWorld._33 = matWorld._33 * 0.4f; // 그림자 z사이즈
 
-
-	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	m_pTextureCom->Render_Texture(); 
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -78,7 +72,6 @@ void CShadow_Npc::Render_Object()
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-	// CEffect::Render_Object();
 }
 
 HRESULT CShadow_Npc::Add_Component()
