@@ -8,6 +8,7 @@
 #include "DragonState_bIdle.h"
 #include "DragonState_bAttack.h"
 
+#include "Shadow_Monster.h"
 
 CDragon::CDragon(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev, OBJ_ID::MONSTER_DRAGON)
@@ -46,6 +47,7 @@ HRESULT CDragon::Ready_Object()
 	fPatternTime = 2.f;
 	fAccTime = 0.f;
 
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
 
 #pragma region State Add
 

@@ -465,6 +465,9 @@
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
     <ClCompile Include="..\Code\Shadow_Creature.cpp" />
     <ClCompile Include="..\Code\SkillEffect.cpp" />
+    <ClCompile Include="..\Code\Shadow_Monster.cpp" />
+    <ClCompile Include="..\Code\Shadow_Npc.cpp" />
+    <ClCompile Include="..\Code\Shadow_Player.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Purple.cpp" />

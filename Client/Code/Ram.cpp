@@ -7,6 +7,8 @@
 #include "RamState_ComeBack.h"
 #include "RamState_Attack.h"
 
+#include "Shadow_Monster.h"
+
 CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_RAM)
 {
@@ -46,6 +48,8 @@ HRESULT CRam::Ready_Object()
 	fPatternTime = 2.f;
 
 	m_fJumpingSpeed = 0.05;
+
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
 
 #pragma region State Add
 

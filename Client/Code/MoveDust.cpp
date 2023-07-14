@@ -36,6 +36,7 @@ HRESULT CMoveDust::Ready_Object()
 
 	m_bActive = true;
 	m_iTranslucent = 200;
+	m_iDeAlpha = 2;
 
 	return S_OK;
 }
@@ -53,7 +54,7 @@ _int CMoveDust::Update_Object(const _float& fTimeDelta)
 
 	m_pAnimation->Update_Animation(fTimeDelta);
 
-	m_iTranslucent -= 2;
+	m_iTranslucent -= m_iDeAlpha;
 
 	if (m_pAnimation->Is_End()) 
 	{
@@ -72,7 +73,6 @@ void CMoveDust::LateUpdate_Object()
 void CMoveDust::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
-	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pAnimation->Render_Animation();
 
@@ -80,12 +80,8 @@ void CMoveDust::Render_Object()
 
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTexture(0, NULL);
-
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
-	// CEffect::Render_Object();
-
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 

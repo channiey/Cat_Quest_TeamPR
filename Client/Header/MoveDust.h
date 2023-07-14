@@ -29,6 +29,7 @@ private:
 	CTexture*   m_pTextureCom;
 	CAnimation* m_pAnimation;
 	_int		m_iTranslucent;
+	_int		m_iDeAlpha;
 public:
 	static CMoveDust* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject); // 구름이 생성되는 위치를 위해서라도 주인이 필요할 듯
 

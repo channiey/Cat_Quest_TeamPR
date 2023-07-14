@@ -7,11 +7,11 @@ class CTexture;
 
 END
 
-class CShadow_Creature : public CEffect
+class CShadow_Player : public CEffect
 {
-	explicit CShadow_Creature(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
-	explicit CShadow_Creature(const CShadow_Creature& rhs);
-	virtual ~CShadow_Creature();
+	explicit CShadow_Player(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
+	explicit CShadow_Player(const CShadow_Player& rhs);
+	virtual ~CShadow_Player();
 
 public:
 	virtual HRESULT				Ready_Object() override;
@@ -27,7 +27,7 @@ private:
 	CTexture* m_pTextureCom;
 
 public:
-	static CShadow_Creature* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CShadow_Player* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID);
 
 private:
 	virtual void				Free() override;

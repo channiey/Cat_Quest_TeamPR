@@ -12,6 +12,8 @@
 #include "BatState_bAttack.h"
 #include "BatState_bComeBack.h"
 
+#include "Shadow_Monster.h"
+
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_BAT)
@@ -52,6 +54,7 @@ HRESULT CBat::Ready_Object()
 
 	m_fJumpingSpeed = 0.05;
 	
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_MONSTER_SHADOW));
 #pragma region State Add
 
 	CState* pState;

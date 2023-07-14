@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 
-#include "Shadow_Creature.h"
+#include "Shadow_Npc.h"
 
 CNpc_King::CNpc_King(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_KING)
@@ -28,10 +28,10 @@ HRESULT CNpc_King::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	m_pTransformCom->Set_Pos(_vec3{ 125.f, m_pTransformCom->Get_Scale().y + 3.f, 55.f });
+	m_pTransformCom->Set_Pos(_vec3{ 125.f, m_pTransformCom->Get_Scale().y + 1.5f, 55.f });
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Npc_King_Shadow", CShadow_Creature::Create(m_pGraphicDev, this));
+	CEventMgr::GetInstance()->Add_Obj(L"Npc_King_Shadow", CShadow_Npc::Create(m_pGraphicDev, this, OBJ_ID::EFFECT_NPC_SHADOW));
 
 	return S_OK;
 }
