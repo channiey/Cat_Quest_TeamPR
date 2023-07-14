@@ -291,7 +291,6 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
-    <ClInclude Include="..\Header\Shadow_Creature.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Blue.h" />
@@ -476,7 +475,6 @@
     <ClCompile Include="..\Code\Rock_Pillar2.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
-    <ClCompile Include="..\Code\Shadow_Creature.cpp" />
     <ClCompile Include="..\Code\SkillEffect.cpp" />
     <ClCompile Include="..\Code\Shadow_Monster.cpp" />
     <ClCompile Include="..\Code\Shadow_Npc.cpp" />

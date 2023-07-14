@@ -32,6 +32,7 @@ public:
 
 	void					Reverse			();
 
+
 	_vec3&					Lerp			(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta);
 
 public:
