@@ -1,30 +1,30 @@
 #include "stdafx.h"
-#include "Effect_Cast_Blue.h"
+#include "Effect_LIghtning.h"
 
 #include "Export_Function.h"
 
-CEffect_Cast_Blue::CEffect_Cast_Blue(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_CAST_BLUE)
+CEffect_Lightning::CEffect_Lightning(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_LIGHTNING)
 {
 }
 
-CEffect_Cast_Blue::CEffect_Cast_Blue(const CEffect& rhs)
+CEffect_Lightning::CEffect_Lightning(const CEffect& rhs)
 	: CSkillEffect(rhs)
 {
 }
 
-CEffect_Cast_Blue::~CEffect_Cast_Blue()
+CEffect_Lightning::~CEffect_Lightning()
 {
 }
 
-HRESULT CEffect_Cast_Blue::Ready_Object()
+HRESULT CEffect_Lightning::Ready_Object()
 {
 	__super::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 12.f, 3.f });
-	m_pTransformCom->Set_Pos(_vec3{ 110, m_pTransformCom->Get_Scale().y, 0 });
+	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 0 });
 
 	//m_bActive = false;
 
@@ -33,28 +33,28 @@ HRESULT CEffect_Cast_Blue::Ready_Object()
 	return S_OK;
 }
 
-_int CEffect_Cast_Blue::Update_Object(const _float& fTimeDelta)
+_int CEffect_Lightning::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CEffect_Cast_Blue::LateUpdate_Object()
+void CEffect_Lightning::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CEffect_Cast_Blue::Render_Object()
+void CEffect_Lightning::Render_Object()
 {
 	__super::Render_Object();
 }
 
-HRESULT CEffect_Cast_Blue::Add_Component()
+HRESULT CEffect_Lightning::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Skill_Cast_Blue", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Skill_Lightning", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -68,22 +68,22 @@ HRESULT CEffect_Cast_Blue::Add_Component()
 	return S_OK;
 }
 
-CEffect_Cast_Blue* CEffect_Cast_Blue::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_Lightning* CEffect_Lightning::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CEffect_Cast_Blue* pInstance = new CEffect_Cast_Blue(pGraphicDev, _pOwnerObject);
+	CEffect_Lightning* pInstance = new CEffect_Lightning(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Cast Blue Create Failed");
+		MSG_BOX("Lightning Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CEffect_Cast_Blue::Free()
+void CEffect_Lightning::Free()
 {
 	__super::Free();
 }

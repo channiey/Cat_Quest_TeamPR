@@ -189,6 +189,8 @@
     <ClInclude Include="..\Header\Bush9.h" />
     <ClInclude Include="..\Header\Effect_Cast_Blue.h" />
     <ClInclude Include="..\Header\Effect_Cast_Yellow.h" />
+    <ClInclude Include="..\Header\Effect_Lightning.h" />
+    <ClInclude Include="..\Header\Effect_Range_BigCircle.h" />
     <ClInclude Include="..\Header\ExpCoin.h" />
     <ClInclude Include="..\Header\GoldCoin.h" />
     <ClInclude Include="..\Header\Chest.h" />
@@ -291,6 +293,9 @@
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
+    <ClInclude Include="..\Header\Shadow_Monster.h" />
+    <ClInclude Include="..\Header\Shadow_Npc.h" />
+    <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Blue.h" />
@@ -373,6 +378,8 @@
     <ClCompile Include="..\Code\Bush9.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Yellow.cpp" />
+    <ClCompile Include="..\Code\Effect_Lightning.cpp" />
+    <ClCompile Include="..\Code\Effect_Range_BigCircle.cpp" />
     <ClCompile Include="..\Code\ExpCoin.cpp" />
     <ClCompile Include="..\Code\GoldCoin.cpp" />
     <ClCompile Include="..\Code\Chest.cpp" />

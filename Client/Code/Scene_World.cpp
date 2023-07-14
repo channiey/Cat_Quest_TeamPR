@@ -108,6 +108,10 @@
 #include "Effect_SpellBurst_Purple.h"
 #include "Effect_SpellBurst_Yellow.h"
 
+#include "Effect_Fire.h"
+#include "Effect_Lightning.h"
+#include "Effect_Range_BigCircle.h"
+
 // Item
 #include "GoldCoin.h"
 #include "ExpCoin.h"
@@ -151,6 +155,7 @@ void CScene_World::LateUpdate_Scene()
 	//CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::MONSTER);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ENVIRONMENT);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
@@ -825,6 +830,18 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	pGameObject = CEffect_SpellBrust_Yellow::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Yellow", pGameObject), E_FAIL);
+
+	pGameObject = CEffect_Fire::Create(m_pGraphicDev, nullptr);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Fire", pGameObject), E_FAIL);
+
+	pGameObject = CEffect_Lightning::Create(m_pGraphicDev, nullptr);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Lightning", pGameObject), E_FAIL);
+
+	pGameObject = CEffect_Range_BigCircle::Create(m_pGraphicDev, nullptr);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Range_BigCircle_Orange", pGameObject), E_FAIL);
 
 #pragma endregion
 
