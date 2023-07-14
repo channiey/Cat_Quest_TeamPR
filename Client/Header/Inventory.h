@@ -38,14 +38,16 @@ protected:
 private:
 
 
-	CTexture*				m_pInveventoryTexCom[20];
+	CTexture*				m_pInveventoryTexCom[INVENTORYID_END];
+	CTransform*				m_pInventortyTransCom[INVENTORYID_END];
 
 	_bool					m_bIsOn;
 	_bool					m_bShirnk;
 
+	_bool					m_bPick[INVENTORYID_END];
+	RECT					m_rcPick[INVENTORYID_END];
 
-
-
+	_matrix                 m_matInventoryWolrd[INVENTORYID_END];
 
 
 public: 

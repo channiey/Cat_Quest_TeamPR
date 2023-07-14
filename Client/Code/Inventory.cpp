@@ -1,4 +1,5 @@
 #include "Inventory.h"
+#include "Export_Function.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
@@ -23,7 +24,9 @@ HRESULT CInventory::Ready_Object()
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
 
-	
+	m_bShirnk = true;
+
+
 
 
 
@@ -34,8 +37,6 @@ HRESULT CInventory::Ready_Object()
 _int CInventory::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-
-
 
 
 
@@ -69,6 +70,18 @@ HRESULT CInventory::Add_Component()
 
 void CInventory::Picking_UI()
 {
+
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	D3DVIEWPORT9 ViewPort;
+
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	pt.y = WINCY - pt.y;
+
+
 }
 
 void CInventory::Mouse_Input()
