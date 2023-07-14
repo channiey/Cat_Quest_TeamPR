@@ -2,7 +2,9 @@
 
 CItem_Weapon::CItem_Weapon(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
     :CItem(pGraphicDev, _eID)
+  
 {
+    ZeroMemory(&m_eItemInfo, sizeof(STATINFO));
 }
 
 CItem_Weapon::CItem_Weapon(const CItem& rhs)

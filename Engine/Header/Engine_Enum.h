@@ -78,7 +78,7 @@ namespace Engine
 
 		/* ========================================= Item ========================================*/
 
-		ITEM_GOLD, ITEM_EXP, ITEM_KEY,
+		ITEM_GOLD, ITEM_EXP, ITEM_KEY, ITEM_WARRIOR, ITEM_NINJA, ITEM_MAGE,
 
 		// Item
 
@@ -126,6 +126,7 @@ namespace Engine
 		// 
 		// UI - VIEWPORT
 		UI_ENTER, UI_EXP, UI_LEVEL, UI_TAB, UI_ZOOM, UI_DEF, UI_HP, UI_MANA, UI_RING, UI_INDICATOR, UI_FILEDSKILL,
+		UI_INVENTORY,
 
 
 

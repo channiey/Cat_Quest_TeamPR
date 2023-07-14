@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\Item.h"
-
+#include "EventMgr.h"
 #include "Export_Function.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev , const OBJ_ID& _eID)
@@ -66,6 +66,35 @@ void CItem::Render_Object()
 	//m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object(); // 콜라이더 출력
+
+}
+
+void CItem::OnCollision_Enter(CGameObject* _pColObj)
+{
+	// Target - Pos
+	_vec3 vColPos =  _pColObj->Get_Transform()->Get_Info(INFO_POS);
+	
+
+	// Item - Pos
+	_vec3	vOwnerPos =  m_pTransformCom->Get_Info(INFO_POS);
+
+	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+
+	
+	CEventMgr::GetInstance()->Delete_Obj(this);
+	
+	
+
+}
+
+void CItem::OnCollision_Stay(CGameObject* _pColObj)
+{
+
+}
+
+void CItem::OnCollision_Exit(CGameObject* _pColObj)
+{
 
 }
 
