@@ -72,6 +72,7 @@
 #include "DefUI.h"
 #include "IndicatorUI.h"
 #include "FieldSkillUI.h"
+#include "DialogUI.h"
 
 // NPC
 #include "Npc_King.h"
@@ -541,6 +542,10 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CFieldSkillUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
+
+	pGameObject = CDialogUI::Create(m_pGraphicDev, OBJ_ID::NPC_BLACKSMITH, L"그대 기억이 지난 사랑이 내안을 파고드는 가시가 되어 제발 가라고 아주 가라고 외쳐도 눈물만 흘리는데");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Dialog", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });

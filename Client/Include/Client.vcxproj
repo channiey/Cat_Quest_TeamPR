@@ -187,6 +187,7 @@
     <ClInclude Include="..\Header\Bush7.h" />
     <ClInclude Include="..\Header\Bush8.h" />
     <ClInclude Include="..\Header\Bush9.h" />
+    <ClInclude Include="..\Header\DialogUI.h" />
     <ClInclude Include="..\Header\Effect_Cast_Blue.h" />
     <ClInclude Include="..\Header\Effect_Cast_Yellow.h" />
     <ClInclude Include="..\Header\Effect_Lightning.h" />
@@ -380,6 +381,7 @@
     <ClCompile Include="..\Code\Bush7.cpp" />
     <ClCompile Include="..\Code\Bush8.cpp" />
     <ClCompile Include="..\Code\Bush9.cpp" />
+    <ClCompile Include="..\Code\DialogUI.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Yellow.cpp" />
     <ClCompile Include="..\Code\Effect_Lightning.cpp" />

@@ -74,7 +74,7 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		return E_FAIL;
 	}
 	// 인게임 폰트
-	if (FAILED(D3DXCreateFont(m_pGraphicDev, 30, 10, 650, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pInGameFont)))
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 40, 15, 650, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"고딕", &m_pInGameFont)))
 	{
 		MSG_BOX("Create InGameFont Failed");
 		return E_FAIL;

@@ -465,7 +465,6 @@ _uint CLoadingThread::Loading_For_World()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Indicator",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Indicator.png")), E_FAIL);
-
 	// 쉐이드느낌
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Shade",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Shade.png")), E_FAIL);
@@ -480,6 +479,19 @@ _uint CLoadingThread::Loading_For_World()
 	// 작은화살표
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_SmallArrow",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/SmallArrow.png")), E_FAIL);
+	// 다이얼로그 박스
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_SpeechBox",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/SpeechBox.png")), E_FAIL);
+	// 다이얼로그 화살표
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_ScrollArrow",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/ScrollArrow/%d.png", 2)), E_FAIL);
+	// NPC스탠드
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_NpcStand",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/NpcStand/%d.png", 7)), E_FAIL);
+	// 스피릿스탠드
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_SpiritStand",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/SpiritStand/%d.png", 5)), E_FAIL);
+
 
 #pragma endregion
 
