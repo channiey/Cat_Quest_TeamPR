@@ -21,8 +21,10 @@ public:
 	_uint&								Get_TexCnt() { return m_iTexCnt; }
 
 	// 성혁 추가
-	LPDIRECT3DTEXTURE9*					Get_Texture()		{ return (LPDIRECT3DTEXTURE9*)&m_vecTexture[0]; };
+	LPDIRECT3DTEXTURE9*					Get_Texture(_uint iCnt = 0)		{ return (LPDIRECT3DTEXTURE9*)&m_vecTexture[iCnt]; };
 	const _tchar*						Get_TexturePath()	{ return m_vecPathForImGui[0]; }
+	// 준 추가
+	void								Set_Texture(LPDIRECT3DTEXTURE9 pTexture, _uint iCnt = 0) { m_vecTexture[iCnt] = pTexture; };
 
 private:
 	vector<IDirect3DBaseTexture9*>		m_vecTexture;
