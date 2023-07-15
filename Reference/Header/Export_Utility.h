@@ -34,6 +34,8 @@
 
 #include "AIComponent.h"
 
+#include "RigidBody.h"
+
 // Object
 #include "CameraObject.h"
 #include "LineObject.h"

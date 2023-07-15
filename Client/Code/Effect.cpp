@@ -14,6 +14,7 @@ CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, cons
 {
 	ZeroMemory(&m_vOffSet, sizeof(_vec3));
 	ZeroMemory(&m_vSize, sizeof(_vec3));
+	ZeroMemory(&m_vRot, sizeof(_vec3));
 }
 
 CEffect::CEffect(const CEffect & rhs)

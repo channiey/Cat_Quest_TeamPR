@@ -1,6 +1,8 @@
 #ifndef Engine_Macro_h__
 #define Engine_Macro_h__
 
+#include <iostream>
+
 namespace Engine
 {
 #define	VK_MAX			0xff
@@ -21,10 +23,15 @@ namespace Engine
 
 #define NPC_IDLE_FRAME      8
 
+#define	DF_RB_KNOCKBACK		500
+#define DF_RB_KNOCKUP		100
+
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\
 										DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(150, 255, 255, 255));\
 										rc.top += 20;
+
+#define	CONSOLE_OUT_VEC3(_msg, _vPos) std::cout << _msg << "\t" << _vPos.x << "\t" << _vPos.y << "\t" << _vPos.z << std::endl;
 
 #ifndef	MSG_BOX
 #define	MSG_BOX(_message)	MessageBox(NULL, TEXT(_message), L"System Message", MB_OK)

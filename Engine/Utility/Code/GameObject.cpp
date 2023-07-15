@@ -15,6 +15,7 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_TYPE& _eType, 
 	, m_pColliderCom(nullptr)
 	, m_pBufferCom(nullptr)
 	, m_pAnimatorCom(nullptr)
+	, m_pRigidBodyCom(nullptr)
 	, m_eType(_eType)
 	, m_bEventSwitch(false)
 	, m_bEnter(false)

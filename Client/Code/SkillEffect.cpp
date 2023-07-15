@@ -7,6 +7,7 @@ CSkillEffect::CSkillEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerOb
 	:CEffect(pGraphicDev, _pOwnerObject, _eID)
 	, m_pTextureCom(nullptr)
 	, m_pAnimation(nullptr)
+	, m_bEnd(true)
 {
 }
 

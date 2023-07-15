@@ -201,6 +201,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\RectCollider.h" />
     <ClInclude Include="..\..\Header\RenderMgr.h" />
+    <ClInclude Include="..\..\Header\RigidBody.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
     <ClInclude Include="..\..\Header\State.h" />
     <ClInclude Include="..\..\Header\StateMachine.h" />
@@ -232,6 +233,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\RectCollider.cpp" />
     <ClCompile Include="..\Code\RenderMgr.cpp" />
+    <ClCompile Include="..\Code\RigidBody.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
     <ClCompile Include="..\Code\State.cpp" />
     <ClCompile Include="..\Code\StateMachine.cpp" />

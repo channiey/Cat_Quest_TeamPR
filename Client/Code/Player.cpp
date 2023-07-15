@@ -149,6 +149,17 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
+	// << : 리지드바디 넉백 테스트
+	if (CInputDev::GetInstance()->Key_Down(VK_RIGHT))
+		m_pRigidBodyCom->Knock_Back(vec3.right);
+	if (CInputDev::GetInstance()->Key_Down(VK_LEFT))
+		m_pRigidBodyCom->Knock_Back(vec3.left);
+	if (CInputDev::GetInstance()->Key_Down(VK_UP))
+		m_pRigidBodyCom->Knock_Back(vec3.forward);
+	if (CInputDev::GetInstance()->Key_Down(VK_DOWN))
+		m_pRigidBodyCom->Knock_Back(vec3.back);
+	// >> :
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
@@ -555,7 +566,9 @@ HRESULT CPlayer::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
 
-
+	pComponent = m_pRigidBodyCom = dynamic_cast<CRigidBody*>(Engine::Clone_Proto(COMPONENT_TYPE::RIGIDBODY, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::RIGIDBODY, pComponent);
 
 
 

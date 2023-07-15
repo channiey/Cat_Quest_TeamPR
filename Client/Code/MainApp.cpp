@@ -67,7 +67,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_InputDev(g_hInst, g_hWnd), E_FAIL); // 인풋 디바이스 초기화
 
-	(*ppGraphicDev)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // 후면추려내기 비활성화
+	(*ppGraphicDev)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // 후면 추려내기 비활성화
 
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE); // 텍스처 불투명화 설정코드
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);

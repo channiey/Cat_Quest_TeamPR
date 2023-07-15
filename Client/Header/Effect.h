@@ -31,6 +31,8 @@ protected:
 	CGameObject*			m_pOwnerobject;
 	_vec3					m_vOffSet;
 	_vec3					m_vSize;
+	_vec3					m_vRot;
+	_int					m_iAlpha;
 
 protected:
 	virtual void			Free() override;

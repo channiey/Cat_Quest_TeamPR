@@ -9,6 +9,7 @@ class CTransform;
 class CCollider;
 class CVIBuffer;
 class CAnimator;
+class CRigidBody;
 
 class ENGINE_DLL CGameObject : public CBase
 {
@@ -28,6 +29,8 @@ public:
 	CCollider*							Get_Collider() const { return m_pColliderCom; }
 	CAnimator*							Get_Animator() const { return m_pAnimatorCom; }
 	CVIBuffer*							Get_VIBuffer() const { return m_pBufferCom; }
+	CRigidBody*							Get_RigidBody() const { return m_pRigidBodyCom; }
+
 	const _tchar*						Get_Name() const { return m_szName; } // 팀장 허락 받고 사용!
 
 	CGameObject*						Get_Parent() const { return m_pParentObj; }
@@ -84,6 +87,7 @@ protected:
 	CCollider*							m_pColliderCom;
 	CVIBuffer*							m_pBufferCom;
 	CAnimator*							m_pAnimatorCom;
+	CRigidBody*							m_pRigidBodyCom;
 
 	CGameObject*						m_pParentObj;
 	vector<CGameObject*>				m_vecChilds;

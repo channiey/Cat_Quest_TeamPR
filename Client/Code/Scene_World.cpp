@@ -154,17 +154,18 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 void CScene_World::LateUpdate_Scene()
 {
-	//CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::MONSTER);
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+	// 00. 충돌 판정 -> 1차 충돌 처리
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ENVIRONMENT);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 
-	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
-	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
-
+	// 01. 레이트 업데이트 -> 2차 충돌 처리
 	__super::LateUpdate_Scene();
 
+	// 02. 카메라 포지션 결정
 	CCameraMgr::GetInstance()->Set_ViewSpace();
 }
 

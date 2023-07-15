@@ -27,11 +27,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+
+
+
+    /*------------------ 콘솔 출력 매크로 (푸시시 해당 매크로 포함, cout 모두 주석처리 필수) ------------------*/
+
 //#ifdef UNICODE
 //#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 //#else
 //#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 //#endif
+
+     /*------------------ 마우스 커서 숨기기 (TRUE, FALSE) ------------------*/
+
+    ShowCursor(TRUE);
+
+
+
+
+
+
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);

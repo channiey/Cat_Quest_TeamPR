@@ -25,13 +25,14 @@ public:
 
 public:
 	virtual void			Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) override;
-
+	const _bool&			Is_End() const { return m_bEnd; }
 private:
 	HRESULT					Add_Component();
 
 protected:
 	CTexture*				m_pTextureCom;
 	CAnimation*				m_pAnimation;
+	_bool					m_bEnd;
 
 protected:
 	virtual void			Free() override;
