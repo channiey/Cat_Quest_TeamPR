@@ -91,6 +91,10 @@ inline HRESULT			Set_LookAt(CGameObject* pLookAt);
 inline HRESULT			Set_Follow(CGameObject* pFollow);
 inline const _matrix&   Get_Billboard_X();
 inline const _matrix&   Get_WorldMat();
+inline void				Shake_Camera(const _float& _fTime = DF_CAMERA_SHAKE_TIME, const _float& _fIntensity = DF_CAMERA_SHAKE_INTENSITY);
+inline const _bool&		Is_Shake_Camera();
+inline void				Stop_Shake();
+
 
 // CollisionMgr
 inline void				Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, const COL_TYPE& _eColType1, const COL_TYPE& _eColType2);

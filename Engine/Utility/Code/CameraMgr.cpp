@@ -135,6 +135,21 @@ HRESULT CCameraMgr::Set_Follow(CGameObject* pFollow)
 	return S_OK;
 }
 
+void CCameraMgr::Shake_Camera(const _float& _fTime, const _float& _fIntensity)
+{
+	m_pCurCamera->Get_CameraCom()->Shake_Camera(_fTime, _fIntensity);
+}
+
+const _bool& CCameraMgr::Is_Shake_Camera() const
+{
+	return m_pCurCamera->Get_CameraCom()->Is_Shake_Camera();
+}
+
+void CCameraMgr::Stop_Shake()
+{
+	m_pCurCamera->Get_CameraCom()->Stop_Shake();
+}
+
 CCameraObject * CCameraMgr::Find_Camera(const _tchar * pCameraTag)
 {
 	auto		iter = find_if(m_mapCamera.begin(), m_mapCamera.end(), CTag_Finder(pCameraTag));

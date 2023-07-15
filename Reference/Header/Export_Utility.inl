@@ -152,6 +152,21 @@ inline const _matrix& Get_WorldMat()
 	return CCameraMgr::GetInstance()->Get_WorldMat();
 }
 
+inline void Shake_Camera(const _float& _fTime, const _float& _fIntensity)
+{
+	CCameraMgr::GetInstance()->Shake_Camera(_fTime, _fIntensity);
+}
+
+inline const _bool& Is_Shake_Camera()
+{
+	return CCameraMgr::GetInstance()->Is_Shake_Camera();
+}
+
+inline void Stop_Shake()
+{
+	CCameraMgr::GetInstance()->Stop_Shake();
+}
+
 inline void Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, COL_TYPE& _eColType1, const COL_TYPE& _eColType2)
 {
 	CCollisionMgr::GetInstance()->Check_Collision(_eType1, _eType2, _eParentType, _eColType1, _eColType2);

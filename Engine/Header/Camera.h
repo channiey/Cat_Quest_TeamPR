@@ -18,6 +18,7 @@ public:
 	HRESULT					Ready_Camera();
 	virtual _int			Update_Component(const _float& fTimeDelta);	
 
+
 public:						
 	HRESULT					Set_ViewSpace();	// 뷰스페이스 변환
 	HRESULT					Set_Projection();	// 투영 변환
@@ -45,6 +46,14 @@ public:
 	const _bool				Is_Follow() const { NULL_CHECK_RETURN(m_pFollow, FALSE); return TRUE; }
 
 public:
+	void					Shake_Camera(const _float& _fTime, const _float& _fIntensity);
+	const _bool&			Is_Shake_Camera() const { return m_bShake; }
+	void					Stop_Shake();
+
+private:
+	void					Apply_Shake();
+
+public:
 	static CCamera*			Create(LPDIRECT3DDEVICE9 pGraphicDev, HWND* const _pHwnd);
 	virtual CComponent*		Clone(CGameObject* _pOwnerObject);
 
@@ -68,6 +77,12 @@ public:
 	_matrix					m_matWorld;
 	_matrix					m_matProj;
 	_matrix                 m_matView;
+
+	// Shake
+	_bool					m_bShake;
+	_float					m_fShakeTime;
+	_float					m_fAccTime;
+	_float					m_fIntensity;
 
 private:
 	virtual void			Free();

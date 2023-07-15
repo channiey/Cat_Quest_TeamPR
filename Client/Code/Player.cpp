@@ -161,7 +161,8 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	// << : Test : Rigidbody KnockBack
+	// << : Test : Rigidbody KnockBack / Camera Shake
+
 	if (CInputDev::GetInstance()->Key_Down(VK_RIGHT))
 		m_pRigidBodyCom->Knock_Back(vec3.right);
 	if (CInputDev::GetInstance()->Key_Down(VK_LEFT))
@@ -170,7 +171,13 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 		m_pRigidBodyCom->Knock_Back(vec3.forward);
 	if (CInputDev::GetInstance()->Key_Down(VK_DOWN))
 		m_pRigidBodyCom->Knock_Back(vec3.back);
+	
+	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
+		CCameraMgr::GetInstance()->Shake_Camera();
+	
 	// >> :
+
+
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 

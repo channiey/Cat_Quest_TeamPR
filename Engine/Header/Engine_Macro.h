@@ -10,7 +10,7 @@ namespace Engine
 #define	WINCX				1280
 #define	WINCY				720
 
-#define CAM_DEFAULT_DISTANCE 20
+#define CAM_DEFAULT_DISTANCE 21.5f
 
 #define	VTXCNTX				65
 #define VTXCNTZ				65
@@ -23,8 +23,11 @@ namespace Engine
 
 #define NPC_IDLE_FRAME      8
 
-#define	DF_RB_KNOCKBACK		500
-#define DF_RB_KNOCKUP		100
+#define	DF_RB_KNOCKBACK		500.f
+#define DF_RB_KNOCKUP		100.f
+
+#define	DF_CAMERA_SHAKE_INTENSITY 15.f
+#define	DF_CAMERA_SHAKE_TIME 0.13f
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\

@@ -36,6 +36,10 @@ public:
 	HRESULT									Set_LookAt		(CGameObject* pLookAt);
 	HRESULT									Set_Follow		(CGameObject* pFollow);
 
+	void									Shake_Camera(const _float& _fTime = DF_CAMERA_SHAKE_TIME, const _float& _fIntensity = DF_CAMERA_SHAKE_INTENSITY);
+	const _bool&							Is_Shake_Camera() const;
+	void									Stop_Shake();
+
 private:
 	CCameraObject*							Find_Camera		(const _tchar* pCameraTag);
 	void									Blend_Camera	();

@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Transform.h"
 
+#include "Export_System.h"
+
 CCamera::CCamera()
 	: m_pLookAt(nullptr)
 	, m_pFollow(nullptr)
@@ -10,6 +12,10 @@ CCamera::CCamera()
 	, m_fSpeedZoom(50.f)
 	, m_fDistance(0.f)
 	, m_pHwnd(nullptr)
+	, m_bShake(FALSE)
+	, m_fIntensity(0.f)
+	, m_fShakeTime(0.f)
+	, m_fAccTime(0.f)
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
 	ZeroMemory(&m_tProj, sizeof(PROJECTION));
@@ -29,6 +35,10 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	, m_fSpeedZoom(100.f)
 	, m_fDistance(10.f)
 	, m_pHwnd(_pHwnd)
+	, m_bShake(FALSE)
+	, m_fIntensity(0.f)
+	, m_fShakeTime(0.f)
+	, m_fAccTime(0.f)
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
 	ZeroMemory(&m_tProj, sizeof(PROJECTION));
@@ -50,6 +60,10 @@ CCamera::CCamera(const CCamera & rhs, CGameObject* _pOwnerObject)
 	, m_tVport(rhs.m_tVport)
 	, m_fDistance(rhs.m_fDistance)
 	, m_pHwnd(rhs.m_pHwnd)
+	, m_bShake(FALSE)
+	, m_fIntensity(0.f)
+	, m_fShakeTime(0.f)
+	, m_fAccTime(0.f)
 {
 }
 
@@ -98,6 +112,8 @@ HRESULT CCamera::Set_ViewSpace()
 	NULL_CHECK_RETURN(m_pGraphicDev, E_FAIL);
 
 	D3DXMatrixIdentity(&m_matView);
+	
+	if (m_bShake) Apply_Shake();
 	
 	m_pGraphicDev->SetTransform(D3DTS_VIEW,
 		D3DXMatrixLookAtLH(&m_matView, &m_tVspace.Eye, &m_tVspace.LookAt, &m_tVspace.Up));
@@ -171,6 +187,47 @@ HRESULT CCamera::Set_Viewport(const D3DVIEWPORT9& _tViewport)
 {
 	m_pGraphicDev->SetViewport(&_tViewport);
 	return S_OK;
+}
+
+void CCamera::Shake_Camera(const _float& _fTime, const _float& _fIntensity)
+{
+	m_bShake = TRUE;
+	m_fShakeTime = _fTime;
+	m_fIntensity = _fIntensity;
+	m_fAccTime = 0.f;
+}
+
+void CCamera::Stop_Shake()
+{
+	if (m_bShake)
+	{
+		m_bShake = FALSE;
+		m_fShakeTime = 0.f;
+		m_fIntensity = 0.f;
+		m_fAccTime = 0.f;
+	}
+}
+
+void CCamera::Apply_Shake()
+{
+
+	m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+
+	if (m_fShakeTime <= m_fAccTime)
+	{
+		Stop_Shake();
+		return;
+	}
+	
+	_vec3 vShakeDelta { _float(rand() % (_int)m_fIntensity),
+							_float(rand() % (_int)m_fIntensity),
+							0.f };
+
+	vShakeDelta *= 0.01f;	
+
+	m_tVspace.Eye += vShakeDelta;
+
+	m_tVspace.LookAt += vShakeDelta;
 }
 
 CCamera * CCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, HWND* const _pHwnd)
