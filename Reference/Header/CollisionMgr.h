@@ -34,6 +34,7 @@ public:
 public:
 	void							Check_Collision(const OBJ_TYPE& _eType1, 
 													const OBJ_TYPE& _eType2,
+													const OBJ_TYPE& _eParentType = OBJ_TYPE::TYPEEND, // _eType2이 Range일 경우, 부모 타입
 													const COL_TYPE& _eColType1 = COL_TYPE::RECT, 
 													const COL_TYPE& _eColType2 = COL_TYPE::RECT);
 

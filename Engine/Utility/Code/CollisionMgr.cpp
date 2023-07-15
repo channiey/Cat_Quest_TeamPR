@@ -39,7 +39,7 @@ CCollisionMgr::~CCollisionMgr()
 	Free();
 }
 
-void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const COL_TYPE& _eColType1, const COL_TYPE& _eColType2)
+void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, const COL_TYPE& _eColType1, const COL_TYPE& _eColType2)
 {	
 	CGameObject*	pObj1	=	nullptr;	 
 	CGameObject*	pObj2	=	nullptr;
@@ -151,9 +151,9 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 			}
 			else if (COL_TYPE::RECT == _eColType1 && COL_TYPE::SPHERE == _eColType2) // 객체 포지션 vs 스피어
 			{
-				if (pObj1->Get_Type() == pObj2->Get_Parent()->Get_Type()) continue; // 같은 타입 끼리 굳이 검사 필요X
+				if (_eParentType != pObj2->Get_Parent()->Get_Type()) continue; 
 				
-				pCol1 = pObj1->Get_Collider();
+				pCol1 = pObj1->Get_Collider(); // 렉트 콜라이더를 빌려 쓴다 (포지션정보만 필요하니까)
 				pCol2 = pObj2->Get_Collider();
 
 				if (nullptr == pCol1 || nullptr == pCol2) continue;

@@ -171,7 +171,7 @@ void CScene_World::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 
-	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리
 	__super::LateUpdate_Scene();
