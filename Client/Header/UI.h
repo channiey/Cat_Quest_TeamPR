@@ -36,14 +36,22 @@ protected:
 	CTexture*				m_pTextureCom;
 	UI_TYPE					m_eUIType;
 
+
 	_matrix					m_UImatWorld;
 
+	// Image Pos
 	_float					m_fPosX;
 	_float					m_fPosY;
 
+	// Image Size
 	_float					m_fSizeX;
 	_float					m_fSizeY;
 	
+	// Image Size Multiple
+	_float					m_fMultipleSizeX;
+	_float					m_fMultipleSizeY;
+
+
 protected:
 	virtual void			Free() override;
 

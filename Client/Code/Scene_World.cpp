@@ -72,6 +72,7 @@
 #include "DefUI.h"
 #include "IndicatorUI.h"
 #include "FieldSkillUI.h"
+#include "Inventory.h"
 
 // NPC
 #include "Npc_King.h"
@@ -541,6 +542,12 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CFieldSkillUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
+
+
+	// UI - Inventroy
+	pGameObject = CInventory::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
 
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });

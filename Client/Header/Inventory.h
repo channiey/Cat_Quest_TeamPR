@@ -30,7 +30,7 @@ public:
 protected:
 	virtual HRESULT			Add_Component();
 	void					Picking_UI();
-	void					Mouse_Input();
+	void					Key_Input();
 
 
 
@@ -38,7 +38,7 @@ protected:
 private:
 
 
-	CTexture*				m_pInveventoryTexCom[INVENTORYID_END];
+	CTexture*				m_pInventoryTexCom[INVENTORYID_END];
 	CTransform*				m_pInventortyTransCom[INVENTORYID_END];
 
 	_bool					m_bIsOn;
