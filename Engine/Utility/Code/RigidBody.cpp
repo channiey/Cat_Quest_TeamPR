@@ -11,11 +11,12 @@ CRigidBody::CRigidBody()
 CRigidBody::CRigidBody(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CComponent(pGraphicDev, COMPONENT_TYPE::RIGIDBODY)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	ZeroMemory(&m_vForce, sizeof(_vec3));
 	ZeroMemory(&m_vAcc, sizeof(_vec3));
 	ZeroMemory(&m_vVelocity, sizeof(_vec3));
 
-	// 수정시 팀장 보고 후 수정
 	m_fMass		= 10.f;
 	m_fMaxSpeed = 30.f;
 	m_fFriction = 0.1f;
@@ -42,7 +43,6 @@ CRigidBody::~CRigidBody()
 
 HRESULT CRigidBody::Ready_RigidBody()
 {
-
 
 	return S_OK;
 }
@@ -82,6 +82,8 @@ void CRigidBody::LateUpdate_Component()
 
 void CRigidBody::Knock_Back(const _vec3& _vDir, const _float& _fImpulse)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	_vec3 vDir;
 
 	if (1.3f < D3DXVec3Length(&_vDir))
@@ -94,6 +96,8 @@ void CRigidBody::Knock_Back(const _vec3& _vDir, const _float& _fImpulse)
 
 void CRigidBody::Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	NULL_CHECK(_pAttacker);
 
 	_vec3 vDir = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) - _pAttacker->Get_Transform()->Get_Info(INFO_POS);

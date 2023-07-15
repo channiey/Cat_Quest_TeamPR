@@ -20,9 +20,14 @@ public:
 	HRESULT					Ready_RigidBody();
 	virtual void			LateUpdate_Component() override;
 
-public:
-	void					Knock_Back(const _vec3& _vDir, const _float& _fImpulse = DF_RB_KNOCKBACK);		    // 직접 지정한 방향으로 넉백 (방향 계산 수동)
-	void					Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse = DF_RB_KNOCKBACK);	// 공격자의 방향으로부터 넉백 (방향 계산 자동)
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+
+public:						// 직접 지정한 방향으로 넉백 (방향 계산 수동)
+	void					Knock_Back(const _vec3& _vDir, const _float& _fImpulse = DF_RB_KNOCKBACK);		    
+							
+							// 공격자의 방향으로부터 넉백 (방향 계산 자동)
+	void					Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse = DF_RB_KNOCKBACK);		
 
 private:
 	void					Add_Impulse(const _vec3& _vForce) { m_vForce += _vForce; }
