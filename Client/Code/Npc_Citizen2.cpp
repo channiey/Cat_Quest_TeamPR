@@ -4,6 +4,8 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
+#include "QuestMgr.h"
+#include "Quest3.h"
 
 CNpc_Citizen2::CNpc_Citizen2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_CITIZEN_2)
@@ -32,6 +34,8 @@ HRESULT CNpc_Citizen2::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 
 	CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen2_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
+	
+	m_pHaveQuest = CQuestMgr::GetInstance()->Set_HaveQuest(L"µµµÏ Àâ±â");
 
 	return S_OK;
 }

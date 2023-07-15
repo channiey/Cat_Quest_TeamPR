@@ -32,6 +32,7 @@
 
 #include "RangeObj.h"
 #include "EventMgr.h"
+#include "QuestMgr.h" // 퀘스트 매니저
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -477,6 +478,15 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 			m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
 		}
+		// 퀘스트 진입 테스트
+		if (CInputDev::GetInstance()->Key_Down('E')) {
+			if (dynamic_cast<CNpc*>(_pColObj)->Get_IsReadyQuest() && !CQuestMgr::GetInstance()->Get_Active()) {
+				dynamic_cast<CNpc*>(_pColObj)->Set_IsReadyQuest(false);
+				CQuestMgr::GetInstance()->Set_Quest(dynamic_cast<CNpc*>(_pColObj)->Get_HaveQuest());
+				CQuestMgr::GetInstance()->Set_Active(true);
+			}
+		}
+
 	}
 		break;
 	case Engine::OBJ_TYPE::ITEM:

@@ -80,6 +80,7 @@
 #include "Npc_Soldier.h"
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
+#include "QuestMgr.h"
 
 // Monster
 #include "ExpUI.h"
@@ -130,6 +131,8 @@ CScene_World::~CScene_World()
 
 HRESULT CScene_World::Ready_Scene()
 {
+	CQuestMgr::GetInstance()->Init(); // 퀘스트 매니저 초기화
+
 	// 임의 순서 변경 X
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
@@ -148,6 +151,11 @@ HRESULT CScene_World::Ready_Scene()
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
+
+	// 퀘스트 업데이트
+	if (CQuestMgr::GetInstance()->Get_Active()) {
+		CQuestMgr::GetInstance()->Play_Quest();
+	}
 
 	return 0;
 }

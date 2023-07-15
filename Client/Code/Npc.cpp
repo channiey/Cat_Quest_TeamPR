@@ -3,6 +3,8 @@
 
 #include "Export_Function.h"
 
+#include "QuestMgr.h"
+
 CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::NPC, _eID)
 {
@@ -26,6 +28,7 @@ HRESULT CNpc::Ready_Object()
 
 	m_eEnter = ENTER_TYPE::ENTER_NO;
 	m_eInterType = INTERACTION_TYPE::INTERACTION_CHAT;
+	m_bReadyQuest = false;
 
 	return S_OK;
 }
@@ -85,6 +88,7 @@ HRESULT CNpc::Add_Component()
 
 void CNpc::Free()
 {
+	CQuestMgr::DestroyInstance(); // 퀘스트 매니저 제거
 	m_pAnimation->Release(); 
 	__super::Free();
 }

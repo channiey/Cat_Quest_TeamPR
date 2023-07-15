@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-
+#include "Quest.h"
 BEGIN(Engine)
 class CTexture;
 class CAnimation;
@@ -25,14 +25,23 @@ public:
 	// 모두 같은 기능이라 부모에서 통일
 	void					Play_ColLogic(const _float& fTimeDelta); // 충돌 로직
 
+public:
 	CTexture*				Get_Texture() { return m_pTextureCom; }
 
+	// 퀘스트를 줄 준비
+	_bool					Get_IsReadyQuest() { return m_bReadyQuest; }
+	void					Set_IsReadyQuest(_bool _isReady) { m_bReadyQuest = _isReady; }
+	// npc가 가지고 있는 퀘스트 
+	CQuest*				    Get_HaveQuest() {return m_pHaveQuest;}
 private:
 	HRESULT					Add_Component();
 
 protected:
 	CTexture*	m_pTextureCom = nullptr; 
 	CAnimation* m_pAnimation;
+
+	CQuest*		m_pHaveQuest;  // 가지고 있을 퀘스트
+	_bool		m_bReadyQuest; // 퀘스트를 줄 준비가 되어있나.
 
 protected:
 	virtual void			Free() override;
