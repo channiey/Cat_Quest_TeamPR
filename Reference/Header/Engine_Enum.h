@@ -221,6 +221,7 @@ namespace Engine
 
 	enum class ITEM_TYPE			{ EQUIPMENT , WEAPON, OBJECT, TYPEEND};
 
+	enum class QUEST_LEVEL			{ QUEST_READY, QUEST_ENTER, QUEST_UPDATE, QUEST_EXIT, QUEST_CLEAR, QUEST_NONE };
 
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI ·¹ÀÌ¾Æ¿ô ÅÇ ºÐ·ù
 
