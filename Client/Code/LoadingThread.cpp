@@ -78,6 +78,9 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_RECT,
 		CRectCollider::Create(m_pGraphicDev)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_SPHERE,
+		CSphereCollider::Create(m_pGraphicDev)), E_FAIL);
+
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::STATEMACHINE,
 		CStateMachine::Create(m_pGraphicDev)), E_FAIL);
 

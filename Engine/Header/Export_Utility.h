@@ -28,6 +28,7 @@
 #include "CircleCollider.h"
 #include "LineCollider.h"
 #include "RectCollider.h"
+#include "SphereCollider.h"
 
 #include "StateMachine.h"
 #include "Animator.h"

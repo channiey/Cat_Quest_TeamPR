@@ -24,6 +24,7 @@ private:
 	HRESULT				Ready_Layer_Item();
 	HRESULT				Ready_Layer_Projectile();
 	HRESULT				Ready_Layer_Effect();
+	HRESULT				Ready_Layer_Etc();
 
 public:
 	static CScene_World*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

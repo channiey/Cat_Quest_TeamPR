@@ -2,13 +2,14 @@
 
 #include "GameObject.h"
 
+class CRangeObj;
+
 BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
 class CStateMachine;
 class CAnimator;
-
 END
 
 class CPlayer : public Engine::CGameObject
@@ -115,11 +116,15 @@ private:
 	CTexture*			m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CStateMachine*		m_pStateMachineCom;
 
-	// Move_Effect 테스트용. 나중에 바로 지워주시면 됩니다.
 	_uint				m_iTempMode;
 
 	_bool				m_bExpand;
 	_bool				m_bShirnk;
+
+	// << : Test : Range Test
+	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
+	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active로 상황에 맞게 껐다 켰다
+	// >> :
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

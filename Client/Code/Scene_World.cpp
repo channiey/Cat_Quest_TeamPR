@@ -141,7 +141,7 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Projectile()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
-	
+	FAILED_CHECK_RETURN(Ready_Layer_Etc(), E_FAIL);
 	return S_OK;
 }
 
@@ -161,6 +161,7 @@ void CScene_World::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리
 	__super::LateUpdate_Scene();
@@ -171,6 +172,7 @@ void CScene_World::LateUpdate_Scene()
 
 void CScene_World::Render_Scene()
 {
+	if (!CManagement::GetInstance()->Is_Debug()) return;
 #pragma region Stack
 
 	RECT	rc{};
@@ -180,7 +182,6 @@ void CScene_World::Render_Scene()
 	GetClientRect(g_hWnd, &rc);
 
 #pragma endregion
-
 	swprintf_s(szBuf, L"%.d FPS", _int(1.f / Engine::Get_TimeDelta(L"Timer_FPS65")));
 	SCREEN_MSG(szBuf, rc);
 
@@ -854,6 +855,15 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Range_BigCircle_Orange", pGameObject), E_FAIL);
 
 #pragma endregion
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_Etc()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::RANGE_OBJ, pLayer });
 
 	return S_OK;
 }

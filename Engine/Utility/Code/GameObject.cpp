@@ -1,5 +1,6 @@
 #include "..\..\Header\GameObject.h"
 
+#include "Management.h"
 #include "ProtoMgr.h"
 #include "CameraMgr.h"
 
@@ -75,7 +76,8 @@ void CGameObject::Render_Object(void)
 {
 	NULL_CHECK(m_pColliderCom);
 
-	m_pColliderCom->Render_Collider();
+	if(CManagement::GetInstance()->Is_Debug())
+		m_pColliderCom->Render_Collider();
 }
 
 CGameObject * CGameObject::Get_Child(const _uint & _iIndex)

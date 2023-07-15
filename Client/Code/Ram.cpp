@@ -9,6 +9,7 @@
 
 #include "Shadow_Monster.h"
 
+
 CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_RAM)
 {
@@ -111,9 +112,6 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
-
-
-
 
 	return iExit;
 }

@@ -30,6 +30,9 @@
 // Shadow
 #include "Shadow_Player.h"
 
+#include "RangeObj.h"
+#include "EventMgr.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
 	, m_pStateMachineCom(nullptr)
@@ -144,12 +147,20 @@ HRESULT CPlayer::Ready_Object()
 	// 테스트용
 	m_iTempMode = 1;
 
+	// << : Test : Range Test
+	CGameObject* pGameObject = nullptr;
+
+	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
+	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
+
 	return S_OK;
 }
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	// << : 리지드바디 넉백 테스트
+	// << : Test : Rigidbody KnockBack
 	if (CInputDev::GetInstance()->Key_Down(VK_RIGHT))
 		m_pRigidBodyCom->Knock_Back(vec3.right);
 	if (CInputDev::GetInstance()->Key_Down(VK_LEFT))

@@ -32,7 +32,7 @@ protected:
 	_uint						m_iID;	// 콜라이더 고유 ID
 	_int						m_iCol; // 현재 충돌중인 콜라이더 개수
 
-	COL_TYPE					m_eColType;	// 렉트인지, 써클인지, 라인인지
+	COL_TYPE					m_eColType;	// 렉트인지, 써클인지, 라인인지, 스피어인지
 
 	_mesh*						m_pMesh;
 

@@ -2,7 +2,7 @@
 #include "..\Header\Monster.h"
 #include "AIComponent.h"
 #include "Export_Function.h"
-
+#include "RangeObj.h"
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
 	, m_pAICom(nullptr)
@@ -52,6 +52,13 @@ HRESULT CMonster::Ready_Object()
 	//m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
+	// << : Test : Range Test
+	CGameObject* pGameObject = nullptr;
+
+	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
+	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
 	return S_OK;
 }

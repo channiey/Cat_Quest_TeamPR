@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+class CRangeObj;
+
 BEGIN(Engine)
 class CTexture;
 class CAIComponent;
@@ -118,6 +120,10 @@ protected:
 	CAIComponent*			m_pAICom;
 	CStateMachine*			m_pStateMachineCom;
 
+	// << : Test : Range Test
+	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
+	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active·Î »óÈ²¿¡ ¸Â°Ô ²°´Ù Ä×´Ù
+	// >> :
 
 protected:
 	virtual void			Free() override;

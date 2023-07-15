@@ -167,6 +167,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\RangeObj.h" />
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\BatState_Attack.h" />
     <ClInclude Include="..\Header\BatState_bAttack.h" />
@@ -362,6 +363,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\RangeObj.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\BatState_Attack.cpp" />
     <ClCompile Include="..\Code\BatState_bAttack.cpp" />

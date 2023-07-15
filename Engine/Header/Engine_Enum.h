@@ -6,7 +6,7 @@ namespace Engine
 	enum class SCENE_TYPE			{ INTRO, LOADING, WORLD, ENDING, TOOL, TYPEEND }; // 씬 종류
 
 	enum class OBJ_TYPE				{ PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE, 
-									  ENVIRONMENT, TERRAIN, BACKGROUND, EFFECT, UI, GENERATOR, TYPEEND }; // 오브젝트 타입
+									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, BACKGROUND, EFFECT, UI, TYPEEND }; // 오브젝트 타입
 
 	enum class OBJ_ID			
 	{
@@ -177,13 +177,17 @@ namespace Engine
 
 
 
+		/* ========================================= AtkRange ========================================*/
+
+		// AtkRange
+		RANGE_OBJ,
 
 
 		TYPEEND
 
 	};
 	
-	enum class COMPONENT_TYPE		{ TRANSFORM, COL_RECT, COL_CIRCLE, COL_LINE, ANIMATOR, STATEMACHINE, RIGIDBODY,
+	enum class COMPONENT_TYPE		{ TRANSFORM, COL_RECT, COL_CIRCLE, COL_LINE, COL_SPHERE, ANIMATOR, STATEMACHINE, RIGIDBODY,
 										BUFFER_RC_TEX, BUFFER_RC_COL, BUFFER_CUBE, BUFFER_TERRAIN_TEX, BUFFER_TERRAIN_RC_TEX,
 										TEXTURE, CAMERA, AICOM, TYPEEND }; // 컴포넌트 종류
 
@@ -191,7 +195,7 @@ namespace Engine
 
 	enum class EVENT_TYPE			{ ADD_OBJ, DELETE_OBJ, RETURN_OBJ, CHANGE_SCENE, TYPEEND }; // 이벤트 타입 (이벤트 매니저)
 
-	enum class COL_TYPE				{ RECT, CIRCLE, LINE, TYPEEND }; // 콜라이더 종류, 충돌 종류
+	enum class COL_TYPE				{ RECT, CIRCLE, LINE, SPHERE, TYPEEND }; // 콜라이더 종류, 충돌 종류
 
 	enum class TILE_TYPE			{ LAND, SEA, ICE, TYPEEND }; // 타일 종류
 

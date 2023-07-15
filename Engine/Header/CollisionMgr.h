@@ -1,13 +1,6 @@
 
 #pragma once
 
-//#include "GameObject.h"
-//
-//#include "Collider.h"
-//#include "LineCollider.h"
-//#include "CircleCollider.h"
-//#include "RectCollider.h"
-
 #include "LineObject.h"
 
 BEGIN(Engine)
@@ -18,6 +11,7 @@ class CLineObject;
 class CCollider;
 class CCircleCollider;
 class CRectCollider;
+class CSphereCollider;
 
 union COLLIDER_ID
 {
@@ -54,6 +48,8 @@ private:
 	const _bool						Check_Line_Rect(CGameObject* const _pObj1, CLineObject* const _pObj2);
 	const _int						Check_CCW(const _vec3& _vLineStart, const _vec3& _vLineEnd, const _vec3& _vPT);
 	const _vec3&						Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _vLinePtList);
+
+	const _bool						Check_Range(CGameObject* const _pObj, CGameObject* const _pRange); // 오브젝트 vs 반경
 
 private:
 	void							Set_Info(map<_ulonglong, _bool>::iterator& _iter, CCollider* _pCol1, CCollider* _pCol2);

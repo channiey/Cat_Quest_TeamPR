@@ -31,6 +31,11 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 {
 	Engine::Update_InputDev();	 // 인풋 디바이스 업데이트
 
+	if (CInputDev::GetInstance()->Key_Down('P'))
+	{
+		m_pManagementClass->Set_Debug_Toggle();
+	}
+
 	NULL_CHECK_RETURN(m_pManagementClass, -1); 
  	m_pManagementClass->Update_Scene(fTimeDelta);
 

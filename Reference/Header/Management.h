@@ -44,6 +44,9 @@ public:
 	HRESULT				Add_Object		(const OBJ_TYPE& _eObjType,
 											const _tchar* _pObjTag, CGameObject* _pObj);
 
+	void				Set_Debug_Toggle() { m_bDebug = !m_bDebug; }
+	const _bool&		Is_Debug() const { return m_bDebug; }
+
 #pragma endregion
 
 public:
@@ -56,6 +59,7 @@ private:
 
 	PLAY_MODE			m_ePlayMode;
 	GAME_STATUS			m_eGameStatus;
+	_bool				m_bDebug;
 
 public:
 	virtual void		Free();

@@ -10,8 +10,11 @@
 #include "LineCollider.h"
 #include "CircleCollider.h"
 #include "RectCollider.h"
+#include "SphereCollider.h"
 
 #include "Transform.h"
+
+
 
 #include <iostream>
 
@@ -58,7 +61,7 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 
 			if (pObj1 == pObj2 || nullptr == pObj1 || nullptr == pObj2) continue;
 
-			if (COL_TYPE::RECT == _eColType1 && COL_TYPE::RECT == _eColType2)
+			if (COL_TYPE::RECT == _eColType1 && COL_TYPE::RECT == _eColType2) // 렉트 vs 렉트
 			{
 				pCol1 = pObj1->Get_Collider();
 				pCol2 = pObj2->Get_Collider();
@@ -102,7 +105,7 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 					}
 				}
 			}
-			else if (COL_TYPE::RECT == _eColType1 && COL_TYPE::CIRCLE == _eColType2)
+			else if (COL_TYPE::RECT == _eColType1 && COL_TYPE::CIRCLE == _eColType2) // 렉트 vs 원
 			{
 				pCol1 = pObj1->Get_Collider();
 				pCol2 = pObj2->Get_Collider();
@@ -111,6 +114,52 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 				Set_Info(iter, pCol1, pCol2);
 
 				if (Check_Rect_Circle(pObj1, pObj2)) // 충돌
+				{
+					if (iter->second) // 이전에도 충돌
+					{
+						if (!pObj1->Is_Active() || !pObj2->Is_Active()) // 둘 중 하나 삭제 예정
+						{
+							pCol1->OnCollision_Exit(pObj2);
+							pCol2->OnCollision_Exit(pObj1);
+							iter->second = false;
+						}
+						else // 삭제 예정 없음
+						{
+							pCol1->OnCollision_Stay(pObj2);
+							pCol2->OnCollision_Stay(pObj1);
+						}
+					}
+					else // 이번에 충돌
+					{
+						if (pObj1->Is_Active() && pObj2->Is_Active()) // 둘다 삭제될 예정이 아닐 때만 충돌 처리
+						{
+							pCol1->OnCollision_Enter(pObj2);
+							pCol2->OnCollision_Enter(pObj1);
+							iter->second = true;
+						}
+					}
+				}
+				else // 충돌 X
+				{
+					if (iter->second) // 이전에 충돌
+					{
+						pCol1->OnCollision_Exit(pObj2);
+						pCol2->OnCollision_Exit(pObj1);
+						iter->second = false;
+					}
+				}
+			}
+			else if (COL_TYPE::RECT == _eColType1 && COL_TYPE::SPHERE == _eColType2) // 객체 포지션 vs 스피어
+			{
+				if (pObj1->Get_Type() == pObj2->Get_Parent()->Get_Type()) continue; // 같은 타입 끼리 굳이 검사 필요X
+				
+				pCol1 = pObj1->Get_Collider();
+				pCol2 = pObj2->Get_Collider();
+
+				if (nullptr == pCol1 || nullptr == pCol2) continue;
+				Set_Info(iter, pCol1, pCol2);
+
+				if (Check_Range(pObj1, pObj2)) // 충돌
 				{
 					if (iter->second) // 이전에도 충돌
 					{
@@ -390,6 +439,25 @@ const _vec3& CCollisionMgr::Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _
 
 	// 3. 위 정보들을 라인 콜라이더에 저장한다.
 	return vOverlap;
+}
+
+const _bool CCollisionMgr::Check_Range(CGameObject* const _pObj, CGameObject* const _pRange)
+{
+	_vec3 vObjPos = _pObj->Get_Transform()->Get_Info(INFO_POS);
+	vObjPos.y = 0.f;
+
+	CSphereCollider* pCol = dynamic_cast<CSphereCollider*>(_pRange->Get_Collider());
+
+	NULL_CHECK_RETURN(pCol, FALSE);
+
+	_float fRadius = pCol->Get_Radius();
+
+	_float fDis = D3DXVec3Length(&(vObjPos - _pRange->Get_Transform()->Get_Info(INFO_POS)));
+
+	if (fDis < fRadius)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 void CCollisionMgr::Set_Info(map<_ulonglong, _bool>::iterator & _iter, CCollider * _pCol1, CCollider * _pCol2)
