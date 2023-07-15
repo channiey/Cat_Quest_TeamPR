@@ -14,6 +14,8 @@ CUI::CUI(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	m_fPosY = 0.f;
 	m_fSizeX = 0.f;
 	m_fSizeY = 0.f;
+	m_fMultipleSizeX = 1.f;
+	m_fMultipleSizeY = 1.f;
 }
 
 CUI::CUI(const CUI& rhs)
@@ -26,6 +28,8 @@ CUI::CUI(const CUI& rhs)
 	m_fPosY = rhs.m_fPosY;
 	m_fSizeX = rhs.m_fSizeX;
 	m_fSizeY = rhs.m_fSizeY;
+	m_fMultipleSizeX = rhs.m_fMultipleSizeX;
+	m_fMultipleSizeY = rhs.m_fMultipleSizeY;
 }
 
 CUI::~CUI()
