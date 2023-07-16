@@ -3,6 +3,7 @@
 #include "EventMgr.h"
 
 #include "Shadow_Item.h"
+#include "ItemSparkle.h"
 
 CExpCoin::CExpCoin(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem_Object(pGraphicDev, OBJ_ID::ITEM_EXP)
@@ -42,6 +43,7 @@ HRESULT CExpCoin::Ready_Object()
 	m_fJumpingSpeed = 0.01;
 
 	CEventMgr::GetInstance()->Add_Obj(L"Exp_Shadow", CShadow_Item::Create(m_pGraphicDev, this));
+	CEventMgr::GetInstance()->Add_Obj(L"ExpSparkle", CItemSparkle::Create(m_pGraphicDev, this));
 
 	return S_OK;
 }

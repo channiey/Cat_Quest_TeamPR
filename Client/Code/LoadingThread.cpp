@@ -311,6 +311,9 @@ _uint CLoadingThread::Loading_For_World()
 	// ≤…∞°∑Á
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Pollen",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Pollen/Pollen.png")), E_FAIL);
+	// æ∆¿Ã≈€ π›¬¶¿Ã
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_ItemSparkle",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Item/Sparkle.png")), E_FAIL);
 
 
 #pragma endregion

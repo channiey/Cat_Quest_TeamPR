@@ -167,6 +167,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\ItemSparkle.h" />
     <ClInclude Include="..\Header\MonHpUI.h" />
     <ClInclude Include="..\Header\RangeObj.h" />
     <ClInclude Include="..\Header\Bat.h" />
@@ -374,6 +375,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\ItemSparkle.cpp" />
     <ClCompile Include="..\Code\MonHpUI.cpp" />
     <ClCompile Include="..\Code\RangeObj.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
