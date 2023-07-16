@@ -164,10 +164,6 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	//// :: Test 카메라 셰이크
-	//if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
-	//	CCameraMgr::GetInstance()->Shake_Camera();
-
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
@@ -385,6 +381,7 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		if (Is_Attack())
 		{
 			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
+			CCameraMgr::GetInstance()->Shake_Camera();
 		}
 		
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
