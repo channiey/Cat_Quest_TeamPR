@@ -15,6 +15,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_vImageSize({0.f,0.f,0.f})
 	, m_fMaxJumpY(0.f)
 	, m_bHit(false)
+	, fAccTime(0.f)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -31,6 +32,7 @@ CMonster::CMonster(const CMonster& rhs)
 	, m_fJumpingSpeed(rhs.m_fJumpingSpeed)
 	, m_vImageSize(rhs.m_vImageSize)
 	, m_fMaxJumpY(rhs.m_fMaxJumpY)
+	, fAccTime(rhs.fAccTime)
 {
 
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
@@ -55,6 +57,8 @@ HRESULT CMonster::Ready_Object()
 	//m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
+
+
 	// << : Test : Range Test
 	CGameObject* pGameObject = nullptr;
 
@@ -75,6 +79,21 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
+
+	// Hit state return 
+	if (m_bHit == true)
+	{
+		fAccTime += fTimeDelta;
+
+		if (fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
+		{
+			m_bHit = false;
+			fAccTime = 0.f;
+		}
+
+	}
+
+
 	return iExit;
 }
 
@@ -88,17 +107,8 @@ void CMonster::LateUpdate_Object()
 
 void CMonster::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-
-	m_pStateMachineCom->Render_StateMachine();
-
-	m_pBufferCom->Render_Buffer();
-
-	m_pGraphicDev->SetTexture(0, NULL);
-
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
 	__super::Render_Object(); // 콜라이더 출력
+
 }
 
 void CMonster::OnCollision_Enter(CGameObject* _pColObj)
@@ -106,8 +116,7 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 }
 
 void CMonster::OnCollision_Stay(CGameObject* _pColObj)
-{
-		
+{	
 }
 
 void CMonster::OnCollision_Exit(CGameObject* _pColObj)
@@ -154,11 +163,14 @@ HRESULT CMonster::Add_Component()
 
 void CMonster::Damaged(CGameObject* pObj)
 {
+
+	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
 	{
 		m_pRigidBodyCom->Zero_KnockBack();
 	}
 	m_pRigidBodyCom->Knock_Back(pObj, 220);
+	
 }
 
 
