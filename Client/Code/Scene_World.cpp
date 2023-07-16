@@ -110,9 +110,11 @@
 #include "Effect_SpellBurst_Purple.h"
 #include "Effect_SpellBurst_Yellow.h"
 
-#include "Effect_Fire.h"
 #include "Effect_Lightning.h"
 #include "Effect_Range_BigCircle.h"
+
+#include "Effect_Fire.h"
+#include "Effect_Thunder.h"
 
 // Item
 #include "GoldCoin.h"
@@ -865,10 +867,6 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Yellow", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_Fire::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Fire", pGameObject), E_FAIL);
-
 	pGameObject = CEffect_Lightning::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Lightning", pGameObject), E_FAIL);
@@ -877,6 +875,13 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Range_BigCircle_Orange", pGameObject), E_FAIL);
 
+	pGameObject = CEffect_Fire::Create(m_pGraphicDev, nullptr);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Fire", pGameObject), E_FAIL);
+
+	pGameObject = CEffect_Thunder::Create(m_pGraphicDev, nullptr);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Thunder", pGameObject), E_FAIL);
 #pragma endregion
 
 	return S_OK;

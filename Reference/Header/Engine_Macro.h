@@ -14,12 +14,17 @@ namespace Engine
 
 #define NPC_IDLE_FRAME      8
 
-	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+#define HITCOLOR_A					255
+#define HITCOLOR_R					255
+#define HITCOLOR_G					120
+#define HITCOLOR_B					120
+
+	/*--------------------- ! (점선 안의 내용) 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 #define	DF_CAMERA_SHAKE_INTENSITY	20.f
 #define	DF_CAMERA_SHAKE_TIME		0.13f
 
-#define	DF_RB_KNOCKBACK				500.f
+#define	DF_RB_KNOCKBACK				10000.f
 #define DF_RB_KNOCKUP				100.f
 
 #define	WINCX						1280
@@ -30,12 +35,6 @@ namespace Engine
 #define	VTXCNTX						65
 #define VTXCNTZ						65
 #define VTXITV						3
-
-#define HITCOLOR_A					255
-#define HITCOLOR_R					255
-#define HITCOLOR_G					120
-#define HITCOLOR_B					120
-
 
 	/*-------------------------------------------------------------------------------*/
 

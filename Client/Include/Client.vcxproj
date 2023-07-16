@@ -366,6 +366,7 @@
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="Effect_Cast_Purple.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Effect_Thunder.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Shadow_Item.h" />
     <ClInclude Include="stdafx.h" />
@@ -570,6 +571,7 @@
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Effect_Cast_Purple.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Effect_Thunder.cpp" />
     <ClCompile Include="Shadow_Item.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

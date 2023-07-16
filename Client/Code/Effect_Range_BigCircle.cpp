@@ -23,8 +23,8 @@ HRESULT CEffect_Range_BigCircle::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 10.f, 0.1f, 7.f }); // 이거 0.1f y도 되네?
-	m_pTransformCom->Set_Pos(_vec3{ 110, m_pTransformCom->Get_Scale().y, -10.f });
+	m_pTransformCom->Set_Scale(_vec3{ 16.f, 0.1f, 12.f }); // 이거 0.1f y도 되네?
+	//m_pTransformCom->Set_Pos(_vec3{ 170, 1.f, 0.01f });
 
 	m_vSize = m_pTransformCom->Get_Scale();
 

@@ -1,30 +1,30 @@
 #include "stdafx.h"
-#include "Effect_Fire.h"
+#include "Effect_Thunder.h"
 
 #include "Export_Function.h"
 
-CEffect_Fire::CEffect_Fire(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_Thunder::CEffect_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_SPELLBURST_FIRE)
 {
 }
 
-CEffect_Fire::CEffect_Fire(const CEffect& rhs)
+CEffect_Thunder::CEffect_Thunder(const CEffect& rhs)
 	: CSkillEffect(rhs)
 {
 }
 
-CEffect_Fire::~CEffect_Fire()
+CEffect_Thunder::~CEffect_Thunder()
 {
 }
 
-HRESULT CEffect_Fire::Ready_Object()
+HRESULT CEffect_Thunder::Ready_Object()
 {
 	__super::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(_vec3{ 17.f, 17.f, 17.f });
-	m_pTransformCom->Set_Pos(_vec3{ 130, 6.f, 70 });
+	m_pTransformCom->Set_Pos(_vec3{ 150, 17.f, 70 });
 
 	//m_bActive = false;
 
@@ -33,32 +33,32 @@ HRESULT CEffect_Fire::Ready_Object()
 	return S_OK;
 }
 
-_int CEffect_Fire::Update_Object(const _float& fTimeDelta)
+_int CEffect_Thunder::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CEffect_Fire::LateUpdate_Object()
+void CEffect_Thunder::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CEffect_Fire::Render_Object()
+void CEffect_Thunder::Render_Object()
 {
 	__super::Render_Object();
 }
 
-HRESULT CEffect_Fire::Add_Component()
+HRESULT CEffect_Thunder::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Skill_Fire", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Skill_Thunder", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.04f, TRUE);
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.05f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
@@ -68,22 +68,22 @@ HRESULT CEffect_Fire::Add_Component()
 	return S_OK;
 }
 
-CEffect_Fire* CEffect_Fire::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CEffect_Thunder* CEffect_Thunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CEffect_Fire* pInstance = new CEffect_Fire(pGraphicDev, _pOwnerObject);
+	CEffect_Thunder* pInstance = new CEffect_Thunder(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Fire Create Failed");
+		MSG_BOX("Thunder Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CEffect_Fire::Free()
+void CEffect_Thunder::Free()
 {
 	__super::Free();
 }

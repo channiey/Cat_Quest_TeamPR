@@ -17,9 +17,9 @@ CRigidBody::CRigidBody(LPDIRECT3DDEVICE9 pGraphicDev)
 	ZeroMemory(&m_vAcc, sizeof(_vec3));
 	ZeroMemory(&m_vVelocity, sizeof(_vec3));
 
-	m_fMass		= 10.f;
-	m_fMaxSpeed = 30.f;
-	m_fFriction = 0.1f;
+	m_fMass		= 8.f;
+	m_fMaxSpeed = 40.f;
+	m_fFriction = 0.05f;
 	m_vGravity = vec3.down;
 }
 
@@ -63,7 +63,7 @@ void CRigidBody::LateUpdate_Component()
 	}
 
 	m_vAcc = m_vForce / m_fMass;							
-
+	                 
 	m_vVelocity = m_vAcc * Engine::Get_TimeDelta(L"Timer_FPS65");
 
 	if (D3DXVec3Length(&m_vVelocity) > m_fMaxSpeed)
