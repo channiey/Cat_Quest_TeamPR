@@ -23,19 +23,36 @@ HRESULT CPlayerState_fAttack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 {
+	if (!m_bEnter)
+	{
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
+		m_bEnter = true;
+	}
+
 	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
 
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
+	{
+		m_bAttackContinue = false;
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_HIT;
+	}
+
 	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
+	{
+		m_bEnter = false;
 		return STATE_TYPE::FRONT_IDLE;
+	}
+		
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue)
 	{
 		m_bAttackContinue = false;
+		m_bEnter = false;
 		return STATE_TYPE::FRONT_ATTACK1;
 	}
 		
-
 	return eState;
 }
 

@@ -3,6 +3,8 @@
 #include "AIComponent.h"
 #include "Export_Function.h"
 #include "RangeObj.h"
+#include "Player.h"
+
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
 	, m_pAICom(nullptr)
@@ -12,6 +14,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_fJumpingSpeed(0.f)
 	, m_vImageSize({0.f,0.f,0.f})
 	, m_fMaxJumpY(0.f)
+	, m_bHit(false)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -60,6 +63,8 @@ HRESULT CMonster::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
+
+
 	return S_OK;
 }
 
@@ -102,6 +107,7 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 
 void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 {
+		
 }
 
 void CMonster::OnCollision_Exit(CGameObject* _pColObj)
@@ -131,8 +137,10 @@ HRESULT CMonster::Add_Component()
 	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
-
-
+	// RigidyBody
+	pComponent = m_pRigidBodyCom = dynamic_cast<CRigidBody*>(Engine::Clone_Proto(COMPONENT_TYPE::RIGIDBODY, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::RIGIDBODY, pComponent);
 
 #pragma region Texture
 
@@ -143,6 +151,16 @@ HRESULT CMonster::Add_Component()
 
 	return S_OK;
 }
+
+void CMonster::Damaged(CGameObject* pObj)
+{
+	if (!m_pRigidBodyCom->Is_Vel_Zero())
+	{
+		m_pRigidBodyCom->Zero_KnockBack();
+	}
+	m_pRigidBodyCom->Knock_Back(pObj, 220);
+}
+
 
 void CMonster::Free()
 {

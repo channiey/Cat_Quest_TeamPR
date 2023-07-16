@@ -24,6 +24,8 @@
 #include "EnterUI.h"
 #include "FieldSkillUI.h"
 
+#include "Monster.h"
+
 // Move Effect
 #include "MoveDust.h"
 #include "MoveWater.h"
@@ -65,8 +67,8 @@ HRESULT CPlayer::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_bExpand = true;
-	m_bShirnk = false;
+	m_bHit = false;
+	m_bAttack = false;
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
@@ -104,7 +106,7 @@ HRESULT CPlayer::Ready_Object()
 #pragma endregion
 
 #pragma region Animation
-	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, TRUE);
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
@@ -162,45 +164,19 @@ HRESULT CPlayer::Ready_Object()
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
 	// << : Test : Rigidbody KnockBack
-	if (CInputDev::GetInstance()->Key_Down(VK_RIGHT))
+	/*if (CInputDev::GetInstance()->Key_Down(VK_RIGHT))
 		m_pRigidBodyCom->Knock_Back(vec3.right);
 	if (CInputDev::GetInstance()->Key_Down(VK_LEFT))
 		m_pRigidBodyCom->Knock_Back(vec3.left);
 	if (CInputDev::GetInstance()->Key_Down(VK_UP))
 		m_pRigidBodyCom->Knock_Back(vec3.forward);
 	if (CInputDev::GetInstance()->Key_Down(VK_DOWN))
-		m_pRigidBodyCom->Knock_Back(vec3.back);
+		m_pRigidBodyCom->Knock_Back(vec3.back);*/
 	// >> :
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
-
-	/*if (m_pTransformCom->Get_Scale().x <= 6.f && m_bExpand)
-	{
-		_vec3 vOut = m_pTransformCom->Lerp(m_pTransformCom->Get_Scale(),
-			_vec3{ 6.f, 6.f, 6.f, }, 5.f, fTimeDelta);
-		if (vOut.y != -99)
-			m_pTransformCom->Set_Scale(vOut);
-		else
-		{
-			m_bExpand = false;
-			m_bShirnk = true;
-		}
-	}
-	if (m_pTransformCom->Get_Scale().x >= 3.f && m_bShirnk)
-	{
-		_vec3 vOut = m_pTransformCom->Lerp(m_pTransformCom->Get_Scale(),
-			_vec3{3.f, 3.f, 3.f,}, 5.f, fTimeDelta);
-		if (vOut.y != -99)
-			m_pTransformCom->Set_Scale(vOut);
-		else
-		{
-			m_bExpand = true;
-			m_bShirnk = false;
-		}
-	}
-	*/
 	
 
 
@@ -248,6 +224,9 @@ void CPlayer::LateUpdate_Object()
 {
 	m_pStateMachineCom->LateUpdate_StateMachine();
 
+	if(m_bAttack)
+		m_bAttack = false;
+
 	__super::LateUpdate_Object();
 
 }
@@ -275,7 +254,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
-		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
 		if (vOverlap.x > vOverlap.z)
 		{
@@ -298,7 +277,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
 												vMyPos.y,
 												vMyPos.z });
-		}
+		}*/
 	}
 	break;
 	case Engine::OBJ_TYPE::LINE:
@@ -411,7 +390,12 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
-		_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+		if (Is_Attack())
+		{
+			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
+		}
+		
+	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
 		if (vOverlap.x > vOverlap.z)
 		{
@@ -434,7 +418,7 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
 												vMyPos.y,
 												vMyPos.z });
-		}
+		}*/
 	}
 	break;
 	case Engine::OBJ_TYPE::LINE:

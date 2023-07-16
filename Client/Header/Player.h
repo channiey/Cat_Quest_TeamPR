@@ -30,6 +30,10 @@ public:
 	virtual void		OnCollision_Stay(CGameObject* _pColObj);
 	virtual void		OnCollision_Exit(CGameObject* _pColObj);
 
+public:
+	_bool&				Is_Hit()					{ return m_bHit; }
+	void				Set_HIt(const _bool& bHit)	{ m_bHit = bHit; }
+
 #pragma region Access Methood
 
 #pragma region MOVEINFO
@@ -118,13 +122,18 @@ private:
 
 	_uint				m_iTempMode;
 
-	_bool				m_bExpand;
-	_bool				m_bShirnk;
+	_bool				m_bHit;
+	_bool				m_bAttack;
 
 	// << : Test : Range Test
 	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
 	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active·Î »óÈ²¿¡ ¸Â°Ô ²°´Ù Ä×´Ù
 	// >> :
+
+public:
+	_bool&	Is_Attack()				{ return m_bAttack; }
+	void	Set_Attack(_bool bBool) { m_bAttack = bBool; }
+
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

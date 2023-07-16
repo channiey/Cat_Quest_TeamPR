@@ -23,12 +23,21 @@ HRESULT CPlayerState_fRoll::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_fRoll::Update_State(const _float& fTimeDelta)
 {
+    if (!m_bEnter)
+    {
+        m_bEnter = true;
+    }
+
     m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 60.f);
 
     if (m_pOwner->Is_AnimationEnd())
+    {
+        m_bEnter = false;
         return STATE_TYPE::FRONT_IDLE;
+    } 
     else
         return m_eState;
+        
 }
 
 void CPlayerState_fRoll::LateUpdate_State()
