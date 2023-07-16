@@ -5,7 +5,7 @@ IMPLEMENT_SINGLETON(CManagement)
 /* 툴모드로 시작할지, 게임모드로 시작할지 m_ePlayMode(PLAY_MODE::GAME) 매개변수로 결정하면 됩니다. */
 /* 디버그 모드로 시작하면, 현재 FPS, 플레이어 위치, 콜라이더 등이 렌더됩니다 'P'키로 런타임중 전환이 가능합니다. */
 CManagement::CManagement() : m_pScene(nullptr)
-			, m_ePlayMode(PLAY_MODE::TOOL)
+			, m_ePlayMode(PLAY_MODE::GAME)
 			, m_eGameStatus(GAME_STATUS::PLAYING)
 			, m_bDebug(FALSE)
 {

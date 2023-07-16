@@ -567,6 +567,8 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Thunder",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Thunder/%d.png", 11)), E_FAIL); // ½ã´õ Å×½ºÆ®
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Ice",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Ice/%d.png", 13)), E_FAIL); // ½ã´õ Å×½ºÆ®
 #pragma endregion
 
 

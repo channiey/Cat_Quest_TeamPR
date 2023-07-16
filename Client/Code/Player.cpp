@@ -32,6 +32,7 @@
 // Skill Effect
 #include "Effect_Fire.h"
 #include "Effect_Thunder.h"
+#include "Effect_Ice.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -151,9 +152,14 @@ HRESULT CPlayer::Ready_Object()
 	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
+
 	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
+
+	m_arrEffect[_uint(SKILL_TYPE::FREEZING)] = CEffect_Ice::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FREEZING)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
 
 
 #pragma endregion
