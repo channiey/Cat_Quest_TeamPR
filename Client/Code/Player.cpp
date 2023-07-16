@@ -80,7 +80,10 @@ HRESULT CPlayer::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
-	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
+	m_pTransformCom->Set_Pos(_vec3{ 
+		_float(START_POS_WORLD_X), 
+		m_pTransformCom->Get_Scale().y, 
+		_float(START_POS_WORLD_Z) });
 
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Shadow", CShadow_Player::Create(m_pGraphicDev, this));
 

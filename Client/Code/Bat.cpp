@@ -158,6 +158,8 @@ HRESULT CBat::Ready_Object()
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
+	m_szName = L"Monster_Bat";
+
     return S_OK;
 }
 

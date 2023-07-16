@@ -106,6 +106,7 @@ HRESULT CDragon::Ready_Object()
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
 
+	m_szName = L"Monster_Hedgehog";
 
 	return S_OK;
 }

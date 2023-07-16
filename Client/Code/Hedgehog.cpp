@@ -91,6 +91,7 @@ HRESULT CHedgehog::Ready_Object()
 	// 상태 세팅 - 상태만 사용 몬스터
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
+	m_szName = L"Monster_Hedgehog";
 
 	return S_OK;
 }

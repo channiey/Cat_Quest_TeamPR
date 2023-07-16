@@ -144,8 +144,9 @@ HRESULT CScene_World::Ready_Scene()
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 
-	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Player()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Npc()			, E_FAIL);
@@ -454,6 +455,22 @@ HRESULT CScene_World::Ready_Layer_Camera()
 	return S_OK;
 }
 
+HRESULT CScene_World::Ready_Layer_Terrain()
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::TERRAIN, pLayer });
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	//pGameObject = CTerrainWorld::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+
+
+	return S_OK;
+}
+
 HRESULT CScene_World::Ready_Layer_UI()
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
@@ -703,21 +720,21 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({80.f, 12.f, 102.f});
+		Set_Pos({180.f, 12.f, 202.f});
 
 	pGameObject = CCloud2::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud2_1", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 50.f, 12.f, 42.f });
+		Set_Pos({ 150.f, 12.f, 142.f });
 
 	pGameObject = CCloud3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_1", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 75.f, 12.f, 122.f });
+		Set_Pos({ 175.f, 12.f, 222.f });
 
 	pGameObject = CCloud1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -725,7 +742,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 90.f, 12.f, 72.f });
+		Set_Pos({ 190.f, 12.f, 172.f });
 
 	pGameObject = CCloud1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -733,7 +750,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 100.f, 12.f, 112.f });
+		Set_Pos({ 200.f, 12.f, 212.f });
 
 	pGameObject = CCloud1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -741,7 +758,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 50.f, 10.f, 70.f });
+		Set_Pos({ 150.f, 10.f, 170.f });
 
 	pGameObject = CCloud1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -749,42 +766,42 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 40.f, 11.f, 110.f });
+		Set_Pos({ 140.f, 11.f, 210.f });
 
 	pGameObject = CCloud3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_2", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 10.f, 12.f, 40.f });
+		Set_Pos({ 110.f, 12.f, 140.f });
 
 	pGameObject = CCloud3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_3", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 120.f, 12.f, 40.f });
+		Set_Pos({ 220.f, 12.f, 140.f });
 
 	pGameObject = CCloud3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_4", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 125.f, 12.f, 150.f });
+		Set_Pos({ 225.f, 12.f, 250.f });
 
 	pGameObject = CCloud3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_5", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 145.f, 12.f, 130.f });
+		Set_Pos({ 245.f, 12.f, 230.f });
 
 	pGameObject = CCloud2::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud2_2", pGameObject), E_FAIL);
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 145.f, 12.f, 70.f });
+		Set_Pos({ 245.f, 12.f, 170.f });
 
 	return S_OK;
 }

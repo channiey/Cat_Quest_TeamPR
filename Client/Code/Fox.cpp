@@ -90,6 +90,7 @@ HRESULT CFox::Ready_Object()
 	// 상태 세팅 - 상태만 사용 몬스터
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
+	m_szName = L"Monster_Fox";
 
 	return S_OK;
 }

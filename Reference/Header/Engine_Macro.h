@@ -37,8 +37,8 @@ namespace Engine
 #define VTXITV						3
 
 
-#define START_POS_WORLD_X			200.f;
-#define START_POS_WORLD_Z			200.f;
+#define START_POS_WORLD_X			220.f
+#define START_POS_WORLD_Z			205.f
 
 
 	/*-------------------------------------------------------------------------------*/
