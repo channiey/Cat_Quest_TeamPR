@@ -155,11 +155,9 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Etc(), E_FAIL);
 
-	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
+	FAILED_CHECK_RETURN(Ready_Load(), E_FAIL);
 
-	TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Dynamic_Obj.dat";
-	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetDevice(m_pGraphicDev), E_FAIL);
-	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->Load_Scene(*szLoadPath), E_FAIL);
+	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
 	return S_OK;
 }
@@ -434,6 +432,13 @@ HRESULT CScene_World::Ready_Layer_Environment()
 	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Load()
+{
+	TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Dynamic_Obj.dat";
+	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetDevice(m_pGraphicDev), E_FAIL);
+	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->Load_Scene(*szLoadPath), E_FAIL);
 }
 
 HRESULT CScene_World::Ready_Layer_Camera()

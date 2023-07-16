@@ -759,12 +759,15 @@ const _vec3& CImGuiMgr::Get_ClickPos()
 void CImGuiMgr::Free()
 {
 	Safe_Release(m_pGraphicDev);
+	
+	if (g_bInit)
+	{
+		Safe_Release(g_pVtxTerrain);
 
-	Safe_Release(g_pVtxTerrain);
-
-	ImGui_ImplDX9_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
+		ImGui_ImplDX9_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		ImGui::DestroyContext();
+	}
 }
 
 CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)

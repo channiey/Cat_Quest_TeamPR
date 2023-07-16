@@ -8,6 +8,9 @@
 
 #include "EventMgr.h"
 
+#include "ImGuiMgr.h"
+#include "Calculator.h"
+
 CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pManagementClass(nullptr)
 {
 	
@@ -128,6 +131,8 @@ CMainApp * CMainApp::Create()
 
 void CMainApp::Free()
 {
+	CImGuiMgr::GetInstance()->DestroyInstance();
+
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
 	Safe_Release(m_pManagementClass);

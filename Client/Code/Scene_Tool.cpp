@@ -160,8 +160,6 @@ void CScene_Tool::Render_Scene()
 
 void CScene_Tool::Free()
 {
-	CImGuiMgr::GetInstance()->DestroyInstance();
-
 	CCalculator::GetInstance()->DestroyInstance();
 
 	__super::Free();

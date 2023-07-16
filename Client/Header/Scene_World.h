@@ -15,6 +15,9 @@ public:
 	virtual void		Render_Scene() override;
 
 private:
+
+	HRESULT				Ready_Load();
+
 	HRESULT				Ready_Layer_Camera();
 	HRESULT				Ready_Layer_Terrain();
 	HRESULT				Ready_Layer_Environment	();
