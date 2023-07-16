@@ -163,6 +163,9 @@ HRESULT CMonster::Add_Component()
 
 void CMonster::Damaged(CGameObject* pObj)
 {
+	_float fPlayerAD = static_cast<CPlayer*>(pObj)->Get_StatInfo().fAD;
+
+	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
 
 	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
@@ -171,6 +174,7 @@ void CMonster::Damaged(CGameObject* pObj)
 	}
 	m_pRigidBodyCom->Knock_Back(pObj, 220);
 	
+
 }
 
 

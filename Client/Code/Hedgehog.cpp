@@ -8,7 +8,11 @@
 #include "HedgehogState_ComeBack.h"
 #include "HedgehogState_Attack.h"
 
+// Shadow
 #include "Shadow_Monster.h"
+
+// Itme
+#include "GoldCoin.h"
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
@@ -34,8 +38,10 @@ HRESULT CHedgehog::Ready_Object()
 	m_tMoveInfo.fRotSpeed	= 1.f;
 
 	// Stat Info
-	//m_tStatInfo.bDead = false;
-
+	m_tStatInfo.bDead = false;
+	m_tStatInfo.fCurHP = 100.f;
+	m_tStatInfo.fGold = 10.f;
+	
 
 
 	// 원래 이미지 크기
@@ -95,6 +101,19 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
 
+	cout << m_tStatInfo.fCurHP << endl;
+	if (m_tStatInfo.fCurHP <= 0.f)
+	{
+		m_tStatInfo.bDead = true;
+	}
+
+	if (true == m_tStatInfo.bDead)
+	{
+		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
+		CEventMgr::GetInstance()->Delete_Obj(this);
+		
+	}
 
 
 	// Jumping 
