@@ -31,7 +31,7 @@ public:
 	void     Set_Active(_bool _isActive) { m_bActive = _isActive; } // 퀘스트 활성 여부 설정.
 
 	// 다음 npc 가리키도록
-	void	 Npc_NextPointer() { m_pQuest->Npc_NextPoint(); }
+	void	 Npc_NextPointer();
 
 private:
 	map<const _tchar*, CQuest*> m_mapQuest;

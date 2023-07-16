@@ -33,9 +33,9 @@ void CQuestMgr::Init()
 
 void CQuestMgr::Play_Quest()
 {
-	if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_CLEAR) {
+	if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_CLEAR) 
 		m_bActive = false;
-	}
+
 	Enter();
 	Update();
 	Exit();
@@ -43,28 +43,28 @@ void CQuestMgr::Play_Quest()
 
 void CQuestMgr::Enter()
 {
-	if (m_pQuest) {
-		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_ENTER) {
+	if (m_pQuest) 
+	{
+		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_ENTER) 
 			m_pQuest->Enter();
-		}
 	}
 }
 
 void CQuestMgr::Update()
 {
-	if (m_pQuest) {
-		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_UPDATE) {
+	if (m_pQuest)
+	{
+		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_UPDATE) 
 			m_pQuest->Update();
-		}
 	}
 }
 
 void CQuestMgr::Exit()
 {
-	if (m_pQuest) {
-		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_EXIT) {
+	if (m_pQuest) 
+	{
+		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_EXIT) 
 			m_pQuest->Exit();
-		}
 	}
 }
 
@@ -72,19 +72,25 @@ CQuest* CQuestMgr::Set_HaveQuest(const _tchar* _name)
 {
 	auto iter = m_mapQuest.find(_name);
 
-	if (&iter) {
+	if (&iter) 
 		return iter->second;
-	}
 
 	return nullptr;
 }
 
 void CQuestMgr::Set_Quest(CQuest* _pQuest)
 {
-	if (_pQuest) {
+	if (_pQuest) 
+	{
 		m_pQuest = _pQuest;
 		m_pQuest->Set_Progress(QUEST_PROGRESS::QUEST_ENTER);
 	}
+}
+
+void CQuestMgr::Npc_NextPointer()
+{
+	if (m_pQuest) 
+		m_pQuest->Npc_NextPoint();
 }
 
 void CQuestMgr::Free()
