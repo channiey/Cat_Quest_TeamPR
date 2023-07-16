@@ -19,7 +19,7 @@ public:
 	virtual void			LateUpdate_Skill();
 
 public:
-	virtual HRESULT			Cast() { return S_OK; }; // 스킬 시전 (가상화)
+	virtual HRESULT			Play() { return S_OK; }; // 스킬 시전 (가상화)
 	const _bool				Is_End() const { return m_bPlay; }; // 스킬 시전이 끝났는지
 
 private:
@@ -29,7 +29,6 @@ protected:
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 
 	CGameObject*			m_pOwnerObject;
-	map<PRIORITY_SKILL_LAYER, vector<CSkillEffect*>> m_mapEffect; // 스킬 이펙트 컨테이너
 	_bool					m_bPlay;
 	
 protected:

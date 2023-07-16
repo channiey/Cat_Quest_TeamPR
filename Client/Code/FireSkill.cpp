@@ -45,14 +45,7 @@ HRESULT CFireSkill::Add_SkillEffect()
 {
 	CSkillEffect* pSkillEffect = nullptr;
 
-	// 00. ºö
-	pSkillEffect = CEffect_Cast_Yellow::Create(m_pGraphicDev, m_pOwnerObject);
-	NULL_CHECK_RETURN(pSkillEffect, E_FAIL);
-	
-	vector<CSkillEffect*> vecSkill;
-	vecSkill.push_back(pSkillEffect);
 
-	m_mapEffect.insert({ PRIORITY_SKILL_LAYER::FIRST, vecSkill });
 
 
 	
