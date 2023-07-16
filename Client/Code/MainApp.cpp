@@ -20,6 +20,8 @@ CMainApp::~CMainApp()
 
 HRESULT CMainApp::Ready_MainApp(void)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL); // 디바이스 초기화
 
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL); // 시작 Scene, 매니지먼트 생성
@@ -29,6 +31,9 @@ HRESULT CMainApp::Ready_MainApp(void)
 
 int CMainApp::Update_MainApp(const float & fTimeDelta)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+
 	Engine::Update_InputDev();	 // 인풋 디바이스 업데이트
 
 	if (CInputDev::GetInstance()->Key_Down('P'))
@@ -44,12 +49,17 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp()
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+
 	NULL_CHECK(m_pManagementClass);
 	m_pManagementClass->LateUpdate_Scene();
 }
 
 void CMainApp::Render_MainApp()
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);	
 
 	Engine::Render_Begin(D3DXCOLOR(0.2f, 0.8f, 0.7f, 1.f));
@@ -64,6 +74,8 @@ void CMainApp::Render_MainApp()
 
 HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	FAILED_CHECK_RETURN(Engine::Ready_GraphicDev(g_hWnd, MODE_WIN, WINCX, WINCY, &m_pDeviceClass), E_FAIL); // 디바이스 초기화
 	m_pDeviceClass->AddRef();
 
@@ -72,8 +84,8 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_InputDev(g_hInst, g_hWnd), E_FAIL); // 인풋 디바이스 초기화
 
+	(*ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, TRUE); 
 	(*ppGraphicDev)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // 후면 추려내기 비활성화
-
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE); // 텍스처 불투명화 설정코드
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
