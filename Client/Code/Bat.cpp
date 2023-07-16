@@ -41,6 +41,7 @@ HRESULT CBat::Ready_Object()
 	// Stat Info
 	m_tStatInfo.bDead = false;
 	m_tStatInfo.fCurHP = 20.f;
+	m_tStatInfo.fMaxHP = 20.f;
 
 
 
