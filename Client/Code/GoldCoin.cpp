@@ -71,8 +71,6 @@ _int CGoldCoin::Update_Object(const _float& fTimeDelta)
 
 
 
-
-
 	return iExit;
 }
 
@@ -128,7 +126,7 @@ CGoldCoin* CGoldCoin::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	return pInstance;
 
-	return nullptr;
+
 }
 
 void CGoldCoin::Free()

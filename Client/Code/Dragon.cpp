@@ -54,7 +54,7 @@ HRESULT CDragon::Ready_Object()
 	fPatternTime = 2.f;
 	fAccTime = 0.f;
 
-	CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+	CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
 #pragma region State Add
 

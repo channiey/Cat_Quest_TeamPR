@@ -10,6 +10,7 @@ CHedgegohState_Attack::CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     , m_fPatrolRange(0.f)
     , m_fPlayerTargetRange(0.f)
     , m_fAttackRange(0.f)
+    , m_fPosShakeRange(0.f)
 {
 }
 
@@ -32,6 +33,7 @@ HRESULT CHedgegohState_Attack::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
+    m_fPosShakeRange = 0.1f;
 
     return S_OK;
 }
@@ -70,12 +72,42 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
+ 
 
-  
-   // 현재 상태의 기능
-   ///pOwnerTransform->Set_Dir(vec3.zero);
-   // pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-    //pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+    m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+    
+    
+    pOwnerTransform->Set_Pos({ vOwnerPos.x +(-1 * m_fPosShakeRange), vOwnerPos.y, vOwnerPos.z });
+
+    if (m_fAccTime <= 1.f)
+    {
+       
+        m_fAccTime = 0.f;
+    }
+
+
+
+
+  /*  if (m_fShakeTime <= m_fAccTime)
+    {
+        Stop_Shake();
+        return;
+    }
+
+    _vec3 vShakeDelta{ _float(rand() % (_int)m_fIntensity),
+                            _float(rand() % (_int)m_fIntensity),
+                            0.f };
+
+    vShakeDelta *= 0.01f;
+
+    m_tVspace.Eye += vShakeDelta;
+
+    m_tVspace.LookAt += vShakeDelta;*/
+
+
+
+
+
 
 
 #pragma region State Change
