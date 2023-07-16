@@ -121,8 +121,31 @@ void CDragon::LateUpdate_Object()
 void CDragon::Render_Object()
 {
 
-	// 애니메이터 사용 o
+	// 피격 시 red
+	if (m_bHit)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(HITCOLOR_A, HITCOLOR_R, HITCOLOR_G, HITCOLOR_B));
+	}
+	else
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+	m_pStateMachineCom->Render_StateMachine();
+
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTexture(0, NULL);
+
 	__super::Render_Object();
+
+	// 원래 색상 상태로 돌리기 
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+
+	__super::Render_Object(); // 콜라이더 출력
 }
 
 void CDragon::OnCollision_Enter(CGameObject* _pColObj)

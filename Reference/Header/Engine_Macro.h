@@ -31,6 +31,12 @@ namespace Engine
 #define VTXCNTZ						65
 #define VTXITV						3
 
+#define HITCOLOR_A					255
+#define HITCOLOR_R					255
+#define HITCOLOR_G					120
+#define HITCOLOR_B					120
+
+
 	/*-------------------------------------------------------------------------------*/
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\

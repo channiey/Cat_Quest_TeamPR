@@ -50,9 +50,9 @@ public:
 #pragma region STATINFO
 public:
 
-	const STATINFO& Get_StatInfo() const { return m_tStatInfo; }
+	const	STATINFO& Get_StatInfo() const { return m_tStatInfo; }
 
-	const _bool& Is_Dead() const { return m_tStatInfo.bDead; }
+	const		 _bool& Is_Dead() const { return m_tStatInfo.bDead; }
 
 	void				Set_Dead(const _bool& _bDead = TRUE) { m_tStatInfo.bDead = _bDead; }
 
@@ -97,6 +97,7 @@ public:
 	void			Set_AccTime(_float AccTime) { fAccTime = AccTime; }
 
 
+
 #pragma endregion
 
 private:
@@ -118,6 +119,7 @@ protected:
 	_float					m_fJumpingSpeed; 
 	_float					m_fMaxJumpY;
 	_vec3					m_vImageSize;
+	
 	_bool					m_bHit;
 
 protected:

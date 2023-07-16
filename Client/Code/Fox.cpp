@@ -131,10 +131,20 @@ void CFox::LateUpdate_Object()
 
 void CFox::Render_Object()
 {
-	// 애니메이터 사용 x
-	_vec3 Dir = m_pTransformCom->Get_Dir();
 
-	//cout << Dir.z << endl;
+	// 피격 시 red
+	if (m_bHit)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(HITCOLOR_A, HITCOLOR_R, HITCOLOR_G, HITCOLOR_B));
+	}
+	else
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
+
+
+	// 방향에 따른 텍스처 전환
+	_vec3 Dir = m_pTransformCom->Get_Dir();
 
 	if (m_pTransformCom->Get_Dir().z <= 0)
 	{
@@ -143,17 +153,21 @@ void CFox::Render_Object()
 	else
 		m_pTextureCom[(_uint)STATE_TYPE::BACK_PATROL]->Render_Texture();
 
-	
+
+
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-	
+
 	m_pBufferCom->Render_Buffer();
-	
+
 	m_pGraphicDev->SetTexture(0, NULL);
 
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	
-	// monster class보다 상위에서 바로 가져옴
-	CGameObject::Render_Object(); // 콜라이더 출력
+
+	// 원래 색상 상태로 돌리기 
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+
+	__super::Render_Object(); // 콜라이더 출력
 
 
 }
