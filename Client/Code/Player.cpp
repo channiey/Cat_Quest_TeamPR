@@ -170,7 +170,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 	
 	//Key_Input(fTimeDelta);
-
+	cout << m_tStatInfo.fCurHP << endl;
 	Regen_Def(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);

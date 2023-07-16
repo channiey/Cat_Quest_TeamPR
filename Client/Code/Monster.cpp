@@ -140,6 +140,36 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 
 void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 {	
+	_vec3 _vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+
+	_float Distance = D3DXVec3Length(&(_vColPos - vOwnerPos));
+
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
+		{
+			fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+
+			if (fAccTime >= 1.f)
+			{
+				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);
+				fAccTime = 0.f;
+			}
+			
+		}
+	}
+	break;
+	default:
+	{
+
+	}
+	break;
+	}
 }
 
 void CMonster::OnCollision_Exit(CGameObject* _pColObj)
