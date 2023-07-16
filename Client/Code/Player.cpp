@@ -69,6 +69,7 @@ HRESULT CPlayer::Ready_Object()
 
 	m_bHit = false;
 	m_bAttack = false;
+	m_fAccDef = 0.f;
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
@@ -168,7 +169,9 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 	
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
+
+	Regen_Def(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -221,13 +224,19 @@ void CPlayer::LateUpdate_Object()
 
 void CPlayer::Render_Object()
 {
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+	if(m_bHit)
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, HITCOLOR_R, HITCOLOR_G, HITCOLOR_B));
+
 	m_pStateMachineCom->Render_StateMachine();
 	m_pBufferCom->Render_Buffer();
 
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+
 	m_pGraphicDev->SetTexture(0, NULL);
 
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	__super::Render_Object(); 
 
 
@@ -629,9 +638,59 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	/*if (CInputDev::GetInstance()->Get_DIKeyState(DIK_Z))
-		Set_CurHP(10);*/
+	if (CInputDev::GetInstance()->Key_Down('Z'))
+		Damaged(10);
 }
+
+void CPlayer::Regen_Def(const _float& fTimeDelta)
+{
+	if (m_tStatInfo.fCurDef < m_tStatInfo.fMaxDef)
+	{
+		m_fAccDef += fTimeDelta;
+		if (m_fAccDef > 5.f)
+		{
+			_float fRegenDef = m_tStatInfo.fCurDef + 20;
+			if (fRegenDef > m_tStatInfo.fMaxDef)
+				fRegenDef = m_tStatInfo.fMaxDef;
+			Set_CurDef(fRegenDef);
+			m_fAccDef = 0.f;
+		}
+	}
+}
+
+void CPlayer::Regen_HP(const _float& fHeal)
+{
+	if (m_tStatInfo.fCurHP > 0)
+	{
+		_float fRegenHeal = m_tStatInfo.fCurHP + fHeal;
+		if (fRegenHeal > m_tStatInfo.fMaxHP)
+			fRegenHeal = m_tStatInfo.fMaxHP;
+
+		Set_CurHP(fRegenHeal);
+	}
+
+}
+
+void CPlayer::Damaged(const _float& fDamage)
+{
+	if(m_tStatInfo.fCurDef > 0)
+		Set_CurDef(m_tStatInfo.fCurDef - fDamage);
+	else
+	{
+		if (m_tStatInfo.fCurHP <= 0)
+		{
+			Set_CurHP(m_tStatInfo.fMaxHP);
+			m_bHit = true;
+		}
+		else
+		{
+			Set_CurHP(m_tStatInfo.fCurHP - fDamage);
+			m_bHit = true;
+		}
+	}
+}
+
+
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
