@@ -36,7 +36,10 @@ HRESULT CNpc_King::Ready_Object()
 
 	CEventMgr::GetInstance()->Add_Obj(L"Npc_King_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
-	m_pHaveQuest = CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명1");
+	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명1"));
+	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명2"));
+	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"드라코스"));
+	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"죽음의 섬"));
 	m_bReadyQuest = true;
 	
 
@@ -66,6 +69,24 @@ void CNpc_King::OnCollision_Enter(CGameObject* _pColObj)
 
 void CNpc_King::OnCollision_Stay(CGameObject* _pColObj)
 {
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		// 충돌 검사.
+
+		// 충돌 성공 시
+		// 퀘스트 매니저에게 전달해서 퀘스트를 다음 단계로 넘기게 하자.
+		// bool변수도 하나 필요할듯
+		// 현재 본인이 퀘스트에 해당할 때만 다음 단계로 넘겨야 한다.
+		// 
+		CQuestMgr::GetInstance()->Npc_NextPointer();
+	}
+		break;
+	
+	default:
+		break;
+	}
 }
 
 void CNpc_King::OnCollision_Exit(CGameObject* _pColObj)

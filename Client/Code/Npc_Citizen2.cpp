@@ -35,7 +35,7 @@ HRESULT CNpc_Citizen2::Ready_Object()
 
 	CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen2_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 	
-	m_pHaveQuest = CQuestMgr::GetInstance()->Set_HaveQuest(L"µµµÏ Àâ±â");
+	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"µµµÏ Àâ±â"));
 
 	return S_OK;
 }

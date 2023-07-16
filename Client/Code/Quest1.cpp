@@ -28,27 +28,30 @@ void CQuest1::Init()
 
 void CQuest1::Enter()
 {
-	//cout << "ÈûÀÇ Áõ¸í1 : Enter" << endl;
+	cout << "ÈûÀÇ Áõ¸í1 : Enter" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
-		m_eLevel = QUEST_LEVEL::QUEST_UPDATE;
+		m_eProgress = QUEST_PROGRESS::QUEST_UPDATE;
 	}
 }
 
 void CQuest1::Update()
 {
-	//cout << "ÈûÀÇ Áõ¸í1 : Update" << endl;
+	cout << "ÈûÀÇ Áõ¸í1 : Update" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
-		m_eLevel = QUEST_LEVEL::QUEST_EXIT;
+		m_eProgress = QUEST_PROGRESS::QUEST_EXIT;
 	}
 }
 
 void CQuest1::Exit()
 {
-	//cout << "ÈûÀÇ Áõ¸í1 : Exit" << endl;
+	cout << "ÈûÀÇ Áõ¸í1 : Exit" << endl;
 	dynamic_cast<CNpc*>
 		(CManagement::GetInstance()->
-			Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Set_IsReadyQuest(true);
-	m_eLevel = QUEST_LEVEL::QUEST_CLEAR;
+			Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Set_NextQuest();
+	dynamic_cast<CNpc*>
+		(CManagement::GetInstance()->
+			Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Set_IsReadyQuest(true);
+	m_eProgress = QUEST_PROGRESS::QUEST_CLEAR;
 }
 
 void CQuest1::Free()

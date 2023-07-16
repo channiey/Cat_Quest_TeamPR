@@ -33,7 +33,7 @@ void CQuestMgr::Init()
 
 void CQuestMgr::Play_Quest()
 {
-	if (m_pQuest->Get_Level() == QUEST_LEVEL::QUEST_CLEAR) {
+	if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_CLEAR) {
 		m_bActive = false;
 	}
 	Enter();
@@ -44,7 +44,7 @@ void CQuestMgr::Play_Quest()
 void CQuestMgr::Enter()
 {
 	if (m_pQuest) {
-		if (m_pQuest->Get_Level() == QUEST_LEVEL::QUEST_ENTER) {
+		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_ENTER) {
 			m_pQuest->Enter();
 		}
 	}
@@ -53,9 +53,8 @@ void CQuestMgr::Enter()
 void CQuestMgr::Update()
 {
 	if (m_pQuest) {
-		if (m_pQuest->Get_Level() == QUEST_LEVEL::QUEST_UPDATE) {
+		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_UPDATE) {
 			m_pQuest->Update();
-
 		}
 	}
 }
@@ -63,7 +62,7 @@ void CQuestMgr::Update()
 void CQuestMgr::Exit()
 {
 	if (m_pQuest) {
-		if (m_pQuest->Get_Level() == QUEST_LEVEL::QUEST_EXIT) {
+		if (m_pQuest->Get_Progress() == QUEST_PROGRESS::QUEST_EXIT) {
 			m_pQuest->Exit();
 		}
 	}
@@ -84,7 +83,7 @@ void CQuestMgr::Set_Quest(CQuest* _pQuest)
 {
 	if (_pQuest) {
 		m_pQuest = _pQuest;
-		m_pQuest->Set_Level(QUEST_LEVEL::QUEST_ENTER);
+		m_pQuest->Set_Progress(QUEST_PROGRESS::QUEST_ENTER);
 	}
 }
 

@@ -29,6 +29,7 @@ HRESULT CNpc::Ready_Object()
 	m_eEnter = ENTER_TYPE::ENTER_NO;
 	m_eInterType = INTERACTION_TYPE::INTERACTION_CHAT;
 	m_bReadyQuest = false;
+	m_iQuestNum = 0;
 
 	return S_OK;
 }
