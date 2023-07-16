@@ -26,7 +26,7 @@ HRESULT CEffect_Thunder::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 17.f, 17.f, 17.f });
 	m_pTransformCom->Set_Pos(_vec3{ 150, 17.f, 70 });
 
-	//m_bActive = false;
+	m_bActive = false;
 
 	m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
 
@@ -36,6 +36,9 @@ HRESULT CEffect_Thunder::Ready_Object()
 _int CEffect_Thunder::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (m_bActive && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		m_bActive = false;
 
 	return iExit;
 }
@@ -48,6 +51,14 @@ void CEffect_Thunder::LateUpdate_Object()
 void CEffect_Thunder::Render_Object()
 {
 	__super::Render_Object();
+}
+
+void CEffect_Thunder::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
+{
+	m_pTransformCom->Set_Pos(_vec3{ _vPos.x, m_pTransformCom->Get_Info(INFO::INFO_POS).y, _vPos.z + 5.2f });
+	m_bActive = true;
+	m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
+	CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
 }
 
 HRESULT CEffect_Thunder::Add_Component()

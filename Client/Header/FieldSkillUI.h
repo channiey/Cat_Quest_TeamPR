@@ -31,6 +31,7 @@ private:
 	void					Picking_UI();
 	void					Mouse_Input();
 	void					Reset_SkillUI();
+	void					Play_SKill();
 
 private:
 	CPlayer*				m_pPlayer;

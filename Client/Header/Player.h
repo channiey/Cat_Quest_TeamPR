@@ -12,6 +12,8 @@ class CStateMachine;
 class CAnimator;
 END
 
+class CEffect;
+
 class CPlayer : public Engine::CGameObject
 {
 private:
@@ -105,6 +107,24 @@ public:
 
 #pragma endregion
 
+
+public:
+	void				Damaged(const _float& fDamage);
+
+	_bool&				Is_Attack() { return m_bAttack; }
+	void				Set_Attack(_bool bBool) { m_bAttack = bBool; }
+
+	
+	_bool&				Is_Hit() { return m_bHit; }
+	void				Set_HIt(const _bool& bHit) { m_bHit = bHit; }
+
+	_bool&				Is_Skill() { return m_bSkill; }
+	void				Set_Skill(const _bool& bSkill) { m_bSkill = bSkill; }
+
+	void				Regen_HP(const _float& fHeal);
+
+	CEffect*			Get_Effect(const _uint& m_iSkill) { return m_arrEffect[m_iSkill]; }
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
@@ -113,36 +133,31 @@ private:
 	
 
 private:
-	MOVEINFO			m_tMoveInfo;
-	STATINFO			m_tStatInfo;
+	MOVEINFO					m_tMoveInfo;
+	STATINFO					m_tStatInfo;
 
-	LINE_TYPE			m_eCurGroundType; // 현재 플레이어가 위치한 그라운드 정보
+	LINE_TYPE					m_eCurGroundType; // 현재 플레이어가 위치한 그라운드 정보
 
 private:
-	CTexture*			m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
-	CStateMachine*		m_pStateMachineCom;
+	CTexture*					m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
+	CStateMachine*				m_pStateMachineCom;
 
-	_uint				m_iTempMode;
+	_uint						m_iTempMode;
 
-	_float				m_fAccDef;
+	_float						m_fAccDef;
 
-	_bool				m_bHit;
-	_bool				m_bAttack;
+	_bool						m_bHit;
+	_bool						m_bAttack;
+	_bool						m_bSkill;
+
+	CEffect*					m_arrEffect[(UINT)SKILL_TYPE::TYPEEND];
 
 	// << : Test : Range Test
 	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
 	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active로 상황에 맞게 껐다 켰다
 	// >> :
 
-public:
-	_bool&				Is_Attack()				{ return m_bAttack; }
-	void				Set_Attack(_bool bBool) { m_bAttack = bBool; }
 
-	void				Damaged(const _float& fDamage);
-	_bool&				Is_Hit() { return m_bHit; }
-	void				Set_HIt(const _bool& bHit) { m_bHit = bHit; }
-
-	void				Regen_HP(const _float& fHeal);
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
