@@ -1,0 +1,146 @@
+#include "MonHpUI.h"
+#include "Export_Function.h"
+
+#include "Player.h"
+
+CMonHpUI::CMonHpUI(LPDIRECT3DDEVICE9 pGraphicDev)
+     :CUI(pGraphicDev, OBJ_ID::UI_HP), m_pPlayer(nullptr), m_fHpRatio(1.f)
+{
+}
+
+CMonHpUI::CMonHpUI(const CMonHpUI& rhs)
+	: CUI(rhs)
+{
+}
+
+CMonHpUI::~CMonHpUI()
+{
+}
+
+HRESULT CMonHpUI::Ready_Object()
+{
+	CGameObject::Ready_Object();
+
+	m_eUIType = UI_TYPE::WORLD;
+
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pUITransformCom[0]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
+	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
+	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
+
+
+	return S_OK;
+}
+
+_int CMonHpUI::Update_Object(const _float& fTimeDelta)
+{
+	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (nullptr == m_pMonster)
+		m_pMonster = dynamic_cast<CMonster*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
+	if (nullptr != m_pPlayer)
+		m_fHpRatio = m_pPlayer->Get_StatInfo().fCurHP / m_pPlayer->Get_StatInfo().fMaxHP;
+
+	if (1.f < m_fHpRatio)
+		m_fHpRatio = 1.f;
+
+	return iExit;
+}
+
+void CMonHpUI::LateUpdate_Object()
+{
+	Follow_Player();
+
+	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
+
+	float fMoveX = (1.0f - m_fHpRatio) * 2.0f;
+	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
+
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f });
+	m_pUITransformCom[1]->Set_Pos(vNewPosition);
+	
+	__super::LateUpdate_Object();
+
+}
+
+void CMonHpUI::Render_Object()
+{
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(7);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(1);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(0);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[3]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(6);
+	m_pBufferCom->Render_Buffer();
+
+}
+
+HRESULT CMonHpUI::Add_Component()
+{
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Bar", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+
+	for (_uint i = 0; i < 4; ++i)
+	{
+		pComponent = m_pUITransformCom[i] = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::TRANSFORM, pComponent);
+	}
+
+	return S_OK;
+}
+
+void CMonHpUI::Follow_Player()
+{
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
+
+	_vec3		vPlayerPosition;
+	vPlayerPosition = pPlayerTransform->Get_Info(INFO_POS);
+
+	m_pUITransformCom[0]->Set_Pos({ vPlayerPosition.x , vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[1]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[2]->Set_Pos({ vPlayerPosition.x - 2.6f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[3]->Set_Pos({ vPlayerPosition.x + 1.95f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+}
+
+CMonHpUI* CMonHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	CMonHpUI* pInstance = new CMonHpUI(pGraphicDev);
+
+	if (FAILED(pInstance->Ready_Object()))
+	{
+		Safe_Release(pInstance);
+
+		MSG_BOX("MonHpUI Create Failed");
+		return nullptr;
+	}
+
+	return pInstance;
+}
+
+void CMonHpUI::Free()
+{
+	__super::Free();
+
+}
