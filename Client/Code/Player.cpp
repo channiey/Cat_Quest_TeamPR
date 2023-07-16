@@ -164,9 +164,9 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	// :: Test 카메라 셰이크
-	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
-		CCameraMgr::GetInstance()->Shake_Camera();
+	//// :: Test 카메라 셰이크
+	//if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
+	//	CCameraMgr::GetInstance()->Shake_Camera();
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
