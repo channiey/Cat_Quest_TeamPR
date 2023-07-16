@@ -530,7 +530,7 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/SpeechBox.png")), E_FAIL);
 	// 다이얼로그 화살표
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_ScrollArrow",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/ScrollArrow/%d.png", 2)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/ScrollArrow/%d.png", 3)), E_FAIL);
 	// NPC스탠드
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_NpcStand",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/NpcStand/%d.png", 7)), E_FAIL);

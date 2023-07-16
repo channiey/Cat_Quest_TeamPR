@@ -22,32 +22,39 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	_bool					Is_DialogEnd() { return m_bEnd; }
+	HRESULT					Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo);
+
 private:
 	virtual HRESULT			Add_Component() override;
-	HRESULT					Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo);
 	void					Select_Npc(OBJ_ID eNpc, SPIRITEMO_TYPE eEmo);
 	void					Typing_Effect(const _float& fTimeDelta);
 
 private:
+	// 텍스처랑 매트릭스
 	CTexture*				m_pUITextureCom[3];
+	CTransform*				m_pUITransform;
 	_matrix					m_matUI[2];
-
+	// 화자 판단 및 화자텍스처
 	OBJ_ID					m_eObjID;
 	SPIRITEMO_TYPE			m_eEmo;
-
+	_uint					m_iNpc;
+	// 띄울 텍스트랑 타이핑이펙트용 변수
+	RECT					m_rcText;
 	wstring					m_strDialog;
 	wstring					m_strTyping;
 	_uint					m_iTextCnt;
-
 	_float					m_fAcc;
-	_uint					m_iNpc;
 
-	RECT					m_rcText;
-
+	// 내리고 올릴 변수
+	_bool					m_bUp;
+	_bool					m_bDown;
+	// 줄이고 늘릴 변수
+	_bool					m_bExpand;
 	_bool					m_bShrink;
-
-	_float					m_fMultipleX;
-	_float					m_fMultipleY;
+	// 다이얼로그 끝났는지 판단할 불값
+	_bool					m_bEnd;
 
 public:
 
