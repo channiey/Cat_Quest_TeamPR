@@ -34,8 +34,6 @@ void CSkill::LateUpdate_Skill()
 	if (!m_bPlay) return;
 }
 
-
-
 HRESULT CSkill::Add_SkillEffect()
 {
 	return S_OK;
