@@ -8,6 +8,8 @@
 #include "GoldCoin.h"
 #include "ExpCoin.h"
 
+#include "MonHpUI.h"
+
 
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
@@ -71,6 +73,10 @@ HRESULT CMonster::Ready_Object()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
+
+	pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
 
 
 

@@ -21,13 +21,12 @@ public:
 private:
 	virtual HRESULT			Add_Component() override;
 
-	void					Follow_Player();
+	void					Follow_Owner();
 	void					Set_Owner(CGameObject* pMonster) { m_pMonster = pMonster; }
 
 private:
 	CTransform*				m_pUITransformCom[4];
-
-	CMonster*				m_pMonster;
+	CGameObject*			m_pMonster;
 	_float					m_fHpRatio;
 
 public:

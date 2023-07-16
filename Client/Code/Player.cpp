@@ -67,6 +67,8 @@ HRESULT CPlayer::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	Set_AD(10);
+
 	m_bHit = false;
 	m_bAttack = false;
 	m_fAccDef = 0.f;

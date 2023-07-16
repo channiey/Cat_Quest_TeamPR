@@ -1,10 +1,10 @@
 #include "MonHpUI.h"
 #include "Export_Function.h"
 
-#include "Player.h"
+#include "Monster.h"
 
 CMonHpUI::CMonHpUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev, OBJ_ID::UI_HP), m_pPlayer(nullptr), m_fHpRatio(1.f)
+	:CUI(pGraphicDev, OBJ_ID::UI_HP), m_pMonster(nullptr), m_fHpRatio(1.f)
 {
 }
 
@@ -25,10 +25,10 @@ HRESULT CMonHpUI::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pUITransformCom[0]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
-	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
-	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
-	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
+	m_pUITransformCom[0]->Set_Scale(_vec3{ 1.4f, 0.4f, 1.f });
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.4f, 0.4f, 1.f });
+	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.6f, 0.6f, 1.f });
+	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.6f, 0.6f, 1.f });
 
 
 	return S_OK;
@@ -38,11 +38,14 @@ _int CMonHpUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	if (nullptr == m_pMonster)
-		m_pMonster = dynamic_cast<CMonster*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().bDead)
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);  // »èÁ¦
+		return iExit;
+	}
 
-	if (nullptr != m_pPlayer)
-		m_fHpRatio = m_pPlayer->Get_StatInfo().fCurHP / m_pPlayer->Get_StatInfo().fMaxHP;
+	if (nullptr != m_pMonster)
+		m_fHpRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
 
 	if (1.f < m_fHpRatio)
 		m_fHpRatio = 1.f;
@@ -52,39 +55,50 @@ _int CMonHpUI::Update_Object(const _float& fTimeDelta)
 
 void CMonHpUI::LateUpdate_Object()
 {
-	Follow_Player();
+	Follow_Owner();
 
 	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
 
-	float fMoveX = (1.0f - m_fHpRatio) * 2.0f;
+	float fMoveX = (1.0f - m_fHpRatio) * 1.4f;
 	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
 
-	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f });
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.4f * m_fHpRatio, 0.4f, 1.0f });
 	m_pUITransformCom[1]->Set_Pos(vNewPosition);
-	
+
+
+
 	__super::LateUpdate_Object();
 
 }
 
 void CMonHpUI::Render_Object()
 {
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::CHASE ||
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_CHASE ||
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK || 
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONATTACK || 
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::FRONT_HIT)
+	{
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
-	m_pTextureCom->Render_Texture(7);
-	m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(7);
+		m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
-	m_pTextureCom->Render_Texture(1);
-	m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(1);
+		m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
-	m_pTextureCom->Render_Texture(0);
-	m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(9);
+		m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[3]->Get_WorldMat());
-	m_pTextureCom->Render_Texture(6);
-	m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[3]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(6);
+		m_pBufferCom->Render_Buffer();
+	}
+
+	
 
 }
 
@@ -110,21 +124,21 @@ HRESULT CMonHpUI::Add_Component()
 	return S_OK;
 }
 
-void CMonHpUI::Follow_Player()
+void CMonHpUI::Follow_Owner()
 {
-	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
+	CTransform* pMonsterTransform = m_pMonster->Get_Transform();
+	NULL_CHECK(pMonsterTransform);
 
-	_vec3		vPlayerPosition;
-	vPlayerPosition = pPlayerTransform->Get_Info(INFO_POS);
+	_vec3		vMonsterPos;
+	vMonsterPos = pMonsterTransform->Get_Info(INFO_POS);
 
-	m_pUITransformCom[0]->Set_Pos({ vPlayerPosition.x , vPlayerPosition.y, vPlayerPosition.z - 4.2f });
-	m_pUITransformCom[1]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
-	m_pUITransformCom[2]->Set_Pos({ vPlayerPosition.x - 2.6f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
-	m_pUITransformCom[3]->Set_Pos({ vPlayerPosition.x + 1.95f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[0]->Set_Pos({ vMonsterPos.x , vMonsterPos.y, vMonsterPos.z - 3.5f });
+	m_pUITransformCom[1]->Set_Pos({ vMonsterPos.x, vMonsterPos.y, vMonsterPos.z - 3.5f });
+	m_pUITransformCom[2]->Set_Pos({ vMonsterPos.x - 1.9f, vMonsterPos.y, vMonsterPos.z - 3.5f });
+	m_pUITransformCom[3]->Set_Pos({ vMonsterPos.x + 1.4f, vMonsterPos.y, vMonsterPos.z - 3.5f });
 }
 
-CMonHpUI* CMonHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CMonHpUI* CMonHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pMonster)
 {
 	CMonHpUI* pInstance = new CMonHpUI(pGraphicDev);
 
@@ -135,6 +149,7 @@ CMonHpUI* CMonHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 		MSG_BOX("MonHpUI Create Failed");
 		return nullptr;
 	}
+	pInstance->Set_Owner(pMonster);
 
 	return pInstance;
 }
