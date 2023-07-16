@@ -27,24 +27,27 @@ void CQuest2::Init()
 
 void CQuest2::Enter()
 {
-	//cout << "ÈûÀÇ Áõ¸í2 : Enter" << endl;
+	cout << "ÈûÀÇ Áõ¸í2 : Enter" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
-		m_eLevel = QUEST_LEVEL::QUEST_UPDATE;
+		m_eProgress = QUEST_PROGRESS::QUEST_UPDATE;
 	}
 ;}
 
 void CQuest2::Update()
 {
-	//cout << "ÈûÀÇ Áõ¸í2 : Update" << endl;
+	cout << "ÈûÀÇ Áõ¸í2 : Update" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
-		m_eLevel = QUEST_LEVEL::QUEST_EXIT;
+		m_eProgress = QUEST_PROGRESS::QUEST_EXIT;
 	}
 }
 
 void CQuest2::Exit()
 {
-	//cout << "ÈûÀÇ Áõ¸í2 : Exit" << endl;
-	m_eLevel = QUEST_LEVEL::QUEST_CLEAR;
+	cout << "ÈûÀÇ Áõ¸í2 : Exit" << endl;
+	dynamic_cast<CNpc*>
+		(CManagement::GetInstance()->
+			Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Set_IsReadyQuest(true);
+	m_eProgress = QUEST_PROGRESS::QUEST_CLEAR;
 }
 
 void CQuest2::Free()

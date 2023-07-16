@@ -24,7 +24,7 @@ void CQuest4::Init()
 
 	m_iRewardGold = 100;
 
-	m_eLevel = QUEST_LEVEL::QUEST_ENTER;
+	m_eProgress = QUEST_PROGRESS::QUEST_ENTER;
 }
 
 void CQuest4::Enter()

@@ -404,7 +404,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 {
-	_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
+	_vec3 vMyPos  = m_pTransformCom->Get_Info(INFO_POS);
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
 
 	switch (_pColObj->Get_Type())
@@ -479,11 +479,14 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 			m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
 		}
 		// 퀘스트 진입 테스트
-		if (CInputDev::GetInstance()->Key_Down('E')) {
-			if (dynamic_cast<CNpc*>(_pColObj)->Get_IsReadyQuest() && !CQuestMgr::GetInstance()->Get_Active()) {
+		if (CInputDev::GetInstance()->Key_Down('E')) 
+		{
+			if (dynamic_cast<CNpc*>(_pColObj)->Get_IsReadyQuest() && !CQuestMgr::GetInstance()->Get_Active()) 
+			{
 				dynamic_cast<CNpc*>(_pColObj)->Set_IsReadyQuest(false);
 				CQuestMgr::GetInstance()->Set_Quest(dynamic_cast<CNpc*>(_pColObj)->Get_HaveQuest());
 				CQuestMgr::GetInstance()->Set_Active(true);
+				CQuestMgr::GetInstance()->Set_Player(this);
 			}
 		}
 

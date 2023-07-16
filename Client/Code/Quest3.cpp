@@ -32,29 +32,35 @@ void CQuest3::Init()
 
 	m_iRewardGold = 100;
 
-	m_eLevel = QUEST_LEVEL::QUEST_ENTER;
+	m_eProgress = QUEST_PROGRESS::QUEST_ENTER;
 }
 
 void CQuest3::Enter()
 {
-	//cout << "µµµÏ Àâ±â : Enter" << endl;
+	// ÇÑ ¹ø¸¸ º¤ÅÍ¿¡ Ãß°¡
+	if (!m_bAdd) {
+		m_vecNpc.push_back(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"));
+		m_vecNpc.push_back(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"));
+		m_bAdd = true;
+	}
+	cout << "µµµÏ Àâ±â : Enter" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
-		m_eLevel = QUEST_LEVEL::QUEST_UPDATE;
+		m_eProgress = QUEST_PROGRESS::QUEST_UPDATE;
 	}
 }
 
 void CQuest3::Update()
 {
-	//cout << "µµµÏ Àâ±â : Update" << endl;
+	if(m_iNpcID == 0) cout << "µµµÏ Àâ±â : Update" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
-		m_eLevel = QUEST_LEVEL::QUEST_EXIT;
+		m_eProgress = QUEST_PROGRESS::QUEST_EXIT;
 	}
 }
 
 void CQuest3::Exit()
 {
-	//cout << "µµµÏ Àâ±â : Exit" << endl;
-	m_eLevel = QUEST_LEVEL::QUEST_CLEAR;
+	cout << "µµµÏ Àâ±â : Exit" << endl;
+	m_eProgress = QUEST_PROGRESS::QUEST_CLEAR;
 }
 
 void CQuest3::Free()
