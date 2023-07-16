@@ -7,7 +7,7 @@ END
 class CQuest : public CBase
 {
 public:
-	explicit CQuest();
+	explicit CQuest(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual ~CQuest();
 
 public:
@@ -22,12 +22,14 @@ public:
 	QUEST_PROGRESS		 Get_Progress()						 { return m_eProgress; }
 	// 플레이어 세팅
 	void				 Set_Player(CGameObject* _pPlayer) { m_pPlayer = _pPlayer; }
-	// 다음 npc를 가리키도록 변경
-	void				 Npc_NextPoint();
+	// 다음 단계 준비 여부
+	void				 Set_ReadyNext(_bool _isNext) { m_bReadyNext = true; }
+	void				 Set_NextLevel() { m_iLevel += 1; }
 protected:
 	vector<CGameObject*> m_vecNpc; // 관련 NPC
 	CGameObject*		 m_pPlayer; // 플레이어
-	_int				 m_iNpcID; // 퀘스트 진행을 위한 NPC 순서
+	_bool				 m_bReadyNext; // 다음 단계로 진행 가능여부
+	_int				 m_iLevel; // 현재 단계
 
 	CGameObject*		 m_pMonster; // 토벌 대상			 // 나중에 필요한 애들만 추가
 	_int				 m_iKillCount; // 잡아야 할 몬스터 수 //  나중에 필요한 애들만 추가
@@ -39,4 +41,7 @@ protected:
 	vector<_tchar*>		 m_vecTalk; // 대사 모음
 
 	_bool				 m_bAdd; // npc 모두 생성된 후 엔터단계에서 한번만 추가.
+
+
+	LPDIRECT3DDEVICE9	 m_pGraphicDev;
 };

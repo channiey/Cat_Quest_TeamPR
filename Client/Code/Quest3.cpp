@@ -3,9 +3,10 @@
 
 #include "Export_Function.h"
 
-#include "Npc_King.h"
+#include "Npc.h"
 
-CQuest3::CQuest3()
+CQuest3::CQuest3(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CQuest(pGraphicDev)
 {
 	Init();
 }
@@ -37,21 +38,26 @@ void CQuest3::Init()
 
 void CQuest3::Enter()
 {
-	// ÇÑ ¹ø¸¸ º¤ÅÍ¿¡ Ãß°¡
-	if (!m_bAdd) {
+	if (!m_bAdd)
+	{
 		m_vecNpc.push_back(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"));
-		m_vecNpc.push_back(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"));
+		m_vecNpc.push_back(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"));
 		m_bAdd = true;
 	}
-	cout << "µµµÏ Àâ±â : Enter" << endl;
+
+
+	// cout << "µµµÏ Àâ±â : Enter" << endl;
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
+		//dynamic_cast<CNpc*>(m_vecNpc[0])->Set_IsReadyTalk(true);
+		//m_iLevel += 1;
 		m_eProgress = QUEST_PROGRESS::QUEST_UPDATE;
 	}
 }
 
 void CQuest3::Update()
 {
-	if(m_iNpcID == 0) cout << "µµµÏ Àâ±â : Update" << endl;
+	// cout << "µµµÏ Àâ±â : Update" << endl;
+
 	if (CInputDev::GetInstance()->Key_Down('Z')) {
 		m_eProgress = QUEST_PROGRESS::QUEST_EXIT;
 	}
@@ -59,8 +65,10 @@ void CQuest3::Update()
 
 void CQuest3::Exit()
 {
-	cout << "µµµÏ Àâ±â : Exit" << endl;
-	m_eProgress = QUEST_PROGRESS::QUEST_CLEAR;
+	// cout << "µµµÏ Àâ±â : Update" << endl;
+	if (CInputDev::GetInstance()->Key_Down('Z')) {
+		m_eProgress = QUEST_PROGRESS::QUEST_CLEAR;
+	}
 }
 
 void CQuest3::Free()

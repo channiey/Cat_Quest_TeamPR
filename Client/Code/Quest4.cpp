@@ -5,7 +5,8 @@
 
 #include "Npc_King.h"
 
-CQuest4::CQuest4()
+CQuest4::CQuest4(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CQuest(pGraphicDev)
 {
 	Init();
 }
