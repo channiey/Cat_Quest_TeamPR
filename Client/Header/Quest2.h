@@ -4,7 +4,7 @@
 class CQuest2 : public CQuest
 {
 public:
-	explicit CQuest2();
+	explicit CQuest2(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual ~CQuest2();
 
 public:

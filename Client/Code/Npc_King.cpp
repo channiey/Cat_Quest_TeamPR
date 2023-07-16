@@ -40,7 +40,10 @@ HRESULT CNpc_King::Ready_Object()
 	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명2"));
 	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"드라코스"));
 	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"죽음의 섬"));
+
+	// 현재는 사자왕이 최초의 퀘스트 발령자.
 	m_bReadyQuest = true;
+	m_bReadyTalk = true;
 	
 
 	return S_OK;
@@ -73,17 +76,13 @@ void CNpc_King::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		// 충돌 검사.
+		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
+			CQuestMgr::GetInstance()->Set_NextLevel();
+			m_bReadyTalk = false;
+		}
 
-		// 충돌 성공 시
-		// 퀘스트 매니저에게 전달해서 퀘스트를 다음 단계로 넘기게 하자.
-		// bool변수도 하나 필요할듯
-		// 현재 본인이 퀘스트에 해당할 때만 다음 단계로 넘겨야 한다.
-		// 
-		CQuestMgr::GetInstance()->Npc_NextPointer();
 	}
-		break;
-	
+	break;
 	default:
 		break;
 	}

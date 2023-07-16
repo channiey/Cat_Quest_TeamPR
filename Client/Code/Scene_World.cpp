@@ -136,7 +136,7 @@ CScene_World::~CScene_World()
 HRESULT CScene_World::Ready_Scene()
 {
 	// 임의 순서 변경 X
-	CQuestMgr::GetInstance()->Init(); // 퀘스트 매니저 초기화
+	CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);

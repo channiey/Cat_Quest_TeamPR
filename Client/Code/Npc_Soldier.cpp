@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
+#include "QuestMgr.h"
 
 CNpc_Soldier::CNpc_Soldier(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_SOLLIDER)
@@ -59,6 +60,19 @@ void CNpc_Soldier::OnCollision_Enter(CGameObject* _pColObj)
 
 void CNpc_Soldier::OnCollision_Stay(CGameObject* _pColObj)
 {
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
+			CQuestMgr::GetInstance()->Set_NextLevel();
+			m_bReadyTalk = false;
+		}
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 void CNpc_Soldier::OnCollision_Exit(CGameObject* _pColObj)

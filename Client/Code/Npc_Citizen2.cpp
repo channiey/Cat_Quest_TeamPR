@@ -63,6 +63,19 @@ void CNpc_Citizen2::OnCollision_Enter(CGameObject* _pColObj)
 
 void CNpc_Citizen2::OnCollision_Stay(CGameObject* _pColObj)
 {
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
+			CQuestMgr::GetInstance()->Set_NextLevel();
+			m_bReadyTalk = false;
+		}
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 void CNpc_Citizen2::OnCollision_Exit(CGameObject* _pColObj)

@@ -13,7 +13,7 @@ private:
 	virtual ~CQuestMgr();
 
 public:
-	void	 Init();
+	void	 Init(LPDIRECT3DDEVICE9 pGraphicDev);
 	void     Play_Quest();
 	void	 Enter();
 	void	 Update();
@@ -30,8 +30,8 @@ public:
 	_bool    Get_Active() { return m_bActive; } // 현제 퀘스트를 진행 중인지 확인
 	void     Set_Active(_bool _isActive) { m_bActive = _isActive; } // 퀘스트 활성 여부 설정.
 
-	// 다음 npc 가리키도록
-	void	 Npc_NextPointer();
+	void	 Set_ReadyNext(_bool _isNext); // 다음 퀘스트 가리키도록
+	void	 Set_NextLevel(); // 다음 레벨
 
 private:
 	map<const _tchar*, CQuest*> m_mapQuest;

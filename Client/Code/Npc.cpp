@@ -29,6 +29,7 @@ HRESULT CNpc::Ready_Object()
 	m_eEnter = ENTER_TYPE::ENTER_NO;
 	m_eInterType = INTERACTION_TYPE::INTERACTION_CHAT;
 	m_bReadyQuest = false;
+	m_bReadyTalk = false;
 	m_iQuestNum = 0;
 
 	return S_OK;
@@ -65,6 +66,11 @@ void CNpc::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 
 	__super::Render_Object(); // 콜라이더 출력
+}
+
+void CNpc::OnCollision_Stay(CGameObject* _pColObj)
+{
+
 }
 
 void CNpc::Play_ColLogic(const _float& fTimeDelta)

@@ -21,14 +21,14 @@ CQuestMgr::~CQuestMgr()
 	Free();
 }
 
-void CQuestMgr::Init()
+void CQuestMgr::Init(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	m_mapQuest.insert({ L"ÈûÀÇ Áõ¸í1",	new CQuest1 });
-	m_mapQuest.insert({ L"ÈûÀÇ Áõ¸í2",	new CQuest2 });
-	m_mapQuest.insert({ L"µµµÏ Àâ±â" ,	new CQuest3 });
-	m_mapQuest.insert({ L"µå¶óÄÚ½º"  ,	new CQuest4 });
-	m_mapQuest.insert({ L"Á×À½ÀÇ ¼¶" ,	new CQuest5 });
-	m_mapQuest.insert({ L"ÃÖÁ¾Àå"    ,	new CQuest6 });
+	m_mapQuest.insert({ L"ÈûÀÇ Áõ¸í1",	new CQuest1(pGraphicDev) });
+	m_mapQuest.insert({ L"ÈûÀÇ Áõ¸í2",	new CQuest2(pGraphicDev) });
+	m_mapQuest.insert({ L"µµµÏ Àâ±â" ,	new CQuest3(pGraphicDev) });
+	m_mapQuest.insert({ L"µå¶óÄÚ½º"  ,	new CQuest4(pGraphicDev) });
+	m_mapQuest.insert({ L"Á×À½ÀÇ ¼¶" ,	new CQuest5(pGraphicDev) });
+	m_mapQuest.insert({ L"ÃÖÁ¾Àå"    ,	new CQuest6(pGraphicDev) });
 }
 
 void CQuestMgr::Play_Quest()
@@ -87,10 +87,16 @@ void CQuestMgr::Set_Quest(CQuest* _pQuest)
 	}
 }
 
-void CQuestMgr::Npc_NextPointer()
+void CQuestMgr::Set_ReadyNext(_bool _isNext)
 {
-	if (m_pQuest) 
-		m_pQuest->Npc_NextPoint();
+	if (m_pQuest)
+		m_pQuest->Set_ReadyNext(_isNext);
+}
+
+void CQuestMgr::Set_NextLevel()
+{
+	if (m_pQuest)
+		m_pQuest->Set_NextLevel();
 }
 
 void CQuestMgr::Free()
