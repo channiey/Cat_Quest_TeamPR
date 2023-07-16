@@ -29,6 +29,10 @@
 // Move Effect
 #include "MoveDust.h"
 #include "MoveWater.h"
+// Skill Effect
+#include "Effect_Fire.h"
+#include "Effect_Thunder.h"
+
 // Shadow
 #include "Shadow_Player.h"
 
@@ -71,6 +75,7 @@ HRESULT CPlayer::Ready_Object()
 
 	m_bHit = false;
 	m_bAttack = false;
+	m_bSkill = false;
 	m_fAccDef = 0.f;
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
@@ -138,6 +143,17 @@ HRESULT CPlayer::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
 #pragma endregion
 
+#pragma region Effect
+
+	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
+	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
+
+
+#pragma endregion
 
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
@@ -218,6 +234,9 @@ void CPlayer::LateUpdate_Object()
 
 	if(m_bAttack)
 		m_bAttack = false;
+
+	if (m_bSkill)
+		m_bSkill = false;
 
 	__super::LateUpdate_Object();
 
@@ -392,6 +411,10 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		{
 			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
 			CCameraMgr::GetInstance()->Shake_Camera();
+		}
+		if (Is_Skill())
+		{
+			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
 		}
 		
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
@@ -710,5 +733,6 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CPlayer::Free()
 {
+
 	__super::Free();
 }

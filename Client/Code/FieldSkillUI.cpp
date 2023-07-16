@@ -4,10 +4,11 @@
 
 #include "RingUI.h"
 #include "Player.h"
+#include "Effect.h"
 
 CFieldSkillUI::CFieldSkillUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_FILEDSKILL)
-	, m_bIsOn(false)
+	, m_bIsOn(false), m_pPlayer(nullptr)
 {
 }
 
@@ -392,11 +393,11 @@ void CFieldSkillUI::Render_Object()
 			m_pBufferCom->Render_Buffer();
 			// 스킬2
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
-			m_pUITextureCom[2]->Render_Texture(4);
+			m_pUITextureCom[2]->Render_Texture(2);
 			m_pBufferCom->Render_Buffer();
 			// 스킬3
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
-			m_pUITextureCom[2]->Render_Texture(2);
+			m_pUITextureCom[2]->Render_Texture(3);
 			m_pBufferCom->Render_Buffer();
 			// 스킬4
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
@@ -510,6 +511,8 @@ void CFieldSkillUI::Mouse_Input()
 	{
 		m_bIsOn = false;
 		
+		Play_SKill();
+
 		Reset_SkillUI();
 
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
@@ -520,6 +523,7 @@ void CFieldSkillUI::Mouse_Input()
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Ring"));
 		pRingUI->Set_Active(true);
 
+		
 	}
 }
 
@@ -536,6 +540,20 @@ void CFieldSkillUI::Reset_SkillUI()
 	for (_uint i = 0; i < 5; ++i)
 	{
 		m_pUITransform[i]->Reset_Lerp();
+	}
+}
+
+void CFieldSkillUI::Play_SKill()
+{
+	for (_uint i = 0; i < 4; ++i)
+	{
+		if (m_bSkill[i])
+		{
+			CEffect* pEffect = m_pPlayer->Get_Effect(i);
+			if(nullptr != pEffect)
+				pEffect->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
+			m_pPlayer->Set_Skill(true);
+		}
 	}
 }
 

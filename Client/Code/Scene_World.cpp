@@ -698,10 +698,10 @@ HRESULT CScene_World::Ready_Layer_Item()
 	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
 
 
-	//// Gold
-	//pGameObject = CGoldCoin::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", pGameObject), E_FAIL);
+	// Gold
+	pGameObject = CGoldCoin::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", pGameObject), E_FAIL);
 
 
 	// Exp
@@ -874,15 +874,6 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	//pGameObject = CEffect_Range_BigCircle::Create(m_pGraphicDev, nullptr);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Range_BigCircle_Orange", pGameObject), E_FAIL);
-
-	pGameObject = CEffect_Fire::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Fire", pGameObject), E_FAIL);
-
-	pGameObject = CEffect_Thunder::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Thunder", pGameObject), E_FAIL);
-
 #pragma endregion
 
 	return S_OK;
