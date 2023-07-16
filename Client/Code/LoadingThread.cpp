@@ -404,9 +404,21 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_Key",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Object/Key.png")), E_FAIL);
 
+	// Item - Warrior Weapon
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_WarriorWeapon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Weapon/thorns_weapon.png")), E_FAIL);
+		
+
+	// Item - Mage Weapon
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_MageWeapon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Weapon/mage_weapon.png")), E_FAIL);
+
+	// Item - Ninja Weapon
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_NinjaWeapon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Weapon/ninja_weapon.png")), E_FAIL);
+
 
 	// Inventory ====
-
 	// Inventory - BackGround
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_BKG",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/white_bg.png")), E_FAIL);

@@ -120,6 +120,9 @@
 #include "GoldCoin.h"
 #include "ExpCoin.h"
 #include "Key.h"
+#include "WarriorWeapon.h"
+#include "MageWeapon.h"
+#include "NinjaWeapon.h"
 
 // Generator
 #include "PollenGenerator.h"
@@ -697,7 +700,7 @@ HRESULT CScene_World::Ready_Layer_Item()
 	Engine::CGameObject*		pGameObject = nullptr;
 	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
 
-
+	// Object ==================
 	// Gold
 	pGameObject = CGoldCoin::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -714,6 +717,21 @@ HRESULT CScene_World::Ready_Layer_Item()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_Key", pGameObject), E_FAIL);
 
+	// Weapon ================
+	// Warrior
+	pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_WarriorWeapon", pGameObject), E_FAIL);
+
+	// Mage
+	pGameObject = CMageWeapon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_MageWeapon", pGameObject), E_FAIL);
+
+	// Ninja
+	pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_NinjaeWeapon", pGameObject), E_FAIL);
 
 
 	return S_OK;

@@ -87,15 +87,18 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
-	// Play
+
+	// Gold Coin TrancformCom 
 	CTransform* pCoinTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::ITEM, L"Item_GoldCoin", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
 	_vec3 vGoldCoinScale = pCoinTransform->Get_Scale();
 
 
 
+	// Dead Condition
 	if (m_tStatInfo.fCurHP <= 0.f)
 	{
 		m_tStatInfo.bDead = true;
@@ -111,7 +114,6 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	}
 
 
-
 	// Hit state return 
 	if (m_bHit == true)
 	{
@@ -124,7 +126,6 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 		}
 
 	}
-
 
 	return iExit;
 }
