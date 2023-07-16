@@ -39,10 +39,8 @@ HRESULT CHedgehog::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 100.f;
-	m_tStatInfo.fGold = 10.f;
+	m_tStatInfo.fCurHP = 20.f;
 	
-
 
 	// 원래 이미지 크기
 	m_vImageSize.x = 0.73f;  // 100px = 1.f
@@ -101,19 +99,7 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
 
-	cout << m_tStatInfo.fCurHP << endl;
-	if (m_tStatInfo.fCurHP <= 0.f)
-	{
-		m_tStatInfo.bDead = true;
-	}
 
-	if (true == m_tStatInfo.bDead)
-	{
-		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
-		CEventMgr::GetInstance()->Delete_Obj(this);
-		
-	}
 
 
 	// Jumping 

@@ -38,6 +38,9 @@ HRESULT CGoldCoin::Ready_Object()
 	 
 	// Transform Setting
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 1.5f, m_vImageSize.y * 1.5f, m_vImageSize.z });
+
+
+
 	m_pTransformCom->Set_Pos(_vec3{ 80.f, m_pTransformCom->Get_Scale().y, 30.f });
 	
 	m_fJumpingSpeed = 0.01;
