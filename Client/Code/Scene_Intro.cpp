@@ -23,27 +23,22 @@ HRESULT CScene_Intro::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
 
+	// 텍스처 보간
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-	/*
-		*	텍스처 왜곡 보간 함수
-	
-		*	인자 : 텍스처 스테이지, 필터 옵션, 필터링 옵션
-	
-		*	D3DSAMP_MINFILTER -> 확대 필터
-			D3DSAMP_MAGFILTER -> 축소 필터
-	*/
+	// 로딩 쓰레드 생성
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode()) 
+	{
+		m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE);
+	}
+	else if ((PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()))
+	{
+		m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE);
+	}
 
-	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
-		m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::STAGE);
-	else if((PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()))
-		m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::TOOL);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
-
-	// 로고나 큰 사진 출력시 뷰 스페이스 전환이나 투영을 지워야 출력 효율이 상승한다.
 	
 	return S_OK;
 }
@@ -52,7 +47,7 @@ Engine::_int CScene_Intro::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Scene(fTimeDelta);
 
-	if (TRUE == m_pLoading->Get_Finish()) // 스테이지 로딩 쓰레드
+	if (TRUE == m_pLoading->Get_Finish()) 
 	{
 		CScene* pScene = nullptr; 
 
@@ -60,6 +55,7 @@ Engine::_int CScene_Intro::Update_Scene(const _float& fTimeDelta)
 			pScene = CScene_World::Create(m_pGraphicDev);
 		else if ((PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()))
 			pScene = CScene_Tool::Create(m_pGraphicDev);
+
 		NULL_CHECK_RETURN(pScene, -1);
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
@@ -134,7 +130,6 @@ HRESULT CScene_Intro::Ready_Layer_Environment()
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// BackGround
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
@@ -144,14 +139,3 @@ HRESULT CScene_Intro::Ready_Layer_Environment()
 	return S_OK;
 }
 
-HRESULT CScene_Intro::Ready_Layer_UI()
-{
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	Engine::CGameObject*		pGameObject = nullptr;
-
-	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
-
-	return S_OK;
-}

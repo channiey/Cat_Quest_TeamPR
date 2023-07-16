@@ -88,14 +88,8 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 
-	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 
+	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
-
-
-	// Gold Coin TrancformCom 
-	CTransform* pCoinTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::ITEM, L"Item_GoldCoin", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	_vec3 vGoldCoinScale = pCoinTransform->Get_Scale();
-
 
 
 	// Dead Condition
@@ -108,11 +102,11 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	{
 		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
 		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
-		GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, vGoldCoinScale.y, m_pTransformCom->Get_Info(INFO_POS).z });
+
+		GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 		CEventMgr::GetInstance()->Delete_Obj(this);
 
 	}
-
 
 	// Hit state return 
 	if (m_bHit == true)
@@ -124,7 +118,6 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 			m_bHit = false;
 			fAccTime = 0.f;
 		}
-
 	}
 
 	return iExit;

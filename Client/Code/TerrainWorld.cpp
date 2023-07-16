@@ -26,7 +26,7 @@ HRESULT CTerrainWorld::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3(100.f, 0.f, 100.f));
+	m_pTransformCom->Set_Scale(_vec3(220.f, 0.f, 220.f));
 	m_pTransformCom->Set_Pos(_vec3{ m_pTransformCom->Get_Scale().x,
 									m_pTransformCom->Get_Scale().y,  
 									m_pTransformCom->Get_Scale().z });

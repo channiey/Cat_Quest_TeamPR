@@ -1,3 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx9.h"
@@ -9,19 +12,27 @@
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi")
 
+#include "Export_Function.h"
+
 #include "stdafx.h"
 #include "MainApp.h"
 #include "InputDev.h"
 #include "Calculator.h"
 
-// 터레인
-#include "Export_Function.h"
-#include "TerrainTex.h"
-#include "TerrainWorld.h"
+#include "Tool_Camera.h"
+#include "CameraTargetObj.h"
 #include "TerrainTool.h"
-#include "TerrainIceWorld.h"
-#include "TerrainIceDungeon.h"
-// 빌딩(집)
+#include <iostream>
+
+
+
+// Environment
+#include "Terrain.h"
+#include "TerrainWorld.h"
+#include "Bush.h"
+#include "Mountain.h"
+#include "Dungeon.h"
+// 빌딩
 #include "House1.h"
 #include "House2.h"
 #include "House3.h"
@@ -70,6 +81,24 @@
 #include "Chest_Cosmetic.h"
 #include "Chest_Gold.h"
 #include "Chest_Regular.h"
+
+#include "Player.h"
+#include "Player_Camera.h"
+#include "Tool_Camera.h"
+#include "EventMgr.h"
+// UI
+#include "LevelUI.h"
+#include "TabUI.h"
+#include "RingUI.h"
+#include "ZoomUI.h"
+#include "HpUI.h"
+#include "ManaUI.h"
+#include "DefUI.h"
+#include "IndicatorUI.h"
+#include "FieldSkillUI.h"
+#include "DialogUI.h"
+#include "Inventory.h"
+
 // NPC
 #include "Npc_King.h"
 #include "Npc_Mage.h"
@@ -77,9 +106,12 @@
 #include "Npc_Soldier.h"
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
+#include "QuestMgr.h"
+
 // Monster
 #include "ExpUI.h"
 #include "EnterUI.h"
+#include "CuteMonster.h"
 #include "Hedgehog.h"
 #include "LineObject.h"
 #include "Bat.h"
@@ -88,13 +120,40 @@
 #include "Fox.h"
 #include "Wyvern.h"
 #include "Squirrel.h"
-#include "Player.h"
-#include "CuteMonster.h"
-#include "Environment.h"
-#include "Tool_Camera.h"
-#include "CameraTargetObj.h"
-#include <iostream>
 
+// Effect
+#include "Cloud1.h"
+#include "Cloud2.h"
+#include "Cloud3.h"
+
+#include "Effect_Cast_Blue.h"
+#include "Effect_Cast_Yellow.h"
+#include "Effect_Cast_Purple.h"
+
+#include "Effect_SpellBurst_Blue.h"
+#include "Effect_SpellBurst_Purple.h"
+#include "Effect_SpellBurst_Yellow.h"
+
+#include "Effect_Lightning.h"
+#include "Effect_Range_BigCircle.h"
+
+#include "Effect_Fire.h"
+#include "Effect_Thunder.h"
+
+// Item
+#include "GoldCoin.h"
+#include "ExpCoin.h"
+#include "Key.h"
+#include "WarriorWeapon.h"
+#include "MageWeapon.h"
+#include "NinjaWeapon.h"
+
+// Generator
+#include "PollenGenerator.h"
+
+
+TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Dynamic_Obj.dat";
+TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test.dat";
 
 #pragma region Global
 
@@ -170,6 +229,15 @@ HRESULT CImGuiMgr::ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	return S_OK;
 }
 
+HRESULT CImGuiMgr::ImGui_SetDevice(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	m_pGraphicDev = pGraphicDev;
+	if (m_pGraphicDev)
+		m_pGraphicDev->AddRef();
+
+	return S_OK;
+}
+
 void CImGuiMgr::ImGui_Update()
 {
 	// Init (이벤트 매니저 생성 전)
@@ -180,9 +248,8 @@ void CImGuiMgr::ImGui_Update()
 		Set_UnActive_Origin();	// 모든 프리팹 오브젝트 비활성화
 
 		// DB 로드
-		Load_Scene();
+		Load_Scene(*szLoadPath);
 	}
-
 
 	// ImGui
 	ImGui_ImplDX9_NewFrame();
@@ -271,37 +338,37 @@ void CImGuiMgr::Show_Header_Scene()
 
 	if (ImGui::BeginListBox(" ", ImVec2(280.f, 180.f)))
 	{
-		for (int i = 0; i < 1; ++i) // 맵의 사이즈로 바뀌어야 한다.
-		{
-			CGameObject* pTerrain = nullptr;
-			wstring imgPath;
+		//for (int i = 0; i < 1; ++i) // 맵의 사이즈로 바뀌어야 한다.
+		//{
+		//	CGameObject* pTerrain = nullptr;
+		//	wstring imgPath;
 
-			for (auto& iter : g_vecCloneObj)
-			{
-				if (OBJ_TYPE::TERRAIN == iter->Get_Type())
-				{
-					imgPath = dynamic_cast<CTexture*>(iter->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
-					
-					if (ImGui::ImageButton(LoadImageFile(wstring_to_utf8(imgPath).c_str()), ImVec2(50.f, 50.f))) // 이미지 출력
-					{
-						iCurIdx_Scene = i;
-						g_iSelLayer = iCurIdx_Scene;
-					}
+		//	for (auto& iter : g_vecCloneObj)
+		//	{
+		//		if (OBJ_TYPE::TERRAIN == iter->Get_Type())
+		//		{
+		//			imgPath = dynamic_cast<CTexture*>(iter->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
+		//			
+		//			if (ImGui::ImageButton(LoadImageFile(wstring_to_utf8(imgPath).c_str()), ImVec2(50.f, 50.f))) // 이미지 출력
+		//			{
+		//				iCurIdx_Scene = i;
+		//				g_iSelLayer = iCurIdx_Scene;
+		//			}
 
-					break;
-				}
-			}
+		//			break;
+		//		}
+		//	}
 
-		
+		//
 
-			if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
-			{
-				ImGui::SameLine();
-				iCurIdxRow++;
-			}
-			else
-				iCurIdxRow = 0;
-		}
+		//	if (iCurIdxRow < g_iImagPerRow - 1) // 정렬
+		//	{
+		//		ImGui::SameLine();
+		//		iCurIdxRow++;
+		//	}
+		//	else
+		//		iCurIdxRow = 0;
+		//}
 		ImGui::EndListBox();
 	}
 }
@@ -419,15 +486,13 @@ HRESULT CImGuiMgr::Set_ImgPath()
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::MONSTER].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
 
-	
-	
 	// Item
 	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Get_ObjectMap();
 	if (mapObj.empty())  return E_FAIL;	
 
 	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
 	{
-		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::ITEM].push_back(iter->second);
 
 		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
 			continue;
@@ -436,20 +501,20 @@ HRESULT CImGuiMgr::Set_ImgPath()
 		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::ITEM].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
 	}
 
-	// Line
-	mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::LINE)->Get_ObjectMap();
-	if (mapObj.empty())  return E_FAIL;
+	//// Line
+	//mapObj = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::LINE)->Get_ObjectMap();
+	//if (mapObj.empty())  return E_FAIL;
 
-	for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
-	{		
-		g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
+	//for (auto iter = mapObj.begin(); iter != mapObj.end(); ++iter)
+	//{		
+	//	g_vecObjOrigin[(UINT)IMG_OBJ_TYPE::TERRAIN].push_back(iter->second);
 
-		if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
-			continue;
+	//	if (nullptr == iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC)) 
+	//		continue;
 
-		wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
-		g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::LINE].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
-	}
+	//	wstring imgPath = dynamic_cast<CTexture*>(iter->second->Get_Component(COMPONENT_TYPE::TEXTURE, ID_STATIC))->Get_TexturePath();
+	//	g_vecObjImgPath[(UINT)IMG_OBJ_TYPE::LINE].push_back(LoadImageFile(wstring_to_utf8(imgPath).c_str()));
+	//}
 	
 	return S_OK;
 }
@@ -545,12 +610,12 @@ HRESULT CImGuiMgr::Load_All_Scene()
 	return S_OK;
 }
 
-HRESULT CImGuiMgr::Load_Scene()
+HRESULT CImGuiMgr::Load_Scene(TCHAR filePath)
 {
 	// 파일에 저장되어 있는 데이터를 통해 오브젝트를 생성하여 g_vecCloneObj 및 매니지먼트 레이어에 추가(이벤트매니저)한다.
 
 	// 파일 생성
-	HANDLE	hFile = CreateFile(L"../Bin/Data/Level/Test.dat",
+	HANDLE	hFile = CreateFile(szLoadPath,
 		GENERIC_READ, 
 		NULL,
 		NULL,
@@ -585,7 +650,9 @@ HRESULT CImGuiMgr::Load_Scene()
 		if (nullptr == pClone) continue;
 		
 		// 벡터와 매니지먼트 모두 푸시
-		g_vecCloneObj.push_back(pClone); // 저장용
+		if(PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+			g_vecCloneObj.push_back(pClone); // 저장용
+
 		CEventMgr::GetInstance()->Add_Obj(pClone->Get_Name(), pClone); // 렌더용
 		
 		// 저장된 포지션으로 세팅
@@ -604,7 +671,7 @@ HRESULT CImGuiMgr::Save_Scene()
 	// g_vecCloneObj를 모두 파일로 저장한다.
 
 	// 파일 생성
-	HANDLE	hFile = CreateFile(L"../Bin/Data/Level/Test.dat",
+	HANDLE	hFile = CreateFile(szSavePath,
 		GENERIC_WRITE,
 		NULL,
 		NULL,
@@ -624,16 +691,20 @@ HRESULT CImGuiMgr::Save_Scene()
 	_vec3		vPos{}; 
 	OBJ_TYPE	eType = OBJ_TYPE::TYPEEND;
 	OBJ_ID		eID = OBJ_ID::TYPEEND;
+	wchar_t* szName = L"";
+
 
 	// 저장
 	for (auto& iter : g_vecCloneObj)
 	{
 		eType = iter->Get_Type();
 		eID = iter->Get_ID();
+		wcscpy(szName, iter->Get_Name());
 
 		WriteFile(hFile, &(iter->Get_Transform()->Get_Info(INFO_POS)), sizeof(_vec3), &dwByte, nullptr);
 		WriteFile(hFile, &(eType), sizeof(OBJ_TYPE), &dwByte, nullptr);
 		WriteFile(hFile, &(eID), sizeof(OBJ_ID), &dwByte, nullptr);
+		//WriteFile(hFile, &(szName), sizeof(wcslen(szName) * sizeof(wchar_t)), &dwByte, nullptr);
 	}
 
 	CloseHandle(hFile);
@@ -709,10 +780,10 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 	// Terrain
 	case Engine::OBJ_ID::TERRAIN_WORLD:
 		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::TERRAIN_DUNGEON:
-		pClone = CTerrainIceDungeon::Create(m_pGraphicDev); break;
-	case Engine::OBJ_ID::TERRAIN_ICEWORLD:
-		pClone = CTerrainIceWorld::Create(m_pGraphicDev); break;
+	//case Engine::OBJ_ID::TERRAIN_DUNGEON:
+	//	pClone = CTerrainIceDungeon::Create(m_pGraphicDev); break;
+	//case Engine::OBJ_ID::TERRAIN_ICEWORLD:
+	//	pClone = CTerrainIceWorld::Create(m_pGraphicDev); break;
 
 
 
@@ -721,11 +792,11 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 
 	// Environment - Chest
 	case Engine::OBJ_ID::ENVIRONMENT_CHEST_COSMETIC:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+		pClone = CChest_Cosmetic::Create(m_pGraphicDev); break;
 	case Engine::OBJ_ID::ENVIRONMENT_CHEST_GOLD:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+		pClone = CChest_Gold::Create(m_pGraphicDev); break;
 	case Engine::OBJ_ID::ENVIRONMENT_CHEST__REGULAR:
-		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
+		pClone = CChest_Regular::Create(m_pGraphicDev); break;
 
 	// Environment - Building - House
 	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_1:
@@ -818,8 +889,7 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 	case Engine::OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_TEMPLE:
 		pClone = CDungeon_Temple::Create(m_pGraphicDev); break;
 
-
-
+	
 
 	/* ========================================= Monster ========================================*/
 
@@ -862,7 +932,18 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 		pClone = CNpc_Soldier::Create(m_pGraphicDev); break;
 
 
-
+	case Engine::OBJ_ID::ITEM_GOLD:
+		pClone = CGoldCoin::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ITEM_EXP:
+		pClone = CExpCoin::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ITEM_KEY:
+		pClone = CKey::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ITEM_WARRIOR:
+		pClone = CWarriorWeapon::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ITEM_NINJA:
+		pClone = CNinjaWeapon::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ITEM_MAGE:
+		pClone = CMageWeapon::Create(m_pGraphicDev); break;
 
 	/* ========================================= Line ========================================*/
 

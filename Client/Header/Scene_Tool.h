@@ -16,6 +16,7 @@ public:
 
 private:
 	HRESULT				Ready_Layer_Camera();
+
 	HRESULT				Ready_Layer_Terrain();
 	HRESULT				Ready_Layer_Environment();
 	HRESULT				Ready_Layer_Monster();

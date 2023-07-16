@@ -20,6 +20,7 @@ private:
 	
 public: /* Life Cycle */
 	HRESULT						ImGui_SetUp(LPDIRECT3DDEVICE9 pGraphicDev); 
+	HRESULT						ImGui_SetDevice(LPDIRECT3DDEVICE9 pGraphicDev);
 	void						ImGui_Update();
 	void						ImGui_Render();
 
@@ -44,7 +45,9 @@ private: /* File Save Load */
 	HRESULT						Change_Scene();
 
 	HRESULT						Load_All_Scene(); 
-	HRESULT						Load_Scene();
+
+public:
+	HRESULT						Load_Scene(TCHAR filePath);
 
 private: /* Etc */
 	const _vec3&				Get_ClickPos();

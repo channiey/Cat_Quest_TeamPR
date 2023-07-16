@@ -5,7 +5,7 @@ IMPLEMENT_SINGLETON(CManagement)
 /* 툴모드로 시작할지, 게임모드로 시작할지 m_ePlayMode(PLAY_MODE::GAME) 매개변수로 결정하면 됩니다. */
 /* 디버그 모드로 시작하면, 현재 FPS, 플레이어 위치, 콜라이더 등이 렌더됩니다 'P'키로 런타임중 전환이 가능합니다. */
 CManagement::CManagement() : m_pScene(nullptr)
-			, m_ePlayMode(PLAY_MODE::GAME)
+			, m_ePlayMode(PLAY_MODE::TOOL)
 			, m_eGameStatus(GAME_STATUS::PLAYING)
 			, m_bDebug(FALSE)
 {
@@ -34,10 +34,10 @@ void CManagement::LateUpdate_Scene()
 
 void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	Engine::Render_GameObject(pGraphicDev); // 렌더러 싱글톤의 렌더 함수를 호출한다 -> 렌더 그룹에 추가된 오브젝트들 렌더
+	Engine::Render_GameObject(pGraphicDev);
 
 	if (m_pScene)
-		m_pScene->Render_Scene();			// 각 씬의 디버그용 렌더 함수를 호출한다.
+		m_pScene->Render_Scene();			
 }
 
 CGameObject * CManagement::Get_GameObject(const OBJ_TYPE & _eObjType, const _tchar * pObjTag)

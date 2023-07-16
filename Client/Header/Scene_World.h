@@ -15,14 +15,13 @@ public:
 	virtual void		Render_Scene() override;
 
 private:
-	HRESULT				Ready_Layer_Environment	();
 	HRESULT				Ready_Layer_Camera();
+	HRESULT				Ready_Layer_Environment	();
 	HRESULT				Ready_Layer_UI();
 	HRESULT				Ready_Layer_Player();
 	HRESULT				Ready_Layer_Npc();
 	HRESULT				Ready_Layer_Monster();
 	HRESULT				Ready_Layer_Item();
-	HRESULT				Ready_Layer_Projectile();
 	HRESULT				Ready_Layer_Effect();
 	HRESULT				Ready_Layer_Etc();
 

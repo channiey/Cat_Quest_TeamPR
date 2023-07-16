@@ -19,9 +19,14 @@ public:
 
 public:
 	HRESULT						Ready_Loading(LOADING_THREAD_TYPE eLoadingID);
-	_uint						Loading_For_World();
-	_uint						Loading_For_Tool();
-	_uint						Loading_For_Boss();
+
+private:
+	_uint						Loading_For_ComponentAndTexture();
+
+	_uint						Loading_For_Level_1() {}
+	_uint						Loading_For_Level_2() {}
+	_uint						Loading_For_Level_3() {}
+	_uint						Loading_For_Level_4() {}
 
 private:
 	HANDLE						m_hThread;

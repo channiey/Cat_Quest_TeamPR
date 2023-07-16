@@ -19,7 +19,6 @@ public:
 private:
 	HRESULT				Ready_Prototype();
 	HRESULT				Ready_Layer_Environment();
-	HRESULT				Ready_Layer_UI();
 
 private:
 	CLoadingThread*		m_pLoading;

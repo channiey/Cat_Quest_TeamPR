@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "..\..\Header\Texture.h"
 
 #include "GameObject.h"
@@ -6,6 +7,11 @@
 #include <Windows.h>
 #include <Shlwapi.h>
 #pragma comment( lib, "shlwapi.lib" )
+#include <string.h>
+
+#include <mbstring.h>
+
+#include "Management.h"
 
 CTexture::CTexture()
 {
@@ -64,27 +70,34 @@ HRESULT CTexture::Ready_Texture(TEXTUREID eType, const _tchar * pPath, const _ui
 		wstring wstrPath(pPath);
 		string strPath(wstrPath.begin(), wstrPath.end());
 		string strFind = "%";
-
-		if (strPath.find(strFind) != string::npos) // 해당 문자열 존재
+		
+		if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
 		{
-			/*int find = strPath.rfind("/") + 1;
-			string filePath = strPath.substr(0, find);
-			filePath += "0.png";
+			if (strPath.find(strFind) != string::npos) // 해당 문자열 존재
+			{
+				/*int find = strPath.rfind("/") + 1;
+				string filePath = strPath.substr(0, find);
+				filePath += "0.png";
 			
-			wstrPath.assign(filePath.begin(), filePath.end());*/
+				wstrPath.assign(filePath.begin(), filePath.end());*/
 
-			//if(m_vecPathForImGui.empty())
-			//	m_vecPathForImGui.push_back(szFileName); // 이거 살리고
-			//int k = 0;
-		}
-		else
-		{
-			//if (m_vecPathForImGui.empty())
-			//	m_vecPathForImGui.push_back(pPath); // 이거 살리고
-			//int k = 0;
+				TCHAR*		szNewFileName = new TCHAR[sizeof(TCHAR) * 128];
+
+				wcscpy(szNewFileName, szFileName);
+
+				if(m_vecPathForImGui.empty())
+					m_vecPathForImGui.push_back(szNewFileName); // 이거 살리고
+				int k = 0;
+			}
+			else
+			{
+				if (m_vecPathForImGui.empty())
+					m_vecPathForImGui.push_back(pPath); // 이거 살리고
+				int k = 0;
+			}
 		}
 		m_vecTexture.push_back(pTexture);
-		m_vecPathForImGui.push_back(pPath); // 이거 지우고
+		//m_vecPathForImGui.push_back(pPath); // 이거 지우고
 
 	}
 
@@ -126,6 +139,13 @@ CComponent * CTexture::Clone(CGameObject* _pOwnerObject)
 
 void CTexture::Free()
 {
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		for (auto& iter : m_vecPathForImGui)
+		{
+			//delete [] iter;
+		}
+	}
 	for_each(m_vecTexture.begin(), m_vecTexture.end(), CDeleteObj());
 	m_vecTexture.clear();
 

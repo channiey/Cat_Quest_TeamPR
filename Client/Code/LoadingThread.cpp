@@ -25,13 +25,10 @@ unsigned int CLoadingThread::Thread_Main(void * pArg)
 
 	switch (pLoading->Get_LoadingID())
 	{
-	case Engine::LOADING_THREAD_TYPE::STAGE:
-		iFlag = pLoading->Loading_For_World();
-		break;
-	case Engine::LOADING_THREAD_TYPE::TOOL:
-		iFlag = pLoading->Loading_For_World();
-		break;
-	case Engine::LOADING_THREAD_TYPE::TYPEEND:
+	case Engine::LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE:
+	{
+		iFlag = pLoading->Loading_For_ComponentAndTexture();
+	}
 		break;
 	default:
 		break;
@@ -53,15 +50,27 @@ HRESULT CLoadingThread::Ready_Loading(LOADING_THREAD_TYPE eLoadingID)
 	return S_OK;
 }
 
-_uint CLoadingThread::Loading_For_World()
+_uint CLoadingThread::Loading_For_ComponentAndTexture()
 {
-#pragma region Default
+#pragma region Component
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::CAMERA,
 		CCamera::Create(m_pGraphicDev, &g_hWnd)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::TRANSFORM,
 		CTransform::Create(m_pGraphicDev)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::STATEMACHINE,
+		CStateMachine::Create(m_pGraphicDev)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::ANIMATOR,
+		CAnimator::Create(m_pGraphicDev)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::AICOM,
+		CAIComponent::Create(m_pGraphicDev)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::RIGIDBODY,
+		CRigidBody::Create(m_pGraphicDev)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_TEX,
 		CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
@@ -81,17 +90,6 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::COL_SPHERE,
 		CSphereCollider::Create(m_pGraphicDev)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::STATEMACHINE,
-		CStateMachine::Create(m_pGraphicDev)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::ANIMATOR,
-		CAnimator::Create(m_pGraphicDev)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::AICOM,
-		CAIComponent::Create(m_pGraphicDev)), E_FAIL);
-	
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::RIGIDBODY,
-		CRigidBody::Create(m_pGraphicDev)), E_FAIL);
 
 #pragma endregion
 
@@ -103,7 +101,7 @@ _uint CLoadingThread::Loading_For_World()
 
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_GW",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/GrassWorld.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_World.png")), E_FAIL);
 
  	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_IW",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceWorld.png")), E_FAIL);
@@ -111,7 +109,6 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_ID",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceDungeon.png")), E_FAIL);
 
-	// ========================= Environment =========================
 #pragma region Building
 
 	// House
@@ -293,6 +290,7 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_2.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Colud3",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_3.png")), E_FAIL);
+
 	// 구름 그림자
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Colud1_Shadow",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_1_shadow.png")), E_FAIL);
@@ -300,24 +298,27 @@ _uint CLoadingThread::Loading_For_World()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_2_shadow.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Colud2_Shadow",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Cloud/cloud_3_shadow.png")), E_FAIL);
+
 	// 플레이어 이동 효과
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Move_Dust",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/dust/%d.png", 5)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Move_Water",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/watersplash/%d.png", 4)), E_FAIL);
+
 	// 그림자
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Shadow_Creature",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Shadow/cat_shadow.png")), E_FAIL);
+
 	// 꽃가루
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Pollen",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Pollen/Pollen.png")), E_FAIL);
+
 	// 아이템 반짝이
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_ItemSparkle",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Item/Sparkle.png")), E_FAIL);
 
 
 #pragma endregion
-	// ===============================================================
 
 #pragma endregion
 
@@ -566,16 +567,8 @@ _uint CLoadingThread::Loading_For_World()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Thunder",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Thunder/%d.png", 11)), E_FAIL); // 썬더 테스트
 
-	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Lightning",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/lightning/%d.png", 3)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_BigCircle_Orange",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/skillrange_orange.png")), E_FAIL);*/
-
 #pragma endregion
 
-
-#pragma endregion
 
 #pragma endregion
 
@@ -584,16 +577,6 @@ _uint CLoadingThread::Loading_For_World()
 	return 0;
 }
 
-_uint CLoadingThread::Loading_For_Tool()
-{
-	m_bFinish = true;
-
-	return 0;
-}
-_uint CLoadingThread::Loading_For_Boss()
-{
-	return _uint();
-}
 
 CLoadingThread * CLoadingThread::Create(LPDIRECT3DDEVICE9 pGraphicDev, LOADING_THREAD_TYPE eID)
 {

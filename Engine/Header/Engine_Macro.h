@@ -32,9 +32,14 @@ namespace Engine
 
 #define CAM_DEFAULT_DISTANCE		23.f
 
-#define	VTXCNTX						65
-#define VTXCNTZ						65
+#define	VTXCNTX						129
+#define VTXCNTZ						129
 #define VTXITV						3
+
+
+#define START_POS_WORLD_X			200.f;
+#define START_POS_WORLD_Z			200.f;
+
 
 	/*-------------------------------------------------------------------------------*/
 

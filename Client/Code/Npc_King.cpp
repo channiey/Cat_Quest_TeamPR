@@ -36,10 +36,10 @@ HRESULT CNpc_King::Ready_Object()
 
 	CEventMgr::GetInstance()->Add_Obj(L"Npc_King_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
-	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명1"));
+	/*m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명1"));
 	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"힘의 증명2"));
 	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"드라코스"));
-	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"죽음의 섬"));
+	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"죽음의 섬"));*/
 
 	// 현재는 사자왕이 최초의 퀘스트 발령자.
 	m_bReadyQuest = true;
