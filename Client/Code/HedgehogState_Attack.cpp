@@ -11,6 +11,8 @@ CHedgegohState_Attack::CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     , m_fPlayerTargetRange(0.f)
     , m_fAttackRange(0.f)
     , m_fPosShakeRange(0.f)
+    , m_fAddHeight(0.f)
+    , m_fAddRot(0.f)
 {
 }
 
@@ -32,9 +34,12 @@ HRESULT CHedgegohState_Attack::Ready_State(CStateMachine* pOwner)
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
+    m_fPosShakeRange = 1.f;
 
-    m_fPosShakeRange = 0.1f;
+    m_fPosShakeRange *= -0.2f;
 
+    m_fAddHeight += 1.f;
+    m_fAddRot += 0.5f;
     return S_OK;
 }
 
@@ -73,42 +78,39 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
  
+    //pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
+    // 
 
-    m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
-    
-    
-    pOwnerTransform->Set_Pos({ vOwnerPos.x +(-1 * m_fPosShakeRange), vOwnerPos.y, vOwnerPos.z });
+    //m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+    //
+    //m_fPosShakeRange *= -1.f;
+    //
 
-    if (m_fAccTime <= 1.f)
-    {
-       
-        m_fAccTime = 0.f;
-    }
+    //if (m_fAccTime <= 1.f)
+    //{
+    //    pOwnerTransform->Set_Dir(vec3.zero);
+    //}
+    //else if (m_fAccTime <= 2.f )
+    //{
+    //    pOwnerTransform->Set_Pos({ vOwnerPos.x + m_fPosShakeRange,  vOwnerPos.y, vOwnerPos.z });
+    //}
+    //else if (m_fAccTime <= 3.f)
+    //{
+    //    pOwnerTransform->Set_Rot({ 0, 0, m_fAddRot }, LOCAL);
+    //    pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
+    //}
+    //else if (m_fAccTime <= 4.f)
+    //{
+    //    pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
+    //    pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y , vOwnerPos.z });
+  
+    //}
 
-
-
-
-  /*  if (m_fShakeTime <= m_fAccTime)
-    {
-        Stop_Shake();
-        return;
-    }
-
-    _vec3 vShakeDelta{ _float(rand() % (_int)m_fIntensity),
-                            _float(rand() % (_int)m_fIntensity),
-                            0.f };
-
-    vShakeDelta *= 0.01f;
-
-    m_tVspace.Eye += vShakeDelta;
-
-    m_tVspace.LookAt += vShakeDelta;*/
-
-
-
-
-
-
+    //else
+    //{
+    //    m_fAccTime = 0.f;
+   
+    //}
 
 #pragma region State Change
     // Attack 우선순위
@@ -118,6 +120,8 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
     if (fPlayerDistance >= m_fChaseRange)
     {
         //cout << "chase  전이" << endl;
+        
+        pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
         pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
     }
@@ -126,10 +130,13 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
     if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
         //cout << "COMBACK  전이" << endl;
+        
+        pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
         pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::COMEBACK;
     }
 
+    
 
     return STATE_TYPE::MONATTACK;
 

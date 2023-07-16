@@ -29,7 +29,7 @@ HRESULT CWyvernState_Patrol::Ready_State(CStateMachine* pOwner)
     // 상태에 전이 조건 수치
     m_fPatrolRange = 1.f;  // Patrol 전이
     m_fChaseRange = 10.f; // Chase 전이
-    m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
+    m_fComeBackRange = 10.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 

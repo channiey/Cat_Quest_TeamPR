@@ -50,7 +50,7 @@ HRESULT CSquirrel::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f, m_vImageSize.y * 2.5f , m_vImageSize.z });
 
 
-	m_pTransformCom->Set_Pos(_vec3{ 170.f, m_pTransformCom->Get_Scale().y, 110.f });
+	m_pTransformCom->Set_Pos(_vec3{ 150.f, m_pTransformCom->Get_Scale().y, 110.f });
 
 	m_pTransformCom->Set_Dir({ 1.38f, 0.f, 1.46f });
 
