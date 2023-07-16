@@ -107,6 +107,9 @@ public:
 	void					Damaged(CGameObject* pObj);
 	_bool					IsHit() { return m_bHit; }
 	void					Set_Hit(_bool bHit) { m_bHit = bHit; }
+
+	CStateMachine*			Get_StateMachine() { return m_pStateMachineCom; }
+
 protected:
 	MOVEINFO				m_tMoveInfo;
 	STATINFO				m_tStatInfo;

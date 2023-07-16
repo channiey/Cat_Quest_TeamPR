@@ -39,7 +39,9 @@ HRESULT CBat::Ready_Object()
 	m_tMoveInfo.fRotSpeed = 1.f;
 
 	// Stat Info
-	//m_tStatInfo.bDead = false;
+	m_tStatInfo.bDead = false;
+	m_tStatInfo.fCurHP = 20.f;
+	m_tStatInfo.fMaxHP = 20.f;
 
 
 

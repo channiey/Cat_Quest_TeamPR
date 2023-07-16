@@ -31,8 +31,7 @@ public:
 	virtual void		OnCollision_Exit(CGameObject* _pColObj);
 
 public:
-	_bool&				Is_Hit()					{ return m_bHit; }
-	void				Set_HIt(const _bool& bHit)	{ m_bHit = bHit; }
+
 
 #pragma region Access Methood
 
@@ -110,6 +109,9 @@ private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
 
+	void				Regen_Def(const _float& fTimeDelta);
+	
+
 private:
 	MOVEINFO			m_tMoveInfo;
 	STATINFO			m_tStatInfo;
@@ -122,6 +124,8 @@ private:
 
 	_uint				m_iTempMode;
 
+	_float				m_fAccDef;
+
 	_bool				m_bHit;
 	_bool				m_bAttack;
 
@@ -131,9 +135,14 @@ private:
 	// >> :
 
 public:
-	_bool&	Is_Attack()				{ return m_bAttack; }
-	void	Set_Attack(_bool bBool) { m_bAttack = bBool; }
+	_bool&				Is_Attack()				{ return m_bAttack; }
+	void				Set_Attack(_bool bBool) { m_bAttack = bBool; }
 
+	void				Damaged(const _float& fDamage);
+	_bool&				Is_Hit() { return m_bHit; }
+	void				Set_HIt(const _bool& bHit) { m_bHit = bHit; }
+
+	void				Regen_HP(const _float& fHeal);
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

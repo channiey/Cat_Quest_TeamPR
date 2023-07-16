@@ -24,7 +24,7 @@ public:
 
 public:
 	_bool					Is_DialogEnd() { return m_bEnd; }
-	HRESULT					Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo);
+	HRESULT					Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo = SPIRITEMO_TYPE::HAPPY);
 
 private:
 	virtual HRESULT			Add_Component() override;

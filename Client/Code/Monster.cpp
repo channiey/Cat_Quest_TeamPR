@@ -5,6 +5,13 @@
 #include "RangeObj.h"
 #include "Player.h"
 
+#include "GoldCoin.h"
+#include "ExpCoin.h"
+
+#include "MonHpUI.h"
+
+
+
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
 	, m_pAICom(nullptr)
@@ -67,6 +74,10 @@ HRESULT CMonster::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
+	pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
+
 
 
 	return S_OK;
@@ -78,6 +89,24 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+
+
+	//cout << m_tStatInfo.fCurHP << endl;
+
+	if (m_tStatInfo.fCurHP <= 0.f)
+	{
+		m_tStatInfo.bDead = true;
+	}
+
+	if (true == m_tStatInfo.bDead)
+	{
+		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
+		GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x , m_pTransformCom->Get_Info(INFO_POS).y, m_pTransformCom->Get_Info(INFO_POS).z });
+		CEventMgr::GetInstance()->Delete_Obj(this);
+
+	}
+
 
 
 	// Hit state return 
@@ -117,6 +146,36 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 
 void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 {	
+	_vec3 _vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+
+	_float Distance = D3DXVec3Length(&(_vColPos - vOwnerPos));
+
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
+		{
+			fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+
+			if (fAccTime >= 1.f)
+			{
+				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);
+				fAccTime = 0.f;
+			}
+			
+		}
+	}
+	break;
+	default:
+	{
+
+	}
+	break;
+	}
 }
 
 void CMonster::OnCollision_Exit(CGameObject* _pColObj)
@@ -163,6 +222,9 @@ HRESULT CMonster::Add_Component()
 
 void CMonster::Damaged(CGameObject* pObj)
 {
+	_float fPlayerAD = static_cast<CPlayer*>(pObj)->Get_StatInfo().fAD;
+
+	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
 
 	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
@@ -171,6 +233,7 @@ void CMonster::Damaged(CGameObject* pObj)
 	}
 	m_pRigidBodyCom->Knock_Back(pObj, 220);
 	
+
 }
 
 

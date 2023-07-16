@@ -38,6 +38,15 @@ HRESULT CShadow_Monster::Ready_Object()
 _int CShadow_Monster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+
+	if (!m_pOwnerobject->Is_Active())
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);
+		return iExit;
+	}
+
+
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_fSize = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);

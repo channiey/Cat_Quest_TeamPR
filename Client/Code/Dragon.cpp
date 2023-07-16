@@ -33,6 +33,13 @@ HRESULT CDragon::Ready_Object()
 	m_tMoveInfo.fMoveSpeed = 10.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
+	// Stat Info
+	m_tStatInfo.bDead = false;
+	m_tStatInfo.fCurHP = 20.f;
+	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
+	m_tStatInfo.fAD = 10.f;
+
+
 
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ 12.f, 12.f, 2.f });
