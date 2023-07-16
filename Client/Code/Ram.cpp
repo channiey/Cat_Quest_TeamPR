@@ -153,14 +153,17 @@ void CRam::Render_Object()
 
 void CRam::OnCollision_Enter(CGameObject* _pColObj)
 {
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CRam::OnCollision_Stay(CGameObject* _pColObj)
 {
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CRam::OnCollision_Exit(CGameObject* _pColObj)
 {
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CRam::Add_Component()

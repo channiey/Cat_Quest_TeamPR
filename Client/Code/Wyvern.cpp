@@ -204,14 +204,17 @@ void CWyvern::Render_Object()
 
 void CWyvern::OnCollision_Enter(CGameObject* _pColObj)
 {
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CWyvern::OnCollision_Stay(CGameObject* _pColObj)
 {
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CWyvern::OnCollision_Exit(CGameObject* _pColObj)
 {
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CWyvern::Add_Component()

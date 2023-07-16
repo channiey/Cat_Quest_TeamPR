@@ -160,14 +160,17 @@ void CFox::Render_Object()
 
 void CFox::OnCollision_Enter(CGameObject* _pColObj)
 {
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CFox::OnCollision_Stay(CGameObject* _pColObj)
 {
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CFox::OnCollision_Exit(CGameObject* _pColObj)
 {
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CFox::Add_Component()

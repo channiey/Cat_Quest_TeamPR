@@ -155,14 +155,17 @@ void CSquirrel::Render_Object()
 
 void CSquirrel::OnCollision_Enter(CGameObject* _pColObj)
 {
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CSquirrel::OnCollision_Stay(CGameObject* _pColObj)
 {
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CSquirrel::OnCollision_Exit(CGameObject* _pColObj)
 {
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CSquirrel::Add_Component()

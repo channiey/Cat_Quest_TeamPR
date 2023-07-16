@@ -17,14 +17,22 @@ HRESULT CPlayerState_Hit::Ready_State(CStateMachine* pOwner)
 		m_pOwner = pOwner;
 
 	m_eState = STATE_TYPE::FRONT_HIT;
+	m_fAcc = 0.f;
 
 	return S_OK;
 }
 
 STATE_TYPE CPlayerState_Hit::Update_State(const _float& fTimeDelta)
 {
+	if (!m_bEnter)
+	{
+		m_bEnter = true;
+	}
+
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 
+	if (eState != m_eState)
+		m_bEnter = false;
 	return eState;
 }
 
@@ -39,7 +47,6 @@ void CPlayerState_Hit::Render_State()
 
 STATE_TYPE CPlayerState_Hit::Key_Input(const _float& fTimeDelta)
 {
-
 	return m_eState;
 }
 

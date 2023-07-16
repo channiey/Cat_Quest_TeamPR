@@ -32,6 +32,8 @@ protected:
 
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 
+	_bool					m_bEnter;
+
 	// State를 상속받는 상태클래스를 만들때 이걸 넣어주면 됨
 	/*static C(만들상태클래스)* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 	{

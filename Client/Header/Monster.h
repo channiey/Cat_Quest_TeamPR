@@ -96,11 +96,16 @@ public:
 	void			Set_MaxJumpY(_float MaxJumpY) { m_fMaxJumpY = MaxJumpY; }
 	void			Set_AccTime(_float AccTime) { fAccTime = AccTime; }
 
+
 #pragma endregion
 
 private:
 	HRESULT					Add_Component();
 
+public:
+	void					Damaged(CGameObject* pObj);
+	_bool					IsHit() { return m_bHit; }
+	void					Set_Hit(_bool bHit) { m_bHit = bHit; }
 protected:
 	MOVEINFO				m_tMoveInfo;
 	STATINFO				m_tStatInfo;
@@ -113,6 +118,7 @@ protected:
 	_float					m_fJumpingSpeed; 
 	_float					m_fMaxJumpY;
 	_vec3					m_vImageSize;
+	_bool					m_bHit;
 
 protected:
 

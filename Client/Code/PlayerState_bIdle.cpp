@@ -23,8 +23,19 @@ HRESULT CPlayerState_bIdle::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_bIdle::Update_State(const _float& fTimeDelta)
 {
+	if (!m_bEnter)
+	{
+		m_bEnter = true;
+	}
+
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
+		eState = STATE_TYPE::FRONT_HIT;
+
+
+	if (eState != m_eState)
+		m_bEnter = false;
 	return eState;
 }
 
@@ -53,6 +64,7 @@ STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
 		return STATE_TYPE::BACK_ATTACK;
+
 
 	return m_eState;
 }

@@ -127,14 +127,17 @@ void CDragon::Render_Object()
 
 void CDragon::OnCollision_Enter(CGameObject* _pColObj)
 {
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CDragon::OnCollision_Stay(CGameObject* _pColObj)
 {
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CDragon::OnCollision_Exit(CGameObject* _pColObj)
 {
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CDragon::Add_Component()

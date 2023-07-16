@@ -4,6 +4,8 @@
 
 #include "MoveDust.h"
 #include "MoveWater.h"
+#include "Player.h"
+
 CPlayerState_fWalk::CPlayerState_fWalk(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
 {
@@ -25,8 +27,20 @@ HRESULT CPlayerState_fWalk::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_fWalk::Update_State(const _float& fTimeDelta)
 {
+    if (!m_bEnter)
+    {
+        m_bEnter = true;
+    }
+
     STATE_TYPE eState = Key_Input(fTimeDelta);
 
+    if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
+    {
+        eState = STATE_TYPE::FRONT_HIT;
+    }
+
+    if (eState != m_eState)
+        m_bEnter = false;
     return eState;
 }
 

@@ -24,5 +24,8 @@ public:
 	static CPlayerState_Hit* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
+	_float							 m_fAcc;
+
+private:
 	virtual void	Free();
 };

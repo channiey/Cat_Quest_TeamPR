@@ -23,10 +23,18 @@ HRESULT CPlayerState_bRoll::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_bRoll::Update_State(const _float& fTimeDelta)
 {
+    if (!m_bEnter)
+    {
+        m_bEnter = true;
+    }
+
     m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 60.f);
 
     if (m_pOwner->Is_AnimationEnd())
+    {
         return STATE_TYPE::BACK_IDLE;
+        m_bEnter = false;
+    }
     else
         return m_eState;
 }
