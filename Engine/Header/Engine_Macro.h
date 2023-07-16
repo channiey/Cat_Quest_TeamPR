@@ -23,7 +23,7 @@ namespace Engine
 #define DF_RB_KNOCKUP				100.f
 
 #define	WINCX						1280
-#define	WINCY						700
+#define	WINCY						720
 
 #define CAM_DEFAULT_DISTANCE		23.f
 
