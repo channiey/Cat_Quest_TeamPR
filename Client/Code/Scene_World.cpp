@@ -843,37 +843,37 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 #pragma region Chan
 
-	pGameObject = CEffect_Cast_Blue::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Blue", pGameObject), E_FAIL);
+	//pGameObject = CEffect_Cast_Blue::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Blue", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_Cast_Purple::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Purple", pGameObject), E_FAIL);
+	//pGameObject = CEffect_Cast_Purple::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Purple", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_Cast_Yellow::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Yellow", pGameObject), E_FAIL);
+	//pGameObject = CEffect_Cast_Yellow::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Cast_Yellow", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_SpellBrust_Blue::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Blue", pGameObject), E_FAIL);
+	//pGameObject = CEffect_SpellBrust_Blue::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Blue", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_SpellBrust_Purple::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Purple", pGameObject), E_FAIL);
+	//pGameObject = CEffect_SpellBrust_Purple::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Purple", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_SpellBrust_Yellow::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Yellow", pGameObject), E_FAIL);
+	//pGameObject = CEffect_SpellBrust_Yellow::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Spellburst_Yellow", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_Lightning::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Lightning", pGameObject), E_FAIL);
+	//pGameObject = CEffect_Lightning::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Lightning", pGameObject), E_FAIL);
 
-	pGameObject = CEffect_Range_BigCircle::Create(m_pGraphicDev, nullptr);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Range_BigCircle_Orange", pGameObject), E_FAIL);
+	//pGameObject = CEffect_Range_BigCircle::Create(m_pGraphicDev, nullptr);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Range_BigCircle_Orange", pGameObject), E_FAIL);
 
 	pGameObject = CEffect_Fire::Create(m_pGraphicDev, nullptr);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
