@@ -5,16 +5,7 @@
 
 namespace Engine
 {
-#define	VK_MAX			0xff
-
-#define	WINCX				1280
-#define	WINCY				720
-
-#define CAM_DEFAULT_DISTANCE 21.5f
-
-#define	VTXCNTX				65
-#define VTXCNTZ				65
-#define VTXITV				3
+#define	VK_MAX				0xff
 
 #define	MIN_STR				64
 #define	MAX_STR				256
@@ -23,11 +14,24 @@ namespace Engine
 
 #define NPC_IDLE_FRAME      8
 
-#define	DF_RB_KNOCKBACK		500.f
-#define DF_RB_KNOCKUP		100.f
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
-#define	DF_CAMERA_SHAKE_INTENSITY 15.f
-#define	DF_CAMERA_SHAKE_TIME 0.13f
+#define	DF_CAMERA_SHAKE_INTENSITY	12.f
+#define	DF_CAMERA_SHAKE_TIME		0.13f
+
+#define	DF_RB_KNOCKBACK				500.f
+#define DF_RB_KNOCKUP				100.f
+
+#define	WINCX						1280
+#define	WINCY						700
+
+#define CAM_DEFAULT_DISTANCE		23.f
+
+#define	VTXCNTX						65
+#define VTXCNTZ						65
+#define VTXITV						3
+
+	/*-------------------------------------------------------------------------------*/
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\

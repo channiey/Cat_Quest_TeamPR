@@ -143,6 +143,7 @@ HRESULT CPlayer::Ready_Object()
 	{
 		CCameraMgr::GetInstance()->Set_Follow(this);
 		CCameraMgr::GetInstance()->Set_LookAt(this);
+		CCameraMgr::GetInstance()->Set_ViewSpace();
 	}
 
 	// 테스트용
@@ -161,17 +162,8 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	// << : Test : Rigidbody KnockBack / Camera Shake
+	// << : Test : Camera Shake
 
-	if (CInputDev::GetInstance()->Key_Down(VK_RIGHT))
-		m_pRigidBodyCom->Knock_Back(vec3.right);
-	if (CInputDev::GetInstance()->Key_Down(VK_LEFT))
-		m_pRigidBodyCom->Knock_Back(vec3.left);
-	if (CInputDev::GetInstance()->Key_Down(VK_UP))
-		m_pRigidBodyCom->Knock_Back(vec3.forward);
-	if (CInputDev::GetInstance()->Key_Down(VK_DOWN))
-		m_pRigidBodyCom->Knock_Back(vec3.back);
-	
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
 		CCameraMgr::GetInstance()->Shake_Camera();
 	
