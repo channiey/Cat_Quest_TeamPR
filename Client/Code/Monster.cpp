@@ -5,6 +5,11 @@
 #include "RangeObj.h"
 #include "Player.h"
 
+#include "GoldCoin.h"
+#include "ExpCoin.h"
+
+
+
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
 	, m_pAICom(nullptr)
@@ -78,6 +83,24 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+
+
+	//cout << m_tStatInfo.fCurHP << endl;
+
+	if (m_tStatInfo.fCurHP <= 0.f)
+	{
+		m_tStatInfo.bDead = true;
+	}
+
+	if (true == m_tStatInfo.bDead)
+	{
+		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
+		GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x , m_pTransformCom->Get_Info(INFO_POS).y, m_pTransformCom->Get_Info(INFO_POS).z });
+		CEventMgr::GetInstance()->Delete_Obj(this);
+
+	}
+
 
 
 	// Hit state return 
@@ -163,6 +186,9 @@ HRESULT CMonster::Add_Component()
 
 void CMonster::Damaged(CGameObject* pObj)
 {
+	_float fPlayerAD = static_cast<CPlayer*>(pObj)->Get_StatInfo().fAD;
+
+	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
 
 	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
@@ -171,6 +197,7 @@ void CMonster::Damaged(CGameObject* pObj)
 	}
 	m_pRigidBodyCom->Knock_Back(pObj, 220);
 	
+
 }
 
 

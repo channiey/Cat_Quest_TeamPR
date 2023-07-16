@@ -8,7 +8,11 @@
 #include "HedgehogState_ComeBack.h"
 #include "HedgehogState_Attack.h"
 
+// Shadow
 #include "Shadow_Monster.h"
+
+// Itme
+#include "GoldCoin.h"
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
@@ -34,9 +38,9 @@ HRESULT CHedgehog::Ready_Object()
 	m_tMoveInfo.fRotSpeed	= 1.f;
 
 	// Stat Info
-	//m_tStatInfo.bDead = false;
-
-
+	m_tStatInfo.bDead = false;
+	m_tStatInfo.fCurHP = 20.f;
+	
 
 	// 원래 이미지 크기
 	m_vImageSize.x = 0.73f;  // 100px = 1.f
@@ -94,6 +98,7 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+
 
 
 
