@@ -16,7 +16,7 @@ namespace Engine
 
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
-#define	DF_CAMERA_SHAKE_INTENSITY	15.f
+#define	DF_CAMERA_SHAKE_INTENSITY	20.f
 #define	DF_CAMERA_SHAKE_TIME		0.13f
 
 #define	DF_RB_KNOCKBACK				500.f
