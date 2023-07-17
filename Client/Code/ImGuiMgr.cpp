@@ -536,7 +536,7 @@ HRESULT CImGuiMgr::Clone_Object(const _vec3 _vPickPos)
 
 	// ХЌЗа
 	CGameObject* pClone = nullptr;
-
+	
 	pClone = Clone(g_vecObjOrigin[(UINT)g_eSelObjType][g_iSelObj]->Get_ID());
 
 	NULL_CHECK_RETURN(pClone, E_FAIL);

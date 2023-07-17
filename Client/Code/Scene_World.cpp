@@ -157,6 +157,12 @@ HRESULT CScene_World::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Load(), E_FAIL);
 
+
+	FAILED_CHECK_RETURN(Ready_Layer_KSH(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_KJM(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_YC(), E_FAIL);
+
 	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
 	return S_OK;
@@ -467,11 +473,6 @@ HRESULT CScene_World::Ready_Layer_Terrain()
 	m_mapLayer.insert({ OBJ_TYPE::TERRAIN, pLayer });
 
 	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CTerrainWorld::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
-
 
 	return S_OK;
 }
@@ -816,6 +817,50 @@ HRESULT CScene_World::Ready_Layer_Etc()
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::RANGE_OBJ, pLayer });
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_KSH()
+{
+	Engine::CGameObject* pGameObject = nullptr;
+
+	//pGameObject = CHedgehog::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_KJM()
+{
+	Engine::CGameObject* pGameObject = nullptr;
+
+	//pGameObject = CHedgehog::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_LHJ()
+{
+	Engine::CGameObject* pGameObject = nullptr;
+
+	//pGameObject = CHedgehog::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CScene_World::Ready_Layer_YC()
+{
+	Engine::CGameObject* pGameObject = nullptr;
+
+	//pGameObject = CHedgehog::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
 	return S_OK;
 }

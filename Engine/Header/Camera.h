@@ -74,6 +74,7 @@ public:
 	HWND*					m_pHwnd;
 
 	_matrix					m_matBillboardX;
+	_matrix					m_matBillboardY;
 	_matrix					m_matWorld;
 	_matrix					m_matProj;
 	_matrix                 m_matView;

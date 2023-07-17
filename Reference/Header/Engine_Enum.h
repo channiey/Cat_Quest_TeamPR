@@ -230,7 +230,7 @@ namespace Engine
 
 	enum class SPIRITEMO_TYPE		{ HAPPY, ANGRY, SAD, SLY, STUN, TYPEEND};
 
-	enum class SKILL_TYPE			{FIRE, THUNDER, TYPEEND};
+	enum class SKILL_TYPE			{FIRE, THUNDER, FREEZING, TYPEEND};
 
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI ·¹ÀÌ¾Æ¿ô ÅÇ ºÐ·ù
 
