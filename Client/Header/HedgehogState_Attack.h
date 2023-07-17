@@ -44,6 +44,15 @@ private:
 	_float  m_fPlayerTargetRange;
 
 	_float  m_fPosShakeRange;
+	_vec3   m_vOriginPos;
+	
+	_float  m_fAddHeight;
+	_float  m_fAddRot;
+	_float  m_fScaleDown;
 
+
+	_vec3   m_vOriginScale;
+	//_vec3   m_vOriginPos;
+	_vec3   m_vOriginRot;
 };
 

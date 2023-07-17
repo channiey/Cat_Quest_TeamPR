@@ -48,7 +48,7 @@ HRESULT CDragon::Ready_Object()
 									m_pTransformCom->Get_Scale().y,
 									110.f });
 
-	m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
+	//m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
 
 	fPatternTime = 2.f;

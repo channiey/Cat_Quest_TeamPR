@@ -56,7 +56,7 @@ HRESULT CHedgehog::Ready_Object()
 	m_pTransformCom->Set_Dir({ 0.f, 0.f, -1.f });
 
 
-	m_vOriginPos	= m_pTransformCom->Get_Info(INFO_POS);
+	//m_vOriginPos	= m_pTransformCom->Get_Info(INFO_POS);
 
 	fPatternTime	= 2.f;
 	m_fJumpingSpeed = 0.05;
@@ -96,17 +96,16 @@ HRESULT CHedgehog::Ready_Object()
 	return S_OK;
 }
 
+
 _int CHedgehog::Update_Object(const _float& fTimeDelta)
 {
+
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
 
 
-
-
 	// Jumping 
-
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	_float Y = m_pTransformCom->Get_Scale().y;
 	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();

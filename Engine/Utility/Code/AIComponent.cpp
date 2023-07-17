@@ -42,7 +42,7 @@ void CAIComponent::Random_Move(const _float& fTimeDelta, const _float& fSpeed)
 	_vec3 vOwnerScale = m_pOwnerObject->Get_Transform()->Get_Scale();
 
 
-	RandomDir = rand() % 9 + 1;
+	RandomDir = rand() % 12 + 1;
 	//m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
 
 	//float PreDirX = m_pOwnerObject->Get_Transform()->Get_Dir().x;
@@ -53,27 +53,37 @@ void CAIComponent::Random_Move(const _float& fTimeDelta, const _float& fSpeed)
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.right);
 		break;
 	case 2:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.left);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // ¸ØÃã
 		break;
 	case 3:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.forward);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.left);
 		break;
 	case 4:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.back);
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.forward);
 		break;
 	case 5:
-		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // ¸ØÃã
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.back);
+		break;
 	case 6:
-		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,1.f }); // ¿À¸¥ ´ë°¢ À§
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // ¸ØÃã
 		break;
 	case 7:
-		m_pOwnerObject->Get_Transform()->Set_Dir({ -1.f,0.f,1.f }); // ¿Þ ´ë°¢ À§
+		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,1.f }); // ¿À¸¥ ´ë°¢ À§
 		break;
 	case 8:
-		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,-1.f }); // ¿À¸¥ ´ë°¢ ¾Æ·¡
+		m_pOwnerObject->Get_Transform()->Set_Dir({ -1.f,0.f,1.f }); // ¿Þ ´ë°¢ À§
 		break;
 	case 9:
+		m_pOwnerObject->Get_Transform()->Set_Dir({ 1.f,0.f,-1.f }); // ¿À¸¥ ´ë°¢ ¾Æ·¡
+		break;
+	case 10:
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // ¸ØÃã
+		break;
+	case 11:
 		m_pOwnerObject->Get_Transform()->Set_Dir({ -1.f, 0.f, -1.f }); // ¿Þ ´ë°¢ ¾Æ·¡ 
+		break;
+	case 12:
+		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);  // ¸ØÃã
 		break;
 	default:
 		m_pOwnerObject->Get_Transform()->Set_Dir(vec3.zero);
