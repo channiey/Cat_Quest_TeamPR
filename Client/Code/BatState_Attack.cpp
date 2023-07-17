@@ -37,7 +37,9 @@ HRESULT CBatState_Attack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
 {
-    
+    //Monster - Ainmator Com
+    CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
+
     // Monster - Ai Com
     //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
@@ -72,60 +74,64 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
-
-
+  
+  
    // 현재 상태의 기능
    // pOwnerTransform->Set_Dir(vec3.zero);
     //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
-
+    
 
 #pragma region State Change
     // Attack 우선순위
     // back attack - chase - Comeback
 
-    // BACK_ Attack 전이
-    if (vOwnerDir.z > 0)
-    {
-       // cout <<  "back monattack 전이" << endl;
-        return STATE_TYPE::BACK_MONATTACK;
-    }
+   if( dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
+   { 
+       // BACK_ Attack 전이
+       if (vOwnerDir.z > 0)
+       {
+           // cout <<  "back monattack 전이" << endl;
+           return STATE_TYPE::BACK_MONATTACK;
+       }
 
 
-    // CHASE 전이 조건
-    if (fPlayerDistance >= m_fChaseRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-           // cout << "Chase 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::CHASE;
-        }
-        else
-        {
-          //  cout << "Back Chase 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_CHASE;
-        }
-    }
+       // CHASE 전이 조건
+       if (fPlayerDistance >= m_fChaseRange)
+       {
+           if (vOwnerDir.z < 0)
+           {
+               // cout << "Chase 전이" << endl;
+               // pOwnerTransform->Set_Dir(vec3.zero);
+               return STATE_TYPE::CHASE;
+           }
+           else
+           {
+               //  cout << "Back Chase 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+               return STATE_TYPE::BACK_CHASE;
+           }
+       }
 
-    // COMEBACK 전이 조건
-    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //cout << "comback 전이" << endl;
-            //pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::COMEBACK;
-        }
-        else
-        {
-           // cout << "back comback 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_COMEBACK;
-        }
-    }
+       // COMEBACK 전이 조건
+       if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+       {
+           if (vOwnerDir.z < 0)
+           {
+               //cout << "comback 전이" << endl;
+               //pOwnerTransform->Set_Dir(vec3.zero);
+               return STATE_TYPE::COMEBACK;
+           }
+           else
+           {
+               // cout << "back comback 전이" << endl;
+               // pOwnerTransform->Set_Dir(vec3.zero);
+               return STATE_TYPE::BACK_COMEBACK;
+           }
+       }
 
+   
+   }
 
     return STATE_TYPE::MONATTACK;
 

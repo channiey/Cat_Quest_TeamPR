@@ -78,6 +78,7 @@ STATE_TYPE CHedgehogState_bPatrol::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
+  
 
    // 현재 상태의 기능
     m_fAccTime += fTimeDelta;
@@ -100,7 +101,7 @@ STATE_TYPE CHedgehogState_bPatrol::Update_State(const _float& fTimeDelta)
    // Patrol 전이 조건
     if (vOwnerDir.z < 0)
     {
-        //cout << "patrol 전이" << endl;
+       // cout << "patrol 전이" << endl;
         return STATE_TYPE::PATROL;
     }
 
@@ -116,7 +117,7 @@ STATE_TYPE CHedgehogState_bPatrol::Update_State(const _float& fTimeDelta)
         }
         else
         {
-          //  cout << "Back Chase 전이" << endl;
+           // cout << "Back Chase 전이" << endl;
           //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
@@ -133,7 +134,7 @@ STATE_TYPE CHedgehogState_bPatrol::Update_State(const _float& fTimeDelta)
         }
         else
         {
-         //   cout << "back comback 전이" << endl;
+          //  cout << "back comback 전이" << endl;
          //   pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_COMEBACK;
         }
@@ -150,7 +151,7 @@ STATE_TYPE CHedgehogState_bPatrol::Update_State(const _float& fTimeDelta)
         }
         else
         {
-        //    cout << "back attack 전이" << endl;
+        //   cout << "back attack 전이" << endl;
          //   pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_MONATTACK;
         }

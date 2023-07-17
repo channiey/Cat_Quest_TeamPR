@@ -26,7 +26,7 @@ HRESULT CHedgehogState_ComeBack::Ready_State(CStateMachine* pOwner)
     m_eState = STATE_TYPE::COMEBACK;
 
     // 상태에 전이 조건 수치
-    m_fPatrolRange = 1.f;  // Patrol 전이
+    m_fPatrolRange = 2.f;  // Patrol 전이
     m_fChaseRange = 10.f; // Chase 전이
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
@@ -58,7 +58,8 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
     // Moanter - Scale
     _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
-
+    // Monster - Dir
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
     // Player - Pos
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -83,26 +84,33 @@ STATE_TYPE CHedgehogState_ComeBack::Update_State(const _float& fTimeDelta)
     // COMBACK 우선순위
     // Patrol - CHASE - ATTACK
 
+      // BACK_COMEBACK 전이 조건
+   /* if (vOwnerDir.z > 0)
+    {
+        cout << "Back comeback 전이" << endl;
+        return STATE_TYPE::BACK_COMEBACK;
+    }*/
+
     // PATROL 전이 조건
     if (fOriginDistance <= m_fPatrolRange)    
     {
         //cout << "patrol 전이" << endl;
-        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::PATROL;
     }
 
     // CHASE 전이 조건
     if (fPlayerDistance <= m_fChaseRange)   
     {
-       // cout << "chase  전이" << endl;
-        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       //cout << "chase  전이" << endl;
+        //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::CHASE;
     }
     // Attack 전이 조건
     if (fPlayerDistance <= m_fAttackRange)  
     {
         //cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::MONATTACK;
     }
 

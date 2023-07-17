@@ -183,6 +183,10 @@
     <ClInclude Include="..\Header\PlayerState_fSleep.h" />
     <ClInclude Include="..\Header\PlayerState_fWake.h" />
     <ClInclude Include="..\Header\PlayerSlash.h" />
+    <ClInclude Include="..\Header\RamState_bAttack.h" />
+    <ClInclude Include="..\Header\RamState_bChase.h" />
+    <ClInclude Include="..\Header\RamState_bComeBack.h" />
+    <ClInclude Include="..\Header\RamState_bPatrol.h" />
     <ClInclude Include="..\Header\RangeObj.h" />
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\BatState_Attack.h" />
@@ -414,6 +418,10 @@
     <ClCompile Include="..\Code\PlayerState_fSleep.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWake.cpp" />
     <ClCompile Include="..\Code\PlayerSlash.cpp" />
+    <ClCompile Include="..\Code\RamState_bAttack.cpp" />
+    <ClCompile Include="..\Code\RamState_bChase.cpp" />
+    <ClCompile Include="..\Code\RamState_bComeBack.cpp" />
+    <ClCompile Include="..\Code\RamState_bPatrol.cpp" />
     <ClCompile Include="..\Code\RangeObj.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\BatState_Attack.cpp" />

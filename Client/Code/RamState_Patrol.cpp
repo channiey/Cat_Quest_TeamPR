@@ -60,7 +60,8 @@ STATE_TYPE CRamState_Patrol::Update_State(const _float& fTimeDelta)
     _float      vOwnerPatternTime = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_PatternTime();
     // Monster - Scale
     _vec3 vOwnerScale = pOwnerTransform->Get_Scale();
-
+    // Monster - Dir
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
     // Player - Pos
     _vec3       vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -94,6 +95,12 @@ STATE_TYPE CRamState_Patrol::Update_State(const _float& fTimeDelta)
    // PATROL 우선순위
    // Chase - Comeback - Attack
 
+    // BACK Patrol 전이 조건
+   if (vOwnerDir.z > 0)
+   {
+       //cout << "Back patrol 전이" << endl;
+       return STATE_TYPE::BACK_PATROL;
+   }
 
    // CHASE 전이 조건
    if (fPlayerDistance <= m_fChaseRange)
