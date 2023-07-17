@@ -324,8 +324,6 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/spiritorb.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Spiritwave",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/spiritwave.png")), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Yelloworbs",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/yelloworbs.png")), E_FAIL);
 
 	// 플레이어 슬래쉬
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Player_Slash_Rising",
@@ -337,7 +335,8 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// 검
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Monster_Cut_Effect",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/CutEffect/CutEffect.png")), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Monster_CutOrb_Effect",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/CutEffect/CutOrb.png")), E_FAIL);
 
 #pragma endregion
 
