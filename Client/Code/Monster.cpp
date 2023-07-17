@@ -14,8 +14,8 @@
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
-	, m_pAICom(nullptr)
 	, m_pStateMachineCom(nullptr)
+	, m_pAICom(nullptr)
 	, fPatternTime(0.f)
 	, m_vOriginPos({0.f,0.f,0.f})
 	, m_fJumpingSpeed(0.f)

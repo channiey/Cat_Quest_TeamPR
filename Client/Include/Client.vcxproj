@@ -168,6 +168,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\Effect_Ice.h" />
+    <ClInclude Include="..\Header\HedgehogState_bAttack.h" />
+    <ClInclude Include="..\Header\HedgehogState_bChase.h" />
+    <ClInclude Include="..\Header\HedgehogState_bComBack.h" />
+    <ClInclude Include="..\Header\HedgehogState_bPatrol.h" />
     <ClInclude Include="..\Header\ItemSparkle.h" />
     <ClInclude Include="..\Header\MageWeapon.h" />
     <ClInclude Include="..\Header\MonHpUI.h" />
@@ -336,6 +340,15 @@
     <ClInclude Include="..\Header\TerrainIceWorld.h" />
     <ClInclude Include="..\Header\TerrainTool.h" />
     <ClInclude Include="..\Header\TerrainWorld.h" />
+    <ClInclude Include="..\Header\Test_Mob.h" />
+    <ClInclude Include="..\Header\Test_MobState_Attack.h" />
+    <ClInclude Include="..\Header\Test_MobState_bAttack.h" />
+    <ClInclude Include="..\Header\Test_MobState_bChase.h" />
+    <ClInclude Include="..\Header\Test_MobState_bComBack.h" />
+    <ClInclude Include="..\Header\Test_MobState_bPatrol.h" />
+    <ClInclude Include="..\Header\Test_MobState_Chase.h" />
+    <ClInclude Include="..\Header\Test_MobState_ComeBack.h" />
+    <ClInclude Include="..\Header\Test_MobState_Patrol.h" />
     <ClInclude Include="..\Header\Tool_Camera.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\Item.h" />
@@ -382,6 +395,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Effect_Ice.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_bAttack.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_bChase .cpp" />
+    <ClCompile Include="..\Code\HedgehogState_bComeBack.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_bPatrol.cpp" />
     <ClCompile Include="..\Code\ItemSparkle.cpp" />
     <ClCompile Include="..\Code\MageWeapon.cpp" />
     <ClCompile Include="..\Code\MonHpUI.cpp" />
@@ -550,6 +567,15 @@
     <ClCompile Include="..\Code\TerrainIceWorld.cpp" />
     <ClCompile Include="..\Code\TerrainTool.cpp" />
     <ClCompile Include="..\Code\TerrainWorld.cpp" />
+    <ClCompile Include="..\Code\Test_Mob.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_Attack.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_bAttack.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_bChase.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_bComeBack.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_bPatrol.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_Chase.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_ComeBack.cpp" />
+    <ClCompile Include="..\Code\Test_MobState_Patrol.cpp" />
     <ClCompile Include="..\Code\Tool_Camera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />

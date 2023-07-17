@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CHedgegohState_Attack : public CState
+class CHedgehogState_Attack : public CState
 {
 public:
-	explicit			CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CHedgegohState_Attack();
+	explicit			CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CHedgehogState_Attack();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CHedgegohState_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CHedgehogState_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

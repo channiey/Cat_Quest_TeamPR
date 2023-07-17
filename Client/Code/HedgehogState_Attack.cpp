@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 
 
-CHedgegohState_Attack::CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
+CHedgehogState_Attack::CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -17,11 +17,11 @@ CHedgegohState_Attack::CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CHedgegohState_Attack::~CHedgegohState_Attack()
+CHedgehogState_Attack::~CHedgehogState_Attack()
 {
 }
 
-HRESULT CHedgegohState_Attack::Ready_State(CStateMachine* pOwner)
+HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -49,17 +49,19 @@ HRESULT CHedgegohState_Attack::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
-STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
 {
     
     // Monster - Ai Com
-    CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
-
+    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
+    CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
     // Monster - Transform Com
-    CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Hedgehog", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+    CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+    NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
 
     // Monster - Pos
     _vec3	    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
@@ -87,44 +89,52 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
  
     pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
      
+    // 공격 코드로 
+    //m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+    //
+    //m_fPosShakeRange *= -1.f;
+    //
 
-    m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
-    
-    m_fPosShakeRange *= -1.f;
-    
+    //if (m_fAccTime <= 0.3f)
+    //{
+    //    
+    //}
+    //else if (m_fAccTime <= 0.7f)
+    //{
+    //    pOwnerTransform->Set_Pos({ vOwnerPos.x + m_fPosShakeRange,  vOwnerPos.y, vOwnerPos.z });
+    //   // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
+    //}
+    //else if (m_fAccTime <= 1.2f)
+    //{
+    //    if (vOwnerScale.x >= 0)
+    //    {
+    //        pOwnerTransform->Set_Rot({ 0, 0, m_fAddRot }, LOCAL);
+    //        pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
+    //       // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //    }
+    //    else if (vOwnerScale.x < 0)
+    //    {
+    //        pOwnerTransform->Set_Rot({ 0, 0, -(m_fAddRot) }, LOCAL);
+    //        pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
+    //       // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
+    //    }
+    //}
+    //else if (m_fAccTime <= 1.5f)
+    //{
+    //    pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
+    //    pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y , vOwnerPos.z });
+    //  //  pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //}
+    //else if (m_fAccTime <= 2.f)
+    //{
+    //   // 상태 전이
+    //}
+    //else
+    //{
+    //    m_fAccTime = 0.f;
+    //}
 
-    if (m_fAccTime <= 0.3f)
-    {
-        
-    }
-    else if (m_fAccTime <= 0.7f)
-    {
-        pOwnerTransform->Set_Pos({ vOwnerPos.x + m_fPosShakeRange,  vOwnerPos.y, vOwnerPos.z });
-       // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
-    }
-    else if (m_fAccTime <= 1.2f)
-    {
-        if (vOwnerScale.x >= 0)
-        {
-            pOwnerTransform->Set_Rot({ 0, 0, m_fAddRot }, LOCAL);
-            pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
-           // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-        }
-        else if (vOwnerScale.x < 0)
-        {
-            pOwnerTransform->Set_Rot({ 0, 0, -(m_fAddRot) }, LOCAL);
-            pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
-           // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
-        }
-    }
-    else if (m_fAccTime <= 1.5f)
-    {
-        pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-        pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y , vOwnerPos.z });
-      //  pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (m_fAccTime <= 2.f)
-    {
+
         
 #pragma region State Change
         // Attack 우선순위
@@ -149,12 +159,8 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
             pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
             return STATE_TYPE::COMEBACK;
         }
-    }
-    else
-    {
-        m_fAccTime = 0.f;
-    }
-    
+   
+  
 
     return STATE_TYPE::MONATTACK;
 
@@ -162,25 +168,25 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
 
 }
 
-void CHedgegohState_Attack::LateUpdate_State()
+void CHedgehogState_Attack::LateUpdate_State()
 {
 
 }
 
-void CHedgegohState_Attack::Render_State()
+void CHedgehogState_Attack::Render_State()
 {
     
 }
 
-STATE_TYPE CHedgegohState_Attack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CHedgehogState_Attack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CHedgegohState_Attack* CHedgegohState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CHedgehogState_Attack* CHedgehogState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CHedgegohState_Attack* pInstance = new CHedgegohState_Attack(pGraphicDev);
+    CHedgehogState_Attack* pInstance = new CHedgehogState_Attack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -193,7 +199,7 @@ CHedgegohState_Attack* CHedgegohState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicD
     return pInstance;
 }
 
-void CHedgegohState_Attack::Free()
+void CHedgehogState_Attack::Free()
 {
     __super::Free();
 }

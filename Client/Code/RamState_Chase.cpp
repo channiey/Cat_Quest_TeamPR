@@ -38,14 +38,15 @@ HRESULT CRamState_Chase::Ready_State(CStateMachine* pOwner)
 STATE_TYPE CRamState_Chase::Update_State(const _float& fTimeDelta)
 {
     // Monster - Ai Com
-    CAIComponent* pOwnerAI = dynamic_cast<CAIComponent*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Ram", COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
-
+    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
+    CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
     // Monster - Transform Com
-    CTransform* pOwnerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::MONSTER, L"Monster_Ram", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+    CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-
+    NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
 
     // Monster - Pos
     _vec3	    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
@@ -71,7 +72,7 @@ STATE_TYPE CRamState_Chase::Update_State(const _float& fTimeDelta)
 
 
     // 현재 상태의 기능
-    pOwnerAI->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
 
