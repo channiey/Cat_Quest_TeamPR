@@ -36,6 +36,7 @@
 #include "Effect_Fire.h"
 #include "Effect_Thunder.h"
 #include "Effect_Ice.h"
+#include "Effect_Beam.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -188,6 +189,12 @@ HRESULT CPlayer::Ready_Object()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
 	m_bOnSKill[2] = true;
 	m_arrSkillSlot[2] = m_arrEffect[_uint(SKILL_TYPE::FREEZING)];
+
+	m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::BEAM)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Beam", m_arrEffect[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
+	m_bOnSKill[3] = true;
+	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];
 
 #pragma endregion
 

@@ -566,7 +566,7 @@ void CFieldSkillUI::Reset_SkillUI()
 
 void CFieldSkillUI::Play_SKill()
 {
-	for (_uint i = 0; i < 3; ++i)
+	for (_uint i = 0; i < 4; ++i)
 	{
 		if (m_bSkill[i])
 		{
