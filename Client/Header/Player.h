@@ -114,12 +114,13 @@ public:
 	_bool&				Is_Attack() { return m_bAttack; }
 	void				Set_Attack(_bool bBool) { m_bAttack = bBool; }
 
-	
 	_bool&				Is_Hit() { return m_bHit; }
 	void				Set_HIt(const _bool& bHit) { m_bHit = bHit; }
 
 	_bool&				Is_Skill() { return m_bSkill; }
 	void				Set_Skill(const _bool& bSkill) { m_bSkill = bSkill; }
+	void				Set_OnSkill(const _uint& iSkill, const _bool& bSkill) { m_bOnSKill[iSkill] = bSkill; }
+	_bool&				Is_OnSkill(const _uint& iSkill) { return  m_bOnSKill[iSkill]; }
 
 	void				Regen_HP(const _float& fHeal);
 
@@ -149,6 +150,7 @@ private:
 	_bool						m_bHit;
 	_bool						m_bAttack;
 	_bool						m_bSkill;
+	_bool						m_bOnSKill[4];
 
 	CEffect*					m_arrEffect[(UINT)SKILL_TYPE::TYPEEND];
 

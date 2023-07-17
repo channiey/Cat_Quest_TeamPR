@@ -24,7 +24,7 @@ private:
 	void					Follow_Player();
 
 private:
-	CTransform*				m_pUITransformCom[4];
+	CTransform*				m_pUITransformCom[5];
 
 	CPlayer*				m_pPlayer;
 	_float					m_fHpRatio;

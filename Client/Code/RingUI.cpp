@@ -21,6 +21,7 @@ HRESULT CRingUI::Ready_Object()
 
 
 	m_eUIType = UI_TYPE::WORLD;
+	m_eUILayer = UI_LAYER::LV1;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -108,7 +109,7 @@ void CRingUI::Follow_Player()
 	_vec3		vPlayerPosition;
 	vPlayerPosition = pPlayerTransform->Get_Info(INFO_POS);
 
-	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z + 0.1f });
+	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z + 0.2f });
 }
 
 CRingUI* CRingUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
