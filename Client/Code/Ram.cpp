@@ -209,6 +209,8 @@ HRESULT CRam::Add_Component()
 #pragma endregion
 
 
+
+
 	return S_OK;
 }
 
