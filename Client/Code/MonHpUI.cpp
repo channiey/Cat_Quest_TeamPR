@@ -4,7 +4,7 @@
 #include "Monster.h"
 
 CMonHpUI::CMonHpUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev, OBJ_ID::UI_HP), m_pMonster(nullptr), m_fHpRatio(1.f)
+	:CUI(pGraphicDev, OBJ_ID::UI_HP), m_pMonster(nullptr), m_fHpRatio(1.f), m_fCurRatio(1.f)
 {
 }
 
@@ -29,6 +29,7 @@ HRESULT CMonHpUI::Ready_Object()
 	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.4f, 0.4f, 1.f });
 	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.6f, 0.6f, 1.f });
 	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.6f, 0.6f, 1.f });
+	m_pUITransformCom[4]->Set_Scale(_vec3{ 1.4f, 0.4f, 1.f });
 
 
 	return S_OK;
@@ -45,10 +46,14 @@ _int CMonHpUI::Update_Object(const _float& fTimeDelta)
 	}
 
 	if (nullptr != m_pMonster)
-		m_fHpRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
+		m_fCurRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
 
-	if (1.f < m_fHpRatio)
-		m_fHpRatio = 1.f;
+	if (1.f < m_fCurRatio)
+	{
+		m_fCurRatio = 1.f;
+		m_fHpRatio = m_fCurRatio;
+	}
+		
 
 	return iExit;
 }
@@ -59,11 +64,41 @@ void CMonHpUI::LateUpdate_Object()
 
 	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
 
-	float fMoveX = (1.0f - m_fHpRatio) * 1.4f;
+	float fMoveX = (1.0f - m_fCurRatio) * 1.6f;
 	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
 
-	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.4f * m_fHpRatio, 0.4f, 1.0f });
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
 	m_pUITransformCom[1]->Set_Pos(vNewPosition);
+
+	if (m_fCurRatio >= 1.f)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
+	}
+	else if (m_fCurRatio != m_fHpRatio && m_fCurRatio < 1.f)
+	{
+		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale()
+			, m_pUITransformCom[1]->Get_Scale(), 1.2f, Engine::Get_TimeDelta(L"Timer_FPS65"));
+
+		if (vOutScale.z != -99)
+		{
+			_vec3 vGoldInitPosition = m_pUITransformCom[4]->Get_Info(INFO::INFO_POS);
+
+			float fGoldMoveX = (1.0f - (vOutScale.x / 1.6f)) * 1.6f;
+			_vec3 vGoldNewPosition = _vec3(vGoldInitPosition.x - fGoldMoveX, vGoldInitPosition.y, vGoldInitPosition.z);
+
+			m_pUITransformCom[4]->Set_Scale(vOutScale);
+			m_pUITransformCom[4]->Set_Pos(vGoldNewPosition);
+		}
+		else
+			m_fHpRatio = m_fCurRatio;
+	}
+
+	if (m_fCurRatio == m_fHpRatio)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
+		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+	}
+
 
 
 
@@ -83,6 +118,10 @@ void CMonHpUI::Render_Object()
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
 		m_pTextureCom->Render_Texture(7);
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[4]->Get_WorldMat());
+		m_pTextureCom->Render_Texture(10);
 		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
@@ -114,7 +153,7 @@ HRESULT CMonHpUI::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
-	for (_uint i = 0; i < 4; ++i)
+	for (_uint i = 0; i < 5; ++i)
 	{
 		pComponent = m_pUITransformCom[i] = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -136,6 +175,7 @@ void CMonHpUI::Follow_Owner()
 	m_pUITransformCom[1]->Set_Pos({ vMonsterPos.x, vMonsterPos.y, vMonsterPos.z - 3.5f });
 	m_pUITransformCom[2]->Set_Pos({ vMonsterPos.x - 1.9f, vMonsterPos.y, vMonsterPos.z - 3.5f });
 	m_pUITransformCom[3]->Set_Pos({ vMonsterPos.x + 1.4f, vMonsterPos.y, vMonsterPos.z - 3.5f });
+	m_pUITransformCom[4]->Set_Pos({ vMonsterPos.x , vMonsterPos.y, vMonsterPos.z - 3.5f });
 }
 
 CMonHpUI* CMonHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pMonster)

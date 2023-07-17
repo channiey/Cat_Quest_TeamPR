@@ -185,6 +185,27 @@ _vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float&
 	return vOut;
 }
 
+_vec3& CTransform::Normal_Lerp(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta)
+{
+	if (m_fCurTime == fLerpTime)
+	{
+		m_fCurTime = 0;
+		return _vec3{ -99, -99, -99 };
+	}
+
+	m_fCurTime += fTimeDelta;
+	if (m_fCurTime >= fLerpTime)
+	{
+		m_fCurTime = fLerpTime;
+	}
+
+	_vec3 vOut;
+	_float fTime = m_fCurTime / fLerpTime;
+	D3DXVec3Lerp(&vOut, &vStart, &vTarget, fTime);
+
+	return vOut;
+}
+
 void CTransform::Reset_Lerp()
 {
 	m_bStart = false;

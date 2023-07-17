@@ -154,18 +154,18 @@ HRESULT CPlayer::Ready_Object()
 
 	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
 
 	m_bOnSKill[0] = true;
 
 	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
 	m_bOnSKill[1] = true;
 
 	m_arrEffect[_uint(SKILL_TYPE::FREEZING)] = CEffect_Ice::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FREEZING)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
 
 	m_bOnSKill[2] = true;
 
@@ -679,7 +679,7 @@ HRESULT CPlayer::Add_Component()
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
 	if (CInputDev::GetInstance()->Key_Down('Z'))
-		Damaged(10);
+		Damaged(20);
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)

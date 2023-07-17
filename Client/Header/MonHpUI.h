@@ -25,9 +25,10 @@ private:
 	void					Set_Owner(CGameObject* pMonster) { m_pMonster = pMonster; }
 
 private:
-	CTransform*				m_pUITransformCom[4];
+	CTransform*				m_pUITransformCom[5];
 	CGameObject*			m_pMonster;
 	_float					m_fHpRatio;
+	_float					m_fCurRatio;
 
 public:
 	static CMonHpUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pMonster);

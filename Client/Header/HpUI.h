@@ -28,6 +28,7 @@ private:
 
 	CPlayer*				m_pPlayer;
 	_float					m_fHpRatio;
+	_float					m_fCurRatio;
 
 public:
 	static CHpUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);

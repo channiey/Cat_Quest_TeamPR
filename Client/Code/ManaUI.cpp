@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CManaUI::CManaUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev, OBJ_ID::UI_MANA), m_pPlayer(nullptr), m_fMpRatio(1.f)
+     :CUI(pGraphicDev, OBJ_ID::UI_MANA), m_pPlayer(nullptr), m_fMpRatio(1.f), m_fCurRatio(1.f)
 {
 }
 
@@ -29,6 +29,7 @@ HRESULT CManaUI::Ready_Object()
 	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
 	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.7f, 0.7f, 1.f });
 	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.7f, 0.7f, 1.f });
+	m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
 
 
 	return S_OK;
@@ -42,10 +43,14 @@ _int CManaUI::Update_Object(const _float& fTimeDelta)
 		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 	if (nullptr != m_pPlayer)
-		m_fMpRatio = m_pPlayer->Get_StatInfo().fCurMP / m_pPlayer->Get_StatInfo().fMaxMP;
+		m_fCurRatio = m_pPlayer->Get_StatInfo().fCurMP / m_pPlayer->Get_StatInfo().fMaxMP;
 
-	if (1.f < m_fMpRatio)
-		m_fMpRatio = 1.f;
+	if (1.f < m_fCurRatio)
+	{
+		m_fCurRatio = 1.f;
+		m_fMpRatio = m_fCurRatio;
+	}
+		
 
 	return iExit;
 }
@@ -56,11 +61,40 @@ void CManaUI::LateUpdate_Object()
 
 	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
 
-	float fMoveX = (1.0f - m_fMpRatio) * 1.6f;
+	float fMoveX = (1.0f - m_fCurRatio) * 1.6f;
 	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
 
-	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.6f * m_fMpRatio, 0.4f, 1.0f });
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
 	m_pUITransformCom[1]->Set_Pos(vNewPosition);
+
+	if (m_fCurRatio >= 1.f)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
+	}
+	else if (m_fCurRatio != m_fMpRatio && m_fCurRatio < 1.f)
+	{
+		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale()
+			, m_pUITransformCom[1]->Get_Scale(), 1.2f, Engine::Get_TimeDelta(L"Timer_FPS65"));
+
+		if (vOutScale.z != -99)
+		{
+			_vec3 vGoldInitPosition = m_pUITransformCom[4]->Get_Info(INFO::INFO_POS);
+
+			float fGoldMoveX = (1.0f - (vOutScale.x / 1.6f)) * 1.6f;
+			_vec3 vGoldNewPosition = _vec3(vGoldInitPosition.x - fGoldMoveX, vGoldInitPosition.y, vGoldInitPosition.z);
+
+			m_pUITransformCom[4]->Set_Scale(vOutScale);
+			m_pUITransformCom[4]->Set_Pos(vGoldNewPosition);
+		}
+		else
+			m_fMpRatio = m_fCurRatio;
+	}
+
+	if (m_fCurRatio == m_fMpRatio)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
+		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+	}
 
 	__super::LateUpdate_Object();
 
@@ -72,6 +106,10 @@ void CManaUI::Render_Object()
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
 	m_pTextureCom->Render_Texture(7);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[4]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(10);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
@@ -100,7 +138,7 @@ HRESULT CManaUI::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
-	for (_uint i = 0; i < 4; ++i)
+	for (_uint i = 0; i < 5; ++i)
 	{
 		pComponent = m_pUITransformCom[i] = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -122,6 +160,7 @@ void CManaUI::Follow_Player()
 	m_pUITransformCom[1]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 5.2f });
 	m_pUITransformCom[2]->Set_Pos({ vPlayerPosition.x - 2.2f, vPlayerPosition.y, vPlayerPosition.z - 5.2f });
 	m_pUITransformCom[3]->Set_Pos({ vPlayerPosition.x + 1.6f, vPlayerPosition.y, vPlayerPosition.z - 5.2f });
+	m_pUITransformCom[4]->Set_Pos({ vPlayerPosition.x , vPlayerPosition.y, vPlayerPosition.z - 5.2f });
 }
 
 CManaUI* CManaUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)

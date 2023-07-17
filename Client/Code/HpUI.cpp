@@ -4,7 +4,7 @@
 #include "Player.h"
 
 CHpUI::CHpUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev, OBJ_ID::UI_HP), m_pPlayer(nullptr), m_fHpRatio(1.f)
+     :CUI(pGraphicDev, OBJ_ID::UI_HP), m_pPlayer(nullptr), m_fHpRatio(1.f), m_fCurRatio(1.f)
 {
 }
 
@@ -42,40 +42,59 @@ _int CHpUI::Update_Object(const _float& fTimeDelta)
 		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 	if (nullptr != m_pPlayer)
-		m_fHpRatio = m_pPlayer->Get_StatInfo().fCurHP / m_pPlayer->Get_StatInfo().fMaxHP;
+		m_fCurRatio = m_pPlayer->Get_StatInfo().fCurHP / m_pPlayer->Get_StatInfo().fMaxHP;
 
-	if (1.f < m_fHpRatio)
-		m_fHpRatio = 1.f;
-
-	Follow_Player();
-
-	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
-
-	float fMoveX = (1.0f - m_fHpRatio) * 2.0f;
-	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
-
-	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f });
-	m_pUITransformCom[1]->Set_Pos(vNewPosition);
+	if (1.f < m_fCurRatio)
+	{
+		m_fCurRatio = 1.f;
+		m_fHpRatio = m_fCurRatio;
+	}
 
 	
-
-	/*if (vNewPosition != m_pUITransformCom[4]->Get_Info(INFO::INFO_POS))
-	{
-		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale(), _vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f }, 0.5f, fTimeDelta);
-		_vec3 vOutPos = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Info(INFO::INFO_POS), vNewPosition, 0.5f, fTimeDelta);
-		if (vOutPos.x != -99)
-		{
-			m_pUITransformCom[4]->Set_Scale(vOutScale);
-			m_pUITransformCom[4]->Set_Pos(vOutPos);
-		}
-	}*/
 
 	return iExit;
 }
 
 void CHpUI::LateUpdate_Object()
 {
-	
+	Follow_Player();
+
+	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
+
+	float fMoveX = (1.0f - m_fCurRatio) * 2.0f;
+	_vec3 vNewPosition = _vec3(vInitPosition.x - fMoveX, vInitPosition.y, vInitPosition.z);
+
+	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.0f * m_fCurRatio, 0.6f, 1.0f });
+	m_pUITransformCom[1]->Set_Pos(vNewPosition);
+
+	if (m_fCurRatio >= 1.f)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
+	}
+	else if (m_fCurRatio != m_fHpRatio && m_fCurRatio < 1.f)
+	{
+		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale()
+			, m_pUITransformCom[1]->Get_Scale(), 1.2f, Engine::Get_TimeDelta(L"Timer_FPS65"));
+
+		if (vOutScale.z != -99)
+		{
+			_vec3 vGoldInitPosition = m_pUITransformCom[4]->Get_Info(INFO::INFO_POS);
+
+			float fGoldMoveX = (1.0f - (vOutScale.x / 2.f)) * 2.0f;
+			_vec3 vGoldNewPosition = _vec3(vGoldInitPosition.x - fGoldMoveX, vGoldInitPosition.y, vGoldInitPosition.z);
+
+			m_pUITransformCom[4]->Set_Scale(vOutScale);
+			m_pUITransformCom[4]->Set_Pos(vGoldNewPosition);
+		}
+		else
+			m_fHpRatio = m_fCurRatio;
+	}
+
+	if (m_fCurRatio == m_fHpRatio)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 2.0f * m_fCurRatio, 0.6f, 1.0f });
+		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+	}
 	
 	__super::LateUpdate_Object();
 
@@ -96,8 +115,6 @@ void CHpUI::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
 	m_pTextureCom->Render_Texture(1);
 	m_pBufferCom->Render_Buffer();
-
-	
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
 	m_pTextureCom->Render_Texture(0);
@@ -143,7 +160,7 @@ void CHpUI::Follow_Player()
 	m_pUITransformCom[1]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 	m_pUITransformCom[2]->Set_Pos({ vPlayerPosition.x - 2.6f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 	m_pUITransformCom[3]->Set_Pos({ vPlayerPosition.x + 1.95f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
-	//m_pUITransformCom[4]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	m_pUITransformCom[4]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 }
 
 CHpUI* CHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
