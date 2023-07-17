@@ -26,10 +26,9 @@ private:
 
 private:
 	CTexture* m_pTextureCom;
+	_vec3	  m_vPos;
 	_float	  m_fSize;
-	_bool	  m_bSizeUp, m_bPositionUp, m_bPlay;
-	_int	  m_iReplayTime;
-	_matrix matWorld;
+	_float	  m_bMaxSize;
 
 public:
 	static CMobCutEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);

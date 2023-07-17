@@ -5,9 +5,9 @@
 #include "MobCutEffect.h"
 
 CMobCutEffect::CMobCutEffect(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
-	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MOBCUTEFFECT)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_MOBCUTEFFECT)
 {
-	m_pOwnerobject = _pOwnerObject;
+	m_vPos = _pPos;
 }
 
 CMobCutEffect::CMobCutEffect(const CMobCutEffect& rhs)
@@ -26,97 +26,24 @@ HRESULT CMobCutEffect::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_bActive = true;
-	m_bPlay = true;
-	m_bSizeUp = true;
-	m_bPositionUp = false;
 	m_fSize = 0.f;
-	m_iReplayTime = GetTickCount64() + 500;
 	return S_OK;
 }
 
 _int CMobCutEffect::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	Engine::Add_RenderGroup(RENDER_WDUI, this); // 무조건 아이템보다 늦게 그려지게
+	Engine::Add_RenderGroup(RENDER_WDUI, this); // 무조건 플레이어보다 늦게 그려지게 
 
-	// 아이템의 위치를 얻어옴
-	_vec3 itemPosition = m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS);
-	// 카메라의 월드행렬을 가져와서 카메라의 위치를 얻어옴
-	_matrix matCamWorld = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatWorld();
-	_vec3 cameraPosition = _vec3(matCamWorld._41, matCamWorld._42, matCamWorld._43);
-	// 아이템과 카메라 사이의 벡터를 계산
-	_vec3 itemToCamera = cameraPosition - itemPosition;
-
-	// 아이템의 오른쪽 벡터를 계산 
-	_vec3 upVector;
-	D3DXVec3Cross(&upVector, &itemToCamera, &(_vec3(1.0f, 0.0f, 0.0f)));
-	D3DXVec3Normalize(&upVector, &upVector);
-
-	// 아이템의 아래 벡터를 계산
-	_vec3 rightVector;
-	D3DXVec3Cross(&rightVector, &upVector, &itemToCamera);
-	D3DXVec3Normalize(&rightVector, &rightVector);
-
-	_vec3 effectPosition;
-	// 이펙트의 위치를 계산
-	if (!m_bPositionUp)
-		effectPosition = itemPosition  // 왼쪽 위 
-		- (upVector * m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f)
-		- (rightVector * m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f);
-	else
-		effectPosition = itemPosition // 오른쪽 아래
-		+ (upVector * m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f)
-		+ (rightVector * m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f);
-
-	// 이펙트의 위치를 설정(z는 연구는 필요. 다른 축도 실제로는 위치가 조금씩 변하고 있음.)
-	m_pTransformCom->Set_Pos(effectPosition);
+	m_pTransformCom->Set_Pos(m_vPos);
 
 	m_pTransformCom->Set_Scale(_vec3{ m_fSize, m_fSize, m_fSize });
-
-	if (!m_pOwnerobject->Is_Active())
-	{
-		CEventMgr::GetInstance()->Delete_Obj(this);
-		return iExit;
-	}
-
-	if (m_bPlay)
-	{
-		if (m_bSizeUp)
-		{
-			m_fSize += 0.05f;
-			if (m_fSize > 1.f)
-				m_bSizeUp = false;
-		}
-		else
-		{
-			m_fSize -= 0.05f;
-			if (m_fSize < 0.f)
-			{
-				m_iReplayTime = GetTickCount64() + 1000;
-				m_bPlay = false;
-			}
-		}
-	}
-
 
 	return iExit;
 }
 
 void CMobCutEffect::LateUpdate_Object()
 {
-	if (!m_bPlay)
-	{
-		if (m_iReplayTime < GetTickCount64())
-		{
-			m_bPlay = true;
-			m_bSizeUp = true;
-			if (!m_bPositionUp)
-				m_bPositionUp = true;
-			else
-				m_bPositionUp = false;
-		}
-	}
-
 	__super::LateUpdate_Object();
 }
 
@@ -135,7 +62,7 @@ HRESULT CMobCutEffect::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_ItemSparkle", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Monster_Cut_Effect", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -161,7 +88,7 @@ CMobCutEffect* CMobCutEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3&
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("ItemSparkle Create Failed");
+		MSG_BOX("Monster Cut Effect Create Failed");
 		return nullptr;
 	}
 
