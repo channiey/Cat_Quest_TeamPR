@@ -2,6 +2,8 @@
 
 #include "Export_Function.h"
 
+#include "PlayerSlash.h"
+
 CPlayerState_fAttack1::CPlayerState_fAttack1(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev), m_bAttackContinue(false)
 {
@@ -26,6 +28,9 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 	if (!m_bEnter)
 	{
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
+		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Rising", CPlayerSlash::Create(
+			m_pGraphicDev, m_pOwner->Get_OwnerObject(), true
+		));
 		m_bEnter = true;
 	}
 
@@ -69,6 +74,7 @@ STATE_TYPE CPlayerState_fAttack1::Key_Input(const _float& fTimeDelta)
 {
 	if (!m_pOwner->Is_AnimationEnd() && CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
 		m_bAttackContinue = true;
+
 
 	return m_eState;
 }

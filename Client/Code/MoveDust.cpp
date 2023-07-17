@@ -61,7 +61,12 @@ _int CMoveDust::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Delete_Obj(this);
 	}
 		
-	
+	if (!m_pOwnerobject->Is_Active())
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);
+		return iExit;
+	}
+
 	return iExit;
 }
 

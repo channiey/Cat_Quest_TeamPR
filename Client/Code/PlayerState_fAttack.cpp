@@ -2,6 +2,8 @@
 
 #include "Export_Function.h"
 
+#include "PlayerSlash.h"
+
 CPlayerState_fAttack::CPlayerState_fAttack(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev), m_bAttackContinue(false)
 {
@@ -26,6 +28,9 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 	if (!m_bEnter)
 	{
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
+		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Chopping", CPlayerSlash::Create(
+			m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
+		));
 		m_bEnter = true;
 	}
 
