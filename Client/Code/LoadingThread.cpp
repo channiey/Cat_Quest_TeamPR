@@ -556,7 +556,7 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 #pragma endregion
-
+	 
 #pragma region YUN
 
 	// 이펙트-스킬-캐스트
@@ -569,6 +569,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Ice",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Ice/%d.png", 13)), E_FAIL); // 썬더 테스트
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Beam",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Beam/%d.png", 20)), E_FAIL); // 파이어 테스트
+
 #pragma endregion
 
 

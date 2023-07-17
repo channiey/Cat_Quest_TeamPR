@@ -167,6 +167,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\Effect_Beam.h" />
     <ClInclude Include="..\Header\Effect_Ice.h" />
     <ClInclude Include="..\Header\ItemSparkle.h" />
     <ClInclude Include="..\Header\MageWeapon.h" />
@@ -378,6 +379,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Effect_Beam.cpp" />
     <ClCompile Include="..\Code\Effect_Ice.cpp" />
     <ClCompile Include="..\Code\ItemSparkle.cpp" />
     <ClCompile Include="..\Code\MageWeapon.cpp" />
