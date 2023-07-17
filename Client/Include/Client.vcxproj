@@ -172,6 +172,9 @@
     <ClInclude Include="..\Header\MageWeapon.h" />
     <ClInclude Include="..\Header\MonHpUI.h" />
     <ClInclude Include="..\Header\NinjaWeapon.h" />
+    <ClInclude Include="..\Header\PlayerState_fDie.h" />
+    <ClInclude Include="..\Header\PlayerState_fSleep.h" />
+    <ClInclude Include="..\Header\PlayerState_fWake.h" />
     <ClInclude Include="..\Header\RangeObj.h" />
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\BatState_Attack.h" />
@@ -383,6 +386,9 @@
     <ClCompile Include="..\Code\MageWeapon.cpp" />
     <ClCompile Include="..\Code\MonHpUI.cpp" />
     <ClCompile Include="..\Code\NinjaWeapon.cpp" />
+    <ClCompile Include="..\Code\PlayerState_fDie.cpp" />
+    <ClCompile Include="..\Code\PlayerState_fSleep.cpp" />
+    <ClCompile Include="..\Code\PlayerState_fWake.cpp" />
     <ClCompile Include="..\Code\RangeObj.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\BatState_Attack.cpp" />

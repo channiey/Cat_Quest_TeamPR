@@ -33,6 +33,8 @@ STATE_TYPE CPlayerState_bIdle::Update_State(const _float& fTimeDelta)
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 		eState = STATE_TYPE::FRONT_HIT;
 
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
+		eState = STATE_TYPE::FRONT_DIE;
 
 	if (eState != m_eState)
 		m_bEnter = false;

@@ -149,9 +149,12 @@ private:
 
 	_bool						m_bHit;
 	_bool						m_bAttack;
+
+
 	_bool						m_bSkill;
 	_bool						m_bOnSKill[4];
 
+	CEffect*					m_arrSkillSlot[4];
 	CEffect*					m_arrEffect[(UINT)SKILL_TYPE::TYPEEND];
 
 	// << : Test : Range Test

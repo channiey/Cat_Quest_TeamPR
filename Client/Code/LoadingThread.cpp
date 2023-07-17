@@ -488,6 +488,16 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fAttack2",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Attack/Attack2/%d.png", 6)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fDie",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Die/%d.png", 14)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fWake",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Wake/%d.png", 21)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_fSleep",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Front/Sleep.png")), E_FAIL);
+
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_bIdle",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Back/Idle/%d.png", 4)), E_FAIL);
 
@@ -505,6 +515,8 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Player_bAttack2",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Player/Back/Attack/Attack2/%d.png", 6)), E_FAIL);
+
+
 
 	// UI
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Ring",

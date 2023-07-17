@@ -23,17 +23,26 @@ HRESULT CPlayerState_fAttack2::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 {
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_DIE;
+	}
+
 	if (!m_bEnter)
 	{
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
 		m_bEnter = true;
 	}
 
+	
+		
+
 	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		m_bEnter = false;
+		
 		return STATE_TYPE::FRONT_HIT;
 	}
 
@@ -42,7 +51,9 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_IDLE;
 	}
-		
+	
+	
+
 	else 
 		return m_eState;
 }

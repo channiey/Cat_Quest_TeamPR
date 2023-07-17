@@ -41,6 +41,9 @@ STATE_TYPE CPlayerState_Hit::Update_State(const _float& fTimeDelta)
         eState = STATE_TYPE::FRONT_IDLE;
     }
 
+    if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
+        eState = STATE_TYPE::FRONT_DIE;
+
 
 	if (eState != m_eState)
 		m_bEnter = false;

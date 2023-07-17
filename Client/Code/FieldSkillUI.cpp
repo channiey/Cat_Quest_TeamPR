@@ -219,6 +219,25 @@ _int CFieldSkillUI::Update_Object(const _float& fTimeDelta)
 		if (nullptr == m_pPlayer)
 			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
+
+		// 나중에 스킬슬롯이 제대로 생기면 스킬슬롯에따라 뜨는 SKILL이미지 다르게
+		/*if (nullptr != m_pPlayer)
+		{
+			for (_uint i = 0; i < 4; ++i)
+			{
+				if (m_pPlayer->Is_OnSkill(i))
+				{
+					CEffect* pEffect = m_pPlayer->Get_Effect(i);
+					if (nullptr != pEffect)
+					{
+						pEffect->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
+						m_pPlayer->Set_Skill(true);
+					}
+				}
+			}
+		}*/
+
+
 		if (m_bShirnk)
 		{
 			_vec3 vOut = m_pUITransform[0]->Lerp(_vec3{ m_RingSizeX[0] , m_RingSizeY[0], 0.f }, _vec3{ 240.f , 230.f, 0.f }, 0.1f, fTimeDelta);
@@ -393,15 +412,15 @@ void CFieldSkillUI::Render_Object()
 			m_pBufferCom->Render_Buffer();
 			// 스킬2
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
-			m_pUITextureCom[2]->Render_Texture(2);
+			m_pUITextureCom[2]->Render_Texture(1);
 			m_pBufferCom->Render_Buffer();
 			// 스킬3
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
-			m_pUITextureCom[2]->Render_Texture(3);
+			m_pUITextureCom[2]->Render_Texture(2);
 			m_pBufferCom->Render_Buffer();
 			// 스킬4
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
-			m_pUITextureCom[2]->Render_Texture(1);
+			m_pUITextureCom[2]->Render_Texture(3);
 			m_pBufferCom->Render_Buffer();
 			// 마나링1
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[5]);

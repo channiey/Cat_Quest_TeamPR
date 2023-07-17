@@ -51,6 +51,7 @@ private:
 	_bool					m_bReach;
 	_float					m_fReach;
 	// ½ºÅ³
+	_uint					m_iSkillKind[4];
 	_float					m_SkillSizeX;
 	_float					m_SkillSizeY;
 	_float					m_ManaSizeX;

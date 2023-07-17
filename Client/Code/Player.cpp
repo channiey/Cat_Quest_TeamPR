@@ -12,6 +12,9 @@
 #include "PlayerState_fAttack.h"
 #include "PlayerState_fAttack1.h"
 #include "PlayerState_fAttack2.h"
+#include "PlayerState_fDie.h"
+#include "PlayerState_fWake.h"
+#include "PlayerState_fSleep.h"
 #include "PlayerState_bIdle.h"
 #include "PlayerState_bWalk.h"
 #include "PlayerState_bRoll.h"
@@ -47,6 +50,10 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_eCurGroundType(LINE_TYPE::LAND)
 {
 	ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
+	for (size_t i = 0; i < 4; ++i)
+	{
+		m_arrSkillSlot[i] = nullptr;
+	}
 }
 
 CPlayer::CPlayer(const CPlayer& rhs)
@@ -118,6 +125,12 @@ HRESULT CPlayer::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK1, pState);
 	pState = CPlayerState_bAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_ATTACK2, pState);
+	pState = CPlayerState_fWake::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_WAKE, pState);
+	pState = CPlayerState_fDie::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_DIE, pState);
+	pState = CPlayerState_fSleep::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_SLEEP, pState);
 #pragma endregion
 
 #pragma region Animation
@@ -135,6 +148,12 @@ HRESULT CPlayer::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_DIE)], STATE_TYPE::FRONT_DIE, 0.09f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_DIE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_WAKE)], STATE_TYPE::FRONT_WAKE, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_WAKE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)], STATE_TYPE::FRONT_SLEEP, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_SLEEP, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
@@ -155,24 +174,26 @@ HRESULT CPlayer::Ready_Object()
 	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
-
 	m_bOnSKill[0] = true;
+	m_arrSkillSlot[0] = m_arrEffect[_uint(SKILL_TYPE::FIRE)];
 
 	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
 	m_bOnSKill[1] = true;
+	m_arrSkillSlot[1] = m_arrEffect[_uint(SKILL_TYPE::THUNDER)];
 
 	m_arrEffect[_uint(SKILL_TYPE::FREEZING)] = CEffect_Ice::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FREEZING)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
-
 	m_bOnSKill[2] = true;
+	m_arrSkillSlot[2] = m_arrEffect[_uint(SKILL_TYPE::FREEZING)];
 
 #pragma endregion
 
+	// 처음 시작상태 설정
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_IDLE);
+	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_WAKE);
 
 
 	// Camera Setting
@@ -670,6 +691,18 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack2", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_WAKE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWake", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_DIE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fDie", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fSleep", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 #pragma endregion
 
 
@@ -679,7 +712,7 @@ HRESULT CPlayer::Add_Component()
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
 	if (CInputDev::GetInstance()->Key_Down('Z'))
-		Damaged(20);
+		Damaged(40);
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
@@ -687,7 +720,7 @@ void CPlayer::Regen_Def(const _float& fTimeDelta)
 	if (m_tStatInfo.fCurDef < m_tStatInfo.fMaxDef)
 	{
 		m_fAccDef += fTimeDelta;
-		if (m_fAccDef > 8.f)
+		if (m_fAccDef > 12.f)
 		{
 			_float fRegenDef = m_tStatInfo.fCurDef + 20;
 			if (fRegenDef > m_tStatInfo.fMaxDef)
@@ -713,14 +746,20 @@ void CPlayer::Regen_HP(const _float& fHeal)
 
 void CPlayer::Damaged(const _float& fDamage)
 {
+	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_DIE ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WAKE || 
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL || 
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
+		return;
+
 	if(m_tStatInfo.fCurDef > 0)
 		Set_CurDef(m_tStatInfo.fCurDef - fDamage);
 	else
 	{
-		if (m_tStatInfo.fCurHP <= 0)
+		if (m_tStatInfo.fCurHP <= 1)
 		{
-			Set_CurHP(m_tStatInfo.fMaxHP);
-			m_bHit = true;
+			Set_CurHP(0);
+			m_tStatInfo.bDead = true;
 		}
 		else
 		{

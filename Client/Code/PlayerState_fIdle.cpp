@@ -35,6 +35,9 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 		m_bEnter = false;
 		eState = STATE_TYPE::FRONT_HIT;
 	}
+
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
+		eState = STATE_TYPE::FRONT_DIE;
 		
 	if (eState != m_eState)
 		m_bEnter = false;
@@ -53,6 +56,8 @@ void CPlayerState_fIdle::Render_State()
 STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 {
 
+
+
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 		return STATE_TYPE::FRONT_WALK;
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
@@ -70,6 +75,8 @@ STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 	// АјАн
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
 		return STATE_TYPE::FRONT_ATTACK; 
+
+	
 
 		return m_eState;
 }

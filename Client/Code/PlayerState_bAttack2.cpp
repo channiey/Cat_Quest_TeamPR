@@ -23,6 +23,12 @@ HRESULT CPlayerState_bAttack2::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CPlayerState_bAttack2::Update_State(const _float& fTimeDelta)
 {
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_DIE;
+	}
+
 	if (!m_bEnter)
 	{
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
