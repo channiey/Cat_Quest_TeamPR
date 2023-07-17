@@ -5,6 +5,7 @@
 
 #include "Shadow_Npc.h"
 #include "QuestMgr.h"
+#include "ItemSparkle.h"
 
 CNpc_Mage::CNpc_Mage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_MAGE)
@@ -32,8 +33,9 @@ HRESULT CNpc_Mage::Ready_Object()
 	m_pTransformCom->Set_Pos(_vec3{ 75.f, m_pTransformCom->Get_Scale().y + 1.f, 110.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.5f, 2.5f, 2.5f });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
-
+	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
+	
 	return S_OK;
 }
 

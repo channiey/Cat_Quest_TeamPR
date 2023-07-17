@@ -32,7 +32,8 @@ HRESULT CNpc_Soldier::Ready_Object()
 	m_pTransformCom->Set_Pos(_vec3{ 100.f, m_pTransformCom->Get_Scale().y + 1.f, 110.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Npc_Soldier_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
+	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		CEventMgr::GetInstance()->Add_Obj(L"Npc_Soldier_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
 	return S_OK;
 }

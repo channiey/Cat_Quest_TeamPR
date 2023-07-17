@@ -30,14 +30,13 @@ HRESULT CHpUI::Ready_Object()
 	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
 	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
 
-
 	return S_OK;
 }
 
 _int CHpUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-
+	
 	if (nullptr == m_pPlayer)
 		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
