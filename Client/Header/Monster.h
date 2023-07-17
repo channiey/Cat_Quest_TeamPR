@@ -124,9 +124,9 @@ protected:
 	_vec3					m_vImageSize;
 	
 	_bool					m_bHit;
-
+	_bool					m_bInit;
 protected:
-
+	
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CAIComponent*			m_pAICom;
 	CStateMachine*			m_pStateMachineCom;

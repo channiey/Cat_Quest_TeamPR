@@ -22,6 +22,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_vImageSize({0.f,0.f,0.f})
 	, m_fMaxJumpY(0.f)
 	, m_bHit(false)
+	, m_bInit(false)
 	, fAccTime(0.f)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
@@ -86,6 +87,13 @@ HRESULT CMonster::Ready_Object()
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	// Update 에서 한번 불려지게 만듬
+	if (!m_bInit)
+	{
+		m_bInit = true;
+		m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
+	}
 
 
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode()) 

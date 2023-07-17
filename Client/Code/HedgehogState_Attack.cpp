@@ -13,6 +13,7 @@ CHedgegohState_Attack::CHedgegohState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     , m_fPosShakeRange(0.f)
     , m_fAddHeight(0.f)
     , m_fAddRot(0.f)
+    , m_fScaleDown(0.f)
 {
 }
 
@@ -38,8 +39,13 @@ HRESULT CHedgegohState_Attack::Ready_State(CStateMachine* pOwner)
 
     m_fPosShakeRange *= -0.2f;
 
-    m_fAddHeight += 1.f;
-    m_fAddRot += 0.5f;
+    m_fAddHeight += 1.2f;
+    m_fAddRot += 0.3f;
+    m_fScaleDown -= 0.01;
+
+    //m_vOriginPos = m
+
+
     return S_OK;
 }
 
@@ -61,9 +67,10 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
     _vec3       vOwnerOriginPos = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_OriginPos();
     // Monster - Speed
     _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
-    // Moanter - Scale
+    // Monster - Scale
     _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
-
+    // Monster - Dir
+    _vec3       vOwnerDir = pOwnerTransform->Get_Dir();
 
     // Player - Pos
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -71,76 +78,85 @@ STATE_TYPE CHedgegohState_Attack::Update_State(const _float& fTimeDelta)
 
     // Dir Vector
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
-    _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
+    _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치 - 몬스터]
 
     // Distance
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
  
-    //pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
-    // 
+    pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
+     
 
-    //m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
-    //
-    //m_fPosShakeRange *= -1.f;
-    //
+    m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
+    
+    m_fPosShakeRange *= -1.f;
+    
 
-    //if (m_fAccTime <= 1.f)
-    //{
-    //    pOwnerTransform->Set_Dir(vec3.zero);
-    //}
-    //else if (m_fAccTime <= 2.f )
-    //{
-    //    pOwnerTransform->Set_Pos({ vOwnerPos.x + m_fPosShakeRange,  vOwnerPos.y, vOwnerPos.z });
-    //}
-    //else if (m_fAccTime <= 3.f)
-    //{
-    //    pOwnerTransform->Set_Rot({ 0, 0, m_fAddRot }, LOCAL);
-    //    pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
-    //}
-    //else if (m_fAccTime <= 4.f)
-    //{
-    //    pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-    //    pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y , vOwnerPos.z });
-  
-    //}
-
-    //else
-    //{
-    //    m_fAccTime = 0.f;
-   
-    //}
-
+    if (m_fAccTime <= 0.3f)
+    {
+        
+    }
+    else if (m_fAccTime <= 0.7f)
+    {
+        pOwnerTransform->Set_Pos({ vOwnerPos.x + m_fPosShakeRange,  vOwnerPos.y, vOwnerPos.z });
+       // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
+    }
+    else if (m_fAccTime <= 1.2f)
+    {
+        if (vOwnerScale.x >= 0)
+        {
+            pOwnerTransform->Set_Rot({ 0, 0, m_fAddRot }, LOCAL);
+            pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
+           // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+        }
+        else if (vOwnerScale.x < 0)
+        {
+            pOwnerTransform->Set_Rot({ 0, 0, -(m_fAddRot) }, LOCAL);
+            pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
+           // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
+        }
+    }
+    else if (m_fAccTime <= 1.5f)
+    {
+        pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
+        pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y , vOwnerPos.z });
+      //  pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+    else if (m_fAccTime <= 2.f)
+    {
+        
 #pragma region State Change
-    // Attack 우선순위
-    // chase - Comeback
+        // Attack 우선순위
+        // chase - Comeback
 
-    // CHASE 전이 조건
-    if (fPlayerDistance >= m_fChaseRange)
-    {
-        //cout << "chase  전이" << endl;
-        
-        pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-        pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        return STATE_TYPE::CHASE;
+        // CHASE 전이 조건
+        if (fPlayerDistance >= m_fChaseRange)
+        {
+            //cout << "chase  전이" << endl;
+            
+            pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
+            pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+            return STATE_TYPE::CHASE;
+        }
+
+        // COMEBACK 전이 조건
+        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+        {
+            //cout << "COMBACK  전이" << endl;
+            
+            pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
+            pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+            return STATE_TYPE::COMEBACK;
+        }
     }
-
-    // COMEBACK 전이 조건
-    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+    else
     {
-        //cout << "COMBACK  전이" << endl;
-        
-        pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        return STATE_TYPE::COMEBACK;
+        m_fAccTime = 0.f;
     }
-
     
 
     return STATE_TYPE::MONATTACK;
-
-
 
 #pragma endregion
 
