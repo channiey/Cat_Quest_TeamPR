@@ -29,6 +29,7 @@ HRESULT CHpUI::Ready_Object()
 	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
 	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
 	m_pUITransformCom[3]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
+	m_pUITransformCom[4]->Set_Scale(_vec3{ 2.f, 0.6f, 1.f });
 
 
 	return S_OK;
@@ -47,11 +48,6 @@ _int CHpUI::Update_Object(const _float& fTimeDelta)
 	if (1.f < m_fHpRatio)
 		m_fHpRatio = 1.f;
 
-	return iExit;
-}
-
-void CHpUI::LateUpdate_Object()
-{
 	Follow_Player();
 
 	_vec3 vInitPosition = m_pUITransformCom[1]->Get_Info(INFO::INFO_POS);
@@ -61,6 +57,26 @@ void CHpUI::LateUpdate_Object()
 
 	m_pUITransformCom[1]->Set_Scale(_vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f });
 	m_pUITransformCom[1]->Set_Pos(vNewPosition);
+
+	
+
+	if (vNewPosition != m_pUITransformCom[4]->Get_Info(INFO::INFO_POS))
+	{
+		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale(), _vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f }, 0.5f, fTimeDelta);
+		_vec3 vOutPos = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Info(INFO::INFO_POS), vNewPosition, 0.5f, fTimeDelta);
+		if (vOutPos.x != -99)
+		{
+			m_pUITransformCom[4]->Set_Scale(vOutScale);
+			m_pUITransformCom[4]->Set_Pos(vOutPos);
+		}
+	}
+
+	return iExit;
+}
+
+void CHpUI::LateUpdate_Object()
+{
+	
 	
 	__super::LateUpdate_Object();
 
@@ -74,9 +90,15 @@ void CHpUI::Render_Object()
 	m_pTextureCom->Render_Texture(7);
 	m_pBufferCom->Render_Buffer();
 
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[4]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(10);
+	m_pBufferCom->Render_Buffer();
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
 	m_pTextureCom->Render_Texture(1);
 	m_pBufferCom->Render_Buffer();
+
+	
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
 	m_pTextureCom->Render_Texture(0);
@@ -100,7 +122,7 @@ HRESULT CHpUI::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 
-	for (_uint i = 0; i < 4; ++i)
+	for (_uint i = 0; i < 5; ++i)
 	{
 		pComponent = m_pUITransformCom[i] = dynamic_cast<CTransform*>(Engine::Clone_Proto(COMPONENT_TYPE::TRANSFORM, this));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -122,6 +144,7 @@ void CHpUI::Follow_Player()
 	m_pUITransformCom[1]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 	m_pUITransformCom[2]->Set_Pos({ vPlayerPosition.x - 2.6f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 	m_pUITransformCom[3]->Set_Pos({ vPlayerPosition.x + 1.95f, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
+	//m_pUITransformCom[4]->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z - 4.2f });
 }
 
 CHpUI* CHpUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)

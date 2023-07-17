@@ -76,8 +76,11 @@ HRESULT CPlayer::Ready_Object()
 	m_bHit = false;
 	m_bAttack = false;
 	m_bSkill = false;
-	m_fAccDef = 0.f;
 
+	for (_uint i = 0; i < 4; ++i)
+		m_bOnSKill[i] = false;
+	
+	m_fAccDef = 0.f;
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
 	m_pTransformCom->Set_Pos(_vec3{ 100, m_pTransformCom->Get_Scale().y, 100 });	
@@ -148,10 +151,12 @@ HRESULT CPlayer::Ready_Object()
 	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
+	m_bOnSKill[0] = true;
+
 	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
-
+	m_bOnSKill[1] = true;
 
 #pragma endregion
 
@@ -187,7 +192,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 	
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 	Regen_Def(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -671,7 +676,7 @@ void CPlayer::Regen_Def(const _float& fTimeDelta)
 	if (m_tStatInfo.fCurDef < m_tStatInfo.fMaxDef)
 	{
 		m_fAccDef += fTimeDelta;
-		if (m_fAccDef > 5.f)
+		if (m_fAccDef > 8.f)
 		{
 			_float fRegenDef = m_tStatInfo.fCurDef + 20;
 			if (fRegenDef > m_tStatInfo.fMaxDef)

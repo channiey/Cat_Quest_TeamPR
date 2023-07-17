@@ -486,6 +486,8 @@ void CFieldSkillUI::Picking_UI()
 	{
 		for (_uint i = 0; i < 4; ++i)
 			m_bPick[i] = false;
+		for (_uint i = 0; i < 4; ++i)
+			m_bSkill[i] = false;
 	}
 
 
@@ -545,14 +547,19 @@ void CFieldSkillUI::Reset_SkillUI()
 
 void CFieldSkillUI::Play_SKill()
 {
-	for (_uint i = 0; i < 4; ++i)
+	for (_uint i = 0; i < 2; ++i)
 	{
 		if (m_bSkill[i])
 		{
-			CEffect* pEffect = m_pPlayer->Get_Effect(i);
-			if(nullptr != pEffect)
-				pEffect->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
-			m_pPlayer->Set_Skill(true);
+			if (m_pPlayer->Is_OnSkill(i))
+			{
+				CEffect* pEffect = m_pPlayer->Get_Effect(i);
+				if (nullptr != pEffect)
+				{
+					pEffect->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
+					m_pPlayer->Set_Skill(true);
+				}
+			}	
 		}
 	}
 }
