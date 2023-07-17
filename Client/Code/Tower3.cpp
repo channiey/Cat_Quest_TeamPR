@@ -26,6 +26,8 @@ HRESULT CTower3::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 5.f, 3.f });
 	m_pTransformCom->Set_Pos(_vec3{ 140.f, m_pTransformCom->Get_Scale().y, 125.f });
 
+	m_szName = L"Tower3";
+
 	return S_OK;
 }
 

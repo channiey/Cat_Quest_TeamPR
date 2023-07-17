@@ -29,6 +29,8 @@ private:
 	_float	  m_fSize;
 	_bool	  m_bSizeUp, m_bPositionUp, m_bPlay;
 	_int	  m_iReplayTime;
+	_matrix matWorld;
+
 public:
 	static CItemSparkle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject); 
 

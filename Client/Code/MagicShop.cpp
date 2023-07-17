@@ -29,6 +29,8 @@ HRESULT CMagicShop::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 5.f, 4.f });
 	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 115.f });
 
+	m_szName = L"MagicShop";
+
 	return S_OK;
 }
 

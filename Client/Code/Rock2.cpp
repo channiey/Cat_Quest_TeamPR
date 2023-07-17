@@ -25,6 +25,9 @@ HRESULT CRock2::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 0.5f, 0.5f, 0.5f });
 	m_pTransformCom->Set_Pos(_vec3{ 95.f, m_pTransformCom->Get_Scale().y, 90.f });
+	
+	m_szName = L"Rock2";
+
 	return S_OK;
 }
 

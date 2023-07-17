@@ -29,6 +29,8 @@ HRESULT CChest_Cosmetic::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 1.f, 1.f, 1.f });
 	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 80.f });
 
+	m_szName = L"Cosmetic_Chest";
+
 	return S_OK;
 }
 

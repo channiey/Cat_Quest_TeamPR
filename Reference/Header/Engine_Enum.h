@@ -102,14 +102,6 @@ namespace Engine
 
 
 
-		/* ========================================= Effect ========================================*/
-
-
-		// Cloud
-		EFFECT_CLOUD_1, EFFECT_CLOUD_2, EFFECT_CLOUD_3,
-
-
-
 		/* ========================================= BackGround ========================================*/
 
 
@@ -150,10 +142,13 @@ namespace Engine
 
 
 		// ENVIRONMENT
-
 		EFFECT_MOVEDUST, EFFECT_MOVEWATER, EFFECT_PLAYABLE_SHADOW, EFFECT_MONSTER_SHADOW, EFFECT_NPC_SHADOW, EFFECT_ITEM_SHADOW,
-			EFFECT_POLLEN,
+			EFFECT_POLLEN, EFFECT_CLOUD_1, EFFECT_CLOUD_2, EFFECT_CLOUD_3,
 
+		// ITEM
+		EFFECT_ITEMSPARKLE,
+		// BATTLE
+		EFFECT_MONSTERSPIRIT,
 		// SKILL
 		EFFECT_SKILL_FIRE, EFFECT_SKILL_THUNDER, EFFECT_SKILL_HEAL, EFFECT_SKILL_FREEZING, EFFET_SKILL_ASTROW, EFFECT_SKILL_CATTRAP,
 

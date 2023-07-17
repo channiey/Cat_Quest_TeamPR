@@ -30,6 +30,8 @@ HRESULT CBush10::Ready_Object()
 
 	m_pTransformCom->Set_Scale(m_vecInitScale);
 
+	m_szName = L"Bush10";
+
 	return S_OK;
 }
 

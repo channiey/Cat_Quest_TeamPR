@@ -25,6 +25,9 @@ HRESULT CDungeon_Temple::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Pos(_vec3{ 50.f, m_pTransformCom->Get_Scale().y, 80.f });
+	
+	m_szName = L"Dungeon_Temple";
+	
 	return S_OK;
 }
 

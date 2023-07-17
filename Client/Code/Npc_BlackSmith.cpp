@@ -35,6 +35,8 @@ HRESULT CNpc_BlackSmith::Ready_Object()
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Npc_BlackSmith_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
+	m_szName = L"Npc_BlackSmith";
+
 	return S_OK;
 }
 

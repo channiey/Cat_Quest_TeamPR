@@ -10,7 +10,6 @@
 
 // Shadow
 #include "Shadow_Monster.h"
-
 // Itme
 #include "GoldCoin.h"
 

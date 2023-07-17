@@ -25,6 +25,8 @@ HRESULT CBush5::Ready_Object()
 
 	m_pTransformCom->Set_Pos(_vec3{ 70.f, m_pTransformCom->Get_Scale().y, 60.f });
 
+	m_szName = L"Bush5";
+
 	return S_OK;
 }
 

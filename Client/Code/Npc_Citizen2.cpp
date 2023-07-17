@@ -38,6 +38,8 @@ HRESULT CNpc_Citizen2::Ready_Object()
 	
 	//m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"µµµœ ¿‚±‚"));
 
+	m_szName = L"Npc_Citizen2";
+
 	return S_OK;
 }
 

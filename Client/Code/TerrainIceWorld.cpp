@@ -32,6 +32,8 @@ HRESULT CTerrainIceWorld::Ready_Object(void)
 									m_pTransformCom->Get_Scale().y,
 									m_pTransformCom->Get_Scale().z });
 
+	m_szName = L"TerrainWorld_Ice";
+
 	return S_OK;
 
 }

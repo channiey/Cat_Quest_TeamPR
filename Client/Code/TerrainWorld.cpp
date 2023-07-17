@@ -30,6 +30,8 @@ HRESULT CTerrainWorld::Ready_Object(void)
 	m_pTransformCom->Set_Pos(_vec3{ m_pTransformCom->Get_Scale().x,
 									m_pTransformCom->Get_Scale().y,  
 									m_pTransformCom->Get_Scale().z });
+	
+	m_szName = L"TerrainWorld";
 
 	return S_OK;
 }

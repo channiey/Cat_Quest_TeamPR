@@ -25,6 +25,9 @@ HRESULT CMountain_Ice::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 9.f, 5.f, 7.f });
 	m_pTransformCom->Set_Pos(_vec3{ 130.f , m_pTransformCom->Get_Scale().y - 1.f, 90.f });
+	
+	m_szName = L"Mountain_Ice";
+	
 	return S_OK;
 }
 

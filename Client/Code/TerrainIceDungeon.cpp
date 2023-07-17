@@ -35,6 +35,8 @@ HRESULT CTerrainIceDungeon::Ready_Object(void)
 									m_pTransformCom->Get_Scale().y,
 									m_pTransformCom->Get_Scale().z });
 
+	m_szName = L"TerrainDungeon_Ice";
+
 	return S_OK;
 
 }

@@ -25,6 +25,8 @@ HRESULT CItem_Object::Ready_Object()
 
     m_eItemType = ITEM_TYPE::OBJECT;
 
+    m_szName = L"";
+
     return S_OK;
 }
 

@@ -10,7 +10,8 @@
 
 #include "MonHpUI.h"
 
-
+// Spirit
+#include "MonstSpirit.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
@@ -108,6 +109,8 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 	if (true == m_tStatInfo.bDead)
 	{
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Spirit", CMonstSpirit::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+
 		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
 		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
 

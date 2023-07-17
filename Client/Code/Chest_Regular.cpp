@@ -29,6 +29,8 @@ HRESULT CChest_Regular::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 1.5f, 1.5f });
 	m_pTransformCom->Set_Pos(_vec3{ 100.f , m_pTransformCom->Get_Scale().y, 80.f });
 
+	m_szName = L"Regular_Chest";
+
 	return S_OK;
 }
 

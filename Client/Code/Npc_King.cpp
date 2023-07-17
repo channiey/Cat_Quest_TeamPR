@@ -46,6 +46,7 @@ HRESULT CNpc_King::Ready_Object()
 	m_bReadyQuest = true;
 	m_bReadyTalk = true;
 	
+	m_szName = L"Npc_King";
 
 	return S_OK;
 }

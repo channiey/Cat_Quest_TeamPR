@@ -25,6 +25,9 @@ HRESULT CIce_Pillar1::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 5.f, 3.f });
 	m_pTransformCom->Set_Pos(_vec3{ 30.f, m_pTransformCom->Get_Scale().y - 1.f, 70.f });
+	
+	m_szName = L"Ice_Pillar1";
+
 	return S_OK;
 }
 

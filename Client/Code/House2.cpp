@@ -26,6 +26,8 @@ HRESULT CHouse2::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
 	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 130.f });
 
+	m_szName = L"House2";
+
 	return S_OK;
 }
 
