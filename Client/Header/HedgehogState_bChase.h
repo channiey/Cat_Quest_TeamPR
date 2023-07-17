@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CHedgehogState_Attack : public CState
+class CHedgehogState_bChase : public CState
 {
 public:
-	explicit			CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CHedgehogState_Attack();
+	explicit			CHedgehogState_bChase(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CHedgehogState_bChase();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CHedgehogState_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CHedgehogState_bChase* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:
@@ -43,16 +43,5 @@ private:
 	_float  m_fComeBackRange;
 	_float  m_fPlayerTargetRange;
 
-	_float  m_fPosShakeRange;
-	_vec3   m_vOriginPos;
-	
-	_float  m_fAddHeight;
-	_float  m_fAddRot;
-	_float  m_fScaleDown;
-
-
-	_vec3   m_vOriginScale;
-	//_vec3   m_vOriginPos;
-	_vec3   m_vOriginRot;
 };
 
