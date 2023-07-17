@@ -37,23 +37,23 @@ HRESULT CItemSparkle::Ready_Object()
 _int CItemSparkle::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	Engine::Add_RenderGroup(RENDER_WDUI, this); // 무조건 아이템보다 늦게 그려지게
 
 	if (!m_bPositionUp)
 	{
 		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x + m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y - m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z - 0.02f });
+		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
 	}
 	else 
 	{
 		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x - m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y + m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z - 0.02f });
+		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z});
 	}
 
-
 	m_pTransformCom->Set_Scale(_vec3{ m_fSize, m_fSize, m_fSize });
+
 
 	if (!m_pOwnerobject->Is_Active())
 	{

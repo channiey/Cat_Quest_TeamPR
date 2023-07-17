@@ -66,7 +66,8 @@ HRESULT CWyvern::Ready_Object()
 	m_fJumpingSpeed = 0.05;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
-	CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
 #pragma region State Add
 

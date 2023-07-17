@@ -32,7 +32,8 @@ HRESULT CNpc_Citizen1::Ready_Object()
 	m_pTransformCom->Set_Pos(_vec3{ 80.f, m_pTransformCom->Get_Scale().y + 1.f, 125.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen1_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
+	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen1_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
 	return S_OK;
 }
