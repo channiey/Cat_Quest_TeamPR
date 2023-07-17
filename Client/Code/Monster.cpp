@@ -12,6 +12,8 @@
 
 // Spirit
 #include "MonstSpirit.h"
+// CutEffect
+#include "MobCutEffect.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
@@ -122,6 +124,8 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	if (m_bHit == true)
 	{
 		fAccTime += fTimeDelta;
+
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Cut_Effect", CMobCutEffect::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 
 		if (fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
 		{

@@ -25,10 +25,18 @@ private:
 	virtual void				Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) override;
 
 private:
-	CTexture* m_pTextureCom;
+	// Texture
+	CTexture* m_pTexCutCom;
+	CTexture* m_pTexOrbCom;
+
+	// Cut
 	_vec3	  m_vPos;
-	_float	  m_fSize;
-	_float	  m_bMaxSize;
+	_float	  m_fCutSize;
+	_float	  m_fCutMaxSize;
+	_bool	  m_bSizeUp;
+	_float	  m_fRandRotZ;
+	// Orb
+	_float	  m_fOrbSize;
 
 public:
 	static CMobCutEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);
