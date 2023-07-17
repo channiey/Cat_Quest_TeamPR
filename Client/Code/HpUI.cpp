@@ -60,7 +60,7 @@ _int CHpUI::Update_Object(const _float& fTimeDelta)
 
 	
 
-	if (vNewPosition != m_pUITransformCom[4]->Get_Info(INFO::INFO_POS))
+	/*if (vNewPosition != m_pUITransformCom[4]->Get_Info(INFO::INFO_POS))
 	{
 		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale(), _vec3{ 2.0f * m_fHpRatio, 0.6f, 1.0f }, 0.5f, fTimeDelta);
 		_vec3 vOutPos = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Info(INFO::INFO_POS), vNewPosition, 0.5f, fTimeDelta);
@@ -69,7 +69,7 @@ _int CHpUI::Update_Object(const _float& fTimeDelta)
 			m_pUITransformCom[4]->Set_Scale(vOutScale);
 			m_pUITransformCom[4]->Set_Pos(vOutPos);
 		}
-	}
+	}*/
 
 	return iExit;
 }
