@@ -317,6 +317,27 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_ItemSparkle",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Item/Sparkle.png")), E_FAIL);
 
+	// 몬스터스피릿
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_MonsterSpirit",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/MonsterSpirit.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Spiritorb",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/spiritorb.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Spiritwave",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/spiritwave.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Yelloworbs",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/MonstrSpirit/yelloworbs.png")), E_FAIL);
+
+	// 플레이어 슬래쉬
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Player_Slash_Rising",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/PlayerSlash/Rising/%d.png", 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Player_Slash_Chopping",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/PlayerSlash/Chopping/%d.png", 4)), E_FAIL);
+
+	// 몬스터 피격
+	// 검
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Monster_Cut_Effect",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/CutEffect/CutEffect.png")), E_FAIL);
+
 
 #pragma endregion
 

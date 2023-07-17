@@ -35,6 +35,8 @@ HRESULT CNpc_Citizen1::Ready_Object()
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen1_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
+	m_szName = L"Npc_Citizen1";
+
 	return S_OK;
 }
 

@@ -29,6 +29,8 @@ HRESULT CSmithy::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
 	m_pTransformCom->Set_Pos(_vec3{ 80.f, m_pTransformCom->Get_Scale().y, 115.f });
 
+	m_szName = L"Smithy";
+
 	return S_OK;
 }
 

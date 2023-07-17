@@ -2,6 +2,8 @@
 
 #include "Export_Function.h"
 
+#include "PlayerSlash.h"
+
 CPlayerState_fAttack2::CPlayerState_fAttack2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev)
 {
@@ -32,6 +34,11 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 	if (!m_bEnter)
 	{
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
+
+		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Rising", CPlayerSlash::Create(
+			m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
+		));
+
 		m_bEnter = true;
 	}
 

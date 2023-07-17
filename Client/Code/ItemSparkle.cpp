@@ -5,7 +5,7 @@
 #include "ItemSparkle.h"
 
 CItemSparkle::CItemSparkle(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MOVEDUST)
+	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_ITEMSPARKLE)
 {
 	m_pOwnerobject = _pOwnerObject;
 }
@@ -39,21 +39,39 @@ _int CItemSparkle::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_WDUI, this); // 무조건 아이템보다 늦게 그려지게
 
-	if (!m_bPositionUp)
-	{
-		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x + m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y - m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
-	}
-	else 
-	{
-		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x - m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y + m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z});
-	}
+	// 아이템의 위치를 얻어옴
+	_vec3 itemPosition = m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS);
+	// 카메라의 월드행렬을 가져와서 카메라의 위치를 얻어옴
+	_matrix matCamWorld = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatWorld();
+	_vec3 cameraPosition = _vec3(matCamWorld._41, matCamWorld._42, matCamWorld._43);
+	// 아이템과 카메라 사이의 벡터를 계산
+	_vec3 itemToCamera = cameraPosition - itemPosition;
+	
+	// 아이템의 오른쪽 벡터를 계산 
+	_vec3 upVector;
+	D3DXVec3Cross(&upVector, &itemToCamera, &(_vec3(1.0f, 0.0f, 0.0f))); 
+	D3DXVec3Normalize(&upVector, &upVector);
+	
+	// 아이템의 아래 벡터를 계산
+	_vec3 rightVector;
+	D3DXVec3Cross(&rightVector, &upVector, &itemToCamera);
+	D3DXVec3Normalize(&rightVector, &rightVector);
+	
+	_vec3 effectPosition;
+	// 이펙트의 위치를 계산
+	if(!m_bPositionUp)
+		effectPosition = itemPosition  // 왼쪽 위 
+		- (upVector * m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f)
+		- (rightVector * m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f);
+	else
+		effectPosition = itemPosition // 오른쪽 아래
+		+ (upVector * m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f)
+		+ (rightVector * m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f);
+	
+	// 이펙트의 위치를 설정(z는 연구는 필요. 다른 축도 실제로는 위치가 조금씩 변하고 있음.)
+	m_pTransformCom->Set_Pos(effectPosition); 
 
 	m_pTransformCom->Set_Scale(_vec3{ m_fSize, m_fSize, m_fSize });
-
 
 	if (!m_pOwnerobject->Is_Active())
 	{

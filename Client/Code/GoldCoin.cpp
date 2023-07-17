@@ -52,6 +52,8 @@ HRESULT CGoldCoin::Ready_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"CoinSparkle", CItemSparkle::Create(m_pGraphicDev, this));
 	}
 
+	m_szName = L"Item_GoldCoin";
+
 	return S_OK;
 }
 

@@ -48,6 +48,7 @@ HRESULT CNinjaWeapon::Ready_Object()
 
     CEventMgr::GetInstance()->Add_Obj(L"Ninja_Weapon_Shadow", CShadow_Item::Create(m_pGraphicDev, this));
 
+    m_szName = L"Item_NinjaeWeapon";
 
     return S_OK;
 }

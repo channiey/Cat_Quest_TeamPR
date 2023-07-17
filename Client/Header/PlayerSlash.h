@@ -8,11 +8,11 @@ class CAnimation;
 
 END
 
-class CItemSparkle : public CEffect
+class CPlayerSlash : public CEffect
 {
-	explicit CItemSparkle(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
-	explicit CItemSparkle(const CItemSparkle& rhs);
-	virtual ~CItemSparkle();
+	explicit CPlayerSlash(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, _bool _IsRising);
+	explicit CPlayerSlash(const CPlayerSlash& rhs);
+	virtual ~CPlayerSlash();
 
 public:
 	virtual HRESULT				Ready_Object() override;
@@ -25,14 +25,14 @@ private:
 	virtual void				Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) override;
 
 private:
-	CTexture* m_pTextureCom;
-	_float	  m_fSize;
-	_bool	  m_bSizeUp, m_bPositionUp, m_bPlay;
-	_int	  m_iReplayTime;
-	_matrix matWorld;
+	CTexture*	m_pTexRisingCom;
+	CTexture*	m_pTexChoppingCom;
+	CAnimation* m_pAnimation;
 
+	_bool		m_bRight;
+	_bool		m_bRisign;
 public:
-	static CItemSparkle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject); 
+	static CPlayerSlash* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, _bool _IsRising);
 
 private:
 	virtual void				Free() override;

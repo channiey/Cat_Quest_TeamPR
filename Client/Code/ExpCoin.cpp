@@ -48,6 +48,8 @@ HRESULT CExpCoin::Ready_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"ExpSparkle", CItemSparkle::Create(m_pGraphicDev, this));
 	}
 
+	m_szName = L"Item_ExpCoin";
+
 	return S_OK;
 }
 

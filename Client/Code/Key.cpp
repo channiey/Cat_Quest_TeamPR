@@ -40,6 +40,7 @@ HRESULT CKey::Ready_Object()
 
 	m_fJumpingSpeed = 0.01;
 
+	m_szName = L"Item_Key";
 
 	return S_OK;
 }

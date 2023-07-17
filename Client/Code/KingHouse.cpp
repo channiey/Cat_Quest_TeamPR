@@ -32,6 +32,8 @@ HRESULT CKingHouse::Ready_Object()
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 6.f, 6.f });
 	m_pTransformCom->Set_Pos(_vec3{ 120.f, m_pTransformCom->Get_Scale().y, 60.f });
 
+	m_szName = L"KingHouse";
+
 	return S_OK;
 }
 
