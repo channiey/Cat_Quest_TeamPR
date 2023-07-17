@@ -45,8 +45,8 @@ HRESULT CHedgehog::Ready_Object()
 	
 
 	// 원래 이미지 크기
-	m_vImageSize.x = 0.73f;  // 100px = 1.f
-	m_vImageSize.y = 0.52f;
+	m_vImageSize.x = 1.f;  // 100px = 1.f
+	m_vImageSize.y = 1.f;
 	m_vImageSize.z = 2.f;   // 고정 값
 
 

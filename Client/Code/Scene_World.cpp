@@ -97,6 +97,7 @@
 #include "Fox.h"
 #include "Wyvern.h"
 #include "Squirrel.h"
+#include "Test_Mob.h"
 
 // Effect
 #include "Cloud1.h"
@@ -839,6 +840,7 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	//pGameObject = CHedgehog::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+
 
 	return S_OK;
 }
