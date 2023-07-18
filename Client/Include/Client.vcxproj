@@ -172,7 +172,6 @@
     <ClInclude Include="..\Header\BatState_Rest.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
-    <ClInclude Include="..\Header\Effect_Font.h" />
     <ClInclude Include="..\Header\Effect_Heal.h" />
     <ClInclude Include="..\Header\Effect_Ice.h" />
     <ClInclude Include="..\Header\FoxFire.h" />
@@ -425,7 +424,6 @@
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Effect_Beam.cpp" />
-    <ClCompile Include="..\Code\Effect_Font.cpp" />
     <ClCompile Include="..\Code\Effect_Heal.cpp" />
     <ClCompile Include="..\Code\Effect_Ice.cpp" />
     <ClCompile Include="..\Code\FoxFire.cpp" />

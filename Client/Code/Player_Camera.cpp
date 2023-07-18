@@ -85,10 +85,10 @@ void CPlayer_Camera::Set_ViewSpace()
 
 
 	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
-	_vec3 vLerpPos{};
+	//_vec3 vLerpPos{};
 
-	D3DXVec3Lerp(&vLerpPos, &m_pCameraCom->m_tVspace.LookAt, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * 5.f);
-	vLerpPos.y = vFollowPos.y;
+	//D3DXVec3Lerp(&vLerpPos, &m_pCameraCom->m_tVspace.LookAt, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * 5.f);
+	//vLerpPos.y = vFollowPos.y;
 
 	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
 	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
@@ -98,14 +98,14 @@ void CPlayer_Camera::Set_ViewSpace()
 	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
 	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * 1.8f;
 
-	m_pTransformCom->Set_Pos(_vec3{ vLerpPos.x,
+	m_pTransformCom->Set_Pos(_vec3{ vFollowPos.x,
 									fY,
-									vLerpPos.z - m_pCameraCom->m_fDistance });
+									vFollowPos.z - m_pCameraCom->m_fDistance });
 
 
 
 	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
-	m_pCameraCom->m_tVspace.LookAt = vLerpPos;
+	m_pCameraCom->m_tVspace.LookAt = m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
 	m_pCameraCom->m_tVspace.Up = vec3.up;
 }
 

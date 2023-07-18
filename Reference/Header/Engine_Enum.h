@@ -4,15 +4,13 @@
 namespace Engine
 {
 	// 추가 및 편집시 팀장 보고
-	enum class SCENE_TYPE { INTRO, LOADING, WORLD, ENDING, TOOL, TYPEEND }; // 씬 종류
-
+	enum class SCENE_TYPE			{ INTRO, LOADING, WORLD, ENDING, TOOL, TYPEEND }; // 씬 종류
+	
 	// 추가 및 편집시 팀장 보고																			
-	enum class OBJ_TYPE {
-		PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE,
-		ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, BACKGROUND, EFFECT, UI, BULLET, TYPEEND
-	}; // 오브젝트 타입
+	enum class OBJ_TYPE				{ PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE, 
+									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, BACKGROUND, EFFECT, UI, BULLET, TYPEEND }; // 오브젝트 타입
 
-	enum class OBJ_ID
+	enum class OBJ_ID			
 	{
 
 
