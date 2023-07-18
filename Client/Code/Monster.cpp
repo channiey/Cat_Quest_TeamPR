@@ -96,6 +96,9 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	{
 		m_bInit = true;
 		m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
+
+		// DATA 파일에 위치랑 달라서 일단 추가함
+		m_pTransformCom->Set_Pos({ m_vOriginPos.x, m_pTransformCom->Get_Scale().y,m_vOriginPos.z });
 	}
 
 

@@ -88,7 +88,7 @@ STATE_TYPE CHedgehogState_bChase::Update_State(const _float& fTimeDelta)
     // CHASE 전이 조건
     if (vOwnerDir.z < 0)
     {
-      //  cout << "Chase  전이" << endl;
+       cout << "Chase  전이" << endl;
         return STATE_TYPE::CHASE;
     }
 
@@ -99,13 +99,13 @@ STATE_TYPE CHedgehogState_bChase::Update_State(const _float& fTimeDelta)
     {
         if (vOwnerDir.z < 0)
         {
-           // cout << "comback 전이" << endl;
+            //cout << "comback 전이" << endl;
           //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::COMEBACK;
         }
         else
         {
-           // cout << "back comback 전이" << endl;
+            //cout << "back comback 전이" << endl;
            // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_COMEBACK;
         }
@@ -122,7 +122,7 @@ STATE_TYPE CHedgehogState_bChase::Update_State(const _float& fTimeDelta)
         }
         else
         {
-            //cout << "back attack 전이" << endl;
+           // cout << "back attack 전이" << endl;
            // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_MONATTACK;
         }

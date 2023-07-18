@@ -38,8 +38,10 @@ HRESULT CRamState_Attack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
 {
+    //Monster - Ainmator Com
+    CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
+
     // Monster - Ai Com
-    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
 
     // Monster - Transform Com
@@ -58,7 +60,8 @@ STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
     _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
     // Moanter - Scale
     _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
-
+    // Monster - Dir
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
     // Player - Pos
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -83,27 +86,38 @@ STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
 
 #pragma region State Change
 
-
-    // CHASE 전이 조건
-    if (fPlayerDistance >= m_fChaseRange)
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
-        //cout << "chase  전이" << endl;
-       // pOwnerTransform->Set_Dir(vec3.zero);
-       // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        return STATE_TYPE::CHASE;
+
+        // BACK_ Attack 전이
+        if (vOwnerDir.z > 0)
+        {
+            // cout <<  "back monattack 전이" << endl;
+            return STATE_TYPE::BACK_MONATTACK;
+        }
+
+
+
+        // CHASE 전이 조건
+        if (fPlayerDistance >= m_fChaseRange)
+        {
+            //cout << "chase  전이" << endl;
+           // pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+            return STATE_TYPE::CHASE;
+        }
+
+        // COMEBACK 전이 조건
+        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+        {
+            //cout << "COMBACK  전이" << endl;
+            //pOwnerTransform->Set_Dir(vec3.zero);
+            //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+
+            return STATE_TYPE::COMEBACK;
+        }
+
     }
-
-    // COMEBACK 전이 조건
-    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-    {
-        //cout << "COMBACK  전이" << endl;
-        //pOwnerTransform->Set_Dir(vec3.zero);
-        //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-        
-        return STATE_TYPE::COMEBACK;
-    }
-
-
     return STATE_TYPE::MONATTACK;
 
 

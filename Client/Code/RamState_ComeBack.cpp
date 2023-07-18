@@ -57,7 +57,8 @@ STATE_TYPE CRamState_ComeBack::Update_State(const _float& fTimeDelta)
     _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
     // Moanter - Scale
     _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
-
+    // Monster - Dir
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
     // Player - Pos
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -82,6 +83,15 @@ STATE_TYPE CRamState_ComeBack::Update_State(const _float& fTimeDelta)
 
     // COMBACK 우선순위
     // Patrol - CHASE - ATTACK
+
+    //  // BACK_COMEBACK 전이 조건
+    //if (vOwnerDir.z > 0)
+    //{
+    //    //cout << "Back comeback 전이" << endl;
+    //    return STATE_TYPE::BACK_COMEBACK;
+    //}
+
+
 
     // PATROL 전이 조건
     if (fOriginDistance <= m_fPatrolRange)

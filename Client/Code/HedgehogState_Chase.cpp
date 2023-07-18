@@ -61,7 +61,8 @@ STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
     _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
     // Moanter - Scale
     _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
-
+    // Monster - Dir
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
 
     // Player - Pos
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -89,26 +90,33 @@ STATE_TYPE CHedgehogState_Chase::Update_State(const _float& fTimeDelta)
     // CHASE 우선순위
     // Attack - Comeback - Patrol
 
+    if (vOwnerDir.z > 0)
+    {
+         //cout << "Back_chase  전이" << endl;
+        return STATE_TYPE::BACK_CHASE;
+    }
+
 
     // ATTACK 전이 조건
     if (fPlayerDistance <= m_fAttackRange) 
     {
-        //cout << "attack 전이" << endl;
-        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // cout << "attack 전이" << endl;
+       // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::MONATTACK;
     }
     // COMEBACK 전이 조건
     if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
     {
         //cout << "COMBACK  전이" << endl;
-        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+        //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::COMEBACK;
     }
     // PATROL 전이 조건
     if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
     {
-        //cout << "patrol 전이" << endl;
-        pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+       // cout << "patrol 전이" << endl;
+          
+        //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
         return STATE_TYPE::PATROL;
     }
     // Default 

@@ -51,10 +51,13 @@ HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
 {
+    //Monster - Ainmator Com
+    CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
+
     
     // Monster - Ai Com
-    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
+   
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
 
@@ -87,7 +90,7 @@ STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
  
-    pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
+   // pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
      
     // 공격 코드로 
     //m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
@@ -139,29 +142,35 @@ STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
 #pragma region State Change
         // Attack 우선순위
         // chase - Comeback
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
+    {
+        // BACK_ Attack 전이
+        if (vOwnerDir.z > 0)
+        {
+           // cout <<  "back monattack 전이" << endl;
+            return STATE_TYPE::BACK_MONATTACK;
+        }
 
         // CHASE 전이 조건
         if (fPlayerDistance >= m_fChaseRange)
         {
-            //cout << "chase  전이" << endl;
+           // cout << "chase  전이" << endl;
+
             
-            pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-            pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+           // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
             return STATE_TYPE::CHASE;
         }
 
         // COMEBACK 전이 조건
         if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
         {
-            //cout << "COMBACK  전이" << endl;
-            
-            pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-            pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+           // cout << "COMBACK  전이" << endl;
+
+           
+            //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
             return STATE_TYPE::COMEBACK;
         }
-   
-  
-
+    }
     return STATE_TYPE::MONATTACK;
 
 #pragma endregion

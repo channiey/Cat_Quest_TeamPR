@@ -349,9 +349,9 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
-	// Monster - Bat
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bat",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/bat_idle1.png")), E_FAIL);
+	//// Monster - Bat
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bat",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/bat_idle1.png")), E_FAIL);
 
 	// Monster - Dragon
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dragon_fIdle",
@@ -383,25 +383,47 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	// Monster - Bat
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Bat",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Front/Basic/%d.png", 4)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Basic/Front/%d.png", 4)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Bat",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Back/Basic/%d.png", 4)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Basic/Back/%d.png", 4)), E_FAIL);
 
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Bat_Attack",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Front/Attack/%d.png", 7)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Attack/Front/%d.png", 7)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Bat_Attack",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Back/Attack/%d.png", 7)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Bat/Attack/Back/%d.png", 7)), E_FAIL);
 
 
 	// Monster - Ram
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Ram",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/ram.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/Basic/Front/0.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Ram",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/ram_back.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/Basic/Back/0.png")), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Ram_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/Attack/Front/%d.png", 17)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Ram_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Ram/Attack/Back/%d.png", 17)), E_FAIL);
+
+
+	// Monster - Wyvern
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Wyvern",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Basic/Front/%d.png", 4)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Wyvern",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Basic/Back/%d.png", 4)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Wyvern_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Attack/Front/%d.png", 7)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Wyvern_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Attack/Back/%d.png", 7)), E_FAIL);
+
+
 
 
 	// Monster - Fox
@@ -411,13 +433,6 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Fox",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Fox/fox_back.png")), E_FAIL);
 
-
-	// Monster - Wyvern
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Wyvern",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Front/%d.png", 4)), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Wyvern",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Wyvern/Back/%d.png", 4)), E_FAIL);
 
 	// Monster - Squirrel
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Squirrel",

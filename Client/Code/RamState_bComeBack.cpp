@@ -1,8 +1,8 @@
-#include "BatState_ComeBack.h"
+#include "RamState_bComeBack.h"
 #include "Export_Function.h"
 
 
-CBatState_ComeBack::CBatState_ComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
+CRamState_bComeBack::CRamState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -13,17 +13,17 @@ CBatState_ComeBack::CBatState_ComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CBatState_ComeBack::~CBatState_ComeBack()
+CRamState_bComeBack::~CRamState_bComeBack()
 {
 }
 
-HRESULT CBatState_ComeBack::Ready_State(CStateMachine* pOwner)
+HRESULT CRamState_bComeBack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::COMEBACK;
+    m_eState = STATE_TYPE::BACK_COMEBACK;
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 1.f;  // Patrol 전이
@@ -32,19 +32,18 @@ HRESULT CBatState_ComeBack::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
-
     return S_OK;
 }
 
-STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CRamState_bComeBack::Update_State(const _float& fTimeDelta)
 {
+  
     // Monster - Ai Com
-   // CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
+    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
 
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
-
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -77,17 +76,20 @@ STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
     dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vOwnerOriginPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
+  
+
+
+
 #pragma region State Change
 
-    // COMBACK 우선순위
-    // back comback - Patrol - CHASE - ATTACK
+    // BACK_COMBACK 우선순위
+    // comback - Patrol - CHASE - ATTACK
 
-
-    //// BACK_COMEBACK 전이 조건
-    //if (vOwnerDir.z > 0)
+    //// COMEBACK 전이 조건
+    //if (vOwnerDir.z < 0)
     //{
-    //    //cout << "Back comeback 전이" << endl;
-    //    return STATE_TYPE::BACK_COMEBACK;
+    //    //cout << "comeback 전이" << endl;
+    //    return STATE_TYPE::COMEBACK;
     //}
 
 
@@ -103,7 +105,7 @@ STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
         else
         {
            // cout << "Back patrol 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
+          // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_PATROL;
         }
     }
@@ -119,8 +121,8 @@ STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
         }
         else
         {
-            //cout << "Back Chase 전이" << endl;
-            //pOwnerTransform->Set_Dir(vec3.zero);
+           // cout << "Back Chase 전이" << endl;
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
     }
@@ -130,53 +132,48 @@ STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
         if (vOwnerDir.z < 0)
         {
            // cout << "attack 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
+           // pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::MONATTACK;
         }
         else
         {
            // cout << "back attack 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_MONATTACK;
         }
     }
 
     // Default
-    return STATE_TYPE::COMEBACK;
-
-#pragma endregion
+    return STATE_TYPE::BACK_COMEBACK;
 
 
 }
- 
 
- 
-
-void CBatState_ComeBack::LateUpdate_State()
+void CRamState_bComeBack::LateUpdate_State()
 {
     
 }
 
-void CBatState_ComeBack::Render_State()
+void CRamState_bComeBack::Render_State()
 {
    
 
 }
 
-STATE_TYPE CBatState_ComeBack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CRamState_bComeBack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_ComeBack* CBatState_ComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CRamState_bComeBack* CRamState_bComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CBatState_ComeBack* pInstance = new CBatState_ComeBack(pGraphicDev);
+    CRamState_bComeBack* pInstance = new CRamState_bComeBack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Bat ComeBack Create Failed");
+        MSG_BOX("Ram ComeBack Create Failed");
         return nullptr;
 
     }
@@ -184,7 +181,7 @@ CBatState_ComeBack* CBatState_ComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CS
     return pInstance;
 }
 
-void CBatState_ComeBack::Free()
+void CRamState_bComeBack::Free()
 {
     __super::Free();
 }
