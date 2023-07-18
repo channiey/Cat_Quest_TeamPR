@@ -24,10 +24,8 @@ HRESULT CEffect_Heal::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 17.f, 17.f, 17.f });
+	m_pTransformCom->Set_Scale(_vec3{ 15.f, 15.f, 15.f });
 	m_pTransformCom->Set_Pos(_vec3{ 130, 7.f, 70 });
-
-	m_pTransformCom->Set_Scale(_vec3{ 17.f, 17.f, 17.f });
 
 	m_pUITransform[0]->Set_Scale(_vec3{ 0.f, 0.f, 0.f });
 
