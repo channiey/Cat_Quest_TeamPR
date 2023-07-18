@@ -22,7 +22,7 @@ private:
 	HRESULT					Add_Component();
 
 public:
-	static CEffect_Ice* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CEffect_Ice*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 protected:
 	virtual void			Free() override;

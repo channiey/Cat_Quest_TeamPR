@@ -68,7 +68,7 @@ void CSphereCollider::Render_Collider()
 	if (0 < m_iCol)
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.red));
 	else
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.blue));
 
 	m_pMesh->DrawSubset(0);
 

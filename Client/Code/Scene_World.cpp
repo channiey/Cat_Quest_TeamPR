@@ -833,12 +833,12 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
-	pGameObject = CMobCutEffect::Create(m_pGraphicDev, _vec3{
-	_float(START_POS_WORLD_X) + 5.f,
-	2.f,
-	_float(START_POS_WORLD_Z) });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Test", pGameObject), E_FAIL);
+	//pGameObject = CMobCutEffect::Create(m_pGraphicDev, _vec3{
+	//_float(START_POS_WORLD_X) + 5.f,
+	//2.f,
+	//_float(START_POS_WORLD_Z) });
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Test", pGameObject), E_FAIL);
 	return S_OK;
 }
 
