@@ -51,20 +51,23 @@ HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
 {
+    // Component Info
+    
     //Monster - Ainmator Com
     CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
 
-    
     // Monster - Ai Com
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
    
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
 
-
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
     NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
+
+
+    // Info 
 
     // Monster - Pos
     _vec3	    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
@@ -81,6 +84,8 @@ STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
 
 
+    // Setting 
+
     // Dir Vector
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치 - 몬스터]
@@ -90,59 +95,15 @@ STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
  
-   // pOwnerTransform->Set_Pos({ vOwnerPos.x ,vOwnerScale.y, vOwnerPos.z });
-     
-    // 공격 코드로 
-    //m_fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
-    //
-    //m_fPosShakeRange *= -1.f;
-    //
-
-    //if (m_fAccTime <= 0.3f)
-    //{
-    //    
-    //}
-    //else if (m_fAccTime <= 0.7f)
-    //{
-    //    pOwnerTransform->Set_Pos({ vOwnerPos.x + m_fPosShakeRange,  vOwnerPos.y, vOwnerPos.z });
-    //   // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
-    //}
-    //else if (m_fAccTime <= 1.2f)
-    //{
-    //    if (vOwnerScale.x >= 0)
-    //    {
-    //        pOwnerTransform->Set_Rot({ 0, 0, m_fAddRot }, LOCAL);
-    //        pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
-    //       // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    //    }
-    //    else if (vOwnerScale.x < 0)
-    //    {
-    //        pOwnerTransform->Set_Rot({ 0, 0, -(m_fAddRot) }, LOCAL);
-    //        pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y + m_fAddHeight , vOwnerPos.z });
-    //       // pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y + m_fScaleDown, vOwnerScale.z });
-    //    }
-    //}
-    //else if (m_fAccTime <= 1.5f)
-    //{
-    //    pOwnerTransform->Set_Rot({ 0, 0, 0 }, LOCAL);
-    //    pOwnerTransform->Set_Pos({ vOwnerPos.x, vOwnerScale.y , vOwnerPos.z });
-    //  //  pOwnerTransform->Set_Scale({ vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    //}
-    //else if (m_fAccTime <= 2.f)
-    //{
-    //   // 상태 전이
-    //}
-    //else
-    //{
-    //    m_fAccTime = 0.f;
-    //}
-
 
         
 #pragma region State Change
-        // Attack 우선순위
-        // chase - Comeback
-    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
+
+
+     // Attack 우선순위
+     // chase - Comeback
+
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End()) // 애니메이션 끝나야 전이 가능하게 함
     {
         // BACK_ Attack 전이
         if (vOwnerDir.z > 0)

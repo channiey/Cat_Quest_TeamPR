@@ -105,8 +105,12 @@ private:
 
 public:
 	void					Damaged(CGameObject* pObj);
+
 	_bool					IsHit() { return m_bHit; }
 	void					Set_Hit(_bool bHit) { m_bHit = bHit; }
+
+	_bool					IsAttack() { return m_bAttack; }
+	void					Set_Attack(_bool bAttack) { m_bAttack = bAttack; }
 
 	CStateMachine*			Get_StateMachine() { return m_pStateMachineCom; }
 
@@ -121,10 +125,11 @@ protected:
 
 	_float					m_fJumpingSpeed; 
 	_float					m_fMaxJumpY;
-	_vec3					m_vImageSize;
+	_vec3					m_vImageSize; 
 	
-	_bool					m_bHit;
-	_bool					m_bInit;
+	_bool					m_bHit;				// Demaged
+	_bool					m_bAttack;			// Attack
+	_bool					m_bInit;			// Lateinit 
 protected:
 	
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];

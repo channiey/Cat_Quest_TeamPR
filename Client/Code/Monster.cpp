@@ -171,23 +171,23 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
 		{
-			fAccTime += Engine::Get_TimeDelta(L"Timer_FPS65");
-
-			if (fAccTime >= 1.f)
+			
+			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 			{
 				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);
-				fAccTime = 0.f;
+				
 			}
 			
 		}
 	}
 	break;
+
 	default:
 	{
 
 	}
 	break;
-	}
+	} // Switch end
 }
 
 void CMonster::OnCollision_Exit(CGameObject* _pColObj)
