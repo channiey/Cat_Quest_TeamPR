@@ -4,7 +4,6 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
-#include "QuestMgr.h"
 #include "ItemSparkle.h"
 
 CNpc_Mage::CNpc_Mage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -68,10 +67,6 @@ void CNpc_Mage::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
-			CQuestMgr::GetInstance()->Set_NextLevel();
-			m_bReadyTalk = false;
-		}
 	}
 	break;
 	default:

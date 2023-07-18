@@ -85,7 +85,6 @@
 #include "Npc_Soldier.h"
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
-#include "QuestMgr.h"
 
 // Monster
 #include "ExpUI.h"
@@ -167,8 +166,6 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(), E_FAIL);
 
-	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
-
 	return S_OK;
 }
 
@@ -177,10 +174,6 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	__super::Update_Scene(fTimeDelta);
-
-	// 퀘스트 업데이트
-	/*if (CQuestMgr::GetInstance()->Get_Active()) 
-		CQuestMgr::GetInstance()->Play_Quest();*/
 
 	return 0;
 }

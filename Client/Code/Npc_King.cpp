@@ -4,9 +4,6 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
-#include "QuestMgr.h"
-#include "Quest1.h"
-#include "Quest2.h"
 
 CNpc_King::CNpc_King(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_KING)
@@ -37,15 +34,6 @@ HRESULT CNpc_King::Ready_Object()
 	if(CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Npc_King_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 
-	/*m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"ÈûÀÇ Áõ¸í1"));
-	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"ÈûÀÇ Áõ¸í2"));
-	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"µå¶óÄÚ½º"));
-	m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"Á×À½ÀÇ ¼¶"));*/
-
-	// ÇöÀç´Â »çÀÚ¿ÕÀÌ ÃÖÃÊÀÇ Äù½ºÆ® ¹ß·ÉÀÚ.
-	m_bReadyQuest = true;
-	m_bReadyTalk = true;
-	
 	m_szName = L"Npc_King";
 
 	return S_OK;
@@ -78,11 +66,6 @@ void CNpc_King::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
-			CQuestMgr::GetInstance()->Set_NextLevel();
-			m_bReadyTalk = false;
-		}
-
 	}
 	break;
 	default:

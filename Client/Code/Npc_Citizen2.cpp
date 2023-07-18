@@ -4,8 +4,6 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
-#include "QuestMgr.h"
-#include "Quest3.h"
 
 CNpc_Citizen2::CNpc_Citizen2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_CITIZEN_2)
@@ -36,8 +34,6 @@ HRESULT CNpc_Citizen2::Ready_Object()
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Npc_Citizen2_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
 	
-	//m_pHaveQuest.push_back(CQuestMgr::GetInstance()->Set_HaveQuest(L"µµµÏ Àâ±â"));
-
 	m_szName = L"Npc_Citizen2";
 
 	return S_OK;
@@ -70,10 +66,7 @@ void CNpc_Citizen2::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
-			CQuestMgr::GetInstance()->Set_NextLevel();
-			m_bReadyTalk = false;
-		}
+
 	}
 	break;
 	default:

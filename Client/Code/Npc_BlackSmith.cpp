@@ -4,7 +4,6 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
-#include "QuestMgr.h"
 
 CNpc_BlackSmith::CNpc_BlackSmith(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_BLACKSMITH)
@@ -67,9 +66,6 @@ void CNpc_BlackSmith::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
-			CQuestMgr::GetInstance()->Set_NextLevel();
-		}
 	}
 	break;
 	default:

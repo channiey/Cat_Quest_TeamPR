@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Quest.h"
 BEGIN(Engine)
 class CTexture;
 class CAnimation;
@@ -31,28 +30,12 @@ public:
 public:
 	CTexture*				Get_Texture() { return m_pTextureCom; }
 
-	// 퀘스트를 줄 준비
-	_bool					Get_IsReadyQuest() { return m_bReadyQuest; }
-	void					Set_IsReadyQuest(_bool _isReady) { m_bReadyQuest = _isReady; }
-	// npc가 가지고 있는 퀘스트 
-	CQuest*				    Get_HaveQuest() {return m_pHaveQuest[m_iQuestNum];}
-	// 가지고 있는 퀘스트를 다음 퀘스트로 넘긴다.(퀘스트 여러개 들고 있는 경우)
-	void					Set_NextQuest() { m_iQuestNum += 1; }
-	// 대화를 할 준비
-	_bool					Get_IsReadyTalk() { return m_bReadyTalk; }
-	void					Set_IsReadyTalk(_bool _isReady) { m_bReadyTalk = _isReady; }
-
 private:
 	HRESULT					Add_Component();
 
 protected:
 	CTexture*	m_pTextureCom = nullptr; 
 	CAnimation* m_pAnimation;
-
-	vector<CQuest*>		m_pHaveQuest;  // 가지고 있을 퀘스트
-	_int				m_iQuestNum;   // 퀘스트 넘버.
-	_bool				m_bReadyQuest; // 퀘스트를 줄 준비가 되어있나.
-	_bool				m_bReadyTalk; // 대화를 할 준비가 되어있나.
 
 protected:
 	virtual void			Free() override;
