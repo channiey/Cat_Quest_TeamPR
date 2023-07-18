@@ -36,7 +36,6 @@ private:
 protected:
 	CTexture*	m_pTextureCom = nullptr; 
 	CAnimation* m_pAnimation;
-
 protected:
 	virtual void			Free() override;
 

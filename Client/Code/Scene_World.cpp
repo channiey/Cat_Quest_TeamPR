@@ -131,6 +131,7 @@
 #include "PollenGenerator.h"
 
 #include "ImGuiMgr.h"
+#include "TalkMgr.h"
 
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -145,7 +146,7 @@ CScene_World::~CScene_World()
 HRESULT CScene_World::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-
+	CTalkMgr::GetInstance()->Init(); // 토크매니저 초기화
 
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
@@ -826,12 +827,6 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 
-	//pGameObject = CMobCutEffect::Create(m_pGraphicDev, _vec3{
-	//_float(START_POS_WORLD_X) + 5.f,
-	//2.f,
-	//_float(START_POS_WORLD_Z) });
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Test", pGameObject), E_FAIL);
 	return S_OK;
 }
 
