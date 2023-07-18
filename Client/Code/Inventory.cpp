@@ -36,7 +36,7 @@ HRESULT CInventory::Ready_Object()
 	}
 	
 
-	// BkG setting
+	// Bkg setting
 	m_fPosX = WINCX >> 1;
 	m_fPosY = WINCY >> 1;
 	m_fSizeX = WINCX;

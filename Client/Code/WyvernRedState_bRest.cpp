@@ -1,9 +1,8 @@
-#include "stdafx.h"
-#include "RamState_bRest.h"
+#include "WyvernRedState_bRest.h"
 #include "Export_Function.h"
 
 
-CRamState_bRest::CRamState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernRedState_bRest::CWyvernRedState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -14,11 +13,11 @@ CRamState_bRest::CRamState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CRamState_bRest::~CRamState_bRest()
+CWyvernRedState_bRest::~CWyvernRedState_bRest()
 {
 }
 
-HRESULT CRamState_bRest::Ready_State(CStateMachine* pOwner)
+HRESULT CWyvernRedState_bRest::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -37,7 +36,7 @@ HRESULT CRamState_bRest::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
-STATE_TYPE CRamState_bRest::Update_State(const _float& fTimeDelta)
+STATE_TYPE CWyvernRedState_bRest::Update_State(const _float& fTimeDelta)
 {
 
     //Monster - Ainmator Com
@@ -141,25 +140,25 @@ STATE_TYPE CRamState_bRest::Update_State(const _float& fTimeDelta)
   
 }
 
-void CRamState_bRest::LateUpdate_State()
+void CWyvernRedState_bRest::LateUpdate_State()
 {
 
 }
 
-void CRamState_bRest::Render_State()
+void CWyvernRedState_bRest::Render_State()
 {
     
 }
 
-STATE_TYPE CRamState_bRest::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CWyvernRedState_bRest::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CRamState_bRest* CRamState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CWyvernRedState_bRest* CWyvernRedState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CRamState_bRest* pInstance = new CRamState_bRest(pGraphicDev);
+    CWyvernRedState_bRest* pInstance = new CWyvernRedState_bRest(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -172,7 +171,7 @@ CRamState_bRest* CRamState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMa
     return pInstance;
 }
 
-void CRamState_bRest::Free()
+void CWyvernRedState_bRest::Free()
 {
     __super::Free();
 }

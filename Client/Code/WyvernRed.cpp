@@ -1,37 +1,36 @@
-#include "Wyvern.h"
+#include "WyvernRed.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-#include "WyvernState_Patrol.h"
-#include "WyvernState_Chase.h"
-#include "WyvernState_Attack.h"
-#include "WyvernState_ComeBack.h"
-#include "WyvernState_Rest.h"
-
-
-#include "WyvernState_bPatrol.h"
-#include "WyvernState_bChase.h"
-#include "WyvernState_bAttack.h"
-#include "WyvernState_bComeBack.h"
-#include "WyvernState_bRest.h"
+#include "WyvernRedState_Patrol.h"
+#include "WyvernRedState_Chase.h"
+#include "WyvernRedState_Attack.h"
+#include "WyvernRedState_ComeBack.h"
+#include "WyvernRedState_Rest.h"
+				
+#include "WyvernRedState_bPatrol.h"
+#include "WyvernRedState_bChase.h"
+#include "WyvernRedState_bAttack.h"
+#include "WyvernRedState_bComeBack.h"
+#include "WyvernRedState_bRest.h"
 
 #include "Shadow_Monster.h"
 
-CWyvern::CWyvern(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CMonster(pGraphicDev, OBJ_ID::MONSTER_WYVERN)
+CWyvernRed::CWyvernRed(LPDIRECT3DDEVICE9 pGraphicDev)
+    : CMonster(pGraphicDev, OBJ_ID::MONSTER_WYVERNRED)
 {
 }
 
-CWyvern::CWyvern(const CMonster& rhs)
+CWyvernRed::CWyvernRed(const CMonster& rhs)
     : CMonster(rhs)
 {
 }
 
-CWyvern::~CWyvern()
+CWyvernRed::~CWyvernRed()
 {
 }
 
-HRESULT CWyvern::Ready_Object()
+HRESULT CWyvernRed::Ready_Object()
 {
     __super::Ready_Object();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -57,7 +56,7 @@ HRESULT CWyvern::Ready_Object()
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.f, m_vImageSize.y * 2.f , m_vImageSize.z });
 	
-	m_pTransformCom->Set_Pos(_vec3{ 170.f, m_pTransformCom->Get_Scale().y, 110.f });
+	m_pTransformCom->Set_Pos(_vec3{ 200.f, m_pTransformCom->Get_Scale().y, 200.f });
 
 	//m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
@@ -69,54 +68,54 @@ HRESULT CWyvern::Ready_Object()
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-		CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
 #pragma region State Add
 
 	CState* pState;
 	// Front
 	// Patrol
-	pState = CWyvernState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
 
 	// Chase
-	pState = CWyvernState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::CHASE, pState);
 
 
 	// ComeBack
-	pState = CWyvernState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::COMEBACK, pState);
 
 	// Attack
-	pState = CWyvernState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
 	// Rest
-	pState = CWyvernState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONREST, pState);
 	
 
 	// Back 
 	// Patrol
-	pState = CWyvernState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
 
 	// Chase
-	pState = CWyvernState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
 
 
 	// ComeBack
-	pState = CWyvernState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
 
 	// Attack
-	pState = CWyvernState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 	// Rest
-	pState = CWyvernState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CWyvernRedState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
 	
 #pragma endregion
@@ -177,12 +176,12 @@ HRESULT CWyvern::Ready_Object()
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
-	m_szName = L"Monster_Wyvern";
+	m_szName = L"Monster_WyvernRed";
 
     return S_OK;
 }
 
-_int CWyvern::Update_Object(const _float& fTimeDelta)
+_int CWyvernRed::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -212,12 +211,12 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CWyvern::LateUpdate_Object()
+void CWyvernRed::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CWyvern::Render_Object()
+void CWyvernRed::Render_Object()
 {
 	// 피격 시 red
 	if (m_bHit)
@@ -246,22 +245,22 @@ void CWyvern::Render_Object()
 	__super::Render_Object(); // 콜라이더 출력
 }
 
-void CWyvern::OnCollision_Enter(CGameObject* _pColObj)
+void CWyvernRed::OnCollision_Enter(CGameObject* _pColObj)
 {
 	__super::OnCollision_Enter(_pColObj);
 }
 
-void CWyvern::OnCollision_Stay(CGameObject* _pColObj)
+void CWyvernRed::OnCollision_Stay(CGameObject* _pColObj)
 {
 	__super::OnCollision_Stay(_pColObj);
 }
 
-void CWyvern::OnCollision_Exit(CGameObject* _pColObj)
+void CWyvernRed::OnCollision_Exit(CGameObject* _pColObj)
 {
 	__super::OnCollision_Exit(_pColObj);
 }
 
-HRESULT CWyvern::Add_Component()
+HRESULT CWyvernRed::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -279,45 +278,45 @@ HRESULT CWyvern::Add_Component()
 #pragma region Texture
 
 	// Front
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Wyvern_Attack", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_WyvernRed_Attack", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 	// Back
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern_Attack", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_WyvernRed_Attack", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Wyvern", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_WyvernRed", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -331,22 +330,22 @@ HRESULT CWyvern::Add_Component()
 
 
 
-CWyvern* CWyvern::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernRed* CWyvernRed::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CWyvern* pInstance = new CWyvern(pGraphicDev);
+	CWyvernRed* pInstance = new CWyvernRed(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Wyvern Create Failed");
+		MSG_BOX("WyvernRed Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CWyvern::Free()
+void CWyvernRed::Free()
 {
 	__super::Free();
 }

@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CWyvernState_Rest : public CState
+class CWyvernRedState_Patrol : public CState
 {
 public:
-	explicit			CWyvernState_Rest(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CWyvernState_Rest();
+	explicit			CWyvernRedState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CWyvernRedState_Patrol();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CWyvernState_Rest* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CWyvernRedState_Patrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:
@@ -42,16 +42,5 @@ private:
 	_float  m_fAttackRange;
 	_float  m_fComeBackRange;
 	_float  m_fPlayerTargetRange;
-
-	_float  m_fPosShakeRange;
-	_vec3   m_vOriginPos;
-	
-	_float  m_fAddHeight;
-	_float  m_fAddRot;
-	_float  m_fScaleDown;
-
-
-	_vec3   m_vOriginScale;
-	_vec3   m_vOriginRot;
 };
 

@@ -442,6 +442,23 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 
+	// Monster - Wyvern Red
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_WyvernRed",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/WyvernRed/Basic/Front/%d.png", 4)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_WyvernRed",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/WyvernRed/Basic/Back/%d.png",4)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_WyvernRed_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/WyvernRed/Attack/Front/%d.png", 8)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_WyvernRed_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/WyvernRed/Attack/Back/%d.png", 8)), E_FAIL);
+
+
+
+
+
 	// Monster - TestMob 
 
 	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Hedgehog_Attack",

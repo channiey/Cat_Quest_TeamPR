@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CWyvernState_Rest : public CState
+class CWyvernRedState_Rest : public CState
 {
 public:
-	explicit			CWyvernState_Rest(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CWyvernState_Rest();
+	explicit			CWyvernRedState_Rest(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CWyvernRedState_Rest();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CWyvernState_Rest* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CWyvernRedState_Rest* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

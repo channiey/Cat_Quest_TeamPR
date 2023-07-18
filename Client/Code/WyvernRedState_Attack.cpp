@@ -1,9 +1,8 @@
-#include "stdafx.h"
-#include "RamState_bRest.h"
+#include "WyvernRedState_Attack.h"
 #include "Export_Function.h"
 
 
-CRamState_bRest::CRamState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernRedState_Attack::CWyvernRedState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -14,17 +13,18 @@ CRamState_bRest::CRamState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CRamState_bRest::~CRamState_bRest()
+CWyvernRedState_Attack::~CWyvernRedState_Attack()
 {
 }
 
-HRESULT CRamState_bRest::Ready_State(CStateMachine* pOwner)
+HRESULT CWyvernRedState_Attack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::BACK_MONATTACK;
+    m_eState = STATE_TYPE::MONATTACK;
+
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 1.f;  // Patrol 전이
@@ -33,13 +33,12 @@ HRESULT CRamState_bRest::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
-
     return S_OK;
 }
 
-STATE_TYPE CRamState_bRest::Update_State(const _float& fTimeDelta)
+STATE_TYPE CWyvernRedState_Attack::Update_State(const _float& fTimeDelta)
 {
-
+    
     //Monster - Ainmator Com
     CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
 
@@ -47,8 +46,6 @@ STATE_TYPE CRamState_bRest::Update_State(const _float& fTimeDelta)
     // Monster - Ai Com
     //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
-
-
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
 
@@ -82,89 +79,51 @@ STATE_TYPE CRamState_bRest::Update_State(const _float& fTimeDelta)
 
 
    // 현재 상태의 기능
-   /* pOwnerTransform->Set_Dir(vec3.zero);
+  /*  pOwnerTransform->Set_Dir(vec3.zero);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
-
 
   
 
 #pragma region State Change
+    // Attack 우선순위
+    // back attack - chase - Comeback
 
-  
-   
-    //// BACK_ MONREST 전이
-    //if (vOwnerDir.z > 0)
-    //{
-    //    // cout <<  "back monattack 전이" << endl;
-    //    return STATE_TYPE::MONREST;
-    //}
-    // 
-    // 
-    m_fAccTime += fTimeDelta;
-
-    if (m_fAccTime >= 1.5f)
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
-        
-        // Attack 전이 조건
-        if (fPlayerDistance <= m_fAttackRange)
-        {
-            m_fAccTime = 0.f;
-            //cout << "attack 전이" << endl;
-            //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::BACK_MONATTACK;
-        }
-         
-        // CHASE 전이 조건
-        if (fPlayerDistance <= m_fChaseRange)
-        {
-            m_fAccTime = 0.f;
-            // cout << "chase  전이" << endl;
-            // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::BACK_CHASE;
-        }
-
-        // COMEBACK 전이 조건
-        if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
-        {
-            m_fAccTime = 0.f;
-            // cout << "COMBACK  전이" << endl;
-             //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::BACK_COMEBACK;
-        }
-     
+        return STATE_TYPE::MONREST;
     }
-    return STATE_TYPE::BACK_MONREST;
+    return STATE_TYPE::MONATTACK;
+
 
 
 #pragma endregion
-
   
 }
 
-void CRamState_bRest::LateUpdate_State()
+void CWyvernRedState_Attack::LateUpdate_State()
 {
 
 }
 
-void CRamState_bRest::Render_State()
+void CWyvernRedState_Attack::Render_State()
 {
     
 }
 
-STATE_TYPE CRamState_bRest::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CWyvernRedState_Attack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CRamState_bRest* CRamState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CWyvernRedState_Attack* CWyvernRedState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CRamState_bRest* pInstance = new CRamState_bRest(pGraphicDev);
+    CWyvernRedState_Attack* pInstance = new CWyvernRedState_Attack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Bat State Attack Create Failed");
+        MSG_BOX("WyvernState Attack Create Failed");
         return nullptr;
 
     }
@@ -172,7 +131,7 @@ CRamState_bRest* CRamState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMa
     return pInstance;
 }
 
-void CRamState_bRest::Free()
+void CWyvernRedState_Attack::Free()
 {
     __super::Free();
 }
