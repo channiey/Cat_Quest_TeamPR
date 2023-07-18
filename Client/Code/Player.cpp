@@ -236,6 +236,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 	Regen_Def(fTimeDelta);
 	
@@ -825,8 +826,11 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
 		return;
 
-	_float horizontalX = vDir.x;
-	_float horizontalZ = vDir.z;
+	_vec3 vvDir = vDir;
+	D3DXVec3Normalize(&vvDir, &vDir);
+
+	_float horizontalX = vvDir.x;
+	_float horizontalZ = vvDir.z;
 
 	_vec3 resultDir;
 
@@ -846,6 +850,8 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 		resultDir = (_vec3(0.f, 0.f, 1.f)); // 뒤쪽
 	else if (horizontalZ <= -0.5f)
 		resultDir = (_vec3(0.f, 0.f, -1.f)); // 앞쪽
+	else
+		resultDir = (_vec3(vvDir.x, 0.f, vvDir.z));
 
 	m_pTransformCom->Set_Dir(resultDir);
 	
