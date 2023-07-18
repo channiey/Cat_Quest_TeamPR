@@ -19,6 +19,7 @@ HRESULT CPlayerState_fAttack::Ready_State(CStateMachine* pOwner)
 		m_pOwner = pOwner;
 
 	m_eState = STATE_TYPE::FRONT_ATTACK;
+	m_bIsTarget = false;
 
 	return S_OK;
 }
@@ -27,7 +28,6 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 {
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
 	{
-		m_bAttackContinue = false;
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_DIE;
 	}
@@ -38,16 +38,41 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Chopping", CPlayerSlash::Create(
 			m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
 		));
+
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
+			m_bIsTarget = true;
+		else
+			m_bIsTarget = false;
+
+
+		m_bAttackContinue = false;
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Reset_Lerp();
+
+
 		m_bEnter = true;
 	}	
 
-	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	if(!m_bIsTarget)
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	else
+	{
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTarget() != nullptr)
+		{
+			_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS),
+				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTarget()->Get_Transform()->Get_Info(INFO::INFO_POS), 0.4f, fTimeDelta);
+			if (vOut.y != -99)
+			{
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(_vec3{ vOut.x, m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS).y, vOut.z });
+			}
+		}
+		
+	}
+		
 
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		m_bAttackContinue = false;
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_HIT;
 	}
@@ -57,10 +82,14 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_IDLE;
 	}
-		
+	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && m_bIsTarget &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::BACK_ATTACK1;
+	}
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue)
 	{
-		m_bAttackContinue = false;
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_ATTACK1;
 	}

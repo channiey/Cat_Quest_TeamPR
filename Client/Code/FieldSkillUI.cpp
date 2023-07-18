@@ -564,7 +564,8 @@ void CFieldSkillUI::Play_SKill()
 			if (m_pPlayerSkill[i] != nullptr)
 			{
 				m_pPlayerSkill[i]->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
-				m_pPlayer->Set_Skill(true);
+				if(OBJ_ID::EFFECT_SKILL_HEAL != m_pPlayerSkill[i]->Get_ID())
+					m_pPlayer->Set_Skill(true);
 			}
 		}
 	}

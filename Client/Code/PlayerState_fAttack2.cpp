@@ -19,7 +19,7 @@ HRESULT CPlayerState_fAttack2::Ready_State(CStateMachine* pOwner)
 		m_pOwner = pOwner;
 
 	m_eState = STATE_TYPE::FRONT_ATTACK2;
-
+	m_bIsTarget = false;
 	return S_OK;
 }
 
@@ -39,17 +39,27 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 			m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
 		));
 
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
+			m_bIsTarget = true;
+		else
+			m_bIsTarget = false;
+
 		m_bEnter = true;
 	}
 
-	
+	if (!m_bIsTarget)
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	else
+	{
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 6.f);
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+	}
 		
 
-	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		
+		m_bEnter = false;
 		return STATE_TYPE::FRONT_HIT;
 	}
 
@@ -58,11 +68,9 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_IDLE;
 	}
-	
-	
 
-	else 
-		return m_eState;
+
+	return m_eState;
 }
 
 void CPlayerState_fAttack2::LateUpdate_State()

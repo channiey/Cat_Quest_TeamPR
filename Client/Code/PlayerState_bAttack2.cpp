@@ -19,7 +19,7 @@ HRESULT CPlayerState_bAttack2::Ready_State(CStateMachine* pOwner)
 		m_pOwner = pOwner;
 
 	m_eState = STATE_TYPE::BACK_ATTACK2;
-
+	m_bIsTarget = false;
 	return S_OK;
 }
 
@@ -37,10 +37,22 @@ STATE_TYPE CPlayerState_bAttack2::Update_State(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Chopping", CPlayerSlash::Create(
 			m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
 		));
+
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
+			m_bIsTarget = true;
+		else
+			m_bIsTarget = false;
+
 		m_bEnter = true;
 	}
 
-	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	if (!m_bIsTarget)
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	else
+	{
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 6.f);
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+	}
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{

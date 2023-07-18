@@ -19,7 +19,7 @@ HRESULT CPlayerState_fAttack1::Ready_State(CStateMachine* pOwner)
 		m_pOwner = pOwner;
 
 	m_eState = STATE_TYPE::FRONT_ATTACK1;
-
+	m_bIsTarget = false;
 	return S_OK;
 }
 
@@ -27,7 +27,6 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 {
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
 	{
-		m_bAttackContinue = false;
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_DIE;
 	}
@@ -38,16 +37,29 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Rising", CPlayerSlash::Create(
 			m_pGraphicDev, m_pOwner->Get_OwnerObject(), true
 		));
+
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
+			m_bIsTarget = true;
+		else
+			m_bIsTarget = false;
+
+		m_bAttackContinue = false;
+
 		m_bEnter = true;
 	}
 
-	m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	if (!m_bIsTarget)
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+	else
+	{
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 6.f);
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+	}
 
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		m_bAttackContinue = false;
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_HIT;
 	}
@@ -57,10 +69,14 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_IDLE;
 	}
-
+	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && m_bIsTarget &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::BACK_ATTACK2;
+	}
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue)
 	{
-		m_bAttackContinue = false;
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_ATTACK2;
 	}

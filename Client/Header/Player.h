@@ -124,13 +124,24 @@ public:
 
 	CEffect*			Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
 
+	_bool&				Is_MonsterThere()		{ return m_bIsMonster; }
+	_vec3&				Get_MonTargetDir()		{ return m_vMonTargetDir; }
+	_float&				Get_MonTargetLength()	{ return m_fMonTargetLength; }
+	CGameObject*		Get_MonTarget();
+
+
+
+	void				Set_PlayerDirNormal(const _vec3& vDir);
+	void				Set_PlayerLook(const _vec3& vDir);
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
 
 	void				Regen_Def(const _float& fTimeDelta);
 	
-
+	void				CloseTarget_Dis(CGameObject* pTarget);
+	
 
 
 private:
@@ -156,6 +167,12 @@ private:
 	_bool						m_bSkill;
 	CEffect*					m_arrSkillSlot[4];
 	CEffect*					m_arrEffect[(UINT)SKILL_TYPE::TYPEEND];
+
+	_bool						m_bIsMonster;
+	_float						m_fMonTargetLength;
+	_vec3						m_vMonTargetDir;
+	CGameObject*				m_pMonTarget;
+
 
 	// << : Test : Range Test
 	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };

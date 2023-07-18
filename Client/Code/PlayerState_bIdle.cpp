@@ -65,7 +65,17 @@ STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 		return STATE_TYPE::BACK_ROLL;
 
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
-		return STATE_TYPE::BACK_ATTACK;
+	{
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetLength() < 99)
+		{
+			if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0)
+				return STATE_TYPE::BACK_ATTACK;
+			else
+				return STATE_TYPE::FRONT_ATTACK;
+		}
+		else
+			return STATE_TYPE::BACK_ATTACK;
+	}
 
 
 	return m_eState;
