@@ -106,7 +106,6 @@
 #include "Npc_Soldier.h"
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
-#include "QuestMgr.h"
 
 // Monster
 #include "ExpUI.h"

@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CTransform;
+class CGameObject;
 
 END
 
@@ -26,6 +27,8 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	void					Add_Item(CGameObject* _pItem) { m_vecInven.push_back(_pItem); }
 
 protected:
 	virtual HRESULT			Add_Component();
@@ -49,6 +52,7 @@ private:
 
 	_matrix                 m_matInventoryWolrd[INVENTORYID_END];
 
+	vector<CGameObject*>	m_vecInven;
 
 public: 
 

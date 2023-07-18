@@ -4,7 +4,6 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
-#include "QuestMgr.h"
 
 CNpc_Citizen1::CNpc_Citizen1(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_CITIZEN_1)
@@ -67,10 +66,6 @@ void CNpc_Citizen1::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
-			CQuestMgr::GetInstance()->Set_NextLevel();
-			m_bReadyTalk = false;
-		}
 	}
 	break;
 	default:

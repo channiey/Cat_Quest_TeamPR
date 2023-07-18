@@ -41,13 +41,18 @@ HRESULT CWarriorWeapon::Ready_Object()
 
 
 
-    m_pTransformCom->Set_Pos(_vec3{ 100.f, m_pTransformCom->Get_Scale().y, 30.f });
+    m_pTransformCom->Set_Pos(_vec3{
+        _float(START_POS_WORLD_X) + 30.f,
+        m_pTransformCom->Get_Scale().y,
+         _float(START_POS_WORLD_Z) - 10.f });
 
     m_fJumpingSpeed = 0.01;
 
     CEventMgr::GetInstance()->Add_Obj(L"Warrior_Weapon_Shadow", CShadow_Item::Create(m_pGraphicDev, this));
 
     m_szName = L"Item_WarriorWeapon";
+
+    m_eItemType = ITEM_TYPE::WEAPON;
 
     return S_OK;
 }

@@ -3,6 +3,7 @@
 
 #include "Export_Function.h"
 
+#include "TalkMgr.h"
 #include "QuestMgr.h"
 
 CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
@@ -28,9 +29,7 @@ HRESULT CNpc::Ready_Object()
 
 	m_eEnter = ENTER_TYPE::ENTER_NO;
 	m_eInterType = INTERACTION_TYPE::INTERACTION_CHAT;
-	m_bReadyQuest = false;
-	m_bReadyTalk = false;
-	m_iQuestNum = 0;
+	m_bCol = false;
 
 	return S_OK;
 }
@@ -95,7 +94,8 @@ HRESULT CNpc::Add_Component()
 
 void CNpc::Free()
 {
-	CQuestMgr::DestroyInstance(); // 퀘스트 매니저 제거
+	CTalkMgr::DestroyInstance(); // 임시로 여기서 지움.
+	CQuestMgr::DestroyInstance(); // 임시로 여기서 지움.
 	m_pAnimation->Release(); 
 	__super::Free();
 }

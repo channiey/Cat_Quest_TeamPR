@@ -184,6 +184,9 @@
     <ClInclude Include="..\Header\PlayerState_fSleep.h" />
     <ClInclude Include="..\Header\PlayerState_fWake.h" />
     <ClInclude Include="..\Header\PlayerSlash.h" />
+    <ClInclude Include="..\Header\Quest1.h" />
+    <ClInclude Include="..\Header\QuestData.h" />
+    <ClInclude Include="..\Header\QuestMgr.h" />
     <ClInclude Include="..\Header\RamState_bAttack.h" />
     <ClInclude Include="..\Header\RamState_bChase.h" />
     <ClInclude Include="..\Header\RamState_bComeBack.h" />
@@ -304,14 +307,6 @@
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
     <ClInclude Include="..\Header\Pollen.h" />
     <ClInclude Include="..\Header\PollenGenerator.h" />
-    <ClInclude Include="..\Header\Quest.h" />
-    <ClInclude Include="..\Header\Quest1.h" />
-    <ClInclude Include="..\Header\Quest2.h" />
-    <ClInclude Include="..\Header\Quest3.h" />
-    <ClInclude Include="..\Header\Quest4.h" />
-    <ClInclude Include="..\Header\Quest5.h" />
-    <ClInclude Include="..\Header\Quest6.h" />
-    <ClInclude Include="..\Header\QuestMgr.h" />
     <ClInclude Include="..\Header\Ram.h" />
     <ClInclude Include="..\Header\RamState_Attack.h" />
     <ClInclude Include="..\Header\RamState_Chase.h" />
@@ -342,6 +337,7 @@
     <ClInclude Include="..\Header\SquirrelState_ComeBack.h" />
     <ClInclude Include="..\Header\SquirrelState_Patrol.h" />
     <ClInclude Include="..\Header\TabUI.h" />
+    <ClInclude Include="..\Header\TalkMgr.h" />
     <ClInclude Include="..\Header\Temple_Pillar1.h" />
     <ClInclude Include="..\Header\Temple_Pillar2.h" />
     <ClInclude Include="..\Header\TerrainIceDungeon.h" />
@@ -419,6 +415,9 @@
     <ClCompile Include="..\Code\PlayerState_fSleep.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWake.cpp" />
     <ClCompile Include="..\Code\PlayerSlash.cpp" />
+    <ClCompile Include="..\Code\Quest1.cpp" />
+    <ClCompile Include="..\Code\QuestData.cpp" />
+    <ClCompile Include="..\Code\QuestMgr.cpp" />
     <ClCompile Include="..\Code\RamState_bAttack.cpp" />
     <ClCompile Include="..\Code\RamState_bChase.cpp" />
     <ClCompile Include="..\Code\RamState_bComeBack.cpp" />
@@ -539,14 +538,6 @@
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
     <ClCompile Include="..\Code\Pollen.cpp" />
     <ClCompile Include="..\Code\PollenGenerator.cpp" />
-    <ClCompile Include="..\Code\Quest.cpp" />
-    <ClCompile Include="..\Code\Quest1.cpp" />
-    <ClCompile Include="..\Code\Quest2.cpp" />
-    <ClCompile Include="..\Code\Quest3.cpp" />
-    <ClCompile Include="..\Code\Quest4.cpp" />
-    <ClCompile Include="..\Code\Quest5.cpp" />
-    <ClCompile Include="..\Code\Quest6.cpp" />
-    <ClCompile Include="..\Code\QuestMgr.cpp" />
     <ClCompile Include="..\Code\Ram.cpp" />
     <ClCompile Include="..\Code\RamState_Attack.cpp" />
     <ClCompile Include="..\Code\RamState_Chase.cpp" />
@@ -577,6 +568,7 @@
     <ClCompile Include="..\Code\SquirrelState_ComeBack.cpp" />
     <ClCompile Include="..\Code\SquirrelState_Patrol.cpp" />
     <ClCompile Include="..\Code\TabUI.cpp" />
+    <ClCompile Include="..\Code\TalkMgr.cpp" />
     <ClCompile Include="..\Code\Temple_Pillar1.cpp" />
     <ClCompile Include="..\Code\Temple_Pillar2.cpp" />
     <ClCompile Include="..\Code\TerrainIceDungeon.cpp" />

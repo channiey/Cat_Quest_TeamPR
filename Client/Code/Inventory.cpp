@@ -127,163 +127,25 @@ HRESULT CInventory::Ready_Object()
 	m_matInventoryWolrd[INVEN_TABLINE]._11 = m_fSizeX * m_fMultipleSizeX;
 	m_matInventoryWolrd[INVEN_TABLINE]._22 = m_fSizeY * m_fMultipleSizeY;
 
-
-	// Button 1
-	m_fPosX = 620.f;
-	m_fPosY = 220.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON1]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON1]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON1]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON1]._22 = m_fSizeY * m_fMultipleSizeY;
-	
-	// Button 2    
-	m_fPosX = 755.f;
-	m_fPosY = 220.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON2]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON2]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON2]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON2]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-	// Button 3
-	m_fPosX = 890.f;
-	m_fPosY = 220.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON3]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON3]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON3]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON3]._22 = m_fSizeY * m_fMultipleSizeY;
-
-	// Button 4
-	m_fPosX = 1025.f;
-	m_fPosY = 220.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON4]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON4]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON4]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON4]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-	// Button 5
-	m_fPosX = 620.f;
-	m_fPosY = 343.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON5]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON5]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON5]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON5]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-	// Button 6
-	m_fPosX = 755.f;
-	m_fPosY = 343.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON6]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON6]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON6]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON6]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-
-	// Button 7
-	m_fPosX = 890.f;
-	m_fPosY = 343.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON7]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON7]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON7]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON7]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-
-	// Button 8
-	m_fPosX = 1025.f;
-	m_fPosY = 343.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON8]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON8]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON8]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON8]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-
-	// Button 9
-	m_fPosX = 620.f;
-	m_fPosY = 466.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON9]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON9]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON9]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON9]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-
-	// Button 10
-	m_fPosX = 755.f;
-	m_fPosY = 466.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON10]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON10]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON10]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON10]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-	// Button 11
-	m_fPosX = 890.f;
-	m_fPosY = 466.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON11]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON11]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON11]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON11]._22 = m_fSizeY * m_fMultipleSizeY;
-
-
-	// Button 12
-	m_fPosX = 1025.f;
-	m_fPosY = 466.f;
-	m_fSizeX = 175.f;
-	m_fSizeY = 175.f;
-	m_fMultipleSizeX = 0.3f;
-	m_fMultipleSizeY = 0.3f;
-	m_matInventoryWolrd[INVEN_BUTTON12]._41 = m_fPosX;
-	m_matInventoryWolrd[INVEN_BUTTON12]._42 = WINCY - m_fPosY;
-	m_matInventoryWolrd[INVEN_BUTTON12]._11 = m_fSizeX * m_fMultipleSizeX;
-	m_matInventoryWolrd[INVEN_BUTTON12]._22 = m_fSizeY * m_fMultipleSizeY;
+	int iIndex = 0;
+	for (_int i = 0; i < 3; ++i)
+	{
+		for (_int j = 0; j < 4; ++j)
+		{
+			m_fPosX = 620.f + (135.f * j);
+			m_fPosY = 220.f + (123.f * i);
+			m_fSizeX = 175.f;
+			m_fSizeY = 175.f;
+			m_fMultipleSizeX = 0.3f;
+			m_fMultipleSizeY = 0.3f;
+			m_matInventoryWolrd[INVEN_BUTTON1 + iIndex]._41 = m_fPosX;
+			m_matInventoryWolrd[INVEN_BUTTON1 + iIndex]._42 = WINCY - m_fPosY;
+			m_matInventoryWolrd[INVEN_BUTTON1 + iIndex]._11 = m_fSizeX * m_fMultipleSizeX;
+			m_matInventoryWolrd[INVEN_BUTTON1 + iIndex]._22 = m_fSizeY * m_fMultipleSizeY;
+			
+			iIndex += 1;
+		}
+	}
 
 	// Inven Sort Button
 	//m_fPosX = 520.f;

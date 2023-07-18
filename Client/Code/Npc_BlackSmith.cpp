@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "Shadow_Npc.h"
+#include "TalkMgr.h"
 #include "QuestMgr.h"
 
 CNpc_BlackSmith::CNpc_BlackSmith(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -67,9 +68,7 @@ void CNpc_BlackSmith::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_bReadyTalk && CInputDev::GetInstance()->Key_Down('E')) {
-			CQuestMgr::GetInstance()->Set_NextLevel();
-		}
+		m_bCol = true;
 	}
 	break;
 	default:
@@ -79,6 +78,7 @@ void CNpc_BlackSmith::OnCollision_Stay(CGameObject* _pColObj)
 
 void CNpc_BlackSmith::OnCollision_Exit(CGameObject* _pColObj)
 {
+	m_bCol = false;
 }
 
 HRESULT CNpc_BlackSmith::Add_Component()
