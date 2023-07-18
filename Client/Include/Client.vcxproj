@@ -170,8 +170,10 @@
     <ClInclude Include="..\Code\ItemGetEffect.h" />
     <ClInclude Include="..\Header\BatState_bRest.h" />
     <ClInclude Include="..\Header\BatState_Rest.h" />
+    <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
     <ClInclude Include="..\Header\Effect_Ice.h" />
+    <ClInclude Include="..\Header\FoxFire.h" />
     <ClInclude Include="..\Header\HedgehogState_bAttack.h" />
     <ClInclude Include="..\Header\HedgehogState_bChase.h" />
     <ClInclude Include="..\Header\HedgehogState_bComBack.h" />
@@ -424,8 +426,10 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
+    <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Effect_Beam.cpp" />
     <ClCompile Include="..\Code\Effect_Ice.cpp" />
+    <ClCompile Include="..\Code\FoxFire.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bAttack.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bChase .cpp" />
     <ClCompile Include="..\Code\HedgehogState_bComeBack.cpp" />
