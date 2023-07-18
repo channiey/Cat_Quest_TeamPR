@@ -3,8 +3,6 @@
 
 #include "Export_Function.h"
 
-#include "MobCutEffect.h"
-
 // Environment
 #include "Terrain.h"
 #include "TerrainWorld.h"
@@ -132,6 +130,7 @@
 
 #include "ImGuiMgr.h"
 #include "TalkMgr.h"
+#include "QuestMgr.h"
 
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -146,7 +145,8 @@ CScene_World::~CScene_World()
 HRESULT CScene_World::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-	CTalkMgr::GetInstance()->Init(); // 토크매니저 초기화
+	CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+	CQuestMgr::GetInstance()->Init(); // 퀘스트 매니저 초기화
 
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
@@ -175,6 +175,8 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	__super::Update_Scene(fTimeDelta);
+
+	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	return 0;
 }

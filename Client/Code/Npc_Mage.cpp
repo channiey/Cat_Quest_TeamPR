@@ -5,6 +5,7 @@
 
 #include "Shadow_Npc.h"
 #include "TalkMgr.h"
+#include "QuestMgr.h"
 
 CNpc_Mage::CNpc_Mage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_MAGE)
@@ -67,7 +68,7 @@ void CNpc_Mage::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		CTalkMgr::GetInstance()->Get_Talk(m_pGraphicDev, TALK_ID::TALK_MAGE_1, OBJ_ID::NPC_MAGE);
+		m_bCol = true;
 	}
 	break;
 	default:
@@ -77,6 +78,7 @@ void CNpc_Mage::OnCollision_Stay(CGameObject* _pColObj)
 
 void CNpc_Mage::OnCollision_Exit(CGameObject* _pColObj)
 {
+	m_bCol = false;
 }
 
 HRESULT CNpc_Mage::Add_Component()

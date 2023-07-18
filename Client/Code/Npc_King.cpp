@@ -6,6 +6,7 @@
 #include "Shadow_Npc.h"
 
 #include "TalkMgr.h"
+#include "QuestMgr.h"
 
 CNpc_King::CNpc_King(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CNpc(pGraphicDev, OBJ_ID::NPC_KING)
@@ -68,7 +69,7 @@ void CNpc_King::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		CTalkMgr::GetInstance()->Get_Talk(m_pGraphicDev, TALK_ID::TALK_KING_1, OBJ_ID::NPC_KING);
+		m_bCol = true;
 	}
 	break;
 	default:
@@ -78,6 +79,7 @@ void CNpc_King::OnCollision_Stay(CGameObject* _pColObj)
 
 void CNpc_King::OnCollision_Exit(CGameObject* _pColObj)
 {
+	m_bCol = false;
 }
 
 HRESULT CNpc_King::Add_Component()

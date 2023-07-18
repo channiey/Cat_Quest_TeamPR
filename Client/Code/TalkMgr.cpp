@@ -5,6 +5,7 @@
 
 #include "DialogUI.h"
 #include "EventMgr.h"
+#include "QuestMgr.h"
 
 #include "Npc_King.h"
 #include "Npc_Mage.h"
@@ -27,28 +28,50 @@ void CTalkMgr::Init()
 {
 	m_iTalkIndex = 0;
 
-	m_mapTalkData.insert(make_pair(TALK_ID::TALK_KING_1, vector<wstring>{
+	// 듀토리얼 퀘스트
+	// 사자왕
+	m_mapTalkData.insert(make_pair(10, vector<wstring>{
 		{ L"나는 사자왕이다."},
 		{ L"너는 매우 약해 보인다."},
-		{ L"고슴도치나 잡으면서 놀아라."}
+		{ L"고슴도치나 잡으면서 놀아라.(고슴도치 2마리를 잡아오자.)"}
 		}));
 
-	m_mapTalkData.insert(make_pair(TALK_ID::TALK_MAGE_1, vector<wstring>{
+	// 사자왕
+	m_mapTalkData.insert(make_pair(11, vector<wstring>{
+		{ L"고슴도치 2마리를 잡는 것을 보았다."},
+		{ L"너는 쓸만하다." },
+		{ L"대장장이에게 가봐라." }
+	}));
+
+	// 사자왕
+	m_mapTalkData.insert(make_pair(12, vector<wstring>{
+		{ L"잘 돌아왔다."},
+		{ L"너는 듀토리얼을 완료했다." },
+		{ L"자랑스럽다." }
+	}));
+
+	// 메이지
+	m_mapTalkData.insert(make_pair(20, vector<wstring>{
 		{ L"나는 메이지다."},
 		{ L"너는 매우 한가해 보인다." },
-		{ L"수풀에나 들어가서 놀아라." }
+		{ L"수풀에나 들어가서 놀아라.(사자왕에게 돌아가자.)" }
 	}));
 
-	m_mapTalkData.insert(make_pair(TALK_ID::TALK_BLACKSMITH_1, vector<wstring>{
+	// 대장장이
+	m_mapTalkData.insert(make_pair(30, vector<wstring>{
 		{ L"나는 대장장이다."},
 		{ L"너는 뭔가 없어 보인다." },
-		{ L"칼질이나 하면서 놀아라." }
+		{ L"칼질이나 하면서 놀아라.(마법사한테 가보자.)" }
 	}));
+
+
+	//
+
 }
 
-void CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, TALK_ID _eTalkID, OBJ_ID _eObjID)
+_bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _eObjID)
 {
-	auto iter = m_mapTalkData.find(_eTalkID);
+	auto iter = m_mapTalkData.find(_iTalkID);
 
 	if (&iter)
 	{
@@ -60,7 +83,7 @@ void CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, TALK_ID _eTalkID, OBJ_ID 
 				CEventMgr::GetInstance()->Delete_Obj
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
 				m_iTalkIndex = 0;
-				return;
+				return true;
 			}
 
 			if (m_iTalkIndex < iter->second.size())
@@ -78,6 +101,7 @@ void CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, TALK_ID _eTalkID, OBJ_ID 
 			}
 		}
 	}
+	return false;
 }
 
 void CTalkMgr::Free()

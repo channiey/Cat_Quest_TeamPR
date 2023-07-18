@@ -14,10 +14,10 @@ public:
 	void	Init();
 
 public:
-	void Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, TALK_ID _eTalkID, OBJ_ID _eObjID);
+	_bool Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _eObjID);
 
 private:
-	map<TALK_ID, vector<wstring>> m_mapTalkData;
+	map<int, vector<wstring>>	  m_mapTalkData;
 	_int						  m_iTalkIndex;
 
 private:

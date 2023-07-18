@@ -26,6 +26,7 @@ public:
 public:
 	// 모두 같은 기능이라 부모에서 통일
 	void					Play_ColLogic(const _float& fTimeDelta); // 충돌 로직
+	_bool					Get_IsCol() { return m_bCol; }
 
 public:
 	CTexture*				Get_Texture() { return m_pTextureCom; }
@@ -36,6 +37,8 @@ private:
 protected:
 	CTexture*	m_pTextureCom = nullptr; 
 	CAnimation* m_pAnimation;
+
+	_bool		m_bCol;
 protected:
 	virtual void			Free() override;
 

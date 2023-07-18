@@ -184,6 +184,8 @@
     <ClInclude Include="..\Header\PlayerState_fSleep.h" />
     <ClInclude Include="..\Header\PlayerState_fWake.h" />
     <ClInclude Include="..\Header\PlayerSlash.h" />
+    <ClInclude Include="..\Header\Quest1.h" />
+    <ClInclude Include="..\Header\QuestData.h" />
     <ClInclude Include="..\Header\QuestMgr.h" />
     <ClInclude Include="..\Header\RamState_bAttack.h" />
     <ClInclude Include="..\Header\RamState_bChase.h" />
@@ -414,6 +416,8 @@
     <ClCompile Include="..\Code\PlayerState_fSleep.cpp" />
     <ClCompile Include="..\Code\PlayerState_fWake.cpp" />
     <ClCompile Include="..\Code\PlayerSlash.cpp" />
+    <ClCompile Include="..\Code\Quest1.cpp" />
+    <ClCompile Include="..\Code\QuestData.cpp" />
     <ClCompile Include="..\Code\QuestMgr.cpp" />
     <ClCompile Include="..\Code\RamState_bAttack.cpp" />
     <ClCompile Include="..\Code\RamState_bChase.cpp" />
