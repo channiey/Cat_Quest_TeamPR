@@ -243,7 +243,18 @@ void CMonster::Damaged(CGameObject* pObj)
 	{
 		m_pRigidBodyCom->Zero_KnockBack();
 	}
-	m_pRigidBodyCom->Knock_Back(pObj, 220);
+	
+	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK)
+	{
+		m_pRigidBodyCom->Zero_KnockBack();
+		
+	}
+	else
+	{
+		m_pRigidBodyCom->Knock_Back(pObj, 220);
+	}
+	
 	CEventMgr::GetInstance()->Add_Obj(L"Monster_Cut_Effect", CMobCutEffect::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 
 

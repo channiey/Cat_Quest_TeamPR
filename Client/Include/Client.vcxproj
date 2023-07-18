@@ -168,12 +168,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\ItemGetEffect.h" />
+    <ClInclude Include="..\Header\BatState_bRest.h" />
+    <ClInclude Include="..\Header\BatState_Rest.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
     <ClInclude Include="..\Header\Effect_Ice.h" />
     <ClInclude Include="..\Header\HedgehogState_bAttack.h" />
     <ClInclude Include="..\Header\HedgehogState_bChase.h" />
     <ClInclude Include="..\Header\HedgehogState_bComBack.h" />
     <ClInclude Include="..\Header\HedgehogState_bPatrol.h" />
+    <ClInclude Include="..\Header\HedgehogState_bRest.h" />
+    <ClInclude Include="..\Header\HedgehogState_Rest.h" />
     <ClInclude Include="..\Header\ItemSparkle.h" />
     <ClInclude Include="..\Header\MageWeapon.h" />
     <ClInclude Include="..\Header\MobCutEffect.h" />
@@ -188,6 +192,8 @@
     <ClInclude Include="..\Header\RamState_bChase.h" />
     <ClInclude Include="..\Header\RamState_bComeBack.h" />
     <ClInclude Include="..\Header\RamState_bPatrol.h" />
+    <ClInclude Include="..\Header\RamState_bRest.h" />
+    <ClInclude Include="..\Header\RamState_Rest.h" />
     <ClInclude Include="..\Header\RangeObj.h" />
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\BatState_Attack.h" />
@@ -382,9 +388,11 @@
     <ClInclude Include="..\Header\WyvernState_bChase.h" />
     <ClInclude Include="..\Header\WyvernState_bComeBack.h" />
     <ClInclude Include="..\Header\WyvernState_bPatrol.h" />
+    <ClInclude Include="..\Header\WyvernState_bRest.h" />
     <ClInclude Include="..\Header\WyvernState_Chase.h" />
     <ClInclude Include="..\Header\WyvernState_ComeBack.h" />
     <ClInclude Include="..\Header\WyvernState_Patrol.h" />
+    <ClInclude Include="..\Header\WyvernState_Rest.h" />
     <ClInclude Include="..\Header\ZoomUI.h" />
     <ClInclude Include="..\ImGui\imconfig.h" />
     <ClInclude Include="..\ImGui\imgui.h" />
@@ -403,12 +411,16 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\BatState_bRest.cpp" />
+    <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\Effect_Beam.cpp" />
     <ClCompile Include="..\Code\Effect_Ice.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bAttack.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bChase .cpp" />
     <ClCompile Include="..\Code\HedgehogState_bComeBack.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bPatrol.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_bRest.cpp" />
+    <ClCompile Include="..\Code\HedgehogState_Rest.cpp" />
     <ClCompile Include="..\Code\ItemGetEffect.cpp" />
     <ClCompile Include="..\Code\ItemSparkle.cpp" />
     <ClCompile Include="..\Code\MageWeapon.cpp" />
@@ -424,6 +436,8 @@
     <ClCompile Include="..\Code\RamState_bChase.cpp" />
     <ClCompile Include="..\Code\RamState_bComeBack.cpp" />
     <ClCompile Include="..\Code\RamState_bPatrol.cpp" />
+    <ClCompile Include="..\Code\RamState_bRest.cpp" />
+    <ClCompile Include="..\Code\RamState_Rest.cpp" />
     <ClCompile Include="..\Code\RangeObj.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\BatState_Attack.cpp" />
@@ -618,9 +632,11 @@
     <ClCompile Include="..\Code\WyvernState_bChase.cpp" />
     <ClCompile Include="..\Code\WyvernState_bComeBack.cpp" />
     <ClCompile Include="..\Code\WyvernState_bPatrol.cpp" />
+    <ClCompile Include="..\Code\WyvernState_bRest.cpp" />
     <ClCompile Include="..\Code\WyvernState_Chase.cpp" />
     <ClCompile Include="..\Code\WyvernState_ComeBack.cpp" />
     <ClCompile Include="..\Code\WyvernState_Patrol.cpp" />
+    <ClCompile Include="..\Code\WyvernState_Rest.cpp" />
     <ClCompile Include="..\Code\ZoomUI.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />

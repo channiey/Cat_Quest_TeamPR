@@ -83,7 +83,7 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
 
 
     // CHASE 전이 조건
-    if (fPlayerDistance >= m_fChaseRange)
+    if (fPlayerDistance <= m_fChaseRange)
     {
        // cout << "chase  전이" << endl;
        // pOwnerTransform->Set_Dir(vec3.zero);

@@ -1,8 +1,8 @@
-#include "HedgehogState_Attack.h"
+#include "BatState_Rest.h"
 #include "Export_Function.h"
 
 
-CHedgehogState_Attack::CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
+CBatState_Rest::CBatState_Rest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -17,11 +17,11 @@ CHedgehogState_Attack::CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CHedgehogState_Attack::~CHedgehogState_Attack()
+CBatState_Rest::~CBatState_Rest()
 {
 }
 
-HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
+HRESULT CBatState_Rest::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -38,7 +38,7 @@ HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
     m_fPosShakeRange = 1.f;
 
     m_fPosShakeRange *= -0.2f;
-
+    m_fAccTime = 0.f;
     m_fAddHeight += 1.2f;
     m_fAddRot += 0.3f;
     m_fScaleDown -= 0.01;
@@ -49,7 +49,7 @@ HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
-STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CBatState_Rest::Update_State(const _float& fTimeDelta)
 {
     // Component Info
     
@@ -97,46 +97,74 @@ STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
  
      
 
-
-
-
-     
 #pragma region State Change
 
 
-     // Attack 은 무조건 Rest로 간다 
+    //// BACK_ MONREST 전이
+    //if (vOwnerDir.z > 0)
+    //{
+    //   // cout <<  "back monattack 전이" << endl;
+    //    return STATE_TYPE::BACK_MONREST;
+    //}
 
-    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End()) // 애니메이션 끝나야 전이 가능하게 함
+    m_fAccTime += fTimeDelta;
+
+    if (m_fAccTime >= 1.f)  // 몇 초 후 전이 조건
     {
- 
-        return STATE_TYPE::MONREST;
-    }
+        // Attack 전이 
+        if (fPlayerDistance <= m_fAttackRange)
+        {
+            m_fAccTime = 0.f;
+            //cout << "attack 전이" << endl;
+            //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+            return STATE_TYPE::MONATTACK;
+        }
+    
+        // CHASE 전이 조건
+       if (fPlayerDistance <= m_fChaseRange)
+        {
+            m_fAccTime = 0.f;
+            // cout << "chase  전이" << endl;
+            // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+            return STATE_TYPE::CHASE;
+        }
 
-    return STATE_TYPE::MONATTACK;
+        // COMEBACK 전이 조건
+        if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
+        {
+            m_fAccTime = 0.f;
+            // cout << "COMBACK  전이" << endl
+            //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+            return STATE_TYPE::COMEBACK;
+        }
+    }
+    
+    return STATE_TYPE::MONREST;
+
 
 #pragma endregion
 
 }
 
-void CHedgehogState_Attack::LateUpdate_State()
+void CBatState_Rest::LateUpdate_State()
 {
 
 }
 
-void CHedgehogState_Attack::Render_State()
+void CBatState_Rest::Render_State()
 {
     
 }
 
-STATE_TYPE CHedgehogState_Attack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CBatState_Rest::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CHedgehogState_Attack* CHedgehogState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CBatState_Rest* CBatState_Rest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CHedgehogState_Attack* pInstance = new CHedgehogState_Attack(pGraphicDev);
+    CBatState_Rest* pInstance = new CBatState_Rest(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -149,7 +177,7 @@ CHedgehogState_Attack* CHedgehogState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicD
     return pInstance;
 }
 
-void CHedgehogState_Attack::Free()
+void CBatState_Rest::Free()
 {
     __super::Free();
 }
