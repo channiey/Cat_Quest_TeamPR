@@ -51,10 +51,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_eCurGroundType(LINE_TYPE::LAND)
 {
 	ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
-	for (size_t i = 0; i < 4; ++i)
-	{
-		m_arrSkillSlot[i] = nullptr;
-	}
 }
 
 CPlayer::CPlayer(const CPlayer& rhs)
@@ -86,9 +82,11 @@ HRESULT CPlayer::Ready_Object()
 	m_bAttack = false;
 	m_bSkill = false;
 
-	for (_uint i = 0; i < 4; ++i)
-		m_bOnSKill[i] = false;
-	
+	for (size_t i = 0; i < 4; ++i)
+	{
+		m_arrSkillSlot[i] = nullptr;
+	}
+
 	m_fAccDef = 0.f;
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
@@ -175,25 +173,21 @@ HRESULT CPlayer::Ready_Object()
 	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
-	m_bOnSKill[0] = true;
 	m_arrSkillSlot[0] = m_arrEffect[_uint(SKILL_TYPE::FIRE)];
 
 	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
-	m_bOnSKill[1] = true;
 	m_arrSkillSlot[1] = m_arrEffect[_uint(SKILL_TYPE::THUNDER)];
 
 	m_arrEffect[_uint(SKILL_TYPE::FREEZING)] = CEffect_Ice::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FREEZING)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
-	m_bOnSKill[2] = true;
 	m_arrSkillSlot[2] = m_arrEffect[_uint(SKILL_TYPE::FREEZING)];
 
 	m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::BEAM)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Beam", m_arrEffect[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	m_bOnSKill[3] = true;
 	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];
 
 #pragma endregion

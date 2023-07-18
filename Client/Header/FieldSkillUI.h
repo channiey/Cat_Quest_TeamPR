@@ -10,6 +10,7 @@ class CTransform;
 END
 
 class CPlayer;
+class CEffect;
 
 class CFieldSkillUI : public CUI  // 뷰포트 사용 | 피킹이 가능한 형태의 UI 입니다
 {
@@ -32,6 +33,8 @@ private:
 	void					Mouse_Input();
 	void					Reset_SkillUI();
 	void					Play_SKill();
+
+	void					Set_Skill();
 
 private:
 	CPlayer*				m_pPlayer;
@@ -58,7 +61,7 @@ private:
 	_float					m_ManaSizeY;
 	_float					m_SkillPosX[4];
 	_float					m_SkillPosY[4];
-	_uint					m_SkillKind[4];
+	
 	// 픽킹용
 	RECT					m_rcPick[4];
 	_bool					m_bPick[4];
@@ -70,10 +73,10 @@ private:
 	
 
 	_bool					m_bIsOn;
-	_bool					m_bSkill[0];
+	_bool					m_bSkill[4];
 	
-	
-
+	CEffect*				 m_pPlayerSkill[4];
+	_uint					 m_SkillKind[4];
 
 public:
 	static CFieldSkillUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);

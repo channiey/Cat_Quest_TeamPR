@@ -119,12 +119,10 @@ public:
 
 	_bool&				Is_Skill() { return m_bSkill; }
 	void				Set_Skill(const _bool& bSkill) { m_bSkill = bSkill; }
-	void				Set_OnSkill(const _uint& iSkill, const _bool& bSkill) { m_bOnSKill[iSkill] = bSkill; }
-	_bool&				Is_OnSkill(const _uint& iSkill) { return  m_bOnSKill[iSkill]; }
 
 	void				Regen_HP(const _float& fHeal);
 
-	CEffect*			Get_Effect(const _uint& m_iSkill) { return m_arrEffect[m_iSkill]; }
+	CEffect*			Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
 
 private:
 	HRESULT				Add_Component();
@@ -132,6 +130,8 @@ private:
 
 	void				Regen_Def(const _float& fTimeDelta);
 	
+
+
 
 private:
 	MOVEINFO					m_tMoveInfo;
@@ -145,15 +145,15 @@ private:
 
 	_uint						m_iTempMode;
 
+	// 방어도 리젠 계산 변수
 	_float						m_fAccDef;
 
+	// 피격, 공격 불변수
 	_bool						m_bHit;
 	_bool						m_bAttack;
 
-
+	// 스킬사용 및 스킬슬롯 변수
 	_bool						m_bSkill;
-	_bool						m_bOnSKill[4];
-
 	CEffect*					m_arrSkillSlot[4];
 	CEffect*					m_arrEffect[(UINT)SKILL_TYPE::TYPEEND];
 

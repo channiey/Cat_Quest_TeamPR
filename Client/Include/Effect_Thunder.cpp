@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CEffect_Thunder::CEffect_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_SPELLBURST_FIRE)
+	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_SKILL_THUNDER)
 {
 }
 
