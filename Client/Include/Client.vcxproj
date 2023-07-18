@@ -170,6 +170,7 @@
     <ClInclude Include="..\Code\ItemGetEffect.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
     <ClInclude Include="..\Header\Effect_Ice.h" />
+    <ClInclude Include="..\Header\Effect_Range.h" />
     <ClInclude Include="..\Header\HedgehogState_bAttack.h" />
     <ClInclude Include="..\Header\HedgehogState_bChase.h" />
     <ClInclude Include="..\Header\HedgehogState_bComBack.h" />
@@ -213,9 +214,8 @@
     <ClInclude Include="..\Header\Effect_Cast_Blue.h" />
     <ClInclude Include="..\Header\Effect_Cast_Yellow.h" />
     <ClInclude Include="..\Header\Effect_Lightning.h" />
-    <ClInclude Include="..\Header\Effect_Range_BigCircle.h" />
+    <ClInclude Include="..\Header\Effect_Range_Quater.h" />
     <ClInclude Include="..\Header\ExpCoin.h" />
-    <ClInclude Include="..\Header\FireSkill.h" />
     <ClInclude Include="..\Header\GoldCoin.h" />
     <ClInclude Include="..\Header\Chest.h" />
     <ClInclude Include="..\Header\Chest_Cosmetic.h" />
@@ -405,6 +405,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\Effect_Beam.cpp" />
     <ClCompile Include="..\Code\Effect_Ice.cpp" />
+    <ClCompile Include="..\Code\Effect_Range.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bAttack.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bChase .cpp" />
     <ClCompile Include="..\Code\HedgehogState_bComeBack.cpp" />
@@ -449,9 +450,8 @@
     <ClCompile Include="..\Code\Effect_Cast_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_Cast_Yellow.cpp" />
     <ClCompile Include="..\Code\Effect_Lightning.cpp" />
-    <ClCompile Include="..\Code\Effect_Range_BigCircle.cpp" />
+    <ClCompile Include="..\Code\Effect_Range_Quater.cpp" />
     <ClCompile Include="..\Code\ExpCoin.cpp" />
-    <ClCompile Include="..\Code\FireSkill.cpp" />
     <ClCompile Include="..\Code\GoldCoin.cpp" />
     <ClCompile Include="..\Code\Chest.cpp" />
     <ClCompile Include="..\Code\Chest_Cosmetic.cpp" />

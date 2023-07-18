@@ -199,6 +199,51 @@ namespace Engine
 		EVENT_TYPE  eType;
 
 	}EVENT;
+
+	typedef struct MyLerpFloatInfo
+	{
+		_float	fStartTime = 0.f;
+		_float	fEndTime = 0.f;
+		_float	fCurTime = 0.f;
+
+		_float	fStartValue = 0.f;
+		_float	fTargetValue = 0.f;
+		_float	fCurValue = 0.f;
+
+		_bool	bActive = false;
+
+		void Init_Lerp()
+		{
+			bActive = true;
+			fCurTime = 0.f;
+			fCurValue = 0.f;
+		}
+
+		void Set_Lerp(const _float& _fTime, const _float _fStartValue, const _float& _fTargetValue)
+		{
+			fEndTime = _fTime;
+			fStartValue = _fStartValue;
+			fTargetValue = _fTargetValue;
+		}
+
+		void Update_Lerp(const _float& fTimeDelta)
+		{
+			if (!bActive) return;
+			
+			fCurTime += fTimeDelta;
+
+			if (fCurTime >= fEndTime)
+			{
+				bActive = FALSE;
+				fCurTime = fEndTime;
+			}
+
+			fCurValue = Lerp_Float(fStartValue , fTargetValue , fCurTime / fEndTime);	
+		}
+
+		_float Lerp_Float(const _float& _f1, const _float& _f2, const _float _fTime) { return (1 - _fTime) * _f1 + (_fTime * _f2); }
+
+	}LERP_FLOAT_INFO;
 }
 
 

@@ -135,7 +135,6 @@
 #include "Effect_SpellBurst_Yellow.h"
 
 #include "Effect_Lightning.h"
-#include "Effect_Range_BigCircle.h"
 
 #include "Effect_Fire.h"
 #include "Effect_Thunder.h"

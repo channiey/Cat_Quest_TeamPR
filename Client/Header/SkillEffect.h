@@ -1,6 +1,5 @@
 #pragma once
 #include "Effect.h"
-#include "Effect.h"
 
 BEGIN(Engine)
 
@@ -26,6 +25,7 @@ public:
 public:
 	virtual void			Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one);
 	const _bool&			Is_End() const { return m_bEnd; }
+
 private:
 	HRESULT					Add_Component();
 

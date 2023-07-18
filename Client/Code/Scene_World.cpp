@@ -114,11 +114,9 @@
 #include "Effect_SpellBurst_Purple.h"
 #include "Effect_SpellBurst_Yellow.h"
 
-#include "Effect_Lightning.h"
-#include "Effect_Range_BigCircle.h"
 
-#include "Effect_Fire.h"
-#include "Effect_Thunder.h"
+
+#include "Effect_Range_Quater.h"
 
 // Item
 #include "GoldCoin.h"
@@ -203,7 +201,6 @@ void CScene_World::LateUpdate_Scene()
 	// 02. 카메라 포지션 결정
 	CCameraMgr::GetInstance()->Set_ViewSpace();
 }
-
 void CScene_World::Render_Scene()
 {
 	if (!CManagement::GetInstance()->Is_Debug()) return;
@@ -867,11 +864,16 @@ HRESULT CScene_World::Ready_Layer_LHJ()
 
 HRESULT CScene_World::Ready_Layer_YC()
 {
+	return S_OK;
+
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
+	pGameObject = CEffect_Range_Quater::Create(m_pGraphicDev, nullptr, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Quater_Range_Test", pGameObject), E_FAIL);	
+
+	_vec3 vPos{ START_POS_WORLD_X, 0.f, START_POS_WORLD_Z };
+	pGameObject->Get_Transform()->Set_Pos(vPos);
 
 	return S_OK;
 }

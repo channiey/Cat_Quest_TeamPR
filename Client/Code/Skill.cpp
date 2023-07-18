@@ -5,43 +5,67 @@
 
 #include "SkillEffect.h"
 
-CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	: m_pGraphicDev(pGraphicDev)
-	, m_pOwnerObject(_pOwnerObject)
+CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
+	, m_pSKillEffect(nullptr)
+	, m_pRangeEffect(nullptr)
 {
-	if (m_pGraphicDev)
-		m_pGraphicDev->AddRef();
+}
+
+CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
+	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
+	, m_pOwnerObject(_pOwnerObject)
+{	
+}
+
+CSkill::CSkill(const CSkill& rhs)
+	: Engine::CGameObject(rhs)
+{
 }
 
 CSkill::~CSkill()
 {
 }
 
-HRESULT CSkill::Ready_Skill()
+HRESULT CSkill::Ready_Object()
 {
-	FAILED_CHECK_RETURN(Add_SkillEffect(), E_FAIL);
+	CGameObject::Ready_Object();
+
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
 
-void CSkill::Update_Skill()
+_int CSkill::Update_Object(const _float& fTimeDelta)
 {
-	if (!m_bPlay) return;
+	_int iExit = __super::Update_Object(fTimeDelta);
+
+	return iExit;
 }
 
-void CSkill::LateUpdate_Skill()
+void CSkill::LateUpdate_Object()
 {
-	if (!m_bPlay) return;
+	__super::LateUpdate_Object();
 }
 
-HRESULT CSkill::Add_SkillEffect()
+void CSkill::Render_Object()
 {
+	__super::Render_Object(); // 콜라이더 출력
+}
+
+HRESULT CSkill::Add_Component()
+{
+	return S_OK;
+}
+
+HRESULT CSkill::Play()
+{
+	NULL_CHECK_RETURN(m_pSKillEffect, E_FAIL);
+	NULL_CHECK_RETURN(m_pRangeEffect, E_FAIL);
 	return S_OK;
 }
 
 void CSkill::Free()
 {
-	//for_each(m_vecEffect.begin(), m_vecEffect.end(), CDeleteObj());
-
-	Safe_Release(m_pGraphicDev);
+	__super::Free();
 }

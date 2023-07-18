@@ -634,19 +634,81 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	 
 #pragma region YUN
 
-	// 이펙트-스킬-캐스트
+	// 이펙트-스킬
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Fire",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Fire/%d.png", 29)), E_FAIL); // 파이어 테스트
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/Completed/Fire/%d.png", 29)), E_FAIL); 
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Thunder",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Thunder/%d.png", 11)), E_FAIL); // 썬더 테스트
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/Completed/Thunder/%d.png", 11)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Ice",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Ice/%d.png", 13)), E_FAIL); // 썬더 테스트
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/Completed/Ice/%d.png", 13)), E_FAIL); 
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Beam",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Beam/%d.png", 20)), E_FAIL); // 파이어 테스트
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/Completed/Beam/%d.png", 20)), E_FAIL); 
+
+
+	// 이펙트 - 스킬 - 장판 (쿼터)
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Square_Purple.png")), E_FAIL); 
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Yellow",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Big_Yellow.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Attack_Circle_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Attack_Red.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Arrow_Blue.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Red"
+			, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Arrow_Red.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Purple"
+			, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Square_Purple.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Red"
+			, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Square_Red.png")), E_FAIL);
+
+
+	// 이펙트 - 스킬 - 장판 (일반)
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Ritual_Circle_Red"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Ritual_Circle_Red.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_RitualBroken_Circle_Red"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_RitualBroken_Circle_Red.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_RitualBroken_Circle_Blue"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_RitualBroken_Circle_Blue.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Ritual_Circle_Blue"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Ritual_Circle_Blue.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Small_Purple"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Small_Purple.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Small_Red"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Small_Red.png")), E_FAIL);
 
 #pragma endregion
 
