@@ -10,6 +10,10 @@ CFieldSkillUI::CFieldSkillUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_FILEDSKILL)
 	, m_bIsOn(false), m_pPlayer(nullptr)
 {
+	for (size_t i = 0; i < 4; ++i)
+	{
+		m_pPlayerSkill[i] = nullptr;
+	}
 }
 
 CFieldSkillUI::CFieldSkillUI(const CFieldSkillUI& rhs)
@@ -218,24 +222,10 @@ _int CFieldSkillUI::Update_Object(const _float& fTimeDelta)
 	{
 		if (nullptr == m_pPlayer)
 			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-
-
-		// 나중에 스킬슬롯이 제대로 생기면 스킬슬롯에따라 뜨는 SKILL이미지 다르게
-		/*if (nullptr != m_pPlayer)
+		if (nullptr != m_pPlayer)
 		{
-			for (_uint i = 0; i < 4; ++i)
-			{
-				if (m_pPlayer->Is_OnSkill(i))
-				{
-					CEffect* pEffect = m_pPlayer->Get_Effect(i);
-					if (nullptr != pEffect)
-					{
-						pEffect->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
-						m_pPlayer->Set_Skill(true);
-					}
-				}
-			}
-		}*/
+			Set_Skill();
+		}
 
 
 		if (m_bShirnk)
@@ -376,27 +366,27 @@ void CFieldSkillUI::Render_Object()
 			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			// 작은링1
-			if (m_bPick[0])
+			if (m_bPick[0] && m_pPlayerSkill[0] !=nullptr)
 			{
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[9]);
 				m_pUITextureCom[0]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 			}
 			// 작은링2
-			if (m_bPick[1])
+			if (m_bPick[1] && m_pPlayerSkill[1] != nullptr)
 			{
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[10]);
 				m_pUITextureCom[0]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 			}
 			// 작은링3
-			if (m_bPick[2])
+			if (m_bPick[2] && m_pPlayerSkill[2] != nullptr)
 			{
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[11]);
 				m_pUITextureCom[0]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 			}
-			if (m_bPick[3])
+			if (m_bPick[3] && m_pPlayerSkill[3] != nullptr)
 			{
 				// 작은링4
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[12]);
@@ -405,50 +395,65 @@ void CFieldSkillUI::Render_Object()
 			}
 			
 			
+			if (m_pPlayerSkill[0] != nullptr)
+			{
+				// 스킬1
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[1]);
+				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[0]);
+				m_pBufferCom->Render_Buffer();
+				// 마나링1
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[5]);
+				m_pUITextureCom[3]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
 
-			// 스킬1
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[1]);
-			m_pUITextureCom[2]->Render_Texture(0);
-			m_pBufferCom->Render_Buffer();
-			// 스킬2
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
-			m_pUITextureCom[2]->Render_Texture(1);
-			m_pBufferCom->Render_Buffer();
-			// 스킬3
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
-			m_pUITextureCom[2]->Render_Texture(2);
-			m_pBufferCom->Render_Buffer();
-			// 스킬4
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
-			m_pUITextureCom[2]->Render_Texture(3);
-			m_pBufferCom->Render_Buffer();
-			// 마나링1
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[5]);
-			m_pUITextureCom[3]->Render_Texture();
-			m_pBufferCom->Render_Buffer();
-			// 마나링2
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[6]);
-			m_pUITextureCom[3]->Render_Texture();
-			m_pBufferCom->Render_Buffer();
-			// 마나링3
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[7]);
-			m_pUITextureCom[3]->Render_Texture();
-			m_pBufferCom->Render_Buffer();
-			// 마나링4
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[8]);
-			m_pUITextureCom[3]->Render_Texture();
-			m_pBufferCom->Render_Buffer();
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"1", -1,
+					&m_rcFont[0], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			}
 			
-			
-			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"1", -1,
-				&m_rcFont[0], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
-			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"2", -1,
-				&m_rcFont[1], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
-			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"3", -1,
-				&m_rcFont[2], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
-			CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"4", -1,
-				&m_rcFont[3], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			if (m_pPlayerSkill[1] != nullptr)
+			{
+				// 스킬2
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
+				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[1]);
+				m_pBufferCom->Render_Buffer();
+				// 마나링2
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[6]);
+				m_pUITextureCom[3]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
 
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"2", -1,
+					&m_rcFont[1], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			}
+			
+			if (m_pPlayerSkill[2] != nullptr)
+			{
+				// 스킬3
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
+				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[2]);
+				m_pBufferCom->Render_Buffer();
+				// 마나링3
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[7]);
+				m_pUITextureCom[3]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
+
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"3", -1,
+					&m_rcFont[2], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			}
+			
+			if (m_pPlayerSkill[3] != nullptr)
+			{
+				// 스킬4
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
+				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[3]);
+				m_pBufferCom->Render_Buffer();
+				// 마나링4
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[8]);
+				m_pUITextureCom[3]->Render_Texture();
+				m_pBufferCom->Render_Buffer();
+
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"4", -1,
+					&m_rcFont[3], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
+			}
 		}
 		
 
@@ -467,39 +472,19 @@ void CFieldSkillUI::Picking_UI()
 	if (PtInRect(&m_rcPick[0], pt))
 	{
 		m_bPick[0] = true;
-
-		m_bSkill[0] = true;
-		m_bSkill[1] = false;
-		m_bSkill[2] = false;
-		m_bSkill[3] = false;
 	}
 	else if (PtInRect(&m_rcPick[1], pt))
 	{
 		m_bPick[1] = true;
-
-		m_bSkill[0] = false;
-		m_bSkill[1] = true;
-		m_bSkill[2] = false;
-		m_bSkill[3] = false;
 	}
 		
 	else if (PtInRect(&m_rcPick[2], pt))
 	{
 		m_bPick[2] = true;
-
-		m_bSkill[0] = false;
-		m_bSkill[1] = false;
-		m_bSkill[2] = true;
-		m_bSkill[3] = false;
 	}
 	else if (PtInRect(&m_rcPick[3], pt))
 	{
 		m_bPick[3] = true;
-
-		m_bSkill[0] = false;
-		m_bSkill[1] = false;
-		m_bSkill[2] = false;
-		m_bSkill[3] = true;
 	}
 	else
 	{
@@ -558,6 +543,12 @@ void CFieldSkillUI::Reset_SkillUI()
 	for (_uint i = 0; i < 4; ++i)
 		m_bSkill[i] = false;
 
+	for (_uint i = 0; i < 4; ++i)
+	{
+		m_pPlayerSkill[i] = nullptr;
+	}
+
+
 	for (_uint i = 0; i < 5; ++i)
 	{
 		m_pUITransform[i]->Reset_Lerp();
@@ -568,17 +559,47 @@ void CFieldSkillUI::Play_SKill()
 {
 	for (_uint i = 0; i < 4; ++i)
 	{
-		if (m_bSkill[i])
+		if (m_bPick[i])
 		{
-			if (m_pPlayer->Is_OnSkill(i))
+			if (m_pPlayerSkill[i] != nullptr)
 			{
-				CEffect* pEffect = m_pPlayer->Get_Effect(i);
-				if (nullptr != pEffect)
-				{
-					pEffect->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
+				m_pPlayerSkill[i]->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
+				if(OBJ_ID::EFFECT_SKILL_HEAL != m_pPlayerSkill[i]->Get_ID())
 					m_pPlayer->Set_Skill(true);
-				}
-			}	
+			}
+		}
+	}
+}
+
+void CFieldSkillUI::Set_Skill()
+{
+	for (_uint i = 0; i < 4; ++i)
+	{
+		CEffect* pSkill = m_pPlayer->Get_SkillSlot(i);
+		if (pSkill != nullptr)
+		{
+			m_pPlayerSkill[i] = pSkill;
+			OBJ_ID eSKillID = m_pPlayerSkill[i]->Get_ID();
+			switch (eSKillID)
+			{
+			case Engine::OBJ_ID::EFFECT_SKILL_SPELLBURST_FIRE:
+				m_iSkillKind[i] = 0;
+				break;
+			case Engine::OBJ_ID::EFFECT_SKILL_THUNDER:
+				m_iSkillKind[i] = 1;
+				break;
+			case Engine::OBJ_ID::EFFECT_SKILL_HEAL:
+				m_iSkillKind[i] = 4;
+				break;
+			case Engine::OBJ_ID::EFFECT_SKILL_FREEZING:
+				m_iSkillKind[i] = 2;
+				break;
+			case Engine::OBJ_ID::EFFECT_BEAM:
+				m_iSkillKind[i] = 3;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }

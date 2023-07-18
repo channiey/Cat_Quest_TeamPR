@@ -37,6 +37,7 @@
 #include "Effect_Thunder.h"
 #include "Effect_Ice.h"
 #include "Effect_Beam.h"
+#include "Effect_Heal.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -50,10 +51,6 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_eCurGroundType(LINE_TYPE::LAND)
 {
 	ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
-	for (size_t i = 0; i < 4; ++i)
-	{
-		m_arrSkillSlot[i] = nullptr;
-	}
 }
 
 CPlayer::CPlayer(const CPlayer& rhs)
@@ -85,9 +82,17 @@ HRESULT CPlayer::Ready_Object()
 	m_bAttack = false;
 	m_bSkill = false;
 
-	for (_uint i = 0; i < 4; ++i)
-		m_bOnSKill[i] = false;
-	
+	m_bIsMonster = false;
+	m_fMonTargetLength = 99.f;
+	m_pMonTarget = nullptr;
+
+	m_bIsTalking = false;
+
+	for (size_t i = 0; i < 4; ++i)
+	{
+		m_arrSkillSlot[i] = nullptr;
+	}
+
 	m_fAccDef = 0.f;
 	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pTransformCom->Set_Dir(vec3.right);
@@ -174,26 +179,28 @@ HRESULT CPlayer::Ready_Object()
 	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
-	m_bOnSKill[0] = true;
 	m_arrSkillSlot[0] = m_arrEffect[_uint(SKILL_TYPE::FIRE)];
 
 	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
-	m_bOnSKill[1] = true;
 	m_arrSkillSlot[1] = m_arrEffect[_uint(SKILL_TYPE::THUNDER)];
 
 	m_arrEffect[_uint(SKILL_TYPE::FREEZING)] = CEffect_Ice::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FREEZING)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
-	m_bOnSKill[2] = true;
 	m_arrSkillSlot[2] = m_arrEffect[_uint(SKILL_TYPE::FREEZING)];
 
-	m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
+	/*m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::BEAM)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Beam", m_arrEffect[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	m_bOnSKill[3] = true;
-	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];
+	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];*/
+
+
+	m_arrEffect[_uint(SKILL_TYPE::HEAL)] = CEffect_Heal::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::HEAL)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Heal", m_arrEffect[_uint(SKILL_TYPE::HEAL)]), E_FAIL);
+	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::HEAL)];
 
 #pragma endregion
 
@@ -228,13 +235,14 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
-	
-	Key_Input(fTimeDelta);
-	Regen_Def(fTimeDelta);
-
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
-
+	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+	Regen_Def(fTimeDelta);
+	
+	if(!m_bIsTalking)
+		Key_Input(fTimeDelta);
+	
+	
 	// Move Effect 생성
 	if (m_iTempMode == 1) { // 육지
 		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
@@ -450,6 +458,8 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
+		CloseTarget_Dis(_pColObj);
+
 		if (Is_Attack())
 		{
 			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
@@ -601,6 +611,19 @@ void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
 
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::MONSTER:
+		m_bIsMonster = false;
+		m_fMonTargetLength = 99.f;
+		m_pMonTarget = nullptr;
+		Set_PlayerDirNormal(m_vMonTargetDir);
+		break;
+	default:
+		break;
+	}
+
 	_pColObj->Set_IsEnter(false);
 
 	// 부쉬면 Event 한번 더 진행
@@ -717,8 +740,34 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down('Z'))
-		Damaged(40);
+	if (CInputDev::GetInstance()->Key_Down('1') &&
+		m_arrSkillSlot[0] != nullptr)
+	{
+		m_arrSkillSlot[0]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
+			m_bSkill = true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('2') &&
+		m_arrSkillSlot[1] != nullptr)
+	{
+		m_arrSkillSlot[1]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
+			m_bSkill = true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('3') &&
+		m_arrSkillSlot[2] != nullptr)
+	{
+		m_arrSkillSlot[2]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
+			m_bSkill = true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('4') &&
+		m_arrSkillSlot[3] != nullptr)
+	{
+		m_arrSkillSlot[3]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
+			m_bSkill = true;
+	}
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
@@ -735,6 +784,71 @@ void CPlayer::Regen_Def(const _float& fTimeDelta)
 			m_fAccDef = 0.f;
 		}
 	}
+}
+
+void CPlayer::CloseTarget_Dis(CGameObject* pTarget)
+{
+	_vec3 vTargetDir = pTarget->Get_Transform()->Get_Info(INFO::INFO_POS) - m_pTransformCom->Get_Info(INFO::INFO_POS);
+	_float fTargetLength = D3DXVec3Length(&vTargetDir);
+	
+
+	if (m_fMonTargetLength >= fTargetLength)
+	{
+		m_fMonTargetLength = fTargetLength;
+		D3DXVec3Normalize(&m_vMonTargetDir, &vTargetDir);
+		m_vMonTargetDir.y = 0;
+		m_pMonTarget = pTarget;
+		m_bIsMonster = true;
+	}
+	
+}
+
+CGameObject* CPlayer::Get_MonTarget()
+{
+	if (m_pMonTarget != nullptr && m_pMonTarget->Is_Active())
+		return m_pMonTarget;
+	else
+		return nullptr;
+}
+
+void CPlayer::Set_PlayerLook(const _vec3& vDir)
+{
+	if(vDir.x < 0)
+		m_pTransformCom->Set_Scale(_vec3{ -3.f, 3.f, 3.f });
+	if (vDir.x > 0)
+		m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
+}
+
+void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
+{
+	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
+		return;
+
+	_float horizontalX = vDir.x;
+	_float horizontalZ = vDir.z;
+
+	_vec3 resultDir;
+
+	if (horizontalX >= 0.5f && horizontalZ >= 0.5f)
+		resultDir = (_vec3(1.f, 0.f, 1.f)); // 오른쪽 뒤 대각선
+	else if (horizontalX >= 0.5f && horizontalZ <= -0.5f)
+		resultDir = (_vec3(1.f, 0.f, -1.f)); // 오른쪽 앞 대각선
+	else if (horizontalX <= -0.5f && horizontalZ >= 0.5f)
+		resultDir = (_vec3(-1.f, 0.f, 1.f)); // 왼쪽 뒤 대각선
+	else if (horizontalX <= -0.5f && horizontalZ <= -0.5f)
+		resultDir = (_vec3(-1.f, 0.f, -1.f)); // 왼쪽 앞 대각선
+	else if (horizontalX >= 0.5f)
+		resultDir = (_vec3(1.f, 0.f, 0.f)); // 오른쪽
+	else if (horizontalX <= -0.5f)
+		resultDir = (_vec3(-1.f, 0.f, 0.f)); // 왼쪽
+	else if (horizontalZ >= 0.5f)
+		resultDir = (_vec3(0.f, 0.f, 1.f)); // 뒤쪽
+	else if (horizontalZ <= -0.5f)
+		resultDir = (_vec3(0.f, 0.f, -1.f)); // 앞쪽
+
+	m_pTransformCom->Set_Dir(resultDir);
+	
 }
 
 void CPlayer::Regen_HP(const _float& fHeal)
@@ -774,8 +888,6 @@ void CPlayer::Damaged(const _float& fDamage)
 		}
 	}
 }
-
-
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

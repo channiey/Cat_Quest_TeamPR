@@ -28,7 +28,7 @@ private:
 	CTexture*	m_pTexRisingCom;
 	CTexture*	m_pTexChoppingCom;
 	CAnimation* m_pAnimation;
-
+	
 	_bool		m_bRight;
 	_bool		m_bRisign;
 public:

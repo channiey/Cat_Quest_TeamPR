@@ -34,12 +34,12 @@ HRESULT CDialogUI::Ready_Object()
 
 	// 처음 사이즈와 위치
 	m_fPosX = WINCX * 0.45;
-	m_fPosY = WINCY * 0.2;
+	m_fPosY = WINCY * 0.3;
 	m_fSizeX =  400;
 	m_fSizeY =  124;
 	// 텍스트상자의 위치와 사이즈
-	m_rcText = { long(m_fPosX - (m_fSizeX / 2.f) - 80) , long(WINCY - m_fPosY - (m_fSizeY / 2.f)) - 20,
-		long(m_fPosX + (m_fSizeX / 2.f) + 70) , long(WINCY - m_fPosY + m_fSizeY / 2.f) - 20 };
+	m_rcText = { long(m_fPosX - (m_fSizeX / 2.f) - 70) , long(WINCY - m_fPosY - (m_fSizeY / 2.f)),
+		long(m_fPosX + (m_fSizeX / 2.f) + 70) , long(WINCY - m_fPosY + m_fSizeY / 2.f)};
 	// 스피치박스의 초기 설정
 	m_UImatWorld._41 = m_fPosX;
 	m_UImatWorld._42 = m_fPosY;
@@ -85,13 +85,15 @@ _int CDialogUI::Update_Object(const _float& fTimeDelta)
 			m_bUp = false;
 		}
 	}
+
 	_float fScale = 0.8f;
 	if (m_bExpand)
 	{
-		_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
-		, _vec3{ m_matUI[1]._11, m_matUI[1]._22 + fScale, 0.f }, 0.6f, fTimeDelta);
+		_vec3 vOut = m_pUITransform->Normal_Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 1.f }
+		, _vec3{ m_matUI[1]._11 + (fScale / 4), m_matUI[1]._22 + fScale, 1.f }, 0.4f, fTimeDelta);
 		if (vOut.x != -99)
 		{
+			m_matUI[1]._11 = vOut.x;
 			m_matUI[1]._22 = vOut.y;
 		}
 		else
@@ -100,12 +102,13 @@ _int CDialogUI::Update_Object(const _float& fTimeDelta)
 		}
 
 	}
-	if (!m_bExpand)
+	else if (!m_bExpand)
 	{
-		_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
-		, _vec3{ m_matUI[1]._11, m_matUI[1]._22 - fScale, 0.f }, 0.6f, fTimeDelta);
+		_vec3 vOut = m_pUITransform->Normal_Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
+		, _vec3{ m_matUI[1]._11 - (fScale / 4), m_matUI[1]._22 - fScale, 1.f }, 0.4f, fTimeDelta);
 		if (vOut.x != -99)
 		{
+			m_matUI[1]._11 = vOut.x;
 			m_matUI[1]._22 = vOut.y;
 		}
 		else
@@ -202,17 +205,11 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE e
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strDialog.c_str(), -1,
 		&m_rcText, DT_LEFT | DT_CALCRECT | DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
 
-	if (m_rcText.bottom >= 750)
+	if (m_rcText.bottom >= 482)
 	{
-		m_rcText.top -= 160;
-		m_rcText.bottom -= 160;
+		m_rcText.top += (482 - m_rcText.bottom );
+		m_rcText.bottom = 482;
 	}
-	if (m_rcText.bottom >= 650)
-	{
-		m_rcText.top -= 60;
-		m_rcText.bottom -= 60;
-	}
-	
 
 	// 변경된 크기를 가지고 스피치박스 재설정
 	_int textWidth = m_rcText.right - m_rcText.left;
@@ -221,10 +218,8 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE e
 	m_fSizeY = _float(textHeight);
 	m_fPosY = (_float(m_rcText.top) + _float(m_rcText.bottom)) / 2.f;
 
-	
-
-	m_UImatWorld._42 = WINCY - m_fPosY - 10;
-	m_UImatWorld._22 = m_fSizeY;
+	m_UImatWorld._42 = WINCY - m_fPosY - 15;
+	m_UImatWorld._22 = m_fSizeY + 20;
 
 	// 이에따라 화살표 설정
 	m_matUI[0]._41 = m_UImatWorld._41 + 280;
@@ -236,7 +231,7 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE e
 
 	// 이에따라 화자 텍스처 설정
 	m_matUI[1]._41 = m_UImatWorld._41 + 420;
-	m_matUI[1]._42 = (m_UImatWorld._42 - (m_UImatWorld._22 / 2.f) + 100);
+	m_matUI[1]._42 = (m_UImatWorld._42 - (m_UImatWorld._22 / 2.f) + 140);
 	m_matUI[1]._11 = 120.f;
 	m_matUI[1]._22 = 188.f;
 	m_bExpand = true;
@@ -298,12 +293,12 @@ void CDialogUI::Typing_Effect(const _float& fTimeDelta)
 
 	m_fAcc += fTimeDelta;
 
-	if (0.05f < m_fAcc)
+	if (0.08f < m_fAcc)
 	{
 		m_strTyping += m_strDialog[m_iTextCnt];
 		m_iTextCnt++;
 
-		m_fAcc = m_fAcc - 0.05f;
+		m_fAcc = m_fAcc - 0.08f;
 	}
 }
 

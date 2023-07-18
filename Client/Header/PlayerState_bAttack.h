@@ -25,6 +25,7 @@ public:
 
 private:
 	_bool			m_bAttackContinue;
+	_bool			m_bIsTarget;
 
 private:
 	virtual void	Free();

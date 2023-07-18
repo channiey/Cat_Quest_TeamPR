@@ -117,6 +117,11 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 		if (UI_LAYER::LV1 == iter->Get_LayerLv())
 			iter->Render_Object();
 	}
+	for (auto iter : m_RenderGroup[RENDER_WDUI])
+	{
+		if (UI_LAYER::LV2 == iter->Get_LayerLv())
+			iter->Render_Object();
+	}
 		
 
 
