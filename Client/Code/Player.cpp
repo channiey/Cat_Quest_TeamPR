@@ -87,6 +87,8 @@ HRESULT CPlayer::Ready_Object()
 	m_fMonTargetLength = 99.f;
 	m_pMonTarget = nullptr;
 
+	m_bIsTalking = false;
+
 	for (size_t i = 0; i < 4; ++i)
 	{
 		m_arrSkillSlot[i] = nullptr;
@@ -234,13 +236,14 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
-	Key_Input(fTimeDelta);
 	Regen_Def(fTimeDelta);
 	
-
-	Engine::Add_RenderGroup(RENDER_ALPHA, this);
-
+	if(!m_bIsTalking)
+		Key_Input(fTimeDelta);
+	
+	
 	// Move Effect 생성
 	if (m_iTempMode == 1) { // 육지
 		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
@@ -738,8 +741,34 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down('Z'))
-		Damaged(40);
+	if (CInputDev::GetInstance()->Key_Down('1') &&
+		m_arrSkillSlot[0] != nullptr)
+	{
+		m_arrSkillSlot[0]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
+			m_bSkill = true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('2') &&
+		m_arrSkillSlot[1] != nullptr)
+	{
+		m_arrSkillSlot[1]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
+			m_bSkill = true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('3') &&
+		m_arrSkillSlot[2] != nullptr)
+	{
+		m_arrSkillSlot[2]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
+			m_bSkill = true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('4') &&
+		m_arrSkillSlot[3] != nullptr)
+	{
+		m_arrSkillSlot[3]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
+			m_bSkill = true;
+	}
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
@@ -790,8 +819,6 @@ void CPlayer::Set_PlayerLook(const _vec3& vDir)
 	if (vDir.x > 0)
 		m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 }
-
-
 
 void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 {
@@ -862,8 +889,6 @@ void CPlayer::Damaged(const _float& fDamage)
 		}
 	}
 }
-
-
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

@@ -30,20 +30,26 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 		m_bEnter = true;
 	}
 
-	STATE_TYPE eState = Key_Input(fTimeDelta);
-
-	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
+	if (!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_PlayerTalking())
 	{
-		m_bEnter = false;
-		eState = STATE_TYPE::FRONT_HIT;
-	}
+		STATE_TYPE eState = Key_Input(fTimeDelta);
 
-	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
-		eState = STATE_TYPE::FRONT_DIE;
-		
-	if (eState != m_eState)
-		m_bEnter = false;
-	return eState;
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
+		{
+			m_bEnter = false;
+			eState = STATE_TYPE::FRONT_HIT;
+		}
+
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
+			eState = STATE_TYPE::FRONT_DIE;
+
+		if (eState != m_eState)
+			m_bEnter = false;
+		return eState;
+	}
+	else
+		return m_eState;
+	
 }
 
 void CPlayerState_fIdle::LateUpdate_State()

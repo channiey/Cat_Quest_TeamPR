@@ -129,10 +129,12 @@ public:
 	_float&				Get_MonTargetLength()	{ return m_fMonTargetLength; }
 	CGameObject*		Get_MonTarget();
 
-
-
 	void				Set_PlayerDirNormal(const _vec3& vDir);
 	void				Set_PlayerLook(const _vec3& vDir);
+
+	// 플레이어가 Idle상태일때만 말걸수있게 해주세요
+	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
+	void				Set_PlayerTalk(const _bool& bTalk)	 { m_bIsTalking = bTalk; }
 
 private:
 	HRESULT				Add_Component();
@@ -172,6 +174,9 @@ private:
 	_float						m_fMonTargetLength;
 	_vec3						m_vMonTargetDir;
 	CGameObject*				m_pMonTarget;
+
+	// 말할때 가만히 있기
+	_bool						m_bIsTalking;
 
 
 	// << : Test : Range Test

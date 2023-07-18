@@ -40,6 +40,7 @@ HRESULT CPlayerSlash::Ready_Object()
 		m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTexChoppingCom, STATE_TYPE::FRONT_IDLE, 0.05f, true);
 
 	m_bActive = true;
+	m_eUILayer = UI_LAYER::LV2;
 
 	return S_OK;
 }
@@ -52,17 +53,17 @@ _int CPlayerSlash::Update_Object(const _float& fTimeDelta)
 	// 좌 우 세팅 (이상할 시 Ready에서 만들자)
 	if (m_bRight)
 	{
-		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x + m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.3f,
+		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
-		m_pTransformCom->Set_Scale(_vec3{ 2.5f, 2.5f, 2.5f });
+		m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
 	}
 	if (!m_bRight)
 	{
-		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x - (m_pOwnerobject->Get_Transform()->Get_Scale().x * -0.3f),
+		m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
-		m_pTransformCom->Set_Scale(_vec3{ -2.5f, 2.5f, 2.5f });
+		m_pTransformCom->Set_Scale(_vec3{ -4.f, 4.f, 4.f });
 	}
 
 	m_pAnimation->Update_Animation(fTimeDelta);
