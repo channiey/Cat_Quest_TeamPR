@@ -167,6 +167,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Code\ItemGetEffect.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
     <ClInclude Include="..\Header\Effect_Ice.h" />
     <ClInclude Include="..\Header\HedgehogState_bAttack.h" />
@@ -408,6 +409,7 @@
     <ClCompile Include="..\Code\HedgehogState_bChase .cpp" />
     <ClCompile Include="..\Code\HedgehogState_bComeBack.cpp" />
     <ClCompile Include="..\Code\HedgehogState_bPatrol.cpp" />
+    <ClCompile Include="..\Code\ItemGetEffect.cpp" />
     <ClCompile Include="..\Code\ItemSparkle.cpp" />
     <ClCompile Include="..\Code\MageWeapon.cpp" />
     <ClCompile Include="..\Code\MobCutEffect.cpp" />

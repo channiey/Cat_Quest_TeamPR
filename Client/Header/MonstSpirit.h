@@ -5,6 +5,12 @@ BEGIN(Engine)
 class CTexture;
 END
 
+struct tagBlueOrb
+{
+	CTransform* m_pBlueOrbTransCom;
+	CTexture*	m_pBlueOrbTextureCom;
+};
+
 class CMonstSpirit : public CEffect
 {
 	explicit CMonstSpirit(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);
@@ -35,16 +41,19 @@ private:
 	_float		m_fSpritSizeY;
 	_vec3		m_vSpritPos;
 	CTransform* m_pSpritTransCom;
+
 	// 웨이브
 	_int		m_iOtherMaxAlpha;
 	_int		m_iOtherTranslucent;
 	_float		m_fWaveSize;
 	_vec3		m_vWavePos;
 	CTransform* m_pWaveTransCom;
+
 	// 파란구
-	_float		m_fBlueOrbSize;
+	tagBlueOrb  m_sBlueOrb[3];
 	_vec3		m_vBlueOrbPos;
-	CTransform* m_pBlueOrbTransCom;
+	_float		m_fBlueOrbSize;
+	_float		m_fRotZ;
 
 
 	_bool	  m_bExtinction;
