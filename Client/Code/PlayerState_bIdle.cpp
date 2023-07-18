@@ -66,9 +66,9 @@ STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
 	{
-		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetLength() < 99)
+		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
 		{
-			if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0)
+			if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0.5f)
 				return STATE_TYPE::BACK_ATTACK;
 			else
 				return STATE_TYPE::FRONT_ATTACK;

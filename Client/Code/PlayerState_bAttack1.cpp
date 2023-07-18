@@ -70,7 +70,7 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::BACK_IDLE;
 	}
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && m_bIsTarget &&
-		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z < 0)
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z < 0.5f)
 	{
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_ATTACK2;

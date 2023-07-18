@@ -63,6 +63,7 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 			if (vOut.y != -99)
 			{
 				m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(_vec3{ vOut.x, m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS).y, vOut.z });
+				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
 			}
 		}
 		
@@ -83,7 +84,7 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_IDLE;
 	}
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && m_bIsTarget &&
-		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0)
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir().z > 0.5f)
 	{
 		m_bEnter = false;
 		return STATE_TYPE::BACK_ATTACK1;
