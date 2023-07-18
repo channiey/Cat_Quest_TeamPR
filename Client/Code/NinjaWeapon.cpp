@@ -40,15 +40,18 @@ HRESULT CNinjaWeapon::Ready_Object()
     // Transform Setting
     m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 1.5f, m_vImageSize.y * 1.5f, m_vImageSize.z });
 
-
-
-    m_pTransformCom->Set_Pos(_vec3{ 120.f, m_pTransformCom->Get_Scale().y, 30.f });
+    m_pTransformCom->Set_Pos(_vec3{
+        _float(START_POS_WORLD_X) + 10.f,
+        m_pTransformCom->Get_Scale().y,
+         _float(START_POS_WORLD_Z) - 10.f });
 
     m_fJumpingSpeed = 0.01;
 
     CEventMgr::GetInstance()->Add_Obj(L"Ninja_Weapon_Shadow", CShadow_Item::Create(m_pGraphicDev, this));
 
     m_szName = L"Item_NinjaeWeapon";
+
+    m_eItemType = ITEM_TYPE::WEAPON;
 
     return S_OK;
 }

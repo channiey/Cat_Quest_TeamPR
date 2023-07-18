@@ -27,10 +27,13 @@ void CQuest1::Init()
 
 _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev)
 {
+
 	switch (m_iLevel)
 	{
 	case 0:
 		// 사자왕에게 말 걸기
+		//dynamic_cast<CNpc*>(CManagement::GetInstance()->
+		//	Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_Collider()->Is_Collision();
 		if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
 			Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_IsCol())
 		{
