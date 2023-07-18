@@ -88,7 +88,7 @@ STATE_TYPE CHedgehogState_bChase::Update_State(const _float& fTimeDelta)
     // CHASE 전이 조건
     if (vOwnerDir.z < 0)
     {
-       cout << "Chase  전이" << endl;
+       //cout << "Chase  전이" << endl;
         return STATE_TYPE::CHASE;
     }
 
