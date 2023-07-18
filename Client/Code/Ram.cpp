@@ -7,12 +7,13 @@
 #include "RamState_Chase.h"
 #include "RamState_ComeBack.h"
 #include "RamState_Attack.h"
+#include "RamState_Rest.h"
 
 #include "RamState_bPatrol.h"
 #include "RamState_bChase.h"
 #include "RamState_bComeBack.h"
 #include "RamState_bAttack.h"
-
+#include "RamState_bRest.h"
 
 
 #include "Shadow_Monster.h"
@@ -92,6 +93,11 @@ HRESULT CRam::Ready_Object()
 	pState = CRamState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
+	// Rest
+	pState = CRamState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONREST, pState);
+
+
 
 	// Back
 	// Patrol
@@ -110,6 +116,11 @@ HRESULT CRam::Ready_Object()
 	// Attack
 	pState = CRamState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
+
+	// Rest
+	pState = CRamState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
+
 
 
 #pragma endregion
@@ -133,8 +144,13 @@ HRESULT CRam::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONATTACK, pAnimation);
+
+	// Rest
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONREST)], STATE_TYPE::MONREST, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONREST, pAnimation);
+
 
 	// Back
 	// Patrol
@@ -150,9 +166,12 @@ HRESULT CRam::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONATTACK, pAnimation);
 
+	// Rest
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)], STATE_TYPE::BACK_MONREST, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONREST, pAnimation);
 
 
 #pragma endregion
@@ -283,7 +302,9 @@ HRESULT CRam::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Ram", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 	// Back
@@ -301,6 +322,10 @@ HRESULT CRam::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Ram_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Ram", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

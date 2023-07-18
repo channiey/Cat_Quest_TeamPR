@@ -1,8 +1,8 @@
-#include "HedgehogState_Attack.h"
+#include "WyvernRedState_bAttack.h"
 #include "Export_Function.h"
 
 
-CHedgehogState_Attack::CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
+CWyvernRedState_bAttack::CWyvernRedState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -10,24 +10,20 @@ CHedgehogState_Attack::CHedgehogState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     , m_fPatrolRange(0.f)
     , m_fPlayerTargetRange(0.f)
     , m_fAttackRange(0.f)
-    , m_fPosShakeRange(0.f)
-    , m_fAddHeight(0.f)
-    , m_fAddRot(0.f)
-    , m_fScaleDown(0.f)
 {
 }
 
-CHedgehogState_Attack::~CHedgehogState_Attack()
+CWyvernRedState_bAttack::~CWyvernRedState_bAttack()
 {
 }
 
-HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
+HRESULT CWyvernRedState_bAttack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::MONATTACK;
+    m_eState = STATE_TYPE::BACK_MONATTACK;
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 1.f;  // Patrol 전이
@@ -35,39 +31,28 @@ HRESULT CHedgehogState_Attack::Ready_State(CStateMachine* pOwner)
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
-    m_fPosShakeRange = 1.f;
-
-    m_fPosShakeRange *= -0.2f;
-
-    m_fAddHeight += 1.2f;
-    m_fAddRot += 0.3f;
-    m_fScaleDown -= 0.01;
-
-    //m_vOriginPos = m
 
 
     return S_OK;
 }
 
-STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CWyvernRedState_bAttack::Update_State(const _float& fTimeDelta)
 {
-    // Component Info
-    
     //Monster - Ainmator Com
     CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
 
+
     // Monster - Ai Com
+    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
-   
+
+
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
     NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
-
-
-    // Info 
 
     // Monster - Pos
     _vec3	    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
@@ -84,64 +69,64 @@ STATE_TYPE CHedgehogState_Attack::Update_State(const _float& fTimeDelta)
     _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
 
 
-    // Setting 
-
     // Dir Vector
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
-    _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치 - 몬스터]
+    _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
     // Distance
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
- 
-     
+
+
+   // 현재 상태의 기능
+   /* pOwnerTransform->Set_Dir(vec3.zero);
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
 
 
 
 
-     
 #pragma region State Change
+    // back Attack 우선순위
+    // attack - chase - Comeback
 
-
-     // Attack 은 무조건 Rest로 간다 
-
-    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End()) // 애니메이션 끝나야 전이 가능하게 함
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
- 
-        return STATE_TYPE::MONREST;
-    }
+        return STATE_TYPE::BACK_MONREST;
 
-    return STATE_TYPE::MONATTACK;
+    }
+    return STATE_TYPE::BACK_MONATTACK;
+
 
 #pragma endregion
 
+  
 }
 
-void CHedgehogState_Attack::LateUpdate_State()
+void CWyvernRedState_bAttack::LateUpdate_State()
 {
 
 }
 
-void CHedgehogState_Attack::Render_State()
+void CWyvernRedState_bAttack::Render_State()
 {
     
 }
 
-STATE_TYPE CHedgehogState_Attack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CWyvernRedState_bAttack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CHedgehogState_Attack* CHedgehogState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CWyvernRedState_bAttack* CWyvernRedState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CHedgehogState_Attack* pInstance = new CHedgehogState_Attack(pGraphicDev);
+    CWyvernRedState_bAttack* pInstance = new CWyvernRedState_bAttack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("HedgehogState Attack Create Failed");
+        MSG_BOX("WyvernState Attack Create Failed");
         return nullptr;
 
     }
@@ -149,7 +134,7 @@ CHedgehogState_Attack* CHedgehogState_Attack::Create(LPDIRECT3DDEVICE9 pGraphicD
     return pInstance;
 }
 
-void CHedgehogState_Attack::Free()
+void CWyvernRedState_bAttack::Free()
 {
     __super::Free();
 }

@@ -6,11 +6,13 @@
 #include "BatState_Chase.h"
 #include "BatState_Attack.h"
 #include "BatState_ComeBack.h"
+#include "BatState_Rest.h"
 
 #include "BatState_bPatrol.h"
 #include "BatState_bChase.h"
 #include "BatState_bAttack.h"
 #include "BatState_bComeBack.h"
+#include "BatState_bRest.h"
 
 #include "Shadow_Monster.h"
 
@@ -92,6 +94,9 @@ HRESULT CBat::Ready_Object()
 	pState = CBatState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
+	// Rest 
+	pState = CBatState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONREST, pState);
 
 	// Back
 	// Patrol
@@ -110,6 +115,10 @@ HRESULT CBat::Ready_Object()
 	// Attack
 	pState = CBatState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
+
+	// Rest 
+	pState = CBatState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
 
 #pragma endregion
 
@@ -132,8 +141,13 @@ HRESULT CBat::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONATTACK, pAnimation);
+
+	// Rest
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONREST)], STATE_TYPE::MONREST, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONREST, pAnimation);
+
 
 	// Back
 	// Patrol
@@ -149,9 +163,12 @@ HRESULT CBat::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONATTACK, pAnimation);
 
+	// Rest
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)], STATE_TYPE::BACK_MONREST, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONREST, pAnimation);
 
 
 #pragma endregion
@@ -280,6 +297,9 @@ HRESULT CBat::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 
@@ -301,6 +321,10 @@ HRESULT CBat::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Bat", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 #pragma endregion

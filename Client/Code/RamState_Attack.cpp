@@ -89,33 +89,7 @@ STATE_TYPE CRamState_Attack::Update_State(const _float& fTimeDelta)
     if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
 
-        // BACK_ Attack 전이
-        if (vOwnerDir.z > 0)
-        {
-            // cout <<  "back monattack 전이" << endl;
-            return STATE_TYPE::BACK_MONATTACK;
-        }
-
-
-
-        // CHASE 전이 조건
-        if (fPlayerDistance >= m_fChaseRange)
-        {
-            //cout << "chase  전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-           // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::CHASE;
-        }
-
-        // COMEBACK 전이 조건
-        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-        {
-            //cout << "COMBACK  전이" << endl;
-            //pOwnerTransform->Set_Dir(vec3.zero);
-            //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-
-            return STATE_TYPE::COMEBACK;
-        }
+        return STATE_TYPE::MONREST;
 
     }
     return STATE_TYPE::MONATTACK;
