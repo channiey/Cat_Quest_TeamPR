@@ -351,7 +351,10 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	break;
 	case Engine::OBJ_TYPE::LINE:
 	{
-		m_pTransformCom->Set_Pos(vMyPos + static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line());
+		_vec3 vNewPos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
+		vNewPos.y = 0.f;
+
+		m_pTransformCom->Set_Pos(vMyPos + vNewPos);
 	}
 	break;
 	case Engine::OBJ_TYPE::NPC:
