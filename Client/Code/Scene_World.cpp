@@ -147,8 +147,8 @@ CScene_World::~CScene_World()
 HRESULT CScene_World::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-	CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
-	CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
+	//CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
 
 	// OBJ_TYPE별로 선언 필요
@@ -194,7 +194,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 	__super::Update_Scene(fTimeDelta);
 
-	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+	//CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	return 0;
 }
@@ -296,12 +296,15 @@ HRESULT CScene_World::Ready_Layer_Camera()
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Camera
-	pGameObject = CPlayer_Camera::Create(m_pGraphicDev);
+	if (nullptr == CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::CAMERA, L"Player_Camera"))
+	{
+		pGameObject = CPlayer_Camera::Create(m_pGraphicDev);
 
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Camera", pGameObject), E_FAIL);
-	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
-	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_Camera", pGameObject), E_FAIL);
+		CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
+		CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
+	}
 	
 	return S_OK;
 }
@@ -394,13 +397,21 @@ HRESULT CScene_World::Ready_Layer_Player()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
-	Engine::CGameObject*		pGameObject = nullptr;
+	Engine::CGameObject* pGameObject = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
 
-	// Player
-	pGameObject = CPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
-
+	if (nullptr == pGameObject)
+	{
+		// Player
+		pGameObject = CPlayer::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
+	}
+	else
+	{
+		pGameObject->Get_Transform()->Set_Pos(_vec3{ _float(START_POS_WORLD_X)
+			, pGameObject->Get_Transform()->Get_Scale().y
+			, _float(START_POS_WORLD_Z) });
+	}
 	return S_OK;
 }
 

@@ -59,6 +59,14 @@ CLayer * CScene::Get_Layer(const OBJ_TYPE& _eType)
 	return nullptr;
 }
 
+HRESULT CScene::Release_MaintainObj()
+{
+	for_each(m_vecMaintain.begin(), m_vecMaintain.end(), CDeleteObj());
+	m_vecMaintain.clear();
+
+	return S_OK;
+}
+
 // ¼ºÇõ Ãß°¡
 HRESULT CScene::Empty_Layer(const OBJ_TYPE& _eObjType)
 {

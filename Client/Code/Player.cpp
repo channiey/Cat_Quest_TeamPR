@@ -235,6 +235,8 @@ HRESULT CPlayer::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
+	m_szName = L"Player";
+
 	return S_OK;
 }
 

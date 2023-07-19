@@ -33,6 +33,7 @@ HRESULT CPlayer_Camera::Ready_Object(void)
 
 	m_bMaintain = true; // 씬 변경시 유지 (사용시 팀장 보고)
 
+	m_szName = L"Player_Camera";
 	return S_OK;
 }
 

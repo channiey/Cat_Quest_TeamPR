@@ -30,6 +30,8 @@
 #include "ExpUI.h"
 #include "EnterUI.h"
 
+#include "Scene_World.h"
+
 CScene_Dungeon::CScene_Dungeon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON)
 {
@@ -73,6 +75,18 @@ HRESULT CScene_Dungeon::Ready_Scene()
 Engine::_int CScene_Dungeon::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+	// 씬 변경 테스트 (월드 -> 던전)
+	if (CInputDev::GetInstance()->Key_Down(VK_RETURN))
+	{
+		CScene* pScene = nullptr;
+
+		pScene = CScene_World::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pScene, -1);
+
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Change_Scene(pScene), E_FAIL);
+	}
 
 	__super::Update_Scene(fTimeDelta);
 
@@ -266,6 +280,21 @@ HRESULT CScene_Dungeon::Ready_Layer_Player()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
+	Engine::CGameObject* pGameObject = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
+
+	if (nullptr == pGameObject)
+	{
+		// Player
+		pGameObject = CPlayer::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
+	}
+	else
+	{
+		pGameObject->Get_Transform()->Set_Pos(_vec3{ _float(START_POS_DUNGEON_X)
+			, pGameObject->Get_Transform()->Get_Scale().y
+			, _float(START_POS_DUNGEON_Z) });
+	}
 	return S_OK;
 }
 

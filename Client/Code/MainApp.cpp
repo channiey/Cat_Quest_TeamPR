@@ -137,6 +137,8 @@ CMainApp * CMainApp::Create()
 
 void CMainApp::Free()
 {
+	CManagement::GetInstance()->Get_CurScene()->Release_MaintainObj();
+
 	CImGuiMgr::GetInstance()->DestroyInstance();
 
 	Safe_Release(m_pGraphicDev);

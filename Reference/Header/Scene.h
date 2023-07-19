@@ -27,7 +27,7 @@ public:
 	const SCENE_TYPE&				Get_SceneType() const { return m_eType; }
 
 	vector<CGameObject*>			Get_MaintainObj() const { return m_vecMaintain; }
-
+	HRESULT							Release_MaintainObj();
 
 public:
 	// ¼ºÇõ Ãß°¡

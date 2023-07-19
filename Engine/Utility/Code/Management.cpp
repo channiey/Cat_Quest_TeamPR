@@ -84,7 +84,6 @@ HRESULT	CManagement::Change_Scene(CScene* _pScene)
 
 	// 2. 현재 씬을 세팅한다
 	m_pCurScene = _pScene;
-
 	return S_OK;
 }
 
