@@ -269,9 +269,6 @@ HRESULT CScene_Dungeon::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
-
-	return S_OK;
 }
 
 HRESULT CScene_Dungeon::Ready_Layer_Player()

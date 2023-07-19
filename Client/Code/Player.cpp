@@ -183,6 +183,7 @@ HRESULT CPlayer::Ready_Object()
 	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::FIRE)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fire", m_arrSkill[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
 	m_arrSkillSlot[0] = m_arrSkill[_uint(SKILL_TYPE::FIRE)];
+	m_arrSkillSlot[0]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
 	/*m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);

@@ -7,7 +7,7 @@
 #include "Effect_Range_Quater.h"
 #include "SphereCollider.h"
 #include "RangeObj.h"
-
+#include "GameObject.h"
 
 CSkill_Player_Fire::CSkill_Player_Fire(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
     : CSkill(pGraphicDev, _eID)
@@ -94,12 +94,13 @@ HRESULT CSkill_Player_Fire::Add_Component()
     NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Range", pRangeEffect), E_FAIL);
     m_pRangeEffect = pRangeEffect;
-
+    m_pRangeEffect->Set_Maintain(TRUE); // 수정시 팀장보고
 
     CEffect_Fire* pFireEffect = CEffect_Fire::Create(m_pGraphicDev, this);
     NULL_CHECK_RETURN(pFireEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Effect", pFireEffect), E_FAIL);
     m_pSKillEffect = pFireEffect;
+    m_pSKillEffect->Set_Maintain(TRUE); // 수정시 팀장보고
 
    /* CRangeObj* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
     CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
