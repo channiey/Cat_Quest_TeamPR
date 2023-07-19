@@ -78,6 +78,7 @@ HRESULT CMonster::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
+
 	pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
@@ -217,6 +218,7 @@ HRESULT CMonster::Add_Component()
 	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
+
 	// RigidyBody
 	pComponent = m_pRigidBodyCom = dynamic_cast<CRigidBody*>(Engine::Clone_Proto(COMPONENT_TYPE::RIGIDBODY, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

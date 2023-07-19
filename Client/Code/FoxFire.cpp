@@ -4,12 +4,12 @@
 
 
 CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
-    :CBullet(pGraphicDev , _eID)
+    : CProjectile(pGraphicDev , _eID)
 {
 }
 
-CFoxFire::CFoxFire(const CBullet& rhs)
-    :CBullet(rhs)
+CFoxFire::CFoxFire(const CProjectile& rhs)
+    :CProjectile(rhs)
 {
 }
 
@@ -50,6 +50,17 @@ void CFoxFire::Render_Object()
 
 HRESULT CFoxFire::Add_Component()
 {
+    CComponent* pComponent;
+
+    // Texture
+    pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Proto(COMPONENT_TYPE::TEXTURE, this));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+
+
+
     return S_OK;
 }
 

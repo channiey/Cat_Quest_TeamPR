@@ -1,5 +1,5 @@
 #pragma once
-#include "Bullet.h"
+#include "Projectile.h"
 
 BEGIN(Engine)
 
@@ -7,11 +7,11 @@ class CTexture;
 
 END
 
-class CFoxFire : public CBullet
+class CFoxFire : public CProjectile
 {
 protected:
 	explicit CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
-	explicit CFoxFire(const CBullet& rhs);
+	explicit CFoxFire(const CProjectile& rhs);
 	virtual ~CFoxFire();
 
 public:
