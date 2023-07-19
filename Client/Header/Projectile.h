@@ -3,18 +3,17 @@
 
 BEGIN(Engine)
 
-class RcTex;
 class CTexture;
-class CAnimator;
+class CAIComponent;
 
 END
 
-class CBullet : public Engine:: CGameObject
+class CProjectile : public Engine:: CGameObject
 {
 protected:
-	explicit CBullet(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
-	explicit CBullet(const CBullet& rhs);
-	virtual ~CBullet();
+	explicit CProjectile(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
+	explicit CProjectile(const CProjectile& rhs);
+	virtual ~CProjectile();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -23,12 +22,16 @@ public:
 	virtual void			Render_Object() override;
 
 
+
 private:
 	HRESULT					Add_Component();
 
-public:
 
-	static					CBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+protected:
+
+	CTexture*			m_pTextureCom;
+	CAIComponent*		m_pAICom;
+
 
 protected:
 	virtual void		Free() override;
