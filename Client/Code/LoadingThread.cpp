@@ -457,8 +457,6 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 
-
-
 	// Monster - TestMob 
 
 	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Hedgehog_Attack",
@@ -467,9 +465,6 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog_Attack",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Back/%d.png", 17)), E_FAIL);
 */
-
-
-
 
 	// Item ====
 

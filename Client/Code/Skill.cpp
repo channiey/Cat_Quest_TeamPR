@@ -10,17 +10,20 @@ CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
 	, m_pSKillEffect(nullptr)
 	, m_pRangeEffect(nullptr)
+	, m_bPlay(false)
 {
 }
 
 CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
 	, m_pOwnerObject(_pOwnerObject)
+	, m_bPlay(_pOwnerObject)
 {	
 }
 
 CSkill::CSkill(const CSkill& rhs)
 	: Engine::CGameObject(rhs)
+	,m_bPlay(rhs.m_bPlay)
 {
 }
 

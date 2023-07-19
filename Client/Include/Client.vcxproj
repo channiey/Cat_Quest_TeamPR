@@ -338,6 +338,7 @@
     <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\Skill.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
+    <ClInclude Include="..\Header\Skill_Monster_Fire.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Blue.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Purple.h" />
@@ -593,6 +594,7 @@
     <ClCompile Include="..\Code\Shadow_Monster.cpp" />
     <ClCompile Include="..\Code\Shadow_Npc.cpp" />
     <ClCompile Include="..\Code\Shadow_Player.cpp" />
+    <ClCompile Include="..\Code\Skill_Monster_Fire.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Purple.cpp" />

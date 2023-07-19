@@ -10,7 +10,6 @@ class CAIComponent;
 class CRcTex;
 class CStateMachine;
 class CAnimator;
-
 END
 
 class CMonster : public Engine::CGameObject
@@ -135,6 +134,8 @@ protected:
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CAIComponent*			m_pAICom;
 	CStateMachine*			m_pStateMachineCom;
+
+	C
 
 	// << : Test : Range Test
 	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
