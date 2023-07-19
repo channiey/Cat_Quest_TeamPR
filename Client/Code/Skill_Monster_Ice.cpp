@@ -1,29 +1,29 @@
-#include "Skill_Monster_Fire.h"
+#include "Skill_Monster_Ice.h"
 #include "Effect_Fire.h"
 #include "Effect_Range_Quater.h"
 #include "EventMgr.h"
 #include "Export_Function.h"
 
-CSkill_Monster_Fire::CSkill_Monster_Fire(LPDIRECT3DDEVICE9 pGraphicDev)
+CSkill_Monster_Ice::CSkill_Monster_Ice(LPDIRECT3DDEVICE9 pGraphicDev)
     :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_FIRE)
 {
 }
 
-CSkill_Monster_Fire::CSkill_Monster_Fire(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CSkill_Monster_Ice::CSkill_Monster_Ice(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
     :CSkill(pGraphicDev, _pOwnerObject , OBJ_ID::SKILL_MONSTER_FIRE)
 {
 }
 
-CSkill_Monster_Fire::CSkill_Monster_Fire(const CSkill_Monster_Fire& rhs)
+CSkill_Monster_Ice::CSkill_Monster_Ice(const CSkill_Monster_Ice& rhs)
     :CSkill(rhs)
 {
 }
 
-CSkill_Monster_Fire::~CSkill_Monster_Fire()
+CSkill_Monster_Ice::~CSkill_Monster_Ice()
 {
 }
 
-HRESULT CSkill_Monster_Fire::Ready_Object()
+HRESULT CSkill_Monster_Ice::Ready_Object()
 {
 
     __super::Ready_Object();
@@ -40,7 +40,7 @@ HRESULT CSkill_Monster_Fire::Ready_Object()
     return S_OK;
 }
 
-_int CSkill_Monster_Fire::Update_Object(const _float& fTimeDelta)
+_int CSkill_Monster_Ice::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = __super::Update_Object(fTimeDelta);
 
@@ -55,17 +55,17 @@ _int CSkill_Monster_Fire::Update_Object(const _float& fTimeDelta)
     return iExit;
 }
 
-void CSkill_Monster_Fire::LateUpdate_Object()
+void CSkill_Monster_Ice::LateUpdate_Object()
 {
     __super::LateUpdate_Object();
 }
 
-void CSkill_Monster_Fire::Render_Object()
+void CSkill_Monster_Ice::Render_Object()
 {
     __super::Render_Object();
 }
 
-HRESULT CSkill_Monster_Fire::Add_Component()
+HRESULT CSkill_Monster_Ice::Add_Component()
 {
     // Skill Effect
     CSkillEffect* pFireEffect = CEffect_Fire::Create(m_pGraphicDev, this);
@@ -83,7 +83,7 @@ HRESULT CSkill_Monster_Fire::Add_Component()
     return S_OK;
 }
 
-HRESULT CSkill_Monster_Fire::Play()
+HRESULT CSkill_Monster_Ice::Play()
 {
 
     m_pSKillEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
@@ -98,20 +98,20 @@ HRESULT CSkill_Monster_Fire::Play()
     return S_OK;
 }
 
-HRESULT CSkill_Monster_Fire::End()
+HRESULT CSkill_Monster_Ice::End()
 {
     return S_OK;
 }
 
-CSkill_Monster_Fire* CSkill_Monster_Fire::Create(LPDIRECT3DDEVICE9 pGraphicDev , CGameObject* _pOwnerObject)
+CSkill_Monster_Ice* CSkill_Monster_Ice::Create(LPDIRECT3DDEVICE9 pGraphicDev , CGameObject* _pOwnerObject)
 {
-    CSkill_Monster_Fire* pInstance = new CSkill_Monster_Fire(pGraphicDev, _pOwnerObject);
+    CSkill_Monster_Ice* pInstance = new CSkill_Monster_Ice(pGraphicDev, _pOwnerObject);
 
     if (FAILED(pInstance->Ready_Object()))
     {
         Safe_Release(pInstance);
 
-        MSG_BOX("CSkill_Monster_Fire Create Failed");
+        MSG_BOX("CSkill_Monster_Ice Create Failed");
         return nullptr;
     }
 
@@ -119,7 +119,7 @@ CSkill_Monster_Fire* CSkill_Monster_Fire::Create(LPDIRECT3DDEVICE9 pGraphicDev ,
 }
 
 
-void CSkill_Monster_Fire::Free()
+void CSkill_Monster_Ice::Free()
 {
     __super::Free();
 }
