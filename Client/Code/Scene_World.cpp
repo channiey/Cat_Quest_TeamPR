@@ -527,7 +527,7 @@ HRESULT CScene_World::Ready_Layer_Etc()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::LINE, pLayer });
 
-	Layer = Engine::CLayer::Create();
+	pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::SKILL, pLayer });
 
