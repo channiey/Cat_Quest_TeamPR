@@ -72,6 +72,7 @@ HRESULT CFox::Ready_Object()
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
+
 	// 스킬 생성
 	m_pSkill =  CSkill_Monster_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);

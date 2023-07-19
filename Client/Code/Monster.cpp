@@ -281,6 +281,7 @@ HRESULT CMonster::Add_Component()
 void CMonster::Damaged(CGameObject* pObj)
 {
 	_float fPlayerAD = static_cast<CPlayer*>(pObj)->Get_StatInfo().fAD;
+	_bool  fPlayerbSkill = static_cast<CPlayer*>(pObj)->Is_Skill();
 
 	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
 
@@ -291,10 +292,11 @@ void CMonster::Damaged(CGameObject* pObj)
 	}
 	
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK)
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK 
+		|| fPlayerbSkill == true )
+
 	{
 		m_pRigidBodyCom->Zero_KnockBack();
-		
 	}
 	else
 	{
