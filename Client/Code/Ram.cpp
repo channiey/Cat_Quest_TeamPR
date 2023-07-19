@@ -275,7 +275,6 @@ void CRam::Render_Object()
 
 	m_pGraphicDev->SetTexture(0, NULL);
 
-	__super::Render_Object();
 
 	// 원래 색상 상태로 돌리기 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));

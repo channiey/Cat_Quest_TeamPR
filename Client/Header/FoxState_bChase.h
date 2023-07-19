@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bChase : public CState
+class CFoxState_bChase : public CState
 {
 public:
-	explicit			CBatState_bChase(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bChase();
+	explicit			CFoxState_bChase(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CFoxState_bChase();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bChase* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CFoxState_bChase* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

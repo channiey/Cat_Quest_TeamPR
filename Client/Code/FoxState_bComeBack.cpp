@@ -1,8 +1,8 @@
-#include "BatState_bComeBack.h"
+#include "FoxState_bComeBack.h"
 #include "Export_Function.h"
 
 
-CBatState_bComeBack::CBatState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
+CFoxState_bComeBack::CFoxState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -13,11 +13,11 @@ CBatState_bComeBack::CBatState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CBatState_bComeBack::~CBatState_bComeBack()
+CFoxState_bComeBack::~CFoxState_bComeBack()
 {
 }
 
-HRESULT CBatState_bComeBack::Ready_State(CStateMachine* pOwner)
+HRESULT CFoxState_bComeBack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -35,7 +35,7 @@ HRESULT CBatState_bComeBack::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
-STATE_TYPE CBatState_bComeBack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CFoxState_bComeBack::Update_State(const _float& fTimeDelta)
 {
   
     // Monster - Ai Com
@@ -85,12 +85,7 @@ STATE_TYPE CBatState_bComeBack::Update_State(const _float& fTimeDelta)
     // BACK_COMBACK 우선순위
     // comback - Patrol - CHASE - ATTACK
 
-    //// COMEBACK 전이 조건
-    //if (vOwnerDir.z < 0)
-    //{
-    //    //cout << "comeback 전이" << endl;
-    //    return STATE_TYPE::COMEBACK;
-    //}
+ 
 
 
     // PATROL 전이 조건
@@ -143,32 +138,39 @@ STATE_TYPE CBatState_bComeBack::Update_State(const _float& fTimeDelta)
         }
     }
 
+    // COMEBACK 전이 조건
+    if (vOwnerDir.z < 0)
+    {
+        //cout << "comeback 전이" << endl;
+        return STATE_TYPE::COMEBACK;
+    }
+
     // Default
     return STATE_TYPE::BACK_COMEBACK;
 
 
 }
 
-void CBatState_bComeBack::LateUpdate_State()
+void CFoxState_bComeBack::LateUpdate_State()
 {
     
 }
 
-void CBatState_bComeBack::Render_State()
+void CFoxState_bComeBack::Render_State()
 {
    
 
 }
 
-STATE_TYPE CBatState_bComeBack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CFoxState_bComeBack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_bComeBack* CBatState_bComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CFoxState_bComeBack* CFoxState_bComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CBatState_bComeBack* pInstance = new CBatState_bComeBack(pGraphicDev);
+    CFoxState_bComeBack* pInstance = new CFoxState_bComeBack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -181,7 +183,7 @@ CBatState_bComeBack* CBatState_bComeBack::Create(LPDIRECT3DDEVICE9 pGraphicDev, 
     return pInstance;
 }
 
-void CBatState_bComeBack::Free()
+void CFoxState_bComeBack::Free()
 {
     __super::Free();
 }

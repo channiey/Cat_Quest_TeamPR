@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bComeBack : public CState
+class CSquirrelState_bComeBack : public CState
 {
 public:
-	explicit			CBatState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bComeBack();
+	explicit			CSquirrelState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CSquirrelState_bComeBack();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bComeBack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CSquirrelState_bComeBack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

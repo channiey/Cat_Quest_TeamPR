@@ -43,7 +43,7 @@ HRESULT CHedgehogState_Rest::Ready_State(CStateMachine* pOwner)
     m_fAddRot += 0.3f;
     m_fScaleDown -= 0.01;
 
-    //m_vOriginPos = m
+   
 
 
     return S_OK;
@@ -111,6 +111,7 @@ STATE_TYPE CHedgehogState_Rest::Update_State(const _float& fTimeDelta)
 
     if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     {
+        m_fAccTime = 0.f;
         // Attack 전이 
         if (fPlayerDistance <= m_fAttackRange)
         {

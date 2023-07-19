@@ -111,6 +111,7 @@ STATE_TYPE CWyvernRedState_Rest::Update_State(const _float& fTimeDelta)
 
     if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     {
+        m_fAccTime = 0.f;
         // Attack 전이 
         if (fPlayerDistance <= m_fAttackRange)
         {
@@ -128,7 +129,23 @@ STATE_TYPE CWyvernRedState_Rest::Update_State(const _float& fTimeDelta)
             // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
             return STATE_TYPE::CHASE;
         }
+       // PATROL 전이 조건
+       if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
+       {
+           if (vOwnerDir.z < 0)
+           {
+               //  cout << "patrol 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+               return STATE_TYPE::PATROL;
+           }
+           else
+           {
+               //  cout << "Back patrol 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+               return STATE_TYPE::BACK_PATROL;
+           }
 
+       }
         // COMEBACK 전이 조건
         if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
         {

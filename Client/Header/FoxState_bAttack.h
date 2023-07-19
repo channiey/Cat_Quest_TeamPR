@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bAttack : public CState
+class CFoxState_bAttack : public CState
 {
 public:
-	explicit			CBatState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bAttack();
+	explicit			CFoxState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CFoxState_bAttack();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CFoxState_bAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

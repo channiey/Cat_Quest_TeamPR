@@ -1,8 +1,8 @@
-#include "BatState_bPatrol.h"
+#include "SquirrelState_bPatrol.h"
 #include "Export_Function.h"
 
 
-CBatState_bPatrol::CBatState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CSquirrelState_bPatrol::CSquirrelState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -13,11 +13,11 @@ CBatState_bPatrol::CBatState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CBatState_bPatrol::~CBatState_bPatrol()
+CSquirrelState_bPatrol::~CSquirrelState_bPatrol()
 {
 }
 
-HRESULT CBatState_bPatrol::Ready_State(CStateMachine* pOwner)
+HRESULT CSquirrelState_bPatrol::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -35,7 +35,7 @@ HRESULT CBatState_bPatrol::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
-STATE_TYPE CBatState_bPatrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CSquirrelState_bPatrol::Update_State(const _float& fTimeDelta)
 {
     // Monster - Ai Com
     //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
@@ -164,25 +164,25 @@ STATE_TYPE CBatState_bPatrol::Update_State(const _float& fTimeDelta)
   
 }
 
-void CBatState_bPatrol::LateUpdate_State()
+void CSquirrelState_bPatrol::LateUpdate_State()
 {
 
 }
 
-void CBatState_bPatrol::Render_State()
+void CSquirrelState_bPatrol::Render_State()
 {
     
 }
 
-STATE_TYPE CBatState_bPatrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CSquirrelState_bPatrol::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_bPatrol* CBatState_bPatrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CSquirrelState_bPatrol* CSquirrelState_bPatrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
  {
-    CBatState_bPatrol* pInstance = new CBatState_bPatrol(pGraphicDev);
+    CSquirrelState_bPatrol* pInstance = new CSquirrelState_bPatrol(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -195,7 +195,7 @@ CBatState_bPatrol* CBatState_bPatrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CSta
     return pInstance;
 }
 
-void CBatState_bPatrol::Free()
+void CSquirrelState_bPatrol::Free()
 {
     __super::Free();
 }

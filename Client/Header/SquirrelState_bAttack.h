@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bAttack : public CState
+class CSquirrelState_bAttack : public CState
 {
 public:
-	explicit			CBatState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bAttack();
+	explicit			CSquirrelState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CSquirrelState_bAttack();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CSquirrelState_bAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

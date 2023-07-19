@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bComeBack : public CState
+class CFoxState_bComeBack : public CState
 {
 public:
-	explicit			CBatState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bComeBack();
+	explicit			CFoxState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CFoxState_bComeBack();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bComeBack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CFoxState_bComeBack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

@@ -83,13 +83,7 @@ STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
     // back comback - Patrol - CHASE - ATTACK
 
 
-    //// BACK_COMEBACK 전이 조건
-    //if (vOwnerDir.z > 0)
-    //{
-    //    //cout << "Back comeback 전이" << endl;
-    //    return STATE_TYPE::BACK_COMEBACK;
-    //}
-
+  
 
     // PATROL 전이 조건
     if (fOriginDistance <= m_fPatrolRange)
@@ -140,6 +134,14 @@ STATE_TYPE CBatState_ComeBack::Update_State(const _float& fTimeDelta)
             return STATE_TYPE::BACK_MONATTACK;
         }
     }
+
+    // BACK_COMEBACK 전이 조건
+    if (vOwnerDir.z > 0)
+    {
+        //cout << "Back comeback 전이" << endl;
+        return STATE_TYPE::BACK_COMEBACK;
+    }
+
 
     // Default
     return STATE_TYPE::COMEBACK;

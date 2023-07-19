@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bPatrol : public CState
+class CFoxState_bPatrol : public CState
 {
 public:
-	explicit			CBatState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bPatrol();
+	explicit			CFoxState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CFoxState_bPatrol();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bPatrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CFoxState_bPatrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

@@ -7,11 +7,11 @@ BEGIN(Engine)
 
 END
 
-class CBatState_bPatrol : public CState
+class CSquirrelState_bPatrol : public CState
 {
 public:
-	explicit			CBatState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CBatState_bPatrol();
+	explicit			CSquirrelState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CSquirrelState_bPatrol();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CBatState_bPatrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CSquirrelState_bPatrol* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

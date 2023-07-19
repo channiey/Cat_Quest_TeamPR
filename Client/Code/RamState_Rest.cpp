@@ -49,16 +49,18 @@ HRESULT CRamState_Rest::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
+
+
 STATE_TYPE CRamState_Rest::Update_State(const _float& fTimeDelta)
 {
     // Component Info
-    
+
     //Monster - Ainmator Com
     CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
 
     // Monster - Ai Com
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
-   
+
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
 
@@ -94,8 +96,8 @@ STATE_TYPE CRamState_Rest::Update_State(const _float& fTimeDelta)
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
- 
-     
+
+
 
 #pragma region State Change
 
@@ -111,40 +113,79 @@ STATE_TYPE CRamState_Rest::Update_State(const _float& fTimeDelta)
 
     if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     {
-        // Attack 전이 
-        if (fPlayerDistance <= m_fAttackRange)
-        {
-            m_fAccTime = 0.f;
-            //cout << "attack 전이" << endl;
-            //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::MONATTACK;
-        }
-    
+        m_fAccTime = 0.f;
         // CHASE 전이 조건
-       if (fPlayerDistance <= m_fChaseRange)
+        if (fPlayerDistance <= m_fChaseRange)
         {
-            m_fAccTime = 0.f;
-            // cout << "chase  전이" << endl;
-            // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::CHASE;
+            if (vOwnerDir.z < 0)
+            {
+                // cout << "Chase 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::CHASE;
+            }
+            else
+            {
+                // cout << "Back Chase 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_CHASE;
+            }
         }
 
         // COMEBACK 전이 조건
         if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
         {
-            m_fAccTime = 0.f;
-            // cout << "COMBACK  전이" << endl
-            //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::COMEBACK;
+            if (vOwnerDir.z < 0)
+            {
+                // cout << "comback 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::COMEBACK;
+            }
+            else
+            {
+                // cout << "back comback 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_COMEBACK;
+            }
         }
+        // PATROL 전이 조건
+        if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
+        {
+            if (vOwnerDir.z < 0)
+            {
+                //  cout << "patrol 전이" << endl;
+                //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::PATROL;
+            }
+            else
+            {
+                //  cout << "Back patrol 전이" << endl;
+                //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_PATROL;
+            }
+
+        }
+        //  ATTACK 전이 조건
+        if (fPlayerDistance <= m_fAttackRange)
+        {
+            if (vOwnerDir.z < 0)
+            {
+                // cout << "attack 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::MONATTACK;
+            }
+            else
+            {
+                // cout << "back attack 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_MONATTACK;
+            }
+        }    
     }
-    
     return STATE_TYPE::MONREST;
 
-
 #pragma endregion
-
 }
+
 
 void CRamState_Rest::LateUpdate_State()
 {

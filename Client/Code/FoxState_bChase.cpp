@@ -1,8 +1,8 @@
-#include "BatState_bChase.h"
+#include "FoxState_bChase.h"
 #include "Export_Function.h"
 
 
-CBatState_bChase::CBatState_bChase(LPDIRECT3DDEVICE9 pGraphicDev)
+CFoxState_bChase::CFoxState_bChase(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -13,11 +13,11 @@ CBatState_bChase::CBatState_bChase(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CBatState_bChase::~CBatState_bChase()
+CFoxState_bChase::~CFoxState_bChase()
 {
 }
 
-HRESULT CBatState_bChase::Ready_State(CStateMachine* pOwner)
+HRESULT CFoxState_bChase::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -36,7 +36,7 @@ HRESULT CBatState_bChase::Ready_State(CStateMachine* pOwner)
     return S_OK;
 }
 
-STATE_TYPE CBatState_bChase::Update_State(const _float& fTimeDelta)
+STATE_TYPE CFoxState_bChase::Update_State(const _float& fTimeDelta)
 {
   
     // Monster - Ai Com
@@ -85,13 +85,7 @@ STATE_TYPE CBatState_bChase::Update_State(const _float& fTimeDelta)
     //  Chase - Attack - Comeback - Patrol
 
 
-    // CHASE 전이 조건
-    if (vOwnerDir.z < 0)
-    {
-       // cout << "Chase  전이" << endl;
-        return STATE_TYPE::CHASE;
-    }
-
+   
 
     // ATTACK 전이 조건
     if (fPlayerDistance <= m_fAttackRange)
@@ -141,6 +135,14 @@ STATE_TYPE CBatState_bChase::Update_State(const _float& fTimeDelta)
             return STATE_TYPE::BACK_PATROL;
         }
     }
+
+    // CHASE 전이 조건
+    if (vOwnerDir.z < 0)
+    {
+        // cout << "Chase  전이" << endl;
+        return STATE_TYPE::CHASE;
+    }
+
     // Default 
     return STATE_TYPE::BACK_CHASE;
 
@@ -155,25 +157,25 @@ STATE_TYPE CBatState_bChase::Update_State(const _float& fTimeDelta)
   
 }
 
-void CBatState_bChase::LateUpdate_State()
+void CFoxState_bChase::LateUpdate_State()
 {
     
 }
 
-void CBatState_bChase::Render_State()
+void CFoxState_bChase::Render_State()
 {
    
 }
 
-STATE_TYPE CBatState_bChase::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CFoxState_bChase::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_bChase* CBatState_bChase::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CFoxState_bChase* CFoxState_bChase::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CBatState_bChase* pInstance = new CBatState_bChase(pGraphicDev);
+    CFoxState_bChase* pInstance = new CFoxState_bChase(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -186,7 +188,7 @@ CBatState_bChase* CBatState_bChase::Create(LPDIRECT3DDEVICE9 pGraphicDev, CState
     return pInstance;
 }
 
-void CBatState_bChase::Free()
+void CFoxState_bChase::Free()
 {
     __super::Free();
 }

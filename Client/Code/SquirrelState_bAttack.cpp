@@ -1,18 +1,18 @@
-#include "BatState_bAttack.h"
+#include "SquirrelState_bAttack.h"
 #include "Export_Function.h"
 
 
-CBatState_bAttack::CBatState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
+CSquirrelState_bAttack::CSquirrelState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
 {
 }
 
-CBatState_bAttack::~CBatState_bAttack()
+CSquirrelState_bAttack::~CSquirrelState_bAttack()
 {
 }
 
-HRESULT CBatState_bAttack::Ready_State(CStateMachine* pOwner)
+HRESULT CSquirrelState_bAttack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
@@ -29,12 +29,12 @@ HRESULT CBatState_bAttack::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
-
+    m_fAccTime = 0.f;
 
     return S_OK;
 }
 
-STATE_TYPE CBatState_bAttack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CSquirrelState_bAttack::Update_State(const _float& fTimeDelta)
 {
     //Monster - Ainmator Com
     CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
@@ -77,50 +77,80 @@ STATE_TYPE CBatState_bAttack::Update_State(const _float& fTimeDelta)
 
 
 
-   // 현재 상태의 기능
-   // pOwnerTransform->Set_Dir(vec3.zero);
-   // pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-
-
-
-
+     // 현재 상태의 기능
+    if (fPlayerDistance <= 4.f)
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
 
 
 #pragma region State Change
-   // back Attack 우선순위
-   // attack - chase - Comeback
-    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
-    {
-        return STATE_TYPE::BACK_MONREST;
-    }
+      
+    //m_fAccTime += fTimeDelta;
 
-   return STATE_TYPE::BACK_MONATTACK;
+    //if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
+    //{
+        // CHASE 전이 조건
+        if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
+        {
+            if (vOwnerDir.z < 0)
+            {
+                // cout << "Chase 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::CHASE;
+            }
+            else
+            {
+                // cout << "Back Chase 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_CHASE;
+            }
+        }
+
+        // COMEBACK 전이 조건
+        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+        {
+            if (vOwnerDir.z < 0)
+            {
+                // cout << "comback 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::COMEBACK;
+            }
+            else
+            {
+                // cout << "back comback 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_COMEBACK;
+            }
+        }
+    //}
+
+    return STATE_TYPE::BACK_MONATTACK;
 
 
 #pragma endregion
-
-  
+   
 }
 
-void CBatState_bAttack::LateUpdate_State()
+void CSquirrelState_bAttack::LateUpdate_State()
 {
 
 }
 
-void CBatState_bAttack::Render_State()
+void CSquirrelState_bAttack::Render_State()
 {
     
 }
 
-STATE_TYPE CBatState_bAttack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CSquirrelState_bAttack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CBatState_bAttack* CBatState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CSquirrelState_bAttack* CSquirrelState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CBatState_bAttack* pInstance = new CBatState_bAttack(pGraphicDev);
+    CSquirrelState_bAttack* pInstance = new CSquirrelState_bAttack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -133,7 +163,7 @@ CBatState_bAttack* CBatState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CSta
     return pInstance;
 }
 
-void CBatState_bAttack::Free()
+void CSquirrelState_bAttack::Free()
 {
     __super::Free();
 }
