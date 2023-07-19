@@ -170,6 +170,13 @@ namespace Engine
 		EFFECT_SKILL_RANGE_BIGCIRCLE, EFFECT_SKILL_RANGE_SMALLCIRCLE, EFFECT_SKILL_RANGE_ARROW,
 		EFFECT_SKILL_RITUAL_CIRCLE, EFFECT_SKILL_RANGE_SQUARE, 
 					
+		/* ========================================= Skill ========================================*/
+
+		//Player_Skill
+		SKILL_PLAYER_FIRE,
+
+		//Monster_SKill
+
 		/* ========================================= Generator ========================================*/
 
 		// Generator
