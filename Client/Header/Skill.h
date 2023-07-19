@@ -12,12 +12,7 @@
 	* CCollier
 	* CTransform
 	
-
-
-
 	구조
-
-
 
 	1. 플레이어 또는 몬스터는 자신이 사용할 스킬을 멤버변수로 갖는다(이 클래스 타입) -> 여러 스킬 사용시 컨테이너 사용
 
@@ -47,6 +42,15 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+
+
+	void					Set_SkillDemage(const _float& pDemage) { m_fSkillDemage = pDemage; }
+	void					Set_SkillUsage(const _float& pUsage) { m_fSkillUsage = pUsage; }
+
+	const _float& 				Get_SkillDemage() const{ return m_fSkillDemage; }
+	const _float&				Get_SkillUsage()  const{ return m_fSkillUsage; }
+
+
 private:
 	HRESULT					Add_Component();
 
@@ -75,6 +79,10 @@ protected:
 	_float					m_fSkillDamage;
 	_float					m_fSkiilUsage;
 	
+	_float					m_fSkillDemage;
+	_float					m_fSkillUsage;
+	_bool					m_bPlay;
+
 protected:
 	virtual void			Free();
 };

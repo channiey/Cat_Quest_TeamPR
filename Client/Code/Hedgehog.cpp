@@ -72,6 +72,9 @@ HRESULT CHedgehog::Ready_Object()
 	
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
+
+
+
 #pragma region State Add
 
 	CState* pState;
@@ -211,6 +214,15 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
+
+
+	// Skill 
+	m_pSkill->Play();
+
+
+
+
+
 
 
 	return iExit;

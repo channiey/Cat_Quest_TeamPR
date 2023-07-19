@@ -1,9 +1,10 @@
 #pragma once
 #include "GameObject.h"
 #include "Monster.h"
+#include "Skill.h"
+
 
 BEGIN(Engine)
-
 
 END
 
@@ -31,6 +32,10 @@ public:
 
 private:
 	HRESULT				Add_Component();
+
+private:
+	CSkill*				m_pSkill;
+
 
 
 public:
