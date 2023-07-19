@@ -33,10 +33,6 @@ public:
 private:
 	HRESULT				Add_Component();
 
-private:
-	CSkill*				m_pSkill;
-
-
 
 public:
 	static				CHedgehog* Create(LPDIRECT3DDEVICE9 pGraphicDev);

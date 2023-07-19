@@ -64,6 +64,7 @@ HRESULT CHedgehog::Ready_Object()
 
 	//m_vOriginPos	= m_pTransformCom->Get_Info(INFO_POS);
 
+	m_fAccTime		= 0.f;
 	fPatternTime	= 2.f;
 	m_fJumpingSpeed = 0.05;
 

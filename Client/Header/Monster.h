@@ -94,7 +94,7 @@ public:
 	 
 	_float			Get_MaxJumpY()  { return m_fMaxJumpY; }
 	void			Set_MaxJumpY(_float MaxJumpY) { m_fMaxJumpY = MaxJumpY; }
-	void			Set_AccTime(_float AccTime) { fAccTime = AccTime; }
+	void			Set_AccTime(_float AccTime) { m_fAccTime = AccTime; }
 
 
 
@@ -104,7 +104,7 @@ private:
 	HRESULT					Add_Component();
 
 public:
-	void					Damaged(CGameObject* pObj);
+	void					Damaged(const _float& fDamage, CGameObject* pObj = nullptr);
 
 	_bool					IsHit() { return m_bHit; }
 	void					Set_Hit(_bool bHit) { m_bHit = bHit; }
@@ -119,7 +119,7 @@ protected:
 	STATINFO				m_tStatInfo;
 
 	_float					fPatternTime;
-	_float					fAccTime;
+	_float					m_fAccTime;
 
 	_vec3					m_vOriginPos;
 

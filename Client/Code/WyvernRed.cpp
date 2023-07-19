@@ -14,6 +14,9 @@
 #include "WyvernRedState_bComeBack.h"
 #include "WyvernRedState_bRest.h"
 
+
+
+#include "Skill_Monster_Beam.h"
 #include "Shadow_Monster.h"
 
 CWyvernRed::CWyvernRed(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -63,12 +66,23 @@ HRESULT CWyvernRed::Ready_Object()
 	m_pTransformCom->Set_Dir({ -1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
-	
+	m_fAccTime = 0.f;
+
 	m_fJumpingSpeed = 0.05;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+
+	m_bSkill = false;
+
+	// 스킬 생성
+	m_pSkill = CSkill_Monster_Beam::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Beam", m_pSkill), E_FAIL);
+
+
+
 
 #pragma region State Add
 
@@ -118,6 +132,7 @@ HRESULT CWyvernRed::Ready_Object()
 	pState = CWyvernRedState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
 	
+
 #pragma endregion
 
 
@@ -170,6 +185,8 @@ HRESULT CWyvernRed::Ready_Object()
 
 
 
+
+
 #pragma endregion
 
 	// 애니메이션, 상태 세팅
@@ -206,6 +223,17 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 	}
 
 
+	m_fAccTime += fTimeDelta;
+
+	if (m_fAccTime >= 2.f)
+	{
+		m_fAccTime = 0.f;
+
+		m_pSkill->Play();
+		m_bSkill = true;
+
+	}
+
 
 	
 	return iExit;
@@ -213,6 +241,11 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 
 void CWyvernRed::LateUpdate_Object()
 {
+
+	if (m_bSkill)
+		m_bSkill = false;
+
+
 	__super::LateUpdate_Object();
 }
 

@@ -205,6 +205,9 @@ void CScene_World::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 
 
+
+
+
 	// 플레이어 - 스킬 (렉트 vs 스피어 - 콜라이더, 레인지 오브젝트 아님) :: 부모 - 몬스터 _eParentType
 	//	-> 온콜리전함수로 스킬객체 
 	
@@ -217,10 +220,6 @@ void CScene_World::LateUpdate_Scene()
 
 
 	// 몬스터 똑같음
-
-
-
-
 
 
 
@@ -605,10 +604,10 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed", pGameObject), E_FAIL);
 
-	//// Fox
-	//pGameObject = CFox::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
+	// Fox
+	pGameObject = CFox::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
 
 
 	return S_OK;

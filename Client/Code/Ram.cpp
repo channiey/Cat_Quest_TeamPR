@@ -17,7 +17,7 @@
 
 
 #include "Shadow_Monster.h"
-
+#include "Skill_Monster_Thunder.h"
 
 CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_RAM)
@@ -66,11 +66,24 @@ HRESULT CRam::Ready_Object()
 
 	fPatternTime = 2.f;
 
+	m_fAccTime = 0.f;
+
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+
+
+	m_bSkill = false;
+
+	// 스킬 생성 
+	m_pSkill = CSkill_Monster_Thunder::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Thunder", m_pSkill), E_FAIL);
+
+
+
 
 #pragma region State Add
 
@@ -209,6 +222,20 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
+
+
+	m_fAccTime += fTimeDelta;
+
+	if (m_fAccTime >= 2.f)
+	{
+		m_fAccTime = 0.f;
+
+		m_pSkill->Play();
+		m_bSkill = true;
+
+	}
+
+
 
 	return iExit;
 }

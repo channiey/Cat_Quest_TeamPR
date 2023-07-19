@@ -41,8 +41,9 @@ public:
 	static				CFox* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
-	CSkill_Monster_Fire*    m_pSkill;
-	_float				m_fAccTime;
+
+	_bool					m_bSkill;
+	CSkill*					m_pSkill;
 
 protected:
 	virtual void		Free() override;

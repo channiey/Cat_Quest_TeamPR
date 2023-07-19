@@ -29,6 +29,8 @@
 
 #include "Monster.h"
 
+#include "SphereCollider.h"
+
 // Move Effect
 #include "MoveDust.h"
 #include "MoveWater.h"
@@ -219,7 +221,9 @@ HRESULT CPlayer::Ready_Object()
 	// << : Test : Range Test
 	CGameObject* pGameObject = nullptr;
 
-	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 7.f);
+	CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere->Set_Radius(7.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
@@ -467,12 +471,12 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 		if (Is_Attack())
 		{
-			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
+			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 			CCameraMgr::GetInstance()->Shake_Camera();
 		}
 		if (Is_Skill())
 		{
-			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
+			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 		}
 		
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();

@@ -10,6 +10,8 @@
 
 #include "MonHpUI.h"
 
+#include "Skill.h"
+
 // Spirit
 #include "MonstSpirit.h"
 // CutEffect
@@ -26,7 +28,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_fMaxJumpY(0.f)
 	, m_bHit(false)
 	, m_bInit(false)
-	, fAccTime(0.f)
+	, m_fAccTime(0.f)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -43,7 +45,7 @@ CMonster::CMonster(const CMonster& rhs)
 	, m_fJumpingSpeed(rhs.m_fJumpingSpeed)
 	, m_vImageSize(rhs.m_vImageSize)
 	, m_fMaxJumpY(rhs.m_fMaxJumpY)
-	, fAccTime(rhs.fAccTime)
+	, m_fAccTime(rhs.m_fAccTime)
 {
 
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
@@ -127,12 +129,12 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	// Hit state return 
 	if (m_bHit == true)
 	{
-		fAccTime += fTimeDelta;
+		m_fAccTime += fTimeDelta;
 
-		if (fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
+		if (m_fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
 		{
 			m_bHit = false;
-			fAccTime = 0.f;
+			m_fAccTime = 0.f;
 		}
 	}
 
@@ -155,6 +157,35 @@ void CMonster::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 {
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+	}
+	break;
+
+	case Engine::OBJ_TYPE::LINE:
+	{
+		_vec3 vLinePos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
+
+		_vec3 vMonsterPos = m_pTransformCom->Get_Info(INFO_POS);
+		_vec3 vMonsterDir = m_pTransformCom->Get_Dir();
+
+		if ((vLinePos.x == vMonsterPos.x) && (vLinePos.z == vMonsterPos.z))
+		{
+			m_pTransformCom->Set_Dir({ -vMonsterDir.x, vMonsterDir.y, -vMonsterDir.z });
+		}
+		
+	}
+	break;
+
+	default:
+	{
+	}
+	break;
+	} // Switch end
+
 }
 
 void CMonster::OnCollision_Stay(CGameObject* _pColObj)
@@ -182,12 +213,33 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 		}
 	}
 	break;
-
-	default:
+	case Engine::OBJ_TYPE::SKILL:
 	{
-
+		OBJ_TYPE eType = dynamic_cast<CSkill*>(_pColObj)->Get_SkillOwner()->Get_Type();
+		if (eType == OBJ_TYPE::PLAYER)
+		{
+			Damaged(static_cast<CSkill*>(_pColObj)->Get_SkillDamage());
+		}
 	}
 	break;
+	case Engine::OBJ_TYPE::LINE:
+	{
+		_vec3 vLinePos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
+
+		_vec3 vMonsterPos = m_pTransformCom->Get_Info(INFO_POS);
+		_vec3 vMonsterDir = m_pTransformCom->Get_Dir();
+
+		if ((vLinePos.x == vMonsterPos.x) && (vLinePos.z == vMonsterPos.z))
+		{
+			m_pTransformCom->Set_Dir({ -vMonsterDir.x, vMonsterDir.y, -vMonsterDir.z });
+		}
+	}
+	break;
+	default:
+	{
+	}
+	break;
+
 	} // Switch end
 }
 
@@ -234,11 +286,11 @@ HRESULT CMonster::Add_Component()
 	return S_OK;
 }
 
-void CMonster::Damaged(CGameObject* pObj)
+void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 {
-	_float fPlayerAD = static_cast<CPlayer*>(pObj)->Get_StatInfo().fAD;
+	 Set_CurHP(m_tStatInfo.fCurHP - fDamage);
 
-	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
+	// cout << "뎀지받음" << endl;
 
 	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
@@ -247,14 +299,14 @@ void CMonster::Damaged(CGameObject* pObj)
 	}
 	
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK)
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
 	{
 		m_pRigidBodyCom->Zero_KnockBack();
-		
 	}
 	else
 	{
-		m_pRigidBodyCom->Knock_Back(pObj, 120);
+		if(pObj != nullptr)
+			m_pRigidBodyCom->Knock_Back(pObj, 120);
 	}
 	
 	CEventMgr::GetInstance()->Add_Obj(L"Monster_Cut_Effect", CMobCutEffect::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));

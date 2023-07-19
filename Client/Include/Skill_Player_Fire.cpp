@@ -5,6 +5,8 @@
 
 #include "Effect_Fire.h"
 #include "Effect_Range_Quater.h"
+#include "SphereCollider.h"
+#include "RangeObj.h"
 
 
 CSkill_Player_Fire::CSkill_Player_Fire(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
@@ -38,7 +40,13 @@ HRESULT CSkill_Player_Fire::Ready_Object()
     m_fSkillDamage = 50;
     m_fSkillUsage = 3;
 
+    m_bActive = false;
+
+    m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f });
+
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+
 
     return S_OK;
 }
@@ -46,6 +54,14 @@ HRESULT CSkill_Player_Fire::Ready_Object()
 _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = CSkill::Update_Object(fTimeDelta);
+
+
+    m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
+ 
+
+  //  m_pRangeObj->Update_Object(fTimeDelta);
+
+    Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
     if (!m_pSKillEffect->Is_Active())
     {
@@ -59,11 +75,17 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 
 void CSkill_Player_Fire::LateUpdate_Object()
 {
+  //  m_pRangeObj->LateUpdate_Object();
+
     CSkill::LateUpdate_Object();
 }
 
 void CSkill_Player_Fire::Render_Object()
 {
+   // m_pRangeObj->Render_Object();
+    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+    //m_pBufferCom->Render_Buffer();
     CSkill::Render_Object();
 }
 
@@ -80,6 +102,17 @@ HRESULT CSkill_Player_Fire::Add_Component()
     NULL_CHECK_RETURN(pFireEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Effect", pFireEffect), E_FAIL);
     m_pSKillEffect = pFireEffect;
+
+    /*CGameObject* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+    CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+    pShpere->Set_Radius(20.f);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Sphere", pGameObject), E_FAIL);
+    m_pRangeObj = pGameObject;*/
+
+    CComponent* pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
 
     return S_OK;
 }

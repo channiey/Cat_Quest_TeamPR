@@ -11,6 +11,7 @@ CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_pSKillEffect(nullptr)
 	, m_pRangeEffect(nullptr)
 	, m_bPlay(false)
+	, m_pRangeObj(nullptr)
 {
 }
 
@@ -58,6 +59,12 @@ void CSkill::Render_Object()
 
 HRESULT CSkill::Add_Component()
 {
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
+
 	return S_OK;
 }
 

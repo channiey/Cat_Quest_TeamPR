@@ -10,6 +10,10 @@
 #include "Shadow_Monster.h"
 #include "Skill_Monster_Fire.h"
 
+// 임시
+#include "GoldCoin.h"
+#include "MonstSpirit.h"
+
 CFox::CFox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_FOX)
 {
@@ -62,14 +66,19 @@ HRESULT CFox::Ready_Object()
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
-
-	m_fAccTime = 2.f;
+	
+	m_fAccTime = 0.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
+	m_bSkill = false;
+
 	// 스킬 생성
-	// CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Skill_Fox", CSkill_Monster_Fire::Create(m_pGraphicDev, this));
+	m_pSkill =  CSkill_Monster_Fire::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Fire", m_pSkill), E_FAIL);
+
 
 #pragma region State Add
 
@@ -107,7 +116,7 @@ HRESULT CFox::Ready_Object()
 _int CFox::Update_Object(const _float& fTimeDelta)
 {
 	
-
+	//_int iExit = CGameObject::Update_Object(fTimeDelta);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -128,32 +137,31 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
-
-
-
-	//m_fAccTime += fTimeDelta;
-
-
-	//if (m_fAccTime >= 2.f)
-	//{		
-	//	m_fAccTime = 0.f;
-	//	
-	//}
-	//
-	//if (m_pSkill->Get_Animator()->Get_CurAniamtion()->Is_End())
-	//{
-	//
-	//}
 	
-	
-	
+
+	m_fAccTime += fTimeDelta;
+
+	if (m_fAccTime >= 2.f)
+	{
+		m_fAccTime = 0.f;
+
+		m_pSkill->Play();
+		m_bSkill = true;
+
+	}
+
+
+
 
 	return iExit;
 }
 
 void CFox::LateUpdate_Object()
 {
-	
+
+	if (m_bSkill)
+		m_bSkill = false;
+
 	__super::LateUpdate_Object();
 
 }
