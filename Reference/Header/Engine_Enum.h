@@ -296,7 +296,7 @@ namespace Engine
 									  INVEN_BUTTON9, INVEN_BUTTON10, INVEN_BUTTON11, INVEN_BUTTON12,
 									
 									  INVEN_ATABBUTTON, INVEN_STABBUTTON, INVEN_SORTBUTTON, INVEN_CANCELBUTTON,	 // other Button	
-									  INVEN_TABLINE,														 // Line		
+									  INVEN_LINE, INVEN_TABLINE, INVEN_WEAPON_SELECT, INVEN_OK, INVEN_NO,												 // Line		
 									  INVENTORYID_END };
 }
 #endif // Engine_Enum_h__
