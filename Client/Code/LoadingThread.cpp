@@ -531,11 +531,25 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Button_Cancel",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_cancel.png")), E_FAIL);
 
-	// Inventory - UI Line
+	// Inventory - UI TabLine
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Line",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_line.png")), E_FAIL);
+
+	// Inventory - UI TabLine
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_TabLine",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_line4px.png")), E_FAIL);
 
+	// Inventory - UI WeaponSelect
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Weapon_Select",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_equipped_weapon.png")), E_FAIL);
 
+	// Inventory - UI Ok
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_OK",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_button_OK.png")), E_FAIL);
+
+	// Inventory - UI No
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_NO",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_button_NO.png")), E_FAIL);
 
 #pragma endregion
 

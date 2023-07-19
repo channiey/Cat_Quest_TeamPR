@@ -9,6 +9,39 @@ class CTransform;
 class CGameObject;
 
 END
+// OK, NO 버튼
+enum EQUIPCHECK{ EQUIP_NONE, EQUIP_OK, EQUIP_NO };
+
+// 칸
+struct tagSpace
+{
+	_matrix     m_matSpace;
+	_matrix		m_matEquip;
+	CTransform* m_pSpaceTrans;
+	CTexture*	m_pSpaceNoneTex;
+	CTexture*	m_pSpaceIsTex;
+	CTexture*	m_pSpaceSelectTex;
+	CTexture*	m_pSpaceEquipTex;
+	_bool		m_bIsSpace = false;
+	_bool		m_bOnSpace = false;
+	_bool		m_bEquip = false;
+};
+// 라인
+struct tagLine
+{
+	_matrix     m_matLine;
+	CTransform* m_pLineTrans;
+	CTexture*   m_pLineTex;
+};
+// 장착여부
+struct tagEquipCheck
+{
+	_matrix     m_mateCheck;
+	CTransform* m_peCheckTrans;
+	CTexture*   m_pOkTex;
+	CTexture*   m_pNoTex;
+	EQUIPCHECK  m_eEquipCheck = EQUIP_NONE;
+};
 
 class CPlayer;
 
@@ -55,6 +88,13 @@ private:
 
 	_matrix                 m_matInventoryWolrd[INVENTORYID_END];
 
+	// 장비 장착 여부 구조체
+	tagEquipCheck			m_sEquipCheck;
+	// 칸 배열
+	tagSpace				m_sSpaceAry[INVEN_BUTTON12 - 2];
+	// 라인 배열
+	tagLine					m_sLineAry[INVEN_LINE - 16];
+	// 아이템 배열
 	vector<CGameObject*>	m_vecItem;
 
 public: 
