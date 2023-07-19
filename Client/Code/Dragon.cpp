@@ -52,7 +52,7 @@ HRESULT CDragon::Ready_Object()
 
 
 	fPatternTime = 2.f;
-	fAccTime = 0.f;
+	m_fAccTime = 0.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));

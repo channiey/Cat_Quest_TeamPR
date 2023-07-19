@@ -42,11 +42,8 @@ public:
 
 private:
 
-
 	_bool					m_bSkill;
-
 	CSkill*					m_pSkill;
-	_float					m_fAccTime;
 
 protected:
 	virtual void		Free() override;

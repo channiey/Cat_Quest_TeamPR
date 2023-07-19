@@ -16,6 +16,7 @@
 #include "WyvernState_bRest.h"
 
 #include "Shadow_Monster.h"
+#include "Skill_Monster_Ice.h"
 
 CWyvern::CWyvern(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_WYVERN)
@@ -64,12 +65,24 @@ HRESULT CWyvern::Ready_Object()
 	m_pTransformCom->Set_Dir({ -1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
-	
+	m_fAccTime = 0.f;
+
 	m_fJumpingSpeed = 0.05;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+
+
+	m_bSkill = false;
+
+	// 스킬 생성
+	m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Ice", m_pSkill), E_FAIL);
+
+
+
 
 #pragma region State Add
 
@@ -207,6 +220,16 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	}
 
 
+	m_fAccTime += fTimeDelta;
+
+	if (m_fAccTime >= 2.f)
+	{
+		m_fAccTime = 0.f;
+
+		m_pSkill->Play();
+		m_bSkill = true;
+
+	}
 
 	
 	return iExit;
@@ -214,6 +237,9 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 
 void CWyvern::LateUpdate_Object()
 {
+	if (m_bSkill)
+		m_bSkill = false;
+
 	__super::LateUpdate_Object();
 }
 

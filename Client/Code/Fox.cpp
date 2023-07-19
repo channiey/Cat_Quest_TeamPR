@@ -66,12 +66,13 @@ HRESULT CFox::Ready_Object()
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
-
-	m_fAccTime = 2.f;
+	
+	m_fAccTime = 0.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
+	m_bSkill = false;
 
 	// 스킬 생성
 	m_pSkill =  CSkill_Monster_Fire::Create(m_pGraphicDev, this);
@@ -210,17 +211,17 @@ void CFox::Render_Object()
 
 void CFox::OnCollision_Enter(CGameObject* _pColObj)
 {
-	//__super::OnCollision_Enter(_pColObj);
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CFox::OnCollision_Stay(CGameObject* _pColObj)
 {
-	//__super::OnCollision_Stay(_pColObj);
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CFox::OnCollision_Exit(CGameObject* _pColObj)
 {
-	//__super::OnCollision_Exit(_pColObj);
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CFox::Add_Component()

@@ -34,7 +34,10 @@ private:
 	HRESULT				Add_Component();
 
 
+private:
 
+	_bool					m_bSkill;
+	CSkill*					m_pSkill;
 
 
 public:

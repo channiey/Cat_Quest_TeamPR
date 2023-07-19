@@ -42,7 +42,11 @@ HRESULT CSkill_Player_Fire::Ready_Object()
 
     m_bActive = false;
 
+    m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f });
+
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+
 
     return S_OK;
 }
@@ -53,7 +57,7 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 
 
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
-    m_pTransformCom->Set_Scale(_vec3{ 100.f, 10.f, 10.f });
+ 
 
   //  m_pRangeObj->Update_Object(fTimeDelta);
 
@@ -81,7 +85,7 @@ void CSkill_Player_Fire::Render_Object()
    // m_pRangeObj->Render_Object();
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
-    m_pBufferCom->Render_Buffer();
+    //m_pBufferCom->Render_Buffer();
     CSkill::Render_Object();
 }
 

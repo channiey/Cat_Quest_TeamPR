@@ -28,7 +28,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_fMaxJumpY(0.f)
 	, m_bHit(false)
 	, m_bInit(false)
-	, fAccTime(0.f)
+	, m_fAccTime(0.f)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -45,7 +45,7 @@ CMonster::CMonster(const CMonster& rhs)
 	, m_fJumpingSpeed(rhs.m_fJumpingSpeed)
 	, m_vImageSize(rhs.m_vImageSize)
 	, m_fMaxJumpY(rhs.m_fMaxJumpY)
-	, fAccTime(rhs.fAccTime)
+	, m_fAccTime(rhs.m_fAccTime)
 {
 
 	for (size_t i = 0; i < _uint(_uint(STATE_TYPE::TYPEEND)); ++i)
@@ -129,12 +129,12 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	// Hit state return 
 	if (m_bHit == true)
 	{
-		fAccTime += fTimeDelta;
+		m_fAccTime += fTimeDelta;
 
-		if (fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
+		if (m_fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
 		{
 			m_bHit = false;
-			fAccTime = 0.f;
+			m_fAccTime = 0.f;
 		}
 	}
 
@@ -290,7 +290,7 @@ void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 {
 	 Set_CurHP(m_tStatInfo.fCurHP - fDamage);
 
-	 cout << "뎀지받음" << endl;
+	// cout << "뎀지받음" << endl;
 
 	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())

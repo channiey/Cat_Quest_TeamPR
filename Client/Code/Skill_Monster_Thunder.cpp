@@ -1,16 +1,20 @@
 #include "Skill_Monster_Thunder.h"
-#include "Effect_Fire.h"
-#include "Effect_Range_Quater.h"
 #include "EventMgr.h"
 #include "Export_Function.h"
 
+#include "Effect_Thunder.h"
+#include "Effect_Range_Quater.h"
+
+#include "RangeObj.h"
+
+
 CSkill_Monster_Thunder::CSkill_Monster_Thunder(LPDIRECT3DDEVICE9 pGraphicDev)
-    :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_FIRE)
+    :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_THUNDER)
 {
 }
 
 CSkill_Monster_Thunder::CSkill_Monster_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-    :CSkill(pGraphicDev, _pOwnerObject , OBJ_ID::SKILL_MONSTER_FIRE)
+    :CSkill(pGraphicDev, _pOwnerObject , OBJ_ID::SKILL_MONSTER_THUNDER)
 {
 }
 
@@ -28,14 +32,15 @@ HRESULT CSkill_Monster_Thunder::Ready_Object()
 
     __super::Ready_Object();
 
-    m_fSkillDamage = 20;
+
+    m_pTransformCom->Set_Scale({ 5.f,5.f,5.f }); // Rect 크기 설정
+
+    m_fSkillDamage = 10;
     
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
-
-    m_szName = L"Skill_Monster_Fire";
+    m_szName = L"Skill_Monster_Thunder";
 
     return S_OK;
 }
@@ -44,10 +49,17 @@ _int CSkill_Monster_Thunder::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = __super::Update_Object(fTimeDelta);
 
-    
+    // 위치 선정 
+    _vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
+    m_pTransformCom->Set_Pos(vPos);
+
+    Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+
     if (!m_pSKillEffect->Is_Active())
     {
-        __super::End();
+        //__super::End();
+        m_pSKillEffect->Set_Active(FALSE);
         m_bActive = false;
     }
 
@@ -62,22 +74,31 @@ void CSkill_Monster_Thunder::LateUpdate_Object()
 
 void CSkill_Monster_Thunder::Render_Object()
 {
+
+    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());  // Rect 사용 시 
+    
     __super::Render_Object();
 }
 
 HRESULT CSkill_Monster_Thunder::Add_Component()
 {
     // Skill Effect
-    CSkillEffect* pFireEffect = CEffect_Fire::Create(m_pGraphicDev, this);
-    NULL_CHECK_RETURN(pFireEffect, E_FAIL);
-    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_FireSkill_Effect", pFireEffect), E_FAIL);
-    m_pSKillEffect = pFireEffect;
+    CSkillEffect* pThunderEffect = CEffect_Thunder::Create(m_pGraphicDev, this);
+    NULL_CHECK_RETURN(pThunderEffect, E_FAIL);
+    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_ThunderSkill_Effect", pThunderEffect), E_FAIL);
+    m_pSKillEffect = pThunderEffect;
 
-    // Effect Range Quater
-    CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
-    NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
-    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_FireSkill_Range", pRangeEffect), E_FAIL);
-    m_pRangeEffect = pRangeEffect;
+    //// Effect Range Quater
+    //CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
+    //NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
+    //FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_ThunderSkill_Range", pRangeEffect), E_FAIL);
+    //m_pRangeEffect = pRangeEffect;
+
+     // Rect Collider 
+    CComponent* pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
+
 
 
     return S_OK;
@@ -87,9 +108,9 @@ HRESULT CSkill_Monster_Thunder::Play()
 {
 
     m_pSKillEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
-    m_pRangeEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
-    m_pRangeEffect->Get_Transform()->Set_Scale(_vec3{ 7.f, 7.f, 7.f });
-    m_pRangeEffect->Scaling(1.f,1.f,2.f);
+   // m_pRangeEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
+   // m_pRangeEffect->Get_Transform()->Set_Scale(_vec3{ 7.f, 7.f, 7.f });
+   // m_pRangeEffect->Scaling(1.f,1.f,2.f);
   
 
 

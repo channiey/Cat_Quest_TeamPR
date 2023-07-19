@@ -66,7 +66,8 @@ HRESULT CBat::Ready_Object()
 	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
-	
+	m_fAccTime = 0.f;
+
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
