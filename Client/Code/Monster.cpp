@@ -240,6 +240,8 @@ void CMonster::Damaged(CGameObject* pObj)
 
 	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
 
+	 cout << "뎀지받음" << endl;
+
 	m_bHit = true;
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
 	{

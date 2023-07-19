@@ -11,6 +11,7 @@ CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_pSKillEffect(nullptr)
 	, m_pRangeEffect(nullptr)
 	, m_bPlay(false)
+	, m_pRangeObj(nullptr)
 {
 }
 
