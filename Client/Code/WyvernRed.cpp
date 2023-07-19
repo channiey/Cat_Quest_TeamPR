@@ -1,22 +1,21 @@
 #include "WyvernRed.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
-
+//State - Front
 #include "WyvernRedState_Patrol.h"
 #include "WyvernRedState_Chase.h"
 #include "WyvernRedState_Attack.h"
 #include "WyvernRedState_ComeBack.h"
 #include "WyvernRedState_Rest.h"
-				
+//State - Back				
 #include "WyvernRedState_bPatrol.h"
 #include "WyvernRedState_bChase.h"
 #include "WyvernRedState_bAttack.h"
 #include "WyvernRedState_bComeBack.h"
 #include "WyvernRedState_bRest.h"
-
-
-
+//Skill
 #include "Skill_Monster_Beam.h"
+//Shadow
 #include "Shadow_Monster.h"
 
 CWyvernRed::CWyvernRed(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -206,7 +205,6 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 
 
 	// Jumping 
-
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	float Y = m_pTransformCom->Get_Scale().y;
 	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
@@ -223,15 +221,21 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	m_fAccTime += fTimeDelta;
-
-	if (m_fAccTime >= 2.f)
+	// Skill Use
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	if (STATE_TYPE::BACK_MONATTACK == CurState ||
+		STATE_TYPE::MONATTACK == CurState ||
+		STATE_TYPE::CHASE == CurState ||
+		STATE_TYPE::BACK_CHASE == CurState)
 	{
-		m_fAccTime = 0.f;
+		m_fAccTime += fTimeDelta;
 
-		m_pSkill->Play();
-		m_bSkill = true;
-
+		if (m_fAccTime >= 2.f)
+		{
+			m_fAccTime = 0.f;
+			m_pSkill->Play();
+			m_bSkill = true;
+		}
 	}
 
 

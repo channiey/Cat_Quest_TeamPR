@@ -139,15 +139,21 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	}
 	
 
-	m_fAccTime += fTimeDelta;
-
-	if (m_fAccTime >= 2.f)
+	// Skill Use
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	if (STATE_TYPE::BACK_MONATTACK == CurState ||
+		STATE_TYPE::MONATTACK == CurState ||
+		STATE_TYPE::CHASE == CurState ||
+		STATE_TYPE::BACK_CHASE == CurState)
 	{
-		m_fAccTime = 0.f;
+		m_fAccTime += fTimeDelta;
 
-		m_pSkill->Play();
-		m_bSkill = true;
-
+		if (m_fAccTime >= 2.f)
+		{
+			m_fAccTime = 0.f;
+			m_pSkill->Play();
+			m_bSkill = true;
+		}
 	}
 
 
@@ -211,17 +217,17 @@ void CFox::Render_Object()
 
 void CFox::OnCollision_Enter(CGameObject* _pColObj)
 {
-	__super::OnCollision_Enter(_pColObj);
+	//__super::OnCollision_Enter(_pColObj);
 }
 
 void CFox::OnCollision_Stay(CGameObject* _pColObj)
 {
-	__super::OnCollision_Stay(_pColObj);
+	//__super::OnCollision_Stay(_pColObj);
 }
 
 void CFox::OnCollision_Exit(CGameObject* _pColObj)
 {
-	__super::OnCollision_Exit(_pColObj);
+	//__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CFox::Add_Component()

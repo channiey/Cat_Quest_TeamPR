@@ -26,18 +26,15 @@ CSkill_Monster_Ice::~CSkill_Monster_Ice()
 
 HRESULT CSkill_Monster_Ice::Ready_Object()
 {
-
     __super::Ready_Object();
 
-    m_pTransformCom->Set_Scale({ 5.f,5.f,5.f }); // Rect 크기 설정
+    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+ 
 
     m_fSkillDamage = 20;
     
-
-    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-
-
+   
+    // Naming
     m_szName = L"Skill_Monster_Ice";
 
     return S_OK;
@@ -46,20 +43,24 @@ HRESULT CSkill_Monster_Ice::Ready_Object()
 _int CSkill_Monster_Ice::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = __super::Update_Object(fTimeDelta);
+    Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+    // Dead condition
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
         return iExit;
     }
-    // 위치 선정 
+
+    // Pos Setting
     _vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
     m_pTransformCom->Set_Pos(vPos);
 
 
+    // Skill Play
     if (!m_pSKillEffect->Is_Active())
     {
-        //__super::End(); // 바닥, 이펙트 둘다일 때만
+        //__super::End(); // 바닥 없음
         m_pSKillEffect->Set_Active(FALSE);
         m_bActive = false;
     }
@@ -76,8 +77,6 @@ void CSkill_Monster_Ice::LateUpdate_Object()
 
 void CSkill_Monster_Ice::Render_Object()
 {
-
-    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());  // Rect 사용 시
     __super::Render_Object();
 }
 
@@ -94,12 +93,6 @@ HRESULT CSkill_Monster_Ice::Add_Component()
     //NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
     //FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_FireSkill_Range", pRangeEffect), E_FAIL);
     //m_pRangeEffect = pRangeEffect;
-
-     // Rect Collider 
-    CComponent* pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
-    NULL_CHECK_RETURN(pComponent, E_FAIL);
-    m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
-
 
 
     return S_OK;

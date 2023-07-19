@@ -27,16 +27,14 @@ CSkill_Monster_Beam::~CSkill_Monster_Beam()
 
 HRESULT CSkill_Monster_Beam::Ready_Object()
 {
-
     __super::Ready_Object();
+
+    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
     m_fSkillDamage = 20;
     
 
-    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-    m_pTransformCom->Set_Scale({ 5.f,5.f,5.f }); // Rect 크기 설정
-
+    // Naming
     m_szName = L"Skill_Monster_Beam";
 
     return S_OK;
@@ -45,19 +43,21 @@ HRESULT CSkill_Monster_Beam::Ready_Object()
 _int CSkill_Monster_Beam::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = __super::Update_Object(fTimeDelta);
+    Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+    // Dead Condition
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
         return iExit;
     }
     
-    // 위치 선정 
+    // Pos Setting
     _vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
     m_pTransformCom->Set_Pos(vPos);
 
-    Engine::Add_RenderGroup(RENDER_ALPHA, this);
-
+  
+    // Skill Play
     if (!m_pSKillEffect->Is_Active())
     {
         __super::End();
@@ -75,7 +75,6 @@ void CSkill_Monster_Beam::LateUpdate_Object()
 
 void CSkill_Monster_Beam::Render_Object()
 {
-    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());  // Rect 사용 시 
     __super::Render_Object();
 }
 
