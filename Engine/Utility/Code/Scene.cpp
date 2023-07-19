@@ -39,12 +39,13 @@ HRESULT CScene::Add_Object(const OBJ_TYPE & _eObjType, const _tchar * pObjTag, C
 
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
-	if (pLayer->Add_GameObject(pObjTag, _pObj))
-		return S_OK;
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(pObjTag, _pObj), E_FAIL);
 
-	return E_FAIL;
+	if (_pObj->Is_Maintain())
+		m_vecMaintain.push_back(_pObj);
+
+	return S_OK;
 }
-
 
 CLayer * CScene::Get_Layer(const OBJ_TYPE& _eType)
 {	

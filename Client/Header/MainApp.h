@@ -25,6 +25,8 @@ private:
 	HRESULT					SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
 	HRESULT					Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement** ppManagementClass);
 
+
+
 private:
 	CGraphicDev*			m_pDeviceClass;
 	CManagement*			m_pManagementClass;

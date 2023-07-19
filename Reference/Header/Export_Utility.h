@@ -70,7 +70,7 @@ inline CComponent*		Clone_Proto(const COMPONENT_TYPE& _eComType, CGameObject* _p
 inline HRESULT			Add_Obj(const _tchar* pObjTag, CGameObject* const _pObj);
 inline HRESULT			Delete_Obj(CGameObject* const _pObj);
 inline HRESULT			Return_Obj(CGameObject* const _pObj);
-inline HRESULT			Change_Scene(const SCENE_TYPE& _eSceneType);
+inline HRESULT			Change_Scene(CScene* const _pScene);
 
 // Renderer
 inline void				Add_RenderGroup(RENDERID eType, CGameObject* pGameObject);

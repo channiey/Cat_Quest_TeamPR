@@ -26,6 +26,9 @@ public:
 
 	const SCENE_TYPE&				Get_SceneType() const { return m_eType; }
 
+	vector<CGameObject*>			Get_MaintainObj() const { return m_vecMaintain; }
+
+
 public:
 	// 성혁 추가
 	HRESULT							Empty_Layer(const OBJ_TYPE& _eObjType);
@@ -39,6 +42,7 @@ public:
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 	map<OBJ_TYPE, CLayer*>			m_mapLayer;
+	vector<CGameObject*>			m_vecMaintain; // 씬 변경시 살려둘 오브젝트
 
 	SCENE_TYPE						m_eType;
 

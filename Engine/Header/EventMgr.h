@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+class CScene;
+
 class ENGINE_DLL CEventMgr : public CBase
 {
 	DECLARE_SINGLETON(CEventMgr)
@@ -19,7 +21,7 @@ public:
 	HRESULT					Add_Obj(const _tchar* pObjTag, CGameObject* const _pObj);
 	HRESULT					Delete_Obj(CGameObject* const _pObj);
 	HRESULT					Return_Obj(CGameObject* const _pObj);
-	HRESULT					Change_Scene(const SCENE_TYPE& _eSceneType);
+	HRESULT					Change_Scene(CScene* const _pScene);
 
 private:
 	HRESULT					Add_Event(const EVENT& _event);

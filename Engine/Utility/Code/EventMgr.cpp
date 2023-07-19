@@ -22,7 +22,7 @@ void CEventMgr::Update_Event()
 	{
 		if (nullptr != m_vecDeleteObj[i])
 		{
-			CManagement::GetInstance()->Get_Scene()->Get_Layer(m_vecDeleteObj[i]->Get_Type())->Delete_GameObject(m_vecDeleteObj[i]);
+			CManagement::GetInstance()->Get_CurScene()->Get_Layer(m_vecDeleteObj[i]->Get_Type())->Delete_GameObject(m_vecDeleteObj[i]);
 		}
 	}
 	m_vecDeleteObj.clear();
@@ -32,7 +32,7 @@ void CEventMgr::Update_Event()
 	{
 		if (nullptr != m_vecReturnObj[i])
 		{
-			CManagement::GetInstance()->Get_Scene()->Get_Layer(m_vecReturnObj[i]->Get_Type())->Return_GameObject(m_vecReturnObj[i]);
+			CManagement::GetInstance()->Get_CurScene()->Get_Layer(m_vecReturnObj[i]->Get_Type())->Return_GameObject(m_vecReturnObj[i]);
 		}
 	}
 	m_vecReturnObj.clear();
@@ -109,12 +109,12 @@ HRESULT CEventMgr::Return_Obj(CGameObject* const _pObj)
 	return S_OK;
 }
 
-HRESULT CEventMgr::Change_Scene(const SCENE_TYPE& _eSceneType)
+HRESULT CEventMgr::Change_Scene(CScene* const _pScene)
 {
 	EVENT event;
 	ZeroMemory(&event, sizeof(EVENT));
 
-	event.lParam = (DWORD_PTR)_eSceneType;
+	event.lParam = (DWORD_PTR)_pScene;
 	event.eType = EVENT_TYPE::CHANGE_SCENE;
 
 	for (auto& iter : m_vecEvent)
@@ -162,7 +162,8 @@ HRESULT CEventMgr::Execute_Event(const EVENT& _event)
 	break;
 	case EVENT_TYPE::CHANGE_SCENE:
 	{
-		FAILED_CHECK_RETURN(CManagement::GetInstance()->Change_Scene((SCENE_TYPE)_event.lParam), E_FAIL);
+		CScene* pScene = (CScene*)_event.lParam;
+		FAILED_CHECK_RETURN(CManagement::GetInstance()->Change_Scene(pScene), E_FAIL);
 	}
 	break;
 	default:

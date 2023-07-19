@@ -11,6 +11,11 @@
 #include "ImGuiMgr.h"
 #include "Calculator.h"
 
+#include "Scene_Intro.h"
+#include "Scene_Tool.h"
+#include "Scene_World.h"
+#include "Scene_Dungeon.h"
+
 CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pManagementClass(nullptr)
 {
 	
@@ -113,6 +118,7 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev, Engine::CManagement
 
 	return S_OK;
 }
+
 
 CMainApp * CMainApp::Create()
 {

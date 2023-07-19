@@ -69,16 +69,16 @@ inline HRESULT Return_Obj(CGameObject* const _pObj)
 	return CEventMgr::GetInstance()->Return_Obj(_pObj);
 }
 
-inline HRESULT Change_Scene(const SCENE_TYPE& _eSceneType)
+inline HRESULT Change_Scene(CScene* const _pScene)
 {
-	return CEventMgr::GetInstance()->Change_Scene(_eSceneType);
+	return CEventMgr::GetInstance()->Change_Scene(_pScene);
 }
 
 void			Add_RenderGroup(RENDERID eType, CGameObject* pGameObject)
 {
 	CRenderMgr::GetInstance()->Add_RenderGroup(eType, pGameObject);
 }
-void			Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
+void			Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev) 
 {
 	CRenderMgr::GetInstance()->Render_GameObject(pGraphicDev);
 }
