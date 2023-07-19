@@ -18,6 +18,9 @@ public:
 	virtual void				LateUpdate_Object() override;
 	virtual void				Render_Object() override;
 
+	virtual void				Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one);
+
+
 public:
 	void						Scaling	(const _float& _fTime, const _float _fStartMag,	const _float& _fTargetMag);
 	void						Alphaing	(const _float& _fTime, const _float _fStartValue, const _float& _fTargetValue);

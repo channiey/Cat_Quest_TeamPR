@@ -3,6 +3,31 @@
 #include "Engine_Define.h"
 #include "GameObject.h"
 
+/*
+
+	* 해당 클래스를 상속 받아 각 스킬을 구현하도록 한다.
+	
+	* CSkillEffect
+	* CEffect_Range_Quater
+	* CCollier
+	* CTransform
+	
+
+
+
+	구조
+
+
+
+	1. 플레이어 또는 몬스터는 자신이 사용할 스킬을 멤버변수로 갖는다(이 클래스 타입) -> 여러 스킬 사용시 컨테이너 사용
+
+	2. 스킬은 이 클래스를 상속받아 개별 스킬 클래스를 구현한다.
+
+		- 하나의 스킬은 CSkillEffect / CEffect_Range_Quater / CCollier / CTransform의 변수를 갖는다(CEffect_Range_Quater는 선택)
+
+		- 스킬 사용시, CSkillEffect와 CEffect_Range_Quater의 사용 함수를 호출하도록 한다.
+
+*/
 
 class CSkillEffect;
 class CEffect_Range_Quater;
@@ -27,6 +52,7 @@ private:
 
 public:
 	virtual HRESULT			Play();
+	virtual HRESULT			End();
 	const _bool				Is_End() const { return m_bPlay; }; // 스킬 시전이 끝났는지
 
 protected:

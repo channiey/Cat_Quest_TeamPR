@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "SkillEffect.h"
+#include "Effect_Range_Quater.h"
 
 CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::EFFECT, _eID)
@@ -62,6 +63,14 @@ HRESULT CSkill::Play()
 {
 	NULL_CHECK_RETURN(m_pSKillEffect, E_FAIL);
 	NULL_CHECK_RETURN(m_pRangeEffect, E_FAIL);
+	return S_OK;
+}
+
+HRESULT CSkill::End()
+{
+	m_pSKillEffect->Set_Active(FALSE);
+	m_pRangeEffect->Set_Active(FALSE);
+
 	return S_OK;
 }
 

@@ -158,6 +158,13 @@ void CEffect_Range_Quater::Render_Object()
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 }
 
+
+void CEffect_Range_Quater::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
+{
+	m_pTransformCom->Set_Pos(_vec3{ _vPos.x, m_pTransformCom->Get_Info(INFO::INFO_POS).y, _vPos.z - 5.2f });
+	m_bActive = true;
+}
+
 void CEffect_Range_Quater::Scaling(const _float& _fTime, const _float _fStartMag, const _float& _fTargetMag)
 {
 	m_eScaleInfo.Init_Lerp();
