@@ -48,7 +48,7 @@ private:
 	const _bool						Check_Rect_Circle(CGameObject* const _pObj1, CGameObject* const _pObj2);
 	const _bool						Check_Line_Rect(CGameObject* const _pObj1, CLineObject* const _pObj2);
 	const _int						Check_CCW(const _vec3& _vLineStart, const _vec3& _vLineEnd, const _vec3& _vPT);
-	const _vec3&						Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _vLinePtList);
+	const _vec3&					Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _vLinePtList);
 
 	const _bool						Check_Range(CGameObject* const _pObj, CGameObject* const _pRange); // 오브젝트 vs 반경
 

@@ -20,7 +20,7 @@ public:
 	void						Set_OverLap_Rect(const _vec3& _vOverlap) { memcpy(&m_vOverlapRect, &_vOverlap, sizeof(_vec3)); }
 	const _vec3&				Get_Overlap_Rect() const { return m_vOverlapRect; }
 
-	void						Set_Size(const _vec3& _vSize) { m_vSize = _vSize; }
+	void						Set_Size(const _vec3& _vSize);
 	const _vec3&				Get_Size() const { return m_vSize; }
 
 private:

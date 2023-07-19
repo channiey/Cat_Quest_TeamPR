@@ -26,6 +26,7 @@ public:
 	HRESULT									Change_Camera	(const _tchar* pCameraTag);
 	const _bool&							Is_Blending		() const													{ return m_bBlending; }
 	const _matrix&							Get_Billboard_X();
+	const _matrix&							Get_Billboard_Y();
 	const _matrix&							Get_WorldMat();
 
 public:

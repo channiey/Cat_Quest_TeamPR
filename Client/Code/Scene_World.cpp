@@ -219,6 +219,11 @@ void CScene_World::Render_Scene()
 	vPos = pObj->Get_Transform()->Get_Info(INFO_POS);
 	swprintf_s(szBuf, L"PLAYER : %.3f,  %.3f,  %.3f", vPos.x, vPos.y, vPos.z);
 	SCREEN_MSG(szBuf, rc);
+
+	NULL_CHECK(CCameraMgr::GetInstance()->Get_CurCamera());
+	vPos = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewSpace().Eye;
+	swprintf_s(szBuf, L"CAMERA : %.3f,  %.3f,  %.3f", vPos.x, vPos.y, vPos.z);
+	SCREEN_MSG(szBuf, rc);
 }
 
 void CScene_World::Free()

@@ -18,9 +18,11 @@ CCamera::CCamera()
 	, m_fAccTime(0.f)
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
+
 	ZeroMemory(&m_tProj, sizeof(PROJECTION));
 	ZeroMemory(&m_tVport, sizeof(D3DVIEWPORT9));
 	ZeroMemory(&m_matBillboardX, sizeof(_matrix));
+	ZeroMemory(&m_matBillboardY, sizeof(_matrix));
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
 	ZeroMemory(&m_matProj, sizeof(_matrix));
 	ZeroMemory(&m_matView, sizeof(_matrix));
@@ -44,6 +46,7 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	ZeroMemory(&m_tProj, sizeof(PROJECTION));
 	ZeroMemory(&m_tVport, sizeof(D3DVIEWPORT9));
 	ZeroMemory(&m_matBillboardX, sizeof(_matrix));
+	ZeroMemory(&m_matBillboardY, sizeof(_matrix));
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
 	ZeroMemory(&m_matProj, sizeof(_matrix));
 	ZeroMemory(&m_matView, sizeof(_matrix));
@@ -121,7 +124,7 @@ HRESULT CCamera::Set_ViewSpace()
 	// 여러 곳에서 카메라의 월드행렬을 사용하기 위해 세팅
 	D3DXMatrixInverse(&m_matWorld, NULL, &m_matView);
 
-	// 뷰스페이스 설정 때 빌보드 행렬을 세팅해둔다 (셋트랜스폼 최소화)
+	// 뷰스페이스 설정 때 빌보드X 행렬을 세팅해둔다 (셋트랜스폼 최소화)
 	D3DXMatrixIdentity(&m_matBillboardX);
 
 	m_matBillboardX._22 = m_matView._22;
@@ -130,6 +133,16 @@ HRESULT CCamera::Set_ViewSpace()
 	m_matBillboardX._33 = m_matView._33;
 
 	D3DXMatrixInverse(&m_matBillboardX, NULL, &m_matBillboardX);
+
+	// 뷰스페이스 설정 때 빌보드Y 행렬을 세팅해둔다 (셋트랜스폼 최소화)
+	D3DXMatrixIdentity(&m_matBillboardY);
+
+	m_matBillboardX._11 = m_matView._11;
+	m_matBillboardX._33 = m_matView._33;
+	m_matBillboardX._31 = m_matView._31;
+	m_matBillboardX._33 = m_matView._33;
+
+	D3DXMatrixInverse(&m_matBillboardY, NULL, &m_matBillboardY);
 
 	return S_OK;
 }

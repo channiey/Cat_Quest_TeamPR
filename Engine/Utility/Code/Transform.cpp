@@ -227,7 +227,7 @@ void CTransform::Cal_WorldMat()
 	if (nullptr != m_pOwnerObject && OBJ_TYPE::CAMERA != m_pOwnerObject->Get_Type() && OBJ_TYPE::TERRAIN != m_pOwnerObject->Get_Type())
 	{
 		_matrix matBill;
-		matS *= CCameraMgr::GetInstance()->Get_Billboard_X();
+		matS *= CCameraMgr::GetInstance()->Get_Billboard_X();// *CCameraMgr::GetInstance()->Get_Billboard_Y();
 
 		for (_int i = 0; i < INFO_POS; ++i)
 			memcpy(&m_matWorld.m[i], &matS.m[i], sizeof(_vec3));

@@ -81,6 +81,15 @@ const _matrix& CCameraMgr::Get_Billboard_X()
 	return m_pCurCamera->Get_CameraCom()->m_matBillboardX;
 }
 
+const _matrix& CCameraMgr::Get_Billboard_Y()
+{
+	NULL_CHECK_RETURN(m_pCurCamera, _matrix{});
+
+	NULL_CHECK_RETURN(m_pCurCamera->Get_CameraCom(), _matrix{});
+
+	return m_pCurCamera->Get_CameraCom()->m_matBillboardY;
+}
+
 const _matrix& CCameraMgr::Get_WorldMat()
 {
 	NULL_CHECK_RETURN(m_pCurCamera, _matrix{});

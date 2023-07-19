@@ -14,24 +14,15 @@
 
 #include "Transform.h"
 
-
-
 #include <iostream>
 
 IMPLEMENT_SINGLETON(CCollisionMgr)
-
-inline _float DotProduct(const _float v0[3], const _float v1[3])
-{
-	return v0[0] * v1[0] + v0[1] * v1[1] + v0[2] * v1[2];
-}
-
 
 typedef		multimap<const _tchar*, CGameObject*>	_mapObj;
 typedef		_mapObj::iterator					_iter;
 
 CCollisionMgr::CCollisionMgr()
 {
-
 }
 
 CCollisionMgr::~CCollisionMgr()
@@ -70,50 +61,6 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 				Set_Info(iter, pCol1, pCol2);
 
 				if (Check_Rect(pObj1, pObj2)) // 충돌
-				{
-					if (iter->second) // 이전에도 충돌
-					{
-						if (!pObj1->Is_Active() || !pObj2->Is_Active()) // 둘 중 하나 삭제 예정
-						{
-							pCol1->OnCollision_Exit(pObj2);
-							pCol2->OnCollision_Exit(pObj1);
-							iter->second = false;
-						}
-						else // 삭제 예정 없음
-						{
-							pCol1->OnCollision_Stay(pObj2);
-							pCol2->OnCollision_Stay(pObj1);
-						}
-					}
-					else // 이번에 충돌
-					{
-						if (pObj1->Is_Active() && pObj2->Is_Active()) // 둘다 삭제될 예정이 아닐 때만 충돌 처리
-						{
-							pCol1->OnCollision_Enter(pObj2);
-							pCol2->OnCollision_Enter(pObj1);
-							iter->second = true;
-						}
-					}
-				}
-				else // 충돌 X
-				{
-					if (iter->second) // 이전에 충돌
-					{
-						pCol1->OnCollision_Exit(pObj2);
-						pCol2->OnCollision_Exit(pObj1);
-						iter->second = false;
-					}
-				}
-			}
-			else if (COL_TYPE::RECT == _eColType1 && COL_TYPE::CIRCLE == _eColType2) // 렉트 vs 원
-			{
-				pCol1 = pObj1->Get_Collider();
-				pCol2 = pObj2->Get_Collider();
-
-				if (nullptr == pCol1 || nullptr == pCol2) continue;
-				Set_Info(iter, pCol1, pCol2);
-
-				if (Check_Rect_Circle(pObj1, pObj2)) // 충돌
 				{
 					if (iter->second) // 이전에도 충돌
 					{

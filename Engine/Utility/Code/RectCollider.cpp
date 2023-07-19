@@ -25,7 +25,7 @@ CRectCollider::CRectCollider(const CRectCollider& rhs, CGameObject* _pOwnerObjec
 	m_vSize = m_pOwnerObject->Get_Transform()->Get_Scale();
 
 	D3DXCreateBox(m_pGraphicDev, m_vSize.x, m_vSize.y, 0.f, &m_pMesh, NULL);
-	NULL_CHECK_MSG(m_pMesh, L"Failed Create Box Mesh");
+	NULL_CHECK_MSG(m_pMesh, L"Failed Create Rect Mesh");
 }
 
 CRectCollider::~CRectCollider()
@@ -76,4 +76,19 @@ void CRectCollider::Render_Collider()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
+}
+
+void CRectCollider::Set_Size(const _vec3& _vSize)
+{
+	m_vSize = _vSize;
+
+	if (m_bClone)
+	{
+		if (nullptr != m_pMesh)
+			Safe_Release(m_pMesh);
+	}
+
+	D3DXCreateBox(m_pGraphicDev, m_vSize.x, m_vSize.y, 0.f, &m_pMesh, NULL);
+
+	NULL_CHECK_MSG(m_pMesh, L"Failed Create Rect Mesh");
 }
