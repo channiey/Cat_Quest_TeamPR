@@ -191,16 +191,16 @@ HRESULT CPlayer::Ready_Object()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
 	m_arrSkillSlot[2] = m_arrEffect[_uint(SKILL_TYPE::FREEZING)];
 
-	/*m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
+	m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::BEAM)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Beam", m_arrEffect[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];*/
+	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];
 
 
-	m_arrEffect[_uint(SKILL_TYPE::HEAL)] = CEffect_Heal::Create(m_pGraphicDev, this);
+	/*m_arrEffect[_uint(SKILL_TYPE::HEAL)] = CEffect_Heal::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::HEAL)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Heal", m_arrEffect[_uint(SKILL_TYPE::HEAL)]), E_FAIL);
-	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::HEAL)];
+	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::HEAL)];*/
 
 #pragma endregion
 
@@ -826,32 +826,32 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
 		return;
 
-	_vec3 vvDir = vDir;
-	D3DXVec3Normalize(&vvDir, &vDir);
+	_vec3 vDirA;
+	D3DXVec3Normalize(&vDirA, &vDir);
 
-	_float horizontalX = vvDir.x;
-	_float horizontalZ = vvDir.z;
+	_float horizontalX = vDirA.x;
+	_float horizontalZ = vDirA.z;
 
 	_vec3 resultDir;
 
-	if (horizontalX >= 0.5f && horizontalZ >= 0.5f)
+	if (horizontalX > 0.f && horizontalX <= 1.f && horizontalZ > 0.f && horizontalZ <= 1.f)
 		resultDir = (_vec3(1.f, 0.f, 1.f)); // 오른쪽 뒤 대각선
-	else if (horizontalX >= 0.5f && horizontalZ <= -0.5f)
+	else if (horizontalX >= 0.f && horizontalX < 1.f && horizontalZ < -0.f && horizontalZ <= -1.f)
 		resultDir = (_vec3(1.f, 0.f, -1.f)); // 오른쪽 앞 대각선
-	else if (horizontalX <= -0.5f && horizontalZ >= 0.5f)
+	else if (horizontalX < -0.f && horizontalX <= -1.f && horizontalZ > 0.f && horizontalZ <= 1.f)
 		resultDir = (_vec3(-1.f, 0.f, 1.f)); // 왼쪽 뒤 대각선
-	else if (horizontalX <= -0.5f && horizontalZ <= -0.5f)
+	else if (horizontalX < -0.f && horizontalX <= -1.f && horizontalZ < -0.f && horizontalZ <= -1.f)
 		resultDir = (_vec3(-1.f, 0.f, -1.f)); // 왼쪽 앞 대각선
-	else if (horizontalX >= 0.5f)
+	else if (horizontalX >= 0.f)
 		resultDir = (_vec3(1.f, 0.f, 0.f)); // 오른쪽
-	else if (horizontalX <= -0.5f)
+	else if (horizontalX <= -0.f)
 		resultDir = (_vec3(-1.f, 0.f, 0.f)); // 왼쪽
-	else if (horizontalZ >= 0.5f)
+	else if (horizontalZ >= 0.f)
 		resultDir = (_vec3(0.f, 0.f, 1.f)); // 뒤쪽
-	else if (horizontalZ <= -0.5f)
+	else if (horizontalZ <= -0.f)
 		resultDir = (_vec3(0.f, 0.f, -1.f)); // 앞쪽
 	else
-		resultDir = (_vec3(vvDir.x, 0.f, vvDir.z));
+		resultDir = (_vec3(vDirA.x, 0.f, vDirA.z));
 
 	m_pTransformCom->Set_Dir(resultDir);
 	
