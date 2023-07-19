@@ -12,7 +12,7 @@ private:
 	virtual ~CQuestMgr();
 
 public:
-	void	Init();
+	void	Init(LPDIRECT3DDEVICE9 m_pGraphicDev);
 	void	Update(LPDIRECT3DDEVICE9 pGraphicDev);
 
 public:

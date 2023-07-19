@@ -78,7 +78,6 @@ public:
 
 #pragma endregion
 
-
 protected:
 
 	STATINFO				m_tStatInfo;    // Item Info

@@ -146,7 +146,7 @@ HRESULT CScene_World::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 	CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
-	CQuestMgr::GetInstance()->Init(); // 퀘스트 매니저 초기화
+	CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
@@ -383,12 +383,6 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
 
-	// UI - Dialog
-	/*pGameObject = CDialogUI::Create(m_pGraphicDev, OBJ_ID::NPC_KING
-		, L"그대 기억이 지난 사랑이 내안을 파고드는 가시가 되어");
-	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Dialog", pGameObject), E_FAIL);*/
-
 	// UI - Inventroy
 	pGameObject = CInventory::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -564,29 +558,30 @@ HRESULT CScene_World::Ready_Layer_KSH()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
+
+
 	//pGameObject = CHedgehog::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
 	// Warrior
-	pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_WarriorWeapon", pGameObject), E_FAIL);
-
-	// Mage
-	pGameObject = CMageWeapon::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_MageWeapon", pGameObject), E_FAIL);
-
-	// Ninja
-	pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_NinjaeWeapon", pGameObject), E_FAIL);
+	// pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_WarriorWeapon", pGameObject), E_FAIL);
+	// 
+	// // Mage
+	// pGameObject = CMageWeapon::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_MageWeapon", pGameObject), E_FAIL);
+	// 
+	// // Ninja
+	// pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_NinjaeWeapon", pGameObject), E_FAIL);
 
 	// MageNpc
 	pGameObject = CNpc_Mage::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage", pGameObject), E_FAIL);
-
 
 	return S_OK;
 }

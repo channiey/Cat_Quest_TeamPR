@@ -43,6 +43,8 @@
 #include "RangeObj.h"
 #include "EventMgr.h"
 
+#include "Inventory.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
 	, m_pStateMachineCom(nullptr)
@@ -85,6 +87,7 @@ HRESULT CPlayer::Ready_Object()
 	m_pMonTarget = nullptr;
 
 	m_bIsTalking = false;
+	m_pInven = nullptr;
 
 	for (size_t i = 0; i < 4; ++i)
 	{
@@ -233,6 +236,12 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
+	if (!m_pInven)
+	{
+		m_pInven = CManagement::GetInstance()->
+			Get_GameObject(OBJ_TYPE::UI, L"UI_Inventory");
+	}
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);

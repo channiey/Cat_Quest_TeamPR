@@ -1,12 +1,16 @@
 #include "Inventory.h"
 #include "Export_Function.h"
 
+#include "Item_Weapon.h"
+#include "WarriorWeapon.h"
+#include "MageWeapon.h"
+#include "NinjaWeapon.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
 	, m_bIsOn(false)
-
 {
+	m_pPlayer = nullptr;
 }
 
 CInventory::CInventory(const CInventory& rhs)
@@ -22,10 +26,26 @@ HRESULT CInventory::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
 
 	m_bShirnk = true;
+
+	//CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Inven_WarriorWeapon", pGameObject);
+	//m_vecItem.push_back(pGameObject);
+	//
+	//pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Inven_NinjaWeapon", pGameObject);
+	//m_vecItem.push_back(pGameObject);
+	//
+	//pGameObject = CMageWeapon::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Inven_MageWeapon", pGameObject);
+	//m_vecItem.push_back(pGameObject);
+
+
+
 
 
 
@@ -165,6 +185,12 @@ HRESULT CInventory::Ready_Object()
 
 _int CInventory::Update_Object(const _float& fTimeDelta)
 {
+	if (!m_pPlayer)
+	{
+		m_pPlayer = CManagement::GetInstance()->
+			Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
+	}
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Key_Input();
@@ -186,6 +212,14 @@ void CInventory::Render_Object()
 
 	if (m_bIsOn)
 	{
+		for (_int i = 0; i < m_vecItem.size(); ++i)
+		{
+			dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Set_InvenTrans(
+				m_matInventoryWolrd[INVEN_BUTTON1 + i]._41,
+				m_matInventoryWolrd[INVEN_BUTTON1 + i]._42
+			);
+		}
+
 		// BackGround
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(240, 255, 255, 255));
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -246,103 +280,16 @@ void CInventory::Render_Object()
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 
-		// 1 Line
-		// Button 1
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON1]);
-		m_pInventoryTexCom[INVEN_BUTTON1]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-	
-		// Button 2
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON2]);
-		m_pInventoryTexCom[INVEN_BUTTON2]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 3
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON3]);
-		m_pInventoryTexCom[INVEN_BUTTON3]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-		// Button 4
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON4]);
-		m_pInventoryTexCom[INVEN_BUTTON4]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-		// 2 Line
-		// Button 5
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON5]);
-		m_pInventoryTexCom[INVEN_BUTTON5]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 6
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON6]);
-		m_pInventoryTexCom[INVEN_BUTTON6]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 7
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON7]);
-		m_pInventoryTexCom[INVEN_BUTTON7]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 8
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON8]);
-		m_pInventoryTexCom[INVEN_BUTTON8]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// 3 Line 
-		// Button 9
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON9]);
-		m_pInventoryTexCom[INVEN_BUTTON9]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 10
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON10]);
-		m_pInventoryTexCom[INVEN_BUTTON10]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 11
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON11]);
-		m_pInventoryTexCom[INVEN_BUTTON11]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
-		// Button 12
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON12]);
-		m_pInventoryTexCom[INVEN_BUTTON12]->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-
+		// Button 
+		for (_int i = 0; i < INVEN_BUTTON12 - 2; ++i)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_BUTTON1 + i]);
+			m_pInventoryTexCom[INVEN_BUTTON1 + i]->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
+		
 		//// Sort Button
 		//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_SORTBUTTON]);
@@ -409,70 +356,14 @@ HRESULT CInventory::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 	
-	// 1 Line
-	// UI - Button1
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON1] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	// UI - Button
+	for (_int i = 0; i < INVEN_BUTTON12 - 2; ++i)
+	{
+		pComponent = m_pInventoryTexCom[INVEN_BUTTON1 + i] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	// UI - Button2
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON2] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// UI - Button3
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON3] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// UI - Button4
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON4] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// 2 Line
-	// UI - Button5
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON5] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// UI - Button6
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON6] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-
-	// UI - Button7
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON7] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// UI - Button8
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON8] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// 3 Line
-	// UI - Button9
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON9] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-	
-	// UI - Button10
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON10] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// UI - Button11
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON11] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	// UI - Button12
-	pComponent = m_pInventoryTexCom[INVEN_BUTTON12] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_blank", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
+	}
 
 	// UI - Sort button 
 	pComponent = m_pInventoryTexCom[INVEN_SORTBUTTON] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_Plain", this));
@@ -480,10 +371,6 @@ HRESULT CInventory::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 #pragma endregion
-
-
-
-
 
 	return S_OK;
 }

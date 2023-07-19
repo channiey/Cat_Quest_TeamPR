@@ -18,9 +18,9 @@ CQuestMgr::~CQuestMgr()
 	Free();
 }
 
-void CQuestMgr::Init()
+void CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev)
 {
-	m_mapQuestList.insert(make_pair(10, new CQuest1(L"µàÅä¸®¾ó")));
+	m_mapQuestList.insert(make_pair(10, new CQuest1(L"µàÅä¸®¾ó", m_pGraphicDev)));
 
 	m_iQuestID = 10;
 }

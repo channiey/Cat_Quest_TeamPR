@@ -16,7 +16,7 @@ class CInventory : public CUI   // 뷰포트 사용 | 피킹이 가능한 형태의 UI 입니다
 {
 protected:
 
-	explicit CInventory(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CInventory(LPDIRECT3DDEVICE9 pGraphicDevr);
 	explicit CInventory(const CInventory& rhs);
 	virtual ~CInventory();
 
@@ -28,8 +28,11 @@ public:
 	virtual void			Render_Object() override;
 
 public:
-	void					Add_Item(CGameObject* _pItem) { m_vecInven.push_back(_pItem); }
+	void					Set_Player(CGameObject* _pPlayer) { m_pPlayer = _pPlayer; }
 
+	// Set
+	void					Add_Item(CGameObject* _pItem) { m_vecItem.push_back(_pItem); }
+	// Get
 protected:
 	virtual HRESULT			Add_Component();
 	void					Picking_UI();
@@ -39,7 +42,7 @@ protected:
 
 
 private:
-
+	CGameObject*			m_pPlayer;	
 
 	CTexture*				m_pInventoryTexCom[INVENTORYID_END];
 	CTransform*				m_pInventortyTransCom[INVENTORYID_END];
@@ -52,7 +55,7 @@ private:
 
 	_matrix                 m_matInventoryWolrd[INVENTORYID_END];
 
-	vector<CGameObject*>	m_vecInven;
+	vector<CGameObject*>	m_vecItem;
 
 public: 
 

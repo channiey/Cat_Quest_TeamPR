@@ -293,12 +293,12 @@ void CDialogUI::Typing_Effect(const _float& fTimeDelta)
 
 	m_fAcc += fTimeDelta;
 
-	if (0.08f < m_fAcc)
+	if (0.04f < m_fAcc)
 	{
 		m_strTyping += m_strDialog[m_iTextCnt];
 		m_iTextCnt++;
 
-		m_fAcc = m_fAcc - 0.08f;
+		m_fAcc = m_fAcc - 0.04f;
 	}
 }
 
