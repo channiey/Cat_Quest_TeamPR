@@ -30,7 +30,7 @@ HRESULT CNpc_Mage::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	m_pTransformCom->Set_Pos(_vec3{ 75.f, m_pTransformCom->Get_Scale().y + 1.f, 110.f });
+	m_pTransformCom->Set_Pos(_vec3{ 200.f, m_pTransformCom->Get_Scale().y + 1.f, 290.f });
 	m_pTransformCom->Set_Scale(_vec3{ 2.5f, 2.5f, 2.5f });
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)

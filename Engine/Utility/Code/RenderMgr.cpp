@@ -164,6 +164,11 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 		if (UI_LAYER::LV1 == iter->Get_LayerLv())
 			iter->Render_Object();
 	}
+	for (auto iter : m_RenderGroup[RENDER_VIEWUI])
+	{
+		if (UI_LAYER::LV2 == iter->Get_LayerLv())
+			iter->Render_Object();
+	}
 		
 	// 다시 원래 행렬 정보 복구
 	pGraphicDev->SetViewport(&BackUpViewPort);                   // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.

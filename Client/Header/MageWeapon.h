@@ -23,8 +23,6 @@ public:
 private:
 	HRESULT					Add_Component();
 
-
-
 public:
 	static				CMageWeapon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

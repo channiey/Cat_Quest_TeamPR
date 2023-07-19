@@ -21,6 +21,14 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	virtual void			Set_InvenTrans(_float _fPosX, _float _fPosY)
+	{
+		m_ItemMatWorld._11 = 58.f * 0.3f;
+		m_ItemMatWorld._22 = 118.f * 0.3f;
+		m_ItemMatWorld._41 = _fPosX;
+		m_ItemMatWorld._42 = _fPosY;
+	}
 
 private:
 	HRESULT					Add_Component();
@@ -28,7 +36,7 @@ private:
 protected:
 	
 	STATINFO				m_eItemInfo;
-
+	_matrix					m_ItemMatWorld;
 
 protected:
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Inventory.h"
 
 class CRangeObj;
 
@@ -136,6 +137,9 @@ public:
 	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
 	void				Set_PlayerTalk(const _bool& bTalk)	 { m_bIsTalking = bTalk; }
 
+	// 인벤토리
+	void				Set_Inventory(CGameObject* _pInven) { m_pInven = _pInven; }
+	CGameObject*		Get_Inventory() { return m_pInven; }
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
@@ -184,7 +188,8 @@ private:
 	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active로 상황에 맞게 껐다 켰다
 	// >> :
 
-
+	// 인벤토리
+	CGameObject* m_pInven;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
