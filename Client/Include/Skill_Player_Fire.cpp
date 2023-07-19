@@ -37,11 +37,8 @@ HRESULT CSkill_Player_Fire::Ready_Object()
 
     m_bActive = false;
 
-<<<<<<< HEAD
-    m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f });
-=======
+    //m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f });
     m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
->>>>>>> origin/feature/Lee
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
