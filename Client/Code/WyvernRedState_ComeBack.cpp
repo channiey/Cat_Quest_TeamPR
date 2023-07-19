@@ -84,12 +84,7 @@ STATE_TYPE CWyvernRedState_ComeBack::Update_State(const _float& fTimeDelta)
     // back comback - Patrol - CHASE - ATTACK
 
 
-    //// BACK_COMEBACK 전이 조건
-    //if (vOwnerDir.z > 0)
-    //{
-    //  //  cout << "Back comeback 전이" << endl;
-    //    return STATE_TYPE::BACK_COMEBACK;
-    //}
+ 
 
 
     // PATROL 전이 조건
@@ -140,6 +135,13 @@ STATE_TYPE CWyvernRedState_ComeBack::Update_State(const _float& fTimeDelta)
         //    pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_MONATTACK;
         }
+    }
+
+    // BACK_COMEBACK 전이 조건
+    if (vOwnerDir.z > 0)
+    {
+        //  cout << "Back comeback 전이" << endl;
+        return STATE_TYPE::BACK_COMEBACK;
     }
 
     // Default

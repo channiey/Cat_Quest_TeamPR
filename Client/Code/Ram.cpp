@@ -224,16 +224,23 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	m_fAccTime += fTimeDelta;
-
-	if (m_fAccTime >= 2.f)
+	// Skill Use
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	if (STATE_TYPE::BACK_MONATTACK == CurState ||
+		STATE_TYPE::MONATTACK == CurState ||
+		STATE_TYPE::CHASE == CurState||
+		STATE_TYPE::BACK_CHASE == CurState)
 	{
-		m_fAccTime = 0.f;
+		m_fAccTime += fTimeDelta;
 
-		m_pSkill->Play();
-		m_bSkill = true;
-
+		if (m_fAccTime >= 2.f)
+		{
+			m_fAccTime = 0.f;
+			m_pSkill->Play();
+			m_bSkill = true;
+		}
 	}
+
 
 
 
@@ -268,7 +275,6 @@ void CRam::Render_Object()
 
 	m_pGraphicDev->SetTexture(0, NULL);
 
-	__super::Render_Object();
 
 	// 원래 색상 상태로 돌리기 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));

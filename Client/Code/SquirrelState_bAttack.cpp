@@ -1,29 +1,26 @@
-#include "WyvernRedState_bRest.h"
+#include "SquirrelState_bAttack.h"
 #include "Export_Function.h"
 
 
-CWyvernRedState_bRest::CWyvernRedState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
+CSquirrelState_bAttack::CSquirrelState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
-    , m_fChaseRange(0.f)
-    , m_fComeBackRange(0.f)
-    , m_fPatrolRange(0.f)
-    , m_fPlayerTargetRange(0.f)
-    , m_fAttackRange(0.f)
 {
 }
 
-CWyvernRedState_bRest::~CWyvernRedState_bRest()
+CSquirrelState_bAttack::~CSquirrelState_bAttack()
 {
 }
 
-HRESULT CWyvernRedState_bRest::Ready_State(CStateMachine* pOwner)
+HRESULT CSquirrelState_bAttack::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
     m_eState = STATE_TYPE::BACK_MONATTACK;
+
+
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 1.f;  // Patrol 전이
@@ -33,12 +30,12 @@ HRESULT CWyvernRedState_bRest::Ready_State(CStateMachine* pOwner)
     m_fAttackRange = 3.f;  // Attack 전이
 
     m_fAccTime = 0.f;
+
     return S_OK;
 }
 
-STATE_TYPE CWyvernRedState_bRest::Update_State(const _float& fTimeDelta)
+STATE_TYPE CSquirrelState_bAttack::Update_State(const _float& fTimeDelta)
 {
-
     //Monster - Ainmator Com
     CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
 
@@ -47,9 +44,9 @@ STATE_TYPE CWyvernRedState_bRest::Update_State(const _float& fTimeDelta)
     //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
 
-
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -80,106 +77,85 @@ STATE_TYPE CWyvernRedState_bRest::Update_State(const _float& fTimeDelta)
 
 
 
-   // 현재 상태의 기능
-   /* pOwnerTransform->Set_Dir(vec3.zero);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
+     // 현재 상태의 기능
+    if (fPlayerDistance <= 4.f)
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
 
-
-  
 
 #pragma region State Change
+      
+    //m_fAccTime += fTimeDelta;
 
-  
-   
-    //// BACK_ MONREST 전이
-    //if (vOwnerDir.z > 0)
+    //if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     //{
-    //    // cout <<  "back monattack 전이" << endl;
-    //    return STATE_TYPE::MONREST;
-    //}
-    // 
-    // 
-    m_fAccTime += fTimeDelta;
-
-    if (m_fAccTime >= 1.5f)
-    {
-        m_fAccTime = 0.f;
-        // Attack 전이 조건
-        if (fPlayerDistance <= m_fAttackRange)
-        {
-            m_fAccTime = 0.f;
-            //cout << "attack 전이" << endl;
-            //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::BACK_MONATTACK;
-        }
-         
         // CHASE 전이 조건
-        if (fPlayerDistance <= m_fChaseRange)
-        {
-            m_fAccTime = 0.f;
-            // cout << "chase  전이" << endl;
-            // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::BACK_CHASE;
-        }
-        // PATROL 전이 조건
-        if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
+        if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
         {
             if (vOwnerDir.z < 0)
             {
-                //  cout << "patrol 전이" << endl;
-                //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::PATROL;
+                // cout << "Chase 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::CHASE;
             }
             else
             {
-                //  cout << "Back patrol 전이" << endl;
-                //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_PATROL;
+                // cout << "Back Chase 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_CHASE;
             }
+        }
 
-        }
         // COMEBACK 전이 조건
-        if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
+        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
         {
-            m_fAccTime = 0.f;
-            // cout << "COMBACK  전이" << endl;
-             //pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::BACK_COMEBACK;
+            if (vOwnerDir.z < 0)
+            {
+                // cout << "comback 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::COMEBACK;
+            }
+            else
+            {
+                // cout << "back comback 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_COMEBACK;
+            }
         }
-     
-    }
-    return STATE_TYPE::BACK_MONREST;
+    //}
+
+    return STATE_TYPE::BACK_MONATTACK;
 
 
 #pragma endregion
-
-  
+   
 }
 
-void CWyvernRedState_bRest::LateUpdate_State()
+void CSquirrelState_bAttack::LateUpdate_State()
 {
 
 }
 
-void CWyvernRedState_bRest::Render_State()
+void CSquirrelState_bAttack::Render_State()
 {
     
 }
 
-STATE_TYPE CWyvernRedState_bRest::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CSquirrelState_bAttack::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CWyvernRedState_bRest* CWyvernRedState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CSquirrelState_bAttack* CSquirrelState_bAttack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CWyvernRedState_bRest* pInstance = new CWyvernRedState_bRest(pGraphicDev);
+    CSquirrelState_bAttack* pInstance = new CSquirrelState_bAttack(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Bat State Attack Create Failed");
+        MSG_BOX("BatState Attack Create Failed");
         return nullptr;
 
     }
@@ -187,7 +163,7 @@ CWyvernRedState_bRest* CWyvernRedState_bRest::Create(LPDIRECT3DDEVICE9 pGraphicD
     return pInstance;
 }
 
-void CWyvernRedState_bRest::Free()
+void CSquirrelState_bAttack::Free()
 {
     __super::Free();
 }

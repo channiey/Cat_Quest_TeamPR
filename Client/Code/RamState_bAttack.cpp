@@ -29,7 +29,7 @@ HRESULT CRamState_bAttack::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
-
+    m_fAccTime = 0.f;
 
     return S_OK;
 }

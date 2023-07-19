@@ -70,6 +70,7 @@ HRESULT CWyvern::Ready_Object()
 	m_fJumpingSpeed = 0.05;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
+
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
@@ -203,7 +204,6 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 
 
 	// Jumping 
-
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	float Y = m_pTransformCom->Get_Scale().y;
 	STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
@@ -220,15 +220,21 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	m_fAccTime += fTimeDelta;
-
-	if (m_fAccTime >= 2.f)
+	// Skill Use
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	if (STATE_TYPE::BACK_MONATTACK == CurState ||
+		STATE_TYPE::MONATTACK == CurState ||
+		STATE_TYPE::CHASE == CurState ||
+		STATE_TYPE::BACK_CHASE == CurState)
 	{
-		m_fAccTime = 0.f;
+		m_fAccTime += fTimeDelta;
 
-		m_pSkill->Play();
-		m_bSkill = true;
-
+		if (m_fAccTime >= 2.f)
+		{
+			m_fAccTime = 0.f;
+			m_pSkill->Play();
+			m_bSkill = true;
+		}
 	}
 
 	

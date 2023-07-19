@@ -85,13 +85,7 @@ STATE_TYPE CRamState_bComeBack::Update_State(const _float& fTimeDelta)
     // BACK_COMBACK 우선순위
     // comback - Patrol - CHASE - ATTACK
 
-    //// COMEBACK 전이 조건
-    //if (vOwnerDir.z < 0)
-    //{
-    //    //cout << "comeback 전이" << endl;
-    //    return STATE_TYPE::COMEBACK;
-    //}
-
+ 
 
     // PATROL 전이 조건
     if (fOriginDistance <= m_fPatrolRange)
@@ -142,6 +136,14 @@ STATE_TYPE CRamState_bComeBack::Update_State(const _float& fTimeDelta)
             return STATE_TYPE::BACK_MONATTACK;
         }
     }
+
+    // COMEBACK 전이 조건
+    if (vOwnerDir.z < 0)
+    {
+        //cout << "comeback 전이" << endl;
+        return STATE_TYPE::COMEBACK;
+    }
+
 
     // Default
     return STATE_TYPE::BACK_COMEBACK;

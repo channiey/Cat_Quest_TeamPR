@@ -1,8 +1,8 @@
-#include "FoxState_Patrol.h"
+#include "FoxState_bPatrol.h"
 #include "Export_Function.h"
 
 
-CFoxState_Patrol::CFoxState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CFoxState_bPatrol::CFoxState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -13,18 +13,18 @@ CFoxState_Patrol::CFoxState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-CFoxState_Patrol::~CFoxState_Patrol()
+CFoxState_bPatrol::~CFoxState_bPatrol()
 {
 }
 
-HRESULT CFoxState_Patrol::Ready_State(CStateMachine* pOwner)
+HRESULT CFoxState_bPatrol::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::PATROL;
-    
+    m_eState = STATE_TYPE::BACK_PATROL;
+
     // 상태에 전이 조건 수치
     m_fPatrolRange = 1.f;  // Patrol 전이
     m_fChaseRange = 10.f; // Chase 전이
@@ -32,11 +32,10 @@ HRESULT CFoxState_Patrol::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
-
     return S_OK;
 }
 
-STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CFoxState_bPatrol::Update_State(const _float& fTimeDelta)
 {
     // Monster - Ai Com
     //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
@@ -44,6 +43,7 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
 
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -59,9 +59,10 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     // Monster - PatternTime
     _float      vOwnerPatternTime = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_PatternTime();
     // Monster - Scale
-    _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
+    _vec3 vOwnerScale = pOwnerTransform->Get_Scale();
     // Monster - Dir
     _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
+
 
     // Player - Pos
     _vec3       vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
@@ -74,7 +75,6 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     // Distance
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
-
 
 
 
@@ -92,15 +92,15 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
 
 
 #pragma region State Change 
-    // PATROL 우선순위
-    // Back Patrol - Chase - Comeback - Attack
+    // BACKPATROL 우선순위
+    // Patrol - Chase - Comeback - Attack
 
 
-   // BACK Patrol 전이 조건
-    if (vOwnerDir.z > 0)
+   // Patrol 전이 조건
+    if (vOwnerDir.z < 0)
     {
-        //cout << "Back patrol 전이" << endl;
-        return STATE_TYPE::BACK_PATROL;
+       // cout << "patrol 전이" << endl;
+        return STATE_TYPE::PATROL;
     }
 
 
@@ -109,14 +109,14 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     {
         if (vOwnerDir.z < 0)
         {
-            // cout << "Chase 전이" << endl;
-            // pOwnerTransform->Set_Dir(vec3.zero);
+          //  cout << "Chase 전이" << endl;
+         //   pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::CHASE;
         }
         else
         {
-            // cout << "Back Chase 전이" << endl;
-           //  pOwnerTransform->Set_Dir(vec3.zero);
+         //   cout << "Back Chase 전이" << endl;
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_CHASE;
         }
     }
@@ -126,14 +126,14 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     {
         if (vOwnerDir.z < 0)
         {
-            // cout << "comback 전이" << endl;
-            // pOwnerTransform->Set_Dir(vec3.zero);
+          //  cout << "comback 전이" << endl;
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::COMEBACK;
         }
         else
         {
-            // cout << "back comback 전이" << endl;
-            // pOwnerTransform->Set_Dir(vec3.zero);
+          //  cout << "back comback 전이" << endl;
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_COMEBACK;
         }
     }
@@ -143,52 +143,51 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     {
         if (vOwnerDir.z < 0)
         {
-            // cout << "attack 전이" << endl;
-            // pOwnerTransform->Set_Dir(vec3.zero);
+          //  cout << "attack 전이" << endl;
+          //  pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::MONATTACK;
         }
         else
         {
-            // cout << "back attack 전이" << endl;
-           //  pOwnerTransform->Set_Dir(vec3.zero);
+         //   cout << "back attack 전이" << endl;
+         //   pOwnerTransform->Set_Dir(vec3.zero);
             return STATE_TYPE::BACK_MONATTACK;
         }
     }
 
     // Default
-    return STATE_TYPE::PATROL;
+    return STATE_TYPE::BACK_PATROL;
 
 #pragma endregion
-
 
 
   
 }
 
-void CFoxState_Patrol::LateUpdate_State()
+void CFoxState_bPatrol::LateUpdate_State()
 {
 
 }
 
-void CFoxState_Patrol::Render_State()
+void CFoxState_bPatrol::Render_State()
 {
     
 }
 
-STATE_TYPE CFoxState_Patrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CFoxState_bPatrol::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CFoxState_Patrol* CFoxState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
-{
-    CFoxState_Patrol* pInstance = new CFoxState_Patrol(pGraphicDev);
+CFoxState_bPatrol* CFoxState_bPatrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+ {
+    CFoxState_bPatrol* pInstance = new CFoxState_bPatrol(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("FoxState Patrol Create Failed");
+        MSG_BOX("Bat Patrol Create Failed");
         return nullptr;
 
     }
@@ -196,7 +195,7 @@ CFoxState_Patrol* CFoxState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CState
     return pInstance;
 }
 
-void CFoxState_Patrol::Free()
+void CFoxState_bPatrol::Free()
 {
     __super::Free();
 }
