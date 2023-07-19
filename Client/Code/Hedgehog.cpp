@@ -216,10 +216,6 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	// Skill 
-	//m_pSkill->Play();
-
-
 
 
 

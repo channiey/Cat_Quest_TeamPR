@@ -27,8 +27,7 @@
 class CSkillEffect;
 class CEffect_Range_Quater;
 
-class CSkill :
-    public CGameObject
+class CSkill : public CGameObject
 {
 protected:
 	explicit CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
@@ -65,9 +64,6 @@ protected:
 	CSkillEffect*			m_pSKillEffect; // 빔이나 불 같은 스킬
 	CEffect_Range_Quater*	m_pRangeEffect; // 스킬 아래 깔리는 장판
 
-	_float					m_fSkillDamage;
-	_float					m_fSkiilUsage;
-	
 	_float					m_fSkillDemage;
 	_float					m_fSkillUsage;
 

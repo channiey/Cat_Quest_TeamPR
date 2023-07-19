@@ -9,6 +9,8 @@ class CCollider;
 
 END
 
+class CSkill_Monster_Fire;
+
 class CFox : public CMonster
 {
 
@@ -37,7 +39,10 @@ private:
 
 public:
 	static				CFox* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	
+
+private:
+	CSkill_Monster_Fire*    m_pSkill;
+	_float				m_fAccTime;
 
 protected:
 	virtual void		Free() override;

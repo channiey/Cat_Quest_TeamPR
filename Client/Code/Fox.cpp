@@ -8,6 +8,7 @@
 #include "FoxState_Attack.h"
 
 #include "Shadow_Monster.h"
+#include "Skill_Monster_Fire.h"
 
 CFox::CFox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_FOX)
@@ -50,7 +51,7 @@ HRESULT CFox::Ready_Object()
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f , m_vImageSize.y *2.5f, m_vImageSize.z });
 
-	m_pTransformCom->Set_Pos(_vec3{ 130.f, m_pTransformCom->Get_Scale().y, 110.f });
+	m_pTransformCom->Set_Pos(_vec3{ 230.f, m_pTransformCom->Get_Scale().y, 182.f });
 
 	m_pTransformCom->Set_Dir({ 1.42f, 0.f, 1.38f });
 
@@ -61,8 +62,14 @@ HRESULT CFox::Ready_Object()
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
+
+	m_fAccTime = 2.f;
+
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+
+	// 스킬 생성
+	// CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Skill_Fox", CSkill_Monster_Fire::Create(m_pGraphicDev, this));
 
 #pragma region State Add
 
@@ -91,6 +98,8 @@ HRESULT CFox::Ready_Object()
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 	m_szName = L"Monster_Fox";
+
+	
 
 	return S_OK;
 }
@@ -121,6 +130,21 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	}
 
 
+
+	//m_fAccTime += fTimeDelta;
+
+
+	//if (m_fAccTime >= 2.f)
+	//{		
+	//	m_fAccTime = 0.f;
+	//	
+	//}
+	//
+	//if (m_pSkill->Get_Animator()->Get_CurAniamtion()->Is_End())
+	//{
+	//
+	//}
+	
 	
 	
 
