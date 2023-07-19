@@ -6,8 +6,7 @@
 // 터레인
 #include "TerrainWorld.h"
 #include "TerrainTool.h"
-#include "TerrainIceWorld.h"
-#include "TerrainIceDungeon.h"
+#include "Terrain_Dungeon.h"
 
 // 빌딩(집)
 #include "House1.h"
@@ -190,15 +189,15 @@ HRESULT CScene_Tool::Ready_Layer_Terrain()
 
 	 pGameObject = CTerrainWorld::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld", pGameObject), E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain_World", pGameObject), E_FAIL);
 
-	 pGameObject = CTerrainIceWorld::Create(m_pGraphicDev);
+	pGameObject = CTerrainDungeon::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainWorld_Ice", pGameObject), E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain_Dungeon", pGameObject), E_FAIL);
 
-	 pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
+	 /* pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TerrainDungeon_Ice", pGameObject), E_FAIL);*/
 
 	return S_OK;
 }

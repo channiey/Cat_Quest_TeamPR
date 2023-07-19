@@ -23,6 +23,10 @@ public:
 private:
 	_uint						Loading_For_ComponentAndTexture();
 
+	_uint						Loading_For_World() {};
+	_uint						Loading_For_Dungeon() {};
+
+
 	_uint						Loading_For_Level_1() {}
 	_uint						Loading_For_Level_2() {}
 	_uint						Loading_For_Level_3() {}

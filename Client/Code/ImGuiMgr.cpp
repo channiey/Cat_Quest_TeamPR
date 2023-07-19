@@ -29,6 +29,8 @@
 // Environment
 #include "Terrain.h"
 #include "TerrainWorld.h"
+#include "Terrain_Dungeon.h"
+
 #include "Bush.h"
 #include "Mountain.h"
 #include "Dungeon.h"
@@ -151,7 +153,7 @@
 
 
 TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Dynamic_Obj.dat";
-TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test.dat";
+TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test_000.dat";
 
 #pragma region Global
 
@@ -246,7 +248,7 @@ void CImGuiMgr::ImGui_Update()
 		Set_UnActive_Origin();	// 모든 프리팹 오브젝트 비활성화
 
 		// DB 로드
-		Load_Scene(*szLoadPath);
+		//Load_Scene(*szLoadPath);
 	}
 
 	// ImGui
@@ -608,12 +610,12 @@ HRESULT CImGuiMgr::Load_All_Scene()
 	return S_OK;
 }
 
-HRESULT CImGuiMgr::Load_Scene(TCHAR filePath)
+HRESULT CImGuiMgr::Load_Scene(TCHAR* filePath)
 {
 	// 파일에 저장되어 있는 데이터를 통해 오브젝트를 생성하여 g_vecCloneObj 및 매니지먼트 레이어에 추가(이벤트매니저)한다.
 
 	// 파일 생성
-	HANDLE	hFile = CreateFile(szLoadPath,
+	HANDLE	hFile = CreateFile(filePath,
 		GENERIC_READ, 
 		NULL,
 		NULL,
@@ -689,7 +691,7 @@ HRESULT CImGuiMgr::Save_Scene()
 	_vec3		vPos{}; 
 	OBJ_TYPE	eType = OBJ_TYPE::TYPEEND;
 	OBJ_ID		eID = OBJ_ID::TYPEEND;
-	wchar_t* szName = L"";
+	//wchar_t* szName = L"";
 
 
 	// 저장
@@ -697,7 +699,7 @@ HRESULT CImGuiMgr::Save_Scene()
 	{
 		eType = iter->Get_Type();
 		eID = iter->Get_ID();
-		wcscpy(szName, iter->Get_Name());
+		//wcscpy(szName, iter->Get_Name());
 
 		WriteFile(hFile, &(iter->Get_Transform()->Get_Info(INFO_POS)), sizeof(_vec3), &dwByte, nullptr);
 		WriteFile(hFile, &(eType), sizeof(OBJ_TYPE), &dwByte, nullptr);
@@ -781,8 +783,8 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 	// Terrain
 	case Engine::OBJ_ID::TERRAIN_WORLD:
 		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
-	//case Engine::OBJ_ID::TERRAIN_DUNGEON:
-	//	pClone = CTerrainIceDungeon::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::TERRAIN_DUNGEON:
+		pClone = CTerrainDungeon::Create(m_pGraphicDev); break;
 	//case Engine::OBJ_ID::TERRAIN_ICEWORLD:
 	//	pClone = CTerrainIceWorld::Create(m_pGraphicDev); break;
 

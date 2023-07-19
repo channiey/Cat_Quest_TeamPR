@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "..\Header\TerrainWorld.h"
+#include "..\Header\Terrain_Dungeon.h"
 
 #include "Export_Function.h"
 
-CTerrainWorld::CTerrainWorld(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CTerrain(pGraphicDev, OBJ_ID::TERRAIN_WORLD)
+CTerrainDungeon::CTerrainDungeon(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CTerrain(pGraphicDev, OBJ_ID::TERRAIN_DUNGEON)
 {
 }
 
-CTerrainWorld::CTerrainWorld(const CTerrain& rhs)
+CTerrainDungeon::CTerrainDungeon(const CTerrain& rhs)
 	: CTerrain(rhs)
 {
 }
 
-CTerrainWorld::~CTerrainWorld()
+CTerrainDungeon::~CTerrainDungeon()
 {
 }
 
-HRESULT CTerrainWorld::Ready_Object(void)
+HRESULT CTerrainDungeon::Ready_Object(void)
 {	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
@@ -28,17 +28,17 @@ HRESULT CTerrainWorld::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3(TERRAIN_SIZE_WORLD, 0.f, TERRAIN_SIZE_WORLD));
+	m_pTransformCom->Set_Scale(_vec3(TERRAIN_SIZE_WORLD, 0.f, TERRAIN_SIZE_WORLD)); //TERRAIN_SIZE_DUNGEON 수정 필요
 	m_pTransformCom->Set_Pos(_vec3{ m_pTransformCom->Get_Scale().x,
-									m_pTransformCom->Get_Scale().y,  
+									m_pTransformCom->Get_Scale().y,
 									m_pTransformCom->Get_Scale().z });
-	
-	m_szName = L"Terrain_World";
+
+	m_szName = L"Terrain_Dungeon";
 
 	return S_OK;
 }
 
-_int CTerrainWorld::Update_Object(const _float& fTimeDelta)
+_int CTerrainDungeon::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CTerrain::Update_Object(fTimeDelta);
 
@@ -47,12 +47,12 @@ _int CTerrainWorld::Update_Object(const _float& fTimeDelta)
 	return _int();
 }
 
-void CTerrainWorld::LateUpdate_Object(void)
+void CTerrainDungeon::LateUpdate_Object(void)
 {
 	CTerrain::LateUpdate_Object();
 }
 
-void CTerrainWorld::Render_Object(void)
+void CTerrainDungeon::Render_Object(void)
 {
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	// m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -60,33 +60,33 @@ void CTerrainWorld::Render_Object(void)
 	// m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
-HRESULT CTerrainWorld::Add_Component(void)
+HRESULT CTerrainDungeon::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Terrain_World", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Terrain_Dungeon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	return S_OK;
 }
 
-CTerrainWorld* CTerrainWorld::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CTerrainDungeon* CTerrainDungeon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CTerrainWorld* pInstance = new CTerrainWorld(pGraphicDev);
+	CTerrainDungeon* pInstance = new CTerrainDungeon(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("TerrainWorld Create Failed");
+		MSG_BOX("Terrain Dungeon Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CTerrainWorld::Free()
+void CTerrainDungeon::Free()
 {
 	CTerrain::Free();
 }

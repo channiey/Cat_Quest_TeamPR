@@ -47,7 +47,7 @@ private: /* File Save Load */
 	HRESULT						Load_All_Scene(); 
 
 public:
-	HRESULT						Load_Scene(TCHAR filePath);
+	HRESULT						Load_Scene(TCHAR* filePath);
 
 private: /* Etc */
 	const _vec3&				Get_ClickPos();

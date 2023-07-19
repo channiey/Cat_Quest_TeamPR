@@ -203,11 +203,9 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
 		{
-			
 			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 			{
-				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);
-				
+				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);		
 			}
 			
 		}

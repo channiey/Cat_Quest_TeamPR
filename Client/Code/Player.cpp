@@ -217,6 +217,7 @@ HRESULT CPlayer::Ready_Object()
 		CCameraMgr::GetInstance()->Set_LookAt(this);
 		CCameraMgr::GetInstance()->Set_ViewSpace();
 	}
+	m_bMaintain = true; // 씬 변경시 유지 (사용시 팀장 보고)
 
 	// 테스트용
 	m_iTempMode = 1;

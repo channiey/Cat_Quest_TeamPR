@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Header\Scene_World.h"
+#include "..\Header\Scene_Dungeon.h"
 
 #include "Export_Function.h"
 
@@ -133,29 +133,29 @@
 #include "QuestMgr.h"
 
 
-CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
+CScene_Dungeon::CScene_Dungeon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
 {
 }
 
-CScene_World::~CScene_World()
+CScene_Dungeon::~CScene_Dungeon()
 {
 }
 
-HRESULT CScene_World::Ready_Scene()
+HRESULT CScene_Dungeon::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 	//CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
-	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Player()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Npc()			, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Monster()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Player(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Npc(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Monster(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Item(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Etc(), E_FAIL);
 
@@ -170,7 +170,7 @@ HRESULT CScene_World::Ready_Scene()
 	return S_OK;
 }
 
-Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
+Engine::_int CScene_Dungeon::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
@@ -181,12 +181,12 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	return 0;
 }
 
-void CScene_World::LateUpdate_Scene()
+void CScene_Dungeon::LateUpdate_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	// 00. 1차 충돌 처리
-	
+
 	// Rect vs Rect
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ENVIRONMENT);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
@@ -207,14 +207,14 @@ void CScene_World::LateUpdate_Scene()
 	CCameraMgr::GetInstance()->Set_ViewSpace();
 }
 
-void CScene_World::Render_Scene()
+void CScene_Dungeon::Render_Scene()
 {
 	if (!CManagement::GetInstance()->Is_Debug()) return;
 #pragma region Stack
 
 	RECT	rc{};
 	_vec3	vPos{};
-	CGameObject*	pObj = nullptr;
+	CGameObject* pObj = nullptr;
 	TCHAR	szBuf[MAX_STR] = L"";
 	GetClientRect(g_hWnd, &rc);
 
@@ -234,14 +234,14 @@ void CScene_World::Render_Scene()
 	SCREEN_MSG(szBuf, rc);
 }
 
-void CScene_World::Free()
+void CScene_Dungeon::Free()
 {
 	__super::Free();
 }
 
-CScene_World* CScene_World::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CScene_Dungeon* CScene_Dungeon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CScene_World*	pInstance = new CScene_World(pGraphicDev);
+	CScene_Dungeon* pInstance = new CScene_Dungeon(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Scene()))
 	{
@@ -253,29 +253,29 @@ CScene_World* CScene_World::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	return pInstance;
 }
-HRESULT CScene_World::Ready_Layer_Environment()
+HRESULT CScene_Dungeon::Ready_Layer_Environment()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Load()
+HRESULT CScene_Dungeon::Ready_Load()
 {
-	TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";
+	TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat";
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetDevice(m_pGraphicDev), E_FAIL);
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->Load_Scene(szLoadPath), E_FAIL);
 }
 
-HRESULT CScene_World::Ready_Layer_Camera()
+HRESULT CScene_Dungeon::Ready_Layer_Camera()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
-	Engine::CGameObject*		pGameObject = nullptr;
+	Engine::CGameObject* pGameObject = nullptr;
 
 	// Camera
 	pGameObject = CPlayer_Camera::Create(m_pGraphicDev);
@@ -284,11 +284,11 @@ HRESULT CScene_World::Ready_Layer_Camera()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Camera", pGameObject), E_FAIL);
 	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
 	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
-	
+
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Terrain()
+HRESULT CScene_Dungeon::Ready_Layer_Terrain()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -297,13 +297,13 @@ HRESULT CScene_World::Ready_Layer_Terrain()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_UI()
+HRESULT CScene_Dungeon::Ready_Layer_UI()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 
-	Engine::CGameObject*		pGameObject = nullptr;
+	Engine::CGameObject* pGameObject = nullptr;
 
 	// UI - Level
 	pGameObject = CLevelUI::Create(m_pGraphicDev);
@@ -370,13 +370,13 @@ HRESULT CScene_World::Ready_Layer_UI()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Player()
+HRESULT CScene_Dungeon::Ready_Layer_Player()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
-	Engine::CGameObject*		pGameObject = nullptr;
+	Engine::CGameObject* pGameObject = nullptr;
 
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
@@ -386,7 +386,7 @@ HRESULT CScene_World::Ready_Layer_Player()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Npc()
+HRESULT CScene_Dungeon::Ready_Layer_Npc()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -395,25 +395,25 @@ HRESULT CScene_World::Ready_Layer_Npc()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Monster()
+HRESULT CScene_Dungeon::Ready_Layer_Monster()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Item()
+HRESULT CScene_Dungeon::Ready_Layer_Item()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Effect()
+HRESULT CScene_Dungeon::Ready_Layer_Effect()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -428,7 +428,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	dynamic_cast<CTransform*>
 		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({180.f, 12.f, 202.f});
+		Set_Pos({ 180.f, 12.f, 202.f });
 
 	pGameObject = CCloud2::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -514,7 +514,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Etc()
+HRESULT CScene_Dungeon::Ready_Layer_Etc()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -531,7 +531,7 @@ HRESULT CScene_World::Ready_Layer_Etc()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_KSH()
+HRESULT CScene_Dungeon::Ready_Layer_KSH()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
@@ -563,7 +563,7 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_KJM()
+HRESULT CScene_Dungeon::Ready_Layer_KJM()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
@@ -585,7 +585,7 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_LHJ()
+HRESULT CScene_Dungeon::Ready_Layer_LHJ()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
@@ -596,10 +596,10 @@ HRESULT CScene_World::Ready_Layer_LHJ()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_YC()
+HRESULT CScene_Dungeon::Ready_Layer_YC()
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	
+
 	_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
 	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
 
@@ -615,11 +615,11 @@ HRESULT CScene_World::Ready_Layer_YC()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_02", pGameObject), E_FAIL);*/
 
-	
+
 
 	/*pGameObject = CEffect_Range_Quater::Create(m_pGraphicDev, nullptr, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Quater_Range_Test", pGameObject), E_FAIL);	
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Quater_Range_Test", pGameObject), E_FAIL);
 
 	_vec3 vPos{ START_POS_WORLD_X, 0.f, START_POS_WORLD_Z };
 	pGameObject->Get_Transform()->Set_Pos(vPos);*/

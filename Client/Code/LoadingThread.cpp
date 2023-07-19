@@ -100,14 +100,11 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 #pragma region KANG
 
 
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_GW",
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_World",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_World.png")), E_FAIL);
 
- 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_IW",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceWorld.png")), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_ID",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/IceDungeon.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_Dungeon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_Dungeon.png")), E_FAIL);
 
 #pragma region Building
 

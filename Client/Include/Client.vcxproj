@@ -332,6 +332,7 @@
     <ClInclude Include="..\Header\Rock_Pillar1.h" />
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
+    <ClInclude Include="..\Header\Scene_Dungeon.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
     <ClInclude Include="..\Header\Shadow_Monster.h" />
     <ClInclude Include="..\Header\Shadow_Npc.h" />
@@ -359,6 +360,7 @@
     <ClInclude Include="..\Header\TerrainIceWorld.h" />
     <ClInclude Include="..\Header\TerrainTool.h" />
     <ClInclude Include="..\Header\TerrainWorld.h" />
+    <ClInclude Include="..\Header\Terrain_Dungeon.h" />
     <ClInclude Include="..\Header\Test_Mob.h" />
     <ClInclude Include="..\Header\Test_MobState_Attack.h" />
     <ClInclude Include="..\Header\Test_MobState_bAttack.h" />
@@ -592,6 +594,7 @@
     <ClCompile Include="..\Code\Rock_Pillar1.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar2.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
+    <ClCompile Include="..\Code\Scene_Dungeon.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
     <ClCompile Include="..\Code\Skill.cpp" />
     <ClCompile Include="..\Code\SkillEffect.cpp" />
@@ -619,6 +622,7 @@
     <ClCompile Include="..\Code\TerrainIceWorld.cpp" />
     <ClCompile Include="..\Code\TerrainTool.cpp" />
     <ClCompile Include="..\Code\TerrainWorld.cpp" />
+    <ClCompile Include="..\Code\Terrain_Dungeon.cpp" />
     <ClCompile Include="..\Code\Test_Mob.cpp" />
     <ClCompile Include="..\Code\Test_MobState_Attack.cpp" />
     <ClCompile Include="..\Code\Test_MobState_bAttack.cpp" />

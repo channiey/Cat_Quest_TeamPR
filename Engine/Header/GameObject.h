@@ -45,18 +45,22 @@ public:
 	void								Set_Name(const _tchar* _szName) { m_szName = _szName; } // 팀장 허락 받고 사용!
 	void								Set_Active(const _bool& _bActive) { m_bActive = _bActive; }
 	void								Set_ID(const OBJ_ID& _eID) { m_eID = _eID; } // 팀장 허락 받고 사용!
+	void								Set_Maintain(const _bool& _bMaintain) { m_bMaintain = _bMaintain; }
 
 	const _bool&						Is_Active() const { return m_bActive; }
 	const _bool							Is_Component(const COMPONENT_TYPE& _eType, COMPONENTID eID);
+
+	const _bool&						Is_Maintain() const { return m_bMaintain; }
+
 	
 	UI_LAYER							Get_LayerLv() { return m_eUILayer; }
 
 	// 상호작용 및 충돌 시 이벤트 관련
-	ENTER_TYPE				Get_EnterType() { return m_eEnter; }
-	INTERACTION_TYPE		Get_InterType() { return m_eInterType; }
+	ENTER_TYPE							Get_EnterType() { return m_eEnter; }
+	INTERACTION_TYPE					Get_InterType() { return m_eInterType; }
 
-	void					Set_IsEnter(_bool _switch) { m_bEnter = _switch; }
-	void					Set_EventSwitch(_bool _switch) { m_bEventSwitch = _switch; }
+	void								Set_IsEnter(_bool _switch) { m_bEnter = _switch; }
+	void								Set_EventSwitch(_bool _switch) { m_bEventSwitch = _switch; }
 #pragma endregion
 
 #pragma region Collision Methods
@@ -98,6 +102,8 @@ protected:
 
 	_float                              m_fViewZ; // 알파 출력 오브젝트들의 알파소팅
 
+	_bool								m_bMaintain; // 특정 씬 변경시 삭제되지 않는다.
+
 	// UI_Layer
 	UI_LAYER							m_eUILayer;
 
@@ -106,6 +112,7 @@ protected:
 	INTERACTION_TYPE					m_eInterType;
 	_bool								m_bEventSwitch;
 	_bool								m_bEnter;
+
 public:
 	virtual void						Free();
 };

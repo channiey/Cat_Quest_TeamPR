@@ -36,10 +36,13 @@ namespace Engine
 #define VTXCNTZ						129
 #define VTXITV						3
 
-
 #define START_POS_WORLD_X			220.f
 #define START_POS_WORLD_Z			205.f
+#define START_POS_DUNGEON_X			220.f
+#define START_POS_DUNGEON_Z			205.f
 
+#define	TERRAIN_SIZE_WORLD			220.f
+#define	TERRAIN_SIZE_DUNGEON		110.f
 
 	/*-------------------------------------------------------------------------------*/
 

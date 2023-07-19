@@ -2,11 +2,11 @@
 
 #include "Scene.h"
 
-class CScene_World : public Engine::CScene
+class CScene_Dungeon : public Engine::CScene
 {
 private:
-	explicit CScene_World(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CScene_World();
+	explicit CScene_Dungeon(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CScene_Dungeon();
 
 public:
 	virtual HRESULT		Ready_Scene() override;
@@ -25,7 +25,7 @@ private:
 	HRESULT				Ready_Layer_Etc(); // 클라
 
 	HRESULT				Ready_Layer_Terrain(); // 레이어 생성 따로 빼두고 삭제 예정
-	HRESULT				Ready_Layer_Environment	(); // 레이어 생성 따로 빼두고 삭제 예정
+	HRESULT				Ready_Layer_Environment(); // 레이어 생성 따로 빼두고 삭제 예정
 	HRESULT				Ready_Layer_Npc(); // 레이어 생성 따로 빼두고 삭제 예정
 	HRESULT				Ready_Layer_Monster();  // 레이어 생성 따로 빼두고 삭제 예정
 	HRESULT				Ready_Layer_Item(); // 레이어 생성 따로 빼두고 삭제 예정
@@ -36,7 +36,7 @@ private:
 	HRESULT				Ready_Layer_YC(); // 개인 테스트용 추가
 
 public:
-	static CScene_World*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CScene_Dungeon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void		Free() override;

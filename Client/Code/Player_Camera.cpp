@@ -31,6 +31,8 @@ HRESULT CPlayer_Camera::Ready_Object(void)
 	m_pTransformCom->Set_Pos(_vec3{ 0.f, m_fDefaultHeight, -m_pCameraCom->m_fDistance });
 	m_pCameraCom->m_fSpeedZoom = 100.f;
 
+	m_bMaintain = true; // 씬 변경시 유지 (사용시 팀장 보고)
+
 	return S_OK;
 }
 
