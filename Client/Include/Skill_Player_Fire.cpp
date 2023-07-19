@@ -51,7 +51,11 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = CSkill::Update_Object(fTimeDelta);
 
-
+    if (!m_pOwnerObject->Is_Active())
+    {
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        return iExit;
+    }
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
  
     

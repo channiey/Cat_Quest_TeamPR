@@ -23,7 +23,7 @@ public:
 	virtual void			Render_Object() override;
 
 private:
-			HRESULT					Add_Component();
+			HRESULT			Add_Component();
 
 public:
 	virtual HRESULT			Play();

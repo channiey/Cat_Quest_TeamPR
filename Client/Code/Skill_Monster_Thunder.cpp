@@ -49,6 +49,11 @@ _int CSkill_Monster_Thunder::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = __super::Update_Object(fTimeDelta);
 
+    if (!m_pOwnerObject->Is_Active())
+    {
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        return iExit;
+    }
     // 위치 선정 
     _vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
     m_pTransformCom->Set_Pos(vPos);
