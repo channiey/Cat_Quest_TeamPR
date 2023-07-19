@@ -155,6 +155,35 @@ void CMonster::Render_Object()  // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 {
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+	}
+	break;
+
+	case Engine::OBJ_TYPE::LINE:
+	{
+		_vec3 vLinePos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
+
+		_vec3 vMonsterPos = m_pTransformCom->Get_Info(INFO_POS);
+		_vec3 vMonsterDir = m_pTransformCom->Get_Dir();
+
+		if ((vLinePos.x == vMonsterPos.x) && (vLinePos.z == vMonsterPos.z))
+		{
+			m_pTransformCom->Set_Dir({ -vMonsterDir.x, vMonsterDir.y, -vMonsterDir.z });
+		}
+		
+	}
+	break;
+
+	default:
+	{
+	}
+	break;
+	} // Switch end
+
 }
 
 void CMonster::OnCollision_Stay(CGameObject* _pColObj)
@@ -183,11 +212,26 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 	}
 	break;
 
-	default:
+	case Engine::OBJ_TYPE::LINE:
 	{
+		_vec3 vLinePos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
+
+		_vec3 vMonsterPos = m_pTransformCom->Get_Info(INFO_POS);
+		_vec3 vMonsterDir = m_pTransformCom->Get_Dir();
+
+		if ((vLinePos.x == vMonsterPos.x) && (vLinePos.z == vMonsterPos.z))
+		{
+			m_pTransformCom->Set_Dir({ -vMonsterDir.x, vMonsterDir.y, -vMonsterDir.z });
+		}
 
 	}
 	break;
+
+	default:
+	{
+	}
+	break;
+
 	} // Switch end
 }
 

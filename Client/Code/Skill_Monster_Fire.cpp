@@ -45,8 +45,11 @@ _int CSkill_Monster_Fire::Update_Object(const _float& fTimeDelta)
     _int iExit = __super::Update_Object(fTimeDelta);
 
     
-
-    Play();
+    if (!m_pSKillEffect->Is_Active())
+    {
+        __super::End();
+        m_bActive = false;
+    }
 
 
     return iExit;
@@ -71,7 +74,7 @@ HRESULT CSkill_Monster_Fire::Add_Component()
     m_pSKillEffect = pFireEffect;
 
     // Effect Range Quater
-    CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+    CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
     NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_FireSkill_Range", pRangeEffect), E_FAIL);
     m_pRangeEffect = pRangeEffect;
@@ -85,8 +88,11 @@ HRESULT CSkill_Monster_Fire::Play()
 
     m_pSKillEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
     m_pRangeEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
-    m_pRangeEffect->Scaling(1.f,10.f,100.f);
-    m_pRangeEffect->Alphaing(1.f, 10.f, 100.f);
+    m_pRangeEffect->Scaling(1.f,1.f,2.f);
+  
+
+
+    m_bActive = true;
 
     return S_OK;
 }
