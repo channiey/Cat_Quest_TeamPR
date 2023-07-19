@@ -288,8 +288,6 @@ HRESULT CMonster::Add_Component()
 
 void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 {
-	_bool  fPlayerbSkill = static_cast<CPlayer*>(pObj)->Is_Skill();
-
 	 Set_CurHP(m_tStatInfo.fCurHP - fDamage);
 
 	 cout << "뎀지받음" << endl;
@@ -301,9 +299,7 @@ void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 	}
 	
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK 
-		|| fPlayerbSkill == true )
-
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
 	{
 		m_pRigidBodyCom->Zero_KnockBack();
 	}
