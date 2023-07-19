@@ -818,6 +818,10 @@ HRESULT CScene_World::Ready_Layer_Etc()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::RANGE_OBJ, pLayer });
 
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::SKILL, pLayer });
+
 	return S_OK;
 }
 

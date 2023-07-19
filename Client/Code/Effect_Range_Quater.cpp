@@ -70,11 +70,11 @@ HRESULT CEffect_Range_Quater::Ready_Object()
 
 _int CEffect_Range_Quater::Update_Object(const _float& fTimeDelta)
 {
-	if (!m_eScaleInfo.bActive) // Test
-	{
-		Scaling(1.f, 0.5f, 1.f);
-		Alphaing(1.f, 0.f, 255.f);
-	}
+	//if (!m_eScaleInfo.bActive) // Test
+	//{
+	//	Scaling(1.f, 0.5f, 1.f);
+	//	Alphaing(1.f, 0.f, 255.f);
+	//}
 	
 	_int iExit = CGameObject::Update_Object(fTimeDelta);
 

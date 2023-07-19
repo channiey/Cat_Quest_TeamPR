@@ -59,8 +59,6 @@ public:
 	const _float&			Get_SkillUsage()  const { return m_fSkiilUsage; }
 
 protected:
-	LPDIRECT3DDEVICE9		m_pGraphicDev;
-
 	CGameObject*			m_pOwnerObject;
 	_bool					m_bPlay;
 

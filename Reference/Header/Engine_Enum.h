@@ -173,7 +173,7 @@ namespace Engine
 		/* ========================================= Skill ========================================*/
 
 		//Player_Skill
-		SKILL_PLAYER_FIRE,
+		SKILL_PLAYER_FIRE, SKILL_PLAYER_THUNDER, SKILL_PLAYER_ICE, SKILL_PLAYER_BEAM, SKILL_PLAYER_HEAL,
 
 		//Monster_SKill
 

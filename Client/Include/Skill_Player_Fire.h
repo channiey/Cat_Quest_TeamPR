@@ -3,13 +3,15 @@
 
 BEGIN(Engine)
 
+
+
 END
 
 class CSkill_Player_Fire :
     public CSkill
 {
 protected:
-	explicit CSkill_Player_Fire(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CSkill_Player_Fire(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
 	explicit CSkill_Player_Fire(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CSkill_Player_Fire(const CSkill_Player_Fire& rhs);
 	virtual ~CSkill_Player_Fire();
