@@ -42,15 +42,6 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
-
-
-	void					Set_SkillDemage(const _float& pDemage) { m_fSkillDemage = pDemage; }
-	void					Set_SkillUsage(const _float& pUsage) { m_fSkillUsage = pUsage; }
-
-	const _float& 				Get_SkillDemage() const{ return m_fSkillDemage; }
-	const _float&				Get_SkillUsage()  const{ return m_fSkillUsage; }
-
-
 private:
 	HRESULT					Add_Component();
 
@@ -81,7 +72,6 @@ protected:
 	
 	_float					m_fSkillDemage;
 	_float					m_fSkillUsage;
-	_bool					m_bPlay;
 
 protected:
 	virtual void			Free();

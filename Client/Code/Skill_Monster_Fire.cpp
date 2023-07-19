@@ -6,11 +6,12 @@ CSkill_Monster_Fire::CSkill_Monster_Fire(LPDIRECT3DDEVICE9 pGraphicDev, const OB
 }
 
 CSkill_Monster_Fire::CSkill_Monster_Fire(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const OBJ_ID& _eID)
-    :CSkill(pGraphicDev,  ,_eID)
+    :CSkill(pGraphicDev, _pOwnerObject,_eID)
 {
 }
 
 CSkill_Monster_Fire::CSkill_Monster_Fire(const CSkill_Monster_Fire& rhs)
+    :CSkill(rhs)
 {
 }
 

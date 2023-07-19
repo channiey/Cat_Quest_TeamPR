@@ -135,8 +135,6 @@ protected:
 	CAIComponent*			m_pAICom;
 	CStateMachine*			m_pStateMachineCom;
 
-	C
-
 	// << : Test : Range Test
 	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
 	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active·Î »óÈ²¿¡ ¸Â°Ô ²°´Ù Ä×´Ù
