@@ -176,6 +176,7 @@ namespace Engine
 		SKILL_PLAYER_FIRE,
 
 		//Monster_SKill
+		SKILL_MONSTER_FIRE,
 
 		/* ========================================= Generator ========================================*/
 

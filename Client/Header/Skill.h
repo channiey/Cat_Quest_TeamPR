@@ -27,8 +27,7 @@
 class CSkillEffect;
 class CEffect_Range_Quater;
 
-class CSkill :
-    public CGameObject
+class CSkill : public CGameObject
 {
 protected:
 	explicit CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
@@ -59,8 +58,7 @@ public:
 	const _float&			Get_SkillUsage()  const { return m_fSkiilUsage; }
 
 protected:
-	LPDIRECT3DDEVICE9		m_pGraphicDev;
-
+	
 	CGameObject*			m_pOwnerObject;
 	_bool					m_bPlay;
 
