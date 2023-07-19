@@ -61,6 +61,7 @@ void CRangeObj::Render_Object()
 {
 	_matrix matWorld = Get_Transform()->Get_WorldMat();
 	_matrix matBill;
+	D3DXMatrixIdentity(&matBill);
 
 	_vec3 vPos, vScale;
 

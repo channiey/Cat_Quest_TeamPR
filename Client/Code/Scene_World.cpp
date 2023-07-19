@@ -191,12 +191,39 @@ void CScene_World::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 
+	// Test
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::SKILL);
+
 	// Rect vs Line
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
-	// Position vs Sphere
+	// Position vs Sphere (기본 레인지 오브젝트) Test
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::PLAYER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
+	// Position vs Sphere (플레이어 스킬 vs 몬스터)
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
+
+	// 플레이어 - 스킬 (렉트 vs 스피어 - 콜라이더, 레인지 오브젝트 아님) :: 부모 - 몬스터 _eParentType
+	//	-> 온콜리전함수로 스킬객체 
+	
+	// 플레이어 - 스킬 (렉트 vs 렉트)
+	//	-> 온콜리전함수로 스킬객체 
+
+	
+	// 스킬 콜라이더와 기본 공격 콜라이더(레인지오브젝트)가 겹치면 안됨 -> 각 공격의 데미지 두번 먹힘
+
+
+
+	// 몬스터 똑같음
+
+
+
+
+
+
+
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리
 	__super::LateUpdate_Scene();
@@ -605,10 +632,17 @@ HRESULT CScene_World::Ready_Layer_YC()
 	_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
 	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
 
-
 	/*pGameObject = CLineObject::Create(m_pGraphicDev, vStartPos, vEndPos);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj", pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_01", pGameObject), E_FAIL);
+
+	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos, vEndPos + _vec3{ 10.f, 0.f, 0.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_02", pGameObject), E_FAIL);
+
+	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos + _vec3{ 10.f, 0.f, 0.f }, vEndPos + _vec3{ 10.f, 0.f, -10.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_02", pGameObject), E_FAIL);*/
 
 	
 

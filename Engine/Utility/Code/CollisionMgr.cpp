@@ -385,6 +385,12 @@ const _vec3& CCollisionMgr::Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _
 	vOverlap.z = fZ - vOutPoint.z;
 
 	// 3. 위 정보들을 라인 콜라이더에 저장한다.
+
+	for (int i = 0; i < 4; ++i)
+	{
+		cout << bPrevY[i] << "\t";
+	}
+	cout << vOverlap.x << "\t" << vOverlap.z << endl;
 	return vOverlap;
 }
 
