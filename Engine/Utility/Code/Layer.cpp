@@ -113,11 +113,11 @@ void CLayer::Free()
 
 	for (multimap<const _tchar*, CGameObject*>::iterator iter = m_mapObject.begin(); iter != m_mapObject.end();)
 	{
-		//if (iter->second->Is_Maintain()) // 삭제해서 안되는 오브젝트들은 남겨두도록 한다.
-		//{
-		//	++iter;
-		//}
-		//else
+		if (iter->second->Is_Maintain()) // 삭제해서 안되는 오브젝트들은 남겨두도록 한다.
+		{
+			++iter;
+		}
+		else
 		{
 			iter->second->Release();
 			m_mapObject.erase(iter++);

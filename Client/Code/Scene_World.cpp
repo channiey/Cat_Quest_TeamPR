@@ -132,6 +132,8 @@
 #include "TalkMgr.h"
 #include "QuestMgr.h"
 
+#include "Scene_Dungeon.h"
+
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -148,6 +150,8 @@ HRESULT CScene_World::Ready_Scene()
 	CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 	CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
+
+	// OBJ_TYPE별로 선언 필요
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
@@ -159,9 +163,10 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Etc(), E_FAIL);
 
+	// 툴 데이터 파싱
 	FAILED_CHECK_RETURN(Ready_Load(), E_FAIL);
 
-
+	// 개인 작업
 	FAILED_CHECK_RETURN(Ready_Layer_KSH(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_KJM(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
@@ -173,6 +178,19 @@ HRESULT CScene_World::Ready_Scene()
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+
+	// 씬 변경 테스트 (월드 -> 던전)
+	if (CInputDev::GetInstance()->Key_Down(VK_RETURN))
+	{
+		CScene* pScene = nullptr;
+
+		pScene = CScene_Dungeon::Create(m_pGraphicDev);
+
+		NULL_CHECK_RETURN(pScene, -1);
+
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Change_Scene(pScene), E_FAIL);
+	}
 
 	__super::Update_Scene(fTimeDelta);
 
@@ -281,7 +299,7 @@ HRESULT CScene_World::Ready_Layer_Camera()
 	pGameObject = CPlayer_Camera::Create(m_pGraphicDev);
 
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Camera", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Camera", pGameObject), E_FAIL);
 	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
 	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
 	

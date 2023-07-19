@@ -3,66 +3,18 @@
 
 #include "Export_Function.h"
 
-// Environment
-#include "Terrain.h"
-#include "TerrainWorld.h"
-#include "Bush.h"
-#include "Mountain.h"
-#include "Dungeon.h"
-// 빌딩
-#include "House1.h"
-#include "House2.h"
-#include "House3.h"
-#include "House4.h"
-#include "House5.h"
-#include "House6.h"
-#include "KingHouse.h"
-#include "Smithy.h"
-#include "MagicShop.h"
-// 부쉬
-#include "Bush1.h"
-#include "Bush2.h"
-#include "Bush3.h"
-#include "Bush4.h"
-#include "Bush5.h"
-#include "Bush6.h"
-#include "Bush7.h"
-#include "Bush8.h"
-#include "Bush9.h"
-#include "Bush10.h"
-#include "Bush11.h"
-// 산
-#include "Mountain_Grass.h"
-#include "Mountain_Ice.h"
-// 돌
-#include "Rock1.h"
-#include "Rock2.h"
-#include "Rock3.h"
-#include "Rock4.h"
-// 기둥
-#include "Rock_Pillar1.h"
-#include "Rock_Pillar2.h"
-#include "Rock_Pillar3.h"
-#include "Ice_Pillar1.h"
-#include "Temple_Pillar1.h"
-#include "Temple_Pillar2.h"
-// 던전
-#include "Dungeon_Grass.h"
-#include "Dungeon_Ice.h"
-#include "Dungeon_Temple.h"
-// 타워
-#include "Tower1.h"
-#include "Tower2.h"
-#include "Tower3.h"
-// 상자
-#include "Chest_Cosmetic.h"
-#include "Chest_Gold.h"
-#include "Chest_Regular.h"
-
-#include "Player.h"
-#include "Player_Camera.h"
-#include "Tool_Camera.h"
+// Mgr
+#include "ImGuiMgr.h"
+#include "TalkMgr.h"
+#include "QuestMgr.h"
 #include "EventMgr.h"
+
+// Player
+#include "Player.h"
+
+// Camera
+#include "Player_Camera.h"
+
 // UI
 #include "LevelUI.h"
 #include "TabUI.h"
@@ -75,66 +27,11 @@
 #include "FieldSkillUI.h"
 #include "DialogUI.h"
 #include "Inventory.h"
-
-// NPC
-#include "Npc_King.h"
-#include "Npc_Mage.h"
-#include "Npc_BlackSmith.h"
-#include "Npc_Soldier.h"
-#include "Npc_Citizen1.h"
-#include "Npc_Citizen2.h"
-
-// Monster
 #include "ExpUI.h"
 #include "EnterUI.h"
-#include "CuteMonster.h"
-#include "Hedgehog.h"
-#include "LineObject.h"
-#include "Bat.h"
-#include "Dragon.h"
-#include "Ram.h"
-#include "Fox.h"
-#include "Wyvern.h"
-#include "Squirrel.h"
-#include "WyvernRed.h"
-#include "Test_Mob.h"
-
-
-// Effect
-#include "Cloud1.h"
-#include "Cloud2.h"
-#include "Cloud3.h"
-
-#include "Effect_Cast_Blue.h"
-#include "Effect_Cast_Yellow.h"
-#include "Effect_Cast_Purple.h"
-
-#include "Effect_SpellBurst_Blue.h"
-#include "Effect_SpellBurst_Purple.h"
-#include "Effect_SpellBurst_Yellow.h"
-
-
-
-#include "Effect_Range_Quater.h"
-
-// Item
-#include "GoldCoin.h"
-#include "ExpCoin.h"
-#include "Key.h"
-#include "WarriorWeapon.h"
-#include "MageWeapon.h"
-#include "NinjaWeapon.h"
-
-// Generator
-#include "PollenGenerator.h"
-
-#include "ImGuiMgr.h"
-#include "TalkMgr.h"
-#include "QuestMgr.h"
-
 
 CScene_Dungeon::CScene_Dungeon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
+	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON)
 {
 }
 
@@ -145,9 +42,11 @@ CScene_Dungeon::~CScene_Dungeon()
 HRESULT CScene_Dungeon::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
 	//CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
+	// OBJ_TYPE별로 선언 필요
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
@@ -159,9 +58,10 @@ HRESULT CScene_Dungeon::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Etc(), E_FAIL);
 
+	// 툴 데이터 파싱
 	FAILED_CHECK_RETURN(Ready_Load(), E_FAIL);
 
-
+	// 개인 작업
 	FAILED_CHECK_RETURN(Ready_Layer_KSH(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_KJM(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
@@ -275,16 +175,6 @@ HRESULT CScene_Dungeon::Ready_Layer_Camera()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::CAMERA, pLayer });
 
-	Engine::CGameObject* pGameObject = nullptr;
-
-	// Camera
-	pGameObject = CPlayer_Camera::Create(m_pGraphicDev);
-
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Camera", pGameObject), E_FAIL);
-	CCameraMgr::GetInstance()->Add_Camera(L"MainCamera", static_cast<CCameraObject*>(pGameObject));
-	CCameraMgr::GetInstance()->Set_MainCamera(L"MainCamera");
-
 	return S_OK;
 }
 
@@ -376,13 +266,6 @@ HRESULT CScene_Dungeon::Ready_Layer_Player()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::PLAYER, pLayer });
 
-	Engine::CGameObject* pGameObject = nullptr;
-
-	// Player
-	pGameObject = CPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
-
 	return S_OK;
 }
 
@@ -417,100 +300,8 @@ HRESULT CScene_Dungeon::Ready_Layer_Effect()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	Engine::CGameObject* pGameObject = nullptr;
 	m_mapLayer.insert({ OBJ_TYPE::EFFECT, pLayer });
-
-	// Cloud
-	pGameObject = CCloud1::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_1", pGameObject), E_FAIL);
-
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 180.f, 12.f, 202.f });
-
-	pGameObject = CCloud2::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud2_1", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 150.f, 12.f, 142.f });
-
-	pGameObject = CCloud3::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_1", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 175.f, 12.f, 222.f });
-
-	pGameObject = CCloud1::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_2", pGameObject), E_FAIL);
-
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 190.f, 12.f, 172.f });
-
-	pGameObject = CCloud1::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_3", pGameObject), E_FAIL);
-
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 200.f, 12.f, 212.f });
-
-	pGameObject = CCloud1::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_4", pGameObject), E_FAIL);
-
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 150.f, 10.f, 170.f });
-
-	pGameObject = CCloud1::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_5", pGameObject), E_FAIL);
-
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 140.f, 11.f, 210.f });
-
-	pGameObject = CCloud3::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_2", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 110.f, 12.f, 140.f });
-
-	pGameObject = CCloud3::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_3", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 220.f, 12.f, 140.f });
-
-	pGameObject = CCloud3::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_4", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 225.f, 12.f, 250.f });
-
-	pGameObject = CCloud3::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_5", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 245.f, 12.f, 230.f });
-
-	pGameObject = CCloud2::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud2_2", pGameObject), E_FAIL);
-	dynamic_cast<CTransform*>
-		(pGameObject->Get_Component(COMPONENT_TYPE::TRANSFORM, ID_DYNAMIC))->
-		Set_Pos({ 245.f, 12.f, 170.f });
-
+	
 	return S_OK;
 }
 
@@ -535,52 +326,12 @@ HRESULT CScene_Dungeon::Ready_Layer_KSH()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-
-
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
-	// Warrior
-	// pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_WarriorWeapon", pGameObject), E_FAIL);
-	// 
-	// // Mage
-	// pGameObject = CMageWeapon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_MageWeapon", pGameObject), E_FAIL);
-	// 
-	// // Ninja
-	// pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_NinjaeWeapon", pGameObject), E_FAIL);
-
-	// MageNpc
-	pGameObject = CNpc_Mage::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage", pGameObject), E_FAIL);
-
 	return S_OK;
 }
 
 HRESULT CScene_Dungeon::Ready_Layer_KJM()
 {
 	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
-
-	 //Test WyvernRed
-	pGameObject = CWyvernRed::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed", pGameObject), E_FAIL);
-
-	// Fox
-	pGameObject = CFox::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
-
 
 	return S_OK;
 }
@@ -589,40 +340,12 @@ HRESULT CScene_Dungeon::Ready_Layer_LHJ()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
-
 	return S_OK;
 }
 
 HRESULT CScene_Dungeon::Ready_Layer_YC()
 {
 	Engine::CGameObject* pGameObject = nullptr;
-
-	_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
-	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
-
-	/*pGameObject = CLineObject::Create(m_pGraphicDev, vStartPos, vEndPos);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_01", pGameObject), E_FAIL);
-
-	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos, vEndPos + _vec3{ 10.f, 0.f, 0.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_02", pGameObject), E_FAIL);
-
-	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos + _vec3{ 10.f, 0.f, 0.f }, vEndPos + _vec3{ 10.f, 0.f, -10.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_02", pGameObject), E_FAIL);*/
-
-
-
-	/*pGameObject = CEffect_Range_Quater::Create(m_pGraphicDev, nullptr, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Quater_Range_Test", pGameObject), E_FAIL);
-
-	_vec3 vPos{ START_POS_WORLD_X, 0.f, START_POS_WORLD_Z };
-	pGameObject->Get_Transform()->Set_Pos(vPos);*/
 
 	return S_OK;
 }

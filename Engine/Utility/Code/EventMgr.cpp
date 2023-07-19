@@ -16,6 +16,7 @@ CEventMgr::~CEventMgr()
 }
 
 void CEventMgr::Update_Event()
+
 {
 	// 이전 프레임에 삭제될 예정이었던 오브젝트들을 삭제한다.
 	for (size_t i = 0; i < m_vecDeleteObj.size(); ++i)
@@ -131,6 +132,11 @@ HRESULT CEventMgr::Change_Scene(CScene* const _pScene)
 
 HRESULT CEventMgr::Add_Event(const EVENT& _event)
 {
+	if (EVENT_TYPE::CHANGE_SCENE == _event.eType) // 씬이 생성 되고(레디 -> 애드오브젝트) 씬이 이벤트매니저에 예약된다.
+	{
+		m_vecEvent.insert(m_vecEvent.begin(), _event);
+		return S_OK;
+	}
 	m_vecEvent.push_back(_event);
 
 	return S_OK;

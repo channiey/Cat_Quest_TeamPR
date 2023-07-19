@@ -102,7 +102,9 @@ HRESULT CPlayer::Ready_Object()
 		m_pTransformCom->Get_Scale().y, 
 		_float(START_POS_WORLD_Z) });
 
-	CEventMgr::GetInstance()->Add_Obj(L"Player_Shadow", CShadow_Player::Create(m_pGraphicDev, this));
+	CGameObject* pShadow = CShadow_Player::Create(m_pGraphicDev, this);
+	CEventMgr::GetInstance()->Add_Obj(L"Player_Shadow", pShadow);
+	pShadow->Set_Maintain(TRUE); // <-수정시 팀장 보고!
 
 #pragma region State
 	CState* pState = CPlayerState_Hit::Create(m_pGraphicDev, m_pStateMachineCom);
@@ -226,6 +228,7 @@ HRESULT CPlayer::Ready_Object()
 	CGameObject* pGameObject = nullptr;
 
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 7.f);
+	pGameObject->Set_Maintain(TRUE); // <-수정시 팀장 보고!
 	CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
 	pShpere->Set_Radius(7.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
