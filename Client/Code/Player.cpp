@@ -33,11 +33,7 @@
 #include "MoveDust.h"
 #include "MoveWater.h"
 // Skill Effect
-#include "Effect_Fire.h"
-#include "Effect_Thunder.h"
-#include "Effect_Ice.h"
-#include "Effect_Beam.h"
-#include "Effect_Heal.h"
+#include "Skill_Player_Fire.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -176,12 +172,12 @@ HRESULT CPlayer::Ready_Object()
 
 #pragma region Effect
 
-	m_arrEffect[_uint(SKILL_TYPE::FIRE)] = CEffect_Fire::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FIRE)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Fire", m_arrEffect[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
-	m_arrSkillSlot[0] = m_arrEffect[_uint(SKILL_TYPE::FIRE)];
+	m_arrSkill[_uint(SKILL_TYPE::FIRE)] = CSkill_Player_Fire::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::FIRE)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fire", m_arrSkill[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
+	m_arrSkillSlot[0] = m_arrSkill[_uint(SKILL_TYPE::FIRE)];
 
-	m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
+	/*m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
 	m_arrSkillSlot[1] = m_arrEffect[_uint(SKILL_TYPE::THUNDER)];
@@ -194,7 +190,7 @@ HRESULT CPlayer::Ready_Object()
 	m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::BEAM)], E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Beam", m_arrEffect[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];
+	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];*/
 
 
 	/*m_arrEffect[_uint(SKILL_TYPE::HEAL)] = CEffect_Heal::Create(m_pGraphicDev, this);
@@ -238,6 +234,13 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+
+	/*for (auto iter : m_arrSkillSlot)
+	{
+		if(iter != nullptr)
+			iter->Update_Object(fTimeDelta);
+	}*/
+
 	Regen_Def(fTimeDelta);
 	
 	if(!m_bIsTalking)
@@ -747,28 +750,28 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('1') &&
 		m_arrSkillSlot[0] != nullptr)
 	{
-		m_arrSkillSlot[0]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		m_arrSkillSlot[0]->Play();
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
 			m_bSkill = true;
 	}
 	else if (CInputDev::GetInstance()->Key_Down('2') &&
 		m_arrSkillSlot[1] != nullptr)
 	{
-		m_arrSkillSlot[1]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		m_arrSkillSlot[1]->Play();
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
 			m_bSkill = true;
 	}
 	else if (CInputDev::GetInstance()->Key_Down('3') &&
 		m_arrSkillSlot[2] != nullptr)
 	{
-		m_arrSkillSlot[2]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		m_arrSkillSlot[2]->Play();
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
 			m_bSkill = true;
 	}
 	else if (CInputDev::GetInstance()->Key_Down('4') &&
 		m_arrSkillSlot[3] != nullptr)
 	{
-		m_arrSkillSlot[3]->Play_Effect(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		m_arrSkillSlot[3]->Play();
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
 			m_bSkill = true;
 	}

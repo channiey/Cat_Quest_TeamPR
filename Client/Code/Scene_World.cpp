@@ -527,6 +527,10 @@ HRESULT CScene_World::Ready_Layer_Etc()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::LINE, pLayer });
 
+	Layer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::SKILL, pLayer });
+
 	return S_OK;
 }
 
@@ -573,6 +577,12 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	pGameObject = CWyvernRed::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed", pGameObject), E_FAIL);
+
+	//// Fox
+	//pGameObject = CFox::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
+
 
 	return S_OK;
 }

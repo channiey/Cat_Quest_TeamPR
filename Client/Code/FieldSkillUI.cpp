@@ -4,7 +4,7 @@
 
 #include "RingUI.h"
 #include "Player.h"
-#include "Effect.h"
+#include "Skill.h"
 
 CFieldSkillUI::CFieldSkillUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_FILEDSKILL)
@@ -563,8 +563,8 @@ void CFieldSkillUI::Play_SKill()
 		{
 			if (m_pPlayerSkill[i] != nullptr)
 			{
-				m_pPlayerSkill[i]->Play_Effect(m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS));
-				if(OBJ_ID::EFFECT_SKILL_HEAL != m_pPlayerSkill[i]->Get_ID())
+				m_pPlayerSkill[i]->Play();
+				if(OBJ_ID::SKILL_PLAYER_HEAL != m_pPlayerSkill[i]->Get_ID())
 					m_pPlayer->Set_Skill(true);
 			}
 		}
@@ -575,27 +575,27 @@ void CFieldSkillUI::Set_Skill()
 {
 	for (_uint i = 0; i < 4; ++i)
 	{
-		CEffect* pSkill = m_pPlayer->Get_SkillSlot(i);
+		CSkill* pSkill = m_pPlayer->Get_SkillSlot(i);
 		if (pSkill != nullptr)
 		{
 			m_pPlayerSkill[i] = pSkill;
 			OBJ_ID eSKillID = m_pPlayerSkill[i]->Get_ID();
 			switch (eSKillID)
 			{
-			case Engine::OBJ_ID::EFFECT_SKILL_SPELLBURST_FIRE:
+			case Engine::OBJ_ID::SKILL_PLAYER_FIRE:
 				m_iSkillKind[i] = 0;
 				break;
-			case Engine::OBJ_ID::EFFECT_SKILL_THUNDER:
+			case Engine::OBJ_ID::SKILL_PLAYER_THUNDER:
 				m_iSkillKind[i] = 1;
 				break;
-			case Engine::OBJ_ID::EFFECT_SKILL_HEAL:
-				m_iSkillKind[i] = 4;
-				break;
-			case Engine::OBJ_ID::EFFECT_SKILL_FREEZING:
+			case Engine::OBJ_ID::SKILL_PLAYER_ICE:
 				m_iSkillKind[i] = 2;
 				break;
-			case Engine::OBJ_ID::EFFECT_BEAM:
+			case Engine::OBJ_ID::SKILL_PLAYER_BEAM:
 				m_iSkillKind[i] = 3;
+				break;
+			case Engine::OBJ_ID::SKILL_PLAYER_HEAL:
+				m_iSkillKind[i] = 4;
 				break;
 			default:
 				break;

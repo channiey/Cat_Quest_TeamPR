@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 class CRangeObj;
+class CSkill;
 
 BEGIN(Engine)
 class CTexture;
@@ -10,7 +11,6 @@ class CAIComponent;
 class CRcTex;
 class CStateMachine;
 class CAnimator;
-
 END
 
 class CMonster : public Engine::CGameObject
@@ -130,6 +130,9 @@ protected:
 	_bool					m_bHit;				// Demaged
 	_bool					m_bAttack;			// Attack
 	_bool					m_bInit;			// Lateinit 
+
+
+
 protected:
 	
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];

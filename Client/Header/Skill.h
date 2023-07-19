@@ -13,8 +13,6 @@
 	* CTransform
 	
 
-
-
 	- 플레이어 / 몬스터
 		- 스킬 벡터
 			- 스킬 1
@@ -25,8 +23,7 @@
 				- 스킬 이펙트
 				- 장판 이펙트
 				- 콜라이더
-
-
+	구조
 
 	1. 플레이어 또는 몬스터는 자신이 사용할 스킬을 멤버변수로 갖는다(이 클래스 타입) -> 여러 스킬 사용시 컨테이너 사용
 
@@ -41,8 +38,7 @@
 class CSkillEffect;
 class CEffect_Range_Quater;
 
-class CSkill :
-    public CGameObject
+class CSkill : public CGameObject
 {
 protected:
 	explicit CSkill(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
@@ -62,17 +58,26 @@ private:
 public:
 	virtual HRESULT			Play();
 	virtual HRESULT			End();
+
+	void					Set_SkillPlay(const _float& bPlay)		{ m_bPlay = bPlay; }
 	const _bool				Is_End() const { return m_bPlay; }; // 스킬 시전이 끝났는지
 
-protected:
-	LPDIRECT3DDEVICE9		m_pGraphicDev;
+	void					Set_SkillDamage(const _float& pDamage)  { m_fSkillDamage = pDamage; }
+	void					Set_SkillUsage(const _float& pUsage)	{ m_fSkillUsage = pUsage; }
 
+	const _float&			Get_SkillDamage() const { return m_fSkillDamage; }
+	const _float&			Get_SkillUsage()  const { return m_fSkillUsage; }
+
+protected:
 	CGameObject*			m_pOwnerObject;
 	_bool					m_bPlay;
 
 	CSkillEffect*			m_pSKillEffect; // 빔이나 불 같은 스킬
 	CEffect_Range_Quater*	m_pRangeEffect; // 스킬 아래 깔리는 장판
-	
+
+	_float					m_fSkillDamage;
+	_float					m_fSkillUsage;
+
 protected:
 	virtual void			Free();
 };

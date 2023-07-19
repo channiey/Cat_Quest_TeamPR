@@ -12,7 +12,7 @@ class CStateMachine;
 class CAnimator;
 END
 
-class CEffect;
+class CSkill;
 
 class CPlayer : public Engine::CGameObject
 {
@@ -122,7 +122,7 @@ public:
 
 	void				Regen_HP(const _float& fHeal);
 
-	CEffect*			Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
+	CSkill*				Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
 
 	_bool&				Is_MonsterThere()		{ return m_bIsMonster; }
 	_vec3&				Get_MonTargetDir()		{ return m_vMonTargetDir; }
@@ -167,8 +167,8 @@ private:
 
 	// 스킬사용 및 스킬슬롯 변수
 	_bool						m_bSkill;
-	CEffect*					m_arrSkillSlot[4];
-	CEffect*					m_arrEffect[(UINT)SKILL_TYPE::TYPEEND];
+	CSkill*						m_arrSkillSlot[4];
+	CSkill*						m_arrSkill[(UINT)SKILL_TYPE::TYPEEND];
 
 	_bool						m_bIsMonster;
 	_float						m_fMonTargetLength;
