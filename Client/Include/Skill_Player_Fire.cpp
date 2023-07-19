@@ -36,7 +36,7 @@ HRESULT CSkill_Player_Fire::Ready_Object()
     CSkill::Ready_Object();
 
     m_fSkillDamage = 50;
-    m_fSkiilUsage = 3;
+    m_fSkillUsage = 3;
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

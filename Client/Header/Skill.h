@@ -52,10 +52,10 @@ public:
 	const _bool				Is_End() const { return m_bPlay; }; // 스킬 시전이 끝났는지
 
 	void					Set_SkillDamage(const _float& pDamage)  { m_fSkillDamage = pDamage; }
-	void					Set_SkillUsage(const _float& pUsage)	{ m_fSkiilUsage = pUsage; }
+	void					Set_SkillUsage(const _float& pUsage)	{ m_fSkillUsage = pUsage; }
 
 	const _float&			Get_SkillDamage() const { return m_fSkillDamage; }
-	const _float&			Get_SkillUsage()  const { return m_fSkiilUsage; }
+	const _float&			Get_SkillUsage()  const { return m_fSkillUsage; }
 
 protected:
 	CGameObject*			m_pOwnerObject;
@@ -64,7 +64,7 @@ protected:
 	CSkillEffect*			m_pSKillEffect; // 빔이나 불 같은 스킬
 	CEffect_Range_Quater*	m_pRangeEffect; // 스킬 아래 깔리는 장판
 
-	_float					m_fSkillDemage;
+	_float					m_fSkillDamage;
 	_float					m_fSkillUsage;
 
 protected:
