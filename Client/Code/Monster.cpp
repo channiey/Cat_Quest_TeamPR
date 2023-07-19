@@ -10,6 +10,8 @@
 
 #include "MonHpUI.h"
 
+#include "Skill.h"
+
 // Spirit
 #include "MonstSpirit.h"
 // CutEffect
@@ -183,6 +185,17 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 	}
 	break;
 
+	case Engine::OBJ_TYPE::SKILL:
+	{
+		OBJ_TYPE eType = dynamic_cast<CSkill*>(_pColObj)->Get_SkillOwner()->Get_Type();
+		if (eType == OBJ_TYPE::PLAYER)
+		{
+			Damaged(static_cast<CSkill*>(_pColObj)->Get_SkillDamage());
+		}
+	}
+
+	break;
+
 	default:
 	{
 
@@ -234,11 +247,10 @@ HRESULT CMonster::Add_Component()
 	return S_OK;
 }
 
-void CMonster::Damaged(CGameObject* pObj)
+void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 {
-	_float fPlayerAD = static_cast<CPlayer*>(pObj)->Get_StatInfo().fAD;
 
-	 Set_CurHP(m_tStatInfo.fCurHP - fPlayerAD );
+	 Set_CurHP(m_tStatInfo.fCurHP - fDamage);
 
 	 cout << "뎀지받음" << endl;
 
@@ -256,7 +268,8 @@ void CMonster::Damaged(CGameObject* pObj)
 	}
 	else
 	{
-		m_pRigidBodyCom->Knock_Back(pObj, 120);
+		if(pObj != nullptr)
+			m_pRigidBodyCom->Knock_Back(pObj, 120);
 	}
 	
 	CEventMgr::GetInstance()->Add_Obj(L"Monster_Cut_Effect", CMobCutEffect::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));

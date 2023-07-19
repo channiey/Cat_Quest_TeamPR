@@ -473,12 +473,12 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 		if (Is_Attack())
 		{
-			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
+			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 			CCameraMgr::GetInstance()->Shake_Camera();
 		}
 		if (Is_Skill())
 		{
-			dynamic_cast<CMonster*>(_pColObj)->Damaged(this);
+			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 		}
 		
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();

@@ -564,8 +564,8 @@ void CFieldSkillUI::Play_SKill()
 			if (m_pPlayerSkill[i] != nullptr)
 			{
 				m_pPlayerSkill[i]->Play();
-				if(OBJ_ID::SKILL_PLAYER_HEAL != m_pPlayerSkill[i]->Get_ID())
-					m_pPlayer->Set_Skill(true);
+				if (OBJ_ID::SKILL_PLAYER_HEAL != m_pPlayerSkill[i]->Get_ID());
+					//m_pPlayer->Set_Skill(true);
 			}
 		}
 	}

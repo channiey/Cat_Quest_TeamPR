@@ -63,6 +63,8 @@ public:
 	void					Set_SkillPlay(const _float& bPlay)		{ m_bPlay = bPlay; }
 	const _bool				Is_End() const { return m_bPlay; }; // 스킬 시전이 끝났는지
 
+	CGameObject*			Get_SkillOwner() { return m_pOwnerObject; }
+
 	void					Set_SkillDamage(const _float& pDamage)  { m_fSkillDamage = pDamage; }
 	void					Set_SkillUsage(const _float& pUsage)	{ m_fSkillUsage = pUsage; }
 

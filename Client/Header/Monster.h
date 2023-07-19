@@ -104,7 +104,7 @@ private:
 	HRESULT					Add_Component();
 
 public:
-	void					Damaged(CGameObject* pObj);
+	void					Damaged(const _float& fDamage, CGameObject* pObj = nullptr);
 
 	_bool					IsHit() { return m_bHit; }
 	void					Set_Hit(_bool bHit) { m_bHit = bHit; }

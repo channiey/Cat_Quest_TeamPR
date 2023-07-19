@@ -53,8 +53,9 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 
 
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
+    m_pTransformCom->Set_Scale(_vec3{ 100.f, 10.f, 10.f });
 
-    m_pRangeObj->Update_Object(fTimeDelta);
+  //  m_pRangeObj->Update_Object(fTimeDelta);
 
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -70,14 +71,17 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 
 void CSkill_Player_Fire::LateUpdate_Object()
 {
-    m_pRangeObj->LateUpdate_Object();
+  //  m_pRangeObj->LateUpdate_Object();
 
     CSkill::LateUpdate_Object();
 }
 
 void CSkill_Player_Fire::Render_Object()
 {
-    m_pRangeObj->Render_Object();
+   // m_pRangeObj->Render_Object();
+    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+    m_pBufferCom->Render_Buffer();
     CSkill::Render_Object();
 }
 
@@ -95,12 +99,16 @@ HRESULT CSkill_Player_Fire::Add_Component()
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Effect", pFireEffect), E_FAIL);
     m_pSKillEffect = pFireEffect;
 
-    CGameObject* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+    /*CGameObject* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
     CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
     pShpere->Set_Radius(20.f);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Sphere", pGameObject), E_FAIL);
-    m_pRangeObj = pGameObject;
+    m_pRangeObj = pGameObject;*/
+
+    CComponent* pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
 
     return S_OK;
 }
