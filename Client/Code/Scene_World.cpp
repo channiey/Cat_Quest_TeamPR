@@ -186,42 +186,18 @@ void CScene_World::LateUpdate_Scene()
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	// 00. 1차 충돌 처리
+	
 	// Rect vs Rect
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ENVIRONMENT);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 
-	// Test
-	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::SKILL);
-
 	// Rect vs Line
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
-	// Position vs Sphere (기본 레인지 오브젝트) Test
+	// Position vs Sphere 
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::PLAYER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
-
-	// Position vs Sphere (플레이어 스킬 vs 몬스터)
-	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
-
-
-
-
-
-	// 플레이어 - 스킬 (렉트 vs 스피어 - 콜라이더, 레인지 오브젝트 아님) :: 부모 - 몬스터 _eParentType
-	//	-> 온콜리전함수로 스킬객체 
-	
-	// 플레이어 - 스킬 (렉트 vs 렉트)
-	//	-> 온콜리전함수로 스킬객체 
-
-	
-	// 스킬 콜라이더와 기본 공격 콜라이더(레인지오브젝트)가 겹치면 안됨 -> 각 공격의 데미지 두번 먹힘
-
-
-
-	// 몬스터 똑같음
-
-
 
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리
@@ -230,6 +206,7 @@ void CScene_World::LateUpdate_Scene()
 	// 02. 카메라 포지션 결정
 	CCameraMgr::GetInstance()->Set_ViewSpace();
 }
+
 void CScene_World::Render_Scene()
 {
 	if (!CManagement::GetInstance()->Is_Debug()) return;

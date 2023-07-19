@@ -44,6 +44,7 @@ _int CShadow_Item::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Delete_Obj(this);
 		return iExit;
 	}
+
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_fSize = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);

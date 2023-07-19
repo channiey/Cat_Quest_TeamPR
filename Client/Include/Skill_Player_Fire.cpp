@@ -104,9 +104,9 @@ HRESULT CSkill_Player_Fire::Add_Component()
     CEventMgr::GetInstance()->Add_Obj(L"Player_FireSkill_Sphere", pGameObject);
     m_pRangeObj = pGameObject;*/
 
-    CComponent* pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+   /* CComponent* pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
-    m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
+    m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);*/
 
 
     return S_OK;
