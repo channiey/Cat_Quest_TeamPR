@@ -27,6 +27,7 @@ public:
 	HRESULT					Set_ViewSpace(const _matrix& _matView);
 	HRESULT					Set_Projection(const _matrix& _matProj);	
 	HRESULT					Set_Viewport(const D3DVIEWPORT9& _tViewport);
+	HRESULT					Set_InitLook_Y(const _float& _fY) { m_fInitLookY = _fY;	return S_OK; }
 
 public:
 	void					Set_LookAt(CGameObject* _pLookAt) { m_pLookAt = _pLookAt; }
@@ -84,6 +85,8 @@ public:
 	_float					m_fShakeTime;
 	_float					m_fAccTime;
 	_float					m_fIntensity;
+
+	_float					m_fInitLookY; // 플레이어등 점프 전 초기 y값을 받아둔다.
 
 private:
 	virtual void			Free();

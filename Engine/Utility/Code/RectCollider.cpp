@@ -64,6 +64,9 @@ void CRectCollider::Free()
 
 void CRectCollider::Render_Collider()
 {
+
+	if (!m_bActive) return;
+
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	if (0 < m_iCol)

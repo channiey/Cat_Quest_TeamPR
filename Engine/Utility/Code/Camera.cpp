@@ -16,6 +16,7 @@ CCamera::CCamera()
 	, m_fIntensity(0.f)
 	, m_fShakeTime(0.f)
 	, m_fAccTime(0.f)
+	, m_fInitLookY(0.f)
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
 
@@ -41,6 +42,8 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	, m_fIntensity(0.f)
 	, m_fShakeTime(0.f)
 	, m_fAccTime(0.f)
+	, m_fInitLookY(0.f)
+
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
 	ZeroMemory(&m_tProj, sizeof(PROJECTION));
@@ -67,6 +70,8 @@ CCamera::CCamera(const CCamera & rhs, CGameObject* _pOwnerObject)
 	, m_fIntensity(0.f)
 	, m_fShakeTime(0.f)
 	, m_fAccTime(0.f)
+	, m_fInitLookY(0.f)
+
 {
 }
 

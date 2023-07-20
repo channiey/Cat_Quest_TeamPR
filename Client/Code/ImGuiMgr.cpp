@@ -152,7 +152,7 @@
 #include "PollenGenerator.h"
 
 
-TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Dynamic_Obj.dat";
+TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat";
 TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test_000.dat";
 
 #pragma region Global

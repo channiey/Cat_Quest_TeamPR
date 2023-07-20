@@ -627,7 +627,7 @@ HRESULT CScene_World::Ready_Layer_LHJ()
 
 HRESULT CScene_World::Ready_Layer_YC()
 {
-	Engine::CGameObject* pGameObject = nullptr;
+	/*Engine::CGameObject* pGameObject = nullptr;
 	
 	_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
 	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
@@ -642,7 +642,7 @@ HRESULT CScene_World::Ready_Layer_YC()
 
 	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos + _vec3{ 10.f, 0.f, 0.f }, vEndPos + _vec3{ 10.f, 0.f, -10.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_03", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_03", pGameObject), E_FAIL);*/
 
 	return S_OK;
 }

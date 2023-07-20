@@ -97,7 +97,8 @@ void CPlayer_Camera::Set_ViewSpace()
 	
 	D3DXVec3Lerp(&vLerpPos, &vLookPos, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * fLerpValue);
 	vLerpPos.y = vFollowPos.y; // 플레이어 추적시 y 값 흔들림 보정
-
+	
+	vLerpPos.y = m_pCameraCom->m_fInitLookY; // 이거 예외처리 필요
 
 	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
 	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - vLerpPos;

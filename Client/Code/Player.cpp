@@ -212,13 +212,13 @@ HRESULT CPlayer::Ready_Object()
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_WAKE);
 
-
 	// Camera Setting
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
 	{
 		CCameraMgr::GetInstance()->Set_Follow(this);
 		CCameraMgr::GetInstance()->Set_LookAt(this);
 		CCameraMgr::GetInstance()->Set_ViewSpace();
+		CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_InitLook_Y(m_pTransformCom->Get_Info(INFO_POS).y);
 	}
 	m_bMaintain = true; // 씬 변경시 유지 (사용시 팀장 보고)
 

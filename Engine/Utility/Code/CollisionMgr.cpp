@@ -57,7 +57,8 @@ void CCollisionMgr::Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eT
 				pCol1 = pObj1->Get_Collider();
 				pCol2 = pObj2->Get_Collider();
 
-				if (nullptr == pCol1 || nullptr == pCol2) continue;
+				if (nullptr == pCol1 || nullptr == pCol2 || !pCol1->Is_Active() || !pCol1->Is_Active()) continue;
+
 				Set_Info(iter, pCol1, pCol2);
 
 				if (Check_Rect(pObj1, pObj2)) // Ãæµ¹
