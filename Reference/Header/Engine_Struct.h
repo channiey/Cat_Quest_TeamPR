@@ -203,10 +203,12 @@ namespace Engine
 
 	typedef struct MyLerpFloatInfo
 	{
+		// Time
 		_float		fStartTime	= 0.f;
 		_float		fEndTime	= 0.f;
 		_float		fCurTime	= 0.f;
 
+		// Value
 		_float		fStartValue		= 0.f;
 		_float		fTargetValue	= 0.f;
 		_float		fCurValue		= 0.f;
@@ -230,6 +232,7 @@ namespace Engine
 			fTargetValue = _fTargetValue;
 		}
 
+		// Mode
 		void Update_Lerp(const _float& fTimeDelta)
 		{
 			if (!bActive) return;
