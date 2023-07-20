@@ -15,6 +15,8 @@
 #include "BatState_bRest.h"
 
 #include "Shadow_Monster.h"
+//Skill 
+#include "Skill_Monster_CircleAttack.h"
 
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -47,22 +49,14 @@ HRESULT CBat::Ready_Object()
 	m_tStatInfo.fAD = 10.f;
 
 
-
-	
-
 	// 원래 이미지 크기
 	m_vImageSize.x = 1.f; // 100px = 1.f
 	m_vImageSize.y = 1.f;
 	m_vImageSize.z = 2.f; //  고정
 
-
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f, m_vImageSize.y * 2.5f, m_vImageSize.z });
-	
 	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 110.f });
-
-	//m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
-
 	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
@@ -73,6 +67,15 @@ HRESULT CBat::Ready_Object()
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+
+
+	m_bSkill = false;
+	// 스킬 생성 
+	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
+
+
 
 #pragma region State Add
 
@@ -208,6 +211,23 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 	}
 
+	// Base Skill Use Condition
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{
+		if (!m_bSkill)
+		{
+			m_pBaseSkill->Play();
+			m_bSkill = true;
+		}
+
+		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		{
+			m_pBaseSkill->End();
+			m_bSkill = false;
+		}
+
+	}
 
 
 	return iExit;

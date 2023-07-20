@@ -39,11 +39,6 @@ private:
 public:
 	static				CRam* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
-private:
-
-	_bool					m_bSkill;
-	CSkill*					m_pSkill;
-
 
 
 protected:

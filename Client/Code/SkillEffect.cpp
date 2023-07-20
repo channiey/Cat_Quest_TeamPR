@@ -33,7 +33,7 @@ _int CSkillEffect::Update_Object(const _float& fTimeDelta)
 {
 	if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 	{
-		//m_bActive = false;
+		m_bActive = false;
 	}
 
 	_int iExit = __super::Update_Object(fTimeDelta);

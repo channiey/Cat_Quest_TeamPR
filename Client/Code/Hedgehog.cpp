@@ -15,6 +15,9 @@
 #include "HedgehogState_bAttack.h"
 #include "HedgehogState_bRest.h"
 
+// Skill
+#include "Skill_Monster_CircleAttack.h"
+
 // Shadow
 #include "Shadow_Monster.h"
 // Itme
@@ -72,7 +75,15 @@ HRESULT CHedgehog::Ready_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 	
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
+	
+	
+	m_bSkill = false;
+	
 
+	// 스킬 생성 
+	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Basic", m_pBaseSkill), E_FAIL);
 
 
 
@@ -179,10 +190,6 @@ HRESULT CHedgehog::Ready_Object()
 #pragma endregion
 
 
-
-
-
-	// 상태 세팅 - 상태만 사용 몬스터
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
@@ -190,6 +197,7 @@ HRESULT CHedgehog::Ready_Object()
 
 	return S_OK;
 }
+
 
 
 _int CHedgehog::Update_Object(const _float& fTimeDelta)
@@ -217,19 +225,31 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	}
 
 
+	// Skill Use Condition
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{ 
+		if (!m_bSkill)
+		{
+			m_pBaseSkill->Play();
+			m_bSkill = true;
 
+		}
 
+		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		{
+			m_pBaseSkill->End();
+			m_bSkill = false;
+		}
 
-
+	}
 
 	return iExit;
 }
 
 void CHedgehog::LateUpdate_Object()
 {
-	
-	
-
 	__super::LateUpdate_Object();
 
 }
