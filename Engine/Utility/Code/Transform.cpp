@@ -189,8 +189,15 @@ _vec3& CTransform::Normal_Lerp(const _vec3& vStart, const _vec3& vTarget, const 
 {
 	if (m_fCurTime == fLerpTime)
 	{
+		m_bStart = false;
 		m_fCurTime = 0;
 		return _vec3{ -99, -99, -99 };
+	}
+
+	if (!m_bStart)
+	{
+		m_bStart = true;
+		m_vStart = vTarget;
 	}
 
 	m_fCurTime += fTimeDelta;
@@ -201,7 +208,7 @@ _vec3& CTransform::Normal_Lerp(const _vec3& vStart, const _vec3& vTarget, const 
 
 	_vec3 vOut;
 	_float fTime = m_fCurTime / fLerpTime;
-	D3DXVec3Lerp(&vOut, &vStart, &vTarget, fTime);
+	D3DXVec3Lerp(&vOut, &vStart, &m_vStart, fTime);
 
 	return vOut;
 }

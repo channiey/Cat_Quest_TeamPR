@@ -172,10 +172,12 @@
     <ClInclude Include="..\Header\BatState_bRest.h" />
     <ClInclude Include="..\Header\BatState_Rest.h" />
     <ClInclude Include="..\Header\BossProjectile.h" />
+    <ClInclude Include="..\Header\FlightUI.h" />
     <ClInclude Include="..\Header\FoxState_bAttack.h" />
     <ClInclude Include="..\Header\FoxState_bChase.h" />
     <ClInclude Include="..\Header\FoxState_bComeBack.h" />
     <ClInclude Include="..\Header\FoxState_bPatrol.h" />
+    <ClInclude Include="..\Header\PlayerState_fFlight.h" />
     <ClInclude Include="..\Header\Projectile.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
     <ClInclude Include="..\Header\Effect_Heal.h" />
@@ -444,10 +446,12 @@
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
+    <ClCompile Include="..\Code\FlightUI.cpp" />
     <ClCompile Include="..\Code\FoxState_bAttack.cpp" />
     <ClCompile Include="..\Code\FoxState_bChase.cpp" />
     <ClCompile Include="..\Code\FoxState_bComeBack.cpp" />
     <ClCompile Include="..\Code\FoxState_bPatrol.cpp" />
+    <ClCompile Include="..\Code\PlayerState_fFlight.cpp" />
     <ClCompile Include="..\Code\Projectile.cpp" />
     <ClCompile Include="..\Code\Effect_Beam.cpp" />
     <ClCompile Include="..\Code\Effect_Heal.cpp" />

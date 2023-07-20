@@ -21,6 +21,7 @@
 #include "PlayerState_bAttack.h"
 #include "PlayerState_bAttack1.h"
 #include "PlayerState_bAttack2.h"
+#include "PlayerState_fFlight.h"
 
 #include "Environment.h"
 #include "Npc.h"
@@ -88,8 +89,10 @@ HRESULT CPlayer::Ready_Object()
 	m_bIsMonster = false;
 	m_fMonTargetLength = 99.f;
 	m_pMonTarget = nullptr;
-
+	
+	m_bhasFlight = false;
 	m_bIsTalking = false;
+
 	m_pInven = nullptr;
 
 	for (size_t i = 0; i < 4; ++i)
@@ -142,6 +145,8 @@ HRESULT CPlayer::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_DIE, pState);
 	pState = CPlayerState_fSleep::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_SLEEP, pState);
+	pState = CPlayerState_fFlight::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_FLIGHT, pState);
 #pragma endregion
 
 #pragma region Animation
@@ -178,6 +183,8 @@ HRESULT CPlayer::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)], STATE_TYPE::FRONT_FLIGHT, 0.02f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_FLIGHT, pAnimation);
 #pragma endregion
 
 #pragma region Effect
@@ -219,6 +226,7 @@ HRESULT CPlayer::Ready_Object()
 		CCameraMgr::GetInstance()->Set_Follow(this);
 		CCameraMgr::GetInstance()->Set_LookAt(this);
 		CCameraMgr::GetInstance()->Set_ViewSpace();
+		//CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_InitLook_Y(m_pTransformCom->Get_Info(INFO_POS).y);
 	}
 	m_bMaintain = true; // 씬 변경시 유지 (사용시 팀장 보고)
 
@@ -313,6 +321,9 @@ void CPlayer::LateUpdate_Object()
 	if (m_bSkill)
 		m_bSkill = false;
 
+	if (m_bhasFlight)
+		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight")->Set_Active(true);
+
 	__super::LateUpdate_Object();
 
 }
@@ -337,6 +348,9 @@ void CPlayer::Render_Object()
 
 void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 {
+	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState())
+		return;
+
 	_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
 
@@ -476,6 +490,9 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 {
+	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState())
+		return;
+
 	_vec3 vMyPos  = m_pTransformCom->Get_Info(INFO_POS);
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
 
@@ -645,6 +662,9 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
+	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState())
+		return;
+
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);
 
 
@@ -768,6 +788,10 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fSleep", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fFlight", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 #pragma endregion
 
 
@@ -776,6 +800,9 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
+	if (CInputDev::GetInstance()->Key_Down('Q'))
+		m_bhasFlight = true;
+
 	if (CInputDev::GetInstance()->Key_Down('1') &&
 		m_arrSkillSlot[0] != nullptr && !m_arrSkillSlot[0]->Is_Active() &&
 		m_arrSkillSlot[0]->Get_SkillUsage() <= m_tStatInfo.fCurMP)

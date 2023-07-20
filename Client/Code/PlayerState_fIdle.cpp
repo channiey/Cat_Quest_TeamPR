@@ -27,6 +27,9 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 {
 	if (!m_bEnter)
 	{
+		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Hp")->Set_Active(true);
+		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Def")->Set_Active(true);
+		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Mana")->Set_Active(true);
 		m_bEnter = true;
 	}
 
@@ -63,7 +66,13 @@ void CPlayerState_fIdle::Render_State()
 
 STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 {
+	// 날자꾸나	
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_F) &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Has_Flight())
+		return STATE_TYPE::FRONT_FLIGHT;
+
 	// 구르기
+#pragma region 구르기구르기
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.back);
@@ -128,9 +137,9 @@ STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
 		return STATE_TYPE::BACK_ROLL;
 	}
-	
-		
+#pragma endregion
 
+	
 	// 공격
 	if (CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
 	{
@@ -146,8 +155,6 @@ STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 			return STATE_TYPE::FRONT_ATTACK;
 	}
 
-
-
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 		return STATE_TYPE::FRONT_WALK;
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
@@ -156,10 +163,6 @@ STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 		return STATE_TYPE::BACK_WALK;
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 		return STATE_TYPE::FRONT_WALK;
-
-	
-	
-	
 
 		return m_eState;
 }

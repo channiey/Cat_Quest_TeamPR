@@ -136,10 +136,14 @@ public:
 	void				Set_PlayerDirNormal(const _vec3& vDir);
 	void				Set_PlayerLook(const _vec3& vDir);
 
+	// 플레이어 플라이트 스킬 가짐 상태
+	_bool&				Has_Flight() { return m_bhasFlight; }
+	void				Set_HasFlight(const _bool& bHas) { m_bhasFlight = bHas; }
+
+
 	// 플레이어가 Idle상태일때만 말걸수있게 해주세요
 	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
 	void				Set_PlayerTalk(const _bool& bTalk)	 { m_bIsTalking = bTalk; }
-
 	// 인벤토리
 	void				Set_Inventory(CGameObject* _pInven) { m_pInven = _pInven; }
 	CGameObject*		Get_Inventory() { return m_pInven; }
@@ -184,6 +188,9 @@ private:
 
 	// 말할때 가만히 있기
 	_bool						m_bIsTalking;
+	
+	// 날자꾸나
+	_bool						m_bhasFlight;
 
 
 	// << : Test : Range Test
