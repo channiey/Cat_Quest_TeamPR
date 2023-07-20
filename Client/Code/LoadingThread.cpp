@@ -376,6 +376,9 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog_Attack",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Back/%d.png", 19)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog_Stemp",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/groundwave/basic_shockwave.png")), E_FAIL);
+
 
 	// Monster - Bat
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Bat",

@@ -1,6 +1,7 @@
 #include "PlayerState_Hit.h"
 
 #include "Export_Function.h"
+#include "PlayerHitEffect.h"
 
 CPlayerState_Hit::CPlayerState_Hit(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev)
@@ -26,6 +27,7 @@ STATE_TYPE CPlayerState_Hit::Update_State(const _float& fTimeDelta)
 {
 	if (!m_bEnter)
 	{
+        CEventMgr::GetInstance()->Add_Obj(L"PlayerHit", CPlayerHitEffect::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS)));
 		m_bEnter = true;
         m_fAcc = 0.f;
 	}

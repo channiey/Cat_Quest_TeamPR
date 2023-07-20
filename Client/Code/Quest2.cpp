@@ -7,6 +7,7 @@
 #include "TalkMgr.h"
 #include "Management.h"
 #include "GraphicDev.h"
+#include "IndicatorUI.h"
 
 #include "Npc_King.h"
 #include "Npc_Citizen2.h"
@@ -42,7 +43,7 @@ void CQuest2::Init(LPDIRECT3DDEVICE9 m_pGraphicDev)
 	m_pKey = nullptr;
 }
 
-_bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator)
+_bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
 {
 	if (!m_pPlayer)
 	{
@@ -71,11 +72,25 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator)
 	case 0: // 교관과 대화
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON)
 		{
+			if (*_IsAble)
+			{
+				dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+					dynamic_cast<CNpc*>(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2")));
+			}
+
 			if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
 				Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Get_IsCol())
 			{
 				if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 21, OBJ_ID::NPC_CITIZEN_2)) {
 					m_iLevel += 1;
+					if (*_IsAble)
+					{
+						dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+							dynamic_cast<CEnvironment*>(CManagement::GetInstance()->
+								Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Dungeon_Grass")));
+					}
+
 					break;
 				}
 			}
@@ -99,6 +114,14 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator)
 		// 사자왕에게 보고
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
+			if (!*_IsAble)
+			{
+				dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+					dynamic_cast<CNpc*>(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")));
+				*_IsAble = true;
+			}
+
 			if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
 				Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_IsCol() &&
 				dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1)
@@ -113,6 +136,7 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator)
 		break;
 	case 3:
 		m_iLevel = 99;
+		*_IsAble = false; // 현재 퀘스트의 끝
 		// return true;
 		break;
 	}

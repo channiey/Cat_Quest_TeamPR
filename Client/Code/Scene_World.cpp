@@ -3,6 +3,9 @@
 
 #include "Export_Function.h"
 
+// test
+#include "Hedgehog_Stemp.h"
+
 // Environment
 #include "Terrain.h"
 #include "TerrainWorld.h"
@@ -599,6 +602,14 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	pGameObject = CNpc_Mage::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage", pGameObject), E_FAIL);
+
+	//pGameObject = CHedgehog_Stemp::Create(m_pGraphicDev, _vec3{
+	//_float(START_POS_WORLD_X) + 5.f,
+	//1.f,
+	//_float(START_POS_WORLD_Z) });
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Test", pGameObject), E_FAIL);
+
 
 	return S_OK;
 }

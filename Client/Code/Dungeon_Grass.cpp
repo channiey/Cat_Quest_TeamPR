@@ -6,6 +6,7 @@
 #include "Scene_Dungeon.h"
 #include "Scene_World.h"
 
+#include "QuestMgr.h"
 
 CDungeon_Grass::CDungeon_Grass(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CDungeon(pGraphicDev, OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_GRASS)
@@ -72,6 +73,7 @@ void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 				CScene* pScene = nullptr;
 				pScene = CScene_Dungeon::Create(m_pGraphicDev);
 				CEventMgr::GetInstance()->Change_Scene(pScene);
+				CQuestMgr::GetInstance()->Set_IsAble(false);
 			}
 
 			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON)
@@ -79,6 +81,7 @@ void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 				CScene* pScene = nullptr;
 				pScene = CScene_World::Create(m_pGraphicDev);
 				CEventMgr::GetInstance()->Change_Scene(pScene);
+				CQuestMgr::GetInstance()->Set_IsAble(false);
 			}
 
 		}
