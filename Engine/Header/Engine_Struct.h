@@ -9,7 +9,7 @@ namespace Engine
 
 #pragma region UTILITY
 
-	typedef struct tagMyVec3 
+	typedef struct tagMyVec3
 	{
 		_vec3 up = { 0.f,  1.f,  0.f };
 		_vec3 down = { 0.f, -1.f,  0.f };
@@ -21,7 +21,7 @@ namespace Engine
 		_vec3 zero = { 0.f,  0.f,  0.f };
 
 	}MYVEC3;
-	static const MYVEC3 vec3; 
+	static const MYVEC3 vec3;
 
 	typedef struct tagMyColor
 	{
@@ -73,7 +73,7 @@ namespace Engine
 
 	typedef struct tagVertexColor
 	{
-		_vec3		vPosition;		
+		_vec3		vPosition;
 		_ulong		dwColor;
 
 	}VTXCOL;
@@ -124,7 +124,7 @@ namespace Engine
 
 #pragma region CAMERA
 
-	typedef struct tagViewSpace 
+	typedef struct tagViewSpace
 	{
 		_vec3		Eye;
 		_vec3		LookAt;
@@ -136,10 +136,10 @@ namespace Engine
 
 	typedef struct tagProjection
 	{
-		_float		FOV;	
-		_float		Aspect;	
-		_float		Near;	
-		_float		Far;	
+		_float		FOV;
+		_float		Aspect;
+		_float		Near;
+		_float		Far;
 
 		tagProjection() : FOV(0.f), Aspect(0.f), Near(0.f), Far(0.f) {}
 
@@ -183,8 +183,8 @@ namespace Engine
 		_uint		iLevel;
 
 		tagStatInfo() : fMaxHP(100.f), fCurHP(fMaxHP), fMaxMP(100.f),
-							fCurMP(fMaxMP), fMaxExp(500.f), fCurExp(0.f), fMaxDef(100.f), fCurDef(fMaxDef),
-							fAD(10.f), fDF(10.f), fGold(0.f), bDead(false), iLevel(1){}
+			fCurMP(fMaxMP), fMaxExp(500.f), fCurExp(0.f), fMaxDef(100.f), fCurDef(fMaxDef),
+			fAD(10.f), fDF(10.f), fGold(0.f), bDead(false), iLevel(1) {}
 
 	}STATINFO;
 
@@ -229,7 +229,7 @@ namespace Engine
 		void Update_Lerp(const _float& fTimeDelta)
 		{
 			if (!bActive) return;
-			
+
 			fCurTime += fTimeDelta;
 
 			if (fCurTime >= fEndTime)
@@ -238,12 +238,55 @@ namespace Engine
 				fCurTime = fEndTime;
 			}
 
-			fCurValue = Lerp_Float(fStartValue , fTargetValue , fCurTime / fEndTime);	
+			fCurValue = Lerp_Float(fStartValue, fTargetValue, fCurTime / fEndTime);
 		}
 
 		_float Lerp_Float(const _float& _f1, const _float& _f2, const _float _fTime) { return (1 - _fTime) * _f1 + (_fTime * _f2); }
 
 	}LERP_FLOAT_INFO;
+
+
+	typedef struct MyLerpVec3Info
+	{
+		_float	fStartTime = 0.f;
+		_float	fEndTime = 0.f;
+		_float	fCurTime = 0.f;
+
+		_vec3	vStartVec{};
+		_vec3	vEndVec{};
+		_vec3	vCurVec{};
+
+		_bool	bActive = false;
+
+		void Init_Lerp()
+		{
+			bActive = true;
+			fCurTime = 0.f;
+			vCurVec = vec3.one;
+		}
+
+		void Set_Lerp(const _float& _fTime, const _vec3 _fStartValue, const _vec3& _fTargetValue)
+		{
+			fEndTime = _fTime;
+			vStartVec = _fStartValue;
+			vCurVec = _fTargetValue;
+		}
+
+		void Update_Lerp(const _float& fTimeDelta)
+		{
+			if (!bActive) return;
+
+			fCurTime += fTimeDelta;
+
+			if (fCurTime >= fEndTime)
+			{
+				bActive = FALSE;
+				fCurTime = fEndTime;
+			}
+
+			D3DXVec3Lerp(&vCurVec, &vStartVec, &vEndVec, fCurTime / fEndTime);
+		}
+	};
 }
 
 

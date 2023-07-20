@@ -25,7 +25,7 @@ HRESULT CPlayer_Camera::Ready_Object(void)
 
 	m_fDefaultHeight	= 80.f;
 	m_fNearZoom			= CAM_DEFAULT_DISTANCE;
-	m_fFarZoom			= 60.f;
+	m_fFarZoom			= 90.f;
 	m_pCameraCom->m_fDistance = m_fNearZoom;
 
 	m_pTransformCom->Set_Pos(_vec3{ 0.f, m_fDefaultHeight, -m_pCameraCom->m_fDistance });
@@ -72,10 +72,13 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
 		else
 			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
-		/*if (0 < dwMouse)
-			m_pCameraCom->m_fDistance = m_fNearZoom;
+	/*	if (0 < dwMouse)
+		{
+		}
 		else
-			m_pCameraCom->m_fDistance = m_fFarZoom;*/
+		{
+			m_pCameraCom->m_fDistance = m_fFarZoom;
+		}*/
 	}
 }
 
@@ -85,7 +88,6 @@ void CPlayer_Camera::Set_ViewSpace()
 
 	NULL_CHECK(m_pCameraCom->m_pLookAt);
 	NULL_CHECK(m_pCameraCom->m_pFollow);
-
 
 	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 	_vec3 vLookPos = m_pCameraCom->m_tVspace.LookAt;

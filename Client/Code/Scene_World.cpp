@@ -632,7 +632,7 @@ HRESULT CScene_World::Ready_Layer_YC()
 	_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
 	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
 
-	/*pGameObject = CLineObject::Create(m_pGraphicDev, vStartPos, vEndPos);
+	pGameObject = CLineObject::Create(m_pGraphicDev, vStartPos, vEndPos);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_01", pGameObject), E_FAIL);
 
@@ -642,16 +642,7 @@ HRESULT CScene_World::Ready_Layer_YC()
 
 	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos + _vec3{ 10.f, 0.f, 0.f }, vEndPos + _vec3{ 10.f, 0.f, -10.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_02", pGameObject), E_FAIL);*/
-
-	
-
-	/*pGameObject = CEffect_Range_Quater::Create(m_pGraphicDev, nullptr, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Quater_Range_Test", pGameObject), E_FAIL);	
-
-	_vec3 vPos{ START_POS_WORLD_X, 0.f, START_POS_WORLD_Z };
-	pGameObject->Get_Transform()->Set_Pos(vPos);*/
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_03", pGameObject), E_FAIL);
 
 	return S_OK;
 }

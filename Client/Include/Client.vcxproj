@@ -441,6 +441,8 @@
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
+    <ClCompile Include="..\Code\Effect_Cast_Purple.cpp" />
+    <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\FoxState_bAttack.cpp" />
     <ClCompile Include="..\Code\FoxState_bChase.cpp" />
     <ClCompile Include="..\Code\FoxState_bComeBack.cpp" />
@@ -608,6 +610,7 @@
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
     <ClCompile Include="..\Code\Scene_Dungeon.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
+    <ClCompile Include="..\Code\Shadow_Item.cpp" />
     <ClCompile Include="..\Code\Skill.cpp" />
     <ClCompile Include="..\Code\SkillEffect.cpp" />
     <ClCompile Include="..\Code\Shadow_Monster.cpp" />
@@ -617,6 +620,7 @@
     <ClCompile Include="..\Code\Skill_Monster_Fire.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Ice.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Thunder.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Fire.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Purple.cpp" />
@@ -696,11 +700,7 @@
     <ClCompile Include="..\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Skill_Player_Fire.cpp" />
-    <ClCompile Include="Effect_Cast_Purple.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Effect_Thunder.cpp" />
-    <ClCompile Include="Shadow_Item.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -183,6 +183,8 @@ void CCollisionMgr::Check_Line_Collision(const OBJ_TYPE& _eType)
 						pCol1->OnCollision_Exit(pLine);
 						pCol2->OnCollision_Exit(pObj1);
 						iter->second = false;
+
+						//cout << "Exit\n";
 					}
 					else // 삭제 예정 없음
 					{
@@ -296,7 +298,7 @@ const _bool CCollisionMgr::Check_Line_Rect(CGameObject* const _pObj1, CLineObjec
 		{
 			//if(지나갈 수 없는 라인이라면)
 
-			pCol2->m_vOverlapLine = Get_LineCollision_Data(vRectPtList, vLinePtList);
+			pCol2->m_vOverlapLine = Get_LineCollision_Data(_pObj1->Get_Transform()->Get_Dir(), vRectPtList, vLinePtList);
 
 			return TRUE;
 		}
@@ -322,7 +324,7 @@ const _int CCollisionMgr::Check_CCW(const _vec3& _vLineStart, const _vec3& _vLin
 	return 0;
 }
 
-const _vec3& CCollisionMgr::Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _vLinePtList)
+const _vec3& CCollisionMgr::Get_LineCollision_Data(const _vec3& vDir, _vec3* _vRectPtList, _vec3* _vLinePtList)
 {
 	// 충돌 영역만큼 빼주기 위한 데이터 제공 -> 라인 콜라이더에 저장
 	_vec3 vCross, v1, v2;
@@ -344,7 +346,12 @@ const _vec3& CCollisionMgr::Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _
 			bPrevY[i] = false;
 	}
 
-	_bool bPrev;
+	if ((bPrevY[0] == bPrevY[1]) && (bPrevY[0] == bPrevY[2]) && (bPrevY[0] == bPrevY[3]))
+		return vec3.zero;
+
+
+
+	_bool bPrev; // 여기 조건을 다시 짜야할 듯
 	for (int i = 0; i < 4; ++i)
 	{
 		if (0 == i)
@@ -371,27 +378,65 @@ const _vec3& CCollisionMgr::Get_LineCollision_Data(_vec3* _vRectPtList, _vec3* _
 		}
 	}
 
-	// 2. 직선의 방정식으로 라인에서 위치할 x, z 값을 구한다.
-	_float fZ = ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x)) 
-					* (vOutPoint.x - _vLinePtList[0].x) 
-					+ _vLinePtList[0].z;
 
-	_float fX = (vOutPoint.z - _vLinePtList[0].z) 
-					/ ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x))	
-					+ _vLinePtList[0].x;
 
-	// 3. 밀어낸 최종 위치 
-	vOverlap.x = fX - vOutPoint.x;
-	vOverlap.z = fZ - vOutPoint.z;
+	// 0 1 
+	// 3 2
 
-	// 3. 위 정보들을 라인 콜라이더에 저장한다.
-
-	for (int i = 0; i < 4; ++i)
+	if (0 == bPrevY[0] && 1 == bPrevY[1] && 1 == bPrevY[2] && 0 == bPrevY[3]) // 좌우 충돌 0 1 1 0
 	{
-		cout << bPrevY[i] << "\t";
+		if (0 < vDir.x) // ->
+			vOutPoint = _vRectPtList[1];
+		else // <-
+			vOutPoint = _vRectPtList[0];
+
+		// 2. 직선의 방정식으로 라인에서 위치할 x, z 값을 구한다.
+
+		_float fX = (vOutPoint.z - _vLinePtList[0].z)
+			/ ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x))
+			+ _vLinePtList[0].x;
+
+		// 3. 밀어낸 최종 위치 
+		vOverlap.x = fX - vOutPoint.x;
+		vOverlap.z = 0.f;
+
+		return vOverlap;
 	}
-	cout << vOverlap.x << "\t" << vOverlap.z << endl;
-	return vOverlap;
+	else if (1 == bPrevY[0] && 1 == bPrevY[1] && 0 == bPrevY[2] && 0 == bPrevY[3]) // 상하 충돌 1 1 0 0
+	{
+		if (0 < vDir.z) // 위로
+			vOutPoint = _vRectPtList[0];
+		else // 아래로
+			vOutPoint = _vRectPtList[2];
+
+
+		// 2. 직선의 방정식으로 라인에서 위치할 x, z 값을 구한다.
+		_float fZ = ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x))
+			* (vOutPoint.x - _vLinePtList[0].x)
+			+ _vLinePtList[0].z;
+
+		vOverlap.x = 0.f;
+		vOverlap.z = fZ - vOutPoint.z;
+
+		return vOverlap;
+	}
+	else
+	{
+		// 2. 직선의 방정식으로 라인에서 위치할 x, z 값을 구한다.
+		_float fZ = ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x)) 
+						* (vOutPoint.x - _vLinePtList[0].x) 
+						+ _vLinePtList[0].z;
+
+		_float fX = (vOutPoint.z - _vLinePtList[0].z) 
+						/ ((_vLinePtList[1].z - _vLinePtList[0].z) / (_vLinePtList[1].x - _vLinePtList[0].x))	
+						+ _vLinePtList[0].x;
+
+		// 3. 밀어낸 최종 위치 
+		vOverlap.x = fX - vOutPoint.x;
+		vOverlap.z = fZ - vOutPoint.z;
+
+		return vOverlap;
+	}
 }
 
 const _bool CCollisionMgr::Check_Range(CGameObject* const _pObj, CGameObject* const _pRange)

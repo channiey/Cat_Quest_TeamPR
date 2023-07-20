@@ -69,7 +69,12 @@ void CRectCollider::Render_Collider()
 	if (0 < m_iCol)
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.red));
 	else
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green ));
+	{
+		if(OBJ_TYPE::ENVIRONMENT == m_pOwnerObject->Get_Type())
+			m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+		else
+			m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.green));
+	}
 
 	m_pMesh->DrawSubset(0);
 
