@@ -5,12 +5,13 @@
 
 CEnvironment::CEnvironment(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ENVIRONMENT, _eID)
-	, m_pTextureCom(nullptr)
+	, m_pTextureCom(nullptr), m_bCol(false)
 {
 }
 
 CEnvironment::CEnvironment(const CEnvironment& rhs)
 	: Engine::CGameObject(rhs)
+	, m_bCol(rhs.m_bCol)
 {
 }
 

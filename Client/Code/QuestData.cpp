@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "QuestData.h"
 
+#include "IndicatorUI.h"
+
 #include "Export_Function.h"
 
 CQuestData::CQuestData() 
@@ -12,6 +14,7 @@ CQuestData::CQuestData()
 
 CQuestData::~CQuestData()
 {
+	Free();
 }
 
 void CQuestData::Free()

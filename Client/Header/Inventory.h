@@ -63,16 +63,21 @@ public:
 public:
 	void					Set_Player(CGameObject* _pPlayer) { m_pPlayer = _pPlayer; }
 
-	// Set
+	// Item
 	void					Add_Item(CGameObject* _pItem) { m_vecItem.push_back(_pItem); }
-	// Get
+
+	// Key
+	void					Set_HaveKey(_bool _isAdd)
+	{
+		if (_isAdd) m_iHaveKey += 1;
+		else if (!_isAdd && m_iHaveKey > 0) m_iHaveKey -= 1;
+	}
+	_int					Get_HaveKey() { return m_iHaveKey; }
+
 protected:
 	virtual HRESULT			Add_Component();
 	void					Picking_UI();
 	void					Key_Input();
-
-
-
 
 private:
 	CGameObject*			m_pPlayer;	
@@ -96,7 +101,9 @@ private:
 	tagLine					m_sLineAry[INVEN_LINE - 16];
 	// 아이템 배열
 	vector<CGameObject*>	m_vecItem;
-
+	// 열쇠 
+	_int					m_iHaveKey;
+		
 public: 
 
 	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphicDev);

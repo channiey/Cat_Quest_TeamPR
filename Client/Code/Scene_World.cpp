@@ -147,9 +147,13 @@ CScene_World::~CScene_World()
 HRESULT CScene_World::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-	//CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
-	//CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
+	// 한 번만 초기화
+	
+	if (!CTalkMgr::GetInstance()->Get_IsInit())
+		CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
+	if (!CQuestMgr::GetInstance()->Get_IsInit())
+		CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
 	// OBJ_TYPE별로 선언 필요
 	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
@@ -194,7 +198,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 	__super::Update_Scene(fTimeDelta);
 
-	//CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	return 0;
 }
@@ -382,9 +386,10 @@ HRESULT CScene_World::Ready_Layer_UI()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
 
 	// UI - Inventroy
-	pGameObject = CInventory::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
+	// pGameObject = CInventory::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
+	// pGameObject->Set_Maintain(true);
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 

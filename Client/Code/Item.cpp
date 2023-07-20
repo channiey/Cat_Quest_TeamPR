@@ -9,6 +9,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev , const OBJ_ID& _eID)
 	, m_fJumpingSpeed(0.f)
 	, m_eItemType(ITEM_TYPE::TYPEEND)
 	, m_vImageSize({ 0.f,0.f,0.f })
+	, m_bCol(false)
 {
 	ZeroMemory(&m_tStatInfo, sizeof(STATINFO));
 }
@@ -19,6 +20,7 @@ CItem::CItem(const CItem & rhs)
 	, m_fJumpingSpeed(rhs.m_fJumpingSpeed)
 	, m_eItemType(rhs.m_eItemType)
 	, m_vImageSize(rhs.m_vImageSize)
+	, m_bCol(rhs.m_bCol)
 {
 }
 

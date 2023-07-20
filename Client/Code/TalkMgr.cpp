@@ -34,42 +34,31 @@ void CTalkMgr::Init()
 		{ L"나는 사자왕이다."},
 		{ L"너는 매우 약해 보인다."},
 		{ L"듀토리얼이 시급해 보인다."},
-		{ L"고슴도치나 잡으면서 놀아라.(고슴도치 2마리를 잡아오자.)"}
+		{ L"습지 던전의 몬스터들을 모두 소탕하고 시험관에게 확인 받아라.(습지 던전의 모든 몬스터를 소탕하자.)"},
 		}));
-
 	// 사자왕
 	m_mapTalkData.insert(make_pair(11, vector<wstring>{
-		{ L"고슴도치 2마리를 잡는 것을 보았다."},
-		{ L"너는 쓸만하다." },
-		{ L"대장장이에게 가봐라." },
-		{ L"가기 전에 이걸 받아라.(단검 획득)"}
-	}));
-
-	// 사자왕
-	m_mapTalkData.insert(make_pair(12, vector<wstring>{
-		{ L"잘 돌아왔다."},
+		{ L"내가 숨겨놓은 열쇠가 틀림없군."},
 		{ L"너는 듀토리얼을 완료했다." },
-		{ L"자랑스럽다." }
+		{ L"이제 너는 내가 인정하는 강인한 길고양이다." },
+		{ L"자랑스럽다.(스태프 획득)"}
 	}));
 
-	// 메이지
+	// 교관(citizen2)
 	m_mapTalkData.insert(make_pair(20, vector<wstring>{
-		{ L"대장장이가 보내서 왔구나."},
-		{ L"이것으로 듀토리얼은 모두 끝났어!" },
-		{ L"이걸 받고 사자왕께 돌아가도록 해.(사자왕에게 돌아가자.)" },
-		{ L"(지팡이 획득.)"}
+		{ L"모든 몬스터를 소탕하셨군요."},
+		{ L"훌륭합니다." },
+		{ L"보상을 드리겠습니다.(퀘스트 1 완료, 무기 획득.)" }
 	}));
 
-	// 대장장이
-	m_mapTalkData.insert(make_pair(30, vector<wstring>{
-		{ L"사자왕께서 보내서 왔군." },
-		{ L"그럼 다시 마법사에게 가봐." },
-		{ L"그리고 이것도 가지고 가.(검 획득)"}
+	m_mapTalkData.insert(make_pair(21, vector<wstring>{
+		{ L"다음 퀘스트입니다."},
+		{ L"다시 밖으로 나가셔서 어딘가에 숨겨져 있는 열쇠를 찾으시면 됩니다."},
+		{ L"열쇠를 찾고 나면 사자왕께 가시면 됩니다."}
 	}));
-
-
 	//
 
+	m_bInit = true;
 }
 
 _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _eObjID)

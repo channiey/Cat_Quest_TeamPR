@@ -24,6 +24,7 @@ public:
 	virtual void			Play_ColLogic(const _float& fTimeDelta) {} // 충돌 로직
 public:
 	CTexture*				Get_Texture() { return m_pTextureCom; }
+	_bool					Get_IsCol()	  { return m_bCol; }
 
 private:
 	HRESULT					Add_Component();
@@ -31,6 +32,7 @@ private:
 protected:
 	CTexture*				m_pTextureCom = nullptr;
 
+	_bool					m_bCol;
 protected:
 	virtual void			Free() override;
 };

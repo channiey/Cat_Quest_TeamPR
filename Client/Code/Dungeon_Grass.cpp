@@ -3,6 +3,10 @@
 
 #include "Export_Function.h"
 
+#include "Scene_Dungeon.h"
+#include "Scene_World.h"
+
+
 CDungeon_Grass::CDungeon_Grass(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CDungeon(pGraphicDev, OBJ_ID::ENVIRONMENT_ENTERANCE_DUNGEON_GRASS)
 {
@@ -56,10 +60,39 @@ void CDungeon_Grass::OnCollision_Enter(CGameObject* _pColObj)
 
 void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 {
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		m_bCol = true;
+		if (CInputDev::GetInstance()->Key_Down('E'))
+		{
+			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+			{
+				CScene* pScene = nullptr;
+				pScene = CScene_Dungeon::Create(m_pGraphicDev);
+				CEventMgr::GetInstance()->Change_Scene(pScene);
+			}
+
+			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON)
+			{
+				CScene* pScene = nullptr;
+				pScene = CScene_World::Create(m_pGraphicDev);
+				CEventMgr::GetInstance()->Change_Scene(pScene);
+			}
+
+		}
+
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 void CDungeon_Grass::OnCollision_Exit(CGameObject* _pColObj)
 {
+	m_bCol = false;
 }
 
 HRESULT CDungeon_Grass::Add_Component()

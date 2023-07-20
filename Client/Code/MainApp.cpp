@@ -7,6 +7,8 @@
 #include "Scene_Tool.h"
 
 #include "EventMgr.h"
+#include "QuestMgr.h"
+#include "TalkMgr.h"
 
 #include "ImGuiMgr.h"
 #include "Calculator.h"
@@ -138,7 +140,8 @@ CMainApp * CMainApp::Create()
 void CMainApp::Free()
 {
 	CManagement::GetInstance()->Get_CurScene()->Release_MaintainObj();
-
+	CTalkMgr::DestroyInstance(); // 임시로 여기서 지움.
+	CQuestMgr::DestroyInstance(); // 임시로 여기서 지움.
 	CImGuiMgr::GetInstance()->DestroyInstance();
 
 	Safe_Release(m_pGraphicDev);

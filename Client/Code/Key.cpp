@@ -36,7 +36,7 @@ HRESULT CKey::Ready_Object()
 
 	// Transform Setting
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x *1.5f , m_vImageSize.y * 1.5f, m_vImageSize.z * 1.5f});
-	m_pTransformCom->Set_Pos(_vec3{ 90.f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 193.f, 3.f, 251.f });
 
 	m_fJumpingSpeed = 0.01;
 
@@ -94,6 +94,26 @@ void CKey::Render_Object()
 
 }
 
+void CKey::OnCollision_Enter(CGameObject* _pColObj)
+{
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		m_bCol = true;
+		CEventMgr::GetInstance()->Delete_Obj(this);  // ªË¡¶
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void CKey::OnCollision_Exit(CGameObject* _pColObj)
+{
+	m_bCol = false;
+}
+
 HRESULT CKey::Add_Component()
 {
 	CComponent* pComponent = nullptr;
@@ -128,6 +148,5 @@ CKey* CKey::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CKey::Free()
 {
-
 	__super::Free();
 }
