@@ -348,7 +348,7 @@ void CPlayer::Render_Object()
 
 void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 {
-	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState())
+	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState() && _pColObj->Get_ID() != OBJ_ID::LINE)
 		return;
 
 	_vec3 vMyPos = m_pTransformCom->Get_Info(INFO_POS);
@@ -490,7 +490,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 {
-	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState())
+	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState() && _pColObj->Get_ID() != OBJ_ID::LINE)
 		return;
 
 	_vec3 vMyPos  = m_pTransformCom->Get_Info(INFO_POS);
@@ -662,7 +662,7 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 {
-	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState())
+	if (STATE_TYPE::FRONT_FLIGHT == m_pStateMachineCom->Get_CurState() && _pColObj->Get_ID() != OBJ_ID::LINE)
 		return;
 
 	_vec3 vColPos = _pColObj->Get_Transform()->Get_Info(INFO_POS);

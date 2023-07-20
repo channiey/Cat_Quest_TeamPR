@@ -8,6 +8,7 @@
 #include "SphereCollider.h"
 #include "RangeObj.h"
 #include "GameObject.h"
+#include "Player.h"
 
 CSkill_Player_Ice::CSkill_Player_Ice(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
     : CSkill(pGraphicDev, _eID)

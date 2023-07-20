@@ -8,6 +8,7 @@
 #include "SphereCollider.h"
 #include "RangeObj.h"
 #include "GameObject.h"
+#include "Player.h"
 
 CSkill_Player_Beam::CSkill_Player_Beam(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
     : CSkill(pGraphicDev, _eID)
@@ -56,8 +57,8 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
         return iExit;
     }
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
- 
-    
+
+
     //m_pRangeObj->Update_Object(fTimeDelta);
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
