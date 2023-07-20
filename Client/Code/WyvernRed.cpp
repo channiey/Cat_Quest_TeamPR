@@ -251,7 +251,7 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 			m_bSkill = true;
 		}
 
-		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
 			m_pBaseSkill->End();
 			m_bSkill = false;
