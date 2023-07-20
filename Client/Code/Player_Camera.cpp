@@ -51,6 +51,13 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 		Set_Zoom(fTimeDelta);
 	}
 
+	if (m_pCameraCom->m_tFOVLerp.bActive)
+	{
+		m_pCameraCom->m_tFOVLerp.Update_Lerp(fTimeDelta);
+		m_pCameraCom->m_tProj.FOV = m_pCameraCom->m_tFOVLerp.fCurValue;
+		m_pCameraCom->Set_Projection();
+	}
+
 
 	return iExit;
 }

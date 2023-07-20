@@ -184,19 +184,6 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
-
-	// 씬 변경 테스트 (월드 -> 던전)
-	if (CInputDev::GetInstance()->Key_Down(VK_RETURN))
-	{
-		CScene* pScene = nullptr;
-
-		pScene = CScene_Dungeon::Create(m_pGraphicDev);
-
-		NULL_CHECK_RETURN(pScene, -1);
-
-		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Change_Scene(pScene), E_FAIL);
-	}
-
 	__super::Update_Scene(fTimeDelta);
 
 	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트

@@ -32,7 +32,9 @@ namespace Engine
 
 #define CAM_DEFAULT_DISTANCE		23.f
 #define	CAM_PLAYER_FLIGHT_DISTANCE  30.f
-
+#define CAM_DEFAULT_FOV				D3DXToRadian(60.f)
+#define CAM_PLAYER_FLIGHT_FOV		D3DXToRadian(80.f)
+		
 #define	VTXCNTX						129
 #define VTXCNTZ						129
 #define VTXITV						3

@@ -36,7 +36,8 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		m_bIsLand = false;
 		m_bEnter = true;
 
-		CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_Distance(0.5f, CAM_DEFAULT_DISTANCE, CAM_PLAYER_FLIGHT_DISTANCE);
+		CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
+			1.f, CAM_DEFAULT_FOV, CAM_PLAYER_FLIGHT_FOV, LERP_MODE::SMOOTHERSTEP);
 
 	}
 
@@ -74,7 +75,8 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 			return STATE_TYPE::FRONT_IDLE;
 		}
 			
-		CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_Distance(0.3f, CAM_PLAYER_FLIGHT_DISTANCE, CAM_DEFAULT_DISTANCE);
+		CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
+			1.f, CAM_PLAYER_FLIGHT_FOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
 
 	}
 

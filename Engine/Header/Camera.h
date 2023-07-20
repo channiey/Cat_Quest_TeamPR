@@ -46,7 +46,8 @@ public:
 	const _bool				Is_LookAt() const { NULL_CHECK_RETURN(m_pLookAt, FALSE); return TRUE; }
 	const _bool				Is_Follow() const { NULL_CHECK_RETURN(m_pFollow, FALSE); return TRUE; }
 
-	void					Lerp_Distance(const _float& _fTime, const _float _fStartDist, const _float _fEndDist);
+	void					Lerp_Distance(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode = LERP_MODE::DEFAULT);
+	void					Lerp_FOV(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode = LERP_MODE::DEFAULT);
 
 public:
 	void					Shake_Camera(const _float& _fTime, const _float& _fIntensity);
@@ -90,7 +91,8 @@ public:
 
 	_float					m_fInitLookY; // 플레이어등 점프 전 초기 y값을 받아둔다.
 
-	MyLerpFloatInfo			m_tZoomLerp;
+	LERP_FLOAT_INFO			m_tZoomLerp;
+	LERP_FLOAT_INFO			m_tFOVLerp;
 
 private:
 	virtual void			Free();

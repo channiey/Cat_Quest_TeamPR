@@ -28,6 +28,8 @@ CCamera::CCamera()
 	ZeroMemory(&m_matProj, sizeof(_matrix));
 	ZeroMemory(&m_matView, sizeof(_matrix));
 	ZeroMemory(&m_tZoomLerp, sizeof(LERP_FLOAT_INFO));
+	ZeroMemory(&m_tFOVLerp, sizeof(LERP_FLOAT_INFO));
+
 
 }
 
@@ -55,6 +57,7 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	ZeroMemory(&m_matProj, sizeof(_matrix));
 	ZeroMemory(&m_matView, sizeof(_matrix));
 	ZeroMemory(&m_tZoomLerp, sizeof(LERP_FLOAT_INFO));
+	ZeroMemory(&m_tFOVLerp, sizeof(LERP_FLOAT_INFO));
 
 }
 
@@ -210,10 +213,16 @@ HRESULT CCamera::Set_Viewport(const D3DVIEWPORT9& _tViewport)
 	return S_OK;
 }
 
-void CCamera::Lerp_Distance(const _float& _fTime, const _float _fStartDist, const _float _fEndDist)
+void CCamera::Lerp_Distance(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode)
 {
-	m_tZoomLerp.Init_Lerp();
+	m_tZoomLerp.Init_Lerp(_eMode);
 	m_tZoomLerp.Set_Lerp(_fTime, _fStartDist, _fEndDist);
+}
+
+void CCamera::Lerp_FOV(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode)
+{
+	m_tFOVLerp.Init_Lerp(_eMode);
+	m_tFOVLerp.Set_Lerp(_fTime, _fStartDist, _fEndDist);
 }
 
 void CCamera::Shake_Camera(const _float& _fTime, const _float& _fIntensity)
