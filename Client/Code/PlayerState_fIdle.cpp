@@ -27,6 +27,9 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 {
 	if (!m_bEnter)
 	{
+		_vec3 vPpos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(_vec3{ vPpos.x,  m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Scale().y, vPpos.z });
+
 		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Hp")->Set_Active(true);
 		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Def")->Set_Active(true);
 		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Mana")->Set_Active(true);

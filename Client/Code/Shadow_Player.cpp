@@ -2,6 +2,7 @@
 #include "Shadow_Player.h"
 
 #include "Export_Function.h"
+#include "Player.h"
 
 CShadow_Player::CShadow_Player(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_PLAYABLE_SHADOW), m_pTextureCom(nullptr)
@@ -56,11 +57,28 @@ void CShadow_Player::Render_Object()
 	memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
 	vPos.y -= matWorld._22 + 0.02f;
 
+	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
+	{
+		vPos.y = 0.02f;
+		vPos.z += 0.8f;
+	}
+		
+
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
-	matWorld._11 = matWorld._11 * 0.4f;
-	matWorld._33 = matWorld._33 * 0.3f;
+	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
+	{
+		matWorld._11 = matWorld._11 * 0.35f;
+		matWorld._33 = matWorld._33 * 0.25f;
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(200, 255, 255, 255));
+	}
+	else
+	{
+		matWorld._11 = matWorld._11 * 0.4f;
+		matWorld._33 = matWorld._33 * 0.3f;
+	}
+	
 
 	m_pTextureCom->Render_Texture(); 
 
