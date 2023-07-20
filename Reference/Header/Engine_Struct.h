@@ -182,9 +182,9 @@ namespace Engine
 
 		_uint		iLevel;
 
-		tagStatInfo() : fMaxHP(100.f), fCurHP(fMaxHP), fMaxMP(100.f),
-			fCurMP(fMaxMP), fMaxExp(500.f), fCurExp(0.f), fMaxDef(100.f), fCurDef(fMaxDef),
-			fAD(10.f), fDF(10.f), fGold(0.f), bDead(false), iLevel(1) {}
+		tagStatInfo() : fMaxHP(100.f), fCurHP(fMaxHP), fMaxMP(10.f),
+							fCurMP(fMaxMP), fMaxExp(500.f), fCurExp(0.f), fMaxDef(100.f), fCurDef(fMaxDef),
+							fAD(10.f), fDF(10.f), fGold(0.f), bDead(false), iLevel(1){}
 
 	}STATINFO;
 

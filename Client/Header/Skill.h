@@ -66,10 +66,10 @@ public:
 	CGameObject*			Get_SkillOwner() { return m_pOwnerObject; }
 
 	void					Set_SkillDamage(const _float& pDamage)  { m_fSkillDamage = pDamage; }
-	void					Set_SkillUsage(const _float& pUsage)	{ m_fSkillUsage = pUsage; }
+	void					Set_SkillUsage(const _uint& pUsage)	{ m_iSkillUsage = pUsage; }
 
 	const _float&			Get_SkillDamage() const { return m_fSkillDamage; }
-	const _float&			Get_SkillUsage()  const { return m_fSkillUsage; }
+	const _uint&			Get_SkillUsage()  const { return m_iSkillUsage; }
 
 protected:
 	CGameObject*			m_pOwnerObject;
@@ -81,7 +81,7 @@ protected:
 	CGameObject*			m_pRangeObj;
 
 	_float					m_fSkillDamage;
-	_float					m_fSkillUsage;
+	_uint					m_iSkillUsage;
 
 protected:
 	virtual void			Free();

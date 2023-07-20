@@ -60,6 +60,9 @@ void CPlayerState_bIdle::Render_State()
 
 STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 {
+	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_F))
+		return STATE_TYPE::FRONT_IDLE;
+
 	// ±¸¸£±â
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 	{

@@ -75,6 +75,7 @@
 #include "FieldSkillUI.h"
 #include "DialogUI.h"
 #include "Inventory.h"
+#include "FlightUI.h"
 
 // NPC
 #include "Npc_King.h"
@@ -376,7 +377,7 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Indicator", pGameObject), E_FAIL);
 
-	// UI - Indicator
+	// UI - FieldSkill
 	pGameObject = CFieldSkillUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
@@ -385,6 +386,11 @@ HRESULT CScene_World::Ready_Layer_UI()
 	pGameObject = CInventory::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
+
+	// UI - Flight
+	pGameObject = CFlightUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Flight", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 
