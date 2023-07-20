@@ -245,11 +245,6 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 
 	}
 
-
-
-
-
-
 	return iExit;
 }
 

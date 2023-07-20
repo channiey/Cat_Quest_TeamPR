@@ -15,6 +15,7 @@
 #include "WyvernRedState_bRest.h"
 //Skill
 #include "Skill_Monster_Beam.h"
+#include "Skill_Monster_CircleAttack.h"
 //Shadow
 #include "Shadow_Monster.h"
 
@@ -80,6 +81,9 @@ HRESULT CWyvernRed::Ready_Object()
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Beam", m_pSkill), E_FAIL);
 
+	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
 
 
 
@@ -238,18 +242,28 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
+	// Base Skill Use Condition
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{
+		if (!m_bSkill)
+		{
+			m_pBaseSkill->Play();
+			m_bSkill = true;
+		}
 
+		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		{
+			m_pBaseSkill->End();
+			m_bSkill = false;
+		}
+
+	}
 	
 	return iExit;
 }
 
 void CWyvernRed::LateUpdate_Object()
 {
-
-	if (m_bSkill)
-		m_bSkill = false;
-
-
 	__super::LateUpdate_Object();
 }
 

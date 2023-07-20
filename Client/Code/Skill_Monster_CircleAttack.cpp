@@ -46,6 +46,7 @@ _int CSkill_Monster_CircleAttack::Update_Object(const _float& fTimeDelta)
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
+        CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
         //CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
         return iExit;
@@ -98,15 +99,70 @@ HRESULT CSkill_Monster_CircleAttack::Add_Component()
 HRESULT CSkill_Monster_CircleAttack::Play()
 {
     _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
-
-    m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-    m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
-    m_pRangeEffect->Scaling(1.4f, 0.3f, 0.8f);
+    OBJ_ID eObjID = m_pOwnerObject->Get_ID();
 
 
-    m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-    m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
-    m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
+
+    if (eObjID == OBJ_ID::MONSTER_HEDGEHOG)
+    {
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Scaling(1.4f, 0.3f, 0.8f);    // 14 frame
+
+        m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
+
+    }
+
+    if (eObjID == OBJ_ID::MONSTER_RAM)
+    {
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Scaling(1.6f, 0.3f, 0.8f);  // 16 frame
+
+        m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
+
+    }
+
+    if (eObjID == OBJ_ID::MONSTER_BAT)
+    {
+
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Scaling(0.8f, 0.3f, 0.7f);     // 8 Frame
+
+        m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Scaling(0.01f, 0.7f, 0.7f);
+
+    }
+
+    if (eObjID == OBJ_ID::MONSTER_WYVERN )
+    {
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Scaling(0.9f, 0.3f, 0.8f);    // 9 Frame
+
+        m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
+    }
+
+    if (eObjID == OBJ_ID::MONSTER_WYVERNRED)
+    {
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Scaling(0.9f, 0.3f, 0.8f);    // 9 Frame
+
+        m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
+    }
+
+
     m_bActive = true;
 
 

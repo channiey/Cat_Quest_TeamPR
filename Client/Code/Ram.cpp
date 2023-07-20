@@ -14,10 +14,12 @@
 #include "RamState_bComeBack.h"
 #include "RamState_bAttack.h"
 #include "RamState_bRest.h"
-
-
+// Shadow
 #include "Shadow_Monster.h"
+
+// Skill
 #include "Skill_Monster_Thunder.h"
+#include "Skill_Monster_CircleAttack.h"
 
 CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_RAM)
@@ -77,12 +79,16 @@ HRESULT CRam::Ready_Object()
 
 	m_bSkill = false;
 
+
 	// 스킬 생성 
 	m_pSkill = CSkill_Monster_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Thunder", m_pSkill), E_FAIL);
 
 
+	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
 
 
 #pragma region State Add
@@ -224,7 +230,7 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	// Skill Use
+	// Skill Use Condition
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
@@ -241,8 +247,22 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
+	// Base Skill Use Condition
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{
+		if (!m_bSkill)
+		{
+			m_pBaseSkill->Play();
+			m_bSkill = true;
+		}
 
+		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		{
+			m_pBaseSkill->End();
+			m_bSkill = false;
+		}
 
+	}
 
 	return iExit;
 }
