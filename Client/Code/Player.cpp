@@ -326,7 +326,11 @@ void CPlayer::LateUpdate_Object()
 		m_bSkill = false;
 
 	if (m_bhasFlight)
+	{
+		NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight"))
 		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight")->Set_Active(true);
+	}
+		
 
 	__super::LateUpdate_Object();
 
@@ -337,8 +341,10 @@ void CPlayer::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
-	if(m_bHit)
+	if(m_bHit && m_tStatInfo.fCurDef <= 0)
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, HITCOLOR_R, HITCOLOR_G, HITCOLOR_B));
+	else if (m_bHit && m_tStatInfo.fCurDef > 0)
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 199, 144));
 
 	m_pStateMachineCom->Render_StateMachine();
 	m_pBufferCom->Render_Buffer();
@@ -966,11 +972,15 @@ void CPlayer::Damaged(const _float& fDamage)
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_DIE ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WAKE || 
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL || 
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
 		return;
 
-	if(m_tStatInfo.fCurDef > 0)
+	if (m_tStatInfo.fCurDef > 0)
+	{
 		Set_CurDef(m_tStatInfo.fCurDef - fDamage);
+		m_bHit = true;
+	}
 	else
 	{
 		if (m_tStatInfo.fCurHP <= 1)
