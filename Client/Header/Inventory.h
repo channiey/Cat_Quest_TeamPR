@@ -7,6 +7,7 @@ class CRcTex;
 class CTexture;
 class CTransform;
 class CGameObject;
+class CAnimation;
 
 END
 // OK, NO 버튼
@@ -40,7 +41,7 @@ struct tagEquipCheck
 	CTransform* m_peCheckTrans;
 	CTexture*   m_pOkTex;
 	CTexture*   m_pNoTex;
-	EQUIPCHECK  m_eEquipCheck = EQUIP_NONE;
+	EQUIPCHECK  m_eEquipCheck;
 };
 
 class CPlayer;
@@ -103,6 +104,14 @@ private:
 	vector<CGameObject*>	m_vecItem;
 	// 열쇠 
 	_int					m_iHaveKey;
+	
+	// 마네킹
+	CGameObject* m_pMannequin;
+	CTexture*	 m_pMannequinTexCom;
+	CTransform*	 m_pMannequinTransCom;
+	CAnimation*  m_pMannequinAniCom;
+	_matrix		 m_matMannequinWorld;
+
 		
 public: 
 

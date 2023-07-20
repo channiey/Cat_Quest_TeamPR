@@ -36,12 +36,14 @@ HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev)
 	CEventMgr::GetInstance()->Add_Obj(L"UI_Indicator", m_pIndicator);
 	m_pIndicator->Set_Maintain(true);
 
+	m_bIsAble = false;
+
 	return S_OK;
 }
 
 void CQuestMgr::Update(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	if (m_mapQuestList[m_iQuestID]->Update(pGraphicDev, m_pIndicator))
+	if (m_mapQuestList[m_iQuestID]->Update(pGraphicDev, m_pIndicator, &m_bIsAble))
 	{
 		m_iQuestID += 10;
 	}

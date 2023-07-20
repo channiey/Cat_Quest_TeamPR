@@ -9,7 +9,7 @@ public:
 
 public:
 	virtual void  Init(LPDIRECT3DDEVICE9 m_pGraphicDev)   override;
-	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator) override;
+	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble) override;
 
 private:
 	_int			m_iKillCount;

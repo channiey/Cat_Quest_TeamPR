@@ -18,7 +18,7 @@ public:
 
 public:
 	virtual void  Init(LPDIRECT3DDEVICE9 m_pGraphicDev)   = 0;
-	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator) = 0;
+	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble) = 0;
 
 public:
 	virtual _int Get_Level() { return m_iLevel; }

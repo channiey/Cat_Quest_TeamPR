@@ -15,6 +15,7 @@ CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CInventory::CInventory(const CInventory& rhs)
 	:CUI(rhs)
+	, m_pMannequinAniCom(rhs.m_pMannequinAniCom)
 {
 }
 
@@ -26,6 +27,7 @@ HRESULT CInventory::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pMannequinAniCom = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom, STATE_TYPE::FRONT_IDLE, 0.2f, true);
 
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
@@ -206,8 +208,8 @@ HRESULT CInventory::Ready_Object()
 	}
 
 	// Equip Check OK, NO 
-	m_fPosX = 750.f;
-	m_fPosY = 542.5;
+	m_fPosX = 1000.f;
+	m_fPosY = 592.5;
 	m_fSizeX = 100.f;
 	m_fSizeY = 50.f;
 	//m_fMultipleSizeX = 0.5f;
@@ -216,6 +218,19 @@ HRESULT CInventory::Ready_Object()
 	m_sEquipCheck.m_mateCheck._42 = WINCY - m_fPosY;
 	m_sEquipCheck.m_mateCheck._11 = m_fSizeX;
 	m_sEquipCheck.m_mateCheck._22 = m_fSizeY;
+
+
+	// Mannequin
+	m_fPosX = 200.f;
+	m_fPosY = 400.f;
+	m_fSizeX = 2.f;
+	m_fSizeY = 2.f;
+	m_fMultipleSizeX = 250.f;
+	m_fMultipleSizeY = 250.f;
+	m_matMannequinWorld._41 = m_fPosX;
+	m_matMannequinWorld._42 = WINCY - m_fPosY;
+	m_matMannequinWorld._11 = m_fSizeX * m_fMultipleSizeX;
+	m_matMannequinWorld._22 = m_fSizeY * m_fMultipleSizeY;
 
 
 	// Inven Sort Button
@@ -240,6 +255,8 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 		m_pPlayer = CManagement::GetInstance()->
 			Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
 	}
+
+	m_pMannequinAniCom->Update_Animation(fTimeDelta);
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -409,6 +426,15 @@ void CInventory::Render_Object()
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 
+
+
+		// Mannequin
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
+		m_pMannequinAniCom->Render_Animation();
+		m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
 		
 		//// Sort Button
 		//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -529,6 +555,14 @@ HRESULT CInventory::Add_Component()
 	pComponent = m_pInventoryTexCom[INVEN_SORTBUTTON] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_Plain", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	
+	
+	// Mannequin
+	pComponent = m_pMannequinTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 
 #pragma endregion
 
