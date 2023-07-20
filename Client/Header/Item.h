@@ -77,7 +77,8 @@ public:
 	ITEM_TYPE			Get_ItemType() { return m_eItemType; }
 
 #pragma endregion
-
+	// ¼ºÇõ Ãß°¡
+	_bool				Get_IsCol() { return m_bCol; }
 protected:
 
 	STATINFO				m_tStatInfo;    // Item Info
@@ -88,6 +89,8 @@ protected:
 	ITEM_TYPE				m_eItemType;     // ItemType
 	_vec3					m_vImageSize;	 // Image Size
 
+	//¼ºÇõ Ãß°¡
+	_bool					m_bCol;
 protected:
 	virtual void			Free() override;
 };

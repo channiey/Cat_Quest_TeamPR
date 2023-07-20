@@ -245,16 +245,21 @@ HRESULT CPlayer::Ready_Object()
 
 	m_szName = L"Player";
 
+	m_pInven = CInventory::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(m_pInven, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Inventory", m_pInven);
+	m_pInven->Set_Maintain(true);
+
 	return S_OK;
 }
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	if (!m_pInven)
-	{
-		m_pInven = CManagement::GetInstance()->
-			Get_GameObject(OBJ_TYPE::UI, L"UI_Inventory");
-	}
+	//if (!m_pInven)
+	//{
+	//	m_pInven = CManagement::GetInstance()->
+	//		Get_GameObject(OBJ_TYPE::UI, L"UI_Inventory");
+	//}
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 

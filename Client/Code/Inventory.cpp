@@ -8,7 +8,7 @@
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
-	, m_bIsOn(false)
+	, m_bIsOn(false), m_iHaveKey(0)
 {
 	m_pPlayer = nullptr;
 }

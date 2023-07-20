@@ -90,7 +90,7 @@ Engine::_int CScene_Dungeon::Update_Scene(const _float& fTimeDelta)
 
 	__super::Update_Scene(fTimeDelta);
 
-	//CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	return 0;
 }
@@ -265,9 +265,9 @@ HRESULT CScene_Dungeon::Ready_Layer_UI()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_FieldSkill", pGameObject), E_FAIL);
 
 	// UI - Inventroy
-	pGameObject = CInventory::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
+	// pGameObject = CInventory::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
 
 }
 

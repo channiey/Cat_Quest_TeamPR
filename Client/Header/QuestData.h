@@ -18,7 +18,7 @@ public:
 
 public:
 	virtual void  Init(LPDIRECT3DDEVICE9 m_pGraphicDev)   = 0;
-	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev) = 0;
+	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator) = 0;
 
 public:
 	virtual _int Get_Level() { return m_iLevel; }
@@ -26,9 +26,10 @@ public:
 protected:
 	wstring					m_strQuestName; // 퀘스트 이름
 	vector<CGameObject*>	m_vNpcList;		// 관련 Npc를 담을 배열
-	vector<CGameObject*>	m_vItemList;		// 보상 아이템을 담을 배열
-	_int					m_iLevel;
-	CGameObject*			m_pPlayer;
+	vector<CGameObject*>	m_vItemList;	// 보상 아이템을 담을 배열
+	_int					m_iLevel;		// 퀘스트 단계
+	CGameObject*			m_pPlayer;      // 플레이어
+
 
 private:
 	virtual void			Free();

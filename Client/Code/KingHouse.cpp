@@ -47,8 +47,8 @@ _int CKingHouse::Update_Object(const _float& fTimeDelta)
 
 	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
 	{
-		CIndicatorUI* pUI = static_cast<CIndicatorUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Indicator"));
-		pUI->Set_IndicTarget(this);
+		//CIndicatorUI* pUI = static_cast<CIndicatorUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Indicator"));
+		//pUI->Set_IndicTarget(this);
 	}
 
 	return iExit;

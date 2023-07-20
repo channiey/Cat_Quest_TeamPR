@@ -66,6 +66,7 @@ void CNpc_Citizen1::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
+		m_bCol = true;
 	}
 	break;
 	default:
@@ -75,6 +76,7 @@ void CNpc_Citizen1::OnCollision_Stay(CGameObject* _pColObj)
 
 void CNpc_Citizen1::OnCollision_Exit(CGameObject* _pColObj)
 {
+	m_bCol = false;
 }
 
 HRESULT CNpc_Citizen1::Add_Component()
