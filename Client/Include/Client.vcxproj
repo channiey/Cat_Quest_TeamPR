@@ -446,7 +446,6 @@
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
-    <ClCompile Include="..\Code\Effect_Cast_Purple.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\FlightUI.cpp" />
     <ClCompile Include="..\Code\FoxState_bAttack.cpp" />
@@ -710,7 +709,6 @@
     <ClCompile Include="..\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Effect_Cast_Purple.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

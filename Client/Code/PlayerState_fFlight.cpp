@@ -38,7 +38,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 	if (!m_bIsSky)
 	{
 		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Normal_Lerp(vStart, _vec3{ vStart.x, vStart.y + 30.f, vStart.z }, 1.f, fTimeDelta);
+		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Normal_Lerp(vStart, _vec3{ vStart.x, vStart.y + 10.f, vStart.z }, 1.f, fTimeDelta);
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
@@ -57,7 +57,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 	if (m_bIsLand)
 	{
 		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Normal_Lerp(vStart, _vec3{ vStart.x, vStart.y - 30.f, vStart.z }, 1.f, fTimeDelta);
+		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Normal_Lerp(vStart, _vec3{ vStart.x, vStart.y - 10.f, vStart.z }, 1.f, fTimeDelta);
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
