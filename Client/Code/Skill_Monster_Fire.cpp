@@ -53,6 +53,8 @@ _int CSkill_Monster_Fire::Update_Object(const _float& fTimeDelta)
     // Dead condition
     if (!m_pOwnerObject->Is_Active())
     {
+        CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
+        CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
         return iExit;
     }
@@ -108,7 +110,7 @@ HRESULT CSkill_Monster_Fire::Play()
     m_pSKillEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
     m_pRangeEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
     m_pRangeEffect->Get_Transform()->Set_Scale(_vec3{ 5.f, 5.f, 5.f });
-    //m_pRangeEffect->Scaling(1.f,1.f,2.f);
+    m_pRangeEffect->Scaling(1.f,1.f,1.5f);
   
 
     m_bActive = true;

@@ -132,6 +132,12 @@ protected:
 	_bool					m_bInit;			// Lateinit 
 
 
+	// Skill
+	_bool					m_bSkill;
+	CSkill*					m_pSkill;
+	CSkill*					m_pBaseSkill;
+
+
 
 protected:
 	
