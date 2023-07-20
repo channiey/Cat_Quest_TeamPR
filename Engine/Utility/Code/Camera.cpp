@@ -27,6 +27,7 @@ CCamera::CCamera()
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
 	ZeroMemory(&m_matProj, sizeof(_matrix));
 	ZeroMemory(&m_matView, sizeof(_matrix));
+	ZeroMemory(&m_tZoomLerp, sizeof(LERP_FLOAT_INFO));
 
 }
 
@@ -53,6 +54,8 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
 	ZeroMemory(&m_matProj, sizeof(_matrix));
 	ZeroMemory(&m_matView, sizeof(_matrix));
+	ZeroMemory(&m_tZoomLerp, sizeof(LERP_FLOAT_INFO));
+
 }
 
 CCamera::CCamera(const CCamera & rhs, CGameObject* _pOwnerObject)
@@ -205,6 +208,12 @@ HRESULT CCamera::Set_Viewport(const D3DVIEWPORT9& _tViewport)
 {
 	m_pGraphicDev->SetViewport(&_tViewport);
 	return S_OK;
+}
+
+void CCamera::Lerp_Distance(const _float& _fTime, const _float _fStartDist, const _float _fEndDist)
+{
+	m_tZoomLerp.Init_Lerp();
+	m_tZoomLerp.Set_Lerp(_fTime, _fStartDist, _fEndDist);
 }
 
 void CCamera::Shake_Camera(const _float& _fTime, const _float& _fIntensity)
