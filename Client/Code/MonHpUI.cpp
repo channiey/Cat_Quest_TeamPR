@@ -73,6 +73,15 @@ void CMonHpUI::LateUpdate_Object()
 	if (m_fCurRatio >= 1.f)
 	{
 		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
+		m_pUITransformCom[4]->Reset_Lerp();
+	}
+	else if (m_fCurRatio >= m_fHpRatio && m_fCurRatio < 1.f)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
+		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+		m_pUITransformCom[4]->Reset_Lerp();
+		m_fHpRatio = m_fCurRatio;
+
 	}
 	else if (m_fCurRatio != m_fHpRatio && m_fCurRatio < 1.f)
 	{
@@ -97,6 +106,7 @@ void CMonHpUI::LateUpdate_Object()
 	{
 		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
 		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+		m_pUITransformCom[4]->Reset_Lerp();
 	}
 
 

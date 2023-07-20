@@ -70,8 +70,17 @@ void CManaUI::LateUpdate_Object()
 	if (m_fCurRatio >= 1.f)
 	{
 		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
+		m_pUITransformCom[4]->Reset_Lerp();
 	}
-	else if (m_fCurRatio != m_fMpRatio && m_fCurRatio < 1.f)
+	else if (m_fCurRatio >= m_fMpRatio && m_fCurRatio < 1.f)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
+		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+		m_pUITransformCom[4]->Reset_Lerp();
+		m_fMpRatio = m_fCurRatio;
+
+	}
+	else if (m_fCurRatio <= m_fMpRatio && m_fCurRatio < 1.f)
 	{
 		_vec3 vOutScale = m_pUITransformCom[4]->Lerp(m_pUITransformCom[4]->Get_Scale()
 			, m_pUITransformCom[1]->Get_Scale(), 1.2f, Engine::Get_TimeDelta(L"Timer_FPS65"));
@@ -89,11 +98,11 @@ void CManaUI::LateUpdate_Object()
 		else
 			m_fMpRatio = m_fCurRatio;
 	}
-
 	if (m_fCurRatio == m_fMpRatio)
 	{
 		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
 		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+		m_pUITransformCom[4]->Reset_Lerp();
 	}
 
 	__super::LateUpdate_Object();

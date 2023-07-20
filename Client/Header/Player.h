@@ -123,6 +123,9 @@ public:
 
 	void				Regen_HP(const _float& fHeal);
 
+	void				Regen_Mana();
+	void				Using_Mana(const _uint& iUsage);
+
 	CSkill*				Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
 
 	_bool&				Is_MonsterThere()		{ return m_bIsMonster; }

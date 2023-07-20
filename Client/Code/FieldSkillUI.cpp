@@ -398,60 +398,105 @@ void CFieldSkillUI::Render_Object()
 			if (m_pPlayerSkill[0] != nullptr)
 			{
 				// 스킬1
-				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[1]);
-				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[0]);
-				m_pBufferCom->Render_Buffer();
+				if (dynamic_cast<CPlayer*>(m_pPlayer)->Get_StatInfo().fCurMP < m_pPlayerSkill[0]->Get_SkillUsage())
+				{
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 100, 100, 100));
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[1]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[0]);
+					m_pBufferCom->Render_Buffer();
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+				}
+				else
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[1]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[0]);
+					m_pBufferCom->Render_Buffer();
+				}
 				// 마나링1
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[5]);
 				m_pUITextureCom[3]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 
-				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"1", -1,
+			
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, to_wstring(static_cast<CSkill*>(m_pPlayerSkill[0])->Get_SkillUsage()).c_str(), -1,
 					&m_rcFont[0], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
 			}
 			
 			if (m_pPlayerSkill[1] != nullptr)
 			{
 				// 스킬2
-				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
-				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[1]);
-				m_pBufferCom->Render_Buffer();
+				if (dynamic_cast<CPlayer*>(m_pPlayer)->Get_StatInfo().fCurMP < m_pPlayerSkill[1]->Get_SkillUsage())
+				{
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 100, 100, 100));
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[1]);
+					m_pBufferCom->Render_Buffer();
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+				}
+				else
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[2]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[1]);
+					m_pBufferCom->Render_Buffer();
+				}
 				// 마나링2
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[6]);
 				m_pUITextureCom[3]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 
-				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"2", -1,
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, to_wstring(static_cast<CSkill*>(m_pPlayerSkill[1])->Get_SkillUsage()).c_str(), -1,
 					&m_rcFont[1], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
 			}
 			
 			if (m_pPlayerSkill[2] != nullptr)
 			{
 				// 스킬3
-				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
-				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[2]);
-				m_pBufferCom->Render_Buffer();
+				if (dynamic_cast<CPlayer*>(m_pPlayer)->Get_StatInfo().fCurMP < m_pPlayerSkill[2]->Get_SkillUsage())
+				{
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 100, 100, 100));
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[2]);
+					m_pBufferCom->Render_Buffer();
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+				}
+				else
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[3]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[2]);
+					m_pBufferCom->Render_Buffer();
+				}
 				// 마나링3
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[7]);
 				m_pUITextureCom[3]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 
-				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"3", -1,
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, to_wstring(static_cast<CSkill*>(m_pPlayerSkill[2])->Get_SkillUsage()).c_str(), -1,
 					&m_rcFont[2], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
 			}
 			
 			if (m_pPlayerSkill[3] != nullptr)
 			{
 				// 스킬4
-				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
-				m_pUITextureCom[2]->Render_Texture(m_iSkillKind[3]);
-				m_pBufferCom->Render_Buffer();
+				if (dynamic_cast<CPlayer*>(m_pPlayer)->Get_StatInfo().fCurMP < m_pPlayerSkill[3]->Get_SkillUsage())
+				{
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 100, 100, 100));
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[3]);
+					m_pBufferCom->Render_Buffer();
+					m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+				}
+				else
+				{
+					m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[4]);
+					m_pUITextureCom[2]->Render_Texture(m_iSkillKind[3]);
+					m_pBufferCom->Render_Buffer();
+				}
 				// 마나링4
 				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorldUI[8]);
 				m_pUITextureCom[3]->Render_Texture();
 				m_pBufferCom->Render_Buffer();
 
-				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"4", -1,
+				CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, to_wstring(static_cast<CSkill*>(m_pPlayerSkill[3])->Get_SkillUsage()).c_str(), -1,
 					&m_rcFont[3], DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(220, 216, 0, 255));
 			}
 		}
@@ -561,11 +606,10 @@ void CFieldSkillUI::Play_SKill()
 	{
 		if (m_bPick[i])
 		{
-			if (m_pPlayerSkill[i] != nullptr)
+			if (m_pPlayerSkill[i] != nullptr && dynamic_cast<CPlayer*>(m_pPlayer)->Get_StatInfo().fCurMP >= m_pPlayerSkill[i]->Get_SkillUsage())
 			{
 				m_pPlayerSkill[i]->Play();
-				if (OBJ_ID::SKILL_PLAYER_HEAL != m_pPlayerSkill[i]->Get_ID());
-					//m_pPlayer->Set_Skill(true);
+				m_pPlayer->Using_Mana(m_pPlayerSkill[i]->Get_SkillUsage());
 			}
 		}
 	}

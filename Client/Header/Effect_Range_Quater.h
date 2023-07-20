@@ -24,6 +24,7 @@ public:
 public:
 	void						Scaling	(const _float& _fTime, const _float _fStartMag,	const _float& _fTargetMag);
 	void						Alphaing	(const _float& _fTime, const _float _fStartValue, const _float& _fTargetValue);
+	void						Set_Size(const _vec3& vSize) { m_vSize = vSize; }
 
 private:
 	void						Render_Circle(_matrix& matWorld);

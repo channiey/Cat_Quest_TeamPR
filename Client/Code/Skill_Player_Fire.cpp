@@ -33,7 +33,7 @@ HRESULT CSkill_Player_Fire::Ready_Object()
     CSkill::Ready_Object();
 
     m_fSkillDamage = 30;
-    m_fSkillUsage = 2;
+    m_iSkillUsage = 2;
 
     m_bActive = false;
 
@@ -63,6 +63,8 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
+   
+
     if (!m_pSKillEffect->Is_Active())
     {
         __super::End();
@@ -81,7 +83,7 @@ void CSkill_Player_Fire::LateUpdate_Object()
 
 void CSkill_Player_Fire::Render_Object()
 {
-    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+    //m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
     //m_pBufferCom->Render_Buffer();
     //m_pRangeObj->Render_Object();
     CSkill::Render_Object();
@@ -126,9 +128,9 @@ HRESULT CSkill_Player_Fire::Play()
     m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4});
     m_pRangeEffect->Alphaing(1.f, 255, 128);
     m_pRangeEffect->Set_Size(_vec3{ 7.5f, 7.5f, 7.5f * 0.7 });
-    CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
+    
     m_bActive = true;
-
+    CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
     return S_OK;
 }
 

@@ -36,6 +36,9 @@
 #include "MoveWater.h"
 // Skill Effect
 #include "Skill_Player_Fire.h"
+#include "Skill_Player_Ice.h"
+#include "Skill_Player_Thunder.h"
+#include "Skill_Player_Beam.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -185,26 +188,23 @@ HRESULT CPlayer::Ready_Object()
 	m_arrSkillSlot[0] = m_arrSkill[_uint(SKILL_TYPE::FIRE)];
 	m_arrSkillSlot[0]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
-	/*m_arrEffect[_uint(SKILL_TYPE::THUNDER)] = CEffect_Thunder::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Thunder", m_arrEffect[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
-	m_arrSkillSlot[1] = m_arrEffect[_uint(SKILL_TYPE::THUNDER)];
+	m_arrSkill[_uint(SKILL_TYPE::THUNDER)] = CSkill_Player_Thunder::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Thunder", m_arrSkill[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
+	m_arrSkillSlot[1] = m_arrSkill[_uint(SKILL_TYPE::THUNDER)];
+	m_arrSkillSlot[1]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
-	m_arrEffect[_uint(SKILL_TYPE::FREEZING)] = CEffect_Ice::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::FREEZING)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Freezing", m_arrEffect[_uint(SKILL_TYPE::FREEZING)]), E_FAIL);
-	m_arrSkillSlot[2] = m_arrEffect[_uint(SKILL_TYPE::FREEZING)];
+	m_arrSkill[_uint(SKILL_TYPE::ICE)] = CSkill_Player_Ice::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::ICE)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Ice", m_arrSkill[_uint(SKILL_TYPE::ICE)]), E_FAIL);
+	m_arrSkillSlot[2] = m_arrSkill[_uint(SKILL_TYPE::ICE)];
+	m_arrSkillSlot[2]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
-	m_arrEffect[_uint(SKILL_TYPE::BEAM)] = CEffect_Beam::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::BEAM)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Beam", m_arrEffect[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::BEAM)];*/
-
-
-	/*m_arrEffect[_uint(SKILL_TYPE::HEAL)] = CEffect_Heal::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrEffect[_uint(SKILL_TYPE::HEAL)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PlayerSkill_Heal", m_arrEffect[_uint(SKILL_TYPE::HEAL)]), E_FAIL);
-	m_arrSkillSlot[3] = m_arrEffect[_uint(SKILL_TYPE::HEAL)];*/
+	m_arrSkill[_uint(SKILL_TYPE::BEAM)] = CSkill_Player_Beam::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::BEAM)], E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Beam", m_arrSkill[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
+	m_arrSkillSlot[3] = m_arrSkill[_uint(SKILL_TYPE::BEAM)];
+	m_arrSkillSlot[3]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
 #pragma endregion
 
@@ -487,12 +487,20 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 
 		if (Is_Attack())
 		{
+			Regen_Mana();
 			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 			CCameraMgr::GetInstance()->Shake_Camera();
 		}
 		if (Is_Skill())
 		{
-			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+			for (auto iter : m_arrSkillSlot)
+			{
+				if (nullptr != iter && iter->Is_Active())
+				{
+					dynamic_cast<CMonster*>(_pColObj)->Damaged(dynamic_cast<CSkill*>(iter)->Get_SkillDamage(), this);
+				}
+			}
+			
 		}
 		
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
@@ -769,30 +777,38 @@ HRESULT CPlayer::Add_Component()
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
 	if (CInputDev::GetInstance()->Key_Down('1') &&
-		m_arrSkillSlot[0] != nullptr)
+		m_arrSkillSlot[0] != nullptr && !m_arrSkillSlot[0]->Is_Active() &&
+		m_arrSkillSlot[0]->Get_SkillUsage() <= m_tStatInfo.fCurMP)
 	{
 		m_arrSkillSlot[0]->Play();
+		Using_Mana(m_arrSkillSlot[0]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
 			m_bSkill = true;
 	}
 	else if (CInputDev::GetInstance()->Key_Down('2') &&
-		m_arrSkillSlot[1] != nullptr)
+		m_arrSkillSlot[1] != nullptr && !m_arrSkillSlot[1]->Is_Active() &&
+		m_arrSkillSlot[1]->Get_SkillUsage() <= m_tStatInfo.fCurMP)
 	{
 		m_arrSkillSlot[1]->Play();
+		Using_Mana(m_arrSkillSlot[1]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
 			m_bSkill = true;
 	}
 	else if (CInputDev::GetInstance()->Key_Down('3') &&
-		m_arrSkillSlot[2] != nullptr)
+		m_arrSkillSlot[2] != nullptr && !m_arrSkillSlot[2]->Is_Active() && 
+		m_arrSkillSlot[2]->Get_SkillUsage() <= m_tStatInfo.fCurMP)
 	{
 		m_arrSkillSlot[2]->Play();
+		Using_Mana(m_arrSkillSlot[2]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
 			m_bSkill = true;
 	}
 	else if (CInputDev::GetInstance()->Key_Down('4') &&
-		m_arrSkillSlot[3] != nullptr)
+		m_arrSkillSlot[3] != nullptr && !m_arrSkillSlot[3]->Is_Active() &&
+		m_arrSkillSlot[3]->Get_SkillUsage() <= m_tStatInfo.fCurMP)
 	{
 		m_arrSkillSlot[3]->Play();
+		Using_Mana(m_arrSkillSlot[3]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
 			m_bSkill = true;
 	}
@@ -894,6 +910,23 @@ void CPlayer::Regen_HP(const _float& fHeal)
 
 		Set_CurHP(fRegenHeal);
 	}
+
+}
+
+void CPlayer::Regen_Mana()
+{
+	Set_CurMP(m_tStatInfo.fCurMP += 0.5f);
+
+	if (m_tStatInfo.fCurMP >= m_tStatInfo.fMaxMP)
+		Set_CurMP(m_tStatInfo.fMaxMP);
+}
+
+void CPlayer::Using_Mana(const _uint& iUsage)
+{
+	Set_CurMP(m_tStatInfo.fCurMP - iUsage);
+
+	if (m_tStatInfo.fCurMP <= 0)
+		Set_CurMP(0);
 
 }
 

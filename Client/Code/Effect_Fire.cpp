@@ -58,7 +58,6 @@ void CEffect_Fire::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	m_pTransformCom->Set_Pos(_vec3{ _vPos.x, m_pTransformCom->Get_Info(INFO::INFO_POS).y, _vPos.z - 5.2f });
 	m_bActive = true;
 	m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
-	CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
 }
 
 HRESULT CEffect_Fire::Add_Component()

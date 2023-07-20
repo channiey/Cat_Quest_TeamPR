@@ -347,6 +347,10 @@
     <ClInclude Include="..\Header\Skill_Monster_Fire.h" />
     <ClInclude Include="..\Header\Skill_Monster_Ice.h" />
     <ClInclude Include="..\Header\Skill_Monster_Thunder.h" />
+    <ClInclude Include="..\Header\Skill_Player_Beam.h" />
+    <ClInclude Include="..\Header\Skill_Player_Fire.h" />
+    <ClInclude Include="..\Header\Skill_Player_Ice.h" />
+    <ClInclude Include="..\Header\Skill_Player_Thunder.h" />
     <ClInclude Include="..\Header\Smithy.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Blue.h" />
     <ClInclude Include="..\Header\Effect_SpellBurst_Purple.h" />
@@ -427,7 +431,6 @@
     <ClInclude Include="..\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Skill_Player_Fire.h" />
     <ClInclude Include="Effect_Cast_Purple.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Effect_Thunder.h" />
@@ -617,6 +620,10 @@
     <ClCompile Include="..\Code\Skill_Monster_Fire.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Ice.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Thunder.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Beam.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Fire.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Ice.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Thunder.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Blue.cpp" />
     <ClCompile Include="..\Code\Effect_SpellBurst_Purple.cpp" />
@@ -696,7 +703,6 @@
     <ClCompile Include="..\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Skill_Player_Fire.cpp" />
     <ClCompile Include="Effect_Cast_Purple.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Effect_Thunder.cpp" />
