@@ -29,6 +29,7 @@
 #include "Inventory.h"
 #include "ExpUI.h"
 #include "EnterUI.h"
+#include "FlightUI.h"
 
 #include "Scene_World.h"
 
@@ -256,6 +257,11 @@ HRESULT CScene_Dungeon::Ready_Layer_UI()
 	// pGameObject = CInventory::Create(m_pGraphicDev);
 	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
+
+	// UI - Flight
+	pGameObject = CFlightUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Flight", pGameObject), E_FAIL);
 
 }
 

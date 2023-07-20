@@ -25,10 +25,10 @@ HRESULT CFlightUI::Ready_Object()
 	D3DXMatrixIdentity(&m_UImatWorld);
 
 	m_fPosX = 100;
-	m_fPosY = 160;
+	m_fPosY = 150;
 
-	m_fSizeX = 46.8;
-	m_fSizeY = 56.7;
+	m_fSizeX = 32.76;
+	m_fSizeY = 39.69;
 
 	m_UImatWorld._41 = m_fPosX;
 	m_UImatWorld._42 = WINCY - m_fPosY;
@@ -39,6 +39,7 @@ HRESULT CFlightUI::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_bActive = false;
+
 
 	return S_OK;
 }

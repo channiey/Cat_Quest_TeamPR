@@ -140,6 +140,9 @@ public:
 	_bool&				Has_Flight() { return m_bhasFlight; }
 	void				Set_HasFlight(const _bool& bHas) { m_bhasFlight = bHas; }
 
+	// 스테이트머신 가져오기
+	CStateMachine*		Get_StateM() { return m_pStateMachineCom; }
+
 
 	// 플레이어가 Idle상태일때만 말걸수있게 해주세요
 	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
