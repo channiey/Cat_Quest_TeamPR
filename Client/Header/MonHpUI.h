@@ -26,9 +26,27 @@ private:
 
 private:
 	CTransform*				m_pUITransformCom[5];
+
 	CGameObject*			m_pMonster;
 	_float					m_fHpRatio;
 	_float					m_fCurRatio;
+
+	_float					m_fCapSizeX;
+	_float					m_fCapSizeY;
+
+	_float					m_fBarMultiX;
+	_float					m_fBarMultiY;
+	_float					m_fCapMultiX;
+	_float					m_fCapMultiY;
+
+	_float					m_fBarRealX;
+	_float					m_fBarRealY;
+	_float					m_fCapRealX;
+	_float					m_fCapRealY;
+
+
+	_matrix					m_matUI[5];
+
 
 public:
 	static CMonHpUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pMonster);

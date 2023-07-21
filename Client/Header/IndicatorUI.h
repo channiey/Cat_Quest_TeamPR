@@ -24,6 +24,7 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+	
 
 public:
 	void	Set_IndicTarget(CGameObject* pTarget) { m_pTarget = pTarget; }
@@ -35,10 +36,13 @@ private:
 	CGameObject*			m_pTarget;
 	CPlayer*				m_pPlayer;
 
+	_float					m_fTargetLength;
+
 	_vec3					m_vIndicDir;
 
-	_bool					m_bIsShirk;
-	_bool					m_bIsExpand;
+	_bool					m_bShrink;
+
+	
 
 
 private:

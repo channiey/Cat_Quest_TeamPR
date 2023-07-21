@@ -292,21 +292,24 @@ namespace Engine
 
 	typedef struct MyLerpVec3Info
 	{
-		_float	fStartTime = 0.f;
-		_float	fEndTime = 0.f;
-		_float	fCurTime = 0.f;
+		_float		fStartTime = 0.f;
+		_float		fEndTime = 0.f;
+		_float		fCurTime = 0.f;
 
-		_vec3	vStartVec{};
-		_vec3	vEndVec{};
-		_vec3	vCurVec{};
+		_vec3		vStartVec{};
+		_vec3		vEndVec{};
+		_vec3		vCurVec{};
 
-		_bool	bActive = false;
+		_bool		bActive = false;
 
-		void Init_Lerp()
+		LERP_MODE	eMode = LERP_MODE::DEFAULT;
+
+		void Init_Lerp(const LERP_MODE& _eMode = LERP_MODE::DEFAULT)
 		{
 			bActive = true;
 			fCurTime = 0.f;
 			vCurVec = vec3.one;
+			eMode = _eMode;
 		}
 
 		void Set_Lerp(const _float& _fTime, const _vec3 _fStartValue, const _vec3& _fTargetValue)
@@ -328,9 +331,45 @@ namespace Engine
 				fCurTime = fEndTime;
 			}
 
-			D3DXVec3Lerp(&vCurVec, &vStartVec, &vEndVec, fCurTime / fEndTime);
+			_float t = fCurTime / fEndTime;
+
+			switch (eMode)
+			{
+			case Engine::LERP_MODE::DEFAULT:
+			{
+			}
+			break;
+			case Engine::LERP_MODE::EASE_OUT:
+			{
+				t = sinf(t * D3DX_PI * 0.5f);
+			}
+			break;
+			case Engine::LERP_MODE::EASE_IN:
+			{
+				t = 1.f - cosf(t * D3DX_PI * 0.5f);
+			}
+			break;
+			case Engine::LERP_MODE::EXPONENTIAL:
+			{
+				t = t * t;
+			}
+			break;
+			case Engine::LERP_MODE::SMOOTHSTEP:
+			{
+				t = t * t * (3.f - 2.f * t);
+			}
+			break;
+			case Engine::LERP_MODE::SMOOTHERSTEP:
+			{
+				t = t * t * t * (t * (6.f * t - 15.f) + 10.f);
+			}
+			break;
+			}
+
+			D3DXVec3Lerp(&vCurVec, &vStartVec, &vEndVec, t);
+
 		}
-	};
+	}LERP_VECTOR_INFO;;
 }
 
 

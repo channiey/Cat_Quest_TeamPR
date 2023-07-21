@@ -175,7 +175,7 @@ HRESULT CPlayer::Ready_Object()
 
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.09f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.08f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
@@ -898,7 +898,7 @@ void CPlayer::Set_PlayerLook(const _vec3& vDir)
 {
 	if(vDir.x < 0)
 		m_pTransformCom->Set_Scale(_vec3{ -3.f, 3.f, 3.f });
-	if (vDir.x > 0)
+	if (vDir.x >= 0)
 		m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 }
 

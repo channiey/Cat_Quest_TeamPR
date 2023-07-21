@@ -28,7 +28,7 @@ STATE_TYPE CPlayerState_fRoll::Update_State(const _float& fTimeDelta)
         m_bEnter = true;
     }
 
-    m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+    m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 30.f);
 
     if (m_pOwner->Is_AnimationEnd())
     {

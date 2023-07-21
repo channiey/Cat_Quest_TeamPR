@@ -156,7 +156,7 @@ void CTransform::Reverse()
 }
 
 
-_vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta)
+_vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta, const LERP_MODE& _eMode)
 {
 	if (m_fCurTime == fLerpTime)
 	{
@@ -169,6 +169,7 @@ _vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float&
 	{
 		m_bStart = true;
 		m_vStart = vStart;
+		m_eLerpMod = _eMode;
 	}
 
 	m_fCurTime += fTimeDelta;
@@ -178,8 +179,42 @@ _vec3& CTransform::Lerp(const _vec3& vStart, const _vec3& vTarget, const _float&
 	}
 
 	_vec3 vOut;
-	_float fTime = m_fCurTime / fLerpTime;
-	D3DXVec3Lerp(&vOut, &m_vStart, &vTarget, fTime);
+	_float t = m_fCurTime / fLerpTime;
+
+	switch (m_eLerpMod)
+	{
+	case Engine::LERP_MODE::DEFAULT:
+	{
+	}
+	break;
+	case Engine::LERP_MODE::EASE_OUT:
+	{
+		t = sinf(t * D3DX_PI * 0.5f);
+	}
+	break;
+	case Engine::LERP_MODE::EASE_IN:
+	{
+		t = 1.f - cosf(t * D3DX_PI * 0.5f);
+	}
+	break;
+	case Engine::LERP_MODE::EXPONENTIAL:
+	{
+		t = t * t;
+	}
+	break;
+	case Engine::LERP_MODE::SMOOTHSTEP:
+	{
+		t = t * t * (3.f - 2.f * t);
+	}
+	break;
+	case Engine::LERP_MODE::SMOOTHERSTEP:
+	{
+		t = t * t * t * (t * (6.f * t - 15.f) + 10.f);
+	}
+	break;
+	}
+
+	D3DXVec3Lerp(&vOut, &m_vStart, &vTarget, t);
 
 
 	return vOut;
