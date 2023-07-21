@@ -34,10 +34,10 @@ namespace Engine
 #define CAM_DISTANCE_DEFAULT		23.f
 
 // Cam FOV
-#define CAM_DEFAULT_FOV				D3DXToRadian(60.f)
-#define CAM_PLAYER_RANGE_FOV		D3DXToRadian(70.f) // 원거리 공격
-#define CAM_PLAYER_FLIGHT_FOV		D3DXToRadian(80.f)
-#define CAM_PLAYER_ATTACK_FOV		D3DXToRadian(57.f) // 근거리 공격
+#define CAM_FOV_DEFAULT				D3DXToRadian(60.f)
+#define CAM_FOV_PLAYER_RANGE		D3DXToRadian(70.f) // 원거리 공격
+#define CAM_FOV_PLAYER_FLIGHT		D3DXToRadian(80.f)
+#define CAM_FOV_PLAYER_ATTACK		D3DXToRadian(57.f) // 근거리 공격
 
 #define	VTXCNTX						129
 #define VTXCNTZ						129

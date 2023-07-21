@@ -96,7 +96,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		else
 		{	
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
-				1.f, CAM_PLAYER_FLIGHT_FOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
+				1.f, CAM_FOV_PLAYER_FLIGHT, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
 			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(20.f);
 			m_bEnter = false;
 			return STATE_TYPE::FRONT_IDLE;

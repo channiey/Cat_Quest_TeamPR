@@ -237,6 +237,9 @@ void CScene_World::Render_Scene()
 	vPos = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewSpace().Eye;
 	swprintf_s(szBuf, L"CAMERA : %.3f,  %.3f,  %.3f", vPos.x, vPos.y, vPos.z);
 	SCREEN_MSG(szBuf, rc);
+
+	swprintf_s(szBuf, L"C : 속도 증가 \tV : 원래 속도 \tJ : 풀 체력 \t K : 풀 마나");
+	SCREEN_MSG(szBuf, rc);
 }
 
 void CScene_World::Free()
