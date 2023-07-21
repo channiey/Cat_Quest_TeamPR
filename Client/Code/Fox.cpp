@@ -15,6 +15,7 @@
 
 #include "Shadow_Monster.h"
 #include "Skill_Monster_Fire.h"
+#include "Skill_Monster_FireRange.h"
 
 // юс╫ц
 #include "GoldCoin.h"
@@ -85,6 +86,9 @@ HRESULT CFox::Ready_Object()
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Fire", m_pSkill), E_FAIL);
 
+	m_pBaseSkill = CSkill_Monster_FireRange::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_FireRange", m_pBaseSkill), E_FAIL);
 
 #pragma region State Add
 
@@ -222,8 +226,14 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 
 		if (m_fAccTime >= 2.f)
 		{
-			m_fAccTime = 0.f;
-			m_pSkill->Play();
+			
+			m_pBaseSkill->Play();
+			if (m_fAccTime >= 4.f)
+			{
+				m_pBaseSkill->End();
+				m_pSkill->Play();
+				m_fAccTime = 0.f;
+			}
 			m_bSkill = true;
 		}
 	}

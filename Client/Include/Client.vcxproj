@@ -377,6 +377,7 @@
     <ClInclude Include="..\Header\Skill_Monster_Beam.h" />
     <ClInclude Include="..\Header\Skill_Monster_CircleAttack.h" />
     <ClInclude Include="..\Header\Skill_Monster_Fire.h" />
+    <ClInclude Include="..\Header\Skill_Monster_FireRange.h" />
     <ClInclude Include="..\Header\Skill_Monster_Ice.h" />
     <ClInclude Include="..\Header\Skill_Monster_Thunder.h" />
     <ClInclude Include="..\Header\Skill_Player_Beam.h" />
@@ -695,6 +696,7 @@
     <ClCompile Include="..\Code\Skill_Monster_Beam.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_CircleAttack.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Fire.cpp" />
+    <ClCompile Include="..\Code\Skill_Monster_FireRange.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Ice.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Thunder.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Fire.cpp" />

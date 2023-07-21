@@ -771,7 +771,7 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Red",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL
-			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Square_Purple.png")), E_FAIL); 
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Big_Red.png")), E_FAIL); 
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Yellow",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL
