@@ -67,7 +67,9 @@ STATE_TYPE CPlayerState_bAttack2::Update_State(const _float& fTimeDelta)
 	}
 
 	else
+	{
 		return m_eState;
+	}
 }
 
 void CPlayerState_bAttack2::LateUpdate_State()

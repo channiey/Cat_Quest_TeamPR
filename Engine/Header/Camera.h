@@ -28,6 +28,7 @@ public:
 	HRESULT					Set_Projection(const _matrix& _matProj);	
 	HRESULT					Set_Viewport(const D3DVIEWPORT9& _tViewport);
 	HRESULT					Set_InitLook_Y(const _float& _fY) { m_fInitLookY = _fY;	return S_OK; }
+	void					Set_CameraType(const CAMERA_TYPE& _eType) { m_eCameraType = _eType; }
 
 public:
 	void					Set_LookAt(CGameObject* _pLookAt) { m_pLookAt = _pLookAt; }
@@ -42,6 +43,7 @@ public:
 	const _matrix&			Get_MatWorld() const { return m_matWorld; }
 	const _matrix&			Get_MatProj() const { return m_matProj; }
 	const _matrix&			Get_MatView() const { return m_matView; }
+	const CAMERA_TYPE&		Get_CameraType() const { return m_eCameraType; }
 
 	const _bool				Is_LookAt() const { NULL_CHECK_RETURN(m_pLookAt, FALSE); return TRUE; }
 	const _bool				Is_Follow() const { NULL_CHECK_RETURN(m_pFollow, FALSE); return TRUE; }
@@ -94,8 +96,11 @@ public:
 	LERP_FLOAT_INFO			m_tZoomLerp;
 	LERP_FLOAT_INFO			m_tFOVLerp;
 
+	CAMERA_TYPE				m_eCameraType;
+
 private:
 	virtual void			Free();
+
 };
 
 END

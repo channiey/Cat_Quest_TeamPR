@@ -41,6 +41,8 @@ public:
 	const _bool&							Is_Shake_Camera() const;
 	void									Stop_Shake();
 
+	HRESULT									Start_Lerp(const CAMERA_LEPR_MODE& _eMode);
+
 private:
 	CCameraObject*							Find_Camera		(const _tchar* pCameraTag);
 	void									Blend_Camera	();

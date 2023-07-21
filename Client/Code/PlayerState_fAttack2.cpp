@@ -59,17 +59,21 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		m_bEnter = false;
+		m_bEnter = false;		
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL); // << Test
 		return STATE_TYPE::FRONT_HIT;
 	}
 
 	if (m_pOwner->Is_AnimationEnd())
 	{
 		m_bEnter = false;
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL); // << Test
 		return STATE_TYPE::FRONT_IDLE;
 	}
 
 
+
+	CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL); // << Test
 	return m_eState;
 }
 

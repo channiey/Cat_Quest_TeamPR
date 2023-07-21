@@ -211,7 +211,7 @@ namespace Engine
 		// Value
 		_float		fStartValue		= 0.f;
 		_float		fTargetValue	= 0.f;
-		_float		fCurValue		= 0.f;
+		_float		fCurValue		= 0.f; 
 
 		_bool		bActive = false;
 

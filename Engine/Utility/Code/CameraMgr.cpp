@@ -159,6 +159,53 @@ void CCameraMgr::Stop_Shake()
 	m_pCurCamera->Get_CameraCom()->Stop_Shake();
 }
 
+HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
+{	
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+	NULL_CHECK_RETURN(m_pCurCamera, E_FAIL);
+
+	if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
+	{
+		_float fCurFOV = m_pCurCamera->Get_CameraCom()->Get_Projection().FOV;
+
+		switch (_eMode)
+		{
+		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK:  
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.15f, fCurFOV, CAM_PLAYER_ATTACK_FOV, LERP_MODE::SMOOTHERSTEP);
+		}
+			break;
+		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_FLY:
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				1.f, fCurFOV, CAM_PLAYER_FLIGHT_FOV, LERP_MODE::SMOOTHERSTEP);
+		}
+			break;
+		case Engine::CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL:
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.15f, fCurFOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
+		}
+			break;
+		case Engine::CAMERA_LEPR_MODE::PLAYER_FLY_TO_IDL:
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				1.f, fCurFOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
+		}
+			break;
+		case Engine::CAMERA_LEPR_MODE::TYPEEND:
+			break;
+		default:
+			break;
+		}
+		
+	}
+
+	return S_OK;
+}
+
 CCameraObject * CCameraMgr::Find_Camera(const _tchar * pCameraTag)
 {
 	auto		iter = find_if(m_mapCamera.begin(), m_mapCamera.end(), CTag_Finder(pCameraTag));

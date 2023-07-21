@@ -24,10 +24,6 @@ HRESULT CScene_Intro::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 
-	// 텍스처 보간
-	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-
 	// 로딩 쓰레드 생성
 	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode()) 
 	{

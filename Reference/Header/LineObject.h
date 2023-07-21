@@ -19,15 +19,19 @@ public:
 	virtual void						LateUpdate_Object() override;
 	virtual void						Render_Object() override;
 public:
-	const LINE_TYPE&					Get_LineType() const { return m_eLineType; }
-	void								Set_LineType(const LINE_TYPE& _eLineType) { m_eLineType = _eLineType; }
+	const LINE_TYPE&					Get_CurLineType() const { return m_eCurLineType; }
+	void								Set_CurLineType(const LINE_TYPE& _eLineType) { m_eCurLineType = _eLineType; }
+
+	const LINE_TYPE&					Get_PrevLineType() const { return m_ePrevLineType; }
+	void								Set_PrevLineType(const LINE_TYPE& _eLineType) { m_ePrevLineType = _eLineType; }
 
 private:
 	HRESULT								Add_Component(const _vec3& vPoint1, const _vec3& vPoint2);
 
 
 private:
-	LINE_TYPE							m_eLineType;
+	LINE_TYPE							m_eCurLineType;
+	LINE_TYPE							m_ePrevLineType;
 
 protected:
 	LPDIRECT3DDEVICE9					m_pGraphicDev;

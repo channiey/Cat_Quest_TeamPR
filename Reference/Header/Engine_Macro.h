@@ -30,11 +30,15 @@ namespace Engine
 #define	WINCX						1280
 #define	WINCY						720
 
+// Cam Diatance
 #define CAM_DEFAULT_DISTANCE		23.f
 #define	CAM_PLAYER_FLIGHT_DISTANCE  30.f
+
+// Cam FOV
 #define CAM_DEFAULT_FOV				D3DXToRadian(60.f)
 #define CAM_PLAYER_FLIGHT_FOV		D3DXToRadian(80.f)
-		
+#define CAM_PLAYER_ATTACK_FOV		D3DXToRadian(57.f)
+
 #define	VTXCNTX						129
 #define VTXCNTZ						129
 #define VTXITV						3

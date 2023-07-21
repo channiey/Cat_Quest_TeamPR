@@ -6,14 +6,18 @@
 
 CLineObject::CLineObject(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::LINE, OBJ_ID::LINE)
-	, m_eLineType(LINE_TYPE::TYPEEND)
+	, m_eCurLineType(LINE_TYPE::TYPEEND)
+	, m_ePrevLineType(LINE_TYPE::TYPEEND)
+
 {
 	CCollisionMgr::GetInstance()->Add_Line(this);
 }
 
 CLineObject::CLineObject(const CLineObject& rhs)
 	: Engine::CGameObject(rhs)
-	, m_eLineType(rhs.m_eLineType)
+	, m_eCurLineType(rhs.m_eCurLineType)
+	, m_ePrevLineType(rhs.m_ePrevLineType)
+
 {
 }
 
