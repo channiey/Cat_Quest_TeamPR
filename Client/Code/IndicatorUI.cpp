@@ -49,11 +49,11 @@ _int CIndicatorUI::Update_Object(const _float& fTimeDelta)
 
 		Get_ViewPos_Target();
 
-		_float fScale = 2.f;
+		_float fScale = 0.7f;
 		if (m_bShrink)
 		{
 			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_UImatWorld._11, m_UImatWorld._22, 0.f }
-			, _vec3{ m_UImatWorld._11 + fScale, m_UImatWorld._22 + fScale, 0.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			, _vec3{ m_UImatWorld._11 * fScale, m_UImatWorld._22 * fScale, 0.f }, 0.8f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
 			if (vOut.x != -99)
 			{
 				m_UImatWorld._11 = vOut.x;
@@ -65,10 +65,10 @@ _int CIndicatorUI::Update_Object(const _float& fTimeDelta)
 			}
 
 		}
-		else if (!m_bShrink)
+		if (!m_bShrink)
 		{
-			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_UImatWorld._11, m_UImatWorld._22, 0.f }
-			, _vec3{ m_UImatWorld._11 - fScale, m_UImatWorld._22 - fScale, 0.f }, 0.2f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_UImatWorld._11 * fScale, m_UImatWorld._22 * fScale, 0.f }
+			, _vec3{ m_UImatWorld._11, m_UImatWorld._22, 0.f }, 0.6f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
 			if (vOut.x != -99)
 			{
 				m_UImatWorld._11 = vOut.x;
@@ -78,9 +78,8 @@ _int CIndicatorUI::Update_Object(const _float& fTimeDelta)
 			{
 				m_bShrink = true;
 			}
-
-			return iExit;
 		}
+		return iExit;
 	}
 	return 0;
 }

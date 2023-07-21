@@ -611,6 +611,7 @@ void CFieldSkillUI::Play_SKill()
 				m_pPlayerSkill[i]->Play();
 				m_pPlayer->Using_Mana(m_pPlayerSkill[i]->Get_SkillUsage());
 				m_pPlayer->Set_Skill(true);
+				CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
 			}
 		}
 	}

@@ -27,6 +27,7 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 {
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
 	{
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL);
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_DIE;
 	}
@@ -52,7 +53,7 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
 	else
 	{
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 0.15f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 0.1f);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
 	}
 
@@ -60,12 +61,14 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL);
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_HIT;
 	}
 
 	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
 	{
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL);
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_IDLE;
 	}
