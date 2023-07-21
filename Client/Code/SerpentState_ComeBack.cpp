@@ -82,7 +82,7 @@ STATE_TYPE CSerpentState_ComeBack::Update_State(const _float& fTimeDelta)
     // COMBACK 우선순위
     // back comback - Patrol - CHASE - ATTACK
 
-
+      //  임시 조치로 Patrol 에서 comback만 동작 함
   
 
     // PATROL 전이 조건

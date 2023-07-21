@@ -85,7 +85,8 @@ STATE_TYPE CSerpentState_bComeBack::Update_State(const _float& fTimeDelta)
     // BACK_COMBACK 우선순위
     // comback - Patrol - CHASE - ATTACK
 
-    //  임시 조치로 Patrol 에서 comback만 동작 함
+
+     //  임시 조치로 Patrol 에서 comback만 동작 함
 
     // PATROL 전이 조건
     if (fOriginDistance <= m_fPatrolRange)
@@ -136,6 +137,8 @@ STATE_TYPE CSerpentState_bComeBack::Update_State(const _float& fTimeDelta)
     //        return STATE_TYPE::BACK_MONATTACK;
     //    }
     //}
+    // 
+    // 
     // COMEBACK 전이 조건
     if (vOwnerDir.z < 0)
     {

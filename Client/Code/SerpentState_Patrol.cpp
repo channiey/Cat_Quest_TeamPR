@@ -99,6 +99,9 @@ STATE_TYPE CSerpentState_Patrol::Update_State(const _float& fTimeDelta)
     // Back Patrol - Chase - Comeback - Attack
 
 
+   //  임시 조치로 Patrol 에서 comback만 동작 함
+
+
    // BACK Patrol 전이 조건
     if (vOwnerDir.z > 0)
     {
