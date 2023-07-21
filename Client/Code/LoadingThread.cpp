@@ -395,6 +395,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_NO",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_button_NO.png")), E_FAIL);
 
+	// Inventory - UI Fancy
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Fancy",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_fancy.png")), E_FAIL);
+
 	// Inventory - UI Player
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Player_Gold",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_iconGold.png")), E_FAIL);

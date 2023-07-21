@@ -10,6 +10,8 @@ class CGameObject;
 class CAnimation;
 
 END
+// 아이템, 스킬 인벤토리 구분
+enum class INVENTYPE { INVEN_ITEM, INVEN_SKILL, INVEN_END };
 // OK, NO 버튼
 enum EQUIPCHECK{ EQUIP_NONE, EQUIP_OK, EQUIP_NO };
 // Player UI
@@ -22,7 +24,6 @@ struct tagSpace
 {
 	_matrix     m_matSpace;
 	_matrix		m_matEquip;
-	CTransform* m_pSpaceTrans;
 	CTexture*	m_pSpaceNoneTex;
 	CTexture*	m_pSpaceIsTex;
 	CTexture*	m_pSpaceSelectTex;
@@ -35,23 +36,21 @@ struct tagSpace
 struct tagLine
 {
 	_matrix     m_matLine;
-	CTransform* m_pLineTrans;
 	CTexture*   m_pLineTex;
 };
 // 장착여부
 struct tagEquipCheck
 {
 	_matrix     m_mateCheck;
-	CTransform* m_peCheckTrans;
 	CTexture*   m_pOkTex;
 	CTexture*   m_pNoTex;
 	EQUIPCHECK  m_eEquipCheck;
+	_bool		m_bShowUI;
 };
 // 플레이어 UI
 struct tagPlayerUI
 {
 	_matrix     m_matPlUI;
-	CTransform* m_pPlUITrans;
 	CTexture*	m_pPlUITex;
 };
 // 플레이어 스텟 폰트 박스
@@ -63,7 +62,6 @@ struct tagPlayerStatFont
 struct tagItemStatUI
 {
 	_matrix     m_matItemStatUI;
-	CTransform* m_pItemStatUITrans;
 	CTexture*   m_pItemStatUITex;
 };
 // 아이템 스텟 폰트 박스
@@ -91,6 +89,22 @@ public:
 	virtual void			Render_Object() override;
 
 public:
+	// Ready
+	void					Ready_WorldMatrix();
+	void					Ready_PublicUI();
+	void					Ready_PlayerUI();
+	void					Ready_ItemUI();
+	void					Ready_PlayerFont();
+	void					Ready_ItemFont();
+
+	// Render
+	void					Render_PublicUI();
+	void					Render_ItemInventory();
+	void					Render_PlayerUI();
+	void					Render_ItemUI();
+	void					Render_PlayerItemFont();
+
+public:
 	// Item
 	void					Add_Item(CGameObject* _pItem) { m_vecItem.push_back(_pItem); }
 
@@ -104,56 +118,74 @@ public:
 
 protected:
 	virtual HRESULT			Add_Component();
-	void					Picking_UI();
+	void					ItemPicking_UI();
 	void				    Item_StatView(_int _Index);
 	void					Key_Input();
 
 private:
+	_bool					m_bIsOn; // 활성 여부
+	_bool					m_bAlphaSet; // 알파 변수
+	_int					m_iTranslucent; // 온오프 알파값
+
 	CPlayer*				m_pPlayer;	
+	vector<CGameObject*>	m_vecItem; // 아이템 배열
+	_int					m_iHaveKey; // 열쇠 
 
-	CTexture*				m_pInventoryTexCom[INVENTORYID_END];
-	CTransform*				m_pInventortyTransCom[INVENTORYID_END];
+	CTexture*				m_pInventoryTexCom[INVENTORYID_END]; // 기존에 있던 배열
+	_matrix                 m_matInventoryWolrd[INVENTORYID_END]; // 기존에 있던 배열
 
-	_bool					m_bIsOn;
-	_bool					m_bShirnk;
+	INVENTYPE				m_eInvenType; // 아이템인지 스킬인지
+	_bool					m_bPick[INVENTORYID_END]; // 골랐나
 
-	_bool					m_bPick[INVENTORYID_END];
-	// RECT					m_rcStatFont[];
+#pragma region 구조체
+	// 공용
+	tagSpace				m_sSpaceAry[INVEN_BUTTON12 - 2]; // 칸 배열
 
-	_matrix                 m_matInventoryWolrd[INVENTORYID_END];
+	// 아이템 인벤토리 관련
+	
+	tagEquipCheck			m_sEquipCheck; // 장비 장착 여부 구조체
+	tagLine					m_sLineAry[INVEN_LINE - 16]; // 라인 배열
+	tagPlayerUI				m_sPlayerUIAry[PLAYER_UI_END]; // 플레이어 UI 배열
+	tagPlayerStatFont		m_sPlayerStatFont[PLAYER_UI_END]; // 플레이어 Stat 폰트 배열
+	tagItemStatUI			m_sItemStatUIAry[ITEMUI_END]; // 아이템 스텟 UI 배열
+	tagItemStatFont			m_sItemStatFont[ITEMUI_END]; // 아이템 스텟 Font
+#pragma endregion
 
-	// 장비 장착 여부 구조체
-	tagEquipCheck			m_sEquipCheck;
-	// 칸 배열
-	tagSpace				m_sSpaceAry[INVEN_BUTTON12 - 2];
-	// 라인 배열
-	tagLine					m_sLineAry[INVEN_LINE - 16];
-	// 아이템 배열
-	vector<CGameObject*>	m_vecItem;
-	// 열쇠 
-	_int					m_iHaveKey;
-	// 마네킹
-	CGameObject* m_pMannequin;
-	CTexture*	 m_pMannequinTexCom;
-	CTransform*	 m_pMannequinTransCom;
-	CAnimation*  m_pMannequinAniCom;
-	_matrix		 m_matMannequinWorld;
-	// 플레이어 UI 배열
-	tagPlayerUI  m_sPlayerUIAry[PLAYER_UI_END];
-	// 플레이어 Stat 폰트 배열
-	tagPlayerStatFont m_sPlayerStatFont[PLAYER_UI_END];
-	// 아이템 스텟 UI 배열
-	tagItemStatUI m_sItemStatUIAry[ITEMUI_END];
-	// 아이템 스텟 Font
-	tagItemStatFont m_sItemStatFont[ITEMUI_END];
+#pragma region 렉트
 	// 아이템 스텟 폰트
 	RECT		m_ItemNameRc;
 	RECT		m_ItemLvRc;
-	// 증가치 폰트
+	// 능력 증가치 폰트
 	RECT		m_ResultHpRc;
 	RECT		m_ResultDmgRc;
 	RECT		m_ResultMagicRc;
+#pragma endregion
 
+#pragma region 마네킹
+	// 마네킹
+	CGameObject*	m_pMannequin;
+	CTexture*		m_pMannequinTexCom;
+	CAnimation*		m_pMannequinAniCom;
+	_matrix			m_matMannequinWorld;
+
+	CTexture*		m_pShadowTexCom;
+	_matrix			m_matShadowWorld;
+
+#pragma endregion
+	
+#pragma region  fancy
+
+	// 왼쪽
+	CTexture*	 m_pFancyLTexCom;
+	_matrix		 m_matFancyLWorld;
+	// 오른쪽
+	CTexture*	 m_pFancyRTexCom;
+	_matrix		 m_matFancyRWorld;
+	// 폰트
+	RECT		 m_FancyRc;
+
+#pragma endregion
+	
 
 		
 public: 
