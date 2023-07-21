@@ -24,11 +24,11 @@ public:
 	static CPlayerState_fFlight* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
-	void			Go_Sky();
 
 private:
 	_bool			m_bIsSky;
 	_bool			m_bIsLand;
+	_bool			m_bFlying;
 
 private:
 	virtual void	Free();

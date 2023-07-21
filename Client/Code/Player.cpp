@@ -823,6 +823,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[0]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
 			m_bSkill = true;
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('2') &&
 		m_arrSkillSlot[1] != nullptr && !m_arrSkillSlot[1]->Is_Active() &&
@@ -832,6 +833,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[1]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
 			m_bSkill = true;
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('3') &&
 		m_arrSkillSlot[2] != nullptr && !m_arrSkillSlot[2]->Is_Active() && 
@@ -841,6 +843,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[2]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
 			m_bSkill = true;
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('4') &&
 		m_arrSkillSlot[3] != nullptr && !m_arrSkillSlot[3]->Is_Active() &&
@@ -850,6 +853,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[3]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
 			m_bSkill = true;
+		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
 	}
 }
 
@@ -898,7 +902,7 @@ void CPlayer::Set_PlayerLook(const _vec3& vDir)
 {
 	if(vDir.x < 0)
 		m_pTransformCom->Set_Scale(_vec3{ -3.f, 3.f, 3.f });
-	if (vDir.x >= 0)
+	if (vDir.x > 0)
 		m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 }
 
@@ -936,6 +940,7 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 		resultDir = (_vec3(vDirA.x, 0.f, vDirA.z));
 
 	m_pTransformCom->Set_Dir(resultDir);
+	Set_PlayerLook(resultDir);
 	
 }
 

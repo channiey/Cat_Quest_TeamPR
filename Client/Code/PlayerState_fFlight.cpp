@@ -35,6 +35,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		m_bIsSky = false;
 		m_bIsLand = false;
 		m_bEnter = true;
+		m_bFlying = true;
 
 		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_FLY); // << Test
 	}
@@ -43,7 +44,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 	if (!m_bIsSky)
 	{
 		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Normal_Lerp(vStart, _vec3{ vStart.x, vStart.y + 10.f, vStart.z }, 1.f, fTimeDelta);
+		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y + 1.f, vStart.z }, 1.f, fTimeDelta, LERP_MODE::SMOOTHSTEP);
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
@@ -52,15 +53,41 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 			m_bIsSky = true;
 	}
 
-	if(m_bIsSky && !m_bIsLand)
+	if (m_bIsSky && !m_bIsLand)
+	{
+		/*if (m_bFlying)
+		{
+			_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
+			_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y + 0.1f, vStart.z }, 0.2f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			if (vOut.x != -99)
+			{
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
+			}
+			else
+				m_bFlying = false;
+		}
+		if (!m_bFlying)
+		{
+			_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
+			_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y - 0.1f, vStart.z }, 0.2f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			if (vOut.x != -99)
+			{
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
+			}
+			else
+				m_bFlying = true;
+		}*/
+		
 		eState = Key_Input(fTimeDelta);
+	}
+		
 		
 
 
 	if (m_bIsLand)
 	{
 		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Normal_Lerp(vStart, _vec3{ vStart.x, vStart.y - 9.6f, vStart.z }, 1.f, fTimeDelta);
+		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y - 0.8f, vStart.z }, 1.f, fTimeDelta, LERP_MODE::EASE_OUT);
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
