@@ -16,7 +16,7 @@
 #include "Scene_Intro.h"
 #include "Scene_Tool.h"
 #include "Scene_World.h"
-#include "Scene_Dungeon.h"
+#include "Scene_Dungeon_Swamp.h"
 
 CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pManagementClass(nullptr)
 {
@@ -89,24 +89,31 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
 	(*ppGraphicDev)->AddRef();
-	
+
+	// 인풋 디바이스 초기화
 	FAILED_CHECK_RETURN(Engine::Ready_InputDev(g_hInst, g_hWnd), E_FAIL); // 인풋 디바이스 초기화
 
-	(*ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, TRUE); 
-	(*ppGraphicDev)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE); // 후면 추려내기 비활성화
 
-	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE); // 텍스처 불투명화 설정코드
+	// 후면 추려내기 비활성화
+	(*ppGraphicDev)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	// 텍스처 불투명화 설정코드
+	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 
-	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE); // 텍스처 색상 설정코드
+	// 텍스처 색상 설정코드
+	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE); 
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
 
-	// 텍스처 보간 (카메라 거리에 따른 색깔 보정) -> 장판이펙트 표현시 다르게 했다가 재세팅
+	// 텍스처 보간 (카메라 거리에 따른 색깔 보정) 
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+	// 조명 활성화
+	(*ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, TRUE); 
 
 	return S_OK;
 }

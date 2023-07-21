@@ -2,11 +2,11 @@
 
 #include "Scene.h"
 
-class CScene_Dungeon : public Engine::CScene
+class CScene_Dungeon_Swamp : public Engine::CScene
 {
 private:
-	explicit CScene_Dungeon(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CScene_Dungeon();
+	explicit CScene_Dungeon_Swamp(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CScene_Dungeon_Swamp();
 
 public:
 	virtual HRESULT		Ready_Scene() override;
@@ -36,7 +36,7 @@ private:
 	HRESULT				Ready_Layer_YC(); // 개인 테스트용 추가
 
 public:
-	static CScene_Dungeon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CScene_Dungeon_Swamp* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void		Free() override;

@@ -16,7 +16,6 @@ CEventMgr::~CEventMgr()
 }
 
 void CEventMgr::Update_Event()
-
 {
 	// 이전 프레임에 삭제될 예정이었던 오브젝트들을 삭제한다.
 	for (size_t i = 0; i < m_vecDeleteObj.size(); ++i)

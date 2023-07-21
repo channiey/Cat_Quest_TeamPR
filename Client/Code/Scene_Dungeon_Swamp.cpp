@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Header\Scene_Dungeon.h"
+#include "..\Header\Scene_Dungeon_Swamp.h"
 
 #include "Export_Function.h"
 
@@ -33,16 +33,16 @@
 
 #include "Scene_World.h"
 
-CScene_Dungeon::CScene_Dungeon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON)
+CScene_Dungeon_Swamp::CScene_Dungeon_Swamp(LPDIRECT3DDEVICE9 pGraphicDev)
+	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON_SWAMP)
 {
 }
 
-CScene_Dungeon::~CScene_Dungeon()
+CScene_Dungeon_Swamp::~CScene_Dungeon_Swamp()
 {
 }
 
-HRESULT CScene_Dungeon::Ready_Scene()
+HRESULT CScene_Dungeon_Swamp::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
@@ -73,7 +73,7 @@ HRESULT CScene_Dungeon::Ready_Scene()
 	return S_OK;
 }
 
-Engine::_int CScene_Dungeon::Update_Scene(const _float& fTimeDelta)
+Engine::_int CScene_Dungeon_Swamp::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
@@ -84,7 +84,7 @@ Engine::_int CScene_Dungeon::Update_Scene(const _float& fTimeDelta)
 	return 0;
 }
 
-void CScene_Dungeon::LateUpdate_Scene()
+void CScene_Dungeon_Swamp::LateUpdate_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
@@ -110,7 +110,7 @@ void CScene_Dungeon::LateUpdate_Scene()
 	CCameraMgr::GetInstance()->Set_ViewSpace();
 }
 
-void CScene_Dungeon::Render_Scene()
+void CScene_Dungeon_Swamp::Render_Scene()
 {
 	if (!CManagement::GetInstance()->Is_Debug()) return;
 #pragma region Stack
@@ -137,26 +137,26 @@ void CScene_Dungeon::Render_Scene()
 	SCREEN_MSG(szBuf, rc);
 }
 
-void CScene_Dungeon::Free()
+void CScene_Dungeon_Swamp::Free()
 {
 	__super::Free();
 }
 
-CScene_Dungeon* CScene_Dungeon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CScene_Dungeon_Swamp* CScene_Dungeon_Swamp::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CScene_Dungeon* pInstance = new CScene_Dungeon(pGraphicDev);
+	CScene_Dungeon_Swamp* pInstance = new CScene_Dungeon_Swamp(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Scene()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Scene_World Create Failed");
+		MSG_BOX("Scene World Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
-HRESULT CScene_Dungeon::Ready_Layer_Environment()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Environment()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -165,14 +165,14 @@ HRESULT CScene_Dungeon::Ready_Layer_Environment()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Load()
+HRESULT CScene_Dungeon_Swamp::Ready_Load()
 {
 	TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat";
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetDevice(m_pGraphicDev), E_FAIL);
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->Load_Scene(szLoadPath), E_FAIL);
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Camera()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Camera()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -181,7 +181,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Camera()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Terrain()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Terrain()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -190,7 +190,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Terrain()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_UI()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_UI()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -265,7 +265,7 @@ HRESULT CScene_Dungeon::Ready_Layer_UI()
 
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Player()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Player()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -289,7 +289,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Player()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Npc()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Npc()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -298,7 +298,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Npc()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Monster()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Monster()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -307,7 +307,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Monster()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Item()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Item()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -316,7 +316,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Item()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Effect()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Effect()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -325,7 +325,7 @@ HRESULT CScene_Dungeon::Ready_Layer_Effect()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_Etc()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_Etc()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -342,28 +342,28 @@ HRESULT CScene_Dungeon::Ready_Layer_Etc()
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_KSH()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_KSH()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_KJM()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_KJM()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_LHJ()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_LHJ()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
 	return S_OK;
 }
 
-HRESULT CScene_Dungeon::Ready_Layer_YC()
+HRESULT CScene_Dungeon_Swamp::Ready_Layer_YC()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 

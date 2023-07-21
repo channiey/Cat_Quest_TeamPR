@@ -24,16 +24,9 @@ HRESULT CScene_Intro::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(), E_FAIL);
 
-	// 로딩 쓰레드 생성
-	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode()) 
-	{
-		m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE);
-	}
-	else if ((PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()))
-	{
-		m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE);
-	}
-
+	// 컴포넌트 및 텍스처 로딩 쓰레드 생성
+	m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE);
+	
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	
 	return S_OK;
@@ -43,7 +36,7 @@ Engine::_int CScene_Intro::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Scene(fTimeDelta);
 
-	if (TRUE == m_pLoading->Get_Finish()) 
+	if (CInputDev::GetInstance()->Key_Down(VK_SPACE) && TRUE == m_pLoading->Get_Finish()) 
 	{
 		CScene* pScene = nullptr; 
 
@@ -79,9 +72,9 @@ void CScene_Intro::Render_Scene()
 
 	// DT
 	if (true == m_pLoading->Get_Finish())
-		swprintf_s(szBuf, L"로딩 완료");
+		swprintf_s(szBuf, L"로딩 완료! 스페이스바를 입력해주세요.");
 	else
-		swprintf_s(szBuf, L"로딩 중");
+		swprintf_s(szBuf, L"로딩 중..");
 
 	SCREEN_MSG(szBuf, rc);
 

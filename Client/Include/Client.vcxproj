@@ -341,7 +341,11 @@
     <ClInclude Include="..\Header\Rock_Pillar1.h" />
     <ClInclude Include="..\Header\Rock_Pillar2.h" />
     <ClInclude Include="..\Header\Rock_Pillar3.h" />
-    <ClInclude Include="..\Header\Scene_Dungeon.h" />
+    <ClInclude Include="..\Header\Scene_Dungeon_Swamp.h" />
+    <ClInclude Include="..\Header\Scene_Dungeon_Temple.h" />
+    <ClInclude Include="..\Header\Scene_Ending.h" />
+    <ClInclude Include="..\Header\Scene_Loading.h" />
+    <ClInclude Include="..\Header\Scene_Lobby.h" />
     <ClInclude Include="..\Header\Scene_Tool.h" />
     <ClInclude Include="..\Header\Shadow_Monster.h" />
     <ClInclude Include="..\Header\Shadow_Npc.h" />
@@ -450,6 +454,7 @@
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
+    <ClCompile Include="..\Code\Scene_Ending.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\FlightUI.cpp" />
     <ClCompile Include="..\Code\FoxState_bAttack.cpp" />
@@ -621,7 +626,10 @@
     <ClCompile Include="..\Code\Rock_Pillar1.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar2.cpp" />
     <ClCompile Include="..\Code\Rock_Pillar3.cpp" />
-    <ClCompile Include="..\Code\Scene_Dungeon.cpp" />
+    <ClCompile Include="..\Code\Scene_Dungeon_Swamp.cpp" />
+    <ClCompile Include="..\Code\Scene_Dungeon_Temple.cpp" />
+    <ClCompile Include="..\Code\Scene_Loading.cpp" />
+    <ClCompile Include="..\Code\Scene_Lobby.cpp" />
     <ClCompile Include="..\Code\Scene_Tool.cpp" />
     <ClCompile Include="..\Code\Shadow_Item.cpp" />
     <ClCompile Include="..\Code\Skill.cpp" />

@@ -80,7 +80,7 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		break;
 
 	case 1: // 던전 몬스터 소탕 후 보고
-		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON)
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
 		{
 			// 모든 적 처치 시
 			if (CManagement::GetInstance()->

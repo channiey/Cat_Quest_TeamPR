@@ -136,7 +136,7 @@
 #include "TalkMgr.h"
 #include "QuestMgr.h"
 
-#include "Scene_Dungeon.h"
+#include "Scene_Dungeon_Swamp.h"
 
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)

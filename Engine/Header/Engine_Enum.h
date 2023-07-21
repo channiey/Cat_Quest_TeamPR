@@ -4,7 +4,7 @@
 namespace Engine
 {
 	// 추가 및 편집시 팀장 보고
-	enum class SCENE_TYPE			{ INTRO, LOADING, WORLD, DUNGEON, ENDING, TOOL, TYPEEND }; // 씬 종류
+	enum class SCENE_TYPE			{ INTRO, LOBBY, WORLD, DUNGEON_TEMPLE, DUNGEON_SWAMP, ENDING, LOADING, TOOL, TYPEEND }; // 씬 종류
 	
 	// 추가 및 편집시 팀장 보고																			
 	enum class OBJ_TYPE				{ PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE, 
@@ -209,7 +209,7 @@ namespace Engine
 
 	enum class TILE_TYPE			{ LAND, SEA, ICE, TYPEEND }; // 타일 종류
 
-	enum class LOADING_THREAD_TYPE	{ COMPONENT_AND_TEXTURE, TOOL, WORLD, TYPEEND };// 로딩 쓰레드 종류(로고 씬을 제외한 대부분의 씬이 보유)
+	enum class LOADING_THREAD_TYPE	{ COMPONENT_AND_TEXTURE, TOOL, WORLD, DUNGEON_TEMPLE, DUNGEON_SWAMP, TYPEEND };// 로딩 쓰레드 종류(로고 씬을 제외한 대부분의 씬이 보유)
 
 	enum class PLAY_MODE			{ GAME, TOOL, TYPEEND }; // 플레이 모드 (개발자 모드 편의성 확보 목적)
 

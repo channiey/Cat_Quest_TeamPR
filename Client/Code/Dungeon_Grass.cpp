@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 
-#include "Scene_Dungeon.h"
+#include "Scene_Dungeon_Swamp.h"
 #include "Scene_World.h"
 
 #include "QuestMgr.h"
@@ -71,12 +71,12 @@ void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 			{
 				CScene* pScene = nullptr;
-				pScene = CScene_Dungeon::Create(m_pGraphicDev);
+				pScene = CScene_Dungeon_Swamp::Create(m_pGraphicDev);
 				CEventMgr::GetInstance()->Change_Scene(pScene);
 				CQuestMgr::GetInstance()->Set_IsAble(false);
 			}
 
-			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON)
+			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
 			{
 				CScene* pScene = nullptr;
 				pScene = CScene_World::Create(m_pGraphicDev);
