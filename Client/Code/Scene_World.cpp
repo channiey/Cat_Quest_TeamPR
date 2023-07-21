@@ -155,32 +155,22 @@ HRESULT CScene_World::Ready_Scene()
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 	// 한 번만 초기화
 	
-	if (!CTalkMgr::GetInstance()->Get_IsInit())
-		CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
-	if (!CQuestMgr::GetInstance()->Get_IsInit())
-		CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
+	if (!CQuestMgr::GetInstance()->Get_IsInit()) CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
 
-	// OBJ_TYPE별로 선언 필요
-	FAILED_CHECK_RETURN(Ready_Layer_Camera()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Terrain(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Environment()	, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_UI(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Player()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Npc()			, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Monster()		, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Item()			, E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Effect(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Etc(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Camera(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_UI(),		E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Player(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Effect(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Other(),	E_FAIL);
 
-	// 툴 데이터 파싱
 	FAILED_CHECK_RETURN(Ready_Load(), E_FAIL);
 
-	// 개인 작업
-	FAILED_CHECK_RETURN(Ready_Layer_KSH(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_KJM(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_YC(), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_KSH(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_KJM(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
 
 	return S_OK;
 }
@@ -268,14 +258,7 @@ CScene_World* CScene_World::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	return pInstance;
 }
-HRESULT CScene_World::Ready_Layer_Environment()
-{
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT, pLayer });
 
-	return S_OK;
-}
 
 HRESULT CScene_World::Ready_Load()
 {
@@ -306,14 +289,6 @@ HRESULT CScene_World::Ready_Layer_Camera()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Terrain()
-{
-	Engine::CLayer* pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::TERRAIN, pLayer });
-
-	return S_OK;
-}
 
 HRESULT CScene_World::Ready_Layer_UI()
 {
@@ -418,33 +393,6 @@ HRESULT CScene_World::Ready_Layer_Player()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Npc()
-{
-	Engine::CLayer* pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::NPC, pLayer });
-
-	return S_OK;
-}
-
-HRESULT CScene_World::Ready_Layer_Monster()
-{
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::MONSTER, pLayer });
-
-	return S_OK;
-}
-
-HRESULT CScene_World::Ready_Layer_Item()
-{
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::ITEM, pLayer });
-
-	return S_OK;
-}
-
 HRESULT CScene_World::Ready_Layer_Effect()
 {
 	Engine::CLayer* pLayer = Engine::CLayer::Create();
@@ -546,22 +494,46 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	return S_OK;
 }
 
-HRESULT CScene_World::Ready_Layer_Etc()
+HRESULT CScene_World::Ready_Layer_Other()
 {
-	Engine::CLayer* pLayer = Engine::CLayer::Create();
+	Engine::CLayer* pLayer = nullptr;
+	
+	pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::RANGE_OBJ, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::TERRAIN,		pLayer });
 
 	pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::LINE, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::ENVIRONMENT,	pLayer });
 
 	pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	m_mapLayer.insert({ OBJ_TYPE::SKILL, pLayer });
+	m_mapLayer.insert({ OBJ_TYPE::RANGE_OBJ,	pLayer });
+
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::LINE,			pLayer });
+
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::SKILL,		pLayer });
+
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::NPC,			pLayer });
+
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::MONSTER,		pLayer });
+
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ITEM,			pLayer });
 
 	return S_OK;
 }
+
+
 
 HRESULT CScene_World::Ready_Layer_KSH()
 {

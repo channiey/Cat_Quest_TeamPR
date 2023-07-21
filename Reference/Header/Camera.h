@@ -44,10 +44,11 @@ public:
 	const _matrix&			Get_MatProj() const { return m_matProj; }
 	const _matrix&			Get_MatView() const { return m_matView; }
 	const CAMERA_TYPE&		Get_CameraType() const { return m_eCameraType; }
+	const CAMERA_ACTION&	Get_CurCameraAction() const { return m_eCameraAction; }
 
 	const _bool				Is_LookAt() const { NULL_CHECK_RETURN(m_pLookAt, FALSE); return TRUE; }
 	const _bool				Is_Follow() const { NULL_CHECK_RETURN(m_pFollow, FALSE); return TRUE; }
-
+	const _bool				Is_Action() const { return m_bAction; }
 	void					Lerp_Distance(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode = LERP_MODE::DEFAULT);
 	void					Lerp_FOV(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode = LERP_MODE::DEFAULT);
 
@@ -97,6 +98,9 @@ public:
 	LERP_FLOAT_INFO			m_tFOVLerp;
 
 	CAMERA_TYPE				m_eCameraType;
+
+	CAMERA_ACTION			m_eCameraAction;
+	_bool					m_bAction;
 
 private:
 	virtual void			Free();

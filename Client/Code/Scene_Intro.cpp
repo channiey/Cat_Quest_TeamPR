@@ -70,15 +70,12 @@ void CScene_Intro::Render_Scene()
 
 #pragma endregion
 
-	// DT
 	if (true == m_pLoading->Get_Finish())
-		swprintf_s(szBuf, L"로딩 완료! 스페이스바를 입력해주세요.");
+		swprintf_s(szBuf, L"로딩 완료! 스페이스바 입력!.                                                                                    .");
 	else
-		swprintf_s(szBuf, L"로딩 중..");
+		swprintf_s(szBuf, L"로딩 중...                                                                 .");
 
 	SCREEN_MSG(szBuf, rc);
-
-	
 }
 
 void CScene_Intro::Free()
@@ -107,7 +104,7 @@ HRESULT CScene_Intro::Ready_Prototype()
 {
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, CRcTex::Create(m_pGraphicDev)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/title.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/gentlebros_logo.png")), E_FAIL);
 	
 	return S_OK;
 }

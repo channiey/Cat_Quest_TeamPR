@@ -171,6 +171,7 @@ HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
 
 		switch (_eMode)
 		{
+			// IDLE -> OTHER
 		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK:  
 		{
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
@@ -182,7 +183,16 @@ HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
 				1.f, fCurFOV, CAM_PLAYER_FLIGHT_FOV, LERP_MODE::SMOOTHERSTEP);
 		}
-			break;
+		break;
+		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_RANATK:
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+			0.15f, fCurFOV, CAM_PLAYER_RANGE_FOV, LERP_MODE::SMOOTHERSTEP);
+		}
+		break;
+
+
+		// OTHER -> OTHER
 		case Engine::CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL:
 		{
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
@@ -195,8 +205,31 @@ HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
 				1.f, fCurFOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
 		}
 			break;
-		case Engine::CAMERA_LEPR_MODE::TYPEEND:
-			break;
+		case Engine::CAMERA_LEPR_MODE::PLAYER_RANATK_TO_IDL:
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.2f, fCurFOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
+		}
+		break; 
+		
+		
+		// OTHER -> IDLE
+		case Engine::CAMERA_LEPR_MODE::PLAYER_ATK_TO_RANATK:
+		{
+		}
+		break;
+		case Engine::CAMERA_LEPR_MODE::PLAYER_RANATK_TO_ATK:
+		{
+		}
+		break;
+		
+		
+		
+		
+		
+		
+		
+		
 		default:
 			break;
 		}

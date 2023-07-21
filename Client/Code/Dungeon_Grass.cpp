@@ -83,9 +83,7 @@ void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 				CEventMgr::GetInstance()->Change_Scene(pScene);
 				CQuestMgr::GetInstance()->Set_IsAble(false);
 			}
-
 		}
-
 	}
 	break;
 	default:

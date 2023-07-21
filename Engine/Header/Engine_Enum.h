@@ -197,7 +197,8 @@ namespace Engine
 
 
 
-		// 다음 번 맵 찍을 때 올려두자
+		// 새로 추가한 오브젝트 ID -> IMGUI 갱신 필요
+
 		MONSTER_SERPENT, MONSTER_FISH, MONSTER_MERLION, MONSTER_CATHULU, MONSTER_VIOLETDRAGON,
 		TYPEEND
 
@@ -273,15 +274,22 @@ namespace Engine
 
 	enum class CAMERA_LEPR_MODE 
 	{ 
-		PLAYER_IDL_TO_ATK // 아이들 -> 공격
+		PLAYER_IDL_TO_ATK // 아이들 -> 근거리 공격
 		, PLAYER_IDL_TO_FLY // 아이들 -> 날기
+		, PLAYER_IDL_TO_RANATK // 아이들 -> 원거리 공격
+
+		, PLAYER_ATK_TO_RANATK // 근거리 공격 -> 원거리 궁격
+		, PLAYER_RANATK_TO_ATK // 원거리 공격 -> 근거리 공격
+
 		, PLAYER_FLY_TO_IDL // 날기 -> 아이들
-		, PLAYER_ATK_TO_IDL // 공격 -> 아이들
+		, PLAYER_ATK_TO_IDL // 근거리공격 -> 아이들
+		, PLAYER_RANATK_TO_IDL // 원거리 공격 -> 아이들
 		, TYPEEND };
 	
 
-	enum class CAMERA_TYPE { PLAYER_CAMERA, TOOL_CAMERA, TYPEEND }; // 컴포넌트가 갖는다
+	enum class CAMERA_TYPE			{ PLAYER_CAMERA, TOOL_CAMERA, TYPEEND }; // 컴포넌트가 갖는다
 
+	enum class CAMERA_ACTION		{ NONE, ENTER_FILED, CHANGE_TARGET, TYPEEND };
 
 	enum class EFFECT_RANGE_QUATER_TYPE {CIRCLE_SKILL_RED, CIRCLE_SKILL_YELLOW, CIRCLE_ATTACK, SQUARE_PURPLE, SQUARE_RED, ARROW_BLUE, ARROW_RED, TYPEEND };
 

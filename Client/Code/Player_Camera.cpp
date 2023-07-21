@@ -24,7 +24,7 @@ HRESULT CPlayer_Camera::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fDefaultHeight	= 80.f;
-	m_fNearZoom			= CAM_DEFAULT_DISTANCE;
+	m_fNearZoom			= CAM_DISTANCE_DEFAULT;
 	m_fFarZoom			= 90.f;
 	m_pCameraCom->m_fDistance = m_fNearZoom;
 
@@ -59,7 +59,6 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 		m_pCameraCom->m_tProj.FOV = m_pCameraCom->m_tFOVLerp.fCurValue;
 		m_pCameraCom->Set_Projection();
 	}
-
 
 	return iExit;
 }

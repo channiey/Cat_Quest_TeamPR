@@ -1,5 +1,11 @@
 #pragma once
 
+/*
+
+	* 배경 로고 하나 띄워두고 컴포넌트와 텍스처를 로딩한다.
+	
+*/
+
 #include "Scene.h"
 
 class CLoadingThread;
