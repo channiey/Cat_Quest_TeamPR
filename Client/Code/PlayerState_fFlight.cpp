@@ -73,15 +73,10 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 			m_bEnter = false;
 			return STATE_TYPE::FRONT_IDLE;
 		}
-			
-	
-			return STATE_TYPE::FRONT_IDLE; 
-		}
-	}
 
+	}	
 
 	return eState;
-	
 }
 
 void CPlayerState_fFlight::LateUpdate_State()
