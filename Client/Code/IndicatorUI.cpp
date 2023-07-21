@@ -5,7 +5,7 @@
 #include "QuestMgr.h"
 
 CIndicatorUI::CIndicatorUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CUI(pGraphicDev, OBJ_ID::UI_INDICATOR), m_pTarget(nullptr), m_pPlayer(nullptr), m_bIsShirk(false), m_bIsExpand(true)
+	:CUI(pGraphicDev, OBJ_ID::UI_INDICATOR), m_pTarget(nullptr), m_pPlayer(nullptr), m_bShrink(true)
 {
 }
 
@@ -48,10 +48,40 @@ _int CIndicatorUI::Update_Object(const _float& fTimeDelta)
 
 		Get_ViewPos_Target();
 
-		return iExit;
+		_float fScale = 2.f;
+		if (m_bShrink)
+		{
+			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_UImatWorld._11, m_UImatWorld._22, 0.f }
+			, _vec3{ m_UImatWorld._11 + fScale, m_UImatWorld._22 + fScale, 0.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			if (vOut.x != -99)
+			{
+				m_UImatWorld._11 = vOut.x;
+				m_UImatWorld._22 = vOut.y;
+			}
+			else
+			{
+				m_bShrink = false;
+			}
+
+		}
+		else if (!m_bShrink)
+		{
+			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_UImatWorld._11, m_UImatWorld._22, 0.f }
+			, _vec3{ m_UImatWorld._11 - fScale, m_UImatWorld._22 - fScale, 0.f }, 0.2f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			if (vOut.x != -99)
+			{
+				m_UImatWorld._11 = vOut.x;
+				m_UImatWorld._22 = vOut.y;
+			}
+			else
+			{
+				m_bShrink = true;
+			}
+
+			return iExit;
+		}
 	}
 	return 0;
-
 }
 
 void CIndicatorUI::LateUpdate_Object()
@@ -66,7 +96,7 @@ void CIndicatorUI::Render_Object()
 {
 	if (m_pTarget)
 	{
-		if (CQuestMgr::GetInstance()->Get_IsAble())
+		if (CQuestMgr::GetInstance()->Get_IsAble() && m_fTargetLength > 10.f)
 		{
 			m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
@@ -87,10 +117,10 @@ void CIndicatorUI::Get_ViewPos_Target()
 		_vec3 vPlayerWorldPos = m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
 
 		_vec3 vTargetDir = vTargetWorldPos - vPlayerWorldPos;
-		_float fLength = D3DXVec3Length(&vTargetDir);
+		m_fTargetLength = D3DXVec3Length(&vTargetDir);
 		D3DXVec3Normalize(&vTargetDir, &vTargetDir);
 
-		if (30.f < fLength)
+		if (30.f < m_fTargetLength)
 		{
 			_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 26);
 
@@ -152,7 +182,7 @@ void CIndicatorUI::Get_ViewPos_Target()
 			m_UImatWorld._21 = 0;
 
 			m_UImatWorld._41 = ScreenX;
-			m_UImatWorld._42 = ScreenY + 10;
+			m_UImatWorld._42 = ScreenY + 80;
 		}
 	}
 }

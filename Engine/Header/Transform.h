@@ -33,7 +33,7 @@ public:
 	void					Reverse			();
 
 
-	_vec3&					Lerp			(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta);
+	_vec3&					Lerp			(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta, const LERP_MODE& _eMode = LERP_MODE::DEFAULT);
 	_vec3&					Normal_Lerp		(const _vec3& vStart, const _vec3& vTarget, const _float& fLerpTime, const _float& fTimeDelta);
 	void					Reset_Lerp		();
 
@@ -56,6 +56,7 @@ private:
 	_vec3					m_vStart;
 	_bool					m_bStart;
 	_float					m_fCurTime;
+	LERP_MODE				m_eLerpMod;
 
 
 public:

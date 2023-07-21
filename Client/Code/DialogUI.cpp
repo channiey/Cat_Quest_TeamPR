@@ -86,11 +86,11 @@ _int CDialogUI::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
-	_float fScale = 0.8f;
+	_float fScale = 1.2f;
 	if (m_bExpand)
 	{
-		_vec3 vOut = m_pUITransform->Normal_Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 1.f }
-		, _vec3{ m_matUI[1]._11 + (fScale / 4), m_matUI[1]._22 + fScale, 1.f }, 0.4f, fTimeDelta);
+		_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 1.f }
+		, _vec3{ m_matUI[1]._11 + (fScale / 2), m_matUI[1]._22 + fScale, 1.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
 		if (vOut.x != -99)
 		{
 			m_matUI[1]._11 = vOut.x;
@@ -104,8 +104,8 @@ _int CDialogUI::Update_Object(const _float& fTimeDelta)
 	}
 	else if (!m_bExpand)
 	{
-		_vec3 vOut = m_pUITransform->Normal_Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
-		, _vec3{ m_matUI[1]._11 - (fScale / 4), m_matUI[1]._22 - fScale, 1.f }, 0.4f, fTimeDelta);
+		_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
+		, _vec3{ m_matUI[1]._11 - (fScale / 2), m_matUI[1]._22 - fScale, 1.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
 		if (vOut.x != -99)
 		{
 			m_matUI[1]._11 = vOut.x;
