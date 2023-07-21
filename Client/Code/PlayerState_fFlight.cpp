@@ -36,6 +36,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		m_bIsLand = false;
 		m_bEnter = true;
 		m_bFlying = true;
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(40.f);
 
 		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_FLY); // << Test
 	}
@@ -96,7 +97,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		{	
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
 				1.f, CAM_PLAYER_FLIGHT_FOV, CAM_DEFAULT_FOV, LERP_MODE::SMOOTHERSTEP);
-
+			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(20.f);
 			m_bEnter = false;
 			return STATE_TYPE::FRONT_IDLE;
 		}
@@ -129,56 +130,56 @@ STATE_TYPE CPlayerState_fFlight::Key_Input(const _float& fTimeDelta)
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.back);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 50.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right + vec3.back);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.forward);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right + vec3.forward);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.forward);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 40.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
 		return m_eState;
 	}
 #pragma endregion

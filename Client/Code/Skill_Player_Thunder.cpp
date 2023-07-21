@@ -37,7 +37,7 @@ HRESULT CSkill_Player_Thunder::Ready_Object()
     m_iSkillUsage = 2;
 
     m_bActive = false;
-
+    m_bIsEffectEnd = false;
    // m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -63,9 +63,15 @@ _int CSkill_Player_Thunder::Update_Object(const _float& fTimeDelta)
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
-    if (!m_pSKillEffect->Is_Active())
+    if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
     {
         CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL);
+        m_pRangeEffect->Alphaing(0.3f, 128, 0);
+        m_bIsEffectEnd = true;
+    }
+    else if (!m_pRangeEffect->Get_AlphaInfo().bActive && m_bIsEffectEnd)
+    {
+        m_bIsEffectEnd = false;
         __super::End();
         m_bActive = false;
     }
@@ -125,7 +131,7 @@ HRESULT CSkill_Player_Thunder::Play()
    
     m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 1 });
     m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4});
-    m_pRangeEffect->Alphaing(1.f, 255, 128);
+    m_pRangeEffect->Alphaing(1.f, 255, 0);
     m_pRangeEffect->Set_Size(_vec3{ 10.f, 5.f, 5.f * 0.7 });
   
     m_bActive = true;

@@ -157,7 +157,6 @@ private:
 	void				Regen_Def(const _float& fTimeDelta);
 	
 	void				CloseTarget_Dis(CGameObject* pTarget);
-	
 
 
 private:

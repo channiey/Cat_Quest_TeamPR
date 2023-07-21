@@ -37,7 +37,7 @@ HRESULT CSkill_Player_Beam::Ready_Object()
     m_iSkillUsage = 3;
 
     m_bActive = false;
-
+    m_bIsEffectEnd = false;
     //m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -63,13 +63,18 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
-    if (!m_pSKillEffect->Is_Active())
+    if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
     {
         CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL);
+        m_pRangeEffect->Alphaing(0.3f, 128, 0);
+        m_bIsEffectEnd = true;
+    }
+    else if (!m_pRangeEffect->Get_AlphaInfo().bActive && m_bIsEffectEnd)
+    {
+        m_bIsEffectEnd = false;
         __super::End();
         m_bActive = false;
     }
-
 
     return iExit;
 }

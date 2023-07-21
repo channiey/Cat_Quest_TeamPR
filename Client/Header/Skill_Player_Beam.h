@@ -29,6 +29,9 @@ public:
 	virtual HRESULT			Play();
 	virtual HRESULT			End();
 
+private:
+	_bool	m_bIsEffectEnd;
+
 public:
 	static CSkill_Player_Beam* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
