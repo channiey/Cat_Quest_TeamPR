@@ -9,7 +9,7 @@
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
-	, m_bIsOn(false), m_iHaveKey(0), m_iTranslucent(0)
+	, m_bIsOn(false), m_bAlphaSet(false), m_iHaveKey(0), m_iTranslucent(0)
 {
 	m_pPlayer = nullptr;
 }
@@ -530,17 +530,31 @@ void CInventory::Render_Object()
 {
 	if (m_bIsOn)
 	{
-		if (m_iTranslucent < 240) m_iTranslucent += 10.f;
+		if (m_iTranslucent < 240 && !m_bAlphaSet) m_iTranslucent += 10.f;
 
 		Render_PublicUI();
-
+		TabPicking_UI();
 		if (m_eInvenType == INVENTYPE::INVEN_ITEM)
 		{
 			Render_ItemInventory();
 		}
+		else if (m_eInvenType == INVENTYPE::INVEN_SKILL)
+		{
 
+		}
 	}
 
+	// 위를 무시하고 바로 일로 오기 때문에 랜더들이 알파값이 적용 안되고 바로꺼진다.
+	// 집에서 수정하자.
+	if (m_bAlphaSet)
+	{
+		m_iTranslucent -= 10;
+		if (m_iTranslucent <= 10)
+		{
+			m_bIsOn = !m_bIsOn; 
+			m_bAlphaSet = false;
+		}
+	}
 
 	__super::Render_Object();
 
@@ -557,53 +571,35 @@ void CInventory::Render_PublicUI()
 	m_pInventoryTexCom[INVEN_BKG]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-
 	// Tab Button - Armor
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_ATABBUTTON]);
 	m_pInventoryTexCom[INVEN_ATABBUTTON]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
 
 	// Tab Button - Skill
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_STABBUTTON]);
 	m_pInventoryTexCom[INVEN_STABBUTTON]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
 
 	// Tab Button Image - Armor Texture
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_ARMORTEX]);
 	m_pInventoryTexCom[INVEN_ARMORTEX]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
 
 	// Tab Button Image - Skill Texture
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_SKILLTEX]);
 	m_pInventoryTexCom[INVEN_SKILLTEX]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	// Cancel Button
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_CANCELBUTTON]);
 	m_pInventoryTexCom[INVEN_CANCELBUTTON]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	// Tab Line 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_TABLINE]);
 	m_pInventoryTexCom[INVEN_TABLINE]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 
 	// Button 
@@ -612,65 +608,54 @@ void CInventory::Render_PublicUI()
 		// 아이템 있음
 		if (m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace == true && m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace == false)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace);
 			m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceIsTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 		// 아이템 선택
 		else if (m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace == true && m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace == true)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace);
 			m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSelectTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 		// 아이템 없음
 		else
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace);
 			m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceNoneTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 		// 무기 선택 미니 아이콘
 		if (m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matEquip);
 			m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceEquipTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 		}
 	}
 
 	// Shadow
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matShadowWorld);
 	m_pShadowTexCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	// Mannequin
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
 	m_pMannequinAniCom->Render_Animation();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
+
 // Item
 void CInventory::Render_ItemInventory()
 {
-	Render_PlayerUI();
+	Render_PlayerStatUI();
 	ItemPicking_UI();
 	Render_ItemUI();
 	Render_PlayerItemFont();
 }
-void CInventory::Render_PlayerUI()
+void CInventory::Render_PlayerStatUI()
 {
 	for (_int i = 0; i < m_vecItem.size(); ++i)
 	{
@@ -683,25 +668,19 @@ void CInventory::Render_PlayerUI()
 	// PlayerUI
 	for (_int i = 0; i < PLAYER_UI_END; ++i)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sPlayerUIAry[i].m_matPlUI);
 		m_sPlayerUIAry[i].m_pPlUITex->Render_Texture();
 		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	}
 
 	// Fancy
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matFancyLWorld);
 	m_pFancyLTexCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matFancyRWorld);
 	m_pFancyRTexCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 void CInventory::Render_ItemUI()
 {
@@ -710,31 +689,25 @@ void CInventory::Render_ItemUI()
 		// Line
 		for (_int i = 0; i < INVEN_LINE - 16; ++i)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sLineAry[(INVEN_LINE + i) - 19].m_matLine);
 			m_sLineAry[(INVEN_LINE + i) - 19].m_pLineTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 
 		// OK 
 		if (m_sEquipCheck.m_eEquipCheck == EQUIP_OK)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sEquipCheck.m_mateCheck);
 			m_sEquipCheck.m_pOkTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 
 		// NO
 		if (m_sEquipCheck.m_eEquipCheck == EQUIP_NO)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sEquipCheck.m_mateCheck);
 			m_sEquipCheck.m_pNoTex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 
 	}
@@ -745,27 +718,41 @@ void CInventory::Render_PlayerItemFont()
 	//								Player Font
 	// Gold
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fGold)).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_GOLD].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(255, 255, 255, 255));
+		&m_sPlayerStatFont[PLAYER_GOLD].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 	// Armor
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"0/0", -1,
-		&m_sPlayerStatFont[PLAYER_ARMOR].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(255, 255, 255, 255));
+		&m_sPlayerStatFont[PLAYER_ARMOR].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 
 	// Heart
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fMaxHP)).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_HEART].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+		&m_sPlayerStatFont[PLAYER_HEART].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 	// Damage
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fAD)).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_DAMAGE].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+		&m_sPlayerStatFont[PLAYER_DAMAGE].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 	// Magic
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+		&m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 	// Fancy
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"Statistics", -1,
-		&m_FancyRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+		&m_FancyRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 }
+
+void CInventory::Render_SkillInventory()
+{
+}
+
+void CInventory::Render_SkillUI()
+{
+}
+
+void CInventory::Render_SkillFont()
+{
+}
+
+// Picking
 void CInventory::ItemPicking_UI()
 {
 	POINT pt;
@@ -842,39 +829,37 @@ void CInventory::Item_StatView(_int _Index)
 		// ItemUI
 		for (_int i = 0; i < ITEMUI_END; ++i)
 		{
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sItemStatUIAry[i].m_matItemStatUI);
 			m_sItemStatUIAry[i].m_pItemStatUITex->Render_Texture();
 			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 
 		//								Item Font
 		// Heart
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fMaxHP)).c_str(), -1,
-			&m_sItemStatFont[ITEM_HEART].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+			&m_sItemStatFont[ITEM_HEART].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 		// Damage
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fAD)).c_str(), -1,
-			&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+			&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 		// Magic
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
-			&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+			&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 		// Name
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pWeapon->Get_Name(), -1,
-			&m_ItemNameRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+			&m_ItemNameRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 		// LV
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"LV 1", -1,
-			&m_ItemLvRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(153, 102, 0, 0));
+			&m_ItemLvRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
 		// 합산 폰트
 		// Heart
 		_int iResult = (m_pPlayer->Get_StatInfo().fMaxHP
 			+ pWeapon->Get_StatInfo().fMaxHP) - m_pPlayer->Get_StatInfo().fMaxHP;
-		
+
 		wstring HpResultStr;
 		if (iResult > 0)		HpResultStr = L"+" + to_wstring(iResult);
 		else if (iResult < 0)	HpResultStr = L"-" + to_wstring(iResult);
@@ -882,7 +867,7 @@ void CInventory::Item_StatView(_int _Index)
 		if (!m_sSpaceAry[(INVEN_BUTTON1 + _Index) - 3].m_bEquip)
 		{
 			CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, HpResultStr.c_str(), -1,
-				&m_ResultHpRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(255, 0, 153, 0));
+				&m_ResultHpRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0));
 		}
 
 
@@ -897,13 +882,56 @@ void CInventory::Item_StatView(_int _Index)
 		if (!m_sSpaceAry[(INVEN_BUTTON1 + _Index) - 3].m_bEquip)
 		{
 			CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, DmgResultStr.c_str(), -1,
-				&m_ResultDmgRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(255, 0, 153, 0));
+				&m_ResultDmgRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0));
 		}
 		// Magic(미구현이라 보류)
 		//iResult = (m_pPlayer->Get_StatInfo().fMaxHP
 		//	+ pWeapon->Get_StatInfo().fMaxHP) - m_pPlayer->Get_StatInfo().fMaxHP;
 		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
 		//	&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+	}
+}
+
+void CInventory::TabPicking_UI()
+{
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	D3DVIEWPORT9 ViewPort;
+
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	pt.y = WINCY - pt.y;
+
+	for (_int i = 0; i < INVENTORYID_END; ++i)
+	{
+		RECT TabRT;
+		TabRT.left    =	m_matInventoryWolrd[i]._41 - (m_matInventoryWolrd[i]._11 * 0.5f);
+		TabRT.right   =	m_matInventoryWolrd[i]._41 + (m_matInventoryWolrd[i]._11 * 0.5f);
+		TabRT.top	  =	m_matInventoryWolrd[i]._42 - (m_matInventoryWolrd[i]._22 * 0.5f);
+		TabRT.bottom  =	m_matInventoryWolrd[i]._42 + (m_matInventoryWolrd[i]._22 * 0.5f);
+
+		// 피킹
+		if (PtInRect(&TabRT, pt))
+		{
+			if (i == INVEN_ARMORTEX && CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
+			{
+				if (m_eInvenType != INVENTYPE::INVEN_ITEM)
+				{
+					m_eInvenType = INVENTYPE::INVEN_ITEM;
+				}
+			}
+
+			if (i == INVEN_SKILLTEX && CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
+			{
+				if (m_eInvenType != INVENTYPE::INVEN_SKILL)
+				{
+					m_eInvenType = INVENTYPE::INVEN_SKILL;
+				}
+			}
+		}
 
 	}
 }
@@ -1105,7 +1133,13 @@ void CInventory::Key_Input()
 {
 	if (CInputDev::GetInstance()->Key_Down(VK_TAB))
 	{
-		m_bIsOn = !m_bIsOn;
+		if (!m_bIsOn) {
+			m_bIsOn = true;
+		}
+		else
+		{
+			m_bAlphaSet = true;
+		}
 	}
 
 	if (m_bIsOn == true || CInputDev::GetInstance()->Get_DIMouseState(DIM_RB))

@@ -97,12 +97,18 @@ public:
 	void					Ready_PlayerFont();
 	void					Ready_ItemFont();
 
-	// Render
+	// Render Public
 	void					Render_PublicUI();
+	// Render Item
 	void					Render_ItemInventory();
-	void					Render_PlayerUI();
+	void					Render_PlayerStatUI();
 	void					Render_ItemUI();
 	void					Render_PlayerItemFont();
+	// Render Skill
+	void					Render_SkillInventory();
+	void					Render_SkillUI();
+	void					Render_SkillFont();
+
 
 public:
 	// Item
@@ -118,9 +124,11 @@ public:
 
 protected:
 	virtual HRESULT			Add_Component();
-	void					ItemPicking_UI();
 	void				    Item_StatView(_int _Index);
 	void					Key_Input();
+
+	void					ItemPicking_UI();
+	void					TabPicking_UI();
 
 private:
 	_bool					m_bIsOn; // 활성 여부
