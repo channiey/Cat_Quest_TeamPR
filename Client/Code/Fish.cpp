@@ -1,39 +1,39 @@
-#include "Serpent.h"
+#include "Fish.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-#include "SerpentState_Patrol.h"
-#include "SerpentState_Chase.h"
-#include "SerpentState_Attack.h"
-#include "SerpentState_ComeBack.h"
-#include "SerpentState_Rest.h"
+#include "FishState_Patrol.h"
+#include "FishState_Chase.h"
+#include "FishState_Attack.h"
+#include "FishState_ComeBack.h"
+#include "FishState_Rest.h"
 		  
-#include "SerpentState_bPatrol.h"
-#include "SerpentState_bChase.h"
-#include "SerpentState_bAttack.h"
-#include "SerpentState_bComeBack.h"
-#include "SerpentState_bRest.h"
+#include "FishState_bPatrol.h"
+#include "FishState_bChase.h"
+#include "FishState_bAttack.h"
+#include "FishState_bComeBack.h"
+#include "FishState_bRest.h"
 
 #include "Shadow_Monster.h"
 //Skill 
 //#include "Skill_Monster_CircleAttack.h"
 
 
-CSerpent::CSerpent(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CMonster(pGraphicDev, OBJ_ID::MONSTER_SERPENT)
+CFish::CFish(LPDIRECT3DDEVICE9 pGraphicDev)
+    : CMonster(pGraphicDev, OBJ_ID::MONSTER_FISH)
 {
 }
 
-CSerpent::CSerpent(const CMonster& rhs)
+CFish::CFish(const CMonster& rhs)
     : CMonster(rhs)
 {
 }
 
-CSerpent::~CSerpent()
+CFish::~CFish()
 {
 }
 
-HRESULT CSerpent::Ready_Object()
+HRESULT CFish::Ready_Object()
 {
     __super::Ready_Object();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -50,13 +50,13 @@ HRESULT CSerpent::Ready_Object()
 
 
 	// 원래 이미지 크기
-	m_vImageSize.x = 1.04f; // 100px = 1.f
-	m_vImageSize.y = 1.28f;
+	m_vImageSize.x = 0.8f; // 100px = 1.f
+	m_vImageSize.y = 0.76f;
 	m_vImageSize.z = 2.f; //  고정
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.f, m_vImageSize.y * 2.f, m_vImageSize.z });
-	m_pTransformCom->Set_Pos(_vec3{ 220.f, m_pTransformCom->Get_Scale().y, 159.f });
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f, m_vImageSize.y * 2.5f, m_vImageSize.z });
+	m_pTransformCom->Set_Pos(_vec3{ 230.f, m_pTransformCom->Get_Scale().y, 159.f });
 	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
@@ -84,46 +84,46 @@ HRESULT CSerpent::Ready_Object()
 	CState* pState;
 
 	// Patrol
-	pState = CSerpentState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
 
 	// Chase
-	pState = CSerpentState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_Chase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::CHASE, pState);
 
 
 	// ComeBack
-	pState = CSerpentState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_ComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::COMEBACK, pState);
 
 	// Attack
-	pState = CSerpentState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
 	// Rest 
-	pState = CSerpentState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONREST, pState);
 
 	// Back
 	// Patrol
-	pState = CSerpentState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
 
 	// Chase
-	pState = CSerpentState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
 
 
 	// ComeBack
-	pState = CSerpentState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_COMEBACK, pState);
 
 	// Attack
-	pState = CSerpentState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
 
 	// Rest 
-	pState = CSerpentState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
+	pState = CFishState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
 
 #pragma endregion
@@ -183,12 +183,12 @@ HRESULT CSerpent::Ready_Object()
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
-	m_szName = L"Monster_Serpent";
+	m_szName = L"Monster_Fish";
 
     return S_OK;
 }
 
-_int CSerpent::Update_Object(const _float& fTimeDelta)
+_int CFish::Update_Object(const _float& fTimeDelta)
 {
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -235,12 +235,12 @@ _int CSerpent::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CSerpent::LateUpdate_Object()
+void CFish::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CSerpent::Render_Object()
+void CFish::Render_Object()
 {
 	// 피격 시 red
 	if (m_bHit)
@@ -270,22 +270,22 @@ void CSerpent::Render_Object()
 
 }
 
-void CSerpent::OnCollision_Enter(CGameObject* _pColObj)
+void CFish::OnCollision_Enter(CGameObject* _pColObj)
 {
 	__super::OnCollision_Enter(_pColObj);
 }
 
-void CSerpent::OnCollision_Stay(CGameObject* _pColObj)
+void CFish::OnCollision_Stay(CGameObject* _pColObj)
 {
 	__super::OnCollision_Stay(_pColObj);
 }
 
-void CSerpent::OnCollision_Exit(CGameObject* _pColObj)
+void CFish::OnCollision_Exit(CGameObject* _pColObj)
 {
 	__super::OnCollision_Exit(_pColObj);
 }
 
-HRESULT CSerpent::Add_Component()
+HRESULT CFish::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -304,23 +304,23 @@ HRESULT CSerpent::Add_Component()
 
 	//  Front
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -328,24 +328,24 @@ HRESULT CSerpent::Add_Component()
 
 	// Back
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_CHASE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_COMEBACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Serpent", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fish", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -359,22 +359,22 @@ HRESULT CSerpent::Add_Component()
 
 
 
-CSerpent* CSerpent::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CFish* CFish::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CSerpent* pInstance = new CSerpent(pGraphicDev);
+	CFish* pInstance = new CFish(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Serpent Create Failed");
+		MSG_BOX("Fish Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CSerpent::Free()
+void CFish::Free()
 {
 	__super::Free();
 }

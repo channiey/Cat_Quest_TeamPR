@@ -103,6 +103,7 @@
 #include "WyvernRed.h"
 #include "Test_Mob.h"
 #include "Serpent.h"
+#include "Fish.h"
 
 // Effect
 #include "Cloud1.h"
@@ -624,6 +625,12 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	pGameObject = CSerpent::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Serpent", pGameObject), E_FAIL);
+
+
+	// Fish
+	pGameObject = CFish::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fish", pGameObject), E_FAIL);
 
 	return S_OK;
 }
