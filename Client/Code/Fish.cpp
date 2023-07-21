@@ -55,15 +55,15 @@ HRESULT CFish::Ready_Object()
 	m_vImageSize.z = 2.f; //  고정
 
 	// Transform 
-	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.5f, m_vImageSize.y * 2.5f, m_vImageSize.z });
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 1.7f, m_vImageSize.y * 1.7f, m_vImageSize.z });
 	m_pTransformCom->Set_Pos(_vec3{ 230.f, m_pTransformCom->Get_Scale().y, 159.f });
 	m_pTransformCom->Set_Dir({ 1.f, 0.f, 1.f });
 
 	fPatternTime = 1.f;
 	m_fAccTime = 0.f;
 
-	m_fJumpingSpeed = 0.05f;
-	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
+	m_fJumpingSpeed = 0.025f;
+	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 0.5f;
 
 
 	// Shadow 생성
