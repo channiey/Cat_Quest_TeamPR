@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 // test
-#include "Hedgehog_Stemp.h"
+#include "Circle_Stemp.h"
 
 // Environment
 #include "Terrain.h"
@@ -102,7 +102,7 @@
 #include "Squirrel.h"
 #include "WyvernRed.h"
 #include "Test_Mob.h"
-
+#include "Serpent.h"
 
 // Effect
 #include "Cloud1.h"
@@ -619,6 +619,11 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
 
+
+	// Serpent
+	pGameObject = CSerpent::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Serpent", pGameObject), E_FAIL);
 
 	return S_OK;
 }
