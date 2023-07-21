@@ -534,6 +534,58 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 
+	// Monster - Serpent
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Serpent",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Serpent/Front/%d.png", 1)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Serpent",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Serpent/Back/%d.png", 1)), E_FAIL);
+
+
+
+	// Monster - Fish
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Fish",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Fish/Front/%d.png", 1)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Fish",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Fish/Back/%d.png", 1)), E_FAIL);
+
+
+
+	// Monster - Merlion
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Merlion",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Merlion/Front/%d.png", 1)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Merlion",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Merlion/Back/%d.png", 1)), E_FAIL);
+
+
+	// Monster - Cathulu
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Cathulu",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Cathulu/Front/%d.png", 1)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Cathulu",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Cathulu/Back/%d.png", 1)), E_FAIL);
+
+
+	// Boss Monster - Violet Dragon
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Basic/Front/%d.png", 8)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Basic/Back/%d.png", 8)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_VioletDragon_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Attack/Front/%d.png", 18)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_VioletDragon_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Attack/Back/%d.png", 18)), E_FAIL);
+
+
+
+
+
+
 	// Monster - TestMob 
 
 	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Hedgehog_Attack",

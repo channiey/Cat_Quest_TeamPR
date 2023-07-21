@@ -3,24 +3,24 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-#include "Hedgehog_Stemp.h"
+#include "Circle_Stemp.h"
 
-CHedgehog_Stemp::CHedgehog_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
-	: CEffect(pGraphicDev, OBJ_ID::EFFECT_HEDGEHOG_STEMP)
+CCircle_Stemp::CCircle_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CIRCLE_STEMP)
 {
 	m_vPos = _pPos;
 }
 
-CHedgehog_Stemp::CHedgehog_Stemp(const CHedgehog_Stemp& rhs)
+CCircle_Stemp::CCircle_Stemp(const CCircle_Stemp& rhs)
 	: CEffect(rhs)
 {
 }
 
-CHedgehog_Stemp::~CHedgehog_Stemp()
+CCircle_Stemp::~CCircle_Stemp()
 {
 }
 
-HRESULT CHedgehog_Stemp::Ready_Object()
+HRESULT CCircle_Stemp::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -35,7 +35,7 @@ HRESULT CHedgehog_Stemp::Ready_Object()
 	return S_OK;
 }
 
-_int CHedgehog_Stemp::Update_Object(const _float& fTimeDelta)
+_int CCircle_Stemp::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_WDUI, this);
@@ -48,7 +48,7 @@ _int CHedgehog_Stemp::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CHedgehog_Stemp::LateUpdate_Object()
+void CCircle_Stemp::LateUpdate_Object()
 {
 	m_fSize += m_fSpeed;
 	m_iTranslucent -= 10;
@@ -61,7 +61,7 @@ void CHedgehog_Stemp::LateUpdate_Object()
 	__super::LateUpdate_Object();
 }
 
-void CHedgehog_Stemp::Render_Object()
+void CCircle_Stemp::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 
@@ -75,7 +75,7 @@ void CHedgehog_Stemp::Render_Object()
 
 }
 
-HRESULT CHedgehog_Stemp::Add_Component()
+HRESULT CCircle_Stemp::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -93,9 +93,9 @@ HRESULT CHedgehog_Stemp::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, pComponent);
 }
 
-CHedgehog_Stemp* CHedgehog_Stemp::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
+CCircle_Stemp* CCircle_Stemp::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
 {
-	CHedgehog_Stemp* pInstance = new CHedgehog_Stemp(pGraphicDev, _pPos);
+	CCircle_Stemp* pInstance = new CCircle_Stemp(pGraphicDev, _pPos);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -108,7 +108,7 @@ CHedgehog_Stemp* CHedgehog_Stemp::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _v
 	return pInstance;
 }
 
-void CHedgehog_Stemp::Free()
+void CCircle_Stemp::Free()
 {
 	__super::Free();
 }

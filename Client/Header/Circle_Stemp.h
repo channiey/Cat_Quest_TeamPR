@@ -5,11 +5,11 @@ BEGIN(Engine)
 class CTexture;
 END
 
-class CHedgehog_Stemp : public CEffect
+class CCircle_Stemp : public CEffect
 {
-	explicit CHedgehog_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);
-	explicit CHedgehog_Stemp(const CHedgehog_Stemp& rhs);
-	virtual ~CHedgehog_Stemp();
+	explicit CCircle_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);
+	explicit CCircle_Stemp(const CCircle_Stemp& rhs);
+	virtual ~CCircle_Stemp();
 
 public:
 	virtual HRESULT				Ready_Object() override;
@@ -33,7 +33,7 @@ private:
 	_matrix		matWorld;
 
 public:
-	static CHedgehog_Stemp* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);
+	static CCircle_Stemp* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos);
 
 private:
 	virtual void				Free() override;

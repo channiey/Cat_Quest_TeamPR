@@ -162,6 +162,17 @@ HRESULT CSkill_Monster_CircleAttack::Play()
         m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
     }
 
+    if (eObjID == OBJ_ID::MONSTER_VIOLETDRAGON)
+    {
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Scaling(1.8f, 0.3f, 1.2f);    // 18 Frame
+
+        m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Scaling(0.01f, 1.2f, 1.2f);
+    }
+
 
     m_bActive = true;
 
