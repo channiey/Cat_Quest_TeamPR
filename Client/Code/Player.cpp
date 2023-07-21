@@ -80,6 +80,8 @@ HRESULT CPlayer::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+
+	m_tMoveInfo.fMoveSpeed = 20.f;
 	Set_AD(10);
 
 	m_bHit = false;
@@ -96,6 +98,8 @@ HRESULT CPlayer::Ready_Object()
 	m_pInven = nullptr;
 
 	m_tStatInfo.fGold = 120;
+
+
 
 	for (size_t i = 0; i < 4; ++i)
 	{
@@ -855,6 +859,15 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			m_bSkill = true;
 		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
 	}
+
+	if (CInputDev::GetInstance()->Key_Down('L'))
+		Set_CurHP(m_tStatInfo.fMaxHP);
+	if (CInputDev::GetInstance()->Key_Down('K'))
+		Set_CurMP(m_tStatInfo.fMaxMP);
+	if (CInputDev::GetInstance()->Key_Down('C'))
+		Set_MoveSpeed(50.f);
+	if (CInputDev::GetInstance()->Key_Down('V'))
+		Set_MoveSpeed(20.f);
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
