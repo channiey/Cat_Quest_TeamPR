@@ -27,8 +27,8 @@ HRESULT CMageWeapon::Ready_Object()
 
     // STATEINFO Setting
     m_tStatInfo.fGold = 100.f;
-
-
+    m_tStatInfo.fAD = 15.f;
+    m_tStatInfo.fMaxHP = 5.f;
 
     // 원래 이미지 크기
     //m_vImageSize.x = 0.5f;  // 100px = 1.f
