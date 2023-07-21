@@ -46,6 +46,8 @@ void CItem_Weapon::LateUpdate_Object()
 
 void CItem_Weapon::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_ItemMatWorld);
 
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
@@ -57,6 +59,8 @@ void CItem_Weapon::Render_Object()
     m_pGraphicDev->SetTexture(0, NULL);
 
     m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+    m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
     __super::Render_Object();
 }

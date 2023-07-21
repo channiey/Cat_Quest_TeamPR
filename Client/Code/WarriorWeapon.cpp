@@ -27,7 +27,8 @@ HRESULT CWarriorWeapon::Ready_Object()
 
     // STATEINFO Setting
     m_tStatInfo.fGold = 100.f;
-
+    m_tStatInfo.fAD = 5.f;
+    m_tStatInfo.fMaxHP = 20.f;
 
 
     // 원래 이미지 크기

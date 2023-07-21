@@ -5,6 +5,7 @@
 #include "WarriorWeapon.h"
 #include "MageWeapon.h"
 #include "NinjaWeapon.h"
+#include "Player.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
@@ -21,11 +22,26 @@ CInventory::CInventory(const CInventory& rhs)
 
 CInventory::~CInventory()
 {
+	Free();
 }
 
 HRESULT CInventory::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	// 임시 아이템 추가
+	CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"test1", pGameObject);
+	m_vecItem.push_back(pGameObject);
+
+	pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"test2", pGameObject);
+	m_vecItem.push_back(pGameObject);
+
+	pGameObject = CMageWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"test3", pGameObject);
+	m_vecItem.push_back(pGameObject);
+
 
 	m_pMannequinAniCom = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom, STATE_TYPE::FRONT_IDLE, 0.2f, true);
 
@@ -55,9 +71,21 @@ HRESULT CInventory::Ready_Object()
 	{
 		D3DXMatrixIdentity(&m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matEquip);
 	}
+	// Player UI Init
+	for (_uint i = 0; i < PLAYER_UI_END; ++i)
+	{
+		D3DXMatrixIdentity(&m_sPlayerUIAry[i].m_matPlUI);
+	}
+	// Item UI Init
+	for (_uint i = 0; i < ITEMUI_END; ++i)
+	{
+		D3DXMatrixIdentity(&m_sItemStatUIAry[i].m_matItemStatUI);
+	}
+
 	// Equip Check Init
 	D3DXMatrixIdentity(&m_sEquipCheck.m_mateCheck);
-
+	// Mannequin Init
+	D3DXMatrixIdentity(&m_matMannequinWorld);
 
 	// Bkg setting
 	m_fPosX = WINCX >> 1;
@@ -135,7 +163,7 @@ HRESULT CInventory::Ready_Object()
 	// Line
 	for (_int i = 0; i < INVEN_LINE - 16; ++i)
 	{
-		m_fPosX = 820.f;
+		m_fPosX = 850.f;
 		switch (i)
 		{
 		case 0:
@@ -221,10 +249,10 @@ HRESULT CInventory::Ready_Object()
 
 
 	// Mannequin
-	m_fPosX = 200.f;
-	m_fPosY = 400.f;
-	m_fSizeX = 2.f;
-	m_fSizeY = 2.f;
+	m_fPosX = 300.f;
+	m_fPosY = 300.f;
+	m_fSizeX = 0.5f;
+	m_fSizeY = 0.5f;
 	m_fMultipleSizeX = 250.f;
 	m_fMultipleSizeY = 250.f;
 	m_matMannequinWorld._41 = m_fPosX;
@@ -232,18 +260,207 @@ HRESULT CInventory::Ready_Object()
 	m_matMannequinWorld._11 = m_fSizeX * m_fMultipleSizeX;
 	m_matMannequinWorld._22 = m_fSizeY * m_fMultipleSizeY;
 
+	// PlayerUI START
 
-	// Inven Sort Button
-	//m_fPosX = 520.f;
-	//m_fPosY = 220.f;
-	//m_fSizeX = 175.f;
-	//m_fSizeY = 175.f;
-	//m_fMultipleSizeX = 0.3f;
-	//m_fMultipleSizeY = 0.3f;
-	//m_matInventoryWolrd[INVEN_SORTBUTTON]._41 = m_fPosX;
-	//m_matInventoryWolrd[INVEN_SORTBUTTON]._42 = WINCY - m_fPosY;
-	//m_matInventoryWolrd[INVEN_SORTBUTTON]._11 = m_fSizeX * m_fMultipleSizeX;
-	//m_matInventoryWolrd[INVEN_SORTBUTTON]._22 = m_fSizeY * m_fMultipleSizeY;
+	// Hp Bar
+	m_fSizeX = 0.8f;
+	m_fSizeY = 0.6f;
+	m_fMultipleSizeX = 100.f;
+	m_fMultipleSizeY = 100.f;
+	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 = m_matMannequinWorld._41;
+	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42 = m_matMannequinWorld._42 - m_matMannequinWorld._22;
+	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+	
+	// Mp Bar
+	m_fSizeX = 0.8f;
+	m_fSizeY = 0.6f;
+	m_fMultipleSizeX = 100.f;
+	m_fMultipleSizeY = 100.f;
+	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 + 2.5f;
+	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42 - (m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 * 0.5f) - 5.f;
+	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Player Gold
+	m_fSizeX = 0.3f;
+	m_fSizeY = 0.3f;
+	m_fMultipleSizeX = 70.f;
+	m_fMultipleSizeY = 65.f;
+	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 - (m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 * 2.f);
+	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42;
+	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Player Armor
+	m_fSizeX = 0.3f;
+	m_fSizeY = 0.3f;
+	m_fMultipleSizeX = 70.f;
+	m_fMultipleSizeY = 65.f;
+	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 + (m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 * 2.f);
+	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42;
+	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Player Heart
+	m_fPosX = 100.f;
+	m_fPosY = 150.f;
+	m_fSizeX = 0.4f;
+	m_fSizeY = 0.4f;
+	m_fMultipleSizeX = 43.f;
+	m_fMultipleSizeY = 43.f;
+	m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._41 = m_fPosX;
+	m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._42 = m_fPosY;
+	m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Player Damage
+	m_fSizeX = 0.4f;
+	m_fSizeY = 0.4f;
+	m_fMultipleSizeX = 43.f;
+	m_fMultipleSizeY = 43.f;
+	m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._41 + 150.f;
+	m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._42;
+	m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Player Magic
+	m_fSizeX = 0.4f;
+	m_fSizeY = 0.4f;
+	m_fMultipleSizeX = 43.f;
+	m_fMultipleSizeY = 43.f;
+	m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._41 + 150.f;
+	m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._42;
+	m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+
+	// PlayerUI END
+
+
+
+	// ItemUI START
+
+	// Item Heart
+	m_fSizeX = 0.4f;
+	m_fSizeY = 0.4f;
+	m_fMultipleSizeX = 43.f;
+	m_fMultipleSizeY = 43.f;
+	m_sItemStatUIAry[ITEM_HEART].m_matItemStatUI._41 = 590.f;
+	m_sItemStatUIAry[ITEM_HEART].m_matItemStatUI._42 = WINCY - 670.f;
+	m_sItemStatUIAry[ITEM_HEART].m_matItemStatUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sItemStatUIAry[ITEM_HEART].m_matItemStatUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Item Damage
+	m_fSizeX = 0.4f;
+	m_fSizeY = 0.4f;
+	m_fMultipleSizeX = 43.f;
+	m_fMultipleSizeY = 43.f;
+	m_sItemStatUIAry[ITEM_DAMAGE].m_matItemStatUI._41 = 690.f;
+	m_sItemStatUIAry[ITEM_DAMAGE].m_matItemStatUI._42 = WINCY - 670.f;
+	m_sItemStatUIAry[ITEM_DAMAGE].m_matItemStatUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sItemStatUIAry[ITEM_DAMAGE].m_matItemStatUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+	// Item Magic
+	m_fSizeX = 0.4f;
+	m_fSizeY = 0.4f;
+	m_fMultipleSizeX = 43.f;
+	m_fMultipleSizeY = 43.f;
+	m_sItemStatUIAry[ITEM_MAGIC].m_matItemStatUI._41 = 790.f;
+	m_sItemStatUIAry[ITEM_MAGIC].m_matItemStatUI._42 = WINCY - 670.f;
+	m_sItemStatUIAry[ITEM_MAGIC].m_matItemStatUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sItemStatUIAry[ITEM_MAGIC].m_matItemStatUI._22 = m_fSizeY * m_fMultipleSizeY;
+
+
+	// ItemUI END
+
+
+
+	// Font - Stat (l,t,r,b)
+	// 플레이어 폰트
+	// 골드
+	m_sPlayerStatFont[PLAYER_GOLD].m_plStatRc = { 
+		(LONG)(m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._41 - 75.f),
+		(LONG)(m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._42 + 110.f),
+		(LONG)(m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._41 - 50.f),
+		(LONG)(m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._42 + 130.f)
+	};
+	// 아머
+	m_sPlayerStatFont[PLAYER_ARMOR].m_plStatRc = {
+		(LONG)(m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._41 + 40.f),
+		(LONG)(m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._42 + 110.f),
+		(LONG)(m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._41 + 65.f),
+		(LONG)(m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._42 + 130.f)
+	};
+	// 최대 체력
+	m_sPlayerStatFont[PLAYER_HEART].m_plStatRc = {
+		(LONG)(m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._41 + 80.f),
+		WINCY - 175,
+		(LONG)(m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._41 + 80.f),
+		WINCY - 175
+	};
+	// 공격력
+	m_sPlayerStatFont[PLAYER_DAMAGE].m_plStatRc = {
+		(LONG)(m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._41 + 80.f),
+		WINCY - 175,
+		(LONG)(m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._41 + 80.f),
+		WINCY - 175
+	};
+	// 마력
+	m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc = {
+		(LONG)(m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._41 + 80.f),
+		WINCY - 175,
+		(LONG)(m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._41 + 80.f),
+		WINCY - 175
+	};
+
+	// 아이템 폰트
+	// 최대 체력
+	m_sItemStatFont[ITEM_HEART].m_pItemStatRc = {
+		(LONG)(m_sItemStatUIAry[ITEM_HEART].m_matItemStatUI._41 + 30.f),
+		WINCY - 70,
+		(LONG)(m_sItemStatUIAry[ITEM_HEART].m_matItemStatUI._41 + 30.f),
+		WINCY - 70
+	};
+	// 공격력
+	m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc = {
+		(LONG)(m_sItemStatUIAry[ITEM_DAMAGE].m_matItemStatUI._41 + 30.f),
+		WINCY - 70,
+		(LONG)(m_sItemStatUIAry[ITEM_DAMAGE].m_matItemStatUI._41 + 30.f),
+		WINCY - 70
+	};
+	// 마력
+	m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc = {
+		(LONG)(m_sItemStatUIAry[ITEM_MAGIC].m_matItemStatUI._41 + 30.f),
+		WINCY - 70,
+		(LONG)(m_sItemStatUIAry[ITEM_MAGIC].m_matItemStatUI._41 + 30.f),
+		WINCY - 70
+	};
+
+	// 아이템 이름, 레벨
+	m_ItemNameRc = { 590, WINCY - 170, 590, WINCY - 170 };
+	m_ItemLvRc	 = { 590, WINCY - 120, 590, WINCY - 120 };
+
+	// 합산 폰트
+	m_ResultHpRc	 = {
+		(LONG)(m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._41 + 80.f),
+		WINCY - 145,
+		(LONG)(m_sPlayerUIAry[PLAYER_HEART].m_matPlUI._41 + 80.f),
+		WINCY - 145
+	};
+	m_ResultDmgRc	 = { 
+		(LONG)(m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._41 + 80.f),
+		WINCY - 145,
+		(LONG)(m_sPlayerUIAry[PLAYER_DAMAGE].m_matPlUI._41 + 80.f),
+		WINCY - 145
+	};
+	m_ResultMagicRc  = {
+		(LONG)(m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._41 + 80.f),
+		WINCY - 145,
+		(LONG)(m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._41 + 80.f),
+		WINCY - 145
+	};
+
 
 	return S_OK;
 }
@@ -252,8 +469,8 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 {
 	if (!m_pPlayer)
 	{
-		m_pPlayer = CManagement::GetInstance()->
-			Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
+		if (nullptr == m_pPlayer)
+			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 	}
 
 	m_pMannequinAniCom->Update_Animation(fTimeDelta);
@@ -261,12 +478,6 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Key_Input();
-
-	if (m_bIsOn)
-	{
-		Picking_UI();
-	}
-
 
 	return iExit;
 }
@@ -281,7 +492,6 @@ void CInventory::LateUpdate_Object()
 
 void CInventory::Render_Object()
 {
-
 	if (m_bIsOn)
 	{
 		for (_int i = 0; i < m_vecItem.size(); ++i)
@@ -293,6 +503,7 @@ void CInventory::Render_Object()
 			m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace = true;
 		}
 
+#pragma region UI
 		// BackGround
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(240, 255, 255, 255));
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -305,7 +516,13 @@ void CInventory::Render_Object()
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
+		if (m_bIsOn)
+		{
+			Picking_UI();
+		}
 
+
+#pragma region InventoryUI
 		// Cancel Button
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_CANCELBUTTON]);
@@ -354,7 +571,6 @@ void CInventory::Render_Object()
 			m_pBufferCom->Render_Buffer();
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
-
 
 		// Tab Line 
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -426,8 +642,6 @@ void CInventory::Render_Object()
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		}
 
-
-
 		// Mannequin
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
@@ -435,17 +649,44 @@ void CInventory::Render_Object()
 		m_pBufferCom->Render_Buffer();
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-		
-		//// Sort Button
-		//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_SORTBUTTON]);
-		//m_pInventoryTexCom[INVEN_SORTBUTTON]->Render_Texture();
-		//m_pBufferCom->Render_Buffer();
-		//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+#pragma endregion
 
+		// PlayerUI
+		for (_int i = 0; i < PLAYER_UI_END; ++i)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sPlayerUIAry[i].m_matPlUI);
+			m_sPlayerUIAry[i].m_pPlUITex->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
 
+#pragma endregion
+
+#pragma region Font
+		//								Player Font
+		// Gold
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fGold)).c_str(), -1,
+			&m_sPlayerStatFont[PLAYER_GOLD].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+		// Armor
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"0/0", -1,
+		&m_sPlayerStatFont[PLAYER_ARMOR].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Heart
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fMaxHP)).c_str(), -1,
+			&m_sPlayerStatFont[PLAYER_HEART].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Damage
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fAD)).c_str(), -1,
+			&m_sPlayerStatFont[PLAYER_DAMAGE].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Magic
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
+			&m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
 
 	}
+
+#pragma endregion
 	
 	__super::Render_Object();
 
@@ -556,13 +797,70 @@ HRESULT CInventory::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	
-	
 	// Mannequin
 	pComponent = m_pMannequinTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	// UI - Player Stat START
+
+	// GOLD
+	pComponent = m_sPlayerUIAry[PLAYER_GOLD].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Gold", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// HPBAR
+	pComponent = m_sPlayerUIAry[PLAYER_HPBAR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_HpBar", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// MPBAR
+	pComponent = m_sPlayerUIAry[PLAYER_MPBAR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_MpBar", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// ARMOR
+	pComponent = m_sPlayerUIAry[PLAYER_ARMOR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Armor", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// HEART
+	pComponent = m_sPlayerUIAry[PLAYER_HEART].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Heart", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// DAMAGE
+	pComponent = m_sPlayerUIAry[PLAYER_DAMAGE].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Damage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// MAGIC
+	pComponent = m_sPlayerUIAry[PLAYER_MAGIC].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Magic", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// UI - Player Stat END
+
+
+
+	// UI - Item Stat START
+
+	// HEART
+	pComponent = m_sItemStatUIAry[ITEM_HEART].m_pItemStatUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Heart", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// DAMAGE
+	pComponent = m_sItemStatUIAry[ITEM_DAMAGE].m_pItemStatUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Damage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// MAGIC
+	pComponent = m_sItemStatUIAry[ITEM_MAGIC].m_pItemStatUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Magic", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// UI - Item Stat END
 
 #pragma endregion
 
@@ -611,6 +909,8 @@ void CInventory::Picking_UI()
 					m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
 			}
 
+			Item_StatView(i);
+
 			// EquipCheck 버튼
 			if (m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip)
 			{
@@ -629,6 +929,65 @@ void CInventory::Picking_UI()
 			m_sSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace = false;
 			// m_sEquipCheck.m_eEquipCheck = EQUIP_NONE;
 		}
+	}
+}
+
+void CInventory::Item_StatView(_int _Index)
+{
+	if (_Index <= m_vecItem.size())
+	{
+		CItem_Weapon* pWeapon = dynamic_cast<CItem_Weapon*>(m_vecItem[_Index]);
+
+		// ItemUI
+		for (_int i = 0; i < ITEMUI_END; ++i)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sItemStatUIAry[i].m_matItemStatUI);
+			m_sItemStatUIAry[i].m_pItemStatUITex->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
+
+		//								Item Font
+		// Heart
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fMaxHP)).c_str(), -1,
+			&m_sItemStatFont[ITEM_HEART].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Damage
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fAD)).c_str(), -1,
+			&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Magic
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
+			&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Name
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pWeapon->Get_Name(), -1,
+			&m_ItemNameRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// LV
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"LV 1", -1,
+			&m_ItemLvRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// 합산 폰트
+		// Heart
+		_int iResult = (m_pPlayer->Get_StatInfo().fMaxHP
+			+ pWeapon->Get_StatInfo().fMaxHP) - m_pPlayer->Get_StatInfo().fMaxHP;
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fMaxHP)).c_str(), -1,
+			&m_ResultHpRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Damage
+		iResult = (m_pPlayer->Get_StatInfo().fAD
+			+ pWeapon->Get_StatInfo().fAD) - m_pPlayer->Get_StatInfo().fAD;
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fAD)).c_str(), -1,
+			&m_ResultDmgRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
+		// Magic(미구현이라 보류)
+		//iResult = (m_pPlayer->Get_StatInfo().fMaxHP
+		//	+ pWeapon->Get_StatInfo().fMaxHP) - m_pPlayer->Get_StatInfo().fMaxHP;
+		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
+		//	&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
+
 	}
 }
 
@@ -674,5 +1033,7 @@ CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CInventory::Free()
 {
+	// for_each(m_vecItem.begin(), m_vecItem.end(), CDeleteObj());
+	// m_vecItem.clear();
 	__super::Free();
 }

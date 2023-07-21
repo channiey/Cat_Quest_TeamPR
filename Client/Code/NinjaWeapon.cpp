@@ -28,6 +28,8 @@ HRESULT CNinjaWeapon::Ready_Object()
 
     // STATEINFO Setting
     m_tStatInfo.fGold = 100.f;
+    m_tStatInfo.fAD = 10.f;
+    m_tStatInfo.fMaxHP = 10.f;
 
 
 

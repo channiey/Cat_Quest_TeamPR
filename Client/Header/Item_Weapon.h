@@ -22,6 +22,8 @@ public:
 	virtual void			Render_Object() override;
 
 public:
+	const STATINFO& Get_StatInfo() const { return m_tStatInfo; }
+
 	virtual void			Set_InvenTrans(_float _fPosX, _float _fPosY)
 	{
 		m_ItemMatWorld._11 = 58.f * 0.3f;

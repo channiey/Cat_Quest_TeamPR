@@ -95,6 +95,8 @@ HRESULT CPlayer::Ready_Object()
 
 	m_pInven = nullptr;
 
+	m_tStatInfo.fGold = 120;
+
 	for (size_t i = 0; i < 4; ++i)
 	{
 		m_arrSkillSlot[i] = nullptr;

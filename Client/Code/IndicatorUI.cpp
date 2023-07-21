@@ -17,6 +17,7 @@ CIndicatorUI::CIndicatorUI(const CIndicatorUI& rhs)
 
 CIndicatorUI::~CIndicatorUI()
 {
+	Free();
 }
 
 HRESULT CIndicatorUI::Ready_Object()
