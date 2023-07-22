@@ -30,17 +30,17 @@ HRESULT CInventory::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// 임시 아이템 추가
-	//CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
-	//CEventMgr::GetInstance()->Add_Obj(L"잭 해머", pGameObject);
-	//m_vecItem.push_back(pGameObject);
-	//
-	//pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	//CEventMgr::GetInstance()->Add_Obj(L"차", pGameObject);
-	//m_vecItem.push_back(pGameObject);
-	//
-	//pGameObject = CMageWeapon::Create(m_pGraphicDev);
-	//CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
-	//m_vecItem.push_back(pGameObject);
+	CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"잭 해머", pGameObject);
+	m_vecItem.push_back(pGameObject);
+	
+	pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"차", pGameObject);
+	m_vecItem.push_back(pGameObject);
+	
+	pGameObject = CMageWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
+	m_vecItem.push_back(pGameObject);
 
 	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
 	{
