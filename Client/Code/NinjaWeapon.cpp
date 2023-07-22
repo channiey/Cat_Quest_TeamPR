@@ -31,6 +31,7 @@ HRESULT CNinjaWeapon::Ready_Object()
     m_tStatInfo.fAD = 10.f;
     m_tStatInfo.fMaxHP = 10.f;
 
+    m_eClass = CLASS_TYPE::NINJA;
 
 
     // 원래 이미지 크기

@@ -30,6 +30,8 @@ HRESULT CMageWeapon::Ready_Object()
     m_tStatInfo.fAD = 15.f;
     m_tStatInfo.fMaxHP = 5.f;
 
+    m_eClass = CLASS_TYPE::MAGE;
+
     // 원래 이미지 크기
     //m_vImageSize.x = 0.5f;  // 100px = 1.f
     //m_vImageSize.y = 1.18f;

@@ -22,9 +22,9 @@ public:
 	virtual void			Render_Object() override;
 
 public:
-	const STATINFO& Get_StatInfo() const { return m_tStatInfo; }
+	const STATINFO&		Get_StatInfo() const { return m_tStatInfo; }
 
-	virtual void			Set_InvenTrans(_float _fPosX, _float _fPosY)
+	virtual void		Set_InvenTrans(_float _fPosX, _float _fPosY)
 	{
 		m_ItemMatWorld._11 = 58.f * 0.3f;
 		m_ItemMatWorld._22 = 118.f * 0.3f;
@@ -32,11 +32,14 @@ public:
 		m_ItemMatWorld._42 = _fPosY;
 	}
 
+	virtual	CLASS_TYPE	Get_ItemClassType() { return m_eClass; }
+
+
 private:
 	HRESULT					Add_Component();
 
 protected:
-	
+	CLASS_TYPE				m_eClass;
 	STATINFO				m_eItemInfo;
 	_matrix					m_ItemMatWorld;
 

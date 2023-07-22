@@ -30,6 +30,8 @@ HRESULT CWarriorWeapon::Ready_Object()
     m_tStatInfo.fAD = 5.f;
     m_tStatInfo.fMaxHP = 20.f;
 
+    m_eClass = CLASS_TYPE::THORN;
+
 
     // 원래 이미지 크기
     //m_vImageSize.x = 1.04f;  // 100px = 1.f
