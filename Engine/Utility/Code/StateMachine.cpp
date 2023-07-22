@@ -32,15 +32,24 @@ HRESULT CStateMachine::Ready_StateMachine()
 
 void CStateMachine::Update_StateMachine(const _float& fTimeDelta)
 {
+	if (nullptr != m_pAnimator)
+	{
+		m_PCurAnimator = m_pAnimator;
+		m_pAnimator = nullptr;
+		m_PCurAnimator->Set_Animation(m_eCurState);
+	}
 
 	STATE_TYPE eState = m_pCurState->Update_State(fTimeDelta);
 	
-	if(nullptr != m_pAnimator)
-		m_pAnimator->Update_Animator(fTimeDelta);
+	if(nullptr != m_PCurAnimator)
+		m_PCurAnimator->Update_Animator(fTimeDelta);
 
 	// 현재 상태와 다른상태가 반환되면 반환된 상태로 변경
 	if (eState != m_eCurState)
+	{
 		Set_State(eState);
+		m_PCurAnimator->Set_Animation(eState);
+	}
 }
 
 void CStateMachine::LateUpdate_StateMachine()
@@ -52,13 +61,13 @@ void CStateMachine::Render_StateMachine()
 {
 	m_pCurState->Render_State();
 	
-	if (nullptr != m_pAnimator)
-		m_pAnimator->Render_Animator();
+	if (nullptr != m_PCurAnimator)
+	m_PCurAnimator->Render_Animator();
 }
 
 _bool CStateMachine::Is_AnimationEnd()
 {
-	if (m_pAnimator->Get_CurAniamtion()->Is_End())
+	if (m_PCurAnimator->Get_CurAniamtion()->Is_End())
 		return true;
 
 	else
@@ -77,8 +86,8 @@ void CStateMachine::Set_State(STATE_TYPE eState)
 	m_pCurState = iter->second;
 	m_eCurState = eState;
 
-	if (m_pAnimator != nullptr)
-		m_pAnimator->Set_Animation(eState);
+	/*if (m_PCurAnimator != nullptr)
+		m_PCurAnimator->Set_Animation(eState);*/
 }
 
 HRESULT CStateMachine::Add_State(STATE_TYPE eState, CState* pState)

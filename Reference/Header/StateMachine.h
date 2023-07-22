@@ -30,6 +30,7 @@ public:
 public:
 	// 어떤 객체의 애니메이터를 담을 설정해주는 함수
 	void			Set_Animator(CAnimator* pAnimator) { m_pAnimator = pAnimator; }
+	CAnimator*		Get_Animator() { return m_PCurAnimator; }
 	_bool			Is_AnimationEnd();
 public:
 	// 상태를 설정 및 변경해주는 함수(애니메이터까지 같이 바꿔줌)
@@ -47,6 +48,7 @@ protected:
 	STATE_TYPE					    m_eCurState;
 
 	CAnimator*						m_pAnimator;
+	CAnimator*						m_PCurAnimator;
 
 public:
 	static	CStateMachine* Create(LPDIRECT3DDEVICE9 pGraphicDev);

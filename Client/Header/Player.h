@@ -110,6 +110,9 @@ public:
 
 
 public:
+	// 클래스 체인지
+	void				Class_Change(const CLASS_TYPE& _eType);
+
 	void				Damaged(const _float& fDamage);
 
 	_bool&				Is_Attack() { return m_bAttack; }
@@ -143,6 +146,9 @@ public:
 	// 스테이트머신 가져오기
 	CStateMachine*		Get_StateM() { return m_pStateMachineCom; }
 
+	// 스킬슬롯셋
+	void				Set_Skill(const _uint& _iIndex, CSkill* pSkill)	{ m_arrSkillSlot[_iIndex] = pSkill;}
+
 
 	// 플레이어가 Idle상태일때만 말걸수있게 해주세요
 	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
@@ -167,9 +173,16 @@ private:
 
 private:
 	CTexture*					m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];
+	CTexture*					m_pNinjaTextureCom[_uint(STATE_TYPE::TYPEEND)];
+	CTexture*					m_pMageTextureCom[_uint(STATE_TYPE::TYPEEND)];
+	CTexture*					m_pThornTextureCom[_uint(STATE_TYPE::TYPEEND)];
 	CStateMachine*				m_pStateMachineCom;
+	CAnimator*					m_pClassAnimator[_uint(CLASS_TYPE::TYPEEND)];
 
 	_uint						m_iTempMode;
+
+	// 클래스 타입
+	CLASS_TYPE					m_eClass;
 
 	// 방어도 리젠 계산 변수
 	_float						m_fAccDef;

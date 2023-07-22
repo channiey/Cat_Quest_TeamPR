@@ -191,9 +191,119 @@ HRESULT CPlayer::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)], STATE_TYPE::FRONT_FLIGHT, 0.02f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_FLIGHT, pAnimation);
+	// 닌자
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.2f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)], STATE_TYPE::FRONT_ATTACK1, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_ATTACK1, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)], STATE_TYPE::FRONT_ATTACK2, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_DIE)], STATE_TYPE::FRONT_DIE, 0.09f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_DIE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_WAKE)], STATE_TYPE::FRONT_WAKE, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_WAKE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)], STATE_TYPE::FRONT_SLEEP, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_SLEEP, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.08f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)], STATE_TYPE::BACK_ATTACK1, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::BACK_ATTACK1, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)], STATE_TYPE::BACK_ATTACK2, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)], STATE_TYPE::FRONT_FLIGHT, 0.02f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]->Add_Animation(STATE_TYPE::FRONT_FLIGHT, pAnimation);
+
+	// 메이지
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.2f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)], STATE_TYPE::FRONT_ATTACK1, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_ATTACK1, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)], STATE_TYPE::FRONT_ATTACK2, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_DIE)], STATE_TYPE::FRONT_DIE, 0.09f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_DIE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_WAKE)], STATE_TYPE::FRONT_WAKE, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_WAKE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)], STATE_TYPE::FRONT_SLEEP, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_SLEEP, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.08f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)], STATE_TYPE::BACK_ATTACK1, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::BACK_ATTACK1, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)], STATE_TYPE::BACK_ATTACK2, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pMageTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)], STATE_TYPE::FRONT_FLIGHT, 0.02f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]->Add_Animation(STATE_TYPE::FRONT_FLIGHT, pAnimation);
+
+	// 기사
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_HIT)], STATE_TYPE::FRONT_HIT, 0.2f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_WALK)], STATE_TYPE::FRONT_WALK, 0.1f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_WALK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_IDLE)], STATE_TYPE::FRONT_IDLE, 0.2f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)], STATE_TYPE::FRONT_ATTACK, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)], STATE_TYPE::FRONT_ATTACK1, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_ATTACK1, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)], STATE_TYPE::FRONT_ATTACK2, 0.08f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_ATTACK2, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ROLL)], STATE_TYPE::FRONT_ROLL, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_DIE)], STATE_TYPE::FRONT_DIE, 0.09f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_DIE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_WAKE)], STATE_TYPE::FRONT_WAKE, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_WAKE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)], STATE_TYPE::FRONT_SLEEP, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_SLEEP, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::BACK_IDLE)], STATE_TYPE::BACK_IDLE, 0.2f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_IDLE, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::BACK_WALK)], STATE_TYPE::BACK_WALK, 0.08f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_WALK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::BACK_ATTACK)], STATE_TYPE::BACK_ATTACK, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)], STATE_TYPE::BACK_ATTACK1, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_ATTACK1, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)], STATE_TYPE::BACK_ATTACK2, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_ATTACK2, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::BACK_ROLL)], STATE_TYPE::BACK_ROLL, 0.1f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)], STATE_TYPE::FRONT_FLIGHT, 0.02f, TRUE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_FLIGHT, pAnimation);
 #pragma endregion
 
-#pragma region Effect
+#pragma region SKILL
 
 	m_arrSkill[_uint(SKILL_TYPE::FIRE)] = CSkill_Player_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::FIRE)], E_FAIL);
@@ -222,6 +332,7 @@ HRESULT CPlayer::Ready_Object()
 #pragma endregion
 
 	// 처음 시작상태 설정
+	m_eClass = CLASS_TYPE::NORMAL;
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_WAKE);
 
@@ -283,39 +394,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	
 	if(!m_bIsTalking)
 		Key_Input(fTimeDelta);
-	
-	
-	// Move Effect 생성
-	if (m_iTempMode == 1) { // 육지
-		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL) {
-			if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 0 ||
-				m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 7) {
-				if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust"))
-				{
-					CGameObject* p = CMoveDust::Create(m_pGraphicDev, this);
-					CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
-				}
-			}
-		}
-	} 
-	else if (m_iTempMode == 2) { // 물
-		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL) {
-			if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 0 ||
-				m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 7) {
-				if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveWater"))
-				{
-					CGameObject* p = CMoveWater::Create(m_pGraphicDev, this);
-					CEventMgr::GetInstance()->Add_Obj(L"MoveWater", p);
-				}
-			}
-		}
-	}
 	
 	
 	return iExit;
@@ -734,6 +812,13 @@ HRESULT CPlayer::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
 
+	for (_uint i = 0; i < _uint(CLASS_TYPE::TYPEEND); ++i)
+	{
+		pComponent = m_pClassAnimator[i] = dynamic_cast<CAnimator*>(Engine::Clone_Proto(COMPONENT_TYPE::ANIMATOR, this));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::ANIMATOR, pComponent);
+	}
+
 	pComponent = m_pRigidBodyCom = dynamic_cast<CRigidBody*>(Engine::Clone_Proto(COMPONENT_TYPE::RIGIDBODY, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::RIGIDBODY, pComponent);
@@ -741,6 +826,7 @@ HRESULT CPlayer::Add_Component()
 
 
 #pragma region Texture
+	// Normal
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
@@ -808,6 +894,213 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fFlight", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Ninja
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_WALK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWalk_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fRoll_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack1_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack2_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_HIT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fHit_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bIdle_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_WALK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bWalk_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bRoll_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack1_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack2_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_WAKE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWake_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_DIE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fDie_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fSleep_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pNinjaTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fFlight_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Mage
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_WALK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWalk_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fRoll_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack1_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack2_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_HIT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fHit_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::BACK_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bIdle_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::BACK_WALK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bWalk_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::BACK_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bRoll_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack1_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack2_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_WAKE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWake_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_DIE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fDie_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fSleep_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pMageTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fFlight_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Thorn
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_WALK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWalk_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fRoll_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack1_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack2_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_HIT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fHit_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::BACK_IDLE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bIdle_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::BACK_WALK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bWalk_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::BACK_ROLL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bRoll_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::BACK_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack1_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::BACK_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_bAttack2_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_WAKE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fWake_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_DIE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fDie_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_SLEEP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fSleep_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fFlight_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 #pragma endregion
 
 
@@ -868,6 +1161,15 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_MoveSpeed(50.f);
 	if (CInputDev::GetInstance()->Key_Down('V'))
 		Set_MoveSpeed(20.f);
+
+	if (CInputDev::GetInstance()->Key_Down('Y'))
+		Class_Change(CLASS_TYPE::NORMAL);
+	if (CInputDev::GetInstance()->Key_Down('U'))
+		Class_Change(CLASS_TYPE::NINJA);
+	if (CInputDev::GetInstance()->Key_Down('I'))
+		Class_Change(CLASS_TYPE::MAGE);
+	if (CInputDev::GetInstance()->Key_Down('O'))
+		Class_Change(CLASS_TYPE::THORN);
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
@@ -985,6 +1287,31 @@ void CPlayer::Using_Mana(const _uint& iUsage)
 	if (m_tStatInfo.fCurMP <= 0)
 		Set_CurMP(0);
 
+}
+
+void CPlayer::Class_Change(const CLASS_TYPE& _eType)
+{
+	switch (_eType)
+	{
+	case CLASS_TYPE::NORMAL:
+		m_eClass = CLASS_TYPE::NORMAL;
+		m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
+		break;
+	case CLASS_TYPE::NINJA:
+		m_eClass = CLASS_TYPE::NINJA;
+		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]);
+		break;
+	case CLASS_TYPE::MAGE:
+		m_eClass = CLASS_TYPE::MAGE;
+		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]);
+		break;
+	case CLASS_TYPE::THORN:
+		m_eClass = CLASS_TYPE::THORN;
+		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::THORN)]);
+		break;
+	default:
+		break;
+	}
 }
 
 void CPlayer::Damaged(const _float& fDamage)

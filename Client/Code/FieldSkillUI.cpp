@@ -47,8 +47,8 @@ HRESULT CFieldSkillUI::Ready_Object()
 	D3DXMatrixIdentity(&m_UImatWorld);
 	m_fPosX = WINCX >> 1;
 	m_fPosY = WINCY >> 1;
-	m_fSizeX = WINCX;
-	m_fSizeY = WINCY;
+	m_fSizeX = WINCX >> 1;
+	m_fSizeY = WINCY >> 1;
 	m_UImatWorld._41 = m_fPosX;
 	m_UImatWorld._42 = m_fPosY;
 	m_UImatWorld._11 = m_fSizeX;
