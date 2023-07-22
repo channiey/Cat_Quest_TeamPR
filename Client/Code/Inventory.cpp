@@ -1,10 +1,19 @@
 #include "Inventory.h"
 #include "Export_Function.h"
 
+// 아이템
 #include "Item_Weapon.h"
 #include "WarriorWeapon.h"
 #include "MageWeapon.h"
 #include "NinjaWeapon.h"
+
+// 스킬
+#include "Skill.h"
+#include "Skill_Player_Fire.h"
+#include "Skill_Player_Thunder.h"
+#include "Skill_Player_Ice.h"
+#include "Skill_Player_Beam.h"
+
 #include "Player.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -41,6 +50,9 @@ HRESULT CInventory::Ready_Object()
 	pGameObject = CMageWeapon::Create(m_pGraphicDev);
 	CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
 	m_vecItem.push_back(pGameObject);
+
+	// 임시 스킬 추가
+
 
 	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
 	{
@@ -960,19 +972,32 @@ void CInventory::ItemPicking_UI()
 						if (m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip)
 						{
 							m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
+							// 데미지 초기화
 							m_pPlayer->Set_AD(
 								m_pPlayer->Get_StatInfo().fAD -
 								dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD);
+							// 최대체력 초기화
+							m_pPlayer->Set_MaxHP(
+								m_pPlayer->Get_StatInfo().fMaxHP -
+								dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fMaxHP);
+
+							// 클래스 초기화
 							m_pPlayer->Class_Change(CLASS_TYPE::NORMAL);
 						}
 					}
 					// 새로운 장비 장착.
 					m_eMannequinClass = dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_ItemClassType();
 					
+					// 데미지
 					m_pPlayer->Class_Change(dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_ItemClassType());
 					m_pPlayer->Set_AD(
 					dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD
 					+ m_pPlayer->Get_StatInfo().fAD);
+					
+					// 최대체력
+					m_pPlayer->Set_MaxHP(
+						dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fMaxHP
+						+ m_pPlayer->Get_StatInfo().fMaxHP);
 					
 					m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = true;
 				}
@@ -1087,42 +1112,60 @@ void CInventory::Item_StatView(_int _Index)
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"LV 1", -1,
 			&m_ItemLvRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
-		// 합산 폰트
-		// Heart
-		_int iResult = (m_pPlayer->Get_StatInfo().fMaxHP
-			+ pWeapon->Get_StatInfo().fMaxHP) - m_pPlayer->Get_StatInfo().fMaxHP;
+// 스탯 증감량 폰트
+#pragma region StatCalculFont
+		D3DCOLOR FontColor; // 폰트 색상
+		wstring  HpResultStr; // hp 증감량
+		wstring  DmgResultStr; // damage 증감량
+#pragma region HP		 
+		// Heart (플레이어 기본 스텟 저장 변수 필요. 현재는 100이라 상수로 처리)
+		_int iResult = (pWeapon->Get_StatInfo().fMaxHP + 100) - m_pPlayer->Get_StatInfo().fMaxHP;
 
-		wstring HpResultStr;
-		if (iResult > 0)		HpResultStr = L"+" + to_wstring(iResult);
-		else if (iResult < 0)	HpResultStr = L"-" + to_wstring(iResult);
-		else					HpResultStr = to_wstring(iResult);
+		// 색상, 연산자 표현
+		if (iResult > 0)
+		{
+			HpResultStr = L"+" + to_wstring(iResult);
+			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0);
+		}
+		else
+		{
+			HpResultStr = to_wstring(iResult);
+			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 255, 51, 51);
+		}
 		if (!m_sItemSpaceAry[(INVEN_BUTTON1 + _Index) - 3].m_bEquip)
 		{
 			CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, HpResultStr.c_str(), -1,
-				&m_ResultHpRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0));
+				&m_ResultHpRc, DT_LEFT | DT_NOCLIP, FontColor);
+		}
+#pragma endregion
+#pragma region Damage
+		// Damage (플레이어 기본 스텟 저장 변수 필요. 현재는 10이라 상수로 처리)
+		iResult = (pWeapon->Get_StatInfo().fAD + 10) - m_pPlayer->Get_StatInfo().fAD;
+
+		if (iResult > 0)
+		{
+			DmgResultStr = L"+" + to_wstring(iResult);
+			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0);
+		}
+		else
+		{
+			DmgResultStr = to_wstring(iResult);
+			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 255, 51, 51);
 		}
 
-
-		// Damage
-		iResult = (m_pPlayer->Get_StatInfo().fAD
-			+ pWeapon->Get_StatInfo().fAD) - m_pPlayer->Get_StatInfo().fAD;
-
-		wstring DmgResultStr;
-		if (iResult > 0)		DmgResultStr = L"+" + to_wstring(iResult);
-		else if (iResult < 0)	DmgResultStr = L"-" + to_wstring(iResult);
-		else					DmgResultStr = to_wstring(iResult);
 		if (!m_sItemSpaceAry[(INVEN_BUTTON1 + _Index) - 3].m_bEquip)
 		{
 			CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, DmgResultStr.c_str(), -1,
-				&m_ResultDmgRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0));
+				&m_ResultDmgRc, DT_LEFT | DT_NOCLIP, FontColor);
 		}
 		// Magic(미구현이라 보류)
 		//iResult = (m_pPlayer->Get_StatInfo().fMaxHP
 		//	+ pWeapon->Get_StatInfo().fMaxHP) - m_pPlayer->Get_StatInfo().fMaxHP;
 		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
 		//	&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(200, 0, 0, 0));
-
 	}
+#pragma endregion
+#pragma endregion
 }
 void CInventory::TabPicking_UI()
 {
@@ -1495,7 +1538,6 @@ void CInventory::Mouse_Update()
 	m_matCursorWorld._22 = 87.f * 0.3f;
 
 }
-
 
 CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

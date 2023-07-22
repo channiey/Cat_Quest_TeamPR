@@ -145,6 +145,7 @@ public:
 
 #pragma region Update
 	void				    Item_StatView(_int _Index);
+	void					Stat_Calculator();
 	void					Key_Input();
 	void					Mouse_Update();
 
@@ -174,6 +175,7 @@ private:
 	_int					m_iTranslucent; // 온오프 알파값
 
 	CPlayer*				m_pPlayer;	
+	vector<CSkill*>			m_vecSkill; // 스킬 배열
 	vector<CGameObject*>	m_vecItem; // 아이템 배열
 	_int					m_iHaveKey; // 열쇠 
 
