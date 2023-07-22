@@ -1,6 +1,8 @@
 #pragma once
 #include "UI.h"
 
+#define		MAX_SKILL_SLOT 4
+
 BEGIN(Engine)
 
 class CRcTex;
@@ -19,8 +21,8 @@ enum PLAYERUI  { PLAYER_HPBAR, PLAYER_MPBAR, PLAYER_GOLD, PLAYER_ARMOR, PLAYER_H
 // Item UI
 enum ITEMui    { ITEM_HEART, ITEM_DAMAGE, ITEM_MAGIC, ITEMUI_END};
 
-// 칸
-struct tagSpace
+// 아이템 칸
+struct tagItemSpace
 {
 	_matrix     m_matSpace;
 	_matrix		m_matEquip;
@@ -28,6 +30,18 @@ struct tagSpace
 	CTexture*	m_pSpaceIsTex;
 	CTexture*	m_pSpaceSelectTex;
 	CTexture*	m_pSpaceEquipTex;
+	_bool		m_bIsSpace = false;
+	_bool		m_bOnSpace = false;
+	_bool		m_bEquip = false;
+};
+// 스킬 칸
+struct tagSkillSpace
+{
+	_matrix     m_matSpace;
+	_matrix		m_matEquip;
+	CTexture*	m_pSpaceNoneTex;
+	CTexture*	m_pSpaceIsTex;
+	CTexture*	m_pSpaceSelectTex;
 	_bool		m_bIsSpace = false;
 	_bool		m_bOnSpace = false;
 	_bool		m_bEquip = false;
@@ -70,6 +84,19 @@ struct tagItemStatFont
 	RECT		m_pItemStatRc;
 };
 
+// Skill Ring
+struct tagSkillRingUI
+{
+	_matrix     m_matEmptySkillUI;
+	_matrix     m_matSkillRingUI;
+	_matrix		m_matSkillNumUI;
+	CTexture*	m_pSkillRingUITex;
+	CTexture*	m_pSkillEmptyUITex;
+	CTexture*   m_pSkillNumUITex;
+
+	_bool		m_bIsSkill;
+};
+
 
 class CPlayer;
 
@@ -89,25 +116,46 @@ public:
 	virtual void			Render_Object() override;
 
 public:
+#pragma region Ready
 	// Ready
 	void					Ready_WorldMatrix();
 	void					Ready_PublicUI();
-	void					Ready_PlayerUI();
+	// Item
+	void					Ready_ItemPlayerUI();
 	void					Ready_ItemUI();
-	void					Ready_PlayerFont();
+	void					Ready_ItemPlayerFont();
 	void					Ready_ItemFont();
+	// Skill
+	void					Ready_SkillUI();
+#pragma endregion
 
-	// Render
+#pragma region Render
+	// Render Public
 	void					Render_PublicUI();
+	// Render Item
 	void					Render_ItemInventory();
-	void					Render_PlayerUI();
+	void					Render_PlayerStatUI();
 	void					Render_ItemUI();
 	void					Render_PlayerItemFont();
+	// Render Skill
+	void					Render_SkillInventory();
+	void					Render_SkillUI();
+	void					Render_SkillFont();
+#pragma endregion
+
+#pragma region Update
+	void				    Item_StatView(_int _Index);
+	void					Key_Input();
+	void					Mouse_Update();
+
+	void					ItemPicking_UI();
+	void					SkillPicking_UI();
+	void					TabPicking_UI();
+#pragma endregion
 
 public:
 	// Item
 	void					Add_Item(CGameObject* _pItem) { m_vecItem.push_back(_pItem); }
-
 	// Key
 	void					Set_HaveKey(_bool _isAdd)
 	{
@@ -118,11 +166,9 @@ public:
 
 protected:
 	virtual HRESULT			Add_Component();
-	void					ItemPicking_UI();
-	void				    Item_StatView(_int _Index);
-	void					Key_Input();
 
 private:
+#pragma region System
 	_bool					m_bIsOn; // 활성 여부
 	_bool					m_bAlphaSet; // 알파 변수
 	_int					m_iTranslucent; // 온오프 알파값
@@ -131,24 +177,31 @@ private:
 	vector<CGameObject*>	m_vecItem; // 아이템 배열
 	_int					m_iHaveKey; // 열쇠 
 
+	INVENTYPE				m_eInvenType; // 아이템인지 스킬인지
+#pragma endregion
+
 	CTexture*				m_pInventoryTexCom[INVENTORYID_END]; // 기존에 있던 배열
 	_matrix                 m_matInventoryWolrd[INVENTORYID_END]; // 기존에 있던 배열
 
-	INVENTYPE				m_eInvenType; // 아이템인지 스킬인지
-	_bool					m_bPick[INVENTORYID_END]; // 골랐나
-
-#pragma region 구조체
-	// 공용
-	tagSpace				m_sSpaceAry[INVEN_BUTTON12 - 2]; // 칸 배열
-
+#pragma region UI
 	// 아이템 인벤토리 관련
-	
+	tagItemSpace			m_sItemSpaceAry[INVEN_BUTTON12 - 2]; // 아이템 칸 배열
 	tagEquipCheck			m_sEquipCheck; // 장비 장착 여부 구조체
-	tagLine					m_sLineAry[INVEN_LINE - 16]; // 라인 배열
 	tagPlayerUI				m_sPlayerUIAry[PLAYER_UI_END]; // 플레이어 UI 배열
 	tagPlayerStatFont		m_sPlayerStatFont[PLAYER_UI_END]; // 플레이어 Stat 폰트 배열
 	tagItemStatUI			m_sItemStatUIAry[ITEMUI_END]; // 아이템 스텟 UI 배열
 	tagItemStatFont			m_sItemStatFont[ITEMUI_END]; // 아이템 스텟 Font
+
+	// 스킬 인벤토리 관련
+	tagSkillSpace			m_sSkillSpaceAry[INVEN_BUTTON12 - 2]; // 스킬 칸 배열
+	tagSkillRingUI			m_sSkillRingAry[MAX_SKILL_SLOT];
+	_matrix					m_sBigSkillRing;
+	CTexture*				m_pBigSkillRingTex;
+
+	// 공용
+	tagLine					m_sLineAry[INVEN_LINE - 16]; // 라인 배열
+
+
 #pragma endregion
 
 #pragma region 렉트
@@ -186,6 +239,10 @@ private:
 
 #pragma endregion
 	
+#pragma region CursorPt
+	CTexture*	 m_pCursorTexCom;
+	_matrix		 m_matCursorWorld;
+#pragma endregion
 
 		
 public: 

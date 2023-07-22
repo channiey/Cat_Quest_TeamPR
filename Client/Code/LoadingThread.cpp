@@ -342,6 +342,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Inventory - BackGround
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_BKG",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/white_bg.png")), E_FAIL);
+	
+	// Inventory - Cursor
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Cursor",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_cursor.png")), E_FAIL);
 
 	// Inventory - Tab Button
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Tab",
@@ -414,6 +418,21 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_statDamage.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Player_Magic",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_statMagic.png")), E_FAIL);
+
+	// Inventory - UI Skill
+	// Empty
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Empty",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_skill_empty.png")), E_FAIL);
+	// Number
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Number1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_PC_1_key.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Number2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_PC_2_key.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Number3",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_PC_3_key.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Number4",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/UI_PC_4_key.png")), E_FAIL);
+
 
 
 #pragma endregion
