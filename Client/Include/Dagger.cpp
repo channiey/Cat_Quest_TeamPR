@@ -6,7 +6,7 @@ CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarge
 {
     m_vPos = _vPos;
     m_pTarget = pTarget;
-
+    
 }
 
 CDagger::CDagger(const CProjectile& rhs)
@@ -27,10 +27,9 @@ HRESULT CDagger::Ready_Object()
 
     
     m_pTransformCom->Set_Pos(m_vPos);
+    m_fSpeed = 15.f;
 
-
-    m_fSpeed = 10.f;
-
+    m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
     m_szName = L"Projectile_Dagger";
 
     return S_OK;
@@ -43,19 +42,29 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
     _int iExit = __super::Update_Object(fTimeDelta);
 
     _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
-
+    
     _vec3 vDir = - (vTargetPos - m_pTransformCom->Get_Info(INFO_POS));
+
+    if (m_vOriginPos.x >= vTargetPos.x)
+    {
+        vDir.x - 30.f;
+    }
+    else
+    {
+        vDir.x + 30.f;
+    }
 
     m_pTransformCom->Set_Dir(vDir);
 
 
     m_fAccTime += fTimeDelta;
 
-    if (m_fAccTime >= 2.f)
+    if (m_fAccTime >= 1.f)
     {
-       
+ 
         m_fSpeed = 30.f;
         this->m_pAICom->Chase_Target(&vTargetPos, fTimeDelta, m_fSpeed);
+       
     }
     else if (m_fAccTime > 3.f)
     {

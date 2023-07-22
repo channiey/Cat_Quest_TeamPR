@@ -21,7 +21,8 @@ public:
 
 	static					CDagger* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
 
-
+private:
+	_vec3			m_vOriginPos;
 
 
 protected:
