@@ -1161,15 +1161,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_MoveSpeed(50.f);
 	if (CInputDev::GetInstance()->Key_Down('V'))
 		Set_MoveSpeed(20.f);
-
-	if (CInputDev::GetInstance()->Key_Down('Y'))
-		Class_Change(CLASS_TYPE::NORMAL);
-	if (CInputDev::GetInstance()->Key_Down('U'))
-		Class_Change(CLASS_TYPE::NINJA);
-	if (CInputDev::GetInstance()->Key_Down('I'))
-		Class_Change(CLASS_TYPE::MAGE);
-	if (CInputDev::GetInstance()->Key_Down('O'))
-		Class_Change(CLASS_TYPE::THORN);
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)

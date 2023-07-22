@@ -217,12 +217,14 @@ private:
 #pragma region 마네킹
 	// 마네킹
 	CGameObject*	m_pMannequin;
-	CTexture*		m_pMannequinTexCom;
-	CAnimation*		m_pMannequinAniCom;
+	CTexture*		m_pMannequinTexCom[(_int)CLASS_TYPE::TYPEEND];
+	CAnimation*		m_pMannequinAniCom[(_int)CLASS_TYPE::TYPEEND];
 	_matrix			m_matMannequinWorld;
 
 	CTexture*		m_pShadowTexCom;
 	_matrix			m_matShadowWorld;
+
+	CLASS_TYPE		m_eMannequinClass;
 
 #pragma endregion
 	
