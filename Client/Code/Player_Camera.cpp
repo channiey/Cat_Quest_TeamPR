@@ -3,8 +3,11 @@
 
 #include "Export_Function.h"
 
+#include "FadeUI.h"
+
 CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCameraObject(pGraphicDev)
+	, m_pFadeUI(nullptr)
 {
 
 }
@@ -36,6 +39,10 @@ HRESULT CPlayer_Camera::Ready_Object(void)
 	m_szName = L"Player_Camera";
 
 	m_pCameraCom->Set_CameraType(CAMERA_TYPE::PLAYER_CAMERA);
+
+	m_pFadeUI = CFadeUI::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(m_pFadeUI->Get_Name(), m_pFadeUI);
+
 	return S_OK;
 }
 
@@ -78,6 +85,30 @@ void CPlayer_Camera::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 
 	Set_ViewSpace();
+}
+
+void CPlayer_Camera::Start_Fade(const FADE_MODE& _eMode)
+{
+	switch (_eMode)
+	{
+	case Engine::FADE_MODE::ENTER_WORLD:
+	{
+		m_pFadeUI->Start_Fade(3.f, 255.f, 0.f, true, LERP_MODE::EASE_IN);
+	}
+		break;
+	case Engine::FADE_MODE::BLACK_FADE_IN:
+		break;
+	case Engine::FADE_MODE::BLACK_FADE_OUT:
+		break;
+	case Engine::FADE_MODE::WHITE_FADE_OUT:
+		break;
+	case Engine::FADE_MODE::WHITE_FADE_IN:
+		break;
+
+	default:
+		break;
+	}
+	
 }
 
 HRESULT CPlayer_Camera::Add_Component(void)

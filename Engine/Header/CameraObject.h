@@ -15,11 +15,12 @@ protected:
 public:
 	virtual HRESULT						Ready_Object(void);
 
+	virtual void						Start_Fade(const FADE_MODE& _eMode) {};
+
 public:
 	CCamera*							Get_CameraCom() const { return m_pCameraCom; }
 
 protected:
-	LPDIRECT3DDEVICE9					m_pGraphicDev;
 	CCamera*							m_pCameraCom;
 	
 public:

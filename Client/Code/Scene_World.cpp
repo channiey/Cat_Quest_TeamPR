@@ -141,6 +141,7 @@
 
 #include "Scene_Dungeon_Swamp.h"
 
+#include "FadeUI.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -174,11 +175,26 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
 
 	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
+
+	CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::ENTER_WORLD);
+
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
+	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+	__super::Update_Scene(fTimeDelta);
+
+	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+
+	return 0;
+}
+
+void CScene_World::LateUpdate_Scene()
+{
+	/*
 	if (CInputDev::GetInstance()->Key_Down('N'))
 	{
 		_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
@@ -191,19 +207,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 		_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")->Get_Transform()->Get_Info(INFO_POS);
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vTargetPos, vPlayerPos);
 	}
-
-
-	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-
-	__super::Update_Scene(fTimeDelta);
-
-	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
-
-	return 0;
-}
-
-void CScene_World::LateUpdate_Scene()
-{
+	*/
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	// 00. 1차 충돌 처리
@@ -548,6 +552,10 @@ HRESULT CScene_World::Ready_Layer_Other()
 	pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::ITEM,			pLayer });
+
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::PROJECTILE,	pLayer });
 
 	return S_OK;
 }

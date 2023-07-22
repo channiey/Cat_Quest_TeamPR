@@ -70,14 +70,14 @@ void CMainApp::Render_MainApp()
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);	
 
-	Engine::Render_Begin(D3DXCOLOR(0.2f, 0.8f, 0.7f, 1.f));
+	Engine::Render_Begin(D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 	NULL_CHECK(m_pManagementClass);
-	m_pManagementClass->Render_Scene(m_pGraphicDev); // 렌더러 싱글톤의 렌더 함수 호출 
-
-	CEventMgr::GetInstance()->Update_Event(); // 이벤트 매니저 업데이트 호출
+	m_pManagementClass->Render_Scene(m_pGraphicDev);
 
 	Engine::Render_End();
+
+	CEventMgr::GetInstance()->Update_Event(); 
 }
 
 HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)

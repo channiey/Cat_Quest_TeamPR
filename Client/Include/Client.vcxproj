@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\ItemGetEffect.h" />
+    <ClInclude Include="..\Header\FadeUI.h" />
     <ClInclude Include="..\Header\BasicProjectile.h" />
     <ClInclude Include="..\Header\BatState_bRest.h" />
     <ClInclude Include="..\Header\BatState_Rest.h" />
@@ -484,6 +485,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\FadeUI.cpp" />
     <ClCompile Include="..\Code\BasicProjectile.cpp" />
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />

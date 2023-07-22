@@ -30,6 +30,8 @@ public:
 	const _matrix&							Get_WorldMat();
 	const CAMERA_ACTION&					Get_CurCameraAction() const { return m_eCurAction; }
 
+	void									Start_Fade(const FADE_MODE& _eMode);
+
 public:
 	HRESULT									Set_ViewSpace	();
 	HRESULT									Set_Projection	();
