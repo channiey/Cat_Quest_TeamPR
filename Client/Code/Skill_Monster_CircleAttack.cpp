@@ -101,16 +101,19 @@ HRESULT CSkill_Monster_CircleAttack::Play()
     _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
     OBJ_ID eObjID = m_pOwnerObject->Get_ID();
 
+    _float     fRangeAlphaValue  = 180.f;
+
+    _float     fBaseAlphaValue = 80.f;
 
 
     if (eObjID == OBJ_ID::MONSTER_HEDGEHOG)
     {
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
         m_pRangeEffect->Scaling(1.4f, 0.3f, 0.8f);    // 14 frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);
         m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
 
     }
@@ -118,11 +121,11 @@ HRESULT CSkill_Monster_CircleAttack::Play()
     if (eObjID == OBJ_ID::MONSTER_RAM)
     {
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
         m_pRangeEffect->Scaling(1.6f, 0.3f, 0.8f);  // 16 frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);
         m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
 
     }
@@ -131,11 +134,11 @@ HRESULT CSkill_Monster_CircleAttack::Play()
     {
 
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
         m_pRangeEffect->Scaling(0.8f, 0.3f, 0.7f);     // 8 Frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);
         m_pBaseRangeEffect->Scaling(0.01f, 0.7f, 0.7f);
 
     }
@@ -143,33 +146,33 @@ HRESULT CSkill_Monster_CircleAttack::Play()
     if (eObjID == OBJ_ID::MONSTER_WYVERN )
     {
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
         m_pRangeEffect->Scaling(0.9f, 0.3f, 0.8f);    // 9 Frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);
         m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
     }
 
     if (eObjID == OBJ_ID::MONSTER_WYVERNRED)
     {
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
         m_pRangeEffect->Scaling(0.9f, 0.3f, 0.8f);    // 9 Frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);
         m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
     }
 
     if (eObjID == OBJ_ID::MONSTER_VIOLETDRAGON)
     {
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pRangeEffect->Alphaing(0.01f, 100.f, 100.f);
+        m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
         m_pRangeEffect->Scaling(1.8f, 0.3f, 1.2f);    // 18 Frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-        m_pBaseRangeEffect->Alphaing(0.01f, 80.f, 80.f);
+        m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);
         m_pBaseRangeEffect->Scaling(0.01f, 1.2f, 1.2f);
     }
 

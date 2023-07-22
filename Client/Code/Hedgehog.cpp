@@ -22,6 +22,8 @@
 #include "Shadow_Monster.h"
 // Itme
 #include "GoldCoin.h"
+// circle Effect
+#include "Circle_Stemp.h"
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
@@ -74,16 +76,19 @@ HRESULT CHedgehog::Ready_Object()
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 	
+
+
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 	
 	
 	m_bSkill = false;
-	
+	m_bBaseSkill = false;
 
 	// 스킬 생성 
 	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Basic", m_pBaseSkill), E_FAIL);
+
 
 
 
@@ -225,25 +230,34 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	// Skill Use Condition
+	// Basic Attack skill Use Condition
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 	
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
 	{ 
-		if (!m_bSkill)
+		if (!m_bBaseSkill)
 		{
 			m_pBaseSkill->Play();
-			m_bSkill = true;
-
+			m_bBaseSkill = true;
 		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
 			m_pBaseSkill->End();
-			m_bSkill = false;
+			m_bBaseSkill = false;
 		}
-
+		
 	}
+
+
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z } ));
+		}
+	}
+
 
 	return iExit;
 }
@@ -251,7 +265,6 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 void CHedgehog::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
-
 }
 
 void CHedgehog::Render_Object()

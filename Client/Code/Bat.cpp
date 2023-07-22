@@ -69,7 +69,9 @@ HRESULT CBat::Ready_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
 
+
 	m_bSkill = false;
+	m_bBaseSkill = false;
 	// 스킬 생성 
 	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
@@ -225,8 +227,7 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 		{
 			m_pBaseSkill->End();
 			m_bSkill = false;
-		}
-		
+		}	
 	}
 
 

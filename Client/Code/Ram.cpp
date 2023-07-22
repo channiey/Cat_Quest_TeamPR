@@ -21,6 +21,9 @@
 #include "Skill_Monster_Thunder.h"
 #include "Skill_Monster_CircleAttack.h"
 
+//Circle Effect
+#include "Circle_Stemp.h"
+
 CRam::CRam(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_RAM)
 {
@@ -78,7 +81,7 @@ HRESULT CRam::Ready_Object()
 
 
 	m_bSkill = false;
-
+	m_bBaseSkill = false;
 
 	// 스킬 생성 
 	m_pSkill = CSkill_Monster_Thunder::Create(m_pGraphicDev, this);
@@ -220,13 +223,11 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 
 	if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	{
-
 		if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
 		{
 			m_fJumpingSpeed *= -1;
 		}
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
-
 	}
 
 
@@ -234,42 +235,64 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
-		STATE_TYPE::CHASE == CurState||
+		STATE_TYPE::CHASE == CurState ||
 		STATE_TYPE::BACK_CHASE == CurState)
 	{
+		m_bSkill = true;		
+	}
+	
+	if(m_bSkill == true)
+	{
 		m_fAccTime += fTimeDelta;
-
 		if (m_fAccTime >= 2.f)
 		{
-			m_fAccTime = 0.f;
 			m_pSkill->Play();
-			m_bSkill = true;
+			if (m_fAccTime >= 3.f)
+			{
+				dynamic_cast<CSkill_Monster_Thunder*>(m_pSkill)->LatePlay();
+				m_fAccTime = 0.f;
+				m_bSkill = false;
+			}
 		}
 	}
+
 
 	// Base Skill Use Condition
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
 	{
-		if (!m_bSkill)
+		if (!m_bBaseSkill)
 		{
 			m_pBaseSkill->Play();
-			m_bSkill = true;
+			m_bBaseSkill = true;
 		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
 			m_pBaseSkill->End();
-			m_bSkill = false;
+			m_bBaseSkill = false;
 		}
 
 	}
+
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram_Stemp", CCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
+		}
+	}
+
+
 
 	return iExit;
 }
 
 void CRam::LateUpdate_Object()
 {
-	
+	//
+	//if (m_bSkill)
+	//	m_bSkill = false;
+
 	__super::LateUpdate_Object();
 
 }

@@ -15,7 +15,7 @@
 
 #include "Shadow_Monster.h"
 #include "Skill_Monster_Fire.h"
-#include "Skill_Monster_FireRange.h"
+//#include "Skill_Monster_FireRange.h"
 
 // юс╫ц
 #include "GoldCoin.h"
@@ -86,9 +86,9 @@ HRESULT CFox::Ready_Object()
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Fire", m_pSkill), E_FAIL);
 
-	m_pBaseSkill = CSkill_Monster_FireRange::Create(m_pGraphicDev, this);
+	/*m_pBaseSkill = CSkill_Monster_FireRange::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_FireRange", m_pBaseSkill), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_FireRange", m_pBaseSkill), E_FAIL);*/
 
 #pragma region State Add
 
@@ -205,36 +205,36 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 
 	//if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	//{
-
-		if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
-		{
-			m_fJumpingSpeed *= -1;
-		}
-		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
-
+	if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
+	{
+		m_fJumpingSpeed *= -1;
+	}
+	m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 	//}
 	
 
-	// Skill Use
+	// Skill Use Condition
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::CHASE == CurState ||
 		STATE_TYPE::BACK_CHASE == CurState)
 	{
-		m_fAccTime += fTimeDelta;
+		m_bSkill = true;
+	}
 
+	if (m_bSkill == true)
+	{
+		m_fAccTime += fTimeDelta;
 		if (m_fAccTime >= 2.f)
 		{
-			
-			m_pBaseSkill->Play();
-			if (m_fAccTime >= 4.f)
+			m_pSkill->Play();
+			if (m_fAccTime >= 3.f)
 			{
-				m_pBaseSkill->End();
-				m_pSkill->Play();
+				dynamic_cast<CSkill_Monster_Fire*>(m_pSkill)->LatePlay();
 				m_fAccTime = 0.f;
+				m_bSkill = false;
 			}
-			m_bSkill = true;
 		}
 	}
 
@@ -247,8 +247,8 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 void CFox::LateUpdate_Object()
 {
 
-	if (m_bSkill)
-		m_bSkill = false;
+	//if (m_bSkill)
+	//	m_bSkill = false;
 
 	__super::LateUpdate_Object();
 

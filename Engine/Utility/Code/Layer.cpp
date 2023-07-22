@@ -92,7 +92,7 @@ void CLayer::LateUpdate_Layer()
 	}
 }
 
-CLayer * CLayer::Create()
+CLayer * CLayer::Create()       
 {
 	CLayer *	pInstance = new CLayer;
 

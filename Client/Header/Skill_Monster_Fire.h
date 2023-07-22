@@ -23,6 +23,7 @@ private:
 
 public:
 	virtual HRESULT			Play();
+	virtual HRESULT			LatePlay();
 	virtual HRESULT			End();
 
 
@@ -30,6 +31,9 @@ public:
 
 	static CSkill_Monster_Fire* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
+private:
+
+	CEffect_Range_Quater*		 m_pBaseRangeEffect;
 
 protected:
 	virtual void			Free();

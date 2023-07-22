@@ -41,7 +41,8 @@ _int CCircle_Stemp::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_WDUI, this);
 
 	// ¿þÀÌºê
-	m_pTransformCom->Set_Rot(_vec3{22.5f, 0.f, 0.f});
+	m_pTransformCom->Set_Rot( _vec3{22.5f, 0.f, 0.f});
+	//m_pTransformCom->Set_Rot(_vec3{ 0.f, 0.f, 0.f });
 	m_pTransformCom->Set_Scale(_vec3{ m_fSize, m_fSize, m_fSize });
 	m_pTransformCom->Set_Pos(_vec3{ m_vPos.x, m_vPos.y, m_vPos.z});
 
@@ -66,6 +67,8 @@ void CCircle_Stemp::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
@@ -83,7 +86,7 @@ HRESULT CCircle_Stemp::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Hedgehog_Stemp", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Circle_Stemp", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -91,7 +94,16 @@ HRESULT CCircle_Stemp::Add_Component()
 	pComponent = m_pBufferCom = dynamic_cast<CTerrainRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, pComponent);
+
+
+	//pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_RC_TEX, pComponent);
 }
+
+	
+
+
 
 CCircle_Stemp* CCircle_Stemp::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
 {
