@@ -172,6 +172,7 @@
     <ClInclude Include="..\Header\BatState_bRest.h" />
     <ClInclude Include="..\Header\BatState_Rest.h" />
     <ClInclude Include="..\Header\BossProjectile.h" />
+    <ClInclude Include="..\Header\Chase_Bullet.h" />
     <ClInclude Include="..\Header\Fish.h" />
     <ClInclude Include="..\Header\FishState_Attack.h" />
     <ClInclude Include="..\Header\FishState_bAttack.h" />
@@ -474,6 +475,7 @@
     <ClInclude Include="..\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Dagger.h" />
     <ClInclude Include="Effect_Cast_Purple.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Effect_Thunder.h" />
@@ -487,6 +489,7 @@
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
+    <ClCompile Include="..\Code\Chase_Bullet.cpp" />
     <ClCompile Include="..\Code\Scene_Ending.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\Fish.cpp" />
@@ -792,6 +795,7 @@
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -22,6 +22,10 @@ public:
 	virtual void			Render_Object() override;
 
 
+public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
 
 private:
 	HRESULT					Add_Component();
@@ -32,6 +36,13 @@ protected:
 	CTexture*			m_pTextureCom;
 	CAIComponent*		m_pAICom;
 
+	_vec3				m_vDir;
+	_vec3				m_vPos;
+	_float				m_fSpeed;
+
+	CGameObject*		m_pTarget;
+
+	_float				m_fAccTime;
 
 protected:
 	virtual void		Free() override;

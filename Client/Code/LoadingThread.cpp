@@ -422,13 +422,24 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma region KIM
 
-	// Monster - test - CuteMonster
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
+	//// Monster - test - CuteMonster
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/cutscene_intro_sister_01.png")), E_FAIL);
 
 	//// Monster - Bat
 	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bat",
 	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/bat_idle1.png")), E_FAIL);
+
+
+	// Monster - TestMob 
+
+	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Hedgehog_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Front/%d.png" ,17 )), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog_Attack",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Back/%d.png", 17)), E_FAIL);
+*/
+
 
 	// Monster - Dragon
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dragon_fIdle",
@@ -456,11 +467,6 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog_Attack",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Back/%d.png", 19)), E_FAIL);
-
-
-	// Circle Stemp
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Circle_Stemp",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/groundwave/basic_shockwave.png")), E_FAIL);
 
 
 	// Monster - Bat
@@ -589,19 +595,25 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 
+	// Projectile ==================================================================
+
+
+	// Puple_Bullet
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_PupleBullet",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Puple_Bullet.png")), E_FAIL);
+
+	// Red_Bullet
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_RedBullet",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Red_Bullet.png")), E_FAIL);
+
+	// Green_Dragger
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_GreenDager",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Green_Dagger.png")), E_FAIL);
 
 
 
-	// Monster - TestMob 
 
-	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_Hedgehog_Attack",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Front/%d.png" ,17 )), E_FAIL);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Hedgehog_Attack",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/Hedgehog/Attack/Back/%d.png", 17)), E_FAIL);
-*/
-
-	// Item ====
+	// Item ========================================================================
 
 	//  Item - Gold
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_Gold",
@@ -629,7 +641,13 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/Weapon/ninja_weapon.png")), E_FAIL);
 
 
-	// Inventory ====
+
+	// Effect =========================================================================
+	
+	// Circle Stemp
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Circle_Stemp",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/groundwave/basic_shockwave.png")), E_FAIL);
+
 
 #pragma endregion
 
