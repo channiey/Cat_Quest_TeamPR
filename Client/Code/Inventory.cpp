@@ -629,12 +629,10 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 
 	return iExit;
 }
-
 void CInventory::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
-
 void CInventory::Render_Object()
 {
 	if (m_bIsOn)
@@ -959,12 +957,23 @@ void CInventory::ItemPicking_UI()
 					// 이미 선택된 애들은 해제
 					for (_int i = 0; i < m_vecItem.size(); ++i)
 					{
-						m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
+						if (m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip)
+						{
+							m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
+							m_pPlayer->Set_AD(
+								m_pPlayer->Get_StatInfo().fAD -
+								dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD);
+							m_pPlayer->Class_Change(CLASS_TYPE::NORMAL);
+						}
 					}
 					// 새로운 장비 장착.
 					m_eMannequinClass = dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_ItemClassType();
+					
 					m_pPlayer->Class_Change(dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_ItemClassType());
-
+					m_pPlayer->Set_AD(
+					dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD
+					+ m_pPlayer->Get_StatInfo().fAD);
+					
 					m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = true;
 				}
 				// 같은 장비를 선택하면
