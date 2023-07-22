@@ -69,6 +69,7 @@ HRESULT CTest_Mob::Ready_Object()
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+
 #pragma region State Add
 
 	CState* pState;

@@ -77,6 +77,8 @@ HRESULT CWyvern::Ready_Object()
 
 
 	m_bSkill = false;
+	m_bBaseSkill = false;
+
 
 	// 스킬 생성
 	m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -224,36 +226,43 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	// Skill Use
+	// Skill Use Condition
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::CHASE == CurState ||
 		STATE_TYPE::BACK_CHASE == CurState)
 	{
-		m_fAccTime += fTimeDelta;
-
-		if (m_fAccTime >= 2.f)
-		{
-			m_fAccTime = 0.f;
-			m_pSkill->Play();
-			m_bSkill = true;
-		}
+		m_bSkill = true;
 	}
 
+	if (m_bSkill == true)
+	{
+		m_fAccTime += fTimeDelta;
+		if (m_fAccTime >= 2.f)
+		{
+			m_pSkill->Play();
+			if (m_fAccTime >= 3.f)
+			{
+				dynamic_cast<CSkill_Monster_Ice*>(m_pSkill)->LatePlay();
+				m_fAccTime = 0.f;
+				m_bSkill = false;
+			}
+		}
+	}
 	// Base Skill Use Condition
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
 	{
-		if (!m_bSkill)
+		if (!m_bBaseSkill)
 		{
 			m_pBaseSkill->Play();
-			m_bSkill = true;
+			m_bBaseSkill = true;
 		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
 			m_pBaseSkill->End();
-			m_bSkill = false;
+			m_bBaseSkill = false;
 		}
 
 	}
@@ -265,6 +274,10 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 
 void CWyvern::LateUpdate_Object()
 {
+	//if (m_bSkill)
+	//	m_bSkill = false;
+
+
 
 	__super::LateUpdate_Object();
 }

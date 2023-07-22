@@ -75,6 +75,8 @@ HRESULT CSkill::Play()
 	return S_OK;
 }
 
+
+
 HRESULT CSkill::End()
 {
 

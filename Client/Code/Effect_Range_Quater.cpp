@@ -124,6 +124,7 @@ void CEffect_Range_Quater::Render_Object()
 
 	}
 
+
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	switch (m_eType)

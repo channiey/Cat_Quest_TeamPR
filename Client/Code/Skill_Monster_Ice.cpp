@@ -28,14 +28,19 @@ HRESULT CSkill_Monster_Ice::Ready_Object()
 {
     __super::Ready_Object();
 
-    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+  
  
+    m_bActive = false;
+    m_fSkillDamage = 10;
 
-    m_fSkillDamage = 20;
-    
+    m_pBaseRangeEffect = nullptr;
    
+
+
     // Naming
     m_szName = L"Skill_Monster_Ice";
+
+    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
     return S_OK;
 }
@@ -45,10 +50,11 @@ _int CSkill_Monster_Ice::Update_Object(const _float& fTimeDelta)
     _int iExit = __super::Update_Object(fTimeDelta);
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+
     // Dead condition
     if (!m_pOwnerObject->Is_Active())
     {
-       // CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
+        CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
         return iExit;
@@ -59,11 +65,10 @@ _int CSkill_Monster_Ice::Update_Object(const _float& fTimeDelta)
     m_pTransformCom->Set_Pos(vPos);
 
 
-    // Skill Play
+    // Skill Play Control
     if (!m_pSKillEffect->Is_Active())
     {
-        //__super::End(); // ¹Ù´Ú ¾øÀ½
-        m_pSKillEffect->Set_Active(FALSE);
+        End();
         m_bActive = false;
     }
 
@@ -91,10 +96,16 @@ HRESULT CSkill_Monster_Ice::Add_Component()
     m_pSKillEffect = pIceEffect;
 
     //// Effect Range Quater
-    //CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW);
+    //CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::ARROW_RED);
     //NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
-    //FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_FireSkill_Range", pRangeEffect), E_FAIL);
+    //FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_iceSkill_Range", pRangeEffect), E_FAIL);
     //m_pRangeEffect = pRangeEffect;
+
+
+    //Effet Range Quater - Base
+    m_pBaseRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::ARROW_RED);
+    NULL_CHECK_RETURN(m_pBaseRangeEffect, E_FAIL);
+    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Ice_Base", m_pBaseRangeEffect), E_FAIL);
 
 
     return S_OK;
@@ -103,11 +114,12 @@ HRESULT CSkill_Monster_Ice::Add_Component()
 HRESULT CSkill_Monster_Ice::Play()
 {
 
-    m_pSKillEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
-    ///*m_pRangeEffect->Play_Effect({ m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS) });
-    //m_pRangeEffect->Get_Transform()->Set_Scale(_vec3{ 7.f, 7.f, 7.f });
-    //m_pRangeEffect->Scaling(1.f,1.f,2.f);*/
-  
+    _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
+    OBJ_ID eObjID = m_pOwnerObject->Get_ID();
+
+    m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z });
+    m_pBaseRangeEffect->Alphaing(0.5f, 240.f, 0.f);
+    m_pBaseRangeEffect->Scaling(0.01f, 1.f, 1.f);
 
 
     m_bActive = true;
@@ -115,8 +127,26 @@ HRESULT CSkill_Monster_Ice::Play()
     return S_OK;
 }
 
+HRESULT CSkill_Monster_Ice::LatePlay()
+{
+    _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
+    OBJ_ID eObjID = m_pOwnerObject->Get_ID();
+
+
+    m_pBaseRangeEffect->Set_Active(false);
+
+    m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z });
+    
+
+
+    return S_OK;
+}
+
 HRESULT CSkill_Monster_Ice::End()
 {
+    m_pSKillEffect->Set_Active(false);
+   // m_pRangeEffect->Set_Active(false);
+
     return S_OK;
 }
 

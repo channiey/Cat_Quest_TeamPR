@@ -134,6 +134,7 @@ protected:
 
 	// Skill
 	_bool					m_bSkill;
+	_bool					m_bBaseSkill;
 	CSkill*					m_pSkill;
 	CSkill*					m_pBaseSkill;
 

@@ -46,32 +46,20 @@ _int CSkill_Monster_FireRange::Update_Object(const _float& fTimeDelta)
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
-        //CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
-        //CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
+        CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
+        CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
         return iExit;
     }
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
 
-
-    //m_pRangeObj->Update_Object(fTimeDelta);
-
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
-
-
-
 
     return iExit;
 }
 
 void CSkill_Monster_FireRange::LateUpdate_Object()
 {
-
-    if (m_bActive)
-    {
-        m_bActive = false;
-    }
-
     __super::LateUpdate_Object();
 }
 
@@ -87,9 +75,11 @@ HRESULT CSkill_Monster_FireRange::Add_Component()
     //FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Basic", pRangeEffect), E_FAIL);
     //m_pRangeEffect = pRangeEffect;
 
+      // Effect Range Quater - Base
     m_pBaseRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
     NULL_CHECK_RETURN(m_pBaseRangeEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Basic_Base", m_pBaseRangeEffect), E_FAIL);
+
 
 
 
