@@ -137,7 +137,7 @@ void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 	D3DXVec3Normalize(&vDir1, &vDir1);
 	D3DXVec3Normalize(&vDir2, &vDir2);
 	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
-	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * 1.8f;
+	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG;
 
 	if (TOOL_VIEW::LINE == m_eView)
 	{

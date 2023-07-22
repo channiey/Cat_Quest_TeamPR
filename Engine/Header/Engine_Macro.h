@@ -39,6 +39,8 @@ namespace Engine
 #define CAM_FOV_PLAYER_FLIGHT		D3DXToRadian(80.f)
 #define CAM_FOV_PLAYER_ATTACK		D3DXToRadian(57.f) // 근거리 공격
 
+#define CAM_HEIGHT_MAG				1.8f
+
 #define	VTXCNTX						129
 #define VTXCNTZ						129
 #define VTXITV						3

@@ -18,7 +18,6 @@ CCamera::CCamera()
 	, m_fAccTime(0.f)
 	, m_fInitLookY(0.f)
 	, m_bAction(FALSE)
-	, m_eCameraAction(CAMERA_ACTION::TYPEEND)
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
 
@@ -31,7 +30,8 @@ CCamera::CCamera()
 	ZeroMemory(&m_matView, sizeof(_matrix));
 	ZeroMemory(&m_tZoomLerp, sizeof(LERP_FLOAT_INFO));
 	ZeroMemory(&m_tFOVLerp, sizeof(LERP_FLOAT_INFO));
-
+	ZeroMemory(&m_tVec3Lerp, sizeof(LERP_VEC3_INFO));
+	ZeroMemory(&m_tHeightLerp, sizeof(LERP_FLOAT_INFO));
 
 }
 
@@ -49,7 +49,6 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	, m_fAccTime(0.f)
 	, m_fInitLookY(0.f)
 	, m_bAction(FALSE)
-	, m_eCameraAction(CAMERA_ACTION::TYPEEND)
 
 {
 	ZeroMemory(&m_tVspace, sizeof(VIEWSPACE));
@@ -62,6 +61,8 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev, HWND* _pHwnd)
 	ZeroMemory(&m_matView, sizeof(_matrix));
 	ZeroMemory(&m_tZoomLerp, sizeof(LERP_FLOAT_INFO));
 	ZeroMemory(&m_tFOVLerp, sizeof(LERP_FLOAT_INFO));
+	ZeroMemory(&m_tVec3Lerp, sizeof(LERP_VEC3_INFO));
+	ZeroMemory(&m_tHeightLerp, sizeof(LERP_FLOAT_INFO));
 
 }
 
@@ -82,7 +83,10 @@ CCamera::CCamera(const CCamera & rhs, CGameObject* _pOwnerObject)
 	, m_fAccTime(0.f)
 	, m_fInitLookY(0.f)
 	, m_bAction(FALSE)
-	, m_eCameraAction(CAMERA_ACTION::TYPEEND)
+	, m_tFOVLerp(rhs.m_tFOVLerp)
+	, m_tVec3Lerp(rhs.m_tVec3Lerp)
+	, m_tHeightLerp(rhs.m_tHeightLerp)
+
 {
 }
 
@@ -224,10 +228,45 @@ void CCamera::Lerp_Distance(const _float& _fTime, const _float _fStartDist, cons
 	m_tZoomLerp.Set_Lerp(_fTime, _fStartDist, _fEndDist);
 }
 
-void CCamera::Lerp_FOV(const _float& _fTime, const _float _fStartDist, const _float _fEndDist, const LERP_MODE& _eMode)
+void CCamera::Lerp_FOV(const _float& _fTime, const _float _fStartFOV, const _float _fEndFOV, const LERP_MODE& _eMode)
 {
 	m_tFOVLerp.Init_Lerp(_eMode);
-	m_tFOVLerp.Set_Lerp(_fTime, _fStartDist, _fEndDist);
+	m_tFOVLerp.Set_Lerp(_fTime, _fStartFOV, _fEndFOV);
+}
+
+void CCamera::Lerp_Vec3(const _float& _fTime, const _vec3 _vStartVec3, const _vec3 _vEndVec3, const LERP_MODE& _eMode)
+{
+	m_tVec3Lerp.Init_Lerp(_eMode);
+	m_tVec3Lerp.Set_Lerp(_fTime, _vStartVec3, _vEndVec3);
+}
+
+void CCamera::Lerp_Height(const _float& _fTime, const _float _fStartH, const _float _fEndH, const LERP_MODE& _eMode)
+{
+	m_tHeightLerp.Init_Lerp(_eMode);
+	m_tHeightLerp.Set_Lerp(_fTime, _fStartH, _fEndH);
+}
+
+const VIEWSPACE CCamera::Calculate_Nonelerp_Eye(const _vec3& _vTargetPos)
+{
+	VIEWSPACE vNoneLerpView{};
+
+	NULL_CHECK_RETURN(m_pLookAt, vNoneLerpView);
+	NULL_CHECK_RETURN(m_pFollow, vNoneLerpView);
+
+	_vec3 vDir1 = m_tVspace.Eye - _vTargetPos;
+	_vec3 vDir2 = { vDir1.x, 0.f, vDir1.z };
+
+	D3DXVec3Normalize(&vDir1, &vDir1);
+	D3DXVec3Normalize(&vDir2, &vDir2);
+
+	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
+	_float fY = sinf(fTheta) * m_fDistance * CAM_HEIGHT_MAG;
+
+	vNoneLerpView.Eye = _vec3{ _vTargetPos.x, fY, _vTargetPos.z - m_fDistance };
+	vNoneLerpView.LookAt = m_pLookAt->Get_Transform()->Get_Info(INFO_POS);
+	vNoneLerpView.Up = vec3.up;
+
+	return vNoneLerpView;
 }
 
 void CCamera::Shake_Camera(const _float& _fTime, const _float& _fIntensity)

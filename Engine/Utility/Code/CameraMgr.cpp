@@ -2,12 +2,16 @@
 
 #include "..\..\Header\GameObject.h"
 
+#include "Transform.h"
+#include "Management.h"
+
 IMPLEMENT_SINGLETON(CCameraMgr)
 
 CCameraMgr::CCameraMgr()
 	: m_pCurCamera(nullptr)
 	, m_pPreCamera(nullptr)
 	, m_bBlending(false)
+	, m_eCurAction(CAMERA_ACTION::NONE)
 {
 }
 
@@ -159,7 +163,7 @@ void CCameraMgr::Stop_Shake()
 	m_pCurCamera->Get_CameraCom()->Stop_Shake();
 }
 
-HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
+HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode)
 {	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
@@ -171,58 +175,87 @@ HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
 
 		switch (_eMode)
 		{
-			// IDLE -> OTHER
-		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK:  
-		{
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.15f, fCurFOV, CAM_FOV_PLAYER_ATTACK, LERP_MODE::SMOOTHERSTEP);
-		}
-			break;
-		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_FLY:
-		{
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				1.f, fCurFOV, CAM_FOV_PLAYER_FLIGHT, LERP_MODE::SMOOTHERSTEP);
-		}
-		break;
-		case Engine::CAMERA_LEPR_MODE::PLAYER_IDL_TO_RANATK:
-		{
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-			0.15f, fCurFOV, CAM_FOV_PLAYER_RANGE, LERP_MODE::SMOOTHERSTEP);
-		}
-		break;
 
+#pragma region PLAYER
+
+		// IDLE -> OTHER
+		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_ATK : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.15f, fCurFOV, CAM_FOV_PLAYER_ATTACK, LERP_MODE::SMOOTHERSTEP); break;
+
+		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_FLY : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				1.f, fCurFOV, CAM_FOV_PLAYER_FLIGHT, LERP_MODE::SMOOTHERSTEP); break;
+
+		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_RANATK : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.15f, fCurFOV, CAM_FOV_PLAYER_RANGE, LERP_MODE::SMOOTHERSTEP); break;
 
 		// OTHER -> OTHER
-		case Engine::CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL:
-		{
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.15f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
-		}
-			break;
-		case Engine::CAMERA_LEPR_MODE::PLAYER_FLY_TO_IDL:
-		{
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				1.f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
-		}
-			break;
-		case Engine::CAMERA_LEPR_MODE::PLAYER_RANATK_TO_IDL:
-		{
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.2f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
-		}
-		break; 
-		
+		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.15f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+		case Engine::CAMERA_ACTION::PLAYER_FLY_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				1.f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.2f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break; 
 		
 		// OTHER -> IDLE
-		case Engine::CAMERA_LEPR_MODE::PLAYER_ATK_TO_RANATK:
+		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_RANATK :
+			break;
+		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_ATK :
+			break;
+
+#pragma endregion
+
+#pragma region SCENE
+
+		case Engine::CAMERA_ACTION::SCENE_ENTER_FIELD:
 		{
-		}
-		break;
-		case Engine::CAMERA_LEPR_MODE::PLAYER_RANATK_TO_ATK:
-		{
-		}
-		break;
+		/*
 		
+			*	필드씬 입장시 플레이어 위에서 카메라가 내려오는 연출
+			
+
+			1. 카메라를 플레이어 + y20을 타겟으로 하는 Eye에 위치시킨다.
+
+			2. Look의 y를 보간하여 플레이어까지 내린다.
+
+			3. 플레이어 y와 일치되면 게임을 시작한다.
+
+		*/
+			_vec3 vPlayerPos;		// 플레이어 시작 포지션
+			_vec3 vLerpStartLookAt; // 플레이어 시작 포지션 y + fHeight
+			_float fHeight = 70.f;
+			_vec3 vCamInitEye;		// 플레이어 시작포지션에서의 카메라 포지션
+
+			CGameObject* pPlayer = m_pCurCamera->Get_CameraCom()->Get_Follow();
+
+			NULL_CHECK_RETURN(pPlayer, E_FAIL);
+
+			vPlayerPos = pPlayer->Get_Transform()->Get_Info(INFO_POS);
+			vLerpStartLookAt = _vec3{ vPlayerPos.x, vPlayerPos.y + fHeight, vPlayerPos.z };
+
+
+			// 플레이어 시작 포지션 y + 20 위치에 카메라를 위치시킨다.
+			vCamInitEye = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Calculate_Nonelerp_Eye(vLerpStartLookAt).Eye;
+			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
+
+			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, fHeight, 0, LERP_MODE::EASE_OUT);
+		}
+			break;
+		case Engine::CAMERA_ACTION::SCENE_LOOK_WORLD:
+		{
+
+		}
+			break;
+
+#pragma endregion
+
+#pragma region OBJECT
+
+		case Engine::CAMERA_ACTION::OBJ_CHANGE_TARGET:
+			break;
+
+#pragma endregion
+
 		
 		
 		
@@ -235,6 +268,8 @@ HRESULT CCameraMgr::Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
 		}
 		
 	}
+
+	Set_CurCameraAction(_eMode);
 
 	return S_OK;
 }

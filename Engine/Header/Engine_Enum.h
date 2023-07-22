@@ -272,24 +272,36 @@ namespace Engine
 	enum OBJ_TAG { OBJ_BUILDING, OBJ_CHEST, OBJ_ENVIRONMENT, 
 		OBJ_MAGESHOP, OBJ_SMITHHOUSE, OBJ_TOWER, OBJ_OTHER }; // IMGUI 오브젝트 폴더 경로 불러오기 위한 타일 종류 분류
 
-	enum class CAMERA_LEPR_MODE 
+	enum class CAMERA_ACTION 
 	{ 
-		PLAYER_IDL_TO_ATK // 아이들 -> 근거리 공격
-		, PLAYER_IDL_TO_FLY // 아이들 -> 날기
-		, PLAYER_IDL_TO_RANATK // 아이들 -> 원거리 공격
+		// Player
+		NONE
+		, PLAYER_IDL_TO_ATK		// 아이들 -> 근거리 공격
+		, PLAYER_IDL_TO_FLY		// 아이들 -> 날기
+		, PLAYER_IDL_TO_RANATK	// 아이들 -> 원거리 공격
 
-		, PLAYER_ATK_TO_RANATK // 근거리 공격 -> 원거리 궁격
-		, PLAYER_RANATK_TO_ATK // 원거리 공격 -> 근거리 공격
+		, PLAYER_ATK_TO_RANATK	// 근거리 공격 -> 원거리 궁격
+		, PLAYER_RANATK_TO_ATK	// 원거리 공격 -> 근거리 공격
 
-		, PLAYER_FLY_TO_IDL // 날기 -> 아이들
-		, PLAYER_ATK_TO_IDL // 근거리공격 -> 아이들
-		, PLAYER_RANATK_TO_IDL // 원거리 공격 -> 아이들
+		, PLAYER_FLY_TO_IDL		// 날기 -> 아이들
+		, PLAYER_ATK_TO_IDL		// 근거리공격 -> 아이들
+		, PLAYER_RANATK_TO_IDL	// 원거리 공격 -> 아이들
+
+
+		// Scene
+		, SCENE_ENTER_FIELD		// 플레이어 y + 30 -> 플레이어 y
+		, SCENE_LOOK_WORLD		// 드래그시 전체 월드 보이게 
+
+
+		// GameObject
+		, OBJ_CHANGE_TARGET		// NPC 등 퀘스트 안내
+
 		, TYPEEND };
 	
 
 	enum class CAMERA_TYPE			{ PLAYER_CAMERA, TOOL_CAMERA, TYPEEND }; // 컴포넌트가 갖는다
 
-	enum class CAMERA_ACTION		{ NONE, ENTER_FILED, CHANGE_TARGET, TYPEEND };
+	//enum class CAMERA_ACTION		{ NONE, ENTER_FILED, CHANGE_TARGET, LOOK_WROLD, TYPEEND };
 
 	enum class EFFECT_RANGE_QUATER_TYPE {CIRCLE_SKILL_RED, CIRCLE_SKILL_YELLOW, CIRCLE_ATTACK, SQUARE_PURPLE, SQUARE_RED, ARROW_BLUE, ARROW_RED, TYPEEND };
 

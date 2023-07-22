@@ -94,8 +94,8 @@ inline const _matrix&   Get_WorldMat();
 inline void				Shake_Camera(const _float& _fTime = DF_CAMERA_SHAKE_TIME, const _float& _fIntensity = DF_CAMERA_SHAKE_INTENSITY);
 inline const _bool&		Is_Shake_Camera();
 inline void				Stop_Shake();
-inline HRESULT			Start_Lerp(const CAMERA_LEPR_MODE& _eMode);
-
+inline HRESULT			Start_Action(const CAMERA_ACTION& _eMode);
+inline const CAMERA_ACTION& Get_CurCameraAction();
 
 // CollisionMgr
 inline void				Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, const COL_TYPE& _eColType1, const COL_TYPE& _eColType2);

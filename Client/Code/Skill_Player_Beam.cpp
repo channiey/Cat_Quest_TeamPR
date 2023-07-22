@@ -65,7 +65,7 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
 
     if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
     {
-        CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_ATK_TO_IDL);
+        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
         m_pRangeEffect->Alphaing(0.3f, 128, 0);
         m_bIsEffectEnd = true;
     }

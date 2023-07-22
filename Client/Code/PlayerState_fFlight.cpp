@@ -38,7 +38,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		m_bFlying = true;
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(40.f);
 
-		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_FLY); // << Test
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_FLY); // << Test
 	}
 
 	STATE_TYPE eState = m_eState;

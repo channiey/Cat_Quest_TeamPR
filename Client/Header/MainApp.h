@@ -3,21 +3,6 @@
 #include "Base.h"
 #include "Engine_Define.h"
 
-/*
-
-
-인트로 씬에서 로딩 쓰레드 생성
-
-
-
-
-
-*/
-
-
-
-
-
 BEGIN(Engine)
 
 class CGraphicDev;

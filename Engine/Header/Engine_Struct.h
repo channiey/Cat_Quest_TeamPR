@@ -158,7 +158,6 @@ namespace Engine
 
 	}MOVEINFO;
 
-
 	typedef struct tagStatInfo // 살아있는 오브젝트 (플레이어, 몬스터)
 	{
 		_float		fMaxHP;
@@ -289,7 +288,6 @@ namespace Engine
 
 	}LERP_FLOAT_INFO;
 
-
 	typedef struct MyLerpVec3Info
 	{
 		_float		fStartTime = 0.f;
@@ -369,7 +367,7 @@ namespace Engine
 			D3DXVec3Lerp(&vCurVec, &vStartVec, &vEndVec, t);
 
 		}
-	}LERP_VECTOR_INFO;;
+	}LERP_VEC3_INFO;
 }
 
 

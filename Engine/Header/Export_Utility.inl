@@ -167,9 +167,14 @@ inline void Stop_Shake()
 	CCameraMgr::GetInstance()->Stop_Shake();
 }
 
-inline HRESULT Start_Lerp(const CAMERA_LEPR_MODE& _eMode)
+inline HRESULT Start_Action(const CAMERA_ACTION& _eMode)
 {
-	return CCameraMgr::GetInstance()->Start_Lerp(_eMode);
+	return CCameraMgr::GetInstance()->Start_Action(_eMode);
+}
+
+inline const CAMERA_ACTION& Get_CurCameraAction()
+{
+	return CCameraMgr::GetInstance()->Get_CurCameraAction();
 }
 
 inline void Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, COL_TYPE& _eColType1, const COL_TYPE& _eColType2)

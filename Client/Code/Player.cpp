@@ -827,7 +827,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[0]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
 			m_bSkill = true;
-		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('2') &&
 		m_arrSkillSlot[1] != nullptr && !m_arrSkillSlot[1]->Is_Active() &&
@@ -837,7 +837,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[1]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
 			m_bSkill = true;
-		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('3') &&
 		m_arrSkillSlot[2] != nullptr && !m_arrSkillSlot[2]->Is_Active() && 
@@ -847,7 +847,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[2]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
 			m_bSkill = true;
-		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('4') &&
 		m_arrSkillSlot[3] != nullptr && !m_arrSkillSlot[3]->Is_Active() &&
@@ -857,7 +857,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[3]->Get_SkillUsage());
 		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
 			m_bSkill = true;
-		CCameraMgr::GetInstance()->Start_Lerp(CAMERA_LEPR_MODE::PLAYER_IDL_TO_ATK);
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 
 	if (CInputDev::GetInstance()->Key_Down('L'))

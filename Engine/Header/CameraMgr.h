@@ -28,11 +28,13 @@ public:
 	const _matrix&							Get_Billboard_X();
 	const _matrix&							Get_Billboard_Y();
 	const _matrix&							Get_WorldMat();
+	const CAMERA_ACTION&					Get_CurCameraAction() const { return m_eCurAction; }
 
 public:
 	HRESULT									Set_ViewSpace	();
 	HRESULT									Set_Projection	();
 	HRESULT									Set_Viewport	();
+	HRESULT									Set_CurCameraAction(const CAMERA_ACTION& _eAction) { m_eCurAction = _eAction; return S_OK; }
 
 	HRESULT									Set_LookAt		(CGameObject* pLookAt);
 	HRESULT									Set_Follow		(CGameObject* pFollow);
@@ -41,7 +43,7 @@ public:
 	const _bool&							Is_Shake_Camera() const;
 	void									Stop_Shake();
 
-	HRESULT									Start_Lerp(const CAMERA_LEPR_MODE& _eMode);
+	HRESULT									Start_Action(const CAMERA_ACTION& _eMode);
 
 private:
 	CCameraObject*							Find_Camera		(const _tchar* pCameraTag);
@@ -53,6 +55,8 @@ private:
 	CCameraObject*							m_pPreCamera; // 이전 카메라
 
 	_bool									m_bBlending;
+
+	CAMERA_ACTION							m_eCurAction;
 
 public:
 	virtual void Free();

@@ -172,9 +172,11 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
 
+	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
 	return S_OK;
 }
 
+static int k = 0;
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/

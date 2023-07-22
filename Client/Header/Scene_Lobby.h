@@ -1,14 +1,6 @@
 #pragma once
 
-/*
-
-
-
-*/
-
 #include "Scene.h"
-
-class CLoadingThread;
 
 class CScene_Lobby : public Engine::CScene
 {
@@ -24,7 +16,7 @@ public:
 
 private:
 	HRESULT				Ready_Prototype();
-	//HRESULT				Ready_Layer_Environment();
+	HRESULT				Ready_Layer_Environment();
 
 private:
 

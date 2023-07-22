@@ -43,7 +43,7 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	if (m_pCameraCom->m_tZoomLerp.bActive)
+	/*if (m_pCameraCom->m_tZoomLerp.bActive)
 	{
 		m_pCameraCom->m_tZoomLerp.Update_Lerp(fTimeDelta);
 		m_pCameraCom->m_fDistance = m_pCameraCom->m_tZoomLerp.fCurValue;
@@ -51,13 +51,23 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 	else
 	{
 		Set_Zoom(fTimeDelta);
-	}
+	}*/
 
 	if (m_pCameraCom->m_tFOVLerp.bActive)
 	{
 		m_pCameraCom->m_tFOVLerp.Update_Lerp(fTimeDelta);
 		m_pCameraCom->m_tProj.FOV = m_pCameraCom->m_tFOVLerp.fCurValue;
 		m_pCameraCom->Set_Projection();
+	}
+
+	if (m_pCameraCom->m_tHeightLerp.bActive)
+	{
+		m_pCameraCom->m_tHeightLerp.Update_Lerp(fTimeDelta);
+	}
+
+	if (m_pCameraCom->m_tVec3Lerp.bActive)
+	{
+		m_pCameraCom->m_tVec3Lerp.Update_Lerp(fTimeDelta);
 	}
 
 	return iExit;
@@ -102,9 +112,22 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 void CPlayer_Camera::Set_ViewSpace() 
 {
 	// 플레이어의 최종 포지션 결정 이후에 해당 함수가 호출되어야 한다!
-
+	
 	NULL_CHECK(m_pCameraCom->m_pLookAt);
 	NULL_CHECK(m_pCameraCom->m_pFollow);
+
+	// Enter Scene Lerp
+	if (m_pCameraCom->m_tHeightLerp.bActive && CAMERA_ACTION::SCENE_ENTER_FIELD == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	{
+		Lerp_Enter_Scene();
+		return;
+	}
+	// Change Target Lerp
+	else if (CAMERA_ACTION::SCENE_LOOK_WORLD == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	{
+		Lerp_Change_Target();
+		return;
+	}
 
 	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 	_vec3 vLookPos = m_pCameraCom->m_tVspace.LookAt;
@@ -123,7 +146,7 @@ void CPlayer_Camera::Set_ViewSpace()
 	D3DXVec3Normalize(&vDir1, &vDir1);
 	D3DXVec3Normalize(&vDir2, &vDir2);
 	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
-	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * 1.8f;
+	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG;
 
 	m_pTransformCom->Set_Pos(_vec3{ vLerpPos.x,
 									fY,
@@ -134,6 +157,35 @@ void CPlayer_Camera::Set_ViewSpace()
 	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
 	m_pCameraCom->m_tVspace.LookAt = vLerpPos;  // m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS); //vLerpPos;
 	m_pCameraCom->m_tVspace.Up = vec3.up;
+}
+
+void CPlayer_Camera::Lerp_Enter_Scene()
+{ 
+	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vLookPos = vFollowPos;
+
+	vLookPos.y += m_pCameraCom->m_tHeightLerp.fCurValue;
+
+	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - vLookPos;
+	_vec3 vDir2 = { vDir1.x, 0.f, vDir1.z };
+	D3DXVec3Normalize(&vDir1, &vDir1);
+	D3DXVec3Normalize(&vDir2, &vDir2);
+	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
+	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG;
+
+	m_pTransformCom->Set_Pos(_vec3{ vLookPos.x,
+									fY,
+									vLookPos.z - m_pCameraCom->m_fDistance });
+
+
+
+	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
+	m_pCameraCom->m_tVspace.LookAt = vLookPos;  
+	m_pCameraCom->m_tVspace.Up = vec3.up;
+}
+
+void CPlayer_Camera::Lerp_Change_Target()
+{
 }
 
 void CPlayer_Camera::Free()
@@ -155,3 +207,5 @@ CPlayer_Camera* CPlayer_Camera::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	return pInstance;
 }
+
+

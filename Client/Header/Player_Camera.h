@@ -23,6 +23,9 @@ private:
 	void					Set_Zoom(const _float& fTimeDelta);
 	void					Set_ViewSpace();
 
+	void					Lerp_Enter_Scene();
+	void					Lerp_Change_Target();
+
 public:
 	static CPlayer_Camera*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
