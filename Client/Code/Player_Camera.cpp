@@ -123,7 +123,7 @@ void CPlayer_Camera::Set_ViewSpace()
 		return;
 	}
 	// Change Target Lerp
-	else if (CAMERA_ACTION::SCENE_LOOK_WORLD == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	else if (CAMERA_ACTION::OBJ_CHANGE_TARGET == CCameraMgr::GetInstance()->Get_CurCameraAction())
 	{
 		Lerp_Change_Target();
 		return;
@@ -182,10 +182,35 @@ void CPlayer_Camera::Lerp_Enter_Scene()
 	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
 	m_pCameraCom->m_tVspace.LookAt = vLookPos;  
 	m_pCameraCom->m_tVspace.Up = vec3.up;
+
+	if (!m_pCameraCom->m_tHeightLerp.bActive)
+		CCameraMgr::GetInstance()->Set_CurCameraAction(CAMERA_ACTION::NONE);
 }
 
 void CPlayer_Camera::Lerp_Change_Target()
 {
+	_vec3 vFollowPos = m_pCameraCom->m_tVec3Lerp.vCurVec;
+	_vec3 vLookPos = vFollowPos;
+
+	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
+	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - vLookPos;
+	_vec3 vDir2 = { vDir1.x, 0.f, vDir1.z };
+	D3DXVec3Normalize(&vDir1, &vDir1);
+	D3DXVec3Normalize(&vDir2, &vDir2);
+	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
+	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG;
+
+	m_pTransformCom->Set_Pos(_vec3{ vLookPos.x,
+									fY,
+									vLookPos.z - m_pCameraCom->m_fDistance });
+
+
+	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
+	m_pCameraCom->m_tVspace.LookAt = vLookPos;  // m_pCameraCom->m_pLookAt->Get_Transform()->Get_Info(INFO_POS); //vLerpPos;
+	m_pCameraCom->m_tVspace.Up = vec3.up;
+
+	if (!m_pCameraCom->m_tVec3Lerp.bActive && !CCameraMgr::GetInstance()->Is_Fix())
+		CCameraMgr::GetInstance()->Set_CurCameraAction(CAMERA_ACTION::NONE);
 }
 
 void CPlayer_Camera::Free()

@@ -41,13 +41,17 @@ Engine::_int CScene_Intro::Update_Scene(const _float& fTimeDelta)
 		CScene* pScene = nullptr; 
 
 		if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+		{
 			pScene = CScene_World::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Change_Scene(pScene);
+		}
 		else if ((PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()))
+		{
 			pScene = CScene_Tool::Create(m_pGraphicDev);
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+		}
 
 		NULL_CHECK_RETURN(pScene, -1);
-
-		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 	}
 
 	return iExit;

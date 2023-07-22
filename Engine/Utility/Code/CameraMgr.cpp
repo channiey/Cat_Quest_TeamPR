@@ -12,6 +12,7 @@ CCameraMgr::CCameraMgr()
 	, m_pPreCamera(nullptr)
 	, m_bBlending(false)
 	, m_eCurAction(CAMERA_ACTION::NONE)
+	, m_bFix(FALSE)
 {
 }
 
@@ -163,11 +164,13 @@ void CCameraMgr::Stop_Shake()
 	m_pCurCamera->Get_CameraCom()->Stop_Shake();
 }
 
-HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode)
+HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos, const _vec3& _vEndPos, const _bool& _bFix)
 {	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	NULL_CHECK_RETURN(m_pCurCamera, E_FAIL);
+
+	m_bFix = _bFix;
 
 	if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
 	{
@@ -191,14 +194,17 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode)
 		// OTHER -> OTHER
 		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
 				0.15f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+
 		case Engine::CAMERA_ACTION::PLAYER_FLY_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
 				1.f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+
 		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
 				0.2f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break; 
 		
 		// OTHER -> IDLE
 		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_RANATK :
 			break;
+
 		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_ATK :
 			break;
 
@@ -238,12 +244,12 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode)
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
 
 			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
-			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, fHeight, 0, LERP_MODE::EASE_OUT);
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
 		}
 			break;
 		case Engine::CAMERA_ACTION::SCENE_LOOK_WORLD:
 		{
-
+		
 		}
 			break;
 
@@ -252,7 +258,28 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode)
 #pragma region OBJECT
 
 		case Engine::CAMERA_ACTION::OBJ_CHANGE_TARGET:
-			break;
+		{
+			/*
+				시작 위치 -> 종료 위치 -> 시작 위치
+
+				팔로우 및 룩앳의 위치를 보간한다.
+
+				시작 위치와 종료위치는 디폴트 매개변수로 설정한다.
+			*/
+
+			// 두 지점 사이의 거리에 비례하여 보간 시간을 정하도록 한다.
+			_float fDistance = D3DXVec3Length(&(_vStartPos - _vEndPos));
+			_float fMag = 0.03f;
+
+			// y에 대한 보간은 빼도록 한다.
+			_vec3 vOrigin = _vStartPos;
+			_vec3 vDest = _vEndPos;
+
+			m_pCurCamera->Get_CameraCom()->Lerp_Vec3(fDistance * fMag, vOrigin, vDest, LERP_MODE::EASE_OUT);
+
+
+		}
+		break;
 
 #pragma endregion
 

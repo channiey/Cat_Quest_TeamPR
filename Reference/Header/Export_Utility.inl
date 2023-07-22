@@ -167,14 +167,19 @@ inline void Stop_Shake()
 	CCameraMgr::GetInstance()->Stop_Shake();
 }
 
-inline HRESULT Start_Action(const CAMERA_ACTION& _eMode)
+inline HRESULT Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos, const _vec3& _vEndPos, const _bool& _bFix)
 {
-	return CCameraMgr::GetInstance()->Start_Action(_eMode);
+	return CCameraMgr::GetInstance()->Start_Action(_eMode, _vStartPos, _vEndPos, _bFix);
 }
 
 inline const CAMERA_ACTION& Get_CurCameraAction()
 {
 	return CCameraMgr::GetInstance()->Get_CurCameraAction();
+}
+
+inline const _bool& Is_Fix()
+{
+	return CCameraMgr::GetInstance()->Is_Fix();
 }
 
 inline void Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, COL_TYPE& _eColType1, const COL_TYPE& _eColType2)

@@ -43,7 +43,9 @@ public:
 	const _bool&							Is_Shake_Camera() const;
 	void									Stop_Shake();
 
-	HRESULT									Start_Action(const CAMERA_ACTION& _eMode);
+	const _bool&							Is_Fix() const { return m_bFix; }
+
+	HRESULT									Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos = vec3.one, const _vec3& _vEndPos = vec3.one, const _bool& _bFix = FALSE);
 
 private:
 	CCameraObject*							Find_Camera		(const _tchar* pCameraTag);
@@ -57,6 +59,8 @@ private:
 	_bool									m_bBlending;
 
 	CAMERA_ACTION							m_eCurAction;
+
+	_bool									m_bFix;
 
 public:
 	virtual void Free();

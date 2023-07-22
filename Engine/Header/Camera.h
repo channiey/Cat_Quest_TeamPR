@@ -111,6 +111,7 @@ public:
 	LERP_VEC3_INFO			m_tVec3Lerp;
 	LERP_FLOAT_INFO			m_tHeightLerp;
 
+
 private:
 	virtual void			Free();
 

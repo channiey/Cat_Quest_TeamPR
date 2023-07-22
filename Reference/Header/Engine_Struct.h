@@ -306,7 +306,7 @@ namespace Engine
 		{
 			bActive = true;
 			fCurTime = 0.f;
-			vCurVec = vec3.one;
+			vCurVec = vec3.zero;
 			eMode = _eMode;
 		}
 
@@ -314,7 +314,7 @@ namespace Engine
 		{
 			fEndTime = _fTime;
 			vStartVec = _fStartValue;
-			vCurVec = _fTargetValue;
+			vEndVec = _fTargetValue;
 		}
 
 		void Update_Lerp(const _float& fTimeDelta)
