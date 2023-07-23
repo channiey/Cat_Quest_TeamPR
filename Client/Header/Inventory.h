@@ -35,7 +35,7 @@ struct tagItemSpace
 	_bool		m_bOnSpace = false;
 	_bool		m_bEquip = false;
 };
-// 스킬 칸
+// 스킬 칸(오른쪽)
 struct tagSkillSpace
 {
 	_matrix     m_matSpace;
@@ -47,7 +47,23 @@ struct tagSkillSpace
 	_bool		m_bOnSpace = false;
 	_bool		m_bEquip = false;
 };
-// 스킬, 스킬ID,  텍스쳐, 행렬 가진다.
+// Skill Ring(왼쪽)
+struct tagSkillRingUI
+{
+	_matrix     m_matEmptySkillUI; // 빈 상태
+	_matrix		m_matEquipSkillUI; // 스킬 있는 상태
+	_matrix     m_matSkillRingUI;  // 주변 링
+	_matrix		m_matSkillNumUI;   // 아래 넘버
+
+	CTexture*	m_pSkillEmptyUITex; // 빈 상태
+	CTexture*	m_pSkillEquipUITex; // 스킬 있는 상태
+	CTexture*	m_pSkillRingUITex;  // 주변 링
+	CTexture*	m_pSkillNumUITex;   // 아래 넘버
+
+	_bool		m_bIsSkill = false; // 스킬이 있나?
+	_int		m_iSkillID;			// 스킬 ID
+};
+// 스킬 정보
 struct tagInvenSkill
 {
 	CSkill*		m_pSkill;
@@ -92,19 +108,6 @@ struct tagItemStatFont
 {
 	RECT		m_pItemStatRc;
 };
-// Skill Ring
-struct tagSkillRingUI
-{
-	_matrix     m_matEmptySkillUI;
-	_matrix     m_matSkillRingUI;
-	_matrix		m_matSkillNumUI;
-	CTexture*	m_pSkillRingUITex;
-	CTexture*	m_pSkillEmptyUITex;
-	CTexture*   m_pSkillNumUITex;
-
-	_bool		m_bIsSkill;
-};
-
 
 class CPlayer;
 
@@ -160,6 +163,8 @@ public:
 	void					ItemPicking_UI();
 	void					SkillPicking_UI();
 	void					TabPicking_UI();
+
+	_bool					Skill_Push();
 #pragma endregion
 
 public:
@@ -204,9 +209,12 @@ private:
 
 	// 스킬 인벤토리 관련
 	tagSkillSpace			m_sSkillSpaceAry[INVEN_BUTTON12 - 2]; // 스킬 칸 배열
-	tagSkillRingUI			m_sSkillRingAry[MAX_SKILL_SLOT];
-	_matrix					m_sBigSkillRing;
-	CTexture*				m_pBigSkillRingTex;
+	tagSkillRingUI			m_sSkillRingAry[MAX_SKILL_SLOT]; // 왼쪽 스킬 4칸 관련
+	_matrix					m_sBigSkillRing; // 큰 링
+	CTexture*				m_pBigSkillRingTex; // 큰 링
+
+	_bool					m_bSkillPick;    // 키 입력 전 담아두기 상태인지.
+	_int					iPick;
 
 	// 공용
 	tagLine					m_sLineAry[INVEN_LINE - 16]; // 라인 배열
@@ -227,14 +235,14 @@ private:
 #pragma region 마네킹
 	// 마네킹
 	CGameObject*	m_pMannequin;
-	CTexture*		m_pMannequinTexCom[_uint(CLASS_TYPE::TYPEEND)];
-	CAnimation*		m_pMannequinAniCom[_uint(CLASS_TYPE::TYPEEND)];
-	CLASS_TYPE		m_eMannequinClass;
-	_matrix			m_matMannequinWorld;
+	CTexture*		m_pMannequinTexCom[_uint(CLASS_TYPE::TYPEEND)]; // 사진 배열
+	CAnimation*		m_pMannequinAniCom[_uint(CLASS_TYPE::TYPEEND)]; // 애니 배열
+	_matrix			m_matMannequinWorld; //
 
-	CTexture*		m_pShadowTexCom;
-	_matrix			m_matShadowWorld;
+	CTexture*		m_pShadowTexCom;   // 마네킹 그림자
+	_matrix			m_matShadowWorld;  // 마네킹 그림자
 
+	CLASS_TYPE		m_eMannequinClass; // 마네킹의 클래스(직업) 
 #pragma endregion
 	
 #pragma region  fancy

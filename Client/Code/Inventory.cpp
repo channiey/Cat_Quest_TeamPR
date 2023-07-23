@@ -129,6 +129,7 @@ void CInventory::Ready_WorldMatrix()
 		D3DXMatrixIdentity(&m_sSkillRingAry[i].m_matEmptySkillUI);
 		D3DXMatrixIdentity(&m_sSkillRingAry[i].m_matSkillRingUI);
 		D3DXMatrixIdentity(&m_sSkillRingAry[i].m_matSkillNumUI);
+		D3DXMatrixIdentity(&m_sSkillRingAry[i].m_matEquipSkillUI);
 	}
 
 	// Mouse World Init
@@ -657,12 +658,12 @@ void CInventory::Ready_SkillUI()
 			m_fPosY = m_sBigSkillRing._42;
 			break;
 		case 2:
-			m_fPosX = m_sBigSkillRing._41;
-			m_fPosY = m_sBigSkillRing._42 - 175.f;
+			m_fPosX = m_sBigSkillRing._41 - 175.f;
+			m_fPosY = m_sBigSkillRing._42;
 			break;
 		case 3:
-			m_fPosX = m_sBigSkillRing._41 - 175.f	;
-			m_fPosY = m_sBigSkillRing._42;
+			m_fPosX = m_sBigSkillRing._41;
+			m_fPosY = m_sBigSkillRing._42 - 175.f;
 			break;
 		default:
 			break;
@@ -672,6 +673,12 @@ void CInventory::Ready_SkillUI()
 		m_sSkillRingAry[i].m_matSkillRingUI._42 = m_fPosY;
 		m_sSkillRingAry[i].m_matSkillRingUI._11 = 80.f;
 		m_sSkillRingAry[i].m_matSkillRingUI._22 = 80.f;
+
+		// Equip
+		m_sSkillRingAry[i].m_matEquipSkillUI._41 = m_fPosX;
+		m_sSkillRingAry[i].m_matEquipSkillUI._42 = m_fPosY;
+		m_sSkillRingAry[i].m_matEquipSkillUI._11 = 65.f;
+		m_sSkillRingAry[i].m_matEquipSkillUI._22 = 65.f;
 
 		// Empty
 		m_sSkillRingAry[i].m_matEmptySkillUI._41 = m_fPosX;
@@ -685,10 +692,7 @@ void CInventory::Ready_SkillUI()
 		m_sSkillRingAry[i].m_matSkillNumUI._11 = 20.f;
 		m_sSkillRingAry[i].m_matSkillNumUI._22 = 20.f;
 
-
 	}
-
-
 }
 
 _int CInventory::Update_Object(const _float& fTimeDelta)
@@ -816,8 +820,6 @@ void CInventory::Render_Object()
 
 	}
 
-	// 위를 무시하고 바로 일로 오기 때문에 랜더들이 알파값이 적용 안되고 바로꺼진다.
-	// 집에서 수정하자.
 	if (m_bAlphaSet)
 	{
 		m_iTranslucent -= 10;
@@ -1080,9 +1082,26 @@ void CInventory::Render_PlayerSkillUI()
 		m_vecSkill[i].m_matSkill._11 = m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace._11 * 0.7;
 		m_vecSkill[i].m_matSkill._22 = m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace._22 * 0.7;
 	}
+	// Skill 장착 레이아웃
+	for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
+	{
+		if (m_sSkillRingAry[i].m_bIsSkill)
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matEquipSkillUI);
+			m_sSkillRingAry[i].m_pSkillEquipUITex->Render_Texture(m_sSkillRingAry[i].m_iSkillID);
+			m_pBufferCom->Render_Buffer();
+		}
+	}
+
+	// number : 랜더링 순서 때문에 여기로 뺌. 스킬보다 나중에 그려져야 됨
+	for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matSkillNumUI);
+		m_sSkillRingAry[i].m_pSkillNumUITex->Render_Texture();
+		m_pBufferCom->Render_Buffer();
+	}
 
 }
-
 void CInventory::Render_SkillUI()
 {
 	// SkillSpace 
@@ -1124,19 +1143,22 @@ void CInventory::Render_SkillUI()
 		m_sSkillRingAry[i].m_pSkillRingUITex->Render_Texture();
 		m_pBufferCom->Render_Buffer();
 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matEmptySkillUI);
-		m_sSkillRingAry[i].m_pSkillEmptyUITex->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matSkillNumUI);
-		m_sSkillRingAry[i].m_pSkillNumUITex->Render_Texture();
-		m_pBufferCom->Render_Buffer();
-
+		if (!m_sSkillRingAry[i].m_bIsSkill)
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matEmptySkillUI);
+			m_sSkillRingAry[i].m_pSkillEmptyUITex->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+		}
+		else
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matEquipSkillUI);
+			m_sSkillRingAry[i].m_pSkillEquipUITex->Render_Texture();
+			m_pBufferCom->Render_Buffer();
+		}
 	}
 
 
 }
-
 void CInventory::Render_SkillFont()
 {
 }
@@ -1267,7 +1289,23 @@ void CInventory::SkillPicking_UI()
 			// 마우스 클릭 시
 			if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 			{
+				// 칸에 스킬이 존재하면서 장착 중인 스킬이 아니라면
+				if (!m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip && m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace)
+				{
+					m_sSkillRingAry[i].m_iSkillID = m_vecSkill[i].m_iSkillID;
+					m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = true;
+					m_sSkillRingAry[i].m_bIsSkill = true;
 
+					m_pPlayer->Set_SkillSlot(i, m_vecSkill[i].m_pSkill);
+				}
+				else
+				{
+					// 스페이스의 장착 여부 false
+					m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
+					// 왼쪽 스킬 창 false 세팅
+					m_sSkillRingAry[i].m_bIsSkill = false;
+					m_pPlayer->Set_SkillSlot(i, nullptr);
+				}
 			}
 		}
 		// 픽킹 상태가 아닐 때
@@ -1412,6 +1450,28 @@ void CInventory::TabPicking_UI()
 		}
 
 	}
+}
+
+_bool CInventory::Skill_Push()
+{
+	if (CInputDev::GetInstance()->Key_Down('1'))
+	{
+		return true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('2'))
+	{
+		return true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('3'))
+	{
+		return true;
+	}
+	else if (CInputDev::GetInstance()->Key_Down('4'))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -1652,6 +1712,7 @@ HRESULT CInventory::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	// SmallRingUI
 	for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
 	{
 		// Ring UI
@@ -1660,6 +1721,13 @@ HRESULT CInventory::Add_Component()
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 	
+		// Equip UI
+		pComponent = m_sSkillRingAry[i].m_pSkillEquipUITex =
+			dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
 		// Empty UI
 		pComponent = m_sSkillRingAry[i].m_pSkillEmptyUITex
 			= dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Skill_Empty", this));
@@ -1684,7 +1752,6 @@ HRESULT CInventory::Add_Component()
 		}
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
 	}
 
 #pragma endregion
