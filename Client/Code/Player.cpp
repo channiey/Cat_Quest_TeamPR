@@ -1222,13 +1222,11 @@ CGameObject* CPlayer::MageBall_Target()
 
 	if (m_pBallTarget != nullptr)
 	{
-		cout << "타겟온" << endl;
 		m_fBallTargetLenght = 18.f;
 		return m_pBallTarget;
 	}
 	else
 	{
-		cout << "타겟오프" << endl;
 		m_fBallTargetLenght = 18.f;
 		return nullptr;
 	}

@@ -67,7 +67,6 @@ _int CMage_Bullet::Update_Object(const _float& fTimeDelta)
        
     if (!m_pTarget->Is_Active())
     {
-        cout << "Å¸°Ù »ç¶óÁü" << endl;
         m_pTarget = nullptr;
     }
        

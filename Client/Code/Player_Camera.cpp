@@ -214,8 +214,6 @@ void CPlayer_Camera::Lerp_Enter_Scene()
 	m_pCameraCom->m_tVspace.LookAt = vLookPos;  
 	m_pCameraCom->m_tVspace.Up = vec3.up;
 
-	cout << fY << endl;
-
 	if (!m_pCameraCom->m_tHeightLerp.bActive)
 		CCameraMgr::GetInstance()->Set_CurCameraAction(CAMERA_ACTION::NONE);
 }
