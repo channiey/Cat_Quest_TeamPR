@@ -37,6 +37,15 @@ private:
 public:
 	static				CVioletDragon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
+
+
+private:
+
+	CSkill*					m_pFullDown;
+	_bool					m_bFullDown;
+
+
+
 protected:
 	virtual void		Free() override;
 

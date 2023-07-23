@@ -613,6 +613,14 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Attack/Back/%d.png", 18)), E_FAIL);
 
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_FullDown_VioletDragon_Fly",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/FullDown/Fly/%d.png", 13)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_FullDown_VioletDragon_Down",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/FullDown/Down/%d.png", 6)), E_FAIL);
+
+
+
 
 	// Projectile ==================================================================
 
@@ -629,6 +637,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_GreenDager",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Green_Dagger.png")), E_FAIL);
 
+
+	// Blue_Star_bullet_
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_BlueStar",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Star_Bullet.png")), E_FAIL);
 
 
 

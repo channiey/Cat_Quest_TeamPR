@@ -168,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\ItemGetEffect.h" />
+    <ClInclude Include="..\Header\BlueStar_Bullet.h" />
+    <ClInclude Include="..\Header\Dagger.h" />
     <ClInclude Include="..\Header\FadeUI.h" />
     <ClInclude Include="..\Header\BasicProjectile.h" />
     <ClInclude Include="..\Header\BatState_bRest.h" />
@@ -376,6 +378,7 @@
     <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\Skill.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
+    <ClInclude Include="..\Header\Skill_Boss_FullDown.h" />
     <ClInclude Include="..\Header\Skill_Monster_Beam.h" />
     <ClInclude Include="..\Header\Skill_Monster_CircleAttack.h" />
     <ClInclude Include="..\Header\Skill_Monster_Fire.h" />
@@ -442,6 +445,8 @@
     <ClInclude Include="..\Header\VioletDragonState_bRest.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase.h" />
     <ClInclude Include="..\Header\VioletDragonState_ComeBack.h" />
+    <ClInclude Include="..\Header\VioletDragonState_FullDown_Down.h" />
+    <ClInclude Include="..\Header\VioletDragonState_FullDown_Fly.h" />
     <ClInclude Include="..\Header\VioletDragonState_Patrol.h" />
     <ClInclude Include="..\Header\VioletDragonState_Rest.h" />
     <ClInclude Include="..\Header\WarriorWeapon.h" />
@@ -476,7 +481,6 @@
     <ClInclude Include="..\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Dagger.h" />
     <ClInclude Include="Effect_Cast_Purple.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Effect_Thunder.h" />
@@ -486,6 +490,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
+    <ClCompile Include="..\Code\Dagger.cpp" />
     <ClCompile Include="..\Code\FadeUI.cpp" />
     <ClCompile Include="..\Code\BasicProjectile.cpp" />
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
@@ -697,6 +703,7 @@
     <ClCompile Include="..\Code\Shadow_Monster.cpp" />
     <ClCompile Include="..\Code\Shadow_Npc.cpp" />
     <ClCompile Include="..\Code\Shadow_Player.cpp" />
+    <ClCompile Include="..\Code\Skill_Boss_FullDown.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Beam.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_CircleAttack.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Fire.cpp" />
@@ -763,6 +770,8 @@
     <ClCompile Include="..\Code\VioletDragonState_bRest.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ComeBack.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_FullDown_Down.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_FullDown_Fly.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Patrol.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Rest.cpp" />
     <ClCompile Include="..\Code\WarriorWeapon.cpp" />
@@ -797,7 +806,6 @@
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
