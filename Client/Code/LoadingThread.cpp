@@ -676,8 +676,21 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Effect =========================================================================
 	
 	// Circle Stemp
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_Circle_Stemp",
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Circle_Stemp",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/groundwave/basic_shockwave.png")), E_FAIL);
+
+	// Big Circle Stemp
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Big_Circle_Stemp",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/groundwave/Big_shockwave.png")), E_FAIL);
+
+	// Big Range_Skill_Circle_Red
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_BigRangeSkill_Circle_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Big_Range_Skill_Circle_Red.png")), E_FAIL);
+
+
+
+
+
 
 
 #pragma endregion
