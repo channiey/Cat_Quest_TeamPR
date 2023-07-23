@@ -29,6 +29,9 @@ HRESULT CVioletDragonState_FullDown_Down::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDelta)
 {
+	// Monster - Animation Com
+	CAnimation* pOwnerCurAnimation = m_pOwner->Get_Animator()->Get_CurAniamtion();
+
 
 	// Monster - Transform Com
 	CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
@@ -36,24 +39,27 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 	// Monster - Speed
 	_float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
 
+	// Time
 	m_fAccTime += fTimeDelta;
 
 
-	//if (m_fAccTime >= 1.5)
-	//{
-	//	pOwnerTransform->Set_Dir(_vec3{ 0.f, -1.f, 0.f });
-	//}
-	//pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
+	if (pOwnerCurAnimation->Is_End())
+	{
+		CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
+
+		if (m_fAccTime >= 1.f)
+		{
+			CCameraMgr::GetInstance()->Stop_Shake();
+		}
+	}
 
 
 	// 임시로 전이 반복 시킴 
-
 	// State Change 
 
-	if (m_fAccTime >= 3.f)
+	if (m_fAccTime >= 5.f)
 	{
-
 		m_fAccTime = 0.f;
 		return STATE_TYPE::BOSS_FULLDOWN_FLY;
 	}

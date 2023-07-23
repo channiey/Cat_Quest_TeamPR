@@ -21,6 +21,8 @@
 #include "Shadow_Monster.h"
 //#include "Skill_Monster_Ice.h"
 #include "Skill_Monster_CircleAttack.h"
+#include "Skill_Boss_FullDown.h"
+
 
 CVioletDragon::CVioletDragon(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_VIOLETDRAGON)
@@ -80,6 +82,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	m_bSkill = false;
+	m_bFullDown = false;
 
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -89,6 +92,14 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
+
+
+	// Test Pattern
+	//
+	// Full Down
+	m_pFullDown = CSkill_Boss_FullDown::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(m_pFullDown, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_FullDown", m_pFullDown), E_FAIL);
 
 
 
@@ -142,6 +153,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Pattern ================================	
+	// 
 	//FullDown - Fly
 	pState = CVioletDragonState_FullDown_Fly::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_FLY, pState);
@@ -298,6 +310,28 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		}
 
 	}
+
+
+	// Full Down Skill Use Condition
+	if (STATE_TYPE::BOSS_FULLDOWN_FLY == CurState && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+	{
+		if (!m_bFullDown)
+		{
+			m_pFullDown->Play();
+			m_bFullDown = true;
+		}
+	}
+	if (STATE_TYPE::BOSS_FULLDOWN_DOWN == CurState && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+	{
+		if (m_bFullDown)
+		{
+			m_pFullDown->End();
+			m_bFullDown = false;
+		}
+	}
+
+
+
 
 
 	
