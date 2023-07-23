@@ -10,13 +10,13 @@
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
 	, m_bIsOn(false), m_bAlphaSet(false), m_iHaveKey(0), m_iTranslucent(0)
-	, m_eMannequinClass(CLASS_TYPE::NORMAL)
 {
 	m_pPlayer = nullptr;
 }
 
 CInventory::CInventory(const CInventory& rhs)
 	:CUI(rhs)
+	, m_pMannequinAniCom(rhs.m_pMannequinAniCom)
 {
 }
 
@@ -42,10 +42,8 @@ HRESULT CInventory::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
 	m_vecItem.push_back(pGameObject);
 
-	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
-	{
-		m_pMannequinAniCom[i] = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom[i], STATE_TYPE::FRONT_IDLE, 0.2f, true);
-	}
+
+	m_pMannequinAniCom = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom, STATE_TYPE::FRONT_IDLE, 0.2f, true);
 
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
@@ -97,6 +95,11 @@ void CInventory::Ready_WorldMatrix()
 	for (_uint i = 0; i < PLAYER_UI_END; ++i)
 	{
 		D3DXMatrixIdentity(&m_sPlayerUIAry[i].m_matPlUI);
+	}
+	// Bar	UI
+	for (_uint i = 0; i < 8; ++i)
+	{
+		D3DXMatrixIdentity(&m_matBar[i]);
 	}
 	// Item UI Init
 	for (_uint i = 0; i < ITEMUI_END; ++i)
@@ -239,33 +242,97 @@ void CInventory::Ready_PublicUI()
 }
 void CInventory::Ready_ItemPlayerUI()
 {
+
+
+#pragma region Bar
 	// Hp Bar
-	m_fSizeX = 0.8f;
-	m_fSizeY = 0.6f;
-	m_fMultipleSizeX = 100.f;
-	m_fMultipleSizeY = 100.f;
-	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 = m_matMannequinWorld._41;
-	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42 = m_matMannequinWorld._42 - m_matMannequinWorld._22;
-	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
-	m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+	m_fHpBarPosX = m_matMannequinWorld._41;
+	m_fHpBarPosY = m_matMannequinWorld._42 - m_matMannequinWorld._22;
+
+	m_fSizeX = 15.f;
+	m_fSizeY = 15.f;
+	m_fMultipleSizeX = 3.f;
+	m_fMultipleSizeY = 1.f;
+
+	m_fHpBarSizeX = m_fSizeX * m_fMultipleSizeX;
+	m_fHpBarSizeY = m_fSizeY * m_fMultipleSizeY;
+
+	// Hp검
+	m_matBar[0]._41 = m_fHpBarPosX;
+	m_matBar[0]._42 = m_fHpBarPosY;
+	m_matBar[0]._11 = m_fHpBarSizeX;
+	m_matBar[0]._22 = m_fHpBarSizeY;
+	// Hp빨
+	m_matBar[1]._41 = m_fHpBarPosX;
+	m_matBar[1]._42 = m_fHpBarPosY;
+	m_matBar[1]._11 = m_fSizeX * m_fMultipleSizeX;
+	m_matBar[1]._22 = m_fSizeY * m_fMultipleSizeY;
+	// Hp캡 사이즈
+	m_fSizeX = 10.5;
+	m_fSizeY = 18.5;
+	m_fMultipleSizeX = 1.f;
+	m_fMultipleSizeY = 1.f;
+	m_fCapSizeX = m_fSizeX * m_fMultipleSizeX;
+	m_fCapSizeY = m_fSizeY * m_fMultipleSizeY;
+	// Hp왼캡
+	m_matBar[2]._41 = m_fHpBarPosX - (m_fHpBarSizeX) - (m_fCapSizeX) + 2;
+	m_matBar[2]._42 = m_fHpBarPosY;
+	m_matBar[2]._11 = m_fCapSizeX;
+	m_matBar[2]._22 = m_fCapSizeY;
+	// Hp오른캡
+	m_matBar[3]._41 = m_fHpBarPosX + (m_fHpBarSizeX) + (m_fCapSizeX) - 2;
+	m_matBar[3]._42 = m_fHpBarPosY;
+	m_matBar[3]._11 = m_fCapSizeX;
+	m_matBar[3]._22 = m_fCapSizeY;
 
 	// Mp Bar
-	m_fSizeX = 0.8f;
-	m_fSizeY = 0.6f;
-	m_fMultipleSizeX = 100.f;
-	m_fMultipleSizeY = 100.f;
-	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 + 2.5f;
-	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42 - (m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 * 0.5f) - 5.f;
-	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
-	m_sPlayerUIAry[PLAYER_MPBAR].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
+	m_fMpBarPosX = m_fHpBarPosX;
+	m_fMpBarPosY = m_fHpBarPosY - m_fHpBarSizeY - 15;
+
+	m_fSizeX = 15.f;
+	m_fSizeY = 15.f;
+	m_fMultipleSizeX = 2.6;
+	m_fMultipleSizeY = 0.9f;
+
+	m_fMpBarSizeX = m_fSizeX * m_fMultipleSizeX;
+	m_fMpBarSizeY = m_fSizeY * m_fMultipleSizeY;
+
+	// Mp검
+	m_matBar[4]._41 = m_fMpBarPosX;
+	m_matBar[4]._42 = m_fMpBarPosY;
+	m_matBar[4]._11 = m_fMpBarSizeX;
+	m_matBar[4]._22 = m_fMpBarSizeY;
+	// Mp보
+	m_matBar[5]._41 = m_fMpBarPosX;
+	m_matBar[5]._42 = m_fMpBarPosY;
+	m_matBar[5]._11 = m_fMpBarSizeX;
+	m_matBar[5]._22 = m_fMpBarSizeY;
+	// Mp캡 사이즈
+	m_fSizeX = 10.5;
+	m_fSizeY = 18.5;
+	m_fMultipleSizeX = 0.9f;
+	m_fMultipleSizeY = 0.9f;
+	m_fCapSizeX = m_fSizeX * m_fMultipleSizeX;
+	m_fCapSizeY = m_fSizeY * m_fMultipleSizeY;
+	// Mp왼캡
+	m_matBar[6]._41 = m_fMpBarPosX - (m_fMpBarSizeX)-(m_fCapSizeX) + 2;
+	m_matBar[6]._42 = m_fMpBarPosY;
+	m_matBar[6]._11 = m_fCapSizeX;
+	m_matBar[6]._22 = m_fCapSizeY;
+	// Mp오른캡
+	m_matBar[7]._41 = m_fMpBarPosX + (m_fMpBarSizeX)+(m_fCapSizeX) -2;
+	m_matBar[7]._42 = m_fMpBarPosY;
+	m_matBar[7]._11 = m_fCapSizeX;
+	m_matBar[7]._22 = m_fCapSizeY;
+#pragma endregion
 
 	// Player Gold
 	m_fSizeX = 0.3f;
 	m_fSizeY = 0.3f;
 	m_fMultipleSizeX = 70.f;
 	m_fMultipleSizeY = 65.f;
-	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 - (m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 * 2.f);
-	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42;
+	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._41 = m_fHpBarPosX - 100;
+	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._42 = m_fHpBarPosY;
 	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
 	m_sPlayerUIAry[PLAYER_GOLD].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
 
@@ -274,8 +341,8 @@ void CInventory::Ready_ItemPlayerUI()
 	m_fSizeY = 0.3f;
 	m_fMultipleSizeX = 70.f;
 	m_fMultipleSizeY = 65.f;
-	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._41 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._41 + (m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._22 * 2.f);
-	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._42 = m_sPlayerUIAry[PLAYER_HPBAR].m_matPlUI._42;
+	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._41 = m_fHpBarPosX + 100;
+	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._42 = m_fHpBarPosY;
 	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._11 = m_fSizeX * m_fMultipleSizeX;
 	m_sPlayerUIAry[PLAYER_ARMOR].m_matPlUI._22 = m_fSizeY * m_fMultipleSizeY;
 
@@ -616,22 +683,39 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 	}
 
-	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
-	{
-		if(i == (_int)m_eMannequinClass)
-			m_pMannequinAniCom[i]->Update_Animation(fTimeDelta);
-	}
+	m_pMannequinAniCom->Update_Animation(fTimeDelta);
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Key_Input();
 	Mouse_Update();
 
+	if (nullptr != m_pPlayer)
+	{
+		m_fHpRatio = m_pPlayer->Get_StatInfo().fCurHP / m_pPlayer->Get_StatInfo().fMaxHP;
+		m_fMpRatio = m_pPlayer->Get_StatInfo().fCurMP / m_pPlayer->Get_StatInfo().fMaxMP;
+
+		if (1.f <= m_fHpRatio)
+			m_fHpRatio = 1.f;
+		if (1.f <= m_fMpRatio)
+			m_fMpRatio = 1.f;
+	}
+	
+
+
 	return iExit;
 }
 
 void CInventory::LateUpdate_Object()
 {
+	_float fHpMoveX = (1.f - m_fHpRatio) * m_fHpBarSizeX;
+	m_matBar[1]._11 = m_fHpBarSizeX * m_fHpRatio;
+	m_matBar[1]._41 = m_fHpBarPosX - fHpMoveX;
+
+	_float fMpMoveX = (1.f - m_fMpRatio) * m_fMpBarSizeX;
+	m_matBar[5]._11 = m_fMpBarSizeX * m_fMpRatio;
+	m_matBar[5]._41 = m_fMpBarPosX - fMpMoveX;
+
 	__super::LateUpdate_Object();
 }
 
@@ -722,15 +806,9 @@ void CInventory::Render_PublicUI()
 	m_pBufferCom->Render_Buffer();
 
 	// Mannequin
-	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
-	{
-		if (i == (_int)m_eMannequinClass)
-		{
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
-			m_pMannequinAniCom[i]->Render_Animation();
-			m_pBufferCom->Render_Buffer();
-		}
-	}
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
+	m_pMannequinAniCom->Render_Animation();
+	m_pBufferCom->Render_Buffer();
 }
 
 // Item
@@ -752,6 +830,44 @@ void CInventory::Render_PlayerStatUI()
 		);
 		m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace = true;
 	}
+	// BarUI
+#pragma region Bar
+	// Hp
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[0]);
+	m_pBarTexCom->Render_Texture(7);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[1]);
+	m_pBarTexCom->Render_Texture(1);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[2]);
+	m_pBarTexCom->Render_Texture(11);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[3]);
+	m_pBarTexCom->Render_Texture(12);
+	m_pBufferCom->Render_Buffer();
+
+	// Mp
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[4]);
+	m_pBarTexCom->Render_Texture(7);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[5]);
+	m_pBarTexCom->Render_Texture(3);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[6]);
+	m_pBarTexCom->Render_Texture(11);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matBar[7]);
+	m_pBarTexCom->Render_Texture(12);
+	m_pBufferCom->Render_Buffer();
+
+#pragma endregion
+
 	// PlayerUI
 	for (_int i = 0; i < PLAYER_UI_END; ++i)
 	{
@@ -867,6 +983,7 @@ void CInventory::Render_SkillInventory()
 	Render_SkillUI();
 	Render_SkillFont();
 }
+
 void CInventory::Render_SkillUI()
 {
 	// SkillSpace 
@@ -920,6 +1037,7 @@ void CInventory::Render_SkillUI()
 
 
 }
+
 void CInventory::Render_SkillFont()
 {
 }
@@ -961,25 +1079,15 @@ void CInventory::ItemPicking_UI()
 					{
 						m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
 					}
-					// 새로운 장비 장착.
-					m_eMannequinClass = dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_ItemClassType();
-					m_pPlayer->Class_Change(dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_ItemClassType());
-
 					m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = true;
 				}
-				// 같은 장비를 선택하면
 				else
-				{
-					// 장비 해제
-					m_eMannequinClass = CLASS_TYPE::NORMAL;
-					m_pPlayer->Class_Change(CLASS_TYPE::NORMAL);
 					m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
-				}
 			}
 
 			Item_StatView(i);
 
-			// EquipCheck 버튼(OK, NO)
+			// EquipCheck 버튼
 			if (m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip)
 			{
 				m_sEquipCheck.m_eEquipCheck = EQUIP_OK;
@@ -1245,19 +1353,7 @@ HRESULT CInventory::Add_Component()
 	// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	// Mannequin
-	pComponent = m_pMannequinTexCom[(_int)CLASS_TYPE::NORMAL] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	pComponent = m_pMannequinTexCom[(_int)CLASS_TYPE::NINJA] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Ninja", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	pComponent = m_pMannequinTexCom[(_int)CLASS_TYPE::MAGE] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Mage", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
-	pComponent = m_pMannequinTexCom[(_int)CLASS_TYPE::THORN] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Thorn", this));
+	pComponent = m_pMannequinTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -1335,15 +1431,20 @@ HRESULT CInventory::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	// HPBAR
-	pComponent = m_sPlayerUIAry[PLAYER_HPBAR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_HpBar", this));
+	// Bar
+	pComponent = m_pBarTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Bar", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	// MPBAR
-	pComponent = m_sPlayerUIAry[PLAYER_MPBAR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_MpBar", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	//// HPBAR
+	//pComponent = m_sPlayerUIAry[PLAYER_HPBAR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_HpBar", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	//// MPBAR
+	//pComponent = m_sPlayerUIAry[PLAYER_MPBAR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_MpBar", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	// ARMOR
 	pComponent = m_sPlayerUIAry[PLAYER_ARMOR].m_pPlUITex = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Player_Armor", this));

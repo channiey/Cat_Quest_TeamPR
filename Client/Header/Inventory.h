@@ -17,7 +17,7 @@ enum class INVENTYPE { INVEN_ITEM, INVEN_SKILL, INVEN_END };
 // OK, NO 버튼
 enum EQUIPCHECK{ EQUIP_NONE, EQUIP_OK, EQUIP_NO };
 // Player UI
-enum PLAYERUI  { PLAYER_HPBAR, PLAYER_MPBAR, PLAYER_GOLD, PLAYER_ARMOR, PLAYER_HEART, PLAYER_DAMAGE, PLAYER_MAGIC, PLAYER_UI_END };
+enum PLAYERUI  { PLAYER_GOLD, PLAYER_ARMOR, PLAYER_HEART, PLAYER_DAMAGE, PLAYER_MAGIC, PLAYER_UI_END };
 // Item UI
 enum ITEMui    { ITEM_HEART, ITEM_DAMAGE, ITEM_MAGIC, ITEMUI_END};
 
@@ -217,14 +217,12 @@ private:
 #pragma region 마네킹
 	// 마네킹
 	CGameObject*	m_pMannequin;
-	CTexture*		m_pMannequinTexCom[(_int)CLASS_TYPE::TYPEEND];
-	CAnimation*		m_pMannequinAniCom[(_int)CLASS_TYPE::TYPEEND];
+	CTexture*		m_pMannequinTexCom;
+	CAnimation*		m_pMannequinAniCom;
 	_matrix			m_matMannequinWorld;
 
 	CTexture*		m_pShadowTexCom;
 	_matrix			m_matShadowWorld;
-
-	CLASS_TYPE		m_eMannequinClass;
 
 #pragma endregion
 	
@@ -246,7 +244,33 @@ private:
 	_matrix		 m_matCursorWorld;
 #pragma endregion
 
-		
+#pragma region BAR
+	CTexture*	 m_pBarTexCom;
+	_matrix		 m_matBar[8];
+
+	_float		m_fHpRatio;
+
+	_float		m_fHpBarPosX;
+	_float		m_fHpBarPosY;
+
+	_float		m_fHpBarSizeX;
+	_float		m_fHpBarSizeY;
+	
+	_float		m_fMpRatio;
+
+	_float		m_fMpBarPosX;
+	_float		m_fMpBarPosY;
+
+	_float		m_fMpBarSizeX;
+	_float		m_fMpBarSizeY;
+
+	_float		m_fCapSizeX;
+	_float		m_fCapSizeY;
+
+#pragma endregion
+
+
+
 public: 
 
 	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphicDev);

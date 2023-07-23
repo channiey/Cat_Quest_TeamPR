@@ -61,6 +61,7 @@ public:
 	void				Set_Dead(const _bool& _bDead = TRUE) { m_tStatInfo.bDead = _bDead; }
 
 	void				Set_MaxHP(const _float& _fMaxHp) { m_tStatInfo.fMaxHP = _fMaxHp; }
+	void				Set_BaseMaxHP(const _float& _fMaxHp) { m_tStatInfo.fBaseMaxHp = _fMaxHp; }
 	void				Set_CurHP(const _float& _fCurHp) { m_tStatInfo.fCurHP = _fCurHp; }
 
 	void				Set_MaxMP(const _float& _fMaxMp) { m_tStatInfo.fMaxMP = _fMaxMp; }
@@ -73,6 +74,7 @@ public:
 	void				Set_CurExp(const _float& _fCurExp) { m_tStatInfo.fCurExp = _fCurExp; }
 
 	void				Set_AD(const _float& _fAD) { m_tStatInfo.fAD = _fAD; }
+	void				Set_BaseAD(const _float& _fBaseAD) { m_tStatInfo.fBaseAD = _fBaseAD; }
 	void				Set_DF(const _float& _fDF) { m_tStatInfo.fDF = _fDF; }
 
 	void				Set_Gold(const _float& _fGold) { m_tStatInfo.fGold = _fGold; }
@@ -112,8 +114,13 @@ public:
 public:
 	// 클래스 체인지
 	void				Class_Change(const CLASS_TYPE& _eType);
+	CLASS_TYPE&			Get_PlayerClass() { return m_eClass; }
+
 
 	void				Damaged(const _float& fDamage);
+	void				Regen_HP(const _float& fHeal);
+	void				Regen_Mana();
+	void				Using_Mana(const _uint& iUsage);
 
 	_bool&				Is_Attack() { return m_bAttack; }
 	void				Set_Attack(_bool bBool) { m_bAttack = bBool; }
@@ -124,12 +131,9 @@ public:
 	_bool&				Is_Skill() { return m_bSkill; }
 	void				Set_Skill(const _bool& bSkill) { m_bSkill = bSkill; }
 
-	void				Regen_HP(const _float& fHeal);
-
-	void				Regen_Mana();
-	void				Using_Mana(const _uint& iUsage);
-
+	// 스킬슬롯셋
 	CSkill*				Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
+	void				Set_SkillSlot(const _uint& _iIndex, CSkill* pSkill) { m_arrSkillSlot[_iIndex] = pSkill; }
 
 	_bool&				Is_MonsterThere()		{ return m_bIsMonster; }
 	_vec3&				Get_MonTargetDir()		{ return m_vMonTargetDir; }
@@ -145,10 +149,6 @@ public:
 
 	// 스테이트머신 가져오기
 	CStateMachine*		Get_StateM() { return m_pStateMachineCom; }
-
-	// 스킬슬롯셋
-	void				Set_Skill(const _uint& _iIndex, CSkill* pSkill)	{ m_arrSkillSlot[_iIndex] = pSkill;}
-
 
 	// 플레이어가 Idle상태일때만 말걸수있게 해주세요
 	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
