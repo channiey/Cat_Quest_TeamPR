@@ -1,5 +1,6 @@
 #pragma once
 #include "UI.h"
+#include "Skill.h"
 
 #define		MAX_SKILL_SLOT 4
 
@@ -46,6 +47,14 @@ struct tagSkillSpace
 	_bool		m_bOnSpace = false;
 	_bool		m_bEquip = false;
 };
+// 스킬, 스킬ID,  텍스쳐, 행렬 가진다.
+struct tagInvenSkill
+{
+	CSkill*		m_pSkill;
+	_int		m_iSkillID;
+	CTexture*	m_pSkillTexCom;
+	_matrix		m_matSkill;
+};
 // 라인
 struct tagLine
 {
@@ -83,7 +92,6 @@ struct tagItemStatFont
 {
 	RECT		m_pItemStatRc;
 };
-
 // Skill Ring
 struct tagSkillRingUI
 {
@@ -139,13 +147,13 @@ public:
 	void					Render_PlayerItemFont();
 	// Render Skill
 	void					Render_SkillInventory();
+	void					Render_PlayerSkillUI();
 	void					Render_SkillUI();
 	void					Render_SkillFont();
 #pragma endregion
 
 #pragma region Update
 	void				    Item_StatView(_int _Index);
-	void					Stat_Calculator();
 	void					Key_Input();
 	void					Mouse_Update();
 
@@ -174,8 +182,8 @@ private:
 	_bool					m_bAlphaSet; // 알파 변수
 	_int					m_iTranslucent; // 온오프 알파값
 
-	CPlayer*				m_pPlayer;	
-	vector<CSkill*>			m_vecSkill; // 스킬 배열
+	CPlayer*				m_pPlayer;	// 계속 참조할 플레이어
+	vector<tagInvenSkill>	m_vecSkill; // 스킬 배열
 	vector<CGameObject*>	m_vecItem; // 아이템 배열
 	_int					m_iHaveKey; // 열쇠 
 

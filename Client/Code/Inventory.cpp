@@ -51,9 +51,6 @@ HRESULT CInventory::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
 	m_vecItem.push_back(pGameObject);
 
-	// 임시 스킬 추가
-
-
 	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
 	{
 		m_pMannequinAniCom[i] = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom[i], STATE_TYPE::FRONT_IDLE, 0.2f, true);
@@ -625,7 +622,63 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 	if (!m_pPlayer)
 	{
 		if (nullptr == m_pPlayer)
+		{
 			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+			
+#pragma region TestSkillAdd
+			// 임시 스킬 추가
+			tagInvenSkill temp;
+#pragma region Fire
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Fire::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"갸르릉 플레임", temp.m_pSkill);
+			temp.m_pSkill->Set_Active(true);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+
+			m_vecSkill.push_back(temp);
+#pragma endregion
+
+#pragma region Thunder
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Thunder::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"라이트냥", temp.m_pSkill);
+			temp.m_pSkill->Set_Active(true);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+
+			m_vecSkill.push_back(temp);
+
+#pragma endregion
+
+#pragma region Ice
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"오들오들", temp.m_pSkill);
+			temp.m_pSkill->Set_Active(true);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+
+			m_vecSkill.push_back(temp);
+
+#pragma endregion
+
+#pragma endregion
+
+		}
+
 	}
 
 	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
@@ -876,6 +929,24 @@ void CInventory::Render_SkillInventory()
 	SkillPicking_UI();
 	Render_SkillUI();
 	Render_SkillFont();
+	Render_PlayerSkillUI();
+}
+void CInventory::Render_PlayerSkillUI()
+{
+	// Skill 불러오기
+	for (_int i = 0; i < m_vecSkill.size(); ++i)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_vecSkill[i].m_matSkill);
+		m_vecSkill[i].m_matSkill = m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace;
+		m_vecSkill[i].m_pSkillTexCom->Render_Texture(m_vecSkill[i].m_iSkillID);
+		m_pBufferCom->Render_Buffer();
+		m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace = true;
+
+		// 세부 조정
+		m_vecSkill[i].m_matSkill._11 = m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace._11 * 0.7;
+		m_vecSkill[i].m_matSkill._22 = m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_matSpace._22 * 0.7;
+	}
+
 }
 void CInventory::Render_SkillUI()
 {
@@ -1069,7 +1140,7 @@ void CInventory::SkillPicking_UI()
 		// 픽킹 상태가 아닐 때
 		else
 		{
-			m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace = false;
+			m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace = false;
 			m_sEquipCheck.m_bShowUI = false;
 		}
 	}
