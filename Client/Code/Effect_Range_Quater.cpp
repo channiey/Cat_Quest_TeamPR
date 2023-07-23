@@ -37,25 +37,38 @@ HRESULT CEffect_Range_Quater::Ready_Object()
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_ATTACK:
 	{
-		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); // 이거 0.1f y도 되네?
+		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); 
 		m_vSize = m_pTransformCom->Get_Scale();
 	}
 	break;
-	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_RED:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE:
 	{
-		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); // 이거 0.1f y도 되네?
+		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); 
+		m_vSize = m_pTransformCom->Get_Scale();
+	}
+	break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_PURPLE: // New
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_RED:
+	{
+		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); 
 		m_vSize = m_pTransformCom->Get_Scale();
 	}
 	break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_RED:
 	{
-		m_pTransformCom->Set_Scale(_vec3{ 7.f, 7.f, 2.5f * 0.7f }); // 이거 0.1f y도 되네?
+		m_pTransformCom->Set_Scale(_vec3{ 7.f, 7.f, 2.5f * 0.7f });
 		m_vSize = m_pTransformCom->Get_Scale();
 	}
 	break;
-
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_BLUE: // New
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_RED:
+	{
+		m_pTransformCom->Set_Scale(_vec3{ 2.f, 7.f, 5.f });
+		m_vSize = m_pTransformCom->Get_Scale();
+	}
+	break;
 	default:
 		break;
 	}
@@ -119,12 +132,6 @@ void CEffect_Range_Quater::Render_Object()
 	matWorld._22 = m_vLerpSize.y;
 	matWorld._33 = m_vLerpSize.z;
 
-	if (EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE == m_eType || EFFECT_RANGE_QUATER_TYPE::SQUARE_RED == m_eType)
-	{
-
-	}
-
-
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	switch (m_eType)
@@ -138,17 +145,29 @@ void CEffect_Range_Quater::Render_Object()
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_RED:
-	{
+	{	
 		Render_Square(matWorld);
 	}
 		break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_PURPLE: // New
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_RED:
+	{
+	
+	}
+	break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_RED:
 	{
 		Render_Arrow(matWorld);
 	}
 		break;
-
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_BLUE: // New
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_RED:
+	{
+		matWorld._43 += 5.f;
+		Render_Arrow(matWorld);
+	}
+	break;
 	default:
 		break;
 	}
@@ -157,6 +176,7 @@ void CEffect_Range_Quater::Render_Object()
 	//텍스처 보간 설정 되돌림
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
@@ -256,6 +276,9 @@ void CEffect_Range_Quater::Render_Square(_matrix& matWorld)
 }
 
 
+void CEffect_Range_Quater::Render_Rotated_Square(_matrix& matWorld)
+{
+}
 
 HRESULT CEffect_Range_Quater::Add_Component()
 {
@@ -277,16 +300,24 @@ HRESULT CEffect_Range_Quater::Add_Component()
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Attack_Circle_Red", this));
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_PURPLE:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Purple", this));
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_RED:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_RED:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Red", this));
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Blue", this));
 		break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_BLUE:
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Vertical_Arrow_Blue", this));
+		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_RED:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Red", this));
+		break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_RED:
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Vertical_Arrow_Red", this));
 		break;
 	default:
 		break;

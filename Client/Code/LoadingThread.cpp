@@ -981,13 +981,23 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL
 			, L"../Bin/Resource/Texture/Effect/All/range/Range_Attack_Red.png")), E_FAIL);
 
+
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Blue",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL
 			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Arrow_Blue.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Red"
-			, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
 			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Arrow_Red.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Vertical_Arrow_Red"
+			, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Arrow_Vertical_Red.png")), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Vertical_Arrow_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Arrow_Vertical_Blue.png")), E_FAIL);
+
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Purple"
 			, CTexture::Create(m_pGraphicDev, TEX_NORMAL

@@ -103,7 +103,7 @@ HRESULT CSkill_Monster_Ice::Add_Component()
 
 
     //Effet Range Quater - Base
-    m_pBaseRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::ARROW_RED);
+    m_pBaseRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_BLUE);
     NULL_CHECK_RETURN(m_pBaseRangeEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Ice_Base", m_pBaseRangeEffect), E_FAIL);
 
