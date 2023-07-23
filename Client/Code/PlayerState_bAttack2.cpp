@@ -34,10 +34,13 @@ STATE_TYPE CPlayerState_bAttack2::Update_State(const _float& fTimeDelta)
 
 	if (!m_bEnter)
 	{
-		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
-		CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Chopping", CPlayerSlash::Create(
-			m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
-		));
+		if (CLASS_TYPE::MAGE != static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
+		{
+			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
+			CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Chopping", CPlayerSlash::Create(
+				m_pGraphicDev, m_pOwner->Get_OwnerObject(), false
+			));
+		}
 
 		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
 			m_bIsTarget = true;

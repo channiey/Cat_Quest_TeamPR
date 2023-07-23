@@ -1,5 +1,6 @@
 #pragma once
 #include "UI.h"
+#include "Skill.h"
 
 #define		MAX_SKILL_SLOT 4
 
@@ -17,7 +18,7 @@ enum class INVENTYPE { INVEN_ITEM, INVEN_SKILL, INVEN_END };
 // OK, NO 버튼
 enum EQUIPCHECK{ EQUIP_NONE, EQUIP_OK, EQUIP_NO };
 // Player UI
-enum PLAYERUI  { PLAYER_HPBAR, PLAYER_MPBAR, PLAYER_GOLD, PLAYER_ARMOR, PLAYER_HEART, PLAYER_DAMAGE, PLAYER_MAGIC, PLAYER_UI_END };
+enum PLAYERUI  { PLAYER_GOLD, PLAYER_ARMOR, PLAYER_HEART, PLAYER_DAMAGE, PLAYER_MAGIC, PLAYER_UI_END };
 // Item UI
 enum ITEMui    { ITEM_HEART, ITEM_DAMAGE, ITEM_MAGIC, ITEMUI_END};
 
@@ -45,6 +46,14 @@ struct tagSkillSpace
 	_bool		m_bIsSpace = false;
 	_bool		m_bOnSpace = false;
 	_bool		m_bEquip = false;
+};
+// 스킬, 스킬ID,  텍스쳐, 행렬 가진다.
+struct tagInvenSkill
+{
+	CSkill*		m_pSkill;
+	_int		m_iSkillID;
+	CTexture*	m_pSkillTexCom;
+	_matrix		m_matSkill;
 };
 // 라인
 struct tagLine
@@ -83,7 +92,6 @@ struct tagItemStatFont
 {
 	RECT		m_pItemStatRc;
 };
-
 // Skill Ring
 struct tagSkillRingUI
 {
@@ -139,6 +147,7 @@ public:
 	void					Render_PlayerItemFont();
 	// Render Skill
 	void					Render_SkillInventory();
+	void					Render_PlayerSkillUI();
 	void					Render_SkillUI();
 	void					Render_SkillFont();
 #pragma endregion
@@ -173,7 +182,8 @@ private:
 	_bool					m_bAlphaSet; // 알파 변수
 	_int					m_iTranslucent; // 온오프 알파값
 
-	CPlayer*				m_pPlayer;	
+	CPlayer*				m_pPlayer;	// 계속 참조할 플레이어
+	vector<tagInvenSkill>	m_vecSkill; // 스킬 배열
 	vector<CGameObject*>	m_vecItem; // 아이템 배열
 	_int					m_iHaveKey; // 열쇠 
 
@@ -217,14 +227,13 @@ private:
 #pragma region 마네킹
 	// 마네킹
 	CGameObject*	m_pMannequin;
-	CTexture*		m_pMannequinTexCom[(_int)CLASS_TYPE::TYPEEND];
-	CAnimation*		m_pMannequinAniCom[(_int)CLASS_TYPE::TYPEEND];
+	CTexture*		m_pMannequinTexCom[_uint(CLASS_TYPE::TYPEEND)];
+	CAnimation*		m_pMannequinAniCom[_uint(CLASS_TYPE::TYPEEND)];
+	CLASS_TYPE		m_eMannequinClass;
 	_matrix			m_matMannequinWorld;
 
 	CTexture*		m_pShadowTexCom;
 	_matrix			m_matShadowWorld;
-
-	CLASS_TYPE		m_eMannequinClass;
 
 #pragma endregion
 	
@@ -246,7 +255,33 @@ private:
 	_matrix		 m_matCursorWorld;
 #pragma endregion
 
-		
+#pragma region BAR
+	CTexture*	 m_pBarTexCom;
+	_matrix		 m_matBar[8];
+
+	_float		m_fHpRatio;
+
+	_float		m_fHpBarPosX;
+	_float		m_fHpBarPosY;
+
+	_float		m_fHpBarSizeX;
+	_float		m_fHpBarSizeY;
+	
+	_float		m_fMpRatio;
+
+	_float		m_fMpBarPosX;
+	_float		m_fMpBarPosY;
+
+	_float		m_fMpBarSizeX;
+	_float		m_fMpBarSizeY;
+
+	_float		m_fCapSizeX;
+	_float		m_fCapSizeY;
+
+#pragma endregion
+
+
+
 public: 
 
 	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -235,7 +235,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		*/
 			_vec3 vPlayerPos;		// 플레이어 시작 포지션
 			_vec3 vLerpStartLookAt; // 플레이어 시작 포지션 y + fHeight
-			_float fHeight = 30.f;
+			_float fHeight = 70.f;
 			_vec3 vCamInitEye;		// 플레이어 시작포지션에서의 카메라 포지션
 
 			CGameObject* pPlayer = m_pCurCamera->Get_CameraCom()->Get_Follow();

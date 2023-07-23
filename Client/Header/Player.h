@@ -112,8 +112,13 @@ public:
 public:
 	// 클래스 체인지
 	void				Class_Change(const CLASS_TYPE& _eType);
+	CLASS_TYPE&			Get_PlayerClass() { return m_eClass; }
+
 
 	void				Damaged(const _float& fDamage);
+	void				Regen_HP(const _float& fHeal);
+	void				Regen_Mana();
+	void				Using_Mana(const _uint& iUsage);
 
 	_bool&				Is_Attack() { return m_bAttack; }
 	void				Set_Attack(_bool bBool) { m_bAttack = bBool; }
@@ -124,12 +129,9 @@ public:
 	_bool&				Is_Skill() { return m_bSkill; }
 	void				Set_Skill(const _bool& bSkill) { m_bSkill = bSkill; }
 
-	void				Regen_HP(const _float& fHeal);
-
-	void				Regen_Mana();
-	void				Using_Mana(const _uint& iUsage);
-
+	// 스킬슬롯셋
 	CSkill*				Get_SkillSlot(const _uint& m_iSkill) { return m_arrSkillSlot[m_iSkill]; }
+	void				Set_SkillSlot(const _uint& _iIndex, CSkill* pSkill) { m_arrSkillSlot[_iIndex] = pSkill; }
 
 	_bool&				Is_MonsterThere()		{ return m_bIsMonster; }
 	_vec3&				Get_MonTargetDir()		{ return m_vMonTargetDir; }
@@ -145,10 +147,6 @@ public:
 
 	// 스테이트머신 가져오기
 	CStateMachine*		Get_StateM() { return m_pStateMachineCom; }
-
-	// 스킬슬롯셋
-	void				Set_Skill(const _uint& _iIndex, CSkill* pSkill)	{ m_arrSkillSlot[_iIndex] = pSkill;}
-
 
 	// 플레이어가 Idle상태일때만 말걸수있게 해주세요
 	_bool&				Is_PlayerTalking()					 { return m_bIsTalking; }
