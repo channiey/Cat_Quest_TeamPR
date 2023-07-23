@@ -25,10 +25,11 @@
 // circle Effect
 #include "Circle_Stemp.h"
 
-// FoxFire  Test
+// Bullet  Test
 #include "FoxFire.h"
 #include "Chase_Bullet.h"
 #include "Dagger.h"
+#include "BlueStar_Bullet.h"
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
@@ -269,8 +270,6 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	// Bullet Test  ///////////////////////////////////////////////////////
 	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
-
-
 	if (CInputDev::GetInstance()->Key_Down('G'))
 	{
 		
@@ -289,7 +288,10 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Dagger", CDagger::Create(m_pGraphicDev, vOwnerPos, pPlayer));
 
 	}
-
+	if (CInputDev::GetInstance()->Key_Down('Y'))
+	{
+		CEventMgr::GetInstance()->Add_Obj(L"Projectile_BlueStar_Bullet", CBlueStar_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer));
+	}
 
 
 	////////////////////////////////////////////////////

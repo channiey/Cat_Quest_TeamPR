@@ -168,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\ItemGetEffect.h" />
+    <ClInclude Include="..\Header\BlueStar_Bullet.h" />
+    <ClInclude Include="..\Header\Dagger.h" />
     <ClInclude Include="..\Header\FadeUI.h" />
     <ClInclude Include="..\Header\BasicProjectile.h" />
     <ClInclude Include="..\Header\BatState_bRest.h" />
@@ -476,7 +478,6 @@
     <ClInclude Include="..\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Dagger.h" />
     <ClInclude Include="Effect_Cast_Purple.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Effect_Thunder.h" />
@@ -486,6 +487,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
+    <ClCompile Include="..\Code\Dagger.cpp" />
     <ClCompile Include="..\Code\FadeUI.cpp" />
     <ClCompile Include="..\Code\BasicProjectile.cpp" />
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
@@ -797,7 +800,6 @@
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

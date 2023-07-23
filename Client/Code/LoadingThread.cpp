@@ -630,6 +630,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Green_Dagger.png")), E_FAIL);
 
 
+	// Blue_Star_bullet_
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_BlueStar",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Star_Bullet.png")), E_FAIL);
+
 
 
 	// Item ========================================================================
