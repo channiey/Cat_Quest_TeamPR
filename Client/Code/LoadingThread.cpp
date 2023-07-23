@@ -992,6 +992,7 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 			, L"../Bin/Resource/Texture/Effect/Completed/Beam/%d.png", 20)), E_FAIL); 
 
 
+
 	// ¿Ã∆Â∆Æ - Ω∫≈≥ - ¿Â∆« (ƒı≈Õ)
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Red",
