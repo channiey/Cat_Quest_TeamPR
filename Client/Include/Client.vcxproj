@@ -378,6 +378,7 @@
     <ClInclude Include="..\Header\Shadow_Player.h" />
     <ClInclude Include="..\Header\Skill.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
+    <ClInclude Include="..\Header\Skill_Boss_FullDown.h" />
     <ClInclude Include="..\Header\Skill_Monster_Beam.h" />
     <ClInclude Include="..\Header\Skill_Monster_CircleAttack.h" />
     <ClInclude Include="..\Header\Skill_Monster_Fire.h" />
@@ -444,6 +445,8 @@
     <ClInclude Include="..\Header\VioletDragonState_bRest.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase.h" />
     <ClInclude Include="..\Header\VioletDragonState_ComeBack.h" />
+    <ClInclude Include="..\Header\VioletDragonState_FullDown_Down.h" />
+    <ClInclude Include="..\Header\VioletDragonState_FullDown_Fly.h" />
     <ClInclude Include="..\Header\VioletDragonState_Patrol.h" />
     <ClInclude Include="..\Header\VioletDragonState_Rest.h" />
     <ClInclude Include="..\Header\WarriorWeapon.h" />
@@ -700,6 +703,7 @@
     <ClCompile Include="..\Code\Shadow_Monster.cpp" />
     <ClCompile Include="..\Code\Shadow_Npc.cpp" />
     <ClCompile Include="..\Code\Shadow_Player.cpp" />
+    <ClCompile Include="..\Code\Skill_Boss_FullDown.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Beam.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_CircleAttack.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Fire.cpp" />
@@ -766,6 +770,8 @@
     <ClCompile Include="..\Code\VioletDragonState_bRest.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ComeBack.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_FullDown_Down.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_FullDown_Fly.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Patrol.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Rest.cpp" />
     <ClCompile Include="..\Code\WarriorWeapon.cpp" />

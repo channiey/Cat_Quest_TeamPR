@@ -14,6 +14,10 @@
 #include "VioletDragonState_bComeBack.h"
 #include "VioletDragonState_bRest.h"
 
+#include "VioletDragonState_FullDown_Fly.h"
+#include "VioletDragonState_FullDown_Down.h"
+
+
 #include "Shadow_Monster.h"
 //#include "Skill_Monster_Ice.h"
 #include "Skill_Monster_CircleAttack.h"
@@ -91,7 +95,7 @@ HRESULT CVioletDragon::Ready_Object()
 #pragma region State Add
 
 	CState* pState;
-	// Front
+	// Front ==============================
 	// Patrol
 	pState = CVioletDragonState_Patrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::PATROL, pState);
@@ -114,7 +118,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONREST, pState);
 	
 
-	// Back 
+	// Back ================================
 	// Patrol
 	pState = CVioletDragonState_bPatrol::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_PATROL, pState);
@@ -122,7 +126,6 @@ HRESULT CVioletDragon::Ready_Object()
 	// Chase
 	pState = CVioletDragonState_bChase::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_CHASE, pState);
-
 
 	// ComeBack
 	pState = CVioletDragonState_bComeBack::Create(m_pGraphicDev, m_pStateMachineCom);
@@ -136,6 +139,21 @@ HRESULT CVioletDragon::Ready_Object()
 	pState = CVioletDragonState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
 	
+
+
+	// Pattern ================================	
+	//FullDown - Fly
+	pState = CVioletDragonState_FullDown_Fly::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_FLY, pState);
+	
+	// FullDown - Down
+	pState = CVioletDragonState_FullDown_Down::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_DOWN, pState);
+
+
+
+
+
 #pragma endregion
 
 
@@ -144,6 +162,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	CAnimation* pAnimation;
 
+	// Front ================================
 	// Patrol
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::PATROL)], STATE_TYPE::PATROL, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::PATROL, pAnimation);
@@ -165,7 +184,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONREST, pAnimation);
 
 
-	// Back 
+	// Back ====================================
 	// Patrol
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)], STATE_TYPE::BACK_PATROL, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_PATROL, pAnimation);
@@ -188,11 +207,34 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
+	// Pattern ==================================
+	
+	// FullDown - Fly
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_FLY)], STATE_TYPE::BOSS_FULLDOWN_FLY, 0.08f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_FULLDOWN_FLY, pAnimation);
+
+	// FullDown - Down
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_DOWN)], STATE_TYPE::BOSS_FULLDOWN_DOWN, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_FULLDOWN_DOWN, pAnimation);
+
+
+
+
+
+
+
+
 #pragma endregion
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+
+
+	// Test 
+	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_FULLDOWN_FLY);
+
+
 
 	m_szName = L"Monster_VioletDragon";
 
@@ -329,7 +371,8 @@ HRESULT CVioletDragon::Add_Component()
 
 #pragma region Texture
 
-	// Front
+	// Front ===================================
+
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
@@ -351,7 +394,8 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	// Back
+	// Back ==================================
+
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_PATROL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
@@ -373,8 +417,21 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-#pragma endregion
 
+
+	// Pattern ===================================
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_FLY)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Fly", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_DOWN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+
+#pragma endregion
 
 
 	return S_OK;
