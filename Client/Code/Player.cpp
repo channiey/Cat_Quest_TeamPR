@@ -305,29 +305,29 @@ HRESULT CPlayer::Ready_Object()
 
 #pragma region SKILL
 
-	m_arrSkill[_uint(SKILL_TYPE::FIRE)] = CSkill_Player_Fire::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::FIRE)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fire", m_arrSkill[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
-	m_arrSkillSlot[0] = m_arrSkill[_uint(SKILL_TYPE::FIRE)];
-	m_arrSkillSlot[0]->Set_Maintain(TRUE); // 수정시 팀장 보고
+	//m_arrSkill[_uint(SKILL_TYPE::FIRE)] = CSkill_Player_Fire::Create(m_pGraphicDev, this);
+	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::FIRE)], E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fire", m_arrSkill[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
+	//m_arrSkillSlot[0] = m_arrSkill[_uint(SKILL_TYPE::FIRE)];
+	//m_arrSkillSlot[0]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
-	m_arrSkill[_uint(SKILL_TYPE::THUNDER)] = CSkill_Player_Thunder::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Thunder", m_arrSkill[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
-	m_arrSkillSlot[1] = m_arrSkill[_uint(SKILL_TYPE::THUNDER)];
-	m_arrSkillSlot[1]->Set_Maintain(TRUE); // 수정시 팀장 보고
+	//m_arrSkill[_uint(SKILL_TYPE::THUNDER)] = CSkill_Player_Thunder::Create(m_pGraphicDev, this);
+	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Thunder", m_arrSkill[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
+	//m_arrSkillSlot[1] = m_arrSkill[_uint(SKILL_TYPE::THUNDER)];
+	//m_arrSkillSlot[1]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
-	m_arrSkill[_uint(SKILL_TYPE::ICE)] = CSkill_Player_Ice::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::ICE)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Ice", m_arrSkill[_uint(SKILL_TYPE::ICE)]), E_FAIL);
-	m_arrSkillSlot[2] = m_arrSkill[_uint(SKILL_TYPE::ICE)];
-	m_arrSkillSlot[2]->Set_Maintain(TRUE); // 수정시 팀장 보고
+	//m_arrSkill[_uint(SKILL_TYPE::ICE)] = CSkill_Player_Ice::Create(m_pGraphicDev, this);
+	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::ICE)], E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Ice", m_arrSkill[_uint(SKILL_TYPE::ICE)]), E_FAIL);
+	//m_arrSkillSlot[2] = m_arrSkill[_uint(SKILL_TYPE::ICE)];
+	//m_arrSkillSlot[2]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
-	m_arrSkill[_uint(SKILL_TYPE::BEAM)] = CSkill_Player_Beam::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::BEAM)], E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Beam", m_arrSkill[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	m_arrSkillSlot[3] = m_arrSkill[_uint(SKILL_TYPE::BEAM)];
-	m_arrSkillSlot[3]->Set_Maintain(TRUE); // 수정시 팀장 보고
+	//m_arrSkill[_uint(SKILL_TYPE::BEAM)] = CSkill_Player_Beam::Create(m_pGraphicDev, this);
+	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::BEAM)], E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Beam", m_arrSkill[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
+	//m_arrSkillSlot[3] = m_arrSkill[_uint(SKILL_TYPE::BEAM)];
+	//m_arrSkillSlot[3]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
 #pragma endregion
 

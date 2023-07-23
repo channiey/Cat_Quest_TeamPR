@@ -18,14 +18,14 @@
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
-	, m_bIsOn(false), m_bAlphaSet(false), m_iHaveKey(0), m_iTranslucent(0)
+	, m_bIsOn(false), m_bAlphaSet(false), m_iHaveKey(0), m_iTranslucent(0),
+	m_eMannequinClass(CLASS_TYPE::NORMAL)
 {
 	m_pPlayer = nullptr;
 }
 
 CInventory::CInventory(const CInventory& rhs)
 	:CUI(rhs)
-	, m_pMannequinAniCom(rhs.m_pMannequinAniCom)
 {
 }
 
@@ -41,18 +41,25 @@ HRESULT CInventory::Ready_Object()
 	// 임시 아이템 추가
 	CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
 	CEventMgr::GetInstance()->Add_Obj(L"잭 해머", pGameObject);
+	pGameObject->Set_Maintain(true);
 	m_vecItem.push_back(pGameObject);
 	
 	pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
 	CEventMgr::GetInstance()->Add_Obj(L"차", pGameObject);
+	pGameObject->Set_Maintain(true);
 	m_vecItem.push_back(pGameObject);
 	
 	pGameObject = CMageWeapon::Create(m_pGraphicDev);
 	CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
+	pGameObject->Set_Maintain(true);
 	m_vecItem.push_back(pGameObject);
 
+	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
+	{
+		m_pMannequinAniCom[i] = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom[i], STATE_TYPE::FRONT_IDLE, 0.2f, true);
+	}
 
-	m_pMannequinAniCom = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom, STATE_TYPE::FRONT_IDLE, 0.2f, true);
+	
 
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
@@ -699,14 +706,13 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 			// 스킬
 			temp.m_pSkill = CSkill_Player_Fire::Create(m_pGraphicDev, m_pPlayer);
 			CEventMgr::GetInstance()->Add_Obj(L"갸르릉 플레임", temp.m_pSkill);
-			temp.m_pSkill->Set_Active(true);
 			// 텍스쳐
 			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
 			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
 			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
 			// ID
 			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
-
+			temp.m_pSkill->Set_Maintain(true);
 			m_vecSkill.push_back(temp);
 #pragma endregion
 
@@ -714,13 +720,13 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 			// 스킬
 			temp.m_pSkill = CSkill_Player_Thunder::Create(m_pGraphicDev, m_pPlayer);
 			CEventMgr::GetInstance()->Add_Obj(L"라이트냥", temp.m_pSkill);
-			temp.m_pSkill->Set_Active(true);
 			// 텍스쳐
 			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
 			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
 			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
 			// ID
 			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
 
 			m_vecSkill.push_back(temp);
 
@@ -730,13 +736,13 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 			// 스킬
 			temp.m_pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
 			CEventMgr::GetInstance()->Add_Obj(L"오들오들", temp.m_pSkill);
-			temp.m_pSkill->Set_Active(true);
 			// 텍스쳐
 			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
 			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
 			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
 			// ID
 			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
 
 			m_vecSkill.push_back(temp);
 
@@ -748,7 +754,11 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 
 	}
 
-	m_pMannequinAniCom->Update_Animation(fTimeDelta);
+	for (_int i = 0; i < _int(CLASS_TYPE::TYPEEND); ++i)
+	{
+		if(i == _int(m_eMannequinClass))
+		m_pMannequinAniCom[i]->Update_Animation(fTimeDelta);
+	}
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -868,10 +878,18 @@ void CInventory::Render_PublicUI()
 	m_pShadowTexCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
-	// Mannequin
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
-	m_pMannequinAniCom->Render_Animation();
-	m_pBufferCom->Render_Buffer();
+
+	for (_int i = 0; i < (int)CLASS_TYPE::TYPEEND; ++i)
+	{
+		if (i == (_int)m_eMannequinClass)
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMannequinWorld);
+			m_pMannequinAniCom[i]->Render_Animation();
+			m_pBufferCom->Render_Buffer();
+		}
+	}
+
+	
 }
 
 // Item
@@ -1162,13 +1180,9 @@ void CInventory::ItemPicking_UI()
 						{
 							m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
 							// 데미지 초기화
-							m_pPlayer->Set_AD(
-								m_pPlayer->Get_StatInfo().fAD -
-								dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD);
+							m_pPlayer->Set_AD(m_pPlayer->Get_StatInfo().fAD - dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD);
 							// 최대체력 초기화
-							m_pPlayer->Set_MaxHP(
-								m_pPlayer->Get_StatInfo().fMaxHP -
-								dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fMaxHP);
+							m_pPlayer->Set_MaxHP(m_pPlayer->Get_StatInfo().fMaxHP - dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fMaxHP);
 
 							// 클래스 초기화
 							m_pPlayer->Class_Change(CLASS_TYPE::NORMAL);
@@ -1191,7 +1205,14 @@ void CInventory::ItemPicking_UI()
 					m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = true;
 				}
 				else
+				{
+					m_eMannequinClass = CLASS_TYPE::NORMAL;
+					m_pPlayer->Class_Change(CLASS_TYPE::NORMAL);
 					m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip = false;
+					m_pPlayer->Set_AD(m_pPlayer->Get_StatInfo().fAD - dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fAD);
+					m_pPlayer->Set_MaxHP(m_pPlayer->Get_StatInfo().fMaxHP - dynamic_cast<CItem_Weapon*>(m_vecItem[i])->Get_StatInfo().fMaxHP);
+				}
+					
 			}
 
 			Item_StatView(i);
@@ -1480,7 +1501,16 @@ HRESULT CInventory::Add_Component()
 	// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	// Mannequin
-	pComponent = m_pMannequinTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
+	pComponent = m_pMannequinTexCom[_int(CLASS_TYPE::NORMAL)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	pComponent = m_pMannequinTexCom[_int(CLASS_TYPE::NINJA)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Ninja", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	pComponent = m_pMannequinTexCom[_int(CLASS_TYPE::MAGE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Mage", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	pComponent = m_pMannequinTexCom[_int(CLASS_TYPE::THORN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fIdle_Thorn", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

@@ -162,7 +162,6 @@ namespace Engine
 	{
 		_float		fMaxHP;
 		_float		fCurHP;
-		_float		fBaseMaxHp;
 
 		_float		fMaxMP;
 		_float		fCurMP;
@@ -174,8 +173,6 @@ namespace Engine
 		_float		fCurExp;
 
 		_float		fAD;
-		_float		fBaseAD;
-
 		_float		fDF;
 
 		_float		fGold;
@@ -185,9 +182,9 @@ namespace Engine
 		_uint		iLevel;
 
 
-		tagStatInfo() : fMaxHP(100.f), fCurHP(fMaxHP), fBaseMaxHp(fMaxHP), fMaxMP(10.f),
-							fCurMP(fMaxMP), fMaxExp(500.f), fCurExp(0.f), fMaxDef(0.f), fCurDef(fMaxDef),
-							fAD(10.f), fBaseAD(fAD), fDF(10.f), fGold(0.f), bDead(false), iLevel(1){}
+		tagStatInfo() : fMaxHP(100.f), fCurHP(fMaxHP), fMaxMP(10.f),
+							fCurMP(fMaxMP), fMaxExp(500.f), fCurExp(0.f), fMaxDef(100.f), fCurDef(fMaxDef),
+							fAD(10.f), fDF(10.f), fGold(0.f), bDead(false), iLevel(1){}
 
 	}STATINFO;
 

@@ -61,7 +61,6 @@ public:
 	void				Set_Dead(const _bool& _bDead = TRUE) { m_tStatInfo.bDead = _bDead; }
 
 	void				Set_MaxHP(const _float& _fMaxHp) { m_tStatInfo.fMaxHP = _fMaxHp; }
-	void				Set_BaseMaxHP(const _float& _fMaxHp) { m_tStatInfo.fBaseMaxHp = _fMaxHp; }
 	void				Set_CurHP(const _float& _fCurHp) { m_tStatInfo.fCurHP = _fCurHp; }
 
 	void				Set_MaxMP(const _float& _fMaxMp) { m_tStatInfo.fMaxMP = _fMaxMp; }
@@ -74,7 +73,6 @@ public:
 	void				Set_CurExp(const _float& _fCurExp) { m_tStatInfo.fCurExp = _fCurExp; }
 
 	void				Set_AD(const _float& _fAD) { m_tStatInfo.fAD = _fAD; }
-	void				Set_BaseAD(const _float& _fBaseAD) { m_tStatInfo.fBaseAD = _fBaseAD; }
 	void				Set_DF(const _float& _fDF) { m_tStatInfo.fDF = _fDF; }
 
 	void				Set_Gold(const _float& _fGold) { m_tStatInfo.fGold = _fGold; }
