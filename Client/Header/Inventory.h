@@ -22,60 +22,60 @@ enum PLAYERUI  { PLAYER_GOLD, PLAYER_ARMOR, PLAYER_HEART, PLAYER_DAMAGE, PLAYER_
 // Item UI
 enum ITEMui    { ITEM_HEART, ITEM_DAMAGE, ITEM_MAGIC, ITEMUI_END};
 
-// 아이템 칸
-struct tagItemSpace
+#pragma region 스킬 구조체
+// 스킬 정보
+struct tagInvenSkill
 {
-	_matrix     m_matSpace;
-	_matrix		m_matEquip;
-	CTexture*	m_pSpaceNoneTex;
-	CTexture*	m_pSpaceIsTex;
-	CTexture*	m_pSpaceSelectTex;
-	CTexture*	m_pSpaceEquipTex;
-	_bool		m_bIsSpace = false;
-	_bool		m_bOnSpace = false;
+	CSkill*		m_pSkill; 
+	_int		m_iSkillID;
+	CTexture*	m_pSkillTexCom; 
+	_matrix		m_matSkill;
+
 	_bool		m_bEquip = false;
 };
 // 스킬 칸(오른쪽)
 struct tagSkillSpace
 {
 	_matrix     m_matSpace;
-	_matrix		m_matEquip;
-	CTexture*	m_pSpaceNoneTex;
-	CTexture*	m_pSpaceIsTex;
-	CTexture*	m_pSpaceSelectTex;
-	_bool		m_bIsSpace = false;
-	_bool		m_bOnSpace = false;
-	_bool		m_bEquip = false;
+	CTexture*	m_pSpaceNoneTex; // 빈 칸
+	CTexture*	m_pSpaceIsTex;   // 존재하는 칸
+	CTexture*	m_pSpaceSelectTex; // 피킹된 칸
+	_bool		m_bIsSpace = false; // 스킬이 있는지
+	_bool		m_bOnSpace = false; // 피킹이 됬는지
+
+	tagInvenSkill m_pSpaceSkill; // 스킬
 };
+
 // Skill Ring(왼쪽)
 struct tagSkillRingUI
 {
 	_matrix     m_matEmptySkillUI; // 빈 상태
-	_matrix		m_matEquipSkillUI; // 스킬 있는 상태
 	_matrix     m_matSkillRingUI;  // 주변 링
 	_matrix		m_matSkillNumUI;   // 아래 넘버
 
 	CTexture*	m_pSkillEmptyUITex; // 빈 상태
-	CTexture*	m_pSkillEquipUITex; // 스킬 있는 상태
 	CTexture*	m_pSkillRingUITex;  // 주변 링
 	CTexture*	m_pSkillNumUITex;   // 아래 넘버
 
+	tagInvenSkill* m_pEquipSkill = nullptr; // 스킬
+
 	_bool		m_bIsSkill = false; // 스킬이 있나?
-	_int		m_iSkillID;			// 스킬 ID
 };
-// 스킬 정보
-struct tagInvenSkill
+#pragma endregion
+
+#pragma region 아이템 구조체
+// 아이템 칸
+struct tagItemSpace
 {
-	CSkill*		m_pSkill;
-	_int		m_iSkillID;
-	CTexture*	m_pSkillTexCom;
-	_matrix		m_matSkill;
-};
-// 라인
-struct tagLine
-{
-	_matrix     m_matLine;
-	CTexture*   m_pLineTex;
+	_matrix     m_matSpace;
+	_matrix		m_matEquip;
+	CTexture* m_pSpaceNoneTex;
+	CTexture* m_pSpaceIsTex;
+	CTexture* m_pSpaceSelectTex;
+	CTexture* m_pSpaceEquipTex;
+	_bool		m_bIsSpace = false;
+	_bool		m_bOnSpace = false;
+	_bool		m_bEquip = false;
 };
 // 장착여부
 struct tagEquipCheck
@@ -108,6 +108,16 @@ struct tagItemStatFont
 {
 	RECT		m_pItemStatRc;
 };
+#pragma endregion
+
+#pragma region 공용 구조체
+// 라인
+struct tagLine
+{
+	_matrix     m_matLine;
+	CTexture* m_pLineTex;
+};
+#pragma endregion
 
 class CPlayer;
 
@@ -138,6 +148,7 @@ public:
 	void					Ready_ItemFont();
 	// Skill
 	void					Ready_SkillUI();
+	void					Ready_SkillFont();
 #pragma endregion
 
 #pragma region Render
@@ -156,15 +167,18 @@ public:
 #pragma endregion
 
 #pragma region Update
-	void				    Item_StatView(_int _Index);
 	void					Key_Input();
 	void					Mouse_Update();
 
 	void					ItemPicking_UI();
+	void				    Item_StatView(_int _Index);
+
 	void					SkillPicking_UI();
+	void					Skill_StatView(_int _Index);
+
 	void					TabPicking_UI();
 
-	_bool					Skill_Push();
+	void					Skill_Slot();
 #pragma endregion
 
 public:
@@ -188,11 +202,11 @@ private:
 	_int					m_iTranslucent; // 온오프 알파값
 
 	CPlayer*				m_pPlayer;	// 계속 참조할 플레이어
-	vector<tagInvenSkill>	m_vecSkill; // 스킬 배열
-	vector<CGameObject*>	m_vecItem; // 아이템 배열
+
 	_int					m_iHaveKey; // 열쇠 
 
 	INVENTYPE				m_eInvenType; // 아이템인지 스킬인지
+	
 #pragma endregion
 
 	CTexture*				m_pInventoryTexCom[INVENTORYID_END]; // 기존에 있던 배열
@@ -200,21 +214,28 @@ private:
 
 #pragma region UI
 	// 아이템 인벤토리 관련
+	vector<CGameObject*>	m_vecItem; // 아이템 배열
+
 	tagItemSpace			m_sItemSpaceAry[INVEN_BUTTON12 - 2]; // 아이템 칸 배열
-	tagEquipCheck			m_sEquipCheck; // 장비 장착 여부 구조체
+	tagEquipCheck			m_sItemEquipCheck; // 장비 장착 여부 구조체
 	tagPlayerUI				m_sPlayerUIAry[PLAYER_UI_END]; // 플레이어 UI 배열
 	tagPlayerStatFont		m_sPlayerStatFont[PLAYER_UI_END]; // 플레이어 Stat 폰트 배열
 	tagItemStatUI			m_sItemStatUIAry[ITEMUI_END]; // 아이템 스텟 UI 배열
 	tagItemStatFont			m_sItemStatFont[ITEMUI_END]; // 아이템 스텟 Font
 
 	// 스킬 인벤토리 관련
+	vector<tagInvenSkill>	m_vecSkill; // 스킬 배열
+
 	tagSkillSpace			m_sSkillSpaceAry[INVEN_BUTTON12 - 2]; // 스킬 칸 배열
+	tagEquipCheck			m_sSkillEquipCheck; // 스킬 장착 여부 구조체
 	tagSkillRingUI			m_sSkillRingAry[MAX_SKILL_SLOT]; // 왼쪽 스킬 4칸 관련
 	_matrix					m_sBigSkillRing; // 큰 링
 	CTexture*				m_pBigSkillRingTex; // 큰 링
 
-	_bool					m_bSkillPick;    // 키 입력 전 담아두기 상태인지.
-	_int					iPick;
+	tagInvenSkill*			m_saveSkill;
+	_bool					m_bPickMode = false;
+	_int					iPick; 
+	RECT					m_SkillSelectRc;
 
 	// 공용
 	tagLine					m_sLineAry[INVEN_LINE - 16]; // 라인 배열
