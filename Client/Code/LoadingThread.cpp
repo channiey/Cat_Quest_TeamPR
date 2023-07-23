@@ -954,7 +954,9 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// 플라이 스킬
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Flight",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI_flight.png")), E_FAIL);
-
+	// 마법사 불렛
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_Mage",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Mage_Ball.png")), E_FAIL);
 
 #pragma endregion
 	 

@@ -81,8 +81,11 @@ HRESULT CPlayer::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 
-	m_tMoveInfo.fMoveSpeed = 20.f;
+	m_tMoveInfo.fMoveSpeed = 15.f;
 	Set_AD(10);
+
+	m_fBallTargetLenght = 18.f;
+	m_pBallTarget = nullptr;
 
 	m_bHit = false;
 	m_bAttack = false;
@@ -1194,6 +1197,41 @@ void CPlayer::CloseTarget_Dis(CGameObject* pTarget)
 		m_bIsMonster = true;
 	}
 	
+}
+
+CGameObject* CPlayer::MageBall_Target()
+{
+	multimap<const _tchar*, CGameObject*> pMapMon = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap();
+	m_pBallTarget = nullptr;
+
+	for (auto iter : pMapMon)
+	{
+		_vec3 PlayerPos = m_pTransformCom->Get_Info(INFO::INFO_POS);
+		_vec3 MonPos = iter.second->Get_Transform()->Get_Info(INFO::INFO_POS);
+		_vec3 TargetDir = MonPos - PlayerPos;
+
+		_float fLength = D3DXVec3Length(&TargetDir);
+
+		if (m_fBallTargetLenght > fLength)
+		{
+			m_fBallTargetLenght = fLength;
+			m_pBallTarget = iter.second;
+			D3DXVec3Normalize(&m_vBallDir, &TargetDir);
+		}
+	}
+
+	if (m_pBallTarget != nullptr)
+	{
+		cout << "타겟온" << endl;
+		m_fBallTargetLenght = 18.f;
+		return m_pBallTarget;
+	}
+	else
+	{
+		cout << "타겟오프" << endl;
+		m_fBallTargetLenght = 18.f;
+		return nullptr;
+	}
 }
 
 CGameObject* CPlayer::Get_MonTarget()

@@ -140,6 +140,13 @@ STATE_TYPE CPlayerState_fIdle::Key_Input(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
 		return STATE_TYPE::BACK_ROLL;
 	}
+	else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE))
+	{
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
+		CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+		CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
+		return STATE_TYPE::FRONT_ROLL;
+	}
 #pragma endregion
 
 	

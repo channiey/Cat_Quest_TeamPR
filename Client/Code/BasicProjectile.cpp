@@ -44,6 +44,21 @@ void CBasicProjectile::Render_Object()
     __super::Render_Object();
 }
 
+void CBasicProjectile::OnCollision_Enter(CGameObject* _pColObj)
+{
+    __super::OnCollision_Enter(_pColObj);
+}
+
+void CBasicProjectile::OnCollision_Stay(CGameObject* _pColObj)
+{
+    __super::OnCollision_Stay(_pColObj);
+}
+
+void CBasicProjectile::OnCollision_Exit(CGameObject* _pColObj)
+{
+    __super::OnCollision_Exit(_pColObj);
+}
+
 HRESULT CBasicProjectile::Add_Component()
 {
 

@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "RangeObj.h"
 #include "Player.h"
+#include "Mage_Bullet.h"
 
 #include "GoldCoin.h"
 #include "ExpCoin.h"
@@ -165,7 +166,6 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 	{
 	}
 	break;
-
 	case Engine::OBJ_TYPE::LINE:
 	{
 		_vec3 vLinePos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
@@ -180,7 +180,16 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 		
 	}
 	break;
+	case Engine::OBJ_TYPE::PROJECTILE:
+	{
+		OBJ_TYPE eType = dynamic_cast<CMage_Bullet*>(_pColObj)->Get_MageBall_Owner()->Get_Type();
+		if (OBJ_TYPE::PLAYER == eType)
+		{
+			Damaged(dynamic_cast<CMage_Bullet*>(_pColObj)->Get_BallDamage());
 
+		}
+	}
+	break;
 	default:
 	{
 	}
