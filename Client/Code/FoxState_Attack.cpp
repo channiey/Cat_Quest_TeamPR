@@ -79,6 +79,20 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
 
     m_fAccTime += fTimeDelta;
 
+
+
+
+    // x 이동 방향에 따라 스케일 전환 
+    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+
+
    // 현재 상태의 기능
     
     if (fPlayerDistance <= 10.f)

@@ -33,6 +33,7 @@ HRESULT CBatState_Chase::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
+    m_fAccTime = 0.f;
 
     return S_OK;
 }
@@ -78,8 +79,15 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
     // 현재 상태의 기능
     dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-    
 
+    //m_fAccTime += fTimeDelta;
+    //
+
+    //if (fPlayerDistance >= 8.f)
+    //{
+    //    dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
+    //}
+    //dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
    
 
 

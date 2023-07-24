@@ -79,6 +79,19 @@ STATE_TYPE CBatState_bChase::Update_State(const _float& fTimeDelta)
     dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
+    //m_fAccTime += fTimeDelta;
+
+
+    //if (fPlayerDistance >= 8.f)
+    //{
+    //    dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
+    //}
+    //dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
+
+
+
+
+
 
 #pragma region State Change
     // BACK_CHASE 우선순위

@@ -81,6 +81,18 @@ STATE_TYPE CFoxState_bAttack::Update_State(const _float& fTimeDelta)
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
+    
+
+        // x 이동 방향에 따라 스케일 전환 
+    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+
 
 
 
@@ -102,6 +114,8 @@ STATE_TYPE CFoxState_bAttack::Update_State(const _float& fTimeDelta)
         m_fAccTime = 0.f;
     }
    
+
+
 
 
 

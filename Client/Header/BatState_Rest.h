@@ -51,8 +51,7 @@ private:
 	_float  m_fScaleDown;
 
 
-	_vec3   m_vOriginScale;
-	//_vec3   m_vOriginPos;
-	_vec3   m_vOriginRot;
+	_bool  m_bAssault;
+
 };
 
