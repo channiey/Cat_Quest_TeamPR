@@ -163,6 +163,24 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/forest_10.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bush11",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/forest_11.png")), E_FAIL);
+	// Grass
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Grass1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/grass_1.png")), E_FAIL);
+
+	// Tombstone
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Tombstone",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/tombstone.png")), E_FAIL);
+
+	// PirateHideOut
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_PirateHideOut",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/pirate_hideout.png")), E_FAIL);
+
+	// Sweets
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sweets1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/sweets_1.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sweets2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/sweets_2.png")), E_FAIL);
+
 
 #pragma endregion
 
@@ -194,6 +212,26 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Ice Pillar
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Ice_Pillar1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Pillar/rockpillar_4.png")), E_FAIL);
+
+	// TwinPeaks
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Pillar_TwinPeaks",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Pillar/twin_peaks.png")), E_FAIL);
+
+
+#pragma endregion
+
+#pragma region Tree
+
+	// Death Tree
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_DeathTree",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Tree/forest_12.png")), E_FAIL);
+	// Triple Death Tree
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Triple_DeathTree",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Tree/forest_11.png")), E_FAIL);
+	// World Tree
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_World_Tree",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Tree/world tree.png")), E_FAIL);
+
 
 #pragma endregion
 

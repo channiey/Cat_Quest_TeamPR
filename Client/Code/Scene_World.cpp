@@ -5,7 +5,15 @@
 
 #include "Transform.h"
 // test
-#include "Circle_Stemp.h"
+#include "TwinPeaks.h"
+#include "DeathTree.h"
+#include "TripleDeathTree.h"
+#include "WorldTree.h"
+#include "Grass1.h"
+#include "Tombstone.h"
+#include "PirateHideOut.h"
+#include "Sweets1.h"
+#include "Sweets2.h"
 
 // Environment
 #include "Terrain.h"
@@ -571,37 +579,54 @@ HRESULT CScene_World::Ready_Layer_KSH()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 
-
-
-	//pGameObject = CHedgehog::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
-	// Warrior
-	// pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_WarriorWeapon", pGameObject), E_FAIL);
-	// 
-	// // Mage
-	// pGameObject = CMageWeapon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_MageWeapon", pGameObject), E_FAIL);
-	// 
-	// // Ninja
-	// pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Item_NinjaeWeapon", pGameObject), E_FAIL);
-
 	// MageNpc
 	pGameObject = CNpc_Mage::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage", pGameObject), E_FAIL);
 
-	//pGameObject = CHedgehog_Stemp::Create(m_pGraphicDev, _vec3{
-	//_float(START_POS_WORLD_X) + 5.f,
-	//1.f,
-	//_float(START_POS_WORLD_Z) });
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Test", pGameObject), E_FAIL);
+	// TwinPeaks
+	pGameObject = CTwinPeaks::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TwinPeaks", pGameObject), E_FAIL);
+
+	// Death Tree
+	pGameObject = CDeathTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"DeathTree", pGameObject), E_FAIL);
+
+	// Triple Death Tree
+	pGameObject = CTripleDeathTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TripleDeathTree", pGameObject), E_FAIL);
+
+	// World Tree
+	pGameObject = CWorldTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"WorldTree", pGameObject), E_FAIL);
+
+	// Grass
+	pGameObject = CGrass1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Grass1", pGameObject), E_FAIL);
+
+	// Tombstone
+	pGameObject = CTombstone::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Tombstone", pGameObject), E_FAIL);
+
+	// PirateHideOut
+	pGameObject = CPirateHideOut::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PirateHideOut", pGameObject), E_FAIL);
+
+	// Sweets
+	pGameObject = CSweets1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"CSweets1", pGameObject), E_FAIL);
+
+	pGameObject = CSweets2::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"CSweets2", pGameObject), E_FAIL);
 
 
 	return S_OK;

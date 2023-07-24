@@ -718,7 +718,8 @@ void CInventory::Ready_SkillFont()
 
 	// 스킬 폰트
 	m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc = { 690, WINCY - 170, 690, WINCY - 170 };
-	//m_ItemLvRc = { 690, WINCY - 120, 690, WINCY - 120 };
+	m_sPlayerSkillFont[SKILL_DAMAGE_NUM].m_pSkillStatRc = { 690, WINCY - 120, 690, WINCY - 120 };
+	m_sPlayerSkillFont[SKILL_DAMAGE_STR].m_pSkillStatRc = { 720, WINCY - 120, 720, WINCY - 120 };
 
 }
 
@@ -907,6 +908,7 @@ void CInventory::Skill_Slot()
 					break;
 				}
 			}
+			m_sSkillSpaceAry[m_iPickSpace].m_pSpaceSkill.m_bEquip = true;
 			m_sSkillRingAry[0].m_pEquipSkill = m_saveSkill;
 			m_pPlayer->Set_SkillSlot(0, m_sSkillRingAry[0].m_pEquipSkill->m_pSkill);
 			m_bPickMode = false;
@@ -923,6 +925,7 @@ void CInventory::Skill_Slot()
 					break;
 				}
 			}
+			m_sSkillSpaceAry[m_iPickSpace].m_pSpaceSkill.m_bEquip = true;
 			m_sSkillRingAry[1].m_pEquipSkill = m_saveSkill;
 			m_pPlayer->Set_SkillSlot(1, m_sSkillRingAry[1].m_pEquipSkill->m_pSkill);
 			m_bPickMode = false;
@@ -939,7 +942,7 @@ void CInventory::Skill_Slot()
 					break;
 				}
 			}
-			m_saveSkill->m_bEquip = true;
+			m_sSkillSpaceAry[m_iPickSpace].m_pSpaceSkill.m_bEquip = true;
 			m_sSkillRingAry[2].m_pEquipSkill = m_saveSkill;
 			m_pPlayer->Set_SkillSlot(2, m_sSkillRingAry[2].m_pEquipSkill->m_pSkill);
 			m_bPickMode = false;
@@ -956,7 +959,7 @@ void CInventory::Skill_Slot()
 					break;
 				}
 			}
-			m_saveSkill->m_bEquip = true;
+			m_sSkillSpaceAry[m_iPickSpace].m_pSpaceSkill.m_bEquip = true;
 			m_sSkillRingAry[3].m_pEquipSkill = m_saveSkill;
 			m_pPlayer->Set_SkillSlot(3, m_sSkillRingAry[3].m_pEquipSkill->m_pSkill);
 			m_bPickMode = false;
@@ -1569,7 +1572,7 @@ void CInventory::SkillPicking_UI()
 								m_sSkillRingAry[j].m_pEquipSkill = nullptr;
 								m_pPlayer->Set_SkillSlot(j, nullptr);
 								bIsCheck = true;
-								return;
+								break;
 							}
 						}
 					}
@@ -1607,7 +1610,6 @@ void CInventory::SkillPicking_UI()
 		}
 	}
 }
-
 void CInventory::Skill_StatView(_int _Index)
 {
 	if (_Index <= m_vecItem.size())
@@ -1621,9 +1623,13 @@ void CInventory::Skill_StatView(_int _Index)
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pSkill->Get_Name(), -1,
 			&m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
-		// Damage
-		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fAD)).c_str(), -1,
-		//	&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		// Damage Num
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pSkill->Get_SkillDamage())).c_str(), -1,
+			&m_sPlayerSkillFont[SKILL_DAMAGE_NUM].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		// Damage Str
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"피해", -1,
+			&m_sPlayerSkillFont[SKILL_DAMAGE_STR].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+
 
 		// Content
 		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
