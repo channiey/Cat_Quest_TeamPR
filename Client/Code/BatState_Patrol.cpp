@@ -108,7 +108,7 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
 
 
     // CHASE 전이 조건
-    if (fPlayerDistance <= m_fChaseRange)
+    if (fPlayerDistance <= m_fChaseRange )
     {
         if (vOwnerDir.z < 0)
         {
