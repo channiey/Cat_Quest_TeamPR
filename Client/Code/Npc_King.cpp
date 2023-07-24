@@ -31,8 +31,8 @@ HRESULT CNpc_King::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	m_pTransformCom->Set_Pos(_vec3{ 125.f, m_pTransformCom->Get_Scale().y + 1.5f, 55.f });
-	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
+	m_pTransformCom->Set_Pos(_vec3{ 125.f, m_pTransformCom->Get_Scale().y, 55.f });
+	m_pTransformCom->Set_Scale(_vec3{ 2.8f, 2.8f, 2.8f });
 
 	if(CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Npc_King_Shadow", CShadow_Npc::Create(m_pGraphicDev, this));
