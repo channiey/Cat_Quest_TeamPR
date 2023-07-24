@@ -41,6 +41,9 @@ public:
 	static				CFox* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
+
+
+
 protected:
 	virtual void		Free() override;
 

@@ -192,9 +192,8 @@ HRESULT CFox::Ready_Object()
 
 _int CFox::Update_Object(const _float& fTimeDelta)
 {
-	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
-	
+
 	//_int iExit = CGameObject::Update_Object(fTimeDelta);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -245,16 +244,6 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 			}
 		}
 	}
-
-	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
-	{
-		if (m_fAccTime >= 2.f)
-		{
-			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
-		}
-	}
-
-
 
 
 

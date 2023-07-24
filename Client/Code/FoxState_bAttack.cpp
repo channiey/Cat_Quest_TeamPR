@@ -1,7 +1,8 @@
 #include "FoxState_bAttack.h"
 #include "Export_Function.h"
-
-
+#include "Chase_Bullet.h"
+#include "Player.h"
+#include "FoxFire.h"
 
 
 CFoxState_bAttack::CFoxState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -50,6 +51,9 @@ STATE_TYPE CFoxState_bAttack::Update_State(const _float& fTimeDelta)
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
 
 
+
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
     NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
@@ -91,6 +95,13 @@ STATE_TYPE CFoxState_bAttack::Update_State(const _float& fTimeDelta)
     }
 
 
+
+    if (m_fAccTime >= 2.f)
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vDir, m_pOwner->Get_OwnerObject()));
+        m_fAccTime = 0.f;
+    }
+   
 
 
 
