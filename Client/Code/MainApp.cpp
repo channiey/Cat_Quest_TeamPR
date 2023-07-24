@@ -70,9 +70,29 @@ void CMainApp::Render_MainApp()
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);	
 
-	Engine::Render_Begin(D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	D3DXCOLOR tBackColor;
+
+	_float r = 255.f, g = 255.f, b = 255.f;
+
+	if (SCENE_TYPE::WORLD == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		r = 101.f; 
+		g = 202.f; 
+		b = 173.f;
+	}
+	else if (SCENE_TYPE::DUNGEON_SWAMP == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		r = 11.f;
+		g = 41.f;
+		b = 37.f;
+	}
+
+	tBackColor = { r / 255.f, g / 255.f, b / 255.f, 1.f };
+
+	Engine::Render_Begin(tBackColor);
 
 	NULL_CHECK(m_pManagementClass);
+
 	m_pManagementClass->Render_Scene(m_pGraphicDev);
 
 	Engine::Render_End();

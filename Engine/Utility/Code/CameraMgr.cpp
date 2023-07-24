@@ -219,7 +219,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 
 #pragma region SCENE
 
-		case Engine::CAMERA_ACTION::SCENE_ENTER_FIELD:
+		case Engine::CAMERA_ACTION::SCENE_ENTER_INGAME:
 		{
 		/*
 		
@@ -259,6 +259,30 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		
 		}
 			break;
+
+		case Engine::CAMERA_ACTION::SCENE_ENTER_FIELD:
+		{
+			_vec3 vPlayerPos;		// 플레이어 시작 포지션
+			_vec3 vLerpStartLookAt; // 플레이어 시작 포지션 y + fHeight
+			_float fHeight = 30.f;
+			_vec3 vCamInitEye;		// 플레이어 시작포지션에서의 카메라 포지션
+
+			CGameObject* pPlayer = m_pCurCamera->Get_CameraCom()->Get_Follow();
+
+			NULL_CHECK_RETURN(pPlayer, E_FAIL);
+
+			vPlayerPos = pPlayer->Get_Transform()->Get_Info(INFO_POS);
+			vLerpStartLookAt = _vec3{ vPlayerPos.x, vPlayerPos.y + fHeight, vPlayerPos.z };
+
+
+			// 플레이어 시작 포지션 y + 20 위치에 카메라를 위치시킨다.
+			vCamInitEye = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Calculate_Nonelerp_Eye(vLerpStartLookAt).Eye;
+			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
+
+			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
+		}
+		break;
 
 #pragma endregion
 

@@ -178,7 +178,7 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
 
-	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
+	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_INGAME);
 
 	CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::ENTER_WORLD);
 

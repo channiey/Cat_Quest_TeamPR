@@ -148,7 +148,7 @@ void CPlayer_Camera::Set_ViewSpace()
 	NULL_CHECK(m_pCameraCom->m_pFollow);
 
 	// Enter Scene Lerp
-	if (m_pCameraCom->m_tHeightLerp.bActive && CAMERA_ACTION::SCENE_ENTER_FIELD == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	if (m_pCameraCom->m_tHeightLerp.bActive && CAMERA_ACTION::SCENE_ENTER_INGAME == CCameraMgr::GetInstance()->Get_CurCameraAction())
 	{
 		Lerp_Enter_Scene();
 		return;
