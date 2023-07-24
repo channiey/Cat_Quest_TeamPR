@@ -164,6 +164,11 @@ public:
 	_bool&				Get_Clocking() { return m_bClocking; }
 	void				Off_Clocking() { m_bClocking = false; m_iClockAlpha = 255; }
 
+	_bool&				Is_Fly()					{ return m_bFly; }
+	void				Set_Fly(const _bool& _bFly) { m_bFly = _bFly; }
+
+	CSkill*				Get_FlySkill() { return m_pSkillFly; }
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
@@ -224,6 +229,10 @@ private:
 	_bool						m_bClocking;
 	_float						m_fClockingAcc;
 	_uint						m_iClockAlpha;
+
+	// ³¯±â
+	_bool						m_bFly;
+	CSkill*						m_pSkillFly;
 
 
 	/////////////////////////////////

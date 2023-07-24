@@ -45,10 +45,17 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		}
 		else
 		{
-			CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->MageBall_Target();
-			_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-			CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
-			CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
+			if (!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
+			{
+				CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->MageBall_Target();
+				_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
+				CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
+				CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
+			}
+			else
+			{
+				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_FlySkill()->Play();
+			}
 		}
 
 		if (CLASS_TYPE::NINJA == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
@@ -66,36 +73,43 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		m_bEnter = true;
 	}
 
-	if (!m_bIsTarget)
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
 	{
-		if (CLASS_TYPE::MAGE == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
-		{
-			if (nullptr == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget())
-				m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * -3.f);
-			else
-			{
-				m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir(), fTimeDelta * -3.f);
-				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir());
-				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerDirNormal(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir());
-			}
-		}
-		else
-			m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * -3.f);
 	}
 	else
 	{
-		if (CLASS_TYPE::MAGE == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
+		if (!m_bIsTarget)
 		{
-			m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * -3.f);
-			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+			if (CLASS_TYPE::MAGE == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
+			{
+				if (nullptr == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget())
+					m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * -3.f);
+				else
+				{
+					m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir(), fTimeDelta * -3.f);
+					static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir());
+					static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerDirNormal(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir());
+				}
+			}
+			else
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
 		}
 		else
 		{
-			m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 0.1f);
-			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+			if (CLASS_TYPE::MAGE == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
+			{
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * -3.f);
+				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+			}
+			else
+			{
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir(), fTimeDelta * 0.1f);
+				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetDir());
+			}
 		}
 	}
-
+	
 	STATE_TYPE eState = Key_Input(fTimeDelta);
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
@@ -105,11 +119,16 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_HIT;
 	}
 
-	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
+	if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
 	{
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
 		m_bEnter = false;
-		return STATE_TYPE::FRONT_IDLE;
+		return STATE_TYPE::FRONT_FLIGHT;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
+	{
+		m_bEnter = false;
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+		eState = STATE_TYPE::FRONT_IDLE;
 	}
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && !m_bIsTarget &&
 		nullptr != static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget() &&

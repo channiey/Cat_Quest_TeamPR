@@ -145,6 +145,12 @@ void CDialogUI::Render_Object()
 		m_pUITextureCom[1]->Render_Texture(m_iNpc);
 		m_pBufferCom->Render_Buffer();
 	}
+	else
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
+		m_pUITextureCom[2]->Render_Texture(_uint(m_eEmo));
+		m_pBufferCom->Render_Buffer();
+	}
 	
 
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strTyping.c_str(), -1,

@@ -171,6 +171,9 @@
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\Dagger.h" />
+    <ClInclude Include="..\Header\DungeonTextUI.h" />
+    <ClInclude Include="..\Header\Effect_FlyLighting.h" />
+    <ClInclude Include="..\Header\Effect_Font.h" />
     <ClInclude Include="..\Header\FadeUI.h" />
     <ClInclude Include="..\Header\BasicProjectile.h" />
     <ClInclude Include="..\Header\BatState_bRest.h" />
@@ -388,6 +391,7 @@
     <ClInclude Include="..\Header\Skill_Monster_Thunder.h" />
     <ClInclude Include="..\Header\Skill_Player_Beam.h" />
     <ClInclude Include="..\Header\Skill_Player_Fire.h" />
+    <ClInclude Include="..\Header\Skill_Player_Fly.h" />
     <ClInclude Include="..\Header\Skill_Player_Ice.h" />
     <ClInclude Include="..\Header\Skill_Player_Thunder.h" />
     <ClInclude Include="..\Header\Smithy.h" />
@@ -495,6 +499,9 @@
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
     <ClCompile Include="..\Code\Dagger.cpp" />
+    <ClCompile Include="..\Code\DungeonTextUI.cpp" />
+    <ClCompile Include="..\Code\Effect_FlyLighting.cpp" />
+    <ClCompile Include="..\Code\Effect_Font.cpp" />
     <ClCompile Include="..\Code\FadeUI.cpp" />
     <ClCompile Include="..\Code\BasicProjectile.cpp" />
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
@@ -715,6 +722,7 @@
     <ClCompile Include="..\Code\Skill_Monster_Thunder.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Fire.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Beam.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Fly.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Ice.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Thunder.cpp" />
     <ClCompile Include="..\Code\Smithy.cpp" />

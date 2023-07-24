@@ -40,6 +40,7 @@
 #include "Skill_Player_Ice.h"
 #include "Skill_Player_Thunder.h"
 #include "Skill_Player_Beam.h"
+#include "Skill_Player_Fly.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -86,6 +87,9 @@ HRESULT CPlayer::Ready_Object()
 
 	m_fBallTargetLenght = 18.f;
 	m_pBallTarget = nullptr;
+
+	m_bFly = false;
+	m_pSkillFly = nullptr;
 
 	m_bHit = false;
 	m_bAttack = false;
@@ -336,6 +340,11 @@ HRESULT CPlayer::Ready_Object()
 	//m_arrSkillSlot[3] = m_arrSkill[_uint(SKILL_TYPE::BEAM)];
 	//m_arrSkillSlot[3]->Set_Maintain(TRUE); // 수정시 팀장 보고
 
+	CSkill* pSkillFly = CSkill_Player_Fly::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pSkillFly, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fly", pSkillFly), E_FAIL);
+	m_pSkillFly = pSkillFly;
+
 #pragma endregion
 
 	// 처음 시작상태 설정
@@ -422,6 +431,12 @@ void CPlayer::LateUpdate_Object()
 	{
 		NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight"))
 		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight")->Set_Active(true);
+	}
+
+	if(!m_bFly && m_pSkillFly->Is_Active())
+	{
+		m_pSkillFly->Get_Transform()->Set_Pos(m_pTransformCom->Get_Info(INFO::INFO_POS));
+		m_pSkillFly->Set_Active(false);
 	}
 
 	__super::LateUpdate_Object();
@@ -1164,6 +1179,23 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 
+	if (m_eClass == CLASS_TYPE::MAGE && m_bFly)
+	{
+		if (CInputDev::GetInstance()->Key_Down('Z'))
+		{
+			if (!m_pSkillFly->Is_Active())
+			{
+				m_pSkillFly->Set_Active(true);
+			}
+			else
+			{
+				m_pSkillFly->Get_Transform()->Set_Pos(m_pTransformCom->Get_Info(INFO::INFO_POS));
+				m_pSkillFly->Set_Active(false);
+			}
+		}
+	}
+
+
 	if (CInputDev::GetInstance()->Key_Down('L'))
 		Set_CurHP(m_tStatInfo.fMaxHP);
 	if (CInputDev::GetInstance()->Key_Down('K'))
@@ -1260,6 +1292,7 @@ CGameObject* CPlayer::MageBall_Target()
 			m_fBallTargetLenght = fLength;
 			m_pBallTarget = iter.second;
 			D3DXVec3Normalize(&m_vBallDir, &TargetDir);
+			m_vBallDir.y = 0;
 		}
 	}
 
@@ -1328,14 +1361,14 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 
 	_vec3 vDirA = vDir;
 
-	float absX = std::abs(vDir.x);
-	float absY = std::abs(vDir.y);
-	float absZ = std::abs(vDir.z);
+	float absX = fabs(vDir.x);
+	float absY = fabs(vDir.y);
+	float absZ = fabs(vDir.z);
 
 	// 가장 큰 성분을 찾습니다.
 	float maxComponent = max(max(absX, absY), absZ);
 
-	// 가장 큰 성분의 부호에 따라 해당 방향으로 매핑합니다.
+	// 가장 큰 성분의 부호에 따라 해당 방향으로 매핑.
 	if (maxComponent == absX) {
 		vDirA.x = (vDirA.x > 0) ? 1.0f : -1.0f;
 		vDirA.y = vDirA.z = 0;
@@ -1350,7 +1383,7 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 	}
 
 	// 다시 한 번 정규화
-	float length = std::sqrt(vDirA.x * vDirA.x + vDirA.y * vDirA.y + vDirA.z * vDirA.z);
+	float length = sqrt(vDirA.x * vDirA.x + vDirA.y * vDirA.y + vDirA.z * vDirA.z);
 	vDirA.x /= length;
 	vDirA.y = 0;
 	vDirA.z /= length;

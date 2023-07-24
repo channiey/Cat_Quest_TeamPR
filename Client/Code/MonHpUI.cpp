@@ -166,9 +166,9 @@ void CMonHpUI::Render_Object()
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_CHASE ||
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK ||
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONATTACK ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::FRONT_HIT ||
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONREST ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONREST)
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONREST ||
+		dynamic_cast<CMonster*>(m_pMonster)->IsHit())
 	{
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
