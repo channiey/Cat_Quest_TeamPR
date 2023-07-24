@@ -71,6 +71,10 @@ public:
 	const _float&			Get_SkillDamage() const { return m_fSkillDamage; }
 	const _uint&			Get_SkillUsage()  const { return m_iSkillUsage; }
 
+	// ¼ºÇõ Ãß°¡
+	const D3DCOLOR& Get_SkillFontColor() const { return m_fontColor; }
+	const wstring&  Get_SkillContent()   const { return m_contentStr; }
+
 protected:
 	CGameObject*			m_pOwnerObject;
 	_bool					m_bPlay;
@@ -82,6 +86,10 @@ protected:
 
 	_float					m_fSkillDamage;
 	_uint					m_iSkillUsage;
+
+	// ¼ºÇõ Ãß°¡
+	D3DCOLOR				m_fontColor;
+	wstring					m_contentStr;
 
 protected:
 	virtual void			Free();

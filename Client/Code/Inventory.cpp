@@ -18,8 +18,10 @@
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
-	, m_bIsOn(false), m_bAlphaSet(false), m_iHaveKey(0), m_iTranslucent(0),
-	m_eMannequinClass(CLASS_TYPE::NORMAL)
+	, m_bIsOn(false), m_bAlphaSet(false), m_bPickMode(false), m_bTabItemPick(false), m_bTabSkillPick(false)
+	, m_bSizeUp(false)
+	, m_iHaveKey(0), m_iTranslucent(0)
+	, m_eMannequinClass(CLASS_TYPE::NORMAL)
 {
 	m_pPlayer = nullptr;
 }
@@ -63,7 +65,6 @@ HRESULT CInventory::Ready_Object()
 	m_eUILayer = UI_LAYER::LV1;
 	m_eInvenType = INVENTYPE::INVEN_ITEM;
 	m_sItemEquipCheck.m_bShowUI = false;
-	m_sSkillEquipCheck.m_bShowUI = false;
 
 	Ready_WorldMatrix();
 	Ready_PublicUI();
@@ -135,7 +136,6 @@ void CInventory::Ready_WorldMatrix()
 	D3DXMatrixIdentity(&m_matCursorWorld);
 	// Equip Check Init
 	D3DXMatrixIdentity(&m_sItemEquipCheck.m_mateCheck);
-	D3DXMatrixIdentity(&m_sSkillEquipCheck.m_mateCheck);
 	// Mannequin Init
 	D3DXMatrixIdentity(&m_matMannequinWorld);
 	// Fancy Init
@@ -145,6 +145,8 @@ void CInventory::Ready_WorldMatrix()
 	D3DXMatrixIdentity(&m_matShadowWorld); 
 	// BigRing Init
 	D3DXMatrixIdentity(&m_sBigSkillRing);
+	// SkillBook Init
+	D3DXMatrixIdentity(&m_sSkillBookUI.m_matSkillBookUI);
 
 }
 void CInventory::Ready_PublicUI()
@@ -492,13 +494,6 @@ void CInventory::Ready_ItemUI()
 	m_sItemEquipCheck.m_mateCheck._11 = m_fSizeX;
 	m_sItemEquipCheck.m_mateCheck._22 = m_fSizeY;
 
-	m_sSkillEquipCheck.m_mateCheck._41 = m_fPosX;
-	m_sSkillEquipCheck.m_mateCheck._42 = WINCY - m_fPosY;
-	m_sSkillEquipCheck.m_mateCheck._11 = m_fSizeX;
-	m_sSkillEquipCheck.m_mateCheck._22 = m_fSizeY;
-
-
-
 	// Item Heart
 	m_fSizeX = 0.4f;
 	m_fSizeY = 0.4f;
@@ -704,23 +699,36 @@ void CInventory::Ready_SkillUI()
 		m_sSkillRingAry[i].m_matSkillNumUI._42 = m_fPosY - 70.f;
 		m_sSkillRingAry[i].m_matSkillNumUI._11 = 20.f;
 		m_sSkillRingAry[i].m_matSkillNumUI._22 = 20.f;
-
 	}
+
+	// SkillBook 
+	m_fPosX = 1100.f;
+	m_fPosY = 592.5;
+	m_fSizeX = 125.f;
+	m_fSizeY = 141.f;
+	m_fMultipleSizeX = 0.45f;
+	m_fMultipleSizeY = 0.35f;
+
+	m_sSkillBookUI.m_matSkillBookUI._41 = m_fPosX;
+	m_sSkillBookUI.m_matSkillBookUI._42 = WINCY - m_fPosY;
+	m_sSkillBookUI.m_matSkillBookUI._11 = m_fSizeX * m_fMultipleSizeX;
+	m_sSkillBookUI.m_matSkillBookUI._22 = m_fSizeY * m_fMultipleSizeY;
+
 }
 void CInventory::Ready_SkillFont()
 {
 	m_SkillSelectRc = {
 	(LONG)(m_sBigSkillRing._41 - 100.f),
-	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 20.f),
+	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 30.f),
 	(LONG)(m_sBigSkillRing._41 - 100.f),
-	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 20.f)
+	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 30.f)
 	};
 
 	// 스킬 폰트
 	m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc = { 690, WINCY - 170, 690, WINCY - 170 };
 	m_sPlayerSkillFont[SKILL_DAMAGE_NUM].m_pSkillStatRc = { 690, WINCY - 120, 690, WINCY - 120 };
 	m_sPlayerSkillFont[SKILL_DAMAGE_STR].m_pSkillStatRc = { 720, WINCY - 120, 720, WINCY - 120 };
-
+	m_sPlayerSkillFont[SKILL_CONTENT].m_pSkillStatRc = { 690, WINCY - 70, 690, WINCY - 70 };
 }
 
 _int CInventory::Update_Object(const _float& fTimeDelta)
@@ -767,7 +775,7 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 #pragma region Ice
 			// 스킬
 			temp.m_pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
-			CEventMgr::GetInstance()->Add_Obj(L"오들오들", temp.m_pSkill);
+			CEventMgr::GetInstance()->Add_Obj(L"꽁꽁 꾹꾹이", temp.m_pSkill);
 			// 텍스쳐
 			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
 			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
@@ -778,6 +786,21 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 
 			m_vecSkill.push_back(temp);
 
+#pragma endregion
+
+#pragma region Beam
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"우주펀치", temp.m_pSkill);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
+
+			m_vecSkill.push_back(temp);
 #pragma endregion
 
 #pragma endregion
@@ -807,6 +830,8 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 		if (1.f <= m_fMpRatio)
 			m_fMpRatio = 1.f;
 	}
+
+
 	
 	Skill_Slot(); // 스킬 인벤토리 왼쪽 레이아웃 
 
@@ -870,13 +895,67 @@ void CInventory::Skill_Slot()
 	{
 		if (m_bPickMode)
 		{
+			m_tSizeLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
+			if (!m_tSizeLerp.bActive)
+			{
+				if (m_bSizeUp)
+				{
+					m_tSizeLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+					m_tSizeLerp.Set_Lerp(3.f, 1.1f, 1.f);
+					m_bSizeUp = false;
+				}
+				else
+				{
+					m_tSizeLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+					m_tSizeLerp.Set_Lerp(3.f, 1.0f, 1.1f);
+					m_bSizeUp = true;
+				}
+			}
 			// 링
-			m_sSkillRingAry[i].m_matSkillRingUI._11 = 100.f;
-			m_sSkillRingAry[i].m_matSkillRingUI._22 = 100.f;
+			// 0일 때
+			if (m_sSkillRingAry[i].m_matSkillRingUI._11 == 0 &&
+				m_sSkillRingAry[i].m_matSkillRingUI._22 == 0) 
+			{
+				if (!m_bSizeUp)
+				{
+					m_sSkillRingAry[i].m_matSkillRingUI._11 = 80.f * 1.1f;
+					m_sSkillRingAry[i].m_matSkillRingUI._22 = 80.f * 1.1f;
+				}
+				else
+				{
+					m_sSkillRingAry[i].m_matSkillRingUI._11 = 80.f;
+					m_sSkillRingAry[i].m_matSkillRingUI._22 = 80.f;
+				}
+			}
+			// 0이 아니면
+			else
+			{
+				m_sSkillRingAry[i].m_matSkillRingUI._11 = 80.f * m_tSizeLerp.fCurValue;
+				m_sSkillRingAry[i].m_matSkillRingUI._22 = 80.f * m_tSizeLerp.fCurValue;
+			}
 
 			// 슬롯
-			m_sSkillRingAry[i].m_matEmptySkillUI._11 = 85.f;
-			m_sSkillRingAry[i].m_matEmptySkillUI._22 = 85.f;
+			// 0일 때
+			if (m_sSkillRingAry[i].m_matSkillRingUI._11 == 0 &&
+				m_sSkillRingAry[i].m_matSkillRingUI._22 == 0)
+			{
+				if (!m_bSizeUp)
+				{
+					m_sSkillRingAry[i].m_matEmptySkillUI._11 = 65.f * 1.1f;
+					m_sSkillRingAry[i].m_matEmptySkillUI._22 = 65.f * 1.1f;
+				}
+				else
+				{
+					m_sSkillRingAry[i].m_matEmptySkillUI._11 = 65.f;
+					m_sSkillRingAry[i].m_matEmptySkillUI._22 = 65.f;
+				}
+			}
+			// 0이 아니면
+			else
+			{
+				m_sSkillRingAry[i].m_matEmptySkillUI._11 = 65.f * m_tSizeLerp.fCurValue;
+				m_sSkillRingAry[i].m_matEmptySkillUI._22 = 65.f * m_tSizeLerp.fCurValue;
+			}
 		}
 		else
 		{
@@ -979,14 +1058,14 @@ void CInventory::Render_PublicUI()
 	m_pInventoryTexCom[INVEN_BKG]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
+	// 알파 따로
+	if (!m_bTabItemPick)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(140, 255, 255, 255));
+	}
 	// Tab Button - Armor
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_ATABBUTTON]);
 	m_pInventoryTexCom[INVEN_ATABBUTTON]->Render_Texture();
-	m_pBufferCom->Render_Buffer();
-
-	// Tab Button - Skill
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_STABBUTTON]);
-	m_pInventoryTexCom[INVEN_STABBUTTON]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
 	// Tab Button Image - Armor Texture
@@ -994,11 +1073,24 @@ void CInventory::Render_PublicUI()
 	m_pInventoryTexCom[INVEN_ARMORTEX]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+
+	if (!m_bTabSkillPick)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(140, 255, 255, 255));
+	}
+	// Tab Button - Skill
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_STABBUTTON]);
+	m_pInventoryTexCom[INVEN_STABBUTTON]->Render_Texture();
+	m_pBufferCom->Render_Buffer();
+
 	// Tab Button Image - Skill Texture
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_SKILLTEX]);
 	m_pInventoryTexCom[INVEN_SKILLTEX]->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-
+	
+	// 알파 따로 끝
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 	// Cancel Button
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_CANCELBUTTON]);
 	m_pInventoryTexCom[INVEN_CANCELBUTTON]->Render_Texture();
@@ -1229,9 +1321,14 @@ void CInventory::Render_PlayerSkillUI()
 	// number : 랜더링 순서 때문에 여기로 뺌. 스킬보다 나중에 그려져야 됨
 	for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
 	{
+		if (!m_bPickMode)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(140, 255, 255, 255));
+		}
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillRingAry[i].m_matSkillNumUI);
 		m_sSkillRingAry[i].m_pSkillNumUITex->Render_Texture();
 		m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 	}
 
 }
@@ -1298,7 +1395,7 @@ void CInventory::Render_SkillUI()
 
 	}
 
-	if (m_sSkillEquipCheck.m_bShowUI)
+	if (m_sSkillBookUI.m_bShowUI)
 	{
 		// Line
 		for (_int i = 0; i < INVEN_LINE - 16; ++i)
@@ -1308,21 +1405,10 @@ void CInventory::Render_SkillUI()
 			m_pBufferCom->Render_Buffer();
 		}
 
-		// OK 
-		if (m_sSkillEquipCheck.m_eEquipCheck == EQUIP_OK)
-		{
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillEquipCheck.m_mateCheck);
-			m_sSkillEquipCheck.m_pOkTex->Render_Texture();
-			m_pBufferCom->Render_Buffer();
-		}
-
-		// NO
-		if (m_sSkillEquipCheck.m_eEquipCheck == EQUIP_NO)
-		{
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillEquipCheck.m_mateCheck);
-			m_sSkillEquipCheck.m_pNoTex->Render_Texture();
-			m_pBufferCom->Render_Buffer();
-		}
+		// 스킬북
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_sSkillBookUI.m_matSkillBookUI);
+		m_sSkillBookUI.m_pSkillBookTexCom->Render_Texture();
+		m_pBufferCom->Render_Buffer();
 	}
 
 }
@@ -1580,8 +1666,14 @@ void CInventory::SkillPicking_UI()
 					// 장착중이지 않은 스킬이었다면 번호 입력해서 스킬 추가하자.
 					if (!bIsCheck)
 					{
+						// 러프 타이밍
+						m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
+						m_tSizeLerp.Set_Lerp(4.f, 1.0f, 1.1f);
+						m_bSizeUp = true;
+						// 스킬 세팅
 						m_saveSkill = &m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSkill;
 						m_iPickSpace = (INVEN_BUTTON1 + i) - 3;
+						// 픽 모드 on
 						m_bPickMode = true;
 						return;
 					}
@@ -1591,14 +1683,6 @@ void CInventory::SkillPicking_UI()
 			// 각종 서브 UI
 			Skill_StatView(i);
 			// EquipCheck 버튼
-			if (m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSkill.m_bEquip)
-			{
-				m_sSkillEquipCheck.m_eEquipCheck = EQUIP_OK;
-			}
-			else if (!m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSkill.m_bEquip)
-			{
-				m_sSkillEquipCheck.m_eEquipCheck = EQUIP_NO;
-			}
 			return;
 		}
 
@@ -1606,7 +1690,7 @@ void CInventory::SkillPicking_UI()
 		else
 		{
 			m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace = false;
-			m_sSkillEquipCheck.m_bShowUI = false;
+			m_sSkillBookUI.m_bShowUI = false;
 		}
 	}
 }
@@ -1614,26 +1698,23 @@ void CInventory::Skill_StatView(_int _Index)
 {
 	if (_Index <= m_vecItem.size())
 	{
-		m_sSkillEquipCheck.m_bShowUI = true;
+		m_sSkillBookUI.m_bShowUI = true;
 
 		CSkill* pSkill = dynamic_cast<CSkill*>(m_vecSkill[_Index].m_pSkill);
-
+		BYTE newAlpha = m_iTranslucent;
 		//								Skill Font
-		// Name
+		// Name														
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pSkill->Get_Name(), -1,
-			&m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
-
+			&m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, (pSkill->Get_SkillFontColor() & 0x00FFFFFF) | (newAlpha << 24));
 		// Damage Num
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pSkill->Get_SkillDamage())).c_str(), -1,
-			&m_sPlayerSkillFont[SKILL_DAMAGE_NUM].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_sPlayerSkillFont[SKILL_DAMAGE_NUM].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, (pSkill->Get_SkillFontColor() & 0x00FFFFFF) | (newAlpha << 24));
 		// Damage Str
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"피해", -1,
 			&m_sPlayerSkillFont[SKILL_DAMAGE_STR].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
-
-
 		// Content
-		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
-		//	&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pSkill->Get_SkillContent().c_str(), -1,
+			&m_sPlayerSkillFont[SKILL_CONTENT].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 	}
 }
 
@@ -1649,7 +1730,7 @@ void CInventory::TabPicking_UI()
 
 	pt.y = WINCY - pt.y;
 
-	for (_int i = 0; i < INVENTORYID_END; ++i)
+	for (_int i = INVEN_ATABBUTTON; i <= INVEN_STABBUTTON; ++i)
 	{
 		RECT TabRT;
 		TabRT.left    =	m_matInventoryWolrd[i]._41 - (m_matInventoryWolrd[i]._11 * 0.5f);
@@ -1658,25 +1739,43 @@ void CInventory::TabPicking_UI()
 		TabRT.bottom  =	m_matInventoryWolrd[i]._42 + (m_matInventoryWolrd[i]._22 * 0.5f);
 
 		// 피킹
-		if (PtInRect(&TabRT, pt))
+		if (PtInRect(&TabRT, pt) && i == INVEN_ATABBUTTON)
 		{
-			if (i == INVEN_ARMORTEX && CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
+			m_bTabSkillPick = false;
+			m_bTabItemPick = true;
+			if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 			{
 				if (m_eInvenType != INVENTYPE::INVEN_ITEM)
 				{
 					m_eInvenType = INVENTYPE::INVEN_ITEM;
 				}
 			}
-
-			if (i == INVEN_SKILLTEX && CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
+			break;
+		}
+		else if (PtInRect(&TabRT, pt) && i == INVEN_STABBUTTON)
+		{
+			m_bTabItemPick = false;
+			m_bTabSkillPick = true;
+			if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 			{
 				if (m_eInvenType != INVENTYPE::INVEN_SKILL)
 				{
 					m_eInvenType = INVENTYPE::INVEN_SKILL;
 				}
 			}
+			break;
 		}
 
+		if (m_eInvenType == INVENTYPE::INVEN_ITEM)
+		{
+			m_bTabItemPick = true;
+			m_bTabSkillPick = false;
+		}
+		if (m_eInvenType == INVENTYPE::INVEN_SKILL)
+		{
+			m_bTabSkillPick = true;
+			m_bTabItemPick = false;
+		}
 	}
 }
 
@@ -1756,21 +1855,12 @@ HRESULT CInventory::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_sSkillEquipCheck.m_pOkTex
-		= dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_OK", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-
 	// UI - NO
 	pComponent = m_sItemEquipCheck.m_pNoTex
 		= dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_NO", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_sSkillEquipCheck.m_pNoTex
-		= dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_NO", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	// UI - Sort button 
 	// pComponent = m_pInventoryTexCom[INVEN_SORTBUTTON] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button_Plain", this));
@@ -1963,6 +2053,12 @@ HRESULT CInventory::Add_Component()
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 	}
+
+	// 스킬 북
+	pComponent = m_sSkillBookUI.m_pSkillBookTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Skill_Book", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 
 #pragma endregion
 

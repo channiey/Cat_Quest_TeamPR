@@ -9,17 +9,15 @@ END
 
 struct tagSparkle
 {
-	CTransform* m_pSparkleTransCom;
-	CTexture*   m_pSparkleTextureCom;
-	_bool		m_bSizeUp = false;
-	_bool       m_bSizeDown = false;
-	_float      m_fSize = 0.f;
-	_float      m_fMaxSize = 1.f;
+	CTransform*				m_pSparkleTransCom;
+	CTexture*				m_pSparkleTextureCom;
+	LERP_FLOAT_INFO			m_tSizeUpLerp;
+	LERP_FLOAT_INFO			m_tSizeDownLerp;
 };
 
 class CItemGetEffect : public CEffect
 {
-	explicit CItemGetEffect(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _pPos, _vec3 _pScale);
+	explicit CItemGetEffect(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _pPos);
 	explicit CItemGetEffect(const CItemGetEffect& rhs);
 	virtual ~CItemGetEffect();
 
@@ -36,12 +34,9 @@ private:
 private:
 	tagSparkle	 m_sSparkle[3];
 	_vec3		 m_vPos;
-	_vec3		 m_vScale;
-	_float		 m_fMaxSize;
-	_bool		 m_bSizeDown;
-	_int		 m_nCurrentEffectIndex;
+	_int		 m_iLevel;
 public:
-	static CItemGetEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _pPos, _vec3 _pScale);
+	static CItemGetEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _pPos);
 
 private:
 	virtual void				Free() override;

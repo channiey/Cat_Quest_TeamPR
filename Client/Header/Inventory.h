@@ -63,6 +63,13 @@ struct tagSkillRingUI
 
 	_bool		m_bIsSkill = false; // 스킬이 있나?
 };
+// 스킬 북
+struct tagSkillBookUI
+{
+	_matrix     m_matSkillBookUI;	// 스킬북 행렬
+	CTexture*	m_pSkillBookTexCom; // 스킬북 텍스처
+	_bool		m_bShowUI = false;
+};
 // 스킬 폰트
 struct tagSkillStatFont
 {
@@ -220,6 +227,7 @@ private:
 	_matrix                 m_matInventoryWolrd[INVENTORYID_END]; // 기존에 있던 배열
 
 #pragma region UI
+#pragma region Item
 	// 아이템 인벤토리 관련
 	vector<CGameObject*>	m_vecItem; // 아이템 배열
 
@@ -233,25 +241,33 @@ private:
 	// 현재 이넘값 추가로 하기가 어려워 따로 선언함.
 	RECT					m_curHPrc;
 	RECT					m_curMPrc;
+#pragma endregion
 
+#pragma region Skill
 	// 스킬 인벤토리 관련
 	vector<tagInvenSkill>	m_vecSkill; // 스킬 배열
 
 	tagSkillSpace			m_sSkillSpaceAry[INVEN_BUTTON12 - 2]; // 스킬 칸 배열
-	tagEquipCheck			m_sSkillEquipCheck; // 스킬 장착 여부 구조체
+	tagSkillBookUI			m_sSkillBookUI; // 스킬 장착 여부 구조체
 	tagSkillRingUI			m_sSkillRingAry[MAX_SKILL_SLOT]; // 왼쪽 스킬 4칸 관련
 	tagSkillStatFont		m_sPlayerSkillFont[SKILL_FONT_END]; // 스킬 폰트 배열
+	tagInvenSkill*			m_saveSkill; // 선택한 스킬 저장
+
 	_matrix					m_sBigSkillRing; // 큰 링
 	CTexture*				m_pBigSkillRingTex; // 큰 링
 
-	tagInvenSkill*			m_saveSkill; // 선택한 스킬 저장
 	_int					m_iPickSpace; // 선택한 스페이스 인덱스
-	_bool					m_bPickMode = false; // 픽 모드
 	RECT					m_SkillSelectRc; // 슬롯 선택
+
+	_bool					m_bPickMode; // 픽 모드
+	_bool					m_bSizeUp;   // 러프 사용을 위한 bool 변수
+	LERP_FLOAT_INFO			m_tSizeLerp; // 스킬 픽 모드 시 사용할 러프
+#pragma endregion
 
 	// 공용
 	tagLine					m_sLineAry[INVEN_LINE - 16]; // 라인 배열
-
+	_bool					m_bTabItemPick; // 아이템 탭 알파
+	_bool					m_bTabSkillPick; // 스킬 탭 알파
 
 #pragma endregion
 

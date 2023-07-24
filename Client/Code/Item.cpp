@@ -3,6 +3,8 @@
 #include "EventMgr.h"
 #include "Export_Function.h"
 
+#include "ItemGetEffect.h"
+
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev , const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ITEM, _eID)
 	, m_pTextureCom(nullptr)
@@ -87,6 +89,9 @@ void CItem::OnCollision_Enter(CGameObject* _pColObj)
 
 	if (_pColObj->Get_Type() == OBJ_TYPE::PLAYER)
 	{
+		CEventMgr::GetInstance()->Add_Obj(L"ItemGetEffect", CItemGetEffect::Create(
+			m_pGraphicDev, _pColObj->Get_Transform()->Get_Info(INFO_POS)
+		));
 		CEventMgr::GetInstance()->Delete_Obj(this);  // ªË¡¶
 	}
 
