@@ -20,6 +20,7 @@ public:
 public:
 	// ai 이동 구현
 
+	void	Chase_TargetY(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed);
 	void	Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed);
 	const	_matrix* Compute_LookAtTarget(const _vec3* pTargetPos);
 	

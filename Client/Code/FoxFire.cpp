@@ -30,7 +30,7 @@ HRESULT CFoxFire::Ready_Object()
     m_pTransformCom->Set_Dir(m_vDir);
 
 
-    m_fSpeed = 10.f;
+    m_fSpeed = 15.f;
 
     m_szName = L"Projectile_FoxFire";
 

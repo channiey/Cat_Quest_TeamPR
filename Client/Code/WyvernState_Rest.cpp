@@ -1,6 +1,6 @@
 #include "WyvernState_Rest.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 CWyvernState_Rest::CWyvernState_Rest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -66,6 +66,10 @@ STATE_TYPE CWyvernState_Rest::Update_State(const _float& fTimeDelta)
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
     NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
 
+    //Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
+
 
     // Info 
 
@@ -112,23 +116,43 @@ STATE_TYPE CWyvernState_Rest::Update_State(const _float& fTimeDelta)
     if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     {
         m_fAccTime = 0.f;
-        // CHASE 전이 조건
-        if (fPlayerDistance <= m_fChaseRange)
+        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
         {
-            if (vOwnerDir.z < 0)
+            // CHASE 전이 조건
+            if (fPlayerDistance <= m_fChaseRange)
             {
-                // cout << "Chase 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::CHASE;
+                if (vOwnerDir.z < 0)
+                {
+                    // cout << "Chase 전이" << endl;
+                    // pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::CHASE;
+                }
+                else
+                {
+                    // cout << "Back Chase 전이" << endl;
+                   //  pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::BACK_CHASE;
+                }
             }
-            else
+
+
+            //  ATTACK 전이 조건
+            if (fPlayerDistance <= m_fAttackRange)
             {
-                // cout << "Back Chase 전이" << endl;
-               //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_CHASE;
+                if (vOwnerDir.z < 0)
+                {
+                    // cout << "attack 전이" << endl;
+                    // pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::MONATTACK;
+                }
+                else
+                {
+                    // cout << "back attack 전이" << endl;
+                   //  pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::BACK_MONATTACK;
+                }
             }
         }
-
         // COMEBACK 전이 조건
         if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
         {
@@ -162,24 +186,8 @@ STATE_TYPE CWyvernState_Rest::Update_State(const _float& fTimeDelta)
             }
 
         }
-        //  ATTACK 전이 조건
-        if (fPlayerDistance <= m_fAttackRange)
-        {
-            if (vOwnerDir.z < 0)
-            {
-                // cout << "attack 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::MONATTACK;
-            }
-            else
-            {
-                // cout << "back attack 전이" << endl;
-               //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_MONATTACK;
-            }
-        }
-    }
     
+    }
     return STATE_TYPE::MONREST;
 
 

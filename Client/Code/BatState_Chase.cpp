@@ -1,6 +1,6 @@
 #include "BatState_Chase.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 CBatState_Chase::CBatState_Chase(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -33,6 +33,7 @@ HRESULT CBatState_Chase::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 3.f;  // Attack 전이
 
+    m_fAccTime = 0.f;
 
     return S_OK;
 }
@@ -46,6 +47,9 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
 
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
+    //Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -78,8 +82,15 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
     // 현재 상태의 기능
     dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-    
 
+    //m_fAccTime += fTimeDelta;
+    //
+
+    //if (fPlayerDistance >= 8.f)
+    //{
+    //    dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
+    //}
+    //dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
    
 
 
@@ -95,21 +106,23 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
         return STATE_TYPE::BACK_CHASE;
     }
 
-
-    // ATTACK 전이 조건
-    if (fPlayerDistance <= m_fAttackRange)
+    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
     {
-        if (vOwnerDir.z < 0)
+        // ATTACK 전이 조건
+        if (fPlayerDistance <= m_fAttackRange)
         {
-          //  cout << "attack 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::MONATTACK;
-        }
-        else
-        {
-           // cout << "back attack 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_MONATTACK;
+            if (vOwnerDir.z < 0)
+            {
+                //  cout << "attack 전이" << endl;
+                 // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::MONATTACK;
+            }
+            else
+            {
+                // cout << "back attack 전이" << endl;
+               //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_MONATTACK;
+            }
         }
     }
     // COMEBACK 전이 조건
@@ -144,6 +157,22 @@ STATE_TYPE CBatState_Chase::Update_State(const _float& fTimeDelta)
             return STATE_TYPE::BACK_PATROL;
         }
         
+    }
+
+    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() == true)
+    {
+        if (vOwnerDir.z < 0)
+        {
+            //  cout << "comback 전이" << endl;
+             // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::COMEBACK;
+        }
+        else
+        {
+            //  cout << "back comback 전이" << endl;
+             // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_COMEBACK;
+        }
     }
 
     // Default 

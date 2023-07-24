@@ -17,6 +17,7 @@
 #include "VioletDragonState_FullDown_Fly.h"
 #include "VioletDragonState_FullDown_Down.h"
 
+#include "VioletDragonState_ConvergingFire.h"
 
 #include "Shadow_Monster.h"
 //#include "Skill_Monster_Ice.h"
@@ -169,6 +170,10 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_DOWN, pState);
 
 
+	// Converging Fire
+	pState = CVioletDragonState_ConvergingFire::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CONVERGING_FIRE, pState);
+
 
 
 
@@ -235,6 +240,9 @@ HRESULT CVioletDragon::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_DOWN)], STATE_TYPE::BOSS_FULLDOWN_DOWN, 0.05f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_FULLDOWN_DOWN, pAnimation);
 
+	// Converging Fire
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)], STATE_TYPE::BOSS_CONVERGING_FIRE, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CONVERGING_FIRE, pAnimation);
 
 
 
@@ -480,6 +488,10 @@ HRESULT CVioletDragon::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
 
 #pragma endregion

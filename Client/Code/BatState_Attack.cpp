@@ -80,7 +80,7 @@ STATE_TYPE CBatState_Attack::Update_State(const _float& fTimeDelta)
    // pOwnerTransform->Set_Dir(vec3.zero);
     //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
-    
+
 
 #pragma region State Change
     // Attack 우선순위

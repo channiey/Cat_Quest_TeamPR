@@ -84,8 +84,6 @@ STATE_TYPE CBatState_bAttack::Update_State(const _float& fTimeDelta)
 
 
 
-
-
 #pragma region State Change
    // back Attack 우선순위
    // attack - chase - Comeback

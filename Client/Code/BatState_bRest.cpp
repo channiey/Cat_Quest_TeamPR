@@ -1,6 +1,6 @@
 #include "BatState_bRest.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 CBatState_bRest::CBatState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -33,6 +33,11 @@ HRESULT CBatState_bRest::Ready_State(CStateMachine* pOwner)
     m_fAttackRange = 3.f;  // Attack 전이
 
     m_fAccTime = 0.f;
+
+
+    m_bAssault = false;
+
+
     return S_OK;
 }
 
@@ -48,8 +53,13 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
 
 
+
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
+    // player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -79,13 +89,44 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
+    m_fAccTime += fTimeDelta;
 
-   // 현재 상태의 기능
-   /* pOwnerTransform->Set_Dir(vec3.zero);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
+    // x 이동 방향에 따라 스케일 전환 
+    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
 
 
-  
+
+    if (m_bAssault == false)
+    {
+
+        if (fPlayerDistance >= 5.f && m_fAccTime >= 0.5f)
+        {
+            m_bAssault = true;
+            dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
+            pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
+        }
+    }
+
+ 
+    if (fPlayerDistance <= 5.f && m_fAccTime >= 0.7f)
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
+
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+
+
+
+
+
+ 
 
 #pragma region State Change
 
@@ -98,26 +139,50 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
     //    return STATE_TYPE::MONREST;
     //}
     // 
-    // 
-    m_fAccTime += fTimeDelta;
+     
 
-    if (m_fAccTime >= 1.f)
+    if (m_fAccTime >= 2.f)
     {
+        dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
         m_fAccTime = 0.f;
-        // CHASE 전이 조건
-        if (fPlayerDistance <= m_fChaseRange)
+
+        
+        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
         {
-            if (vOwnerDir.z < 0)
+           
+            // CHASE 전이 조건
+            if (fPlayerDistance <= m_fChaseRange)
             {
-                //  cout << "Chase 전이" << endl;
-               //   pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::CHASE;
+                if (vOwnerDir.z < 0)
+                {
+                    //  cout << "Chase 전이" << endl;
+                   //   pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::CHASE;
+                }
+                else
+                {
+                    //   cout << "Back Chase 전이" << endl;
+                     //  pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::BACK_CHASE;
+                }
             }
-            else
+
+
+            //  ATTACK 전이 조건
+            if (fPlayerDistance <= m_fAttackRange)
             {
-                //   cout << "Back Chase 전이" << endl;
-                 //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_CHASE;
+                if (vOwnerDir.z < 0)
+                {
+                    //  cout << "attack 전이" << endl;
+                    //  pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::MONATTACK;
+                }
+                else
+                {
+                    //   cout << "back attack 전이" << endl;
+                    //   pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::BACK_MONATTACK;
+                }
             }
         }
 
@@ -137,6 +202,7 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
                 return STATE_TYPE::BACK_COMEBACK;
             }
         }
+
         // PATROL 전이 조건
         if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
         {
@@ -154,22 +220,7 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
             }
 
         }
-        //  ATTACK 전이 조건
-        if (fPlayerDistance <= m_fAttackRange)
-        {
-            if (vOwnerDir.z < 0)
-            {
-                //  cout << "attack 전이" << endl;
-                //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::MONATTACK;
-            }
-            else
-            {
-                //   cout << "back attack 전이" << endl;
-                //   pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_MONATTACK;
-            }
-        }
+     
      
     }
     return STATE_TYPE::BACK_MONREST;

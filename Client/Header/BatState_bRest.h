@@ -43,5 +43,6 @@ private:
 	_float  m_fComeBackRange;
 	_float  m_fPlayerTargetRange;
 
+	_bool  m_bAssault;
 };
 
