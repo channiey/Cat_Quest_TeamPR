@@ -6,12 +6,14 @@
 
 CItemGetEffect::CItemGetEffect(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _pPos)
 	: CEffect(pGraphicDev, OBJ_ID::EFFECT_ITEMGETEFFECT)
+	, m_iLevel(0), m_vPos(_pPos)
 {
-	m_vPos = _pPos;
 }
 
 CItemGetEffect::CItemGetEffect(const CItemGetEffect& rhs)
 	: CEffect(rhs)
+	, m_iLevel(rhs.m_iLevel)
+	, m_vPos(rhs.m_vPos)
 {
 }
 
@@ -28,19 +30,26 @@ HRESULT CItemGetEffect::Ready_Object()
 	m_bActive = true;
 
 	m_sSparkle[0].m_pSparkleTransCom->Set_Pos({ m_vPos.x - 1.f, m_vPos.y - 1.f, m_vPos.z });
-	m_sSparkle[1].m_pSparkleTransCom->Set_Pos({ m_vPos.x + 1.f, m_vPos.y, m_vPos.z });
-	m_sSparkle[2].m_pSparkleTransCom->Set_Pos({ m_vPos.x - 1.f, m_vPos.y + 1.f, m_vPos.z });
+	m_sSparkle[1].m_pSparkleTransCom->Set_Pos({ m_vPos.x + 1.f, m_vPos.y + 0.5f, m_vPos.z });
+	m_sSparkle[2].m_pSparkleTransCom->Set_Pos({ m_vPos.x - 1.f, m_vPos.y + 2.f, m_vPos.z });
 	
 	m_sSparkle[0].m_pSparkleTransCom->Set_Scale({ 0.f, 0.f, 0.f });
 	m_sSparkle[1].m_pSparkleTransCom->Set_Scale({ 0.f, 0.f, 0.f });
 	m_sSparkle[2].m_pSparkleTransCom->Set_Scale({ 0.f, 0.f, 0.f });
 	
-	m_sSparkle[0].m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_sSparkle[0].m_tSizeLerp.Set_Lerp(1.f, 0.f, 1.f);
-	m_sSparkle[1].m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_sSparkle[1].m_tSizeLerp.Set_Lerp(1.f, 0.f, 1.f);
-	m_sSparkle[2].m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_sSparkle[2].m_tSizeLerp.Set_Lerp(1.f, 0.f, 1.f);
+	m_sSparkle[0].m_tSizeUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_sSparkle[0].m_tSizeUpLerp.Set_Lerp(0.1f, 0.f, 0.5f);
+	m_sSparkle[1].m_tSizeUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_sSparkle[1].m_tSizeUpLerp.Set_Lerp(0.1f, 0.f, 0.5f);
+	m_sSparkle[2].m_tSizeUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_sSparkle[2].m_tSizeUpLerp.Set_Lerp(0.1f, 0.f, 0.5f);
+
+	m_sSparkle[0].m_tSizeDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_sSparkle[0].m_tSizeDownLerp.Set_Lerp(0.1f, 0.5f, 0.f);
+	m_sSparkle[1].m_tSizeDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_sSparkle[1].m_tSizeDownLerp.Set_Lerp(0.1f, 0.5f, 0.f);
+	m_sSparkle[2].m_tSizeDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_sSparkle[2].m_tSizeDownLerp.Set_Lerp(0.1f, 0.5f, 0.f);
 
 	return S_OK;
 }
@@ -50,93 +59,73 @@ _int CItemGetEffect::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_WDUI, this); // 무조건 늦게 그려지게
 
-#pragma region 정신 말짱해지면 이거 지우고 다시 제대로 짜자.
-	if (m_sSparkle[0].m_tSizeLerp.bActive)
+	switch (m_iLevel)
 	{
-		m_sSparkle[0].m_tSizeLerp.Update_Lerp(fTimeDelta);
-		m_sSparkle[0].m_pSparkleTransCom->Set_Scale({ m_sSparkle[0].m_tSizeLerp.fCurValue
-			, m_sSparkle[0].m_tSizeLerp.fCurValue
-			, m_sSparkle[0].m_tSizeLerp.fCurValue });
-	}
+	case 0:
+		m_sSparkle[0].m_tSizeUpLerp.Update_Lerp(fTimeDelta);
+		m_sSparkle[0].m_pSparkleTransCom->Set_Scale({
+		m_sSparkle[0].m_tSizeUpLerp.fCurValue,
+		m_sSparkle[0].m_tSizeUpLerp.fCurValue,
+		m_sSparkle[0].m_tSizeUpLerp.fCurValue });
+		
+		if (!m_sSparkle[0].m_tSizeUpLerp.bActive) m_iLevel += 1;
 
-	if (!m_sSparkle[0].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[1].m_tSizeLerp.Update_Lerp(fTimeDelta);
-	}
-	
-	if (!m_sSparkle[0].m_tSizeLerp.bActive && m_sSparkle[1].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[1].m_tSizeLerp.Update_Lerp(fTimeDelta);
-		m_sSparkle[1].m_pSparkleTransCom->Set_Scale({ m_sSparkle[1].m_tSizeLerp.fCurValue
-			, m_sSparkle[1].m_tSizeLerp.fCurValue
-			, m_sSparkle[1].m_tSizeLerp.fCurValue });
-	}
+		break;
+	case 1:
+		m_sSparkle[1].m_tSizeUpLerp.Update_Lerp(fTimeDelta);
+		m_sSparkle[1].m_pSparkleTransCom->Set_Scale({
+		m_sSparkle[1].m_tSizeUpLerp.fCurValue,
+		m_sSparkle[1].m_tSizeUpLerp.fCurValue,
+		m_sSparkle[1].m_tSizeUpLerp.fCurValue });
 
-	if (!m_sSparkle[1].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[2].m_tSizeLerp.Update_Lerp(fTimeDelta);
-	}
+		if (!m_sSparkle[1].m_tSizeUpLerp.bActive) m_iLevel += 1;
 
-	if (!m_sSparkle[1].m_tSizeLerp.bActive && m_sSparkle[2].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[2].m_tSizeLerp.Update_Lerp(fTimeDelta);
-		m_sSparkle[2].m_pSparkleTransCom->Set_Scale({ m_sSparkle[2].m_tSizeLerp.fCurValue
-			, m_sSparkle[2].m_tSizeLerp.fCurValue
-			, m_sSparkle[2].m_tSizeLerp.fCurValue });
-	}
+		break;
+	case 2:
+		m_sSparkle[2].m_tSizeUpLerp.Update_Lerp(fTimeDelta);
+		m_sSparkle[2].m_pSparkleTransCom->Set_Scale({
+		m_sSparkle[2].m_tSizeUpLerp.fCurValue,
+		m_sSparkle[2].m_tSizeUpLerp.fCurValue,
+		m_sSparkle[2].m_tSizeUpLerp.fCurValue });
 
-	if (!m_sSparkle[2].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[0].m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
-		m_sSparkle[0].m_tSizeLerp.Set_Lerp(1.f, 1.f, 0.f);
-		m_sSparkle[1].m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
-		m_sSparkle[1].m_tSizeLerp.Set_Lerp(1.f, 1.f, 0.f);
-		m_sSparkle[2].m_tSizeLerp.Init_Lerp(LERP_MODE::EASE_IN);
-		m_sSparkle[2].m_tSizeLerp.Set_Lerp(1.f, 1.f, 0.f);
+		if (!m_sSparkle[2].m_tSizeUpLerp.bActive) m_iLevel += 1;
 
-		m_sSparkle[2].m_tSizeLerp.Update_Lerp(fTimeDelta);
-	}
+		break;
+	case 3:
+		m_sSparkle[2].m_tSizeDownLerp.Update_Lerp(fTimeDelta);
+		m_sSparkle[2].m_pSparkleTransCom->Set_Scale({
+		m_sSparkle[2].m_tSizeDownLerp.fCurValue,
+		m_sSparkle[2].m_tSizeDownLerp.fCurValue,
+		m_sSparkle[2].m_tSizeDownLerp.fCurValue });
 
-	if (m_sSparkle[2].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[2].m_tSizeLerp.Update_Lerp(fTimeDelta);
-		m_sSparkle[2].m_pSparkleTransCom->Set_Scale({ m_sSparkle[2].m_tSizeLerp.fCurValue
-			, m_sSparkle[2].m_tSizeLerp.fCurValue
-			, m_sSparkle[2].m_tSizeLerp.fCurValue });
-	}
+		if (!m_sSparkle[2].m_tSizeDownLerp.bActive) m_iLevel += 1;
 
-	if (!m_sSparkle[2].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[1].m_tSizeLerp.Update_Lerp(fTimeDelta);
-	}
+		break;
+	case 4:
+		m_sSparkle[1].m_tSizeDownLerp.Update_Lerp(fTimeDelta);
+		m_sSparkle[1].m_pSparkleTransCom->Set_Scale({
+		m_sSparkle[1].m_tSizeDownLerp.fCurValue,
+		m_sSparkle[1].m_tSizeDownLerp.fCurValue,
+		m_sSparkle[1].m_tSizeDownLerp.fCurValue });
 
-	if (!m_sSparkle[2].m_tSizeLerp.bActive && m_sSparkle[1].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[1].m_tSizeLerp.Update_Lerp(fTimeDelta);
-		m_sSparkle[1].m_pSparkleTransCom->Set_Scale({ m_sSparkle[1].m_tSizeLerp.fCurValue
-			, m_sSparkle[1].m_tSizeLerp.fCurValue
-			, m_sSparkle[1].m_tSizeLerp.fCurValue });
-	}
+		if (!m_sSparkle[1].m_tSizeDownLerp.bActive) m_iLevel += 1;
 
-	if (!m_sSparkle[1].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[0].m_tSizeLerp.Update_Lerp(fTimeDelta);
-	}
+		break;
+	case 5:
+		m_sSparkle[0].m_tSizeDownLerp.Update_Lerp(fTimeDelta);
+		m_sSparkle[0].m_pSparkleTransCom->Set_Scale({
+		m_sSparkle[0].m_tSizeDownLerp.fCurValue,
+		m_sSparkle[0].m_tSizeDownLerp.fCurValue,
+		m_sSparkle[0].m_tSizeDownLerp.fCurValue });
 
-	if (!m_sSparkle[1].m_tSizeLerp.bActive && m_sSparkle[0].m_tSizeLerp.bActive)
-	{
-		m_sSparkle[0].m_tSizeLerp.Update_Lerp(fTimeDelta);
-		m_sSparkle[0].m_pSparkleTransCom->Set_Scale({ m_sSparkle[0].m_tSizeLerp.fCurValue
-			, m_sSparkle[0].m_tSizeLerp.fCurValue
-			, m_sSparkle[0].m_tSizeLerp.fCurValue });
-	}
+		if (!m_sSparkle[0].m_tSizeDownLerp.bActive) m_iLevel += 1;
 
-	if (!m_sSparkle[1].m_tSizeLerp.bActive)
-	{
+		break;
+
+	case 6:
 		CEventMgr::GetInstance()->Delete_Obj(this);
+		break;	
 	}
-
-#pragma endregion
 
 	return iExit;
 }
