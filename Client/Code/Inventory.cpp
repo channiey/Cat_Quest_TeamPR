@@ -72,6 +72,7 @@ HRESULT CInventory::Ready_Object()
 	Ready_ItemPlayerFont();
 	Ready_ItemFont();
 	Ready_SkillUI();
+	Ready_SkillFont();
 
 	return S_OK;
 }
@@ -565,6 +566,22 @@ void CInventory::Ready_ItemPlayerFont()
 		(LONG)(m_sPlayerUIAry[PLAYER_MAGIC].m_matPlUI._41 + 80.f),
 		WINCY - 125
 	};
+	// 현재 체력
+	m_curHPrc = {
+	(LONG)(m_fHpBarPosX - 15),
+	(LONG)(WINCY - m_fHpBarPosY - 22),
+	(LONG)(m_fHpBarPosX - 15),
+	(LONG)(WINCY - m_fHpBarPosY - 22)
+	};
+
+	// 현재 마나
+	m_curMPrc = {
+	(LONG)(m_fMpBarPosX - 10),
+	(LONG)(WINCY - m_fMpBarPosY - 22),
+	(LONG)(m_fMpBarPosX - 10),
+	(LONG)(WINCY - m_fMpBarPosY - 22)
+	};
+
 }
 void CInventory::Ready_ItemFont()
 {
@@ -692,15 +709,17 @@ void CInventory::Ready_SkillUI()
 }
 void CInventory::Ready_SkillFont()
 {
-	//m_SkillSelectRc = {
-	//(LONG)(m_sBigSkillRing._41),
-	//(LONG)(m_sBigSkillRing._42 - 175.f),
-	//(LONG)(m_sBigSkillRing._41),
-	//(LONG)(m_sBigSkillRing._42 - 175.f)
-	//};
+	m_SkillSelectRc = {
+	(LONG)(m_sBigSkillRing._41 - 100.f),
+	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 20.f),
+	(LONG)(m_sBigSkillRing._41 - 100.f),
+	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 20.f)
+	};
 
-	// 랜더 순서 이상한듯?
-	m_SkillSelectRc = { 100, 100, 100, 100 };
+	// 스킬 폰트
+	m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc = { 690, WINCY - 170, 690, WINCY - 170 };
+	//m_ItemLvRc = { 690, WINCY - 120, 690, WINCY - 120 };
+
 }
 
 _int CInventory::Update_Object(const _float& fTimeDelta)
@@ -888,7 +907,6 @@ void CInventory::Skill_Slot()
 					break;
 				}
 			}
-			m_saveSkill->m_bEquip = true;
 			m_sSkillRingAry[0].m_pEquipSkill = m_saveSkill;
 			m_pPlayer->Set_SkillSlot(0, m_sSkillRingAry[0].m_pEquipSkill->m_pSkill);
 			m_bPickMode = false;
@@ -905,7 +923,6 @@ void CInventory::Skill_Slot()
 					break;
 				}
 			}
-			m_saveSkill->m_bEquip = true;
 			m_sSkillRingAry[1].m_pEquipSkill = m_saveSkill;
 			m_pPlayer->Set_SkillSlot(1, m_sSkillRingAry[1].m_pEquipSkill->m_pSkill);
 			m_bPickMode = false;
@@ -1169,6 +1186,14 @@ void CInventory::Render_PlayerItemFont()
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
 		&m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 
+	// CurHp
+	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fCurHP)).c_str(), -1,
+		&m_curHPrc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+
+	// CurMp
+	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fCurMP)).c_str(), -1,
+		&m_curMPrc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+
 	// Fancy
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"Statistics", -1,
 		&m_FancyRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
@@ -1302,7 +1327,7 @@ void CInventory::Render_SkillFont()
 {
 	if (m_bPickMode)
 	{
-		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"슬롯 선택", -1,
+		CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"슬롯 선택", -1,
 			&m_SkillSelectRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 	}
 }
@@ -1553,6 +1578,7 @@ void CInventory::SkillPicking_UI()
 					if (!bIsCheck)
 					{
 						m_saveSkill = &m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSkill;
+						m_iPickSpace = (INVEN_BUTTON1 + i) - 3;
 						m_bPickMode = true;
 						return;
 					}
@@ -1570,6 +1596,7 @@ void CInventory::SkillPicking_UI()
 			{
 				m_sSkillEquipCheck.m_eEquipCheck = EQUIP_NO;
 			}
+			return;
 		}
 
 		// 픽킹 상태가 아닐 때
@@ -1586,6 +1613,21 @@ void CInventory::Skill_StatView(_int _Index)
 	if (_Index <= m_vecItem.size())
 	{
 		m_sSkillEquipCheck.m_bShowUI = true;
+
+		CSkill* pSkill = dynamic_cast<CSkill*>(m_vecSkill[_Index].m_pSkill);
+
+		//								Skill Font
+		// Name
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pSkill->Get_Name(), -1,
+			&m_sPlayerSkillFont[SKILL_NAME].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+
+		// Damage
+		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fAD)).c_str(), -1,
+		//	&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+
+		// Content
+		//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
+		//	&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 	}
 }
 
