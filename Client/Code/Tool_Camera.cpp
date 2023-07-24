@@ -115,9 +115,9 @@ void CTool_Camera::Update_Perspevtive(const _float& fTimeDelta)
 		if (TOOL_VIEW::DEFAULT == m_eView || TOOL_VIEW::LINE == m_eView)
 		{
 			if (0 < dwMouse)
-				m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+				m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta * 10.f;
 			else
-				m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
+				m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta * 10.f;
 
 		}
 		else if (TOOL_VIEW::INGAME == m_eView)

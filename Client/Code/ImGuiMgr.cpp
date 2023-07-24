@@ -121,6 +121,11 @@
 #include "Fox.h"
 #include "Wyvern.h"
 #include "Squirrel.h"
+#include "WyvernRed.h"
+#include "Squirrel.h"
+#include "Fish.h"
+#include "Serpent.h"
+#include "VioletDragon.h"
 
 // Effect
 #include "Cloud1.h"
@@ -148,12 +153,23 @@
 #include "MageWeapon.h"
 #include "NinjaWeapon.h"
 
+// New Enviorment
+#include "TwinPeaks.h"
+#include "DeathTree.h"
+#include "TripleDeathTree.h"
+#include "WorldTree.h"
+#include "Grass1.h"
+#include "Tombstone.h"
+#include "PirateHideOut.h"
+#include "Sweets1.h"
+#include "Sweets2.h"
+
 // Generator
 #include "PollenGenerator.h"
 
 
-TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat";
-TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test_000.dat";
+TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";
+TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test.dat";
 
 #pragma region Global
 
@@ -248,7 +264,7 @@ void CImGuiMgr::ImGui_Update()
 		Set_UnActive_Origin();	// 모든 프리팹 오브젝트 비활성화
 
 		// DB 로드
-		//Load_Scene(*szLoadPath);
+		Load_Scene(szLoadPath);
 	}
 
 	// ImGui
@@ -827,8 +843,7 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 
 	// Environment - Natural - Bush
 	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_1:
-		pClone = CBush1::Create(m_pGraphicDev);
-		break;
+		pClone = CBush1::Create(m_pGraphicDev); break;
 	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_2:
 		pClone = CBush2::Create(m_pGraphicDev); break;
 	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_BUSH_3:
@@ -893,6 +908,25 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 		pClone = CDungeon_Temple::Create(m_pGraphicDev); break;
 
 	
+	// Environment - New
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_TWINPEAKS:
+		pClone = CTwinPeaks::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_DEATH_TREE:
+		pClone = CDeathTree::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_TRIPLE_DEATH_TREE:
+		pClone = CTripleDeathTree::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURAL_WORLD_TREE:
+		pClone = CWorldTree::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_SWEETS1:
+		pClone = CSweets1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_SWEETS2:
+		pClone = CSweets2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURE_TOMBSTONE:
+		pClone = CTombstone::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_NATURE_GRASS:
+		pClone = CGrass1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_PIRATE_HIDEOUT:
+		pClone = CPirateHideOut::Create(m_pGraphicDev); break;
 
 	/* ========================================= Monster ========================================*/
 
@@ -912,6 +946,15 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 		pClone = CSquirrel::Create(m_pGraphicDev);	 break;
 	case Engine::OBJ_ID::MONSTER_WYVERN:
 		pClone = CWyvern::Create(m_pGraphicDev);	 break;
+
+	case Engine::OBJ_ID::MONSTER_SERPENT:
+		pClone = CSerpent::Create(m_pGraphicDev);	 break;
+	case Engine::OBJ_ID::MONSTER_FISH:
+		pClone = CFish::Create(m_pGraphicDev);	 break;
+	case Engine::OBJ_ID::MONSTER_VIOLETDRAGON:
+		pClone = CVioletDragon::Create(m_pGraphicDev);	 break;
+	case Engine::OBJ_ID::MONSTER_WYVERNRED:
+		pClone = CWyvernRed::Create(m_pGraphicDev);	 break;
 
 
 

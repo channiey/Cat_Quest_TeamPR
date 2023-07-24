@@ -41,17 +41,17 @@ namespace Engine
 
 #define CAM_HEIGHT_MAG				1.8f
 
-#define	VTXCNTX						129
-#define VTXCNTZ						129
+#define	VTXCNTX						257
+#define VTXCNTZ						257
 #define VTXITV						3
 
-#define START_POS_WORLD_X			220.f
-#define START_POS_WORLD_Z			205.f
+#define START_POS_WORLD_X			346.f
+#define START_POS_WORLD_Z			120.f
 #define START_POS_DUNGEON_X			220.f
 #define START_POS_DUNGEON_Z			205.f
 
-#define	TERRAIN_SIZE_WORLD			220.f
-#define	TERRAIN_SIZE_DUNGEON		110.f
+#define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile
+#define	TERRAIN_SIZE_DUNGEON		165.f // 74 Tile * 74 Tile
 
 	/*-------------------------------------------------------------------------------*/
 

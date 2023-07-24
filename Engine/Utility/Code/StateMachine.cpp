@@ -2,6 +2,8 @@
 #include "..\..\Header\State.h"
 #include "..\..\Header\Animator.h"
 
+#include "Management.h"
+
 CStateMachine::CStateMachine()
 {
 
@@ -59,6 +61,11 @@ void CStateMachine::LateUpdate_StateMachine()
 
 void CStateMachine::Render_StateMachine()
 {
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pAnimator->Render_Animator();
+		return;
+	}
 	m_pCurState->Render_State();
 	
 	if (nullptr != m_PCurAnimator)

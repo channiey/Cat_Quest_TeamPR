@@ -117,6 +117,12 @@ _int CDragon::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
+		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::FRONT_IDLE);
+		return iExit;
+	}
 
 	return iExit;
 }

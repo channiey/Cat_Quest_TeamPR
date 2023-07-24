@@ -86,7 +86,7 @@ Engine::_int CScene_Dungeon_Swamp::Update_Scene(const _float& fTimeDelta)
 
 	__super::Update_Scene(fTimeDelta);
 
-	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+	//CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	return 0;
 }

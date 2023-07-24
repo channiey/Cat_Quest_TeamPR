@@ -91,18 +91,22 @@ HRESULT CVioletDragon::Ready_Object()
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Ice", m_pSkill), E_FAIL);*/
 
-	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
+
+		m_pFullDown = CSkill_Boss_FullDown::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pFullDown, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_FullDown", m_pFullDown), E_FAIL);
+
+	}
 
 
 	// Test Pattern
 	//
 	// Full Down
-	m_pFullDown = CSkill_Boss_FullDown::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_pFullDown, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_FullDown", m_pFullDown), E_FAIL);
-
 
 
 #pragma region State Add
@@ -260,7 +264,12 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
-
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
+		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::MONREST);
+		return iExit;
+	}
 
 	//// Jumping 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);

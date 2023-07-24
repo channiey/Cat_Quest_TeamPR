@@ -31,6 +31,8 @@ public:
 	// 어떤 객체의 애니메이터를 담을 설정해주는 함수
 	void			Set_Animator(CAnimator* pAnimator) { m_pAnimator = pAnimator; }
 	CAnimator*		Get_Animator() { return m_PCurAnimator; }
+
+	CAnimator*		Get_RealAnimator() { return m_pAnimator; } // 몬스터 툴 예외처리용
 	_bool			Is_AnimationEnd();
 public:
 	// 상태를 설정 및 변경해주는 함수(애니메이터까지 같이 바꿔줌)

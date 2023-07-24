@@ -72,10 +72,14 @@ HRESULT CBat::Ready_Object()
 
 	m_bSkill = false;
 	m_bBaseSkill = false;
-	// 胶懦 积己 
+	// 胶懦 积己 '
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	{
 	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
+
+	}
 
 
 
@@ -194,7 +198,12 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 
-
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
+		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::MONREST);
+		return iExit;
+	}
 
 	// Jumping 
 

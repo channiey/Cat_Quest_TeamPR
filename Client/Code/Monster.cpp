@@ -76,15 +76,19 @@ HRESULT CMonster::Ready_Object()
 	// << : Test : Range Test
 	CGameObject* pGameObject = nullptr;
 
-	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
-	arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	{
+		pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
+		arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
 
-	pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
+		pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
+	}
+
 
 
 
@@ -94,6 +98,14 @@ HRESULT CMonster::Ready_Object()
 Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		//m_pStateMachineCom->Get_Animator()->Set_Animation(STATE_TYPE::FRONT_IDLE);
+		//m_PCurAnimator->Set_Animation(eState);
+		//m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+		return iExit;
+	}
 
 	// Update 에서 한번 불려지게 만듬
 	if (!m_bInit)

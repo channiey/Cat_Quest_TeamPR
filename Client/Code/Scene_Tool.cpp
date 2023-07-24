@@ -83,7 +83,11 @@
 #include "Ram.h"
 #include "Fox.h"
 #include "Wyvern.h"
+#include "WyvernRed.h"
 #include "Squirrel.h"
+#include "Fish.h"
+#include "Serpent.h"
+#include "VioletDragon.h"
 
 #include "Player.h"
 #include "CuteMonster.h"
@@ -98,6 +102,18 @@
 #include "WarriorWeapon.h"
 #include "MageWeapon.h"
 #include "NinjaWeapon.h"
+
+
+// New Enviorment
+#include "TwinPeaks.h"
+#include "DeathTree.h"
+#include "TripleDeathTree.h"
+#include "WorldTree.h"
+#include "Grass1.h"
+#include "Tombstone.h"
+#include "PirateHideOut.h"
+#include "Sweets1.h"
+#include "Sweets2.h"
 
 #include "ImGuiMgr.h"
 #include "Calculator.h"
@@ -396,6 +412,53 @@ HRESULT CScene_Tool::Ready_Layer_Environment()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Regular_Chest", pGameObject), E_FAIL);
 
+
+	// New
+
+	// TwinPeaks
+	pGameObject = CTwinPeaks::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TwinPeaks", pGameObject), E_FAIL);
+
+	// Death Tree
+	pGameObject = CDeathTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"DeathTree", pGameObject), E_FAIL);
+
+	// Triple Death Tree
+	pGameObject = CTripleDeathTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TripleDeathTree", pGameObject), E_FAIL);
+
+	// World Tree
+	pGameObject = CWorldTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"WorldTree", pGameObject), E_FAIL);
+
+	// Grass
+	pGameObject = CGrass1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Grass1", pGameObject), E_FAIL);
+
+	// Tombstone
+	pGameObject = CTombstone::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Tombstone", pGameObject), E_FAIL);
+
+	// PirateHideOut
+	pGameObject = CPirateHideOut::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"PirateHideOut", pGameObject), E_FAIL);
+
+	// Sweets
+	pGameObject = CSweets1::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"CSweets1", pGameObject), E_FAIL);
+
+	pGameObject = CSweets2::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"CSweets2", pGameObject), E_FAIL);
+
 	return S_OK;
 }
 
@@ -431,8 +494,7 @@ HRESULT CScene_Tool::Ready_Layer_Monster()
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	// ============= Basic Mosnter
-	//Hedgehog
+	// Hedgehog
 	pGameObject = CHedgehog::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog", pGameObject), E_FAIL);
@@ -447,31 +509,45 @@ HRESULT CScene_Tool::Ready_Layer_Monster()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox", pGameObject), E_FAIL);
 
-	// Squirrel
-	pGameObject = CSquirrel::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel", pGameObject), E_FAIL);
-
-
-	// =========== Fly Monster 
 	//Bat
 	pGameObject = CBat::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Bat", pGameObject), E_FAIL);
-
 
 	// Wyvern
 	pGameObject = CWyvern::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern", pGameObject), E_FAIL);
 
+	// Wyvern Red
+	pGameObject = CWyvernRed::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed", pGameObject), E_FAIL);
 
-	// ========== Boss Monster
+	// Fish
+	pGameObject = CFish::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fish", pGameObject), E_FAIL);
+
+	// Serpent
+	pGameObject = CSerpent::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Serpent", pGameObject), E_FAIL);
+
 	// Dragon
 	pGameObject = CDragon::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Dragon", pGameObject), E_FAIL);
 
+	// Violet Dragon
+	pGameObject = CVioletDragon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon", pGameObject), E_FAIL);
+
+	//// Squirrel
+	//pGameObject = CSquirrel::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel", pGameObject), E_FAIL);
 
 	return S_OK;
 }

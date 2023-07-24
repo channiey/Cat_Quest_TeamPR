@@ -83,10 +83,14 @@ HRESULT CFox::Ready_Object()
 	m_bSkill = false;
 
 	// 스킬 생성
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	{
 	m_pSkill =  CSkill_Monster_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Fire", m_pSkill), E_FAIL);
 
+	}
+	
 	/*m_pBaseSkill = CSkill_Monster_FireRange::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_FireRange", m_pBaseSkill), E_FAIL);*/
@@ -198,6 +202,13 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	//_int iExit = CGameObject::Update_Object(fTimeDelta);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
+		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::PATROL);
+		return iExit;
+	}
 
 	// Player - Transform Com
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));

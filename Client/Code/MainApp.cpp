@@ -86,7 +86,12 @@ void CMainApp::Render_MainApp()
 		g = 41.f;
 		b = 37.f;
 	}
-
+	else if (SCENE_TYPE::TOOL == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		r = 125.f;
+		g = 125.f;
+		b = 125.f;
+	}
 	tBackColor = { r / 255.f, g / 255.f, b / 255.f, 1.f };
 
 	Engine::Render_Begin(tBackColor);

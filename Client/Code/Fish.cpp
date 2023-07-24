@@ -194,7 +194,12 @@ _int CFish::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 
-
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	{
+		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
+		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::MONREST);
+		return iExit;
+	}
 
 	// Jumping 
 

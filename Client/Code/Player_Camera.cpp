@@ -56,10 +56,10 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 		m_pCameraCom->m_tZoomLerp.Update_Lerp(fTimeDelta);
 		m_pCameraCom->m_fDistance = m_pCameraCom->m_tZoomLerp.fCurValue;
 	}
-	else
+	else*/
 	{
 		Set_Zoom(fTimeDelta);
-	}*/
+	}
 
 	if (m_pCameraCom->m_tFOVLerp.bActive)
 	{
