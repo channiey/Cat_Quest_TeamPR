@@ -1,6 +1,6 @@
 #include "FoxState_bPatrol.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 CFoxState_bPatrol::CFoxState_bPatrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -43,6 +43,9 @@ STATE_TYPE CFoxState_bPatrol::Update_State(const _float& fTimeDelta)
 
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+
+    //Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 
     // Player - Transform Com
@@ -103,22 +106,43 @@ STATE_TYPE CFoxState_bPatrol::Update_State(const _float& fTimeDelta)
         return STATE_TYPE::PATROL;
     }
 
-
-    // CHASE 전이 조건
-    if (fPlayerDistance <= m_fChaseRange)
+    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
     {
-        if (vOwnerDir.z < 0)
+        // CHASE 전이 조건
+        if (fPlayerDistance <= m_fChaseRange)
         {
-          //  cout << "Chase 전이" << endl;
-         //   pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::CHASE;
+            if (vOwnerDir.z < 0)
+            {
+                //  cout << "Chase 전이" << endl;
+               //   pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::CHASE;
+            }
+            else
+            {
+                //   cout << "Back Chase 전이" << endl;
+                 //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_CHASE;
+            }
         }
-        else
+
+        //  ATTACK 전이 조건
+        if (fPlayerDistance <= m_fAttackRange)
         {
-         //   cout << "Back Chase 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_CHASE;
+            if (vOwnerDir.z < 0)
+            {
+                //  cout << "attack 전이" << endl;
+                //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::MONATTACK;
+            }
+            else
+            {
+                //   cout << "back attack 전이" << endl;
+                //   pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_MONATTACK;
+            }
         }
+
+
     }
 
     // COMEBACK 전이 조건
@@ -138,22 +162,7 @@ STATE_TYPE CFoxState_bPatrol::Update_State(const _float& fTimeDelta)
         }
     }
 
-    //  ATTACK 전이 조건
-    if (fPlayerDistance <= m_fAttackRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-          //  cout << "attack 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::MONATTACK;
-        }
-        else
-        {
-         //   cout << "back attack 전이" << endl;
-         //   pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_MONATTACK;
-        }
-    }
+   
 
     // Default
     return STATE_TYPE::BACK_PATROL;

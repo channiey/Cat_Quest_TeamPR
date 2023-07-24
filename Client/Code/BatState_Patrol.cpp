@@ -127,22 +127,7 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
             }
         }
 
-        // COMEBACK 전이 조건
-        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-        {
-            if (vOwnerDir.z < 0)
-            {
-                // cout << "comback 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::COMEBACK;
-            }
-            else
-            {
-                // cout << "back comback 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_COMEBACK;
-            }
-        }
+     
 
         //  ATTACK 전이 조건
         if (fPlayerDistance <= m_fAttackRange)
@@ -159,6 +144,22 @@ STATE_TYPE CBatState_Patrol::Update_State(const _float& fTimeDelta)
                //  pOwnerTransform->Set_Dir(vec3.zero);
                 return STATE_TYPE::BACK_MONATTACK;
             }
+        }
+    }
+    // COMEBACK 전이 조건
+    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+    {
+        if (vOwnerDir.z < 0)
+        {
+            // cout << "comback 전이" << endl;
+            // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::COMEBACK;
+        }
+        else
+        {
+            // cout << "back comback 전이" << endl;
+            // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_COMEBACK;
         }
     }
     // Default

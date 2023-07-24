@@ -146,23 +146,25 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
     {
         m_fAccTime = 0.f;
         dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
-        // CHASE 전이 조건
-        if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
+        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
         {
-            if (vOwnerDir.z < 0)
+            // CHASE 전이 조건
+            if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
             {
-                // cout << "Chase 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::CHASE;
-            }
-            else
-            {
-                // cout << "Back Chase 전이" << endl;
-               //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_CHASE;
+                if (vOwnerDir.z < 0)
+                {
+                    // cout << "Chase 전이" << endl;
+                    // pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::CHASE;
+                }
+                else
+                {
+                    // cout << "Back Chase 전이" << endl;
+                   //  pOwnerTransform->Set_Dir(vec3.zero);
+                    return STATE_TYPE::BACK_CHASE;
+                }
             }
         }
-
      // PATROL 전이 조건
 
         if (fPlayerDistance >= m_fPlayerTargetRange )
@@ -198,6 +200,22 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
             }
         }
      }
+
+    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() == true)
+    {
+        if (vOwnerDir.z < 0)
+        {
+            //  cout << "comback 전이" << endl;
+             // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::COMEBACK;
+        }
+        else
+        {
+            //  cout << "back comback 전이" << endl;
+             // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_COMEBACK;
+        }
+    }
 
     return STATE_TYPE::MONATTACK;
 
