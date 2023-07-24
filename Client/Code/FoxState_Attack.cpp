@@ -85,7 +85,7 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
  
     if (m_fAccTime >= 2.f)
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir));
+       // CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir));
         m_fAccTime = 0.f;
     }
 

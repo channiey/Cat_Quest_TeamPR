@@ -12,7 +12,7 @@
 #include "FoxState_bComeBack.h"
 #include "FoxState_bAttack.h"
 
-
+#include "Player.h"
 #include "Shadow_Monster.h"
 #include "Skill_Monster_Fire.h"
 //#include "Skill_Monster_FireRange.h"
@@ -192,6 +192,8 @@ HRESULT CFox::Ready_Object()
 
 _int CFox::Update_Object(const _float& fTimeDelta)
 {
+	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
 	
 	//_int iExit = CGameObject::Update_Object(fTimeDelta);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
@@ -248,7 +250,7 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_fAccTime >= 2.f)
 		{
-			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, vPlayerPos));
+			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
 		}
 	}
 
