@@ -35,7 +35,7 @@ HRESULT CMage_Bullet::Ready_Object()
 
     m_fDamage = static_cast<CPlayer*>(m_pOwner)->Get_StatInfo().fAD;
 
-    m_fSpeed = 20.f;
+    m_fSpeed = 25.f;
 
     m_szName = L"Projectile_MageBullet";
 

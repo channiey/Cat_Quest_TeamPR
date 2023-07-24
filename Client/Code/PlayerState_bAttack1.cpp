@@ -44,7 +44,7 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 			));
 		}
 		else
-		{
+		{	
 			CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->MageBall_Target();
 			_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
 			CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
@@ -105,6 +105,7 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_HIT;
 	}
 
+	
 	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
 	{
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);

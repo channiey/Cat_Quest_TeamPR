@@ -40,18 +40,25 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_FLY); // << Test
 	}
+	if(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed <= 40)
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(40.f);
+
 
 	STATE_TYPE eState = m_eState;
 	if (!m_bIsSky)
 	{
 		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y + 1.f, vStart.z }, 1.f, fTimeDelta, LERP_MODE::SMOOTHSTEP);
+		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y + 0.8f, vStart.z }, 1.f, fTimeDelta, LERP_MODE::SMOOTHSTEP);
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
 		}
 		else
+		{
 			m_bIsSky = true;
+			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Fly(true);
+		}
+			
 	}
 
 	if (m_bIsSky && !m_bIsLand)
@@ -82,13 +89,10 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		eState = Key_Input(fTimeDelta);
 	}
 		
-		
-
-
 	if (m_bIsLand)
 	{
 		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y - 0.8f, vStart.z }, 1.f, fTimeDelta, LERP_MODE::EASE_OUT);
+		_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y - 0.6f, vStart.z }, 1.f, fTimeDelta, LERP_MODE::EASE_OUT);
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
@@ -97,12 +101,20 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		{	
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
 				1.f, CAM_FOV_PLAYER_FLIGHT, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
-			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(20.f);
+			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(15.f);
+			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Fly(false);
 			m_bEnter = false;
 			return STATE_TYPE::FRONT_IDLE;
 		}
 
 	}	
+
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit() && !m_bIsLand && m_bIsSky)
+	{
+		return STATE_TYPE::FRONT_HIT;
+	}
+
+
 
 	return eState;
 }
@@ -123,6 +135,11 @@ STATE_TYPE CPlayerState_fFlight::Key_Input(const _float& fTimeDelta)
 	{
 		m_bIsLand = true;
 		return m_eState;
+	}
+
+	if (!m_bIsLand && m_bIsSky &&  CInputDev::GetInstance()->Key_Down(VK_LBUTTON) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE)
+	{
+		return STATE_TYPE::FRONT_ATTACK1;
 	}
 		
 

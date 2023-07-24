@@ -207,6 +207,9 @@ namespace Engine
 		PROJECTILE_MAGE_BULLET,
 		PROJECTILE_BOSS_CONVERGING,
 
+		//==Skill
+		SKILL_PLAYER_FLY, EFFECT_FLYLINGHTING,
+
 		UI_BACKGROUND,
 
 		// 새로운 환경 오브젝트
@@ -281,6 +284,9 @@ namespace Engine
 
 		TALK_END
 	};
+
+
+	enum class FONT_TYPE			{DAMAGE, HIT, GOLD, EXP, TYPEEND};
 
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류
 

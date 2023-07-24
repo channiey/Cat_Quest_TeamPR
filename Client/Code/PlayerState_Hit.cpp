@@ -40,7 +40,10 @@ STATE_TYPE CPlayerState_Hit::Update_State(const _float& fTimeDelta)
         m_fAcc = 0.f;
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_HIt(false);
         m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-        eState = STATE_TYPE::FRONT_IDLE;
+        if(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
+            eState = STATE_TYPE::FRONT_FLIGHT;
+        else
+            eState = STATE_TYPE::FRONT_IDLE;
     }
 
     if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)

@@ -43,6 +43,9 @@ void CTerrainTool::LateUpdate_Object(void)
 
 void CTerrainTool::Render_Object(void)
 {
+	if (CManagement::GetInstance()->Get_PlayMode() != PLAY_MODE::TOOL)
+		return;
+
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(_color{ 1.f, 1.f, 1.f, 0.3f }));

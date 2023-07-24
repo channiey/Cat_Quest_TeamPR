@@ -1013,6 +1013,17 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_Mage",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Mage_Ball.png")), E_FAIL);
 
+	// 플라이 스킬 장판?
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Flight_Target",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Skill/Flight/Target.png")), E_FAIL);
+
+	// 플라이 스킬 번개
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Flight_Lighting",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Skill/Flight/Lighting/%d.png", 7)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_DungeionText",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/DungeonText.png")), E_FAIL);
+
 #pragma endregion
 	 
 #pragma region YUN

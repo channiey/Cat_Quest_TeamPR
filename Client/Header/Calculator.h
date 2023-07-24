@@ -17,6 +17,8 @@ private:
 public:
 	bool	Mouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, _vec3* pVPos, CGameObject* pTerrainVertex);
 
+	_vec3&	RealMouse_Picking(LPDIRECT3DDEVICE9 pGraphicDev, POINT pt, CGameObject* pTerrainVertex);
+
 private:
 	virtual void Free() override;
 };
