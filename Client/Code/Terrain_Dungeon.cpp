@@ -28,7 +28,7 @@ HRESULT CTerrainDungeon::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3(TERRAIN_SIZE_WORLD, 0.f, TERRAIN_SIZE_WORLD)); //TERRAIN_SIZE_DUNGEON 수정 필요
+	m_pTransformCom->Set_Scale(_vec3(TERRAIN_SIZE_DUNGEON, 0.f, TERRAIN_SIZE_DUNGEON)); //TERRAIN_SIZE_DUNGEON 수정 필요
 	m_pTransformCom->Set_Pos(_vec3{ m_pTransformCom->Get_Scale().x,
 									m_pTransformCom->Get_Scale().y,
 									m_pTransformCom->Get_Scale().z });

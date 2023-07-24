@@ -2,7 +2,10 @@
 #include "..\Header\Dungeon.h"
 
 #include "Export_Function.h"
+#include "Scene_World.h"
+#include "Scene_Dungeon_Swamp.h"
 
+#include "QuestMgr.h"
 #include "EventMgr.h"
 
 CDungeon::CDungeon(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)

@@ -28,6 +28,7 @@ public:
 
 private:
 	HRESULT				Add_Component();
+	_bool					m_bReservedSceneChange;
 
 public:
 	static				CTower2* Create(LPDIRECT3DDEVICE9 pGraphicDev);

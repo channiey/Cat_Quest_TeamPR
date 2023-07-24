@@ -2,9 +2,13 @@
 #include "Tower2.h"
 
 #include "Export_Function.h"
-
+#include "Scene_Dungeon_Swamp.h"
+#include "Scene_World.h"
+#include "QuestMgr.h"
 CTower2::CTower2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTower(pGraphicDev, OBJ_ID::ENVIRONMENT_BUILDING_TOWER_2)
+	, m_bReservedSceneChange(FALSE)
+
 {
 }
 
@@ -48,6 +52,24 @@ void CTower2::LateUpdate_Object()
 void CTower2::Render_Object()
 {
 	__super::Render_Object();
+
+	if (m_bReservedSceneChange && !CCameraMgr::GetInstance()->Is_Fade())
+	{
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			CScene* pScene = nullptr;
+			pScene = CScene_Dungeon_Swamp::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Change_Scene(pScene);
+			CQuestMgr::GetInstance()->Set_IsAble(false);
+		}
+		else if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
+		{
+			CScene* pScene = nullptr;
+			pScene = CScene_World::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Change_Scene(pScene);
+			CQuestMgr::GetInstance()->Set_IsAble(false);
+		}
+	}
 }
 
 void CTower2::OnCollision_Enter(CGameObject* _pColObj)
@@ -56,6 +78,21 @@ void CTower2::OnCollision_Enter(CGameObject* _pColObj)
 
 void CTower2::OnCollision_Stay(CGameObject* _pColObj)
 {
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		m_bCol = true;
+		if (!m_bReservedSceneChange && CInputDev::GetInstance()->Key_Down('E'))
+		{
+			m_bReservedSceneChange = true;
+			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_OUT);
+		}
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 void CTower2::OnCollision_Exit(CGameObject* _pColObj)

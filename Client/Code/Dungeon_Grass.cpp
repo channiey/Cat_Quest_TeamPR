@@ -84,7 +84,7 @@ void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 	case Engine::OBJ_TYPE::PLAYER:
 	{
 		m_bCol = true;
-		if (CInputDev::GetInstance()->Key_Down('E'))
+		if (!m_bReservedSceneChange && CInputDev::GetInstance()->Key_Down('E'))
 		{
 			m_bReservedSceneChange = true;
 			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_OUT);

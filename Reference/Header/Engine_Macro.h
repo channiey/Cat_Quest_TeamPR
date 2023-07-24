@@ -47,8 +47,8 @@ namespace Engine
 
 #define START_POS_WORLD_X			346.f
 #define START_POS_WORLD_Z			120.f
-#define START_POS_DUNGEON_X			220.f
-#define START_POS_DUNGEON_Z			205.f
+#define START_POS_DUNGEON_X			53.f
+#define START_POS_DUNGEON_Z			32.f
 
 #define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile
 #define	TERRAIN_SIZE_DUNGEON		165.f // 74 Tile * 74 Tile

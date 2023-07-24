@@ -95,13 +95,13 @@ void CPlayer_Camera::Start_Fade(const FADE_MODE& _eMode)
 	case Engine::FADE_MODE::ENTER_WORLD:
 		m_pFadeUI->Start_Fade(3.f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::BLACK_FADE_IN:
-		m_pFadeUI->Start_Fade(0.5f, 255.f, 0.f, FALSE, LERP_MODE::EASE_IN); break;
+		m_pFadeUI->Start_Fade(1.5f, 255.f, 0.f, FALSE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::BLACK_FADE_OUT:
 		m_pFadeUI->Start_Fade(0.5f, 0.f, 255.f, FALSE, LERP_MODE::EASE_OUT); break;
 	case Engine::FADE_MODE::WHITE_FADE_IN:
-		m_pFadeUI->Start_Fade(0.7f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
+		m_pFadeUI->Start_Fade(1.5f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::WHITE_FADE_OUT:
-		m_pFadeUI->Start_Fade(0.7f, 0.f, 255.f, TRUE, LERP_MODE::EASE_IN); break;
+		m_pFadeUI->Start_Fade(0.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_IN); break;
 	default:
 		break;
 	}
