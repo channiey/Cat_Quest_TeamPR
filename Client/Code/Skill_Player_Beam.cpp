@@ -42,6 +42,8 @@ HRESULT CSkill_Player_Beam::Ready_Object()
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+    m_fontColor = D3DCOLOR_ARGB(255, 204, 0, 204);
+    m_contentStr = L"'x' 모양으로 피해를 입힙니다!";
 
 
     return S_OK;

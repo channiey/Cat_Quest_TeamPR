@@ -72,27 +72,32 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 0: // 교관과 대화
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
 		{
-			if (*_IsAble)
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2") != nullptr))
 			{
-				dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-					dynamic_cast<CNpc*>(CManagement::GetInstance()->
-						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2")));
-			}
-
-			if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-				Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Get_IsCol())
-			{
-				if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 21, OBJ_ID::NPC_CITIZEN_2)) {
-					m_iLevel += 1;
-					if (*_IsAble)
-					{
-						dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-							dynamic_cast<CEnvironment*>(CManagement::GetInstance()->
-								Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Dungeon_Grass")));
-					}
-
-					break;
+				if (*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2")));
 				}
+
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Get_IsCol())
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 21, OBJ_ID::NPC_CITIZEN_2)) {
+						m_iLevel += 1;
+						if (*_IsAble)
+						{
+							dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+								dynamic_cast<CEnvironment*>(CManagement::GetInstance()->
+									Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Dungeon_Grass")));
+						}
+						break;
+					}
+				}
+
 			}
 		}
 		break;
@@ -114,23 +119,28 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		// 사자왕에게 보고
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
-			if (!*_IsAble)
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_King") != nullptr))
 			{
-				dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-					dynamic_cast<CNpc*>(CManagement::GetInstance()->
-						Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")));
-				*_IsAble = true;
-			}
-
-			if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-				Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_IsCol() &&
-				dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1)
-			{
-				if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 11, OBJ_ID::NPC_KING)) {
-					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(false);
-					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(m_vItemList[0]);
-					m_iLevel += 1;
+				if (!*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")));
+					*_IsAble = true;
 				}
+
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_IsCol() &&
+					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1)
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 11, OBJ_ID::NPC_KING)) {
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(false);
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(m_vItemList[0]);
+						m_iLevel += 1;
+					}
+				}
+
 			}
 		}
 		break;

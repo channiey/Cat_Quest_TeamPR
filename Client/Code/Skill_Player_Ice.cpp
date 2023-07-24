@@ -42,7 +42,8 @@ HRESULT CSkill_Player_Ice::Ready_Object()
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
+    m_fontColor = D3DCOLOR_ARGB(255, 0, 255, 255);
+    m_contentStr = L"적을 얼려서 느리게 만듭니다!";
 
     return S_OK;
 }
