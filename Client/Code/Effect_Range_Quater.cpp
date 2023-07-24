@@ -291,7 +291,8 @@ HRESULT CEffect_Range_Quater::Add_Component()
 	switch (m_eType)
 	{
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED:
-		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Red", this));
+		//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Red", this)); // 원래 이미지 크기
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_BigRangeSkill_Circle_Red", this));	// 확장한 이미지 크기
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Circle_Big_Yellow", this));

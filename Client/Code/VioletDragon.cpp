@@ -23,6 +23,8 @@
 #include "Skill_Monster_CircleAttack.h"
 #include "Skill_Boss_FullDown.h"
 
+#include "BigCircle_Stemp.h"
+
 
 CVioletDragon::CVioletDragon(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_VIOLETDRAGON)
@@ -261,7 +263,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 
 	//// Jumping 
-	//_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	//float Y = m_pTransformCom->Get_Scale().y;
 	//STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
 
@@ -331,7 +333,13 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	}
 
 
-
+	if (STATE_TYPE::BOSS_FULLDOWN_DOWN == CurState )
+	{
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 3)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CBigCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
+		}
+	}
 
 
 	

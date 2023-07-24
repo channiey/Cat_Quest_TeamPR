@@ -3,9 +3,9 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-#include "Circle_Stemp.h"
+#include "BigCircle_Stemp.h"
 
-CCircle_Stemp::CCircle_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
+CBigCircle_Stemp::CBigCircle_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
 	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CIRCLE_STEMP)
 {
 	m_vPos = _pPos;
@@ -14,16 +14,16 @@ CCircle_Stemp::CCircle_Stemp(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
 	ZeroMemory(&m_tLerpAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
-CCircle_Stemp::CCircle_Stemp(const CCircle_Stemp& rhs)
+CBigCircle_Stemp::CBigCircle_Stemp(const CBigCircle_Stemp& rhs)
 	: CEffect(rhs)
 {
 }
 
-CCircle_Stemp::~CCircle_Stemp()
+CBigCircle_Stemp::~CBigCircle_Stemp()
 {
 }
 
-HRESULT CCircle_Stemp::Ready_Object()
+HRESULT CBigCircle_Stemp::Ready_Object()
 {
 	__super::Ready_Object();
 
@@ -32,7 +32,7 @@ HRESULT CCircle_Stemp::Ready_Object()
 	m_bActive = true;
 
 	m_tLerpSize.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tLerpSize.Set_Lerp(0.2f, 2.f, 4.f);
+	m_tLerpSize.Set_Lerp(1.f, 4.f, 1000.f);
 
 	m_tLerpAlpha.Init_Lerp(LERP_MODE::EASE_OUT);
 	m_tLerpAlpha.Set_Lerp(0.3f, 200.f, 0.f);
@@ -40,7 +40,7 @@ HRESULT CCircle_Stemp::Ready_Object()
 	return S_OK;
 }
 
-_int CCircle_Stemp::Update_Object(const _float& fTimeDelta)
+_int CBigCircle_Stemp::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -56,7 +56,7 @@ _int CCircle_Stemp::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CCircle_Stemp::LateUpdate_Object()
+void CBigCircle_Stemp::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 	
@@ -64,7 +64,7 @@ void CCircle_Stemp::LateUpdate_Object()
 		CEventMgr::GetInstance()->Delete_Obj(this);
 }
 
-void CCircle_Stemp::Render_Object()
+void CBigCircle_Stemp::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tLerpAlpha.fCurValue), 255, 255, 255));
 
@@ -81,7 +81,7 @@ void CCircle_Stemp::Render_Object()
 
 }
 
-HRESULT CCircle_Stemp::Add_Component()
+HRESULT CBigCircle_Stemp::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -100,22 +100,22 @@ HRESULT CCircle_Stemp::Add_Component()
 }
 
 
-CCircle_Stemp* CCircle_Stemp::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
+CBigCircle_Stemp* CBigCircle_Stemp::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& _pPos)
 {
-	CCircle_Stemp* pInstance = new CCircle_Stemp(pGraphicDev, _pPos);
+	CBigCircle_Stemp* pInstance = new CBigCircle_Stemp(pGraphicDev, _pPos);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Hedgehog_Stemp Create Failed");
+		MSG_BOX("BigCircle_Stemp Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CCircle_Stemp::Free()
+void CBigCircle_Stemp::Free()
 {
 	__super::Free();
 }
