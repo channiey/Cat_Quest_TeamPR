@@ -22,7 +22,7 @@ CLevelUI::~CLevelUI()
 HRESULT CLevelUI::Ready_Object()
 {
 	m_eUIType = UI_TYPE::VIEW;
-	m_eUILayer = UI_LAYER::LV1;
+	m_eUILayer = UI_LAYER::LV0;
 	
 	D3DXMatrixIdentity(&m_UImatWorld);
 
