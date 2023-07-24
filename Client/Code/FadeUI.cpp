@@ -3,6 +3,8 @@
 
 #include "Player.h"
 
+#include "Player_Camera.h"
+
 CFadeUI::CFadeUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI(pGraphicDev, OBJ_ID::UI_BACKGROUND)
 	, m_eFadeColor(FADE_COLOR::WHITE)
@@ -46,10 +48,6 @@ _int CFadeUI::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_tLerpAlpha.Update_Lerp(fTimeDelta);
-	if (!m_tLerpAlpha.bActive)
-	{
-		Set_Active(FALSE);
-	}
 
 	return iExit;
 }
@@ -75,10 +73,24 @@ void CFadeUI::Render_Object()
 	}
 
 	m_pBufferCom->Render_Buffer();
+
+	if (!m_tLerpAlpha.bActive)
+	{
+		CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
+		
+		NULL_CHECK(pCam);
+
+		if (FADE_MODE::BLACK_FADE_OUT == pCam->Get_FadeMode() || FADE_MODE::WHITE_FADE_OUT == pCam->Get_FadeMode())
+			return; // 페이드 아웃일 때에는 굳이 페이드를 끌 필요 없음 (어차피 다시 켜줘야하니까)
+
+		Set_Active(FALSE);
+	}
 }
 
 void CFadeUI::Start_Fade(const _float _fTime, const _float& _fStartvalue, const _float _fEndValue, const _bool& _bWhite, const LERP_MODE& _eMode)
 {
+	Set_Active(TRUE);
+
 	m_tLerpAlpha.Init_Lerp(_eMode);
 	m_tLerpAlpha.Set_Lerp(_fTime, _fStartvalue, _fEndValue);
 

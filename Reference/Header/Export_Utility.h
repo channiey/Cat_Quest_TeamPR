@@ -52,6 +52,8 @@ inline CComponent*		Get_Component(const OBJ_TYPE& _eObjType,
 
 // Management
 inline HRESULT			Create_Management(LPDIRECT3DDEVICE9 pGraphicDev, CManagement** ppInstance);
+inline const _bool&		Is_Enter_InGame();
+inline void				Set_Enter_InGame(const _bool& _b);
 
 // Scene
 inline HRESULT			Set_Scene(CScene* pScene);
@@ -98,6 +100,7 @@ inline HRESULT			Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartP
 inline const CAMERA_ACTION& Get_CurCameraAction();
 inline const _bool&		 Is_Fix();
 inline void				Start_Fade(const FADE_MODE& _eMode);
+inline const _bool&		Is_Fade();
 
 
 // CollisionMgr

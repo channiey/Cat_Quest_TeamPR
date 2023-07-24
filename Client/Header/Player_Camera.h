@@ -22,7 +22,8 @@ public:
 
 public:
 	virtual void						Start_Fade(const FADE_MODE& _eMode) override;
-
+	const _bool& Is_Fade() override;
+	const FADE_MODE& Get_FadeMode() const { return m_eFadeMode; }
 
 private:
 	HRESULT					Add_Component(void);
@@ -45,7 +46,7 @@ private:
 	_float					m_fLerpTime;		
 
 	CFadeUI*				m_pFadeUI;
-
+	FADE_MODE				m_eFadeMode;
 private:
 	virtual void			Free() override;
 

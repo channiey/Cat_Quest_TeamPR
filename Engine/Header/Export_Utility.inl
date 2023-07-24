@@ -18,6 +18,16 @@ HRESULT		Create_Management(LPDIRECT3DDEVICE9 pGraphicDev, CManagement** ppInstan
 	return S_OK;
 }
 
+inline const _bool& Is_Enter_InGame()
+{
+	return CManagement::GetInstance()->Is_Enter_InGame();
+}
+
+inline void Set_Enter_InGame(const _bool& _b)
+{
+	CManagement::GetInstance()->Set_Enter_InGame(_b);
+}
+
 HRESULT		Set_Scene(CScene* pScene)
 {
 	return CManagement::GetInstance()->Set_Scene(pScene);
@@ -185,6 +195,11 @@ inline const _bool& Is_Fix()
 inline void Start_Fade(const FADE_MODE& _eMode)
 {
 	CCameraMgr::GetInstance()->Start_Fade(_eMode);
+}
+
+inline const _bool& Is_Fade()
+{
+	return CCameraMgr::GetInstance()->Is_Fade();
 }
 
 inline void Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, COL_TYPE& _eColType1, const COL_TYPE& _eColType2)

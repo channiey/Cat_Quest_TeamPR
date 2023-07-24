@@ -7,6 +7,7 @@
 
 CDungeon::CDungeon(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: CEnvironment(pGraphicDev, _eID)
+	, m_bReservedSceneChange(FALSE)
 {
 }
 

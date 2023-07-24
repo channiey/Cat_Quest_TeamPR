@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 
 CScene::CScene(LPDIRECT3DDEVICE9 pGraphicDev, const SCENE_TYPE& _eType)
-	: m_pGraphicDev(pGraphicDev), m_eType(_eType)
+	: m_pGraphicDev(pGraphicDev), m_eType(_eType), m_bStartFade(FALSE)
 {
 	m_pGraphicDev->AddRef();
 }

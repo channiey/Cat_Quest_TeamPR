@@ -178,16 +178,28 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
 
-	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_INGAME);
-
-	CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::ENTER_WORLD);
-
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+	if (!m_bStartFade)
+	{
+		if (!CManagement::GetInstance()->Is_Enter_InGame())
+		{
+			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_INGAME);
+			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::ENTER_WORLD);
+			CManagement::GetInstance()->Set_Enter_InGame(TRUE);
+		}
+		else
+		{
+			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
+			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_IN);
+		}
+		m_bStartFade = TRUE;
+	}
 
 	__super::Update_Scene(fTimeDelta);
 

@@ -46,6 +46,7 @@ public:
 	void									Stop_Shake();
 
 	const _bool&							Is_Fix() const { return m_bFix; }
+	const _bool&							Is_Fade();
 
 	HRESULT									Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos = vec3.one, const _vec3& _vEndPos = vec3.one, const _bool& _bFix = FALSE);
 

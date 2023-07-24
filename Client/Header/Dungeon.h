@@ -20,8 +20,12 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 	virtual void			Play_ColLogic(const _float& fTimeDelta) override;
+
 private:
 	HRESULT					Add_Component();
+
+protected:
+	_bool					m_bReservedSceneChange;
 
 protected:
 	virtual void			Free() override;

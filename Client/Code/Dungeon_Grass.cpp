@@ -53,6 +53,24 @@ void CDungeon_Grass::LateUpdate_Object()
 void CDungeon_Grass::Render_Object()
 {
 	__super::Render_Object();
+
+	if (m_bReservedSceneChange && !CCameraMgr::GetInstance()->Is_Fade())
+	{
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			CScene* pScene = nullptr;
+			pScene = CScene_Dungeon_Swamp::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Change_Scene(pScene);
+			CQuestMgr::GetInstance()->Set_IsAble(false);
+		}
+		else if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
+		{
+			CScene* pScene = nullptr;
+			pScene = CScene_World::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Change_Scene(pScene);
+			CQuestMgr::GetInstance()->Set_IsAble(false);
+		}
+	}
 }
 
 void CDungeon_Grass::OnCollision_Enter(CGameObject* _pColObj)
@@ -68,21 +86,8 @@ void CDungeon_Grass::OnCollision_Stay(CGameObject* _pColObj)
 		m_bCol = true;
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
-			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
-			{
-				CScene* pScene = nullptr;
-				pScene = CScene_Dungeon_Swamp::Create(m_pGraphicDev);
-				CEventMgr::GetInstance()->Change_Scene(pScene);
-				CQuestMgr::GetInstance()->Set_IsAble(false);
-			}
-
-			if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
-			{
-				CScene* pScene = nullptr;
-				pScene = CScene_World::Create(m_pGraphicDev);
-				CEventMgr::GetInstance()->Change_Scene(pScene);
-				CQuestMgr::GetInstance()->Set_IsAble(false);
-			}
+			m_bReservedSceneChange = true;
+			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_OUT);
 		}
 	}
 	break;

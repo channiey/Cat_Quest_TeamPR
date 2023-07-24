@@ -171,6 +171,13 @@ void CCameraMgr::Stop_Shake()
 	m_pCurCamera->Get_CameraCom()->Stop_Shake();
 }
 
+const _bool& CCameraMgr::Is_Fade()
+{
+	NULL_CHECK_RETURN(m_pCurCamera, FALSE);
+
+	return m_pPreCamera->Is_Fade();
+}
+
 HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos, const _vec3& _vEndPos, const _bool& _bFix)
 {	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
@@ -235,7 +242,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		*/
 			_vec3 vPlayerPos;		// 플레이어 시작 포지션
 			_vec3 vLerpStartLookAt; // 플레이어 시작 포지션 y + fHeight
-			_float fHeight = 30.f;
+			const _float fHeight = 25.f;
 			_vec3 vCamInitEye;		// 플레이어 시작포지션에서의 카메라 포지션
 
 			CGameObject* pPlayer = m_pCurCamera->Get_CameraCom()->Get_Follow();
@@ -251,7 +258,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
 
 			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
-			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(4.f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
 		}
 			break;
 		case Engine::CAMERA_ACTION::SCENE_LOOK_WORLD:
@@ -264,7 +271,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		{
 			_vec3 vPlayerPos;		// 플레이어 시작 포지션
 			_vec3 vLerpStartLookAt; // 플레이어 시작 포지션 y + fHeight
-			_float fHeight = 30.f;
+			const _float fHeight = 15.f;
 			_vec3 vCamInitEye;		// 플레이어 시작포지션에서의 카메라 포지션
 
 			CGameObject* pPlayer = m_pCurCamera->Get_CameraCom()->Get_Follow();
@@ -280,7 +287,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
 
 			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
-			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(2.5f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
 		}
 		break;
 

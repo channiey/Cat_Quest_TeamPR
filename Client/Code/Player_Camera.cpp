@@ -8,6 +8,7 @@
 CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCameraObject(pGraphicDev)
 	, m_pFadeUI(nullptr)
+	, m_eFadeMode(FADE_MODE::TYPEEND)
 {
 
 }
@@ -92,24 +93,28 @@ void CPlayer_Camera::Start_Fade(const FADE_MODE& _eMode)
 	switch (_eMode)
 	{
 	case Engine::FADE_MODE::ENTER_WORLD:
-	{
-		m_pFadeUI->Start_Fade(3.f, 255.f, 0.f, true, LERP_MODE::EASE_IN);
-	}
-		break;
+		m_pFadeUI->Start_Fade(3.f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::BLACK_FADE_IN:
-		break;
+		m_pFadeUI->Start_Fade(0.5f, 255.f, 0.f, FALSE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::BLACK_FADE_OUT:
-		break;
-	case Engine::FADE_MODE::WHITE_FADE_OUT:
-		break;
+		m_pFadeUI->Start_Fade(0.5f, 0.f, 255.f, FALSE, LERP_MODE::EASE_OUT); break;
 	case Engine::FADE_MODE::WHITE_FADE_IN:
-		break;
-
+		m_pFadeUI->Start_Fade(0.7f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
+	case Engine::FADE_MODE::WHITE_FADE_OUT:
+		m_pFadeUI->Start_Fade(0.7f, 0.f, 255.f, TRUE, LERP_MODE::EASE_IN); break;
 	default:
 		break;
 	}
-	
+	m_eFadeMode = _eMode;
 }
+
+const _bool& CPlayer_Camera::Is_Fade()
+{
+	NULL_CHECK_RETURN(m_pFadeUI, FALSE);
+
+	return m_pFadeUI->Is_Fade();
+}
+
 
 HRESULT CPlayer_Camera::Add_Component(void)
 {
@@ -147,12 +152,20 @@ void CPlayer_Camera::Set_ViewSpace()
 	NULL_CHECK(m_pCameraCom->m_pLookAt);
 	NULL_CHECK(m_pCameraCom->m_pFollow);
 
-	// Enter Scene Lerp
+	// Enter Ingame Lerp (월드 최초 입장)
 	if (m_pCameraCom->m_tHeightLerp.bActive && CAMERA_ACTION::SCENE_ENTER_INGAME == CCameraMgr::GetInstance()->Get_CurCameraAction())
 	{
 		Lerp_Enter_Scene();
 		return;
 	}
+
+	// Enter Fiels Lerp (씬변경시)
+	if (m_pCameraCom->m_tHeightLerp.bActive && CAMERA_ACTION::SCENE_ENTER_FIELD == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	{
+		Lerp_Enter_Scene();
+		return;
+	}
+
 	// Change Target Lerp
 	else if (CAMERA_ACTION::OBJ_CHANGE_TARGET == CCameraMgr::GetInstance()->Get_CurCameraAction())
 	{

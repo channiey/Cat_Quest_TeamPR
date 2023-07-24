@@ -70,14 +70,19 @@ HRESULT CScene_Dungeon_Swamp::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(), E_FAIL);
 
-	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
-
 	return S_OK;
 }
 
 Engine::_int CScene_Dungeon_Swamp::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+	
+	if (!m_bStartFade)
+	{
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
+		CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_IN);
+		m_bStartFade = TRUE;
+	}
 
 	__super::Update_Scene(fTimeDelta);
 

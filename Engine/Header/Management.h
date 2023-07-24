@@ -48,6 +48,8 @@ public:
 	void				Set_GameStatus  (const GAME_STATUS& _eStatus) {m_eGameStatus = _eStatus; }
 	void				Set_Debug_Toggle() { m_bDebug = !m_bDebug; }
 	const _bool&		Is_Debug() const { return m_bDebug; }
+	const _bool&		Is_Enter_InGame() const { return m_bEnterInGame; }
+	void				Set_Enter_InGame(const _bool& _b) { m_bEnterInGame = _b; }
 
 
 
@@ -65,6 +67,7 @@ private:
 	PLAY_MODE			m_ePlayMode;
 	GAME_STATUS			m_eGameStatus;
 	_bool				m_bDebug;
+	_bool				m_bEnterInGame; //월드에 최초로 진입했는지
 
 public:
 	virtual void		Free();

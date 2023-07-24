@@ -39,12 +39,17 @@ public:
 	virtual void					LateUpdate_Scene();
 	virtual void					Render_Scene()PURE; 
 
+private:
+	virtual void					Update_Fade() {};
+
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 	map<OBJ_TYPE, CLayer*>			m_mapLayer;
 	vector<CGameObject*>			m_vecMaintain; // 씬 변경시 살려둘 오브젝트
 
 	SCENE_TYPE						m_eType;
+
+	_bool							m_bStartFade;
 
 public:
 	virtual void					Free();

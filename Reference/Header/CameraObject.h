@@ -16,6 +16,7 @@ public:
 	virtual HRESULT						Ready_Object(void);
 
 	virtual void						Start_Fade(const FADE_MODE& _eMode) {};
+	virtual const _bool&				Is_Fade() { return FALSE; }
 
 public:
 	CCamera*							Get_CameraCom() const { return m_pCameraCom; }

@@ -242,6 +242,10 @@ namespace Engine
 			{
 				bActive = FALSE;
 				fCurTime = fEndTime;
+
+				fCurValue = fTargetValue;
+
+				return;
 			}
 
 			_float t = fCurTime / fEndTime;

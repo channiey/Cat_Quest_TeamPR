@@ -72,7 +72,7 @@ void CMainApp::Render_MainApp()
 
 	D3DXCOLOR tBackColor;
 
-	_float r = 255.f, g = 255.f, b = 255.f;
+	_float r = 0.f, g = 0.f, b = 0.f;
 
 	if (SCENE_TYPE::WORLD == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
 	{
