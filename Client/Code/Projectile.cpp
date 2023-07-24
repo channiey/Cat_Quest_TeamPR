@@ -54,6 +54,14 @@ void CProjectile::Render_Object()
 
 void CProjectile::OnCollision_Enter(CGameObject* _pColObj)
 {
+    switch (_pColObj->Get_Type())
+    {
+    case OBJ_TYPE::MONSTER:
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        break;
+    default:
+        break;
+    }
 }
 
 void CProjectile::OnCollision_Stay(CGameObject* _pColObj)

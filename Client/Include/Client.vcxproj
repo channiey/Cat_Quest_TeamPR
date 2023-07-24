@@ -194,6 +194,7 @@
     <ClInclude Include="..\Header\FoxState_bComeBack.h" />
     <ClInclude Include="..\Header\FoxState_bPatrol.h" />
     <ClInclude Include="..\Header\Circle_Stemp.h" />
+    <ClInclude Include="..\Header\Mage_Bullet.h" />
     <ClInclude Include="..\Header\PlayerHitEffect.h" />
     <ClInclude Include="..\Header\PlayerState_fFlight.h" />
     <ClInclude Include="..\Header\Projectile.h" />
@@ -500,6 +501,7 @@
     <ClCompile Include="..\Code\BatState_Rest.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
     <ClCompile Include="..\Code\Chase_Bullet.cpp" />
+    <ClCompile Include="..\Code\Mage_Bullet.cpp" />
     <ClCompile Include="..\Code\Scene_Ending.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\Fish.cpp" />

@@ -154,13 +154,20 @@ public:
 	// 인벤토리
 	void				Set_Inventory(CGameObject* _pInven) { m_pInven = _pInven; }
 	CGameObject*		Get_Inventory() { return m_pInven; }
+
+	void				CloseTarget_Dis(CGameObject* pTarget);
+
+	CGameObject*		MageBall_Target();
+	_vec3&				Get_BallDir() { return m_vBallDir; }
+	CGameObject*		Get_BallTarget() { return m_pBallTarget; }
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
 
 	void				Regen_Def(const _float& fTimeDelta);
 	
-	void				CloseTarget_Dis(CGameObject* pTarget);
+	
 
 
 private:
@@ -205,7 +212,12 @@ private:
 	// 날자꾸나
 	_bool						m_bhasFlight;
 
+	_float						m_fBallTargetLenght;
+	_vec3						m_vBallDir;
+	CGameObject*				m_pBallTarget;
 
+
+	/////////////////////////////////
 	// << : Test : Range Test
 	enum class RANGE_TYPE { BASIC_ATTACK, SKILL_ATK1, TYPEEND };
 	CRangeObj* arrRangeObj[(UINT)RANGE_TYPE::TYPEEND]; // Set Active로 상황에 맞게 껐다 켰다
