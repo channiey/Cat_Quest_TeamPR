@@ -41,6 +41,7 @@ public:
 	static				CFox* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
+private:
 
 
 
