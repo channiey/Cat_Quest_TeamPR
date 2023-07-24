@@ -37,8 +37,8 @@ HRESULT CDungeonTextUI::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_tAlpha.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-	m_tAlpha.Set_Lerp(5.f, 255, 0);
+	m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tAlpha.Set_Lerp(2.f, 255, 0);
 
 	m_fAcc = 0.f;
 

@@ -344,7 +344,7 @@ HRESULT CPlayer::Ready_Object()
 	NULL_CHECK_RETURN(pSkillFly, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fly", pSkillFly), E_FAIL);
 	m_pSkillFly = pSkillFly;
-
+	m_pSkillFly->Set_Maintain(TRUE);
 #pragma endregion
 
 	// 처음 시작상태 설정
