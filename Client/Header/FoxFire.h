@@ -11,7 +11,7 @@ END
 class CFoxFire : public CBasicProjectile    // 정해진 방향으로 이동 하는 Bullet
 {
 protected:
-	explicit CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir);
+	explicit CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
 	explicit CFoxFire(const CProjectile& rhs);
 	virtual ~CFoxFire();
 
@@ -27,7 +27,7 @@ private:
 
 public:
 
-	static					CFoxFire* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir);
+	static					CFoxFire* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
 
 protected:
 	virtual void		Free() override;

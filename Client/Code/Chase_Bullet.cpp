@@ -4,11 +4,12 @@
 
 
 
-CChase_Bullet::CChase_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget)
+CChase_Bullet::CChase_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     : CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CHASE_BULLET)
 {
     m_vPos = _vPos;
     m_pTarget = pTarget;
+    m_pOwner = pOwner;
 }
 
 CChase_Bullet::CChase_Bullet(const CProjectile& rhs)
@@ -109,9 +110,9 @@ HRESULT CChase_Bullet::Add_Component()
     return S_OK;
 }
 
-CChase_Bullet* CChase_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos , CGameObject* pTarget)
+CChase_Bullet* CChase_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos , CGameObject* pTarget, CGameObject* pOwner)
 {
-    CChase_Bullet* pInstance = new CChase_Bullet(pGraphicDev,_vPos, pTarget);
+    CChase_Bullet* pInstance = new CChase_Bullet(pGraphicDev,_vPos, pTarget, pOwner);
 
     if (FAILED(pInstance->Ready_Object()))
     {

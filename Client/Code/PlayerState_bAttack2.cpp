@@ -51,6 +51,11 @@ STATE_TYPE CPlayerState_bAttack2::Update_State(const _float& fTimeDelta)
 			CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
 		}
 
+		if (CLASS_TYPE::NINJA == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())
+		{
+			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Off_Clocking();
+		}
+
 		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
 			m_bIsTarget = true;
 		else

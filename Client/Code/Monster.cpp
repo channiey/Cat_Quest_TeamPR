@@ -110,11 +110,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
 
-	// Dead Condition
-	if (m_tStatInfo.fCurHP <= 0.f)
-	{
-		m_tStatInfo.bDead = true;
-	}
+	
 
 	if (true == m_tStatInfo.bDead)
 	{
@@ -145,6 +141,12 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 void CMonster::LateUpdate_Object()
 {
+	// Dead Condition
+	if (m_tStatInfo.fCurHP <= 0.f)
+	{
+		m_tStatInfo.bDead = true;
+	}
+
 	__super::LateUpdate_Object();
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
 		m_pStateMachineCom->LateUpdate_StateMachine();
@@ -182,12 +184,17 @@ void CMonster::OnCollision_Enter(CGameObject* _pColObj)
 	break;
 	case Engine::OBJ_TYPE::PROJECTILE:
 	{
-		OBJ_TYPE eType = dynamic_cast<CMage_Bullet*>(_pColObj)->Get_MageBall_Owner()->Get_Type();
-		if (OBJ_TYPE::PLAYER == eType)
+		CGameObject* pOwner = dynamic_cast<CProjectile*>(_pColObj)->Get_Owner();
+		if (pOwner != nullptr)
 		{
-			Damaged(dynamic_cast<CMage_Bullet*>(_pColObj)->Get_BallDamage());
+			OBJ_TYPE eType = pOwner->Get_Type();
+				if (OBJ_TYPE::PLAYER == eType)
+				{
+					Damaged(dynamic_cast<CMage_Bullet*>(_pColObj)->Get_BallDamage());
 
+				}
 		}
+		
 	}
 	break;
 	default:

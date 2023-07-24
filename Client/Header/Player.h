@@ -158,8 +158,11 @@ public:
 	void				CloseTarget_Dis(CGameObject* pTarget);
 
 	CGameObject*		MageBall_Target();
-	_vec3&				Get_BallDir() { return m_vBallDir; }
-	CGameObject*		Get_BallTarget() { return m_pBallTarget; }
+	_vec3&				Get_BallDir()		  { return m_vBallDir; }
+	CGameObject*		Get_BallTarget()	  { return m_pBallTarget; }
+
+	_bool&				Get_Clocking() { return m_bClocking; }
+	void				Off_Clocking() { m_bClocking = false; m_iClockAlpha = 255; }
 
 private:
 	HRESULT				Add_Component();
@@ -167,7 +170,8 @@ private:
 
 	void				Regen_Def(const _float& fTimeDelta);
 	
-	
+	void				Clocking_Time(const _float& fTimeDelta);
+
 
 
 private:
@@ -215,6 +219,11 @@ private:
 	_float						m_fBallTargetLenght;
 	_vec3						m_vBallDir;
 	CGameObject*				m_pBallTarget;
+
+	// Àº½Å
+	_bool						m_bClocking;
+	_float						m_fClockingAcc;
+	_uint						m_iClockAlpha;
 
 
 	/////////////////////////////////

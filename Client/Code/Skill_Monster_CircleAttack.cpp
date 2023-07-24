@@ -49,7 +49,7 @@ _int CSkill_Monster_CircleAttack::Update_Object(const _float& fTimeDelta)
         CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
         //CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
-        return iExit;
+       
     }
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
 

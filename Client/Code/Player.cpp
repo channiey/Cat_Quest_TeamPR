@@ -91,6 +91,10 @@ HRESULT CPlayer::Ready_Object()
 	m_bAttack = false;
 	m_bSkill = false;
 
+	m_bClocking = false;
+	m_fClockingAcc = 0.f;
+	m_iClockAlpha = 128.f;
+
 	m_bIsMonster = false;
 	m_fMonTargetLength = 99.f;
 	m_pMonTarget = nullptr;
@@ -394,7 +398,9 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	}*/
 
 	Regen_Def(fTimeDelta);
-	
+
+	Clocking_Time(fTimeDelta);
+
 	if(!m_bIsTalking)
 		Key_Input(fTimeDelta);
 	
@@ -417,7 +423,6 @@ void CPlayer::LateUpdate_Object()
 		NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight"))
 		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight")->Set_Active(true);
 	}
-		
 
 	__super::LateUpdate_Object();
 
@@ -432,6 +437,9 @@ void CPlayer::Render_Object()
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, HITCOLOR_R, HITCOLOR_G, HITCOLOR_B));
 	else if (m_bHit && m_tStatInfo.fCurDef > 0)
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 199, 144));
+
+	if(m_eClass == CLASS_TYPE::NINJA)
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iClockAlpha, 255, 255, 255));
 
 	m_pStateMachineCom->Render_StateMachine();
 	m_pBufferCom->Render_Buffer();
@@ -1182,6 +1190,41 @@ void CPlayer::Regen_Def(const _float& fTimeDelta)
 	}
 }
 
+void CPlayer::Clocking_Time(const _float& fTimeDelta)
+{
+	if (m_eClass == CLASS_TYPE::NINJA && !m_bClocking)
+	{
+		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK1 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK2 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK1 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK2 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_HIT)
+		{
+			m_fClockingAcc = 0.f;
+			m_iClockAlpha = 255;
+		}
+			
+		m_fClockingAcc += fTimeDelta;
+		{
+			if (m_fClockingAcc > 0.02f)
+			{
+				m_fClockingAcc = 0.f;
+				m_iClockAlpha -= 1;
+			}
+		}
+		
+		if (m_iClockAlpha <= 128)
+		{
+			m_iClockAlpha = 128;
+			m_fClockingAcc = 0.f;
+			m_bClocking = true;
+		}
+
+	}
+}
+
 void CPlayer::CloseTarget_Dis(CGameObject* pTarget)
 {
 	_vec3 vTargetDir = pTarget->Get_Transform()->Get_Info(INFO::INFO_POS) - m_pTransformCom->Get_Info(INFO::INFO_POS);
@@ -1250,40 +1293,70 @@ void CPlayer::Set_PlayerLook(const _vec3& vDir)
 
 void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 {
+#pragma region MyTrashCode
+	//_float horizontalX = vDirA.x;
+	//_float horizontalZ = vDirA.z;
+
+	//_vec3 resultDir;
+
+	//if (horizontalX > 0.f && horizontalX <= 1.f && horizontalZ > 0.f && horizontalZ <= 1.f)
+	//	resultDir = (_vec3(1.f, 0.f, 1.f)); // 오른쪽 뒤 대각선
+	//else if (horizontalX >= 0.f && horizontalX < 1.f && horizontalZ < -0.f && horizontalZ <= -1.f)
+	//	resultDir = (_vec3(1.f, 0.f, -1.f)); // 오른쪽 앞 대각선
+	//else if (horizontalX < -0.f && horizontalX <= -1.f && horizontalZ > 0.f && horizontalZ <= 1.f)
+	//	resultDir = (_vec3(-1.f, 0.f, 1.f)); // 왼쪽 뒤 대각선
+	//else if (horizontalX < -0.f && horizontalX <= -1.f && horizontalZ < -0.f && horizontalZ <= -1.f)
+	//	resultDir = (_vec3(-1.f, 0.f, -1.f)); // 왼쪽 앞 대각선
+	//else if (horizontalX >= 0.f)
+	//	resultDir = (_vec3(1.f, 0.f, 0.f)); // 오른쪽
+	//else if (horizontalX <= -0.f)
+	//	resultDir = (_vec3(-1.f, 0.f, 0.f)); // 왼쪽
+	//else if (horizontalZ >= 0.f)
+	//	resultDir = (_vec3(0.f, 0.f, 1.f)); // 뒤쪽
+	//else if (horizontalZ <= -0.f)
+	//	resultDir = (_vec3(0.f, 0.f, -1.f)); // 앞쪽
+	//else
+	//	resultDir = (_vec3(vDirA.x, 0.f, vDirA.z));
+
+	//m_pTransformCom->Set_Dir(resultDir);
+	//Set_PlayerLook(resultDir);
+#pragma endregion
+
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
 		return;
 
-	_vec3 vDirA;
-	D3DXVec3Normalize(&vDirA, &vDir);
+	_vec3 vDirA = vDir;
 
-	_float horizontalX = vDirA.x;
-	_float horizontalZ = vDirA.z;
+	float absX = std::abs(vDir.x);
+	float absY = std::abs(vDir.y);
+	float absZ = std::abs(vDir.z);
 
-	_vec3 resultDir;
+	// 가장 큰 성분을 찾습니다.
+	float maxComponent = max(max(absX, absY), absZ);
 
-	if (horizontalX > 0.f && horizontalX <= 1.f && horizontalZ > 0.f && horizontalZ <= 1.f)
-		resultDir = (_vec3(1.f, 0.f, 1.f)); // 오른쪽 뒤 대각선
-	else if (horizontalX >= 0.f && horizontalX < 1.f && horizontalZ < -0.f && horizontalZ <= -1.f)
-		resultDir = (_vec3(1.f, 0.f, -1.f)); // 오른쪽 앞 대각선
-	else if (horizontalX < -0.f && horizontalX <= -1.f && horizontalZ > 0.f && horizontalZ <= 1.f)
-		resultDir = (_vec3(-1.f, 0.f, 1.f)); // 왼쪽 뒤 대각선
-	else if (horizontalX < -0.f && horizontalX <= -1.f && horizontalZ < -0.f && horizontalZ <= -1.f)
-		resultDir = (_vec3(-1.f, 0.f, -1.f)); // 왼쪽 앞 대각선
-	else if (horizontalX >= 0.f)
-		resultDir = (_vec3(1.f, 0.f, 0.f)); // 오른쪽
-	else if (horizontalX <= -0.f)
-		resultDir = (_vec3(-1.f, 0.f, 0.f)); // 왼쪽
-	else if (horizontalZ >= 0.f)
-		resultDir = (_vec3(0.f, 0.f, 1.f)); // 뒤쪽
-	else if (horizontalZ <= -0.f)
-		resultDir = (_vec3(0.f, 0.f, -1.f)); // 앞쪽
-	else
-		resultDir = (_vec3(vDirA.x, 0.f, vDirA.z));
+	// 가장 큰 성분의 부호에 따라 해당 방향으로 매핑합니다.
+	if (maxComponent == absX) {
+		vDirA.x = (vDirA.x > 0) ? 1.0f : -1.0f;
+		vDirA.y = vDirA.z = 0;
+	}
+	else if (maxComponent == absY) {
+		vDirA.y = (vDirA.y > 0) ? 1.0f : -1.0f;
+		vDirA.x = vDirA.z = 0;
+	}
+	else {
+		vDirA.z = (vDirA.z > 0) ? 1.0f : -1.0f;
+		vDirA.x = vDirA.y = 0;
+	}
 
-	m_pTransformCom->Set_Dir(resultDir);
-	Set_PlayerLook(resultDir);
-	
+	// 다시 한 번 정규화
+	float length = std::sqrt(vDirA.x * vDirA.x + vDirA.y * vDirA.y + vDirA.z * vDirA.z);
+	vDirA.x /= length;
+	vDirA.y = 0;
+	vDirA.z /= length;
+
+	m_pTransformCom->Set_Dir(vDirA);
+	Set_PlayerLook(vDirA);
 }
 
 void CPlayer::Regen_HP(const _float& fHeal)
@@ -1322,18 +1395,24 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 	{
 	case CLASS_TYPE::NORMAL:
 		m_eClass = CLASS_TYPE::NORMAL;
+		m_tMoveInfo.fMoveSpeed = 15.f;
 		m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 		break;
 	case CLASS_TYPE::NINJA:
 		m_eClass = CLASS_TYPE::NINJA;
+		m_bClocking = true;
+		m_iClockAlpha = 128.f;
+		m_tMoveInfo.fMoveSpeed = 20.f;
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]);
 		break;
 	case CLASS_TYPE::MAGE:
 		m_eClass = CLASS_TYPE::MAGE;
+		m_tMoveInfo.fMoveSpeed = 15.f;
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]);
 		break;
 	case CLASS_TYPE::THORN:
 		m_eClass = CLASS_TYPE::THORN;
+		m_tMoveInfo.fMoveSpeed = 15.f;
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::THORN)]);
 		break;
 	default:

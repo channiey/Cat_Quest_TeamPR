@@ -2,13 +2,14 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 #include "Player.h"
+#include "Monster.h"
 
 
 
 CMage_Bullet::CMage_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     : CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_MAGE_BULLET)
 {
-    m_pBallOwner = pOwner;
+    m_pOwner = pOwner;
     m_pTarget = pTarget;
     m_vPos = _vPos;
 }
@@ -30,9 +31,9 @@ HRESULT CMage_Bullet::Ready_Object()
    // m_vPos += (m_vDir * 5.f);
 
     m_pTransformCom->Set_Pos(m_vPos);
-    m_pTransformCom->Set_Dir(m_pBallOwner->Get_Transform()->Get_Dir());
+    m_pTransformCom->Set_Dir(m_pOwner->Get_Transform()->Get_Dir());
 
-    m_fDamage = static_cast<CPlayer*>(m_pBallOwner)->Get_StatInfo().fAD;
+    m_fDamage = static_cast<CPlayer*>(m_pOwner)->Get_StatInfo().fAD;
 
     m_fSpeed = 20.f;
 
@@ -65,7 +66,7 @@ _int CMage_Bullet::Update_Object(const _float& fTimeDelta)
         return iExit;
     }
        
-    if (!m_pTarget->Is_Active())
+    if (static_cast<CMonster*>(m_pTarget)->Get_StatInfo().bDead)
     {
         m_pTarget = nullptr;
     }
@@ -107,7 +108,14 @@ void CMage_Bullet::Render_Object()
 
 void CMage_Bullet::OnCollision_Enter(CGameObject* _pColObj)
 {
-    __super::OnCollision_Enter(_pColObj);
+    switch (_pColObj->Get_Type())
+    {
+    case OBJ_TYPE::MONSTER:
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        break;
+    default:
+        break;
+    }
 }
 
 void CMage_Bullet::OnCollision_Stay(CGameObject* _pColObj)
