@@ -61,7 +61,7 @@ void CStateMachine::LateUpdate_StateMachine()
 
 void CStateMachine::Render_StateMachine()
 {
-	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
 		m_pAnimator->Render_Animator();
 		return;

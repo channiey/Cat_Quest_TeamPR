@@ -73,7 +73,7 @@ HRESULT CBat::Ready_Object()
 	m_bSkill = false;
 	m_bBaseSkill = false;
 	// 스킬 생성 '
-	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
 	m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
@@ -198,7 +198,7 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 
-	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode()) // 수정시 팀장 보고
 	{
 		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
 		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::MONREST);

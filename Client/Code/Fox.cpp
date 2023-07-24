@@ -83,7 +83,7 @@ HRESULT CFox::Ready_Object()
 	m_bSkill = false;
 
 	// 스킬 생성
-	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
 	m_pSkill =  CSkill_Monster_Fire::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
@@ -203,7 +203,7 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
+	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
 		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
 		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::PATROL);
