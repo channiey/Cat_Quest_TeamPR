@@ -273,7 +273,7 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('G'))
 	{
 		
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir));
+		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Test", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir));
 	
 	}
 	if (CInputDev::GetInstance()->Key_Down('H'))

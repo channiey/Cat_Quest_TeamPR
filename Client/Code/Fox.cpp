@@ -20,6 +20,7 @@
 // юс╫ц
 #include "GoldCoin.h"
 #include "MonstSpirit.h"
+#include "Chase_Bullet.h"
 
 CFox::CFox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_FOX)
@@ -196,13 +197,18 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+	// Player - Transform Com
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+	NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
 
-	// Jumping 
+	_vec3 vPlayerPos =   pPlayerTransform->Get_Info(INFO_POS);
 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	_vec3		vOwnerDir = m_pTransformCom->Get_Dir();
 	_float		Y = m_pTransformCom->Get_Scale().y;
 	STATE_TYPE	eCurType = m_pStateMachineCom->Get_CurState();
 
+	// Jumping 
 	//if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
 	//{
 	if (vOwnerPos.y < Y || vOwnerPos.y >  m_fMaxJumpY)
@@ -221,11 +227,11 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 		STATE_TYPE::BACK_CHASE == CurState)
 	{
 		m_bSkill = true;
+		m_fAccTime += fTimeDelta;
 	}
 
 	if (m_bSkill == true)
 	{
-		m_fAccTime += fTimeDelta;
 		if (m_fAccTime >= 2.f)
 		{
 			m_pSkill->Play();
@@ -237,6 +243,15 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 			}
 		}
 	}
+
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	{
+		if (m_fAccTime >= 2.f)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, vPlayerPos));
+		}
+	}
+
 
 
 
@@ -288,17 +303,17 @@ void CFox::Render_Object()
 
 void CFox::OnCollision_Enter(CGameObject* _pColObj)
 {
-	__super::OnCollision_Enter(_pColObj);
+	//__super::OnCollision_Enter(_pColObj);
 }
 
 void CFox::OnCollision_Stay(CGameObject* _pColObj)
 {
-	__super::OnCollision_Stay(_pColObj);
+	//__super::OnCollision_Stay(_pColObj);
 }
 
 void CFox::OnCollision_Exit(CGameObject* _pColObj)
 {
-	__super::OnCollision_Exit(_pColObj);
+	//__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CFox::Add_Component()

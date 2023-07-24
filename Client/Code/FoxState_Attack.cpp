@@ -1,6 +1,6 @@
 #include "FoxState_Attack.h"
 #include "Export_Function.h"
-
+#include "FoxFire.h"
 
 CFoxState_Attack::CFoxState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -30,7 +30,7 @@ HRESULT CFoxState_Attack::Ready_State(CStateMachine* pOwner)
     m_fChaseRange = 10.f; // Chase 전이
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
-    m_fAttackRange = 3.f;  // Attack 전이
+    m_fAttackRange = 5.f;  // Attack 전이
 
     m_fAccTime = 0.f;
     return S_OK;
@@ -73,16 +73,21 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
-
+    m_fAccTime += fTimeDelta;
 
    // 현재 상태의 기능
     
-    if (fPlayerDistance <= 4.f)
+    if (fPlayerDistance <= 10.f)
     {
-        pOwnerTransform->Set_Dir(vec3.zero);
+        pOwnerTransform->Set_Dir({ -vDir.x , 0.f, -vDir.z });
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
     }
-  
-    //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+ 
+    if (m_fAccTime >= 2.f)
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir));
+        m_fAccTime = 0.f;
+    }
 
 
 #pragma region State Change
@@ -92,23 +97,40 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
 
     //if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     //{
-        // CHASE 전이 조건
-        if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
+        //// CHASE 전이 조건
+        //if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
+        //{
+        //    if (vOwnerDir.z < 0)
+        //    {
+        //        // cout << "Chase 전이" << endl;
+        //        // pOwnerTransform->Set_Dir(vec3.zero);
+        //        return STATE_TYPE::CHASE;
+        //    }
+        //    else
+        //    {
+        //        // cout << "Back Chase 전이" << endl;
+        //       //  pOwnerTransform->Set_Dir(vec3.zero);
+        //        return STATE_TYPE::BACK_CHASE;
+        //    }
+        //}
+            // PATROL 전이 조건
+
+    if (fPlayerDistance >= m_fPlayerTargetRange )
+    {
+        if (vOwnerDir.z < 0)
         {
-            if (vOwnerDir.z < 0)
-            {
-                // cout << "Chase 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::CHASE;
-            }
-            else
-            {
-                // cout << "Back Chase 전이" << endl;
-               //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_CHASE;
-            }
+            //  cout << "patrol 전이" << endl;
+            //  pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::PATROL;
+        }
+        else
+        {
+            //  cout << "Back patrol 전이" << endl;
+            //  pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_PATROL;
         }
 
+    }
         // COMEBACK 전이 조건
         if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
         {
