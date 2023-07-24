@@ -334,6 +334,8 @@ void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 	CEventMgr::GetInstance()->Add_Obj(L"Monster_Cut_Effect", CMobCutEffect::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 
 
+	
+
 }
 
 

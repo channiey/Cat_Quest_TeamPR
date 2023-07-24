@@ -61,7 +61,7 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 	if (m_fAccTime >= 5.f)
 	{
 		m_fAccTime = 0.f;
-		return STATE_TYPE::BOSS_FULLDOWN_FLY;
+		return STATE_TYPE::BOSS_CONVERGING_FIRE;
 	}
 
 

@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-CConvergingFire_Bullet::CConvergingFire_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fTimeDelta)
+CConvergingFire_Bullet::CConvergingFire_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
 	: CBossProjectile(pGraphicDev, OBJ_ID::PROJECTILE_BOSS_CONVERGING)
 {
 
@@ -29,10 +29,11 @@ HRESULT CConvergingFire_Bullet::Ready_Object()
 	m_pTransformCom->Set_Pos(m_vPos);
 	m_pTransformCom->Set_Dir(m_vDir);
 
+    m_bNonTarget = false;
 
-	m_fSpeed = 10.f;
-
-	m_szName = L"Projectile_ChaseBullet";
+	m_fSpeed = 20.f;
+    m_fAccTime = 0.f;
+	m_szName = L"Projectile_Boss_Converging";
 
 	return S_OK;
 }
@@ -44,22 +45,35 @@ _int CConvergingFire_Bullet::Update_Object(const _float& fTimeDelta)
 
     m_fAccTime += fTimeDelta;
 
-    if (m_fAccTime <= 2.f)
-    {
-        _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
+    _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
 
-        this->m_pAICom->Chase_Target(&vTargetPos, fTimeDelta, m_fSpeed);
-    }
-    else if (m_fAccTime > 2.f)
+   
+    _vec3 vBulletDir = vTargetPos - m_vPos;
+
+
+    if (m_fAccTime <= 3.f)
     {
-        m_fSpeed = 5.f;
+        m_pTransformCom->Set_Dir(vec3.zero);
+
     }
-    if (m_fAccTime >= 3.f)
+    if (m_fAccTime > 3.f && m_bNonTarget == false)
+    {
+         m_pTransformCom->Set_Dir(vBulletDir);
+        //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
+        //vBulletDir = m_pTransformCom->Get_Dir();
+        m_bNonTarget = true;
+    }
+    if (m_fAccTime >= 4.f)
+    {
+       // m_pTransformCom->Set_Dir(vBulletDir);
+        m_fSpeed = 30.f;
+    }
+    
+    if (m_fAccTime >= 10.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
-
-
+   
     m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
     return iExit;
@@ -102,9 +116,9 @@ HRESULT CConvergingFire_Bullet::Add_Component()
 }
 
 
-CConvergingFire_Bullet* CConvergingFire_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fTimeDelta)
+CConvergingFire_Bullet* CConvergingFire_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
 {
-    CConvergingFire_Bullet* pInstance = new CConvergingFire_Bullet(pGraphicDev, _vPos, pTarget, pOwner, fTimeDelta);
+    CConvergingFire_Bullet* pInstance = new CConvergingFire_Bullet(pGraphicDev, _vPos, pTarget, pOwner);
 
     if (FAILED(pInstance->Ready_Object()))
     {

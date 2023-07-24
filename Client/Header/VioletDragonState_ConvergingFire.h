@@ -30,6 +30,15 @@ private:
 
 	_float  m_fAccTime;
 
+	_bool   m_bFirst;
+	_bool   m_bSecond;
+	_bool   m_bThird;
+	_bool   m_bFourth;
+	_bool   m_bFivth;
+	_bool   m_bSixth;
+	_bool   m_bSeventh;
+	_bool   m_Eighth;
+
 
 private:
 	virtual void Free();
