@@ -170,6 +170,7 @@
     <ClInclude Include="..\Code\ItemGetEffect.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
+    <ClInclude Include="..\Header\ConvergingFire_Bullet.h" />
     <ClInclude Include="..\Header\Dagger.h" />
     <ClInclude Include="..\Header\FadeUI.h" />
     <ClInclude Include="..\Header\BasicProjectile.h" />
@@ -447,6 +448,7 @@
     <ClInclude Include="..\Header\VioletDragonState_bRest.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase.h" />
     <ClInclude Include="..\Header\VioletDragonState_ComeBack.h" />
+    <ClInclude Include="..\Header\VioletDragonState_ConvergingFire.h" />
     <ClInclude Include="..\Header\VioletDragonState_FullDown_Down.h" />
     <ClInclude Include="..\Header\VioletDragonState_FullDown_Fly.h" />
     <ClInclude Include="..\Header\VioletDragonState_Patrol.h" />
@@ -494,6 +496,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
+    <ClCompile Include="..\Code\ConvergingFire_Bullet.cpp" />
     <ClCompile Include="..\Code\Dagger.cpp" />
     <ClCompile Include="..\Code\FadeUI.cpp" />
     <ClCompile Include="..\Code\BasicProjectile.cpp" />
@@ -774,6 +777,7 @@
     <ClCompile Include="..\Code\VioletDragonState_bRest.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ComeBack.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_ConvergingFire.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_FullDown_Down.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_FullDown_Fly.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Patrol.cpp" />

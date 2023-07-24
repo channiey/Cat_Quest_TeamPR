@@ -1,6 +1,6 @@
 #include "HedgehogState_Rest.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 CHedgehogState_Rest::CHedgehogState_Rest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -61,6 +61,10 @@ STATE_TYPE CHedgehogState_Rest::Update_State(const _float& fTimeDelta)
    
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+    
+    //Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
@@ -112,24 +116,26 @@ STATE_TYPE CHedgehogState_Rest::Update_State(const _float& fTimeDelta)
     if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
     {
         m_fAccTime = 0.f;
-        // Attack 전이 
-        if (fPlayerDistance <= m_fAttackRange)
+        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
         {
-            m_fAccTime = 0.f;
-            //cout << "attack 전이" << endl;
-            //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::MONATTACK;
-        }
-    
-        // CHASE 전이 조건
-       if (fPlayerDistance <= m_fChaseRange)
-        {
-            m_fAccTime = 0.f;
-            // cout << "chase  전이" << endl;
-            // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
-            return STATE_TYPE::CHASE;
-        }
+            // Attack 전이 
+            if (fPlayerDistance <= m_fAttackRange)
+            {
+                m_fAccTime = 0.f;
+                //cout << "attack 전이" << endl;
+                //pOwnerTransform->Set_Scale({(vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+                return STATE_TYPE::MONATTACK;
+            }
 
+            // CHASE 전이 조건
+            if (fPlayerDistance <= m_fChaseRange)
+            {
+                m_fAccTime = 0.f;
+                // cout << "chase  전이" << endl;
+                // pOwnerTransform->Set_Scale({ (vOwnerScale.x) , vOwnerScale.y, vOwnerScale.z });
+                return STATE_TYPE::CHASE;
+            }
+        }
         // COMEBACK 전이 조건
         if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
         {

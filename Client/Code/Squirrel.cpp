@@ -131,9 +131,9 @@ HRESULT CSquirrel::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONATTACK, pAnimation);
 
-	// Rest
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONREST)], STATE_TYPE::MONREST, 0.1f, TRUE);
-	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONREST, pAnimation);
+	//// Rest
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONREST)], STATE_TYPE::MONREST, 0.1f, TRUE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::MONREST, pAnimation);
 
 
 	// Back
@@ -153,9 +153,9 @@ HRESULT CSquirrel::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONATTACK, pAnimation);
 
-	// Rest
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)], STATE_TYPE::BACK_MONREST, 0.1f, TRUE);
-	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONREST, pAnimation);
+	//// Rest
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)], STATE_TYPE::BACK_MONREST, 0.1f, TRUE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONREST, pAnimation);
 
 
 

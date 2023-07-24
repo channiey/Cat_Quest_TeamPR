@@ -309,8 +309,6 @@ HRESULT CMonster::Add_Component()
 void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 {
 
-	this->Get_StateMachine()->Set_State(STATE_TYPE::CHASE);
-
 
 	 Set_CurHP(m_tStatInfo.fCurHP - fDamage);
 
