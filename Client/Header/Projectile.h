@@ -27,11 +27,14 @@ public:
 	virtual void			OnCollision_Stay(CGameObject* _pColObj);
 	virtual void			OnCollision_Exit(CGameObject* _pColObj);
 
+	CGameObject*			Get_Owner() { return m_pOwner; }
+
 private:
 	HRESULT					Add_Component();
 
 
 protected:
+	CGameObject*		m_pOwner;
 
 	CTexture*			m_pTextureCom;
 	CAIComponent*		m_pAICom;

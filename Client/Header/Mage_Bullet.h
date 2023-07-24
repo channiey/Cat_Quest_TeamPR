@@ -21,7 +21,6 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
-	CGameObject*			Get_MageBall_Owner() { return m_pBallOwner; }
 	_float&					Get_BallDamage()	{ return m_fDamage; }
 
 public:
@@ -34,7 +33,6 @@ private:
 
 private:
 	_float					m_fDamage;
-	CGameObject*			m_pBallOwner;
 
 public:
 

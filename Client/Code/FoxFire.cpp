@@ -3,13 +3,12 @@
 
 
 
-CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir)
+CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner)
     : CBasicProjectile(pGraphicDev , OBJ_ID::PROJECTILE_BASIC_BULLET)
 {
     m_vPos = _vPos;
     m_vDir = _vDir;
-
-
+    m_pOwner = pOwner;
 }
 
 CFoxFire::CFoxFire(const CProjectile& rhs)
@@ -97,9 +96,9 @@ HRESULT CFoxFire::Add_Component()
     return S_OK;
 }
 
-CFoxFire* CFoxFire::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos , _vec3 _vDir)
+CFoxFire* CFoxFire::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos , _vec3 _vDir, CGameObject* pOwner)
 {
-    CFoxFire* pInstance = new CFoxFire(pGraphicDev,_vPos, _vDir);
+    CFoxFire* pInstance = new CFoxFire(pGraphicDev,_vPos, _vDir, pOwner);
 
     if (FAILED(pInstance->Ready_Object()))
     {

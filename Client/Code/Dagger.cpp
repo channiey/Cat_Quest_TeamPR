@@ -1,12 +1,12 @@
 #include "Dagger.h"
 #include "Export_Function.h"
 
-CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget)
+CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)
 {
     m_vPos = _vPos;
     m_pTarget = pTarget;
-    
+    m_pOwner = pOwner;
 }
 
 CDagger::CDagger(const CProjectile& rhs)
@@ -118,9 +118,9 @@ HRESULT CDagger::Add_Component()
     return S_OK;
 }
 
-CDagger* CDagger::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget)
+CDagger* CDagger::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
 {
-    CDagger* pInstance = new CDagger(pGraphicDev, _vPos, pTarget);
+    CDagger* pInstance = new CDagger(pGraphicDev, _vPos, pTarget, pOwner);
 
     if (FAILED(pInstance->Ready_Object()))
     {

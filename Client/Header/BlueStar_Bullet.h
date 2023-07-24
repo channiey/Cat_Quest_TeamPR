@@ -3,7 +3,7 @@
 class CBlueStar_Bullet : public CBasicProjectile   // 회전하는 bullet 
 {
 protected:
-	explicit CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
+	explicit CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 	explicit CBlueStar_Bullet(const CProjectile& rhs);
 	virtual  ~CBlueStar_Bullet();
 
@@ -19,7 +19,7 @@ private:
 
 public:
 
-	static					CBlueStar_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
+	static					CBlueStar_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 
 private:
 	_vec3			m_vOriginPos;

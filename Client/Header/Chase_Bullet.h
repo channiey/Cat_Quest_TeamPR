@@ -11,7 +11,7 @@ END
 class CChase_Bullet : public CBasicProjectile    // 타겟을 따라다니며 이동 하는 Bullet
 {
 protected:
-	explicit CChase_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
+	explicit CChase_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 	explicit CChase_Bullet(const CProjectile& rhs);
 	virtual ~CChase_Bullet();
 
@@ -27,7 +27,7 @@ private:
 
 public:
 
-	static					CChase_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
+	static					CChase_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 
 
 

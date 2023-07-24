@@ -1,12 +1,12 @@
 #include "BlueStar_Bullet.h"
 #include "Export_Function.h"
 
-CBlueStar_Bullet::CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget)
+CBlueStar_Bullet::CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_STAR_BULLET)
 {
     m_vPos = _vPos;
     m_pTarget = pTarget;
-    
+    m_pOwner = pOwner;
 }
 
 CBlueStar_Bullet::CBlueStar_Bullet(const CProjectile& rhs)
@@ -123,9 +123,9 @@ HRESULT CBlueStar_Bullet::Add_Component()
     return S_OK;
 }
 
-CBlueStar_Bullet* CBlueStar_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget)
+CBlueStar_Bullet* CBlueStar_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
 {
-    CBlueStar_Bullet* pInstance = new CBlueStar_Bullet(pGraphicDev, _vPos, pTarget);
+    CBlueStar_Bullet* pInstance = new CBlueStar_Bullet(pGraphicDev, _vPos, pTarget, pOwner);
 
     if (FAILED(pInstance->Ready_Object()))
     {

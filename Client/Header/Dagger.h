@@ -3,7 +3,7 @@
 class CDagger : public CBasicProjectile   // 회전하는 bullet 
 {
 protected:
-	explicit CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
+	explicit CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 	explicit CDagger(const CProjectile& rhs);
 	virtual  ~CDagger();
 
@@ -19,7 +19,7 @@ private:
 
 public:
 
-	static					CDagger* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget);
+	static					CDagger* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 
 private:
 	_vec3			m_vOriginPos;

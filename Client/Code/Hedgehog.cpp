@@ -273,24 +273,24 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('G'))
 	{
 		
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir));
+		CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir, this));
 	
 	}
 	if (CInputDev::GetInstance()->Key_Down('H'))
 	{
 
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Chase_Bullet", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer));
+		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Chase_Bullet", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
 
 	}
 	if (CInputDev::GetInstance()->Key_Down('J'))
 	{
 
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Dagger", CDagger::Create(m_pGraphicDev, vOwnerPos, pPlayer));
+		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Dagger", CDagger::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
 
 	}
 	if (CInputDev::GetInstance()->Key_Down('Y'))
 	{
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_BlueStar_Bullet", CBlueStar_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer));
+		CEventMgr::GetInstance()->Add_Obj(L"Projectile_BlueStar_Bullet", CBlueStar_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
 	}
 
 
