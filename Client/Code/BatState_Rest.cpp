@@ -153,10 +153,11 @@ STATE_TYPE CBatState_Rest::Update_State(const _float& fTimeDelta)
     if (m_fAccTime >= 2.f)  // 몇 초 후 전이 조건
     {
         dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
-       
+        m_fAccTime = 0.f;
+
         if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
         {
-            m_fAccTime = 0.f;
+           
             // CHASE 전이 조건
             if (fPlayerDistance <= m_fChaseRange)
             {
