@@ -597,9 +597,9 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Npc_Mage", pGameObject), E_FAIL);
 
 	// TwinPeaks
-	pGameObject = CTwinPeaks::Create(m_pGraphicDev);
+	/*pGameObject = CTwinPeaks::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TwinPeaks", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TwinPeaks", pGameObject), E_FAIL);*/
 
 	// Death Tree
 	pGameObject = CDeathTree::Create(m_pGraphicDev);
@@ -612,9 +612,9 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"TripleDeathTree", pGameObject), E_FAIL);
 
 	// World Tree
-	pGameObject = CWorldTree::Create(m_pGraphicDev);
+	/*pGameObject = CWorldTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"WorldTree", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"WorldTree", pGameObject), E_FAIL);*/
 
 	// Grass
 	pGameObject = CGrass1::Create(m_pGraphicDev);
