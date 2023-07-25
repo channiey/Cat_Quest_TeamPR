@@ -34,7 +34,7 @@ HRESULT CDialogUI::Ready_Object()
 
 	// 처음 사이즈와 위치
 	m_fPosX = WINCX * 0.45;
-	m_fPosY = WINCY * 0.3;
+	m_fPosY = WINCY * 0.2;
 	m_fSizeX =  400;
 	m_fSizeY =  124;
 	// 텍스트상자의 위치와 사이즈
@@ -211,10 +211,10 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE e
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strDialog.c_str(), -1,
 		&m_rcText, DT_LEFT | DT_CALCRECT | DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
 
-	if (m_rcText.bottom >= 482)
+	if (m_rcText.bottom >= 512)
 	{
-		m_rcText.top += (482 - m_rcText.bottom );
-		m_rcText.bottom = 482;
+		m_rcText.top += (512 - m_rcText.bottom );
+		m_rcText.bottom = 512;
 	}
 
 	// 변경된 크기를 가지고 스피치박스 재설정
