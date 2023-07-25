@@ -1,0 +1,284 @@
+#include "stdafx.h"
+#include "Quest3.h"
+
+#include "Export_Function.h"
+
+#include "Player.h"
+#include "TalkMgr.h"
+#include "Management.h"
+#include "GraphicDev.h"
+#include "IndicatorUI.h"
+
+#include "Npc_BlackSmith.h"
+#include "Npc_Soldier.h"
+#include "Npc_Mage.h"
+// 현재는 빌딩 나중에는 포탈을 추가해야 한다.
+#include "Tower2.h"
+
+#include "MageWeapon.h"
+#include "Skill_Player_Ice.h"
+#include "Skill_Player_Beam.h"
+#include "Key.h"
+
+CQuest3::CQuest3(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
+{
+	m_strQuestName = _QuestName;
+	Init(m_pGraphicDev, _pPlayer);
+}
+
+CQuest3::~CQuest3()
+{
+	if (m_pKey)
+	{
+		Safe_Release(m_pKey);
+	}
+}
+
+void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
+{
+	m_pPlayer = _pPlayer;
+
+	// Ice Skill
+	CSkill* pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
+	CEventMgr::GetInstance()->Add_Obj(L"꽁꽁 아이스", pSkill);
+	m_vSkillList.push_back(pSkill);
+	pSkill->Set_Maintain(true);
+
+	// Beam Skill
+	pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
+	CEventMgr::GetInstance()->Add_Obj(L"우주펀치", pSkill);
+	m_vSkillList.push_back(pSkill);
+	pSkill->Set_Maintain(true);
+
+
+	// Item Mage
+	CGameObject* pGameObject = CMageWeapon::Create(m_pGraphicDev);
+	CEventMgr::GetInstance()->Add_Obj(L"냥포터 지팡이", pGameObject);
+	m_vItemList.push_back(pGameObject);
+	pGameObject->Set_Maintain(true);
+
+	m_bCreateKey = false;
+	m_pKey = nullptr;
+}
+
+_bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
+{
+
+	// 열쇠
+	// 퀘스트 단계가 4단계이고 월드에 키가 생성이 안됐을 때 + (중복 생성 방지)
+	if (m_iLevel == 3 && !m_bCreateKey &&
+		CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+	{
+		m_pKey = CKey::Create(pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_Key", m_pKey);
+		m_bCreateKey = true;
+	}
+	// 씬 이동시 m_bCreateKey false로 변경. 차피 알아서 지워줌.
+	if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() != SCENE_TYPE::WORLD)
+	{
+		m_bCreateKey = false;
+	}
+	///////////////////////////////////////
+
+
+	switch (m_iLevel)
+	{
+	case 0: // 대장장이와 대화(군인 캠 이벤트)
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
+		{
+			if (!*_IsAble)
+			{
+				dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+					dynamic_cast<CTower2*>(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Tower2")));
+				*_IsAble = true;
+			}
+		}
+
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith") != nullptr))
+			{
+				if (!*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
+					*_IsAble = true;
+				}
+
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
+				{
+					_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
+					_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier")->Get_Transform()->Get_Info(INFO_POS);
+
+					if (CTalkMgr::GetInstance()->Get_CamTalk(
+						pGraphicDev, 300, OBJ_ID::NPC_BLACKSMITH, 3, vPlayerPos, vTargetPos))
+					{
+						m_iLevel += 1;
+						*_IsAble = false;
+						break;
+					}
+				}
+			}
+		}
+		break;
+	case 1: // 군인과 대화
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier") != nullptr))
+			{
+				// 인디케이터 설정
+				if (!*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier")));
+					*_IsAble = true;
+				}
+				// 대화 후 다음 단계
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"))->Get_IsCol())
+				{
+					_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
+					_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage")->Get_Transform()->Get_Info(INFO_POS);
+
+					if (CTalkMgr::GetInstance()->Get_CamTalk(
+						pGraphicDev, 310, OBJ_ID::NPC_SOLLIDER, 2, vPlayerPos, vTargetPos))
+					{
+						m_iLevel += 1;
+						*_IsAble = false;
+						// CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
+						break;
+					}
+				}
+			}
+		}
+		break;
+	case 2: // 마법사에게 향하기
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage") != nullptr))
+			{
+				// 인디케이터 설정
+				if (!*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage")));
+					*_IsAble = true;
+				}
+				// 대화 후 다음 단계
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"))->Get_IsCol())
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 320, OBJ_ID::NPC_MAGE))
+					{
+						m_iLevel += 1;
+						*_IsAble = false;
+						// CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
+						break;
+					}
+				}
+			}
+		}
+		break;
+	case 3: // 열쇠 찾기
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			if (m_bCreateKey)
+			{
+				if (dynamic_cast<CKey*>(m_pKey)->Get_IsCol())
+				{
+					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(true);
+					m_iLevel += 1;
+					break;
+				}
+			}
+		}	
+
+		break;
+	case 4:
+		// 마법사에게 열쇠 가져다 주기
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage") != nullptr))
+			{
+				if (!*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage")));
+					*_IsAble = true;
+				}
+		
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"))->Get_IsCol() &&
+					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1)
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 321, OBJ_ID::NPC_MAGE)) {
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(false);
+						// dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(m_vItemList[0]);
+						m_iLevel += 1;
+						*_IsAble = false;
+						break;
+					}
+				}
+		
+			}
+		}
+		break;
+	case 5: // 대장장이에게 복귀
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith") != nullptr))
+			{
+				// 인디케이터 설정
+				if (!*_IsAble)
+				{
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
+					*_IsAble = true;
+				}
+				// 대화 후 다음 단계
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 301, OBJ_ID::NPC_BLACKSMITH))
+					{
+						m_iLevel += 1;
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+							m_vSkillList[0]);
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+							m_vSkillList[1]);
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
+							m_vItemList[0]);
+
+						*_IsAble = false;
+						break;
+					}
+				}
+			}
+		}
+
+		break;
+	case 6:
+		m_iLevel = 99;
+		*_IsAble = false;
+		return true;
+		break;
+	}
+
+	return false;
+}

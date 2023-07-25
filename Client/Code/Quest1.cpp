@@ -31,7 +31,7 @@ void CQuest1::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 	// Fire Skill
 	CSkill* pSkill = CSkill_Player_Fire::Create(m_pGraphicDev, m_pPlayer);
-	CEventMgr::GetInstance()->Add_Obj(L"Skill_Fire", pSkill);
+	CEventMgr::GetInstance()->Add_Obj(L"갸르릉 플레임", pSkill);
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
 
@@ -84,9 +84,6 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
 			// 고슴도치 5마리를 잡았다면
-			//if (CManagement::GetInstance()->
-			//	Get_CurScene()->
-			//	Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap().empty())
 			for (_int i = 0; i < CEventMgr::GetInstance()->Get_VecDeleteObj().size(); ++i)
 			{
 				if (CEventMgr::GetInstance()->Get_VecDeleteObj()[i]->Get_Name() == L"Monster_Hedgehog")
@@ -129,6 +126,7 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		break;
 	case 2:
 			m_iLevel = 99;
+			*_IsAble = false;
 			return true;
 		break;
 	}
