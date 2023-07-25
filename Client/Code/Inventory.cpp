@@ -853,6 +853,9 @@ void CInventory::Render_Object()
 		{
 			m_bIsOn = !m_bIsOn; 
 			m_bAlphaSet = false;
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
 		}
 	}
 
@@ -2047,6 +2050,9 @@ void CInventory::Key_Input()
 	{
 		if (!m_bIsOn) {
 			m_bIsOn = true;
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(false);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(false);
 		}
 		else
 		{
@@ -2222,20 +2228,16 @@ void CInventory::Key_Input()
 	}
 
 
-	if (m_bIsOn == true || CInputDev::GetInstance()->Get_DIMouseState(DIM_RB))
+	if (m_bIsOn)
 	{
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(false);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(false);
+		
 
 	}
 	else 
 	{
 		if (m_iTranslucent > 0) m_iTranslucent -= 10.f;
 
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
+	
 	}
 }
 

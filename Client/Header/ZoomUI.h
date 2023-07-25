@@ -17,11 +17,14 @@ public:
 	virtual void			Render_Object() override;
 
 private:
-
 	virtual HRESULT			Add_Component() override;
+
+public:
+	_uint&					Get_ZoomState() { return m_iZoomState; }
 
 private:
 	_uint					m_iZoomState;
+	_bool					m_bZoom;
 
 public:
 
