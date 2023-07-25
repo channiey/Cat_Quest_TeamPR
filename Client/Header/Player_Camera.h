@@ -47,6 +47,8 @@ private:
 
 	CFadeUI*				m_pFadeUI;
 	FADE_MODE				m_eFadeMode;
+
+	_bool					m_bDrag;
 private:
 	virtual void			Free() override;
 

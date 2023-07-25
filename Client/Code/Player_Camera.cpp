@@ -9,6 +9,7 @@ CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCameraObject(pGraphicDev)
 	, m_pFadeUI(nullptr)
 	, m_eFadeMode(FADE_MODE::TYPEEND)
+	, m_bDrag(TRUE)
 {
 
 }
@@ -29,7 +30,7 @@ HRESULT CPlayer_Camera::Ready_Object(void)
 
 	m_fDefaultHeight	= 80.f;
 	m_fNearZoom			= CAM_DISTANCE_DEFAULT;
-	m_fFarZoom			= 90.f;
+	m_fFarZoom			= CAM_DISTANCE_MAX;
 	m_pCameraCom->m_fDistance = m_fNearZoom;
 
 	m_pTransformCom->Set_Pos(_vec3{ 0.f, m_fDefaultHeight, -m_pCameraCom->m_fDistance });
@@ -51,15 +52,7 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	/*if (m_pCameraCom->m_tZoomLerp.bActive)
-	{
-		m_pCameraCom->m_tZoomLerp.Update_Lerp(fTimeDelta);
-		m_pCameraCom->m_fDistance = m_pCameraCom->m_tZoomLerp.fCurValue;
-	}
-	else*/
-	{
-		Set_Zoom(fTimeDelta);
-	}
+	Set_Zoom(fTimeDelta);
 
 	if (m_pCameraCom->m_tFOVLerp.bActive)
 	{
@@ -78,6 +71,11 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 		m_pCameraCom->m_tVec3Lerp.Update_Lerp(fTimeDelta);
 	}
 
+	if (m_pCameraCom->m_tDistanceLerp.bActive)
+	{
+		m_pCameraCom->m_tDistanceLerp.Update_Lerp(fTimeDelta);
+		m_pCameraCom->m_fDistance = m_pCameraCom->m_tDistanceLerp.fCurValue;
+	}
 	return iExit;
 }
 
@@ -128,20 +126,30 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 {
 	_long dwMouse = 0;
 
-	// 01. Zoom Setting
 	if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Z))
 	{
-		if (0 < dwMouse)
-			m_pCameraCom->m_fDistance -= m_pCameraCom->m_fSpeedZoom * fTimeDelta;
-		else
-			m_pCameraCom->m_fDistance += m_pCameraCom->m_fSpeedZoom * fTimeDelta;
-	/*	if (0 < dwMouse)
+		const _float fLerpTime = 0.8f;
+
+		if (!m_bDrag && 0 < dwMouse)
 		{
+			// Fov
+			m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
+
+			// Distance
+			m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_DEFAULT);
+
+			m_bDrag = TRUE;
 		}
-		else
+		else if (m_bDrag && 0 > dwMouse)
 		{
-			m_pCameraCom->m_fDistance = m_fFarZoom;
-		}*/
+			m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DRAG_MAX, LERP_MODE::SMOOTHERSTEP);
+
+			m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_MAX);
+
+			m_bDrag = FALSE;
+		}
 	}
 }
 

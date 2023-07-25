@@ -220,7 +220,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 void CScene_World::LateUpdate_Scene()
 {
-	/*
+	
 	if (CInputDev::GetInstance()->Key_Down('N'))
 	{
 		_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
@@ -233,7 +233,7 @@ void CScene_World::LateUpdate_Scene()
 		_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")->Get_Transform()->Get_Info(INFO_POS);
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vTargetPos, vPlayerPos);
 	}
-	*/
+	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	// 00. 1차 충돌 처리

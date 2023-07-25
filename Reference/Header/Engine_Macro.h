@@ -32,24 +32,30 @@ namespace Engine
 
 // Cam Diatance
 #define CAM_DISTANCE_DEFAULT		23.f
+#define	CAM_DISTANCE_MAX			80.f
 
 // Cam FOV
 #define CAM_FOV_DEFAULT				D3DXToRadian(60.f)
 #define CAM_FOV_PLAYER_RANGE		D3DXToRadian(70.f) // 원거리 공격
 #define CAM_FOV_PLAYER_FLIGHT		D3DXToRadian(80.f)
 #define CAM_FOV_PLAYER_ATTACK		D3DXToRadian(57.f) // 근거리 공격
+#define	CAM_FOV_DRAG_MAX			D3DXToRadian(90.f) // 드래그시 FOV
 
+// Cam Height
 #define CAM_HEIGHT_MAG				1.8f
 
+// VTX
 #define	VTXCNTX						257
 #define VTXCNTZ						257
 #define VTXITV						3
 
+// Player Pos
 #define START_POS_WORLD_X			346.f
 #define START_POS_WORLD_Z			120.f
 #define START_POS_DUNGEON_X			53.f
 #define START_POS_DUNGEON_Z			32.f
 
+// Terrain Size
 #define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile
 #define	TERRAIN_SIZE_DUNGEON		165.f // 74 Tile * 74 Tile
 

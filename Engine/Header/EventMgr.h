@@ -73,6 +73,8 @@ private:
 	HRESULT					Add_Event(const EVENT& _event);
 	HRESULT					Execute_Event(const EVENT& _event);
 
+	vector<CGameObject*>&	Get_VecDeleteObj() { return m_vecDeleteObj; }
+
 private:
 	vector<EVENT>			m_vecEvent;
 	vector<CGameObject*>	m_vecDeleteObj;
