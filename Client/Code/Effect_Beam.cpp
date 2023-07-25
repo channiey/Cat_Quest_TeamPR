@@ -2,6 +2,7 @@
 #include "Effect_Beam.h"
 
 #include "Export_Function.h"
+#include "Player.h"
 
 CEffect_Beam::CEffect_Beam(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_BEAM)
@@ -57,7 +58,21 @@ void CEffect_Beam::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 {
 	m_pTransformCom->Set_Pos(_vec3{ _vPos.x, m_pTransformCom->Get_Info(INFO::INFO_POS).y, _vPos.z - 5.2f });
 	m_bActive = true;
-	m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
+
+	if (m_pOwnerobject->Get_Type() == OBJ_TYPE::SKILL)
+	{
+		CGameObject* pSkillOwner = static_cast<CSkill*>(m_pOwnerobject)->Get_SkillOwner();
+		if (pSkillOwner->Get_Type() == OBJ_TYPE::PLAYER)
+		{
+			if(static_cast<CPlayer*>(pSkillOwner)->Get_PlayerClass() == CLASS_TYPE::THORN)
+				m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_DIE);
+			else
+				m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
+		}
+	}
+	else
+		m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
+	
 }
 
 HRESULT CEffect_Beam::Add_Component()
@@ -70,6 +85,13 @@ HRESULT CEffect_Beam::Add_Component()
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.05f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_IDLE, pAnimation);
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Skill_GoldenBeam", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_DIE, 0.05f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::FRONT_DIE, pAnimation);
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

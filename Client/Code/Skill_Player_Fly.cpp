@@ -67,6 +67,9 @@ _int CSkill_Player_Fly::Update_Object(const _float& fTimeDelta)
 
     Picking_Terrain();
 
+    m_pAICom->Chase_Target(&m_vMousePos, fTimeDelta, 8.f);
+    m_pTransformCom->Translate(fTimeDelta * 8.f);
+
     return iExit;
 }
 
@@ -74,6 +77,12 @@ void CSkill_Player_Fly::LateUpdate_Object()
 {
     if (m_bAttack)
         m_bAttack = false;
+
+    _vec3 vDir = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS) - m_pTransformCom->Get_Info(INFO::INFO_POS);
+    _float fLength = D3DXVec3Length(&vDir);
+
+    if (fLength > 45)
+        m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
 
     __super::LateUpdate_Object();
 }
@@ -208,7 +217,7 @@ void CSkill_Player_Fly::Picking_Terrain()
 
     vecMouse.y = 0.02;
     m_vMousePos = vecMouse;
-    m_pTransformCom->Set_Pos(m_vMousePos);
+  
   
 }
 

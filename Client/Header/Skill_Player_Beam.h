@@ -30,7 +30,9 @@ public:
 	virtual HRESULT			End();
 
 private:
+	CEffect_Range_Quater* m_pGoldRange;
 	_bool	m_bIsEffectEnd;
+	
 
 public:
 	static CSkill_Player_Beam* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
