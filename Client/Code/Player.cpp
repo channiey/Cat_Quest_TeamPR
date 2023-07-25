@@ -87,7 +87,7 @@ HRESULT CPlayer::Ready_Object()
 
 
 	m_tMoveInfo.fMoveSpeed = 20.f;
-	Set_AD(5);
+	Set_AD(10);
 
 	m_fBallTargetLenght = 18.f;
 	m_pBallTarget = nullptr;
@@ -420,8 +420,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	//		Get_GameObject(OBJ_TYPE::UI, L"UI_Inventory");
 	//}
 
-	if (CInputDev::GetInstance()->Key_Down('Q')) // Jump Test
-		m_pRigidBodyCom->Jump();
+	
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -1183,6 +1182,9 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
 
+	if (CInputDev::GetInstance()->Key_Down(VK_LSHIFT)) // Jump Test
+		m_pRigidBodyCom->Jump();
+
 	if (CInputDev::GetInstance()->Key_Down('1') &&
 		m_arrSkillSlot[0] != nullptr && !m_arrSkillSlot[0]->Is_Active() &&
 		m_arrSkillSlot[0]->Get_SkillUsage() <= m_tStatInfo.fCurMP)
@@ -1245,9 +1247,9 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_CurHP(m_tStatInfo.fMaxHP);
 	if (CInputDev::GetInstance()->Key_Down('K'))
 		Set_CurMP(m_tStatInfo.fMaxMP);
-	if (CInputDev::GetInstance()->Key_Down('C'))
+	if (CInputDev::GetInstance()->Key_Down('N'))
 		Set_MoveSpeed(50.f);
-	if (CInputDev::GetInstance()->Key_Down('V'))
+	if (CInputDev::GetInstance()->Key_Down('M'))
 		Set_MoveSpeed(20.f);
 }
 
@@ -1277,7 +1279,8 @@ void CPlayer::Clocking_Time(const _float& fTimeDelta)
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK1 ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK2 ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_HIT)
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_HIT ||
+			true == m_bIsTalking)
 		{
 			m_fClockingAcc = 0.f;
 			m_iClockAlpha = 255;
