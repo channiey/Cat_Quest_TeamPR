@@ -129,7 +129,7 @@ void CRigidBody::Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse)
 
 void CRigidBody::Jump()
 {
-	if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
+	if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() || m_bJump)
 		return;
 
 	m_bJump = TRUE;
