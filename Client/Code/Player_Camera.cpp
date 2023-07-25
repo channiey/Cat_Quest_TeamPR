@@ -95,7 +95,7 @@ void CPlayer_Camera::Start_Fade(const FADE_MODE& _eMode)
 	switch (_eMode)
 	{
 	case Engine::FADE_MODE::ENTER_WORLD:
-		m_pFadeUI->Start_Fade(3.f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
+		m_pFadeUI->Start_Fade(4.f, 255.f, 0.f, TRUE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::BLACK_FADE_IN:
 		m_pFadeUI->Start_Fade(1.5f, 255.f, 0.f, FALSE, LERP_MODE::EASE_IN); break;
 	case Engine::FADE_MODE::BLACK_FADE_OUT:
@@ -253,7 +253,11 @@ void CPlayer_Camera::Lerp_Enter_Scene()
 void CPlayer_Camera::Lerp_Change_Target()
 {
 	_vec3 vFollowPos = m_pCameraCom->m_tVec3Lerp.vCurVec;
+
+	if (0 == D3DXVec3Length(&vFollowPos))	return;
+		
 	_vec3 vLookPos = vFollowPos;
+
 
 	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
 	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - vLookPos;

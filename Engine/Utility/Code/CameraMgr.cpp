@@ -271,7 +271,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
 
 			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
-			m_pCurCamera->Get_CameraCom()->Lerp_Height(4.f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(4.5f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
 		}
 			break;
 		case Engine::CAMERA_ACTION::SCENE_LOOK_WORLD:
@@ -320,7 +320,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 
 			// 두 지점 사이의 거리에 비례하여 보간 시간을 정하도록 한다.
 			_float fDistance = D3DXVec3Length(&(_vStartPos - _vEndPos));
-			_float fMag = 0.03f;
+			_float fMag = 0.015f;
 
 			// y에 대한 보간은 빼도록 한다.
 			_vec3 vOrigin = _vStartPos;
