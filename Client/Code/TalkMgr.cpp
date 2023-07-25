@@ -230,7 +230,7 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 					// 카메라 이벤트 끝났으면
 					if (!m_pCam->Is_LerpTargetChange())
 					{
-						m_iStayTime = GetTickCount64() + 800;
+						m_iStayTime = GetTickCount64() + 1300;
 						m_bStaySet = true;
 					}
 				}
