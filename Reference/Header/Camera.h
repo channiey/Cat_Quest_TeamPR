@@ -101,8 +101,6 @@ public:
 
 	_float					m_fInitLookY; // 플레이어등 점프 전 초기 y값을 받아둔다.
 
-	LERP_FLOAT_INFO			m_tZoomLerp;
-
 	CAMERA_TYPE				m_eCameraType;
 
 	_bool					m_bAction;
@@ -110,7 +108,7 @@ public:
 	LERP_FLOAT_INFO			m_tFOVLerp;
 	LERP_VEC3_INFO			m_tVec3Lerp;
 	LERP_FLOAT_INFO			m_tHeightLerp;
-
+	LERP_FLOAT_INFO			m_tDistanceLerp;
 
 private:
 	virtual void			Free();
