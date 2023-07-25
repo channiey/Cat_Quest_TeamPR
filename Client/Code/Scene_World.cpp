@@ -89,6 +89,7 @@
 #include "Inventory.h"
 #include "FlightUI.h"
 #include "DungeonTextUI.h"
+#include "QuestUI.h"
 
 // NPC
 #include "Npc_King.h"
@@ -395,6 +396,12 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Flight", pGameObject), E_FAIL);
 
+	// UI - Quest
+	pGameObject = CQuestUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Quest", pGameObject), E_FAIL);
+
+
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 
 	return S_OK;
@@ -625,7 +632,6 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	//pGameObject = CSweets2::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"CSweets2", pGameObject), E_FAIL);
-
 
 	return S_OK;
 }

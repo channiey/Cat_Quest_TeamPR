@@ -237,6 +237,7 @@
     <ClInclude Include="..\Header\Quest4.h" />
     <ClInclude Include="..\Header\QuestData.h" />
     <ClInclude Include="..\Header\QuestMgr.h" />
+    <ClInclude Include="..\Header\QuestUI.h" />
     <ClInclude Include="..\Header\RamState_bAttack.h" />
     <ClInclude Include="..\Header\RamState_bChase.h" />
     <ClInclude Include="..\Header\RamState_bComeBack.h" />
@@ -542,6 +543,7 @@
     <ClCompile Include="..\Code\Quest3.cpp" />
     <ClCompile Include="..\Code\Quest4.cpp" />
     <ClCompile Include="..\Code\PlayerState_fAttack3.cpp" />
+    <ClCompile Include="..\Code\QuestUI.cpp" />
     <ClCompile Include="..\Code\Scene_Ending.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\Fish.cpp" />

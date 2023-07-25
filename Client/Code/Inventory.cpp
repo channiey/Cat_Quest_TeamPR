@@ -76,7 +76,7 @@ HRESULT CInventory::Add_Item(CGameObject* _pItem)
 	// 없는 아이템만 추가
 	if (!m_bIsItem)
 	{
-		CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+		CGameObject* pGameObject = _pItem;
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		CEventMgr::GetInstance()->Add_Obj(_pItem->Get_Name(), pGameObject);
 		pGameObject->Set_Maintain(true);
