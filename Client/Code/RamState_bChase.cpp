@@ -38,35 +38,59 @@ HRESULT CRamState_bChase::Ready_State(CStateMachine* pOwner)
 
 STATE_TYPE CRamState_bChase::Update_State(const _float& fTimeDelta)
 {
-  
     // Monster - Ai Com
-    //CAIComponent* pOwnerAI = m_pOwner->Get_OwnerObject()->Get_AiComponent();
     CComponent* pOwnerAI = dynamic_cast<CAIComponent*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::AICOM, COMPONENTID::ID_DYNAMIC));
+    NULL_CHECK_MSG(pOwnerAI, L"pOwnerAI nullptr");
 
     // Monster - Transform Com
     CTransform* pOwnerTransform = m_pOwner->Get_OwnerObject()->Get_Transform();
+    NULL_CHECK_MSG(pOwnerTransform, L"pOwnerTransform nullptr");
 
-    //Player
+    //Monster - Animator
+    CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwner->Get_OwnerObject()->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
+    NULL_CHECK_MSG(pOwnerAnimator, L"pOwnerAnimator nullptr");
+
+    // Monster - Cur Animation info
+    CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
+    NULL_CHECK_MSG(pOwenrCurAnimation, L"pOwnerCurAnimation nullptr");
+
+
+    // Player
     CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-
+    NULL_CHECK_MSG(pPlayer, L"pPlayer nullptr");
 
     // Player - Transform Com
     CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-    NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
+    NULL_CHECK_MSG(pPlayerTransform, L"pPlayerTransform nullptr");
 
     // Monster - Pos
-    _vec3	    vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
-    // Monster - Origin Pos
+    _vec3       vOwnerPos = pOwnerTransform->Get_Info(INFO_POS);
+    NULL_CHECK_MSG(vOwnerPos, L"vOwnerPos nullptr");
+
+    // Mosnter - Origin Pos
     _vec3       vOwnerOriginPos = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_OriginPos();
+    NULL_CHECK_MSG(vOwnerOriginPos, L"vOwnerOriginPos nullptr");
+
     // Monster - Speed
     _float      vOwnerSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed;
-    // Moanter - Scale
-    _vec3       vOwnerScale = pOwnerTransform->Get_Scale();
+    NULL_CHECK_MSG(vOwnerSpeed, L"vOwnerSpeed nullptr");
+
+    // Monster - PatternTime
+    _float      vOwnerPatternTime = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_PatternTime();
+    NULL_CHECK_MSG(vOwnerPatternTime, L"vOwnerPatternTime nullptr");
+
+    // Monster - Scale
+    _vec3 vOwnerScale = pOwnerTransform->Get_Scale();
+    NULL_CHECK_MSG(vOwnerScale, L"vOwnerScale nullptr");
+
     // Monster - Dir
-    _vec3       vOwnerDir = pOwnerTransform->Get_Dir();
+    _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
+    NULL_CHECK_MSG(vOwnerDir, L"vOwnerDir nullptr");
 
     // Player - Pos
-    _vec3	    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
+    _vec3       vPlayerPos;
+    vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
+    NULL_CHECK_MSG(pPlayerTransform, L"pPlayerTransform nullptr");
 
     // Dir Vector
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]

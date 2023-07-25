@@ -161,6 +161,10 @@ namespace Engine
 
 		// RANGE
 		EFFECT_RANGE,
+			 
+			 
+		// Boss 
+		EFFECT_BOSS_THUNDER,
 
 
 		// Cast (NONE)
@@ -180,6 +184,8 @@ namespace Engine
 
 		//Monster_SKill
 		SKILL_MONSTER_FIRE, SKILL_MONSTER_THUNDER, SKILL_MONSTER_ICE, SKILL_MONSTER_BEAM, SKILL_MONSTER_BASIC,
+
+	
 
 
 		/* ========================================= Generator ========================================*/
