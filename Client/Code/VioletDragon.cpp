@@ -18,12 +18,13 @@
 #include "VioletDragonState_FullDown_Down.h"
 
 #include "VioletDragonState_ConvergingFire.h"
+#include "VioletDragonState_BloodyThunder.h"
 
+// Effect
 #include "Shadow_Monster.h"
-//#include "Skill_Monster_Ice.h"
 #include "Skill_Monster_CircleAttack.h"
 #include "Skill_Boss_FullDown.h"
-
+#include "Skill_Boss_BloodyThunder.h"
 #include "BigCircle_Stemp.h"
 
 
@@ -67,7 +68,7 @@ HRESULT CVioletDragon::Ready_Object()
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.f, m_vImageSize.y * 2.f , m_vImageSize.z });
 	
-	m_pTransformCom->Set_Pos(_vec3{ 110.f, m_pTransformCom->Get_Scale().y, 200.f });
+	m_pTransformCom->Set_Pos(_vec3{ 350.f, m_pTransformCom->Get_Scale().y, 150.f });
 
 	//m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
 
@@ -86,6 +87,8 @@ HRESULT CVioletDragon::Ready_Object()
 
 	m_bSkill = false;
 	m_bFullDown = false;
+	m_bBloodyTunder = false;
+
 
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -101,6 +104,11 @@ HRESULT CVioletDragon::Ready_Object()
 		m_pFullDown = CSkill_Boss_FullDown::Create(m_pGraphicDev, this);
 		NULL_CHECK_RETURN(m_pFullDown, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_FullDown", m_pFullDown), E_FAIL);
+
+		m_pBloodyThunder = CSkill_Boss_BloodyThunder::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pBloodyThunder, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_BloodyThunder", m_pBloodyThunder), E_FAIL);
+
 
 	}
 
@@ -169,11 +177,13 @@ HRESULT CVioletDragon::Ready_Object()
 	pState = CVioletDragonState_FullDown_Down::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_DOWN, pState);
 
-
 	// Converging Fire
 	pState = CVioletDragonState_ConvergingFire::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CONVERGING_FIRE, pState);
 
+	// Bloody Thunder
+	pState = CVioletDragonState_BloodyThunder::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLOODY_THUNDER, pState);
 
 
 
@@ -244,7 +254,11 @@ HRESULT CVioletDragon::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)], STATE_TYPE::BOSS_CONVERGING_FIRE, 0.05f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CONVERGING_FIRE, pAnimation);
 
+	// Bloody Thunder
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)], STATE_TYPE::BOSS_BLOODY_THUNDER, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLOODY_THUNDER, pAnimation);
 
+	
 
 
 
@@ -258,7 +272,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Test 
-	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_FULLDOWN_FLY);
+	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_BLOODY_THUNDER);
 
 
 
@@ -313,6 +327,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	//	}
 	//}
 
+
 	// Base Skill Use Condition
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
 	{
@@ -348,8 +363,6 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			m_bFullDown = false;
 		}
 	}
-
-
 	if (STATE_TYPE::BOSS_FULLDOWN_DOWN == CurState )
 	{
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 3)
@@ -357,6 +370,39 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CBigCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
 		}
 	}
+
+
+
+
+	// Bloody Thunder Skill Use Condition
+	if (STATE_TYPE::BOSS_BLOODY_THUNDER == CurState && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+	{
+		m_fAccTime += fTimeDelta;
+
+		if (!m_bBloodyTunder && m_fAccTime <= 1.f)
+		{
+			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Play();
+			m_bBloodyTunder = true;
+		}
+		if ( m_fAccTime >= 2.f && m_bBloodyTunder == true )
+		{
+			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
+	
+			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LatePlay();
+			//CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
+			m_bBloodyTunder = false;
+		}
+		if (m_bBloodyTunder == false && m_fAccTime >= 4.f)
+		{
+			CCameraMgr::GetInstance()->Stop_Shake();
+			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
+			m_fAccTime = 0.f;
+		}
+		
+	}
+
+
+
 
 
 	
@@ -490,6 +536,10 @@ HRESULT CVioletDragon::Add_Component()
 
 	 
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 

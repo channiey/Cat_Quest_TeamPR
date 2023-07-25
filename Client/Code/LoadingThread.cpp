@@ -734,6 +734,11 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Big_Range_Skill_Circle_Red.png")), E_FAIL);
 
 
+	//// Boss Skill =====================================================================
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+
+
 
 
 

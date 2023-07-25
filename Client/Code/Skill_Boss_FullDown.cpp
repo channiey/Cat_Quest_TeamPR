@@ -6,13 +6,13 @@
 #include "RangeObj.h"
 
 CSkill_Boss_FullDown::CSkill_Boss_FullDown(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_BASIC)
+	:CSkill(pGraphicDev, OBJ_ID::SKILL_BOSS_FULLDOWN)
 
 {
 }
 
 CSkill_Boss_FullDown::CSkill_Boss_FullDown(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
-	:CSkill(pGraphicDev, _pOwnerObject, OBJ_ID::SKILL_MONSTER_BASIC)
+	:CSkill(pGraphicDev, _pOwnerObject, OBJ_ID::SKILL_BOSS_FULLDOWN)
 {
 }
 
@@ -98,6 +98,7 @@ HRESULT CSkill_Boss_FullDown::Add_Component()
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_FireSkill_Range", pRangeEffect), E_FAIL);
 	//m_pRangeEffect = pRangeEffect;
 
+
 	// Effect Range Quater - Base
 	m_pBaseRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
 	NULL_CHECK_RETURN(m_pBaseRangeEffect, E_FAIL);
@@ -112,6 +113,8 @@ HRESULT CSkill_Boss_FullDown::Play()
 
 	_vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
 	OBJ_ID eObjID = m_pOwnerObject->Get_ID();
+
+
 
 	m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
 	m_pBaseRangeEffect->Alphaing(4.f, 255.f, 80.f);
@@ -155,4 +158,5 @@ CSkill_Boss_FullDown* CSkill_Boss_FullDown::Create(LPDIRECT3DDEVICE9 pGraphicDev
 
 void CSkill_Boss_FullDown::Free()
 {
+	__super::Free();
 }

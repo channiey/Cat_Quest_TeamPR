@@ -666,7 +666,7 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_Fish", pGameObject), E_FAIL);
 
-	//// Violet Dragon
+	//// Violet Dragon  - Test 
 	//pGameObject = CVioletDragon::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon", pGameObject), E_FAIL);
@@ -680,6 +680,9 @@ HRESULT CScene_World::Ready_Layer_KJM()
 	//pGameObject = CFoxFire::Create(m_pGraphicDev, { 180,2.f,180 }, {1,0,0});
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire ", pGameObject), E_FAIL);
+
+
+
 
 
 	return S_OK;

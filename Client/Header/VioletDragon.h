@@ -44,7 +44,8 @@ private:
 	CSkill*					m_pFullDown;
 	_bool					m_bFullDown;
 
-
+	CSkill*					m_pBloodyThunder;
+	_bool					m_bBloodyTunder;
 
 protected:
 	virtual void		Free() override;

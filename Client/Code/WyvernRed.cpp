@@ -77,6 +77,7 @@ HRESULT CWyvernRed::Ready_Object()
 	m_bSkill = false;
 	m_bBaseSkill = false;
 
+
 	// 스킬 생성
 	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
@@ -233,6 +234,7 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 		m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
 	}
+
 
 	// Skill Use Condition
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();

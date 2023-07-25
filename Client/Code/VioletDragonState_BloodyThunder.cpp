@@ -1,34 +1,41 @@
-#include "VioletDragonState_FullDown_Down.h"
+#include "VioletDragonState_BloodyThunder.h"
+#include "Player.h"
 #include "Export_Function.h"
+#include "EventMgr.h"
 #include "Monster.h"
 #include "Player.h"
+#include "Effect_Boss_Thunder.h"
+#include "Skill_Boss_BloodyThunder.h"
 
-CVioletDragonState_FullDown_Down::CVioletDragonState_FullDown_Down(LPDIRECT3DDEVICE9 pGraphicDev)
+
+CVioletDragonState_BloodyThunder::CVioletDragonState_BloodyThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
 {
+	
 }
 
-CVioletDragonState_FullDown_Down::~CVioletDragonState_FullDown_Down()
+CVioletDragonState_BloodyThunder::~CVioletDragonState_BloodyThunder()
 {
 }
 
-
-HRESULT CVioletDragonState_FullDown_Down::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_BloodyThunder::Ready_State(CStateMachine* pOwner)
 {
 
 	if (nullptr != pOwner)
 	{
 		m_pOwner = pOwner;
 	}
-	m_eState = STATE_TYPE::BOSS_FULLDOWN_DOWN;
+	m_eState = STATE_TYPE::BOSS_BLOODY_THUNDER;
 
 	m_fAccTime = 0.f;
+
+    m_bThunder = false;
 
 	return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -102,66 +109,52 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 
 
 
-	// Time
-	m_fAccTime += fTimeDelta;
+
+    m_fAccTime += fTimeDelta;
+   
 
 
 
-	if (pOwenrCurAnimation->Is_End())
-	{
-		//CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);  // 사람들을 위해서 카메라 쉐이킹 주석처리
-
-		if (m_fAccTime >= 1.f)
-		{
-			CCameraMgr::GetInstance()->Stop_Shake();
-		}
-	}
+    if (m_fAccTime >= 5.f)
+    {
+        m_fAccTime = 0.f;
+        //return STATE_TYPE::BOSS_FULLDOWN_FLY;
+        return STATE_TYPE::BOSS_CONVERGING_FIRE;
+    }
 
 
-	// 임시로 전이 반복 시킴 
-	// State Change 
-
-	if (m_fAccTime >= 5.f)
-	{
-		m_fAccTime = 0.f;
-		return STATE_TYPE::BOSS_CONVERGING_FIRE;
-	}
-
-
-	return STATE_TYPE::BOSS_FULLDOWN_DOWN;
+	return STATE_TYPE::BOSS_BLOODY_THUNDER;
 }
 
-void CVioletDragonState_FullDown_Down::LateUpdate_State()
+void CVioletDragonState_BloodyThunder::LateUpdate_State()
+{
+
+}
+
+void CVioletDragonState_BloodyThunder::Render_State()
 {
 }
 
-void CVioletDragonState_FullDown_Down::Render_State()
+STATE_TYPE CVioletDragonState_BloodyThunder::Key_Input(const _float& fTimeDelta)
 {
-}
-
-STATE_TYPE CVioletDragonState_FullDown_Down::Key_Input(const _float& fTimeDelta)
-{
-
 	return m_eState;
 }
 
-CVioletDragonState_FullDown_Down* CVioletDragonState_FullDown_Down::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_BloodyThunder* CVioletDragonState_BloodyThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-	CVioletDragonState_FullDown_Down* pInstance = new CVioletDragonState_FullDown_Down(pGraphicDev);
+	CVioletDragonState_BloodyThunder* pInstance = new CVioletDragonState_BloodyThunder(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_State(pOwner)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("VioletDragonState Down Create Failed");
+		MSG_BOX("VioletDragonState BloodyThunder Create Failed");
 		return nullptr;
 
 	}
-	return pInstance;
 
+	return pInstance;
 }
 
-void CVioletDragonState_FullDown_Down::Free()
+void CVioletDragonState_BloodyThunder::Free()
 {
-
-	__super::Free();
 }
