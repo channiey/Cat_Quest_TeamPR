@@ -32,7 +32,7 @@ namespace Engine
 
 // Cam Diatance
 #define CAM_DISTANCE_DEFAULT		23.f
-#define	CAM_DISTANCE_MAX			80.f
+#define	CAM_DISTANCE_MAX			70.f
 
 // Cam FOV
 #define CAM_FOV_DEFAULT				D3DXToRadian(60.f)

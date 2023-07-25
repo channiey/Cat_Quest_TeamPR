@@ -169,7 +169,7 @@
 
 
 TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";
-TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Test.dat";
+TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";
 
 #pragma region Global
 
