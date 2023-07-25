@@ -31,7 +31,7 @@ HRESULT CConvergingFire_Bullet::Ready_Object()
 
     m_bNonTarget = false;
 
-	m_fSpeed = 20.f;
+	m_fSpeed = 5.f;
     m_fAccTime = 0.f;
 	m_szName = L"Projectile_Boss_Converging";
 
@@ -66,10 +66,10 @@ _int CConvergingFire_Bullet::Update_Object(const _float& fTimeDelta)
     if (m_fAccTime >= 4.f)
     {
        // m_pTransformCom->Set_Dir(vBulletDir);
-        m_fSpeed = 30.f;
+        m_fSpeed = 40.f;
     }
     
-    if (m_fAccTime >= 10.f)
+    if (m_fAccTime >= 5.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }

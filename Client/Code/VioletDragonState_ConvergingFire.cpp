@@ -251,7 +251,7 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
 #pragma region State Change
 
-    if (m_fAccTime >= 4.f)
+    if (m_fAccTime >= 5.f)
     {
         m_fAccTime = 0.f;
 

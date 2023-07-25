@@ -51,6 +51,8 @@ _int CSkill_Boss_BloodyThunder::Update_Object(const _float& fTimeDelta)
 	// Dead condition
 	if (!m_pOwnerObject->Is_Active())
 	{
+		End();
+
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect1);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect2);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect3);

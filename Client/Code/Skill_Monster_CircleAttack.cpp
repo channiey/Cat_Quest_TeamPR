@@ -45,6 +45,7 @@ _int CSkill_Monster_CircleAttack::Update_Object(const _float& fTimeDelta)
     _int iExit = CSkill::Update_Object(fTimeDelta);
     if (!m_pOwnerObject->Is_Active())
     {
+        End();
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
         //CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
