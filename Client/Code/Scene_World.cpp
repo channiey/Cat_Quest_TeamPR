@@ -191,6 +191,12 @@ HRESULT CScene_World::Ready_Scene()
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
+
+	if (CInputDev::GetInstance()->Key_Down('V')) 
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK); // Top View -> Back View
+	else if (CInputDev::GetInstance()->Key_Down('B'))
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP); // Back View -> Top View
+
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	if (!m_bStartFade)
@@ -218,19 +224,6 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 void CScene_World::LateUpdate_Scene()
 {
-	
-	if (CInputDev::GetInstance()->Key_Down('N'))
-	{
-		_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
-		_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")->Get_Transform()->Get_Info(INFO_POS);
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vPlayerPos, vTargetPos, TRUE);
-	}
-	if (CInputDev::GetInstance()->Key_Down('M'))
-	{
-		_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
-		_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")->Get_Transform()->Get_Info(INFO_POS);
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vTargetPos, vPlayerPos);
-	}
 	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 

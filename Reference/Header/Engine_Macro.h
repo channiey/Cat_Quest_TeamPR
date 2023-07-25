@@ -33,6 +33,7 @@ namespace Engine
 // Cam Diatance
 #define CAM_DISTANCE_DEFAULT		23.f
 #define	CAM_DISTANCE_MAX			70.f
+#define	CAM_DISTANCE_JUMP			15.f
 
 // Cam FOV
 #define CAM_FOV_DEFAULT				D3DXToRadian(60.f)
@@ -43,6 +44,7 @@ namespace Engine
 
 // Cam Height
 #define CAM_HEIGHT_MAG				1.8f
+#define CAM_HEIGHT_JUMP				1.5f
 
 // VTX
 #define	VTXCNTX						257
@@ -54,6 +56,8 @@ namespace Engine
 #define START_POS_WORLD_Z			120.f
 #define START_POS_DUNGEON_X			53.f
 #define START_POS_DUNGEON_Z			32.f
+
+#define	JUMP_POWER					600.f
 
 // Terrain Size
 #define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile

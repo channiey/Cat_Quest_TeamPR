@@ -394,6 +394,9 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	//		Get_GameObject(OBJ_TYPE::UI, L"UI_Inventory");
 	//}
 
+	if (CInputDev::GetInstance()->Key_Down('Q')) // Jump Test
+		m_pRigidBodyCom->Jump();
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);

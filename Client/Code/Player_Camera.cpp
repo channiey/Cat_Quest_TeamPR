@@ -10,13 +10,14 @@ CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_pFadeUI(nullptr)
 	, m_eFadeMode(FADE_MODE::TYPEEND)
 	, m_bDrag(TRUE)
+	, m_bBackView(FALSE)
 {
 
 }
 CPlayer_Camera::CPlayer_Camera(const CPlayer_Camera& rhs)
 	: Engine::CCameraObject(rhs)
 {
-
+	ZeroMemory(&m_fJumpDelta, sizeof(LERP_FLOAT_INFO));
 }
 CPlayer_Camera::~CPlayer_Camera()
 {
@@ -76,6 +77,9 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 		m_pCameraCom->m_tDistanceLerp.Update_Lerp(fTimeDelta);
 		m_pCameraCom->m_fDistance = m_pCameraCom->m_tDistanceLerp.fCurValue;
 	}
+
+	m_fJumpDelta.Update_Lerp(fTimeDelta);
+
 	return iExit;
 }
 
@@ -198,11 +202,20 @@ void CPlayer_Camera::Set_ViewSpace()
 	D3DXVec3Normalize(&vDir1, &vDir1);
 	D3DXVec3Normalize(&vDir2, &vDir2);
 	_float fTheta = D3DXVec3Dot(&vDir1, &vDir2);
-	_float fY = sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG;
+	_float fY = 0.f;
+
+	
+	// 카메라 높이 세팅 (백뷰라면, 카메라의 높이를 낮춘다)
+	fY = (sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG) - (m_fJumpDelta.fCurValue * 0.25f); // m_fJumpDelta.fCurValue는 백뷰에서 사용
+
+	// 백뷰라면 바라보는 시점의 높이를 높인다.
+	vLerpPos.y += m_fJumpDelta.fCurValue * 0.5f;
 
 	m_pTransformCom->Set_Pos(_vec3{ vLerpPos.x,
 									fY,
-									vLerpPos.z - m_pCameraCom->m_fDistance });
+									vLerpPos.z - m_pCameraCom->m_fDistance }); // m_fJumpDelta.fCurValue는 백뷰에서 사용
+
+
 
 
 
@@ -285,4 +298,24 @@ CPlayer_Camera* CPlayer_Camera::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
+void CPlayer_Camera::Set_BackView(const _bool& _bBackView)
+{
+	if (_bBackView && !m_bBackView)
+	{
+		m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_pCameraCom->m_tDistanceLerp.Set_Lerp(1.f, m_pCameraCom->m_fDistance, CAM_DISTANCE_JUMP);
 
+		m_fJumpDelta.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_fJumpDelta.Set_Lerp(1.f, 0, 10.f);
+		m_bBackView = TRUE;
+	}
+	else if(!_bBackView && m_bBackView)
+	{
+		m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_pCameraCom->m_tDistanceLerp.Set_Lerp(1.f, m_pCameraCom->m_fDistance, CAM_DISTANCE_DEFAULT);
+
+		m_fJumpDelta.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_fJumpDelta.Set_Lerp(1.f, 10.f, 0);
+		m_bBackView = FALSE;
+	}
+}

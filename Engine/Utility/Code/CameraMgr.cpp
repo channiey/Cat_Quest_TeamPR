@@ -222,6 +222,19 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_ATK :
 			break;
 
+		// TOP -> BACK
+		case Engine::CAMERA_ACTION::PLAYER_TOP_TO_BACK:
+			if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
+				m_pCurCamera->Set_BackView(TRUE);
+			break;
+
+		// BACK -> TOP
+		case Engine::CAMERA_ACTION::PLAYER_BACK_TO_TOP:
+			if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
+				m_pCurCamera->Set_BackView(FALSE);
+			break;
+
+
 #pragma endregion
 
 #pragma region SCENE

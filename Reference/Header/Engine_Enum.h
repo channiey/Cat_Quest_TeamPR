@@ -310,12 +310,13 @@ namespace Engine
 		, PLAYER_ATK_TO_IDL		// 근거리공격 -> 아이들
 		, PLAYER_RANATK_TO_IDL	// 원거리 공격 -> 아이들
 
+		, PLAYER_TOP_TO_BACK // 탑뷰 -> 백뷰
+		, PLAYER_BACK_TO_TOP // 백뷰 -> 탑뷰
 
 		// Scene
 		, SCENE_ENTER_INGAME		// 플레이어 y + 30 -> 플레이어 y (최초 월드 입장)
 		, SCENE_ENTER_FIELD				// 씬 변경시마다 호출
 		, SCENE_LOOK_WORLD		// 드래그시 전체 월드 보이게 
-
 
 		// GameObject
 		, OBJ_CHANGE_TARGET		// NPC 등 퀘스트 안내

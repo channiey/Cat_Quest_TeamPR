@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "Export_Function.h"
-
+#include "CameraMgr.h"
 CRigidBody::CRigidBody()
 {
 	
@@ -21,6 +21,8 @@ CRigidBody::CRigidBody(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_fMaxSpeed = 40.f;
 	m_fFriction = 0.05f;
 	m_vGravity = vec3.down;
+	m_bJump = false;
+	m_fStartY = 0.f;
 }
 
 CRigidBody::CRigidBody(const CRigidBody& rhs, CGameObject* _pOwnerObject)
@@ -32,6 +34,8 @@ CRigidBody::CRigidBody(const CRigidBody& rhs, CGameObject* _pOwnerObject)
 	, m_fMass(rhs.m_fMass)
 	, m_fMaxSpeed(rhs.m_fMaxSpeed)
 	, m_fFriction(rhs.m_fFriction)
+	, m_bJump(rhs.m_bJump)
+	, m_fStartY(rhs.m_fStartY)
 
 {
 	Ready_RigidBody();
@@ -54,15 +58,21 @@ void CRigidBody::LateUpdate_Component()
 	// 현재 속도 계산
 	NULL_CHECK(m_pOwnerObject);
 
-	m_vForce += (m_vGravity * m_fMass);
-	m_vForce.y = 0;
-
-	if (D3DXVec3Length(&m_vForce) > 0.f) // 임시 마찰 
+	if (m_bJump)
 	{
-		m_vForce -= m_vForce * m_fFriction;
+		const _vec3 vGrabity{ 0.f, -4.f, 0.f };
+		m_vForce += (vGrabity * m_fMass);
+	}
+	else
+	{
+		m_vForce += (m_vGravity * m_fMass);
+		m_vForce.y = 0;
 	}
 
-	m_vAcc = m_vForce / m_fMass;							
+	if (D3DXVec3Length(&m_vForce) > 0.f && !m_bJump) // 임시 마찰 
+		m_vForce -= m_vForce * m_fFriction;
+
+		m_vAcc = m_vForce / m_fMass;
 	                 
 	m_vVelocity = m_vAcc * Engine::Get_TimeDelta(L"Timer_FPS65");
 
@@ -73,9 +83,19 @@ void CRigidBody::LateUpdate_Component()
 	}
 
 	// 포지션 적용
+
 	_vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 
 	vPos += m_vVelocity;
+
+	if (m_bJump)
+	{
+		if (vPos.y < m_fStartY)
+		{
+			m_bJump = FALSE;
+			vPos.y = m_fStartY;
+		}
+	}
 
 	m_pOwnerObject->Get_Transform()->Set_Pos(vPos);
 }
@@ -105,6 +125,16 @@ void CRigidBody::Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse)
 	D3DXVec3Normalize(&vDir, &vDir);
 
 	Add_Impulse(vDir * _fImpulse);
+}
+
+void CRigidBody::Jump()
+{
+	if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
+		return;
+
+	m_bJump = TRUE;
+	Add_Impulse(vec3.up * JUMP_POWER);
+	m_fStartY = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS).y;
 }
 
 
