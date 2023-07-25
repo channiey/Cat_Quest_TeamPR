@@ -99,6 +99,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma region KANG
 
+	
+	// Quest UI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Quest",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest/UI_QuestBox.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_World",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_World.png")), E_FAIL);
