@@ -5,7 +5,7 @@
 class CEffect_Boss_Thunder: public CSkillEffect
 {
 protected:
-	explicit CEffect_Boss_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject , CGameObject* _TargetObject);
+	explicit CEffect_Boss_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CEffect_Boss_Thunder(const CEffect& rhs);
 	virtual ~CEffect_Boss_Thunder();
 
@@ -21,7 +21,7 @@ private:
 	HRESULT					Add_Component();
 
 public:
-	static CEffect_Boss_Thunder* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, CGameObject* _TargetObject);
+	static CEffect_Boss_Thunder* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 
 protected:
 	virtual void			Free() override;

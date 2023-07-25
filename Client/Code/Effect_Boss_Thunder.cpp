@@ -3,9 +3,10 @@
 
 #include "Export_Function.h"
 
-CEffect_Boss_Thunder::CEffect_Boss_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject ,CGameObject* _TargetObject)
+CEffect_Boss_Thunder::CEffect_Boss_Thunder(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject )
 	:CSkillEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_BOSS_THUNDER)
 {
+
 }
 
 CEffect_Boss_Thunder::CEffect_Boss_Thunder(const CEffect& rhs)
@@ -23,11 +24,8 @@ HRESULT CEffect_Boss_Thunder::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
-
-
-	m_pTransformCom->Set_Scale(_vec3{ 17.f, 17.f, 17.f });
-	//m_pTransformCom->Set_Pos();
+	m_pTransformCom->Set_Scale(_vec3{ 5.f , 10.f , 0.f });
+	//m_pTransformCom->Set_Pos(_vec3{ 150, 10.f, 70 });
 
 	m_bActive = false;
 
@@ -40,8 +38,11 @@ _int CEffect_Boss_Thunder::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+
 	if (m_bActive && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 		m_bActive = false;
+
+
 
 	return iExit;
 }
@@ -58,10 +59,12 @@ void CEffect_Boss_Thunder::Render_Object()
 
 void CEffect_Boss_Thunder::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 {
-	m_pTransformCom->Set_Pos(_vec3{ _vPos.x, m_pTransformCom->Get_Info(INFO::INFO_POS).y, _vPos.z + 5.2f });
+	m_pTransformCom->Set_Pos(_vec3{ _vPos.x, m_pTransformCom->Get_Scale().y, _vPos.z});
 	m_bActive = true;
 	m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
+
 }
+
 
 HRESULT CEffect_Boss_Thunder::Add_Component()
 {
@@ -81,9 +84,9 @@ HRESULT CEffect_Boss_Thunder::Add_Component()
 	return S_OK;
 }
 
-CEffect_Boss_Thunder* CEffect_Boss_Thunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, CGameObject* _TargetObject)
+CEffect_Boss_Thunder* CEffect_Boss_Thunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 {
-	CEffect_Boss_Thunder* pInstance = new CEffect_Boss_Thunder(pGraphicDev, _pOwnerObject , _TargetObject);
+	CEffect_Boss_Thunder* pInstance = new CEffect_Boss_Thunder(pGraphicDev, _pOwnerObject);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

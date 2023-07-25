@@ -25,15 +25,26 @@ HRESULT CVioletDragonState_ConvergingFire::Ready_State(CStateMachine* pOwner)
 
     m_fAccTime = 0.f;
 
-    m_bFirst = false;
-    m_bSecond = false;
-    m_bThird = false;
-    m_bFourth = false;
-    m_bFivth = false;
-    m_bSixth = false;
-    m_bSeventh = false;
-    m_Eighth = false;
 
+    m_bBullet1 = false;
+    m_bBullet2 = false;
+    m_bBullet3 = false;
+    m_bBullet4 = false;
+
+    m_bBullet5 = false;
+    m_bBullet6 = false;
+    m_bBullet7 = false;
+    m_bBullet8 = false;
+
+    m_bBullet9  = false;
+    m_bBullet10 = false;
+    m_bBullet11 = false;
+    m_bBullet12 = false;
+
+    m_bBullet13 = false;
+    m_bBullet14 = false;
+    m_bBullet15 = false;
+    m_bBullet16 = false;
 
     return S_OK;
 }
@@ -98,86 +109,158 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     m_fAccTime += fTimeDelta;
 
-    if (m_bFirst == false && m_fAccTime >= 0.5f) //1 
+    if (m_bBullet1 == false && m_fAccTime >= 0.5f) //1 
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 6.f , vOwnerPos.y +4.f , vOwnerPos.z -5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bFirst = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y +2.f , vOwnerPos.z -5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet1 = true;
     }
 
 
-    if (m_bSecond == false && m_fAccTime >= 0.7f) //2
+    if (m_bBullet2 == false && m_fAccTime >= 0.6f) //2
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging2", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y +6.f, vOwnerPos.z -5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bSecond = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging2", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 6.f , vOwnerPos.y +4.f, vOwnerPos.z -5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet2 = true;
     }
 
 
-    if (m_bThird == false && m_fAccTime >= 0.9f) //3
+    if (m_bBullet3 == false && m_fAccTime >= 0.7f) //3
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging3", CConvergingFire_Bullet::Create(m_pGraphicDev, {vOwnerPos.x +4.f , vOwnerPos.y + 6.f, vOwnerPos.z -5.f}, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bThird = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging3", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, {vOwnerPos.x -4.f , vOwnerPos.y + 6.f, vOwnerPos.z -5.f}, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet3 = true;
+    }
+
+    if (m_bBullet4 == false && m_fAccTime >= 0.8f) //4
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging4", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -2.f , vOwnerPos.y + 8.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet4 = true;
     }
 
 
-    if (m_bFourth == false  && m_fAccTime >= 1.1f) //4
+    if (m_bBullet5 == false && m_fAccTime >= 0.9f) //5
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging4", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 6.f, vOwnerPos.y + 4.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bFourth = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 2.f , vOwnerPos.y + 8.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet5 = true;
+    }
+
+    if (m_bBullet6 == false && m_fAccTime >= 1.f) //6
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging6", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet6 = true;
+    }
+
+    if (m_bBullet7 == false && m_fAccTime >= 1.1f) //7
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging7", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 6.f , vOwnerPos.y + 4.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet7 = true;
     }
 
 
-    if (m_bFivth == false &&  m_fAccTime >= 1.3f) //5
+    if (m_bBullet8 == false && m_fAccTime >= 1.2f) //8
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 6.f, vOwnerPos.y -4.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bFivth = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging8", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet8 = true;
     }
 
 
-    if (m_bSixth == false && m_fAccTime >= 1.5f) //6
+    if (m_bBullet9 == false && m_fAccTime >= 1.3f) //9
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging6", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y -6.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bSixth = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging9", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y -2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet9 = true;
+    }
+
+    if (m_bBullet10 == false && m_fAccTime >= 1.4f) //10
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging10", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x +6.f , vOwnerPos.y -4.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet10 = true;
     }
 
 
-    if (m_bSeventh == false && m_fAccTime >= 1.7f) //7
+    if (m_bBullet11 == false && m_fAccTime >= 1.5f) //11
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging7", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -4.f, vOwnerPos.y -6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_bSeventh = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging11", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y - 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet11 = true;
     }
 
-    if (m_Eighth == false && m_fAccTime >= 1.9f) //8
+
+    if (m_bBullet12 == false && m_fAccTime >= 1.6f) //12
     {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging8", CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -6.f, vOwnerPos.y -4.f, vOwnerPos.z - 7.f }, pPlayer, m_pOwner->Get_OwnerObject()));
-        m_Eighth = true;
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging12", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 2.f , vOwnerPos.y -8.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet12 = true;
     }
 
- 
+    if (m_bBullet13 == false && m_fAccTime >= 1.7f) //13
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging13", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -2.f , vOwnerPos.y -8.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet13 = true;
+    }
 
 
+    if (m_bBullet14 == false && m_fAccTime >= 1.8f) //14
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging14", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -4.f , vOwnerPos.y - 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet14 = true;
+    }
 
 
+    if (m_bBullet15 == false && m_fAccTime >= 1.9f) //15
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging15", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -6.f , vOwnerPos.y -4.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet15 = true;
+    }
 
 
-
-
+    if (m_bBullet16 == false && m_fAccTime >= 2.f) //16
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging16", 
+            CConvergingFire_Bullet::Create(m_pGraphicDev, { vOwnerPos.x -8.f , vOwnerPos.y -2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet16 = true;
+    }
 
 
 #pragma region State Change
 
-    if (m_fAccTime >= 5.f)
+    if (m_fAccTime >= 4.f)
     {
-        m_bFirst = false;
-        m_bSecond = false;
-        m_bThird = false;
-        m_bFourth = false;
-        m_bFivth = false;
-        m_bSixth = false;
-        m_bSeventh = false;
-        m_Eighth = false;
-
         m_fAccTime = 0.f;
-        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+
+        m_bBullet1 = false;
+        m_bBullet2 = false;
+        m_bBullet3 = false;
+        m_bBullet4 = false;
+
+        m_bBullet5 = false;
+        m_bBullet6 = false;
+        m_bBullet7 = false;
+        m_bBullet8 = false;
+
+        m_bBullet9 = false;
+        m_bBullet10 = false;
+        m_bBullet11 = false;
+        m_bBullet12 = false;
+
+        m_bBullet13 = false;
+        m_bBullet14 = false;
+        m_bBullet15 = false;
+        m_bBullet16 = false;
+    
+        
+        //cout << "번개 전이" << endl;
+        return STATE_TYPE::BOSS_BLOODY_THUNDER;
     }
 
     return STATE_TYPE::BOSS_CONVERGING_FIRE;
