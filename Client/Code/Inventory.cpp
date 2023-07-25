@@ -38,22 +38,6 @@ HRESULT CInventory::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	// 임시 아이템 추가
-	// CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
-	// CEventMgr::GetInstance()->Add_Obj(L"잭 해머", pGameObject);
-	// pGameObject->Set_Maintain(true);
-	// m_vecItem.push_back(pGameObject);
-	// 
-	// pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	// CEventMgr::GetInstance()->Add_Obj(L"차", pGameObject);
-	// pGameObject->Set_Maintain(true);
-	// m_vecItem.push_back(pGameObject);
-	// 
-	// pGameObject = CMageWeapon::Create(m_pGraphicDev);
-	// CEventMgr::GetInstance()->Add_Obj(L"고목 나무 스태프", pGameObject);
-	// pGameObject->Set_Maintain(true);
-	// m_vecItem.push_back(pGameObject);
-
 	for (_int i = 0; i < (_int)CLASS_TYPE::TYPEEND; ++i)
 	{
 		m_pMannequinAniCom[i] = CAnimation::Create(m_pGraphicDev, m_pMannequinTexCom[i], STATE_TYPE::FRONT_IDLE, 0.2f, true);
@@ -78,22 +62,58 @@ HRESULT CInventory::Ready_Object()
 	return S_OK;
 }
 
+HRESULT CInventory::Add_Item(CGameObject* _pItem)
+{
+	_bool m_bIsItem = false;
+	for (_int i = 0; i < m_vecItem.size(); ++i)
+	{
+		if (m_vecItem[i]->Get_Name() == _pItem->Get_Name())
+		{
+			m_bIsItem = true;
+			break;
+		}
+	}
+	// 없는 아이템만 추가
+	if (!m_bIsItem)
+	{
+		CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		CEventMgr::GetInstance()->Add_Obj(_pItem->Get_Name(), pGameObject);
+		pGameObject->Set_Maintain(true);
+		m_vecItem.push_back(pGameObject);
+	}
+}
 HRESULT CInventory::Add_Skill(CSkill* _pSKill)
 {
-	tagInvenSkill temp;
+	_bool m_bIsSkill = false;
+	for (_int i = 0; i < m_vecSkill.size(); ++i)
+	{
+		if (m_vecSkill[i].m_pSkill->Get_Name() == _pSKill->Get_Name())
+		{
+			m_bIsSkill = true;
+			break;
+		}
+	}
 
-	// 스킬
-	temp.m_pSkill = _pSKill;
-	CEventMgr::GetInstance()->Add_Obj(_pSKill->Get_Name(), temp.m_pSkill);
-	// 텍스쳐
-	temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
-	NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
-	// ID
-	temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
-	temp.m_pSkill->Set_Maintain(true);
+	// 없는 스킬만 추가
+	if (!m_bIsSkill)
+	{
+		tagInvenSkill temp;
 
-	m_vecSkill.push_back(temp);
+		// 스킬
+		temp.m_pSkill = _pSKill;
+		CEventMgr::GetInstance()->Add_Obj(_pSKill->Get_Name(), temp.m_pSkill);
+		// 텍스쳐
+		temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+		NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+		// ID
+		temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+		temp.m_pSkill->Set_Maintain(true);
+
+		m_vecSkill.push_back(temp);
+
+	}
 
 	return S_OK;
 }
@@ -757,76 +777,8 @@ _int CInventory::Update_Object(const _float& fTimeDelta)
 	{
 		if (nullptr == m_pPlayer)
 		{
-			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-			
-#pragma region TestSkillAdd
-			// 임시 스킬 추가
-			// tagInvenSkill temp;
-#pragma region Fire
-			// 스킬
-			// temp.m_pSkill = CSkill_Player_Fire::Create(m_pGraphicDev, m_pPlayer);
-			// CEventMgr::GetInstance()->Add_Obj(L"갸르릉 플레임", temp.m_pSkill);
-			// // 텍스쳐
-			// temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
-			// NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
-			// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
-			// // ID
-			// temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
-			// temp.m_pSkill->Set_Maintain(true);
-			// m_vecSkill.push_back(temp);
-#pragma endregion
-
-#pragma region Thunder
-			// 스킬
-			// temp.m_pSkill = CSkill_Player_Thunder::Create(m_pGraphicDev, m_pPlayer);
-			// CEventMgr::GetInstance()->Add_Obj(L"라이트냥", temp.m_pSkill);
-			// // 텍스쳐
-			// temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
-			// NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
-			// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
-			// // ID
-			// temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
-			// temp.m_pSkill->Set_Maintain(true);
-			// 
-			// m_vecSkill.push_back(temp);
-
-#pragma endregion
-
-#pragma region Ice
-			// 스킬
-			// temp.m_pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
-			// CEventMgr::GetInstance()->Add_Obj(L"꽁꽁 꾹꾹이", temp.m_pSkill);
-			// // 텍스쳐
-			// temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
-			// NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
-			// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
-			// // ID
-			// temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
-			// temp.m_pSkill->Set_Maintain(true);
-			// 
-			// m_vecSkill.push_back(temp);
-
-#pragma endregion
-
-#pragma region Beam
-			// 스킬
-			// temp.m_pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
-			// CEventMgr::GetInstance()->Add_Obj(L"우주펀치", temp.m_pSkill);
-			// // 텍스쳐
-			// temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
-			// NULL_CHECK_RETURN(temp.m_pSkillTexCom, E_FAIL);
-			// m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
-			// // ID
-			// temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
-			// temp.m_pSkill->Set_Maintain(true);
-			// 
-			// m_vecSkill.push_back(temp);
-#pragma endregion
-
-#pragma endregion
-
+			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));			
 		}
-
 	}
 
 	for (_int i = 0; i < _int(CLASS_TYPE::TYPEEND); ++i)
@@ -2102,6 +2054,174 @@ void CInventory::Key_Input()
 		}
 	}
 
+	// 치트모드 핫키
+	if (CInputDev::GetInstance()->Key_Down('9'))
+	{
+		_bool m_bIsObj = false;
+
+#pragma region 아이템 추가
+		for (_int i = 0; i < m_vecItem.size(); ++i)
+		{
+			if (m_vecItem[i]->Get_Name() == L"냥서커의 보물")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Add_Obj(L"냥서커의 보물", pGameObject);
+			pGameObject->Set_Maintain(true);
+			m_vecItem.push_back(pGameObject);
+		}
+
+		m_bIsObj = false;
+		for (_int i = 0; i < m_vecItem.size(); ++i)
+		{
+			if (m_vecItem[i]->Get_Name() == L"닌자냥이 세트")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			CGameObject* pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Add_Obj(L"닌자냥이 세트", pGameObject);
+			pGameObject->Set_Maintain(true);
+			m_vecItem.push_back(pGameObject);
+		}
+
+		m_bIsObj = false;
+		for (_int i = 0; i < m_vecItem.size(); ++i)
+		{
+			if (m_vecItem[i]->Get_Name() == L"매직냥 스태프")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			CGameObject* pGameObject = CMageWeapon::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Add_Obj(L"매직냥 스태프", pGameObject);
+			pGameObject->Set_Maintain(true);
+			m_vecItem.push_back(pGameObject);
+		}
+#pragma endregion
+#pragma region 스킬추가
+		// 갸르릉 플레임
+		m_bIsObj = false;
+		for (_int i = 0; i < m_vecSkill.size(); ++i)
+		{
+			if (m_vecSkill[i].m_pSkill->Get_Name() == L"갸르릉 플레임")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			tagInvenSkill temp;
+
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Fire::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"갸르릉 플레임", temp.m_pSkill);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
+
+			m_vecSkill.push_back(temp);
+		}
+		// 라이트 냥
+		m_bIsObj = false;
+		for (_int i = 0; i < m_vecSkill.size(); ++i)
+		{
+			if (m_vecSkill[i].m_pSkill->Get_Name() == L"라이트 냥")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			tagInvenSkill temp;
+
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Thunder::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"라이트 냥", temp.m_pSkill);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
+
+			m_vecSkill.push_back(temp);
+		}
+		// 꽁꽁 꾹꾹이
+		m_bIsObj = false;
+		for (_int i = 0; i < m_vecSkill.size(); ++i)
+		{
+			if (m_vecSkill[i].m_pSkill->Get_Name() == L"꽁꽁 꾹꾹이")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			tagInvenSkill temp;
+
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"꽁꽁 꾹꾹이", temp.m_pSkill);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
+
+			m_vecSkill.push_back(temp);
+		}
+
+		// 우주 펀치
+		m_bIsObj = false;
+		for (_int i = 0; i < m_vecSkill.size(); ++i)
+		{
+			if (m_vecSkill[i].m_pSkill->Get_Name() == L"우주펀치")
+			{
+				m_bIsObj = true;
+				break;
+			}
+		}
+		if (!m_bIsObj)
+		{
+			tagInvenSkill temp;
+
+			// 스킬
+			temp.m_pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
+			CEventMgr::GetInstance()->Add_Obj(L"우주펀치", temp.m_pSkill);
+			// 텍스쳐
+			temp.m_pSkillTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Skill", this));
+			m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, temp.m_pSkillTexCom);
+			// ID
+			temp.m_iSkillID = (_int)temp.m_pSkill->Get_ID() - 126;
+			temp.m_pSkill->Set_Maintain(true);
+
+			m_vecSkill.push_back(temp);
+		}
+
+#pragma endregion
+		
+	}
+
+
 	if (m_bIsOn == true || CInputDev::GetInstance()->Get_DIMouseState(DIM_RB))
 	{
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
@@ -2117,8 +2237,6 @@ void CInventory::Key_Input()
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
 	}
-	
-
 }
 
 void CInventory::Mouse_Update()

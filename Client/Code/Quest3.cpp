@@ -40,7 +40,7 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 	// Ice Skill
 	CSkill* pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
-	CEventMgr::GetInstance()->Add_Obj(L"²Ç²Ç ¾ÆÀÌ½º", pSkill);
+	CEventMgr::GetInstance()->Add_Obj(L"²Ç²Ç ²Ú²ÚÀÌ", pSkill);
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
 
@@ -53,7 +53,7 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 	// Item Mage
 	CGameObject* pGameObject = CMageWeapon::Create(m_pGraphicDev);
-	CEventMgr::GetInstance()->Add_Obj(L"³ÉÆ÷ÅÍ ÁöÆÎÀÌ", pGameObject);
+	CEventMgr::GetInstance()->Add_Obj(L"¸ÅÁ÷³É ½ºÅÂÇÁ", pGameObject);
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
 
@@ -153,7 +153,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					{
 						m_iLevel += 1;
 						*_IsAble = false;
-						// CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
+						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
 						break;
 					}
 				}
@@ -183,7 +183,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					{
 						m_iLevel += 1;
 						*_IsAble = false;
-						// CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
+						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
 						break;
 					}
 				}
