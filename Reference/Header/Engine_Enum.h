@@ -184,9 +184,7 @@ namespace Engine
 		//Monster_SKill
 		SKILL_MONSTER_FIRE, SKILL_MONSTER_THUNDER, SKILL_MONSTER_ICE, SKILL_MONSTER_BEAM, SKILL_MONSTER_BASIC,
 		
-		//Boss_Skill
-		SKILL_BOSS_FULLDOWN, 
-	
+
 
 
 		/* ========================================= Generator ========================================*/
@@ -228,10 +226,12 @@ namespace Engine
 		ENVIRONMENT_NATURE_TOMBSTONE, ENVIRONMENT_NATURE_GRASS,
 		ENVIRONMENT_BUILDING_PIRATE_HIDEOUT,
 
-		 // Boss Skill
-		SKILL_BOSS_BLOODYTHUNDER,
-        
-		// Boss 
+
+		// Boss Skill
+		SKILL_BOSS_FULLDOWN, SKILL_BOSS_BLOODYTHUNDER,
+
+		
+		// Boss Skill Effect
 		EFFECT_BOSS_THUNDER,
 		
 		TYPEEND

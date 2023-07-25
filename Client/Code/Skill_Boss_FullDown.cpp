@@ -114,6 +114,8 @@ HRESULT CSkill_Boss_FullDown::Play()
 	_vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
 	OBJ_ID eObjID = m_pOwnerObject->Get_ID();
 
+
+
 	m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
 	m_pBaseRangeEffect->Alphaing(4.f, 255.f, 80.f);
 	m_pBaseRangeEffect->Scaling(2.f, 0.3f, 3.f);

@@ -98,9 +98,9 @@ HRESULT CSkill_Boss_BloodyThunder::Add_Component()
 	m_pSKillEffect1 = pThunderEffect1;
 	
 	CSkillEffect* pThunderEffect2 = CEffect_Boss_Thunder::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(pThunderEffect1, E_FAIL);
+	NULL_CHECK_RETURN(pThunderEffect2, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Bossr_BloodyThunder_Effect2", pThunderEffect2), E_FAIL);
-	m_pSKillEffect2 = pThunderEffect1;
+	m_pSKillEffect2 = pThunderEffect2;
 
 	CSkillEffect* pThunderEffect3 = CEffect_Boss_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pThunderEffect3, E_FAIL);
@@ -151,12 +151,12 @@ HRESULT CSkill_Boss_BloodyThunder::Play()
 
 	// Player - Transform Com
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	NULL_CHECK_MSG(pPlayerTransform, L"pPlayerTransform nullptr");
+	NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
 
 	// Player - Pos
 	_vec3       vPlayerPos;
 	vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
-	NULL_CHECK_MSG(pPlayerTransform, L"pPlayerTransform nullptr");
+	NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
 
 	// 1
 	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 20, 0.01f, vOwnerPos.z+ 20 });
@@ -197,12 +197,12 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 
 	// Player - Transform Com
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	NULL_CHECK_MSG(pPlayerTransform, L"pPlayerTransform nullptr");
+	NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
 
 	// Player - Pos
 	_vec3       vPlayerPos;
 	vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
-	NULL_CHECK_MSG(pPlayerTransform, L"pPlayerTransform nullptr");
+	NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
 
 
 

@@ -384,7 +384,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Play();
 			m_bBloodyTunder = true;
 		}
-		if (dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Is_Base_End() || m_fAccTime >= 2.f && m_bBloodyTunder == true )
+		if ( m_fAccTime >= 2.f && m_bBloodyTunder == true )
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
 	
@@ -392,7 +392,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			//CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBloodyTunder = false;
 		}
-		if (dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Is_Skill_End() || m_fAccTime >= 5.f)
+		if (m_bBloodyTunder == false && m_fAccTime >= 4.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();

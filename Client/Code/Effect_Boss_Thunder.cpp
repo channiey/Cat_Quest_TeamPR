@@ -24,7 +24,7 @@ HRESULT CEffect_Boss_Thunder::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 5.f , 10.f , 0.f });
+	m_pTransformCom->Set_Scale(_vec3{ 5.f , 20.f , 0.f });
 	//m_pTransformCom->Set_Pos(_vec3{ 150, 10.f, 70 });
 
 	m_bActive = false;
