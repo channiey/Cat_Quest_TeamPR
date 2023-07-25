@@ -52,18 +52,10 @@ _int CZoomUI::Update_Object(const _float& fTimeDelta)
 		if (0 > dwMouse && m_iZoomState == 0)
 		{
 			m_iZoomState = 1;
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(false);
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(false);
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Layer_SetActive(false);
 		}
 		else if (0 < dwMouse && m_iZoomState == 1)
 		{
 			m_iZoomState = 0;
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
-			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Layer_SetActive(true);
 		}
 			
 	}
