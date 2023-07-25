@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "QuestMgr.h"
+#include "ZoomUI.h"
 
 CIndicatorUI::CIndicatorUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INDICATOR), m_pTarget(nullptr), m_pPlayer(nullptr), m_bShrink(true)
@@ -120,7 +121,79 @@ void CIndicatorUI::Get_ViewPos_Target()
 		m_fTargetLength = D3DXVec3Length(&vTargetDir);
 		D3DXVec3Normalize(&vTargetDir, &vTargetDir);
 
-		if (30.f < m_fTargetLength)
+		CGameObject* pUIZoom = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Zoom");
+		NULL_CHECK(pUIZoom);
+		if (static_cast<CZoomUI*>(pUIZoom)->Get_ZoomState() == 1 || 30.f > m_fTargetLength)
+		{
+			_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
+			_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+			D3DVIEWPORT9 pViewport = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+
+			D3DXVec3TransformCoord(&vTargetWorldPos, &vTargetWorldPos, &matView);
+			D3DXVec3TransformCoord(&vTargetWorldPos, &vTargetWorldPos, &matProj);
+
+			_float ScreenX = vTargetWorldPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
+			_float ScreenY = WINCY - (-vTargetWorldPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
+
+			m_UImatWorld._11 = m_fSizeX;
+			m_UImatWorld._22 = m_fSizeY;
+			m_UImatWorld._12 = 0;
+			m_UImatWorld._21 = 0;
+
+			m_UImatWorld._41 = ScreenX;
+			if (static_cast<CZoomUI*>(pUIZoom)->Get_ZoomState() == 1)
+				m_UImatWorld._42 = ScreenY + 50;
+			else
+				m_UImatWorld._42 = ScreenY + 80;
+
+			if (ScreenX < 0 || ScreenX > WINCX ||
+				ScreenY < 0 || ScreenY > WINCY)
+			{
+				_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 70);
+
+				_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
+				_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+				D3DVIEWPORT9 pViewport = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+
+				D3DXVec3TransformCoord(&vIndicPos, &vIndicPos, &matView);
+				D3DXVec3TransformCoord(&vIndicPos, &vIndicPos, &matProj);
+
+				_float ScreenX = vIndicPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
+				_float ScreenY = WINCY - (-vIndicPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
+
+				if (ScreenX > WINCX - 200)
+					ScreenX = WINCX - 200;
+				if (ScreenX < 200)
+					ScreenX = 200;
+				if (ScreenY > WINCY - 100)
+					ScreenY = WINCY - 100;
+				if (ScreenY < 100)
+					ScreenY = 100;
+
+				if (vPlayerWorldPos.z > vTargetWorldPos.z)
+				{
+					m_UImatWorld._11 = m_fSizeX;
+					m_UImatWorld._22 = m_fSizeY;
+
+					m_UImatWorld._12 = 0;
+					m_UImatWorld._21 = 0;
+				}
+				else if (vPlayerWorldPos.z < vTargetWorldPos.z)
+				{
+					m_UImatWorld._11 = m_fSizeX;
+					m_UImatWorld._22 = -m_fSizeY;
+
+					m_UImatWorld._12 = 0;
+					m_UImatWorld._21 = 0;
+				}
+
+
+				m_UImatWorld._41 = ScreenX;
+				m_UImatWorld._42 = ScreenY;
+			}
+
+		}
+		else
 		{
 			_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 26);
 
@@ -163,26 +236,6 @@ void CIndicatorUI::Get_ViewPos_Target()
 
 			m_UImatWorld._41 = ScreenX;
 			m_UImatWorld._42 = ScreenY;
-		}
-		else
-		{
-			_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
-			_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
-			D3DVIEWPORT9 pViewport = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
-
-			D3DXVec3TransformCoord(&vTargetWorldPos, &vTargetWorldPos, &matView);
-			D3DXVec3TransformCoord(&vTargetWorldPos, &vTargetWorldPos, &matProj);
-
-			_float ScreenX = vTargetWorldPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
-			_float ScreenY = WINCY - (-vTargetWorldPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
-
-			m_UImatWorld._11 = m_fSizeX;
-			m_UImatWorld._22 = m_fSizeY;
-			m_UImatWorld._12 = 0;
-			m_UImatWorld._21 = 0;
-
-			m_UImatWorld._41 = ScreenX;
-			m_UImatWorld._42 = ScreenY + 80;
 		}
 	}
 }

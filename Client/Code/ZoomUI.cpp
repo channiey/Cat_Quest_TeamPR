@@ -35,6 +35,8 @@ HRESULT CZoomUI::Ready_Object()
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;
 	
+	m_bZoom = false;
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
@@ -44,13 +46,26 @@ _int CZoomUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	_int dwMouse;
+	_int dwMouse = 0;
 	if (dwMouse = CInputDev::GetInstance()->Get_DIMouseMove(DIMS_Z))
 	{
-		if (0 < dwMouse && m_iZoomState == 0)
+		if (0 > dwMouse && m_iZoomState == 0)
+		{
 			m_iZoomState = 1;
-		else if(0 > dwMouse && m_iZoomState == 1)
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(false);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(false);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Layer_SetActive(false);
+		}
+		else if (0 < dwMouse && m_iZoomState == 1)
+		{
 			m_iZoomState = 0;
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::ITEM)->Layer_SetActive(true);
+		}
+			
 	}
 
 	return iExit;

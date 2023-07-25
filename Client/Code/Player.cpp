@@ -507,6 +507,36 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
+		CloseTarget_Dis(_pColObj);
+
+		if (Is_Attack())
+		{
+			Regen_Mana();
+			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
+			{
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 5, this);
+
+			}
+			else
+			{
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+				CCameraMgr::GetInstance()->Shake_Camera();
+			}
+
+
+
+		}
+		if (Is_Skill())
+		{
+			for (auto iter : m_arrSkillSlot)
+			{
+				if (nullptr != iter && iter->Is_Active())
+				{
+					dynamic_cast<CMonster*>(_pColObj)->Damaged(dynamic_cast<CSkill*>(iter)->Get_SkillDamage(), this);
+				}
+			}
+
+		}
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
 		if (vOverlap.x > vOverlap.z)

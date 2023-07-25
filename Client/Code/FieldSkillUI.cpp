@@ -560,15 +560,19 @@ void CFieldSkillUI::Mouse_Input()
 	}
 	else
 	{
+		if (m_bIsOn)
+		{
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
+		}
 		m_bIsOn = false;
 		
 		Play_SKill();
 
 		Reset_SkillUI();
 
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::EFFECT)->Layer_SetActive(true);
-		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
+		
 
 		CRingUI* pRingUI = static_cast<CRingUI*>
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Ring"));
