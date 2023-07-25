@@ -229,8 +229,6 @@ void CPlayer_Camera::Lerp_Enter_Scene()
 									fY,
 									vLookPos.z - m_pCameraCom->m_fDistance });
 
-
-
 	m_pCameraCom->m_tVspace.Eye = m_pTransformCom->Get_Info(INFO_POS);
 	m_pCameraCom->m_tVspace.LookAt = vLookPos;  
 	m_pCameraCom->m_tVspace.Up = vec3.up;

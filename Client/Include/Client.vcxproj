@@ -229,6 +229,8 @@
     <ClInclude Include="..\Header\PlayerSlash.h" />
     <ClInclude Include="..\Header\Quest1.h" />
     <ClInclude Include="..\Header\Quest2.h" />
+    <ClInclude Include="..\Header\Quest3.h" />
+    <ClInclude Include="..\Header\Quest4.h" />
     <ClInclude Include="..\Header\QuestData.h" />
     <ClInclude Include="..\Header\QuestMgr.h" />
     <ClInclude Include="..\Header\RamState_bAttack.h" />
@@ -530,6 +532,8 @@
     <ClCompile Include="..\Code\Mage_Bullet.cpp" />
     <ClCompile Include="..\Code\OtherEnvironment.cpp" />
     <ClCompile Include="..\Code\PirateHideOut.cpp" />
+    <ClCompile Include="..\Code\Quest3.cpp" />
+    <ClCompile Include="..\Code\Quest4.cpp" />
     <ClCompile Include="..\Code\Scene_Ending.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\Fish.cpp" />

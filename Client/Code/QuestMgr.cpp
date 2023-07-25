@@ -8,7 +8,8 @@
 
 #include "Quest1.h"
 #include "Quest2.h"
-#include "Key.h"
+#include "Quest3.h"
+#include "Quest4.h"
 
 IMPLEMENT_SINGLETON(CQuestMgr)
 
@@ -25,9 +26,12 @@ CQuestMgr::~CQuestMgr()
 HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
 	m_mapQuestList.insert(make_pair(10, new CQuest1(L"대장장이의 부탁", m_pGraphicDev, _pPlayer)));
-	m_mapQuestList.insert(make_pair(20, new CQuest2(L"퀘스트2", m_pGraphicDev, _pPlayer)));
+	m_mapQuestList.insert(make_pair(20, new CQuest2(L"던전 정리", m_pGraphicDev, _pPlayer)));
+	m_mapQuestList.insert(make_pair(30, new CQuest3(L"드래곤에게 향하기 위해", m_pGraphicDev, _pPlayer)));
+	m_mapQuestList.insert(make_pair(40, new CQuest4(L"죽음의 섬으로", m_pGraphicDev, _pPlayer)));
 
-	m_iQuestID = 10;
+
+	m_iQuestID = 40;
 
 	m_bInit = true;
 

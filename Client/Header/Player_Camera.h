@@ -25,6 +25,8 @@ public:
 	const _bool& Is_Fade() override;
 	const FADE_MODE& Get_FadeMode() const { return m_eFadeMode; }
 
+	const _bool& Is_LerpTargetChange() const { return m_pCameraCom->m_tVec3Lerp.bActive; }
+
 private:
 	HRESULT					Add_Component(void);
 	void					Set_Zoom(const _float& fTimeDelta);

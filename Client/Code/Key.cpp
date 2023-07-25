@@ -35,8 +35,8 @@ HRESULT CKey::Ready_Object()
 
 
 	// Transform Setting
-	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x *1.5f , m_vImageSize.y * 1.5f, m_vImageSize.z * 1.5f});
-	m_pTransformCom->Set_Pos(_vec3{ 193.f, 3.f, 251.f });
+	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x , m_vImageSize.y, m_vImageSize.z});
+	m_pTransformCom->Set_Pos(_vec3{ 165.f, m_pTransformCom->Get_Scale().y + 1.f, 379.f});
 
 	m_fJumpingSpeed = 0.01;
 

@@ -37,13 +37,13 @@ void CQuest2::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 	// Fire Skill
 	CSkill* pSkill = CSkill_Player_Thunder::Create(m_pGraphicDev, m_pPlayer);
-	CEventMgr::GetInstance()->Add_Obj(L"Skill_Thunder", pSkill);
+	CEventMgr::GetInstance()->Add_Obj(L"라이트 냥", pSkill);
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
 
 	// Item Ninja
 	CGameObject* pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	CEventMgr::GetInstance()->Add_Obj(L"Item_NinjaWeapon", pGameObject);
+	CEventMgr::GetInstance()->Add_Obj(L"닌자냥이 세트", pGameObject);
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
 
@@ -93,13 +93,7 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 200, OBJ_ID::NPC_BLACKSMITH)) {
 						m_iLevel += 1;
-						if (*_IsAble)
-						{
-							dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-								dynamic_cast<CEnvironment*>(CManagement::GetInstance()->
-									Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Dungeon_Grass")));
-							*_IsAble = false;
-						}
+						*_IsAble = false;
 						break;
 					}
 				}
@@ -107,18 +101,17 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 		break;
 	case 1: // 던전 몬스터 모두 소탕하기!
-		// 열쇠 찾기
-		// if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
-		// {
-		// 	if (m_bCreateKey)
-		// 	{
-		// 		if (dynamic_cast<CKey*>(m_pKey)->Get_IsCol())
-		// 		{
-		// 			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(true);
-		// 			m_iLevel += 1;
-		// 		}
-		// 	}
-		// }	
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			if (!*_IsAble)
+			{
+				dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+					dynamic_cast<CDungeon_Grass*>(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Dungeon_Grass")));
+				*_IsAble = true;
+			}
+		}
+
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_SWAMP)
 		{
 			if (CManagement::GetInstance()->
@@ -157,38 +150,9 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 		break;
 	case 2:
-		// 사자왕에게 보고
-		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
-		{
-			if ((CManagement::GetInstance()->
-				Get_GameObject(OBJ_TYPE::NPC, L"Npc_King") != nullptr))
-			{
-				if (!*_IsAble)
-				{
-					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-						dynamic_cast<CNpc*>(CManagement::GetInstance()->
-							Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")));
-					*_IsAble = true;
-				}
-
-				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_IsCol() &&
-					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1)
-				{
-					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 11, OBJ_ID::NPC_KING)) {
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(false);
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(m_vItemList[0]);
-						m_iLevel += 1;
-					}
-				}
-
-			}
-		}
-		break;
-	case 3:
 		m_iLevel = 99;
-		*_IsAble = false; // 현재 퀘스트의 끝
-		// return true;
+		*_IsAble = false; 
+		return true;
 		break;
 	}
 
