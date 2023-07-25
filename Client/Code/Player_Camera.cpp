@@ -318,6 +318,8 @@ void CPlayer_Camera::Set_BackView(const _bool& _bBackView)
 
 		m_fJumpDelta.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 		m_fJumpDelta.Set_Lerp(1.f, 10.f, 0);
+		m_fJumpDelta.fCurValue = 10.f;
+
 		m_bBackView = FALSE;
 	}
 }
