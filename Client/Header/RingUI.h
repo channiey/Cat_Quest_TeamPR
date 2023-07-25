@@ -8,7 +8,7 @@ class CRingUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  프
 
 protected:
 
-	explicit CRingUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CRingUI(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pOwner);
 	explicit CRingUI(const CRingUI& rhs);
 	virtual ~CRingUI();
 
@@ -24,12 +24,14 @@ private:
 	void	Follow_Player();
 
 private:
-	_uint	m_iTranslucent;
-	_float	m_fAcc;
-	_bool	m_bIsReach;
+	CGameObject*			m_pOwner;
+
+	_uint					m_iTranslucent;
+	_float					m_fAcc;
+	_bool					m_bIsReach;
 
 public:
-	static CRingUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CRingUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pOwner);
 
 
 protected:

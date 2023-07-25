@@ -188,11 +188,12 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
         m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
         
-        if (CInputDev::GetInstance()->Key_Down('A') &&
+        if (CInputDev::GetInstance()->Key_Down('D') &&
             !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust")) {
             CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-            CEventMgr::GetInstance()->Add_Obj(L"MoveDustL", p);
+            CEventMgr::GetInstance()->Add_Obj(L"MoveDustR", p);
         }
+       
         
         return m_eState;
     }
@@ -203,10 +204,10 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
         m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
         
-        if (CInputDev::GetInstance()->Key_Down('D') &&
+        if (CInputDev::GetInstance()->Key_Down('A') &&
             !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust")) {
             CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-            CEventMgr::GetInstance()->Add_Obj(L"MoveDustR", p);
+            CEventMgr::GetInstance()->Add_Obj(L"MoveDustL", p);
         }
 
         return m_eState;

@@ -22,6 +22,7 @@
 #include "PlayerState_bAttack1.h"
 #include "PlayerState_bAttack2.h"
 #include "PlayerState_fFlight.h"
+#include "PlayerState_fAttack3.h"
 
 #include "Environment.h"
 #include "Npc.h"
@@ -41,7 +42,10 @@
 #include "Skill_Player_Thunder.h"
 #include "Skill_Player_Beam.h"
 #include "Skill_Player_Fly.h"
-
+#include "Effect_Ora.h"
+#include "Effect_ThornSparkle.h"
+// UI
+#include "RingUI.h"
 // Shadow
 #include "Shadow_Player.h"
 
@@ -82,14 +86,16 @@ HRESULT CPlayer::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 
-	m_tMoveInfo.fMoveSpeed = 15.f;
-	Set_AD(10);
+	m_tMoveInfo.fMoveSpeed = 20.f;
+	Set_AD(5);
 
 	m_fBallTargetLenght = 18.f;
 	m_pBallTarget = nullptr;
 
 	m_bFly = false;
 	m_pSkillFly = nullptr;
+
+	m_fThornAcc = 0.f;
 
 	m_bHit = false;
 	m_bAttack = false;
@@ -164,6 +170,10 @@ HRESULT CPlayer::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_SLEEP, pState);
 	pState = CPlayerState_fFlight::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_FLIGHT, pState);
+	pState = CPlayerState_fFlight::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_FLIGHT, pState);
+	pState = CPlayerState_fAttack3::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::FRONT_ATTACK3, pState);
 #pragma endregion
 
 #pragma region Animation
@@ -312,6 +322,9 @@ HRESULT CPlayer::Ready_Object()
 	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::BACK_ROLL, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)], STATE_TYPE::FRONT_FLIGHT, 0.02f, TRUE);
 	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_FLIGHT, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK3)], STATE_TYPE::FRONT_ATTACK3, 0.06f, FALSE);
+	m_pClassAnimator[_uint(CLASS_TYPE::THORN)]->Add_Animation(STATE_TYPE::FRONT_ATTACK3, pAnimation);
 #pragma endregion
 
 #pragma region SKILL
@@ -345,6 +358,19 @@ HRESULT CPlayer::Ready_Object()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fly", pSkillFly), E_FAIL);
 	m_pSkillFly = pSkillFly;
 	m_pSkillFly->Set_Maintain(TRUE);
+
+	CEffect* pEffectOra = CEffect_Ora::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pEffectOra, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Ora", pEffectOra), E_FAIL);
+	m_pEffectOra = pEffectOra;
+	m_pEffectOra->Set_Maintain(TRUE);
+
+	CUI* pUI = CRingUI::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"UI_Ring", pUI), E_FAIL);
+	m_pRingUI = pUI;
+	m_pRingUI->Set_Maintain(TRUE);
+
 #pragma endregion
 
 	// 처음 시작상태 설정
@@ -413,7 +439,8 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	if(!m_bIsTalking)
 		Key_Input(fTimeDelta);
 	
-	
+	Create_ThornSparkle(fTimeDelta);
+
 	return iExit;
 }
 
@@ -625,8 +652,19 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		if (Is_Attack())
 		{
 			Regen_Mana();
-			dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
-			CCameraMgr::GetInstance()->Shake_Camera();
+			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
+			{
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 5, this);
+				
+			}
+			else
+			{
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+				CCameraMgr::GetInstance()->Shake_Camera();
+			}
+				
+
+			
 		}
 		if (Is_Skill())
 		{
@@ -1127,6 +1165,10 @@ HRESULT CPlayer::Add_Component()
 	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_FLIGHT)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fFlight_Thorn", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pThornTextureCom[_uint(STATE_TYPE::FRONT_ATTACK3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Player_fAttack3_Thorn", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 #pragma endregion
 
 
@@ -1254,6 +1296,23 @@ void CPlayer::Clocking_Time(const _float& fTimeDelta)
 			m_bClocking = true;
 		}
 
+	}
+}
+
+void CPlayer::Create_ThornSparkle(const _float& fTimeDelta)
+{
+	if (m_eClass == CLASS_TYPE::THORN && m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK ||
+		m_eClass == CLASS_TYPE::THORN && m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK)
+	{
+		m_fThornAcc += fTimeDelta;
+		if (m_fThornAcc > 0.3f)
+		{
+			CEffect* pEffect = CEffect_ThornSparkle::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO::INFO_POS));
+			NULL_CHECK(pEffect);
+			CEventMgr::GetInstance()->Add_Obj(L"Effect_ThornSparkle", pEffect);
+
+			m_fThornAcc = 0.f;
+		}
 	}
 }
 
@@ -1428,24 +1487,35 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 	{
 	case CLASS_TYPE::NORMAL:
 		m_eClass = CLASS_TYPE::NORMAL;
-		m_tMoveInfo.fMoveSpeed = 15.f;
+		m_tMoveInfo.fMoveSpeed = 20.f;
+		m_bClocking = false;
+		m_pSkillFly->Set_Active(false);
+		m_pEffectOra->Set_Active(false);
 		m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 		break;
 	case CLASS_TYPE::NINJA:
 		m_eClass = CLASS_TYPE::NINJA;
 		m_bClocking = true;
 		m_iClockAlpha = 128.f;
-		m_tMoveInfo.fMoveSpeed = 20.f;
+		m_pSkillFly->Set_Active(false);
+		m_pEffectOra->Set_Active(false);
+		m_tMoveInfo.fMoveSpeed = 30.f;
+
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]);
 		break;
 	case CLASS_TYPE::MAGE:
 		m_eClass = CLASS_TYPE::MAGE;
-		m_tMoveInfo.fMoveSpeed = 15.f;
+		m_tMoveInfo.fMoveSpeed = 20.f;
+		m_bClocking = false;
+		m_pEffectOra->Set_Active(false);
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::MAGE)]);
 		break;
 	case CLASS_TYPE::THORN:
 		m_eClass = CLASS_TYPE::THORN;
-		m_tMoveInfo.fMoveSpeed = 15.f;
+		m_tMoveInfo.fMoveSpeed = 20.f;
+		m_bClocking = false;
+		m_pSkillFly->Set_Active(false);
+		m_pEffectOra->Set_Active(true);
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::THORN)]);
 		break;
 	default:

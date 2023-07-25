@@ -30,7 +30,8 @@ public:
 	virtual HRESULT			End();
 
 private:
-	_bool	m_bIsEffectEnd;
+	CEffect_Range_Quater*	m_pGoldRange;
+	_bool					m_bIsEffectEnd;
 
 public:
 	static CSkill_Player_Thunder* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);

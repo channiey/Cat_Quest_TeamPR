@@ -20,6 +20,7 @@ public:
 	LPD3DXFONT				Get_InGameFont(void) { return m_pInGameFont; }
 	LPD3DXFONT				Get_LevelFont(void) { return m_pLevelFont; }
 	LPD3DXFONT				Get_SkillFont(void) { return m_pSkillFont; }
+	LPD3DXFONT				Get_EffectFont(void) { return m_pEffectFont; }
 
 public:
 
@@ -36,6 +37,7 @@ private:
 	LPD3DXFONT				m_pInGameFont;
 	LPD3DXFONT				m_pLevelFont;
 	LPD3DXFONT				m_pSkillFont;
+	LPD3DXFONT				m_pEffectFont;
 
 
 public:

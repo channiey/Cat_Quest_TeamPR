@@ -24,6 +24,7 @@ public:
 	static CPlayerState_bAttack2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
+	_bool			m_bAttackContinue;
 	_bool			m_bIsTarget;
 
 private:

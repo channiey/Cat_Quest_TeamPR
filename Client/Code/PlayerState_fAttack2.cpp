@@ -56,6 +56,7 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Off_Clocking();
 		}
 
+		m_bAttackContinue = false;
 
 		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_MonsterThere())
 			m_bIsTarget = true;
@@ -95,24 +96,37 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 		}
 	}
 		
-
+	STATE_TYPE eState = Key_Input(fTimeDelta);
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		m_bEnter = false;		
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL); // << Test
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+		m_bEnter = false;
 		return STATE_TYPE::FRONT_HIT;
 	}
 
-	if (m_pOwner->Is_AnimationEnd())
+	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
 	{
 		m_bEnter = false;
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL); // << Test
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+		eState = STATE_TYPE::FRONT_IDLE;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() != CLASS_TYPE::THORN)
+	{
+		m_bEnter = false;
+		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
 		return STATE_TYPE::FRONT_IDLE;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::THORN)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_ATTACK3;
 	}
 
 
-	return m_eState;
+	return eState;
 }
 
 void CPlayerState_fAttack2::LateUpdate_State()
@@ -126,6 +140,9 @@ void CPlayerState_fAttack2::Render_State()
 
 STATE_TYPE CPlayerState_fAttack2::Key_Input(const _float& fTimeDelta)
 {
+	if (!m_pOwner->Is_AnimationEnd() && CInputDev::GetInstance()->Key_Down(VK_LBUTTON))
+		m_bAttackContinue = true;
+
 	return m_eState;
 }
 

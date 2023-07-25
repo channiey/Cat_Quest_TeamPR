@@ -43,6 +43,7 @@ HRESULT CEffect_Range_Quater::Ready_Object()
 	break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_RED:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_GOLD:
 	{
 		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); 
 		m_vSize = m_pTransformCom->Get_Scale();
@@ -56,6 +57,7 @@ HRESULT CEffect_Range_Quater::Ready_Object()
 	}
 	break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_GOLD:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_RED:
 	{
 		m_pTransformCom->Set_Scale(_vec3{ 7.f, 7.f, 2.5f * 0.7f });
@@ -144,6 +146,7 @@ void CEffect_Range_Quater::Render_Object()
 	}
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_PURPLE:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_GOLD:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_RED:
 	{	
 		Render_Square(matWorld);
@@ -156,6 +159,7 @@ void CEffect_Range_Quater::Render_Object()
 	}
 	break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_GOLD:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_RED:
 	{
 		Render_Arrow(matWorld);
@@ -304,12 +308,18 @@ HRESULT CEffect_Range_Quater::Add_Component()
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_PURPLE:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Purple", this));
 		break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_GOLD:
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Gold", this));
+		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_RED:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::SQUARE_ROTATED_RED:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Red", this));
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Blue", this));
+		break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_GOLD:
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Arrow_Gold", this));
 		break;
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_BLUE:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Vertical_Arrow_Blue", this));

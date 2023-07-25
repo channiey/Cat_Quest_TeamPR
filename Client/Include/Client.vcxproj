@@ -167,7 +167,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Code\ItemGetEffect.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\ConvergingFire_Bullet.h" />
@@ -176,6 +175,9 @@
     <ClInclude Include="..\Header\DungeonTextUI.h" />
     <ClInclude Include="..\Header\Effect_FlyLighting.h" />
     <ClInclude Include="..\Header\Effect_Font.h" />
+    <ClInclude Include="..\Header\Effect_Ora.h" />
+    <ClInclude Include="..\Header\Effect_ThornAttack.h" />
+    <ClInclude Include="..\Header\Effect_ThornSparkle.h" />
     <ClInclude Include="..\Header\FadeUI.h" />
     <ClInclude Include="..\Header\BasicProjectile.h" />
     <ClInclude Include="..\Header\BatState_bRest.h" />
@@ -201,10 +203,12 @@
     <ClInclude Include="..\Header\Circle_Stemp.h" />
     <ClInclude Include="..\Header\Grass.h" />
     <ClInclude Include="..\Header\Grass1.h" />
+    <ClInclude Include="..\Header\ItemGetEffect.h" />
     <ClInclude Include="..\Header\Mage_Bullet.h" />
     <ClInclude Include="..\Header\OtherEnvironment.h" />
     <ClInclude Include="..\Header\PirateHideOut.h" />
     <ClInclude Include="..\Header\PlayerHitEffect.h" />
+    <ClInclude Include="..\Header\PlayerState_fAttack3.h" />
     <ClInclude Include="..\Header\PlayerState_fFlight.h" />
     <ClInclude Include="..\Header\Projectile.h" />
     <ClInclude Include="..\Header\Effect_Beam.h" />
@@ -519,6 +523,9 @@
     <ClCompile Include="..\Code\DungeonTextUI.cpp" />
     <ClCompile Include="..\Code\Effect_FlyLighting.cpp" />
     <ClCompile Include="..\Code\Effect_Font.cpp" />
+    <ClCompile Include="..\Code\Effect_Ora.cpp" />
+    <ClCompile Include="..\Code\Effect_ThornAttack.cpp" />
+    <ClCompile Include="..\Code\Effect_ThornSparkle.cpp" />
     <ClCompile Include="..\Code\FadeUI.cpp" />
     <ClCompile Include="..\Code\BasicProjectile.cpp" />
     <ClCompile Include="..\Code\BatState_bRest.cpp" />
@@ -530,6 +537,7 @@
     <ClCompile Include="..\Code\Mage_Bullet.cpp" />
     <ClCompile Include="..\Code\OtherEnvironment.cpp" />
     <ClCompile Include="..\Code\PirateHideOut.cpp" />
+    <ClCompile Include="..\Code\PlayerState_fAttack3.cpp" />
     <ClCompile Include="..\Code\Scene_Ending.cpp" />
     <ClCompile Include="..\Code\Effect_Thunder.cpp" />
     <ClCompile Include="..\Code\Fish.cpp" />

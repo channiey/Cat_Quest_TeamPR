@@ -64,17 +64,36 @@ _int CSkill_Player_Thunder::Update_Object(const _float& fTimeDelta)
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
-    if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
+    if (static_cast<CPlayer*>(m_pOwnerObject)->Get_PlayerClass() != CLASS_TYPE::THORN)
     {
-        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
-        m_pRangeEffect->Alphaing(0.3f, 128, 0);
-        m_bIsEffectEnd = true;
+        if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
+        {
+            CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+            m_pRangeEffect->Alphaing(0.3f, 128, 0);
+            m_bIsEffectEnd = true;
+        }
+        else if (!m_pRangeEffect->Get_AlphaInfo().bActive && m_bIsEffectEnd)
+        {
+            m_bIsEffectEnd = false;
+            __super::End();
+            m_bActive = false;
+        }
     }
-    else if (!m_pRangeEffect->Get_AlphaInfo().bActive && m_bIsEffectEnd)
+    else
     {
-        m_bIsEffectEnd = false;
-        __super::End();
-        m_bActive = false;
+        if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
+        {
+            CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+            m_pGoldRange->Alphaing(0.3f, 128, 0);
+            m_bIsEffectEnd = true;
+        }
+        else if (!m_pGoldRange->Get_AlphaInfo().bActive && m_bIsEffectEnd)
+        {
+            m_bIsEffectEnd = false;
+            m_pGoldRange->Set_Active(FALSE);
+            __super::End();
+            m_bActive = false;
+        }
     }
 
 
@@ -104,6 +123,12 @@ HRESULT CSkill_Player_Thunder::Add_Component()
     m_pRangeEffect = pRangeEffect;
     m_pRangeEffect->Set_Maintain(TRUE); // 수정시 팀장보고
 
+    pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::ARROW_GOLD);
+    NULL_CHECK_RETURN(pRangeEffect, E_FAIL);
+    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_ThunderSkill_RangeGold", pRangeEffect), E_FAIL);
+    m_pGoldRange = pRangeEffect;
+    m_pGoldRange->Set_Maintain(TRUE); // 수정시 팀장보고
+
     CEffect_Thunder* pThunderEffect = CEffect_Thunder::Create(m_pGraphicDev, this);
     NULL_CHECK_RETURN(pThunderEffect, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player_ThunderSkill_Effect", pThunderEffect), E_FAIL);
@@ -131,10 +156,18 @@ HRESULT CSkill_Player_Thunder::Play()
    
    
     m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 1 });
-    m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4});
-    m_pRangeEffect->Alphaing(1.f, 255, 0);
-    m_pRangeEffect->Set_Size(_vec3{ 10.f, 5.f, 5.f * 0.7 });
-  
+    if (static_cast<CPlayer*>(m_pOwnerObject)->Get_PlayerClass() != CLASS_TYPE::THORN)
+    {
+        m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pRangeEffect->Alphaing(1.f, 255, 0);
+        m_pRangeEffect->Set_Size(_vec3{ 10.f, 5.f, 5.f * 0.7 });
+    }
+    else
+    {
+        m_pGoldRange->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+        m_pGoldRange->Alphaing(1.f, 255, 0);
+        m_pGoldRange->Set_Size(_vec3{ 10.f, 5.f, 5.f * 0.7 });
+    }
     m_bActive = true;
 
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);

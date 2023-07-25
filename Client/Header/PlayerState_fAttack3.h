@@ -7,11 +7,13 @@ BEGIN(Engine)
 
 END
 
-class CPlayerState_fAttack2 : public CState
+class CEffect;
+
+class CPlayerState_fAttack3 : public CState
 {
 public:
-	explicit						CPlayerState_fAttack2(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual							~CPlayerState_fAttack2();
+	explicit						CPlayerState_fAttack3(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual							~CPlayerState_fAttack3();
 
 public:
 	virtual HRESULT					Ready_State(CStateMachine* pOwner);
@@ -21,11 +23,11 @@ public:
 
 	virtual STATE_TYPE				Key_Input(const _float& fTimeDelta);
 
-	static CPlayerState_fAttack2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CPlayerState_fAttack3* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
-	_bool			m_bAttackContinue;
 	_bool			m_bIsTarget;
+	_bool			m_bAttack;
 
 private:
 	virtual void	Free();

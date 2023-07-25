@@ -14,6 +14,8 @@ class CAnimator;
 END
 
 class CSkill;
+class CEffect;
+class CUI;
 
 class CPlayer : public Engine::CGameObject
 {
@@ -177,7 +179,7 @@ private:
 	
 	void				Clocking_Time(const _float& fTimeDelta);
 
-
+	void				Create_ThornSparkle(const _float& fTimeDelta);
 
 private:
 	MOVEINFO					m_tMoveInfo;
@@ -234,6 +236,12 @@ private:
 	_bool						m_bFly;
 	CSkill*						m_pSkillFly;
 
+	// ¿À¶ó
+	CEffect*				    m_pEffectOra;
+	// UI
+	CUI*						m_pRingUI;
+
+	_float						m_fThornAcc;
 
 	/////////////////////////////////
 	// << : Test : Range Test

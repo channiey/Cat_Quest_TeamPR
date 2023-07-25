@@ -1,8 +1,10 @@
 #include "RingUI.h"
 #include "Export_Function.h"
 
-CRingUI::CRingUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev, OBJ_ID::UI_RING)
+#include "Player.h"
+
+CRingUI::CRingUI(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pOwner)
+     :CUI(pGraphicDev, OBJ_ID::UI_RING), m_pOwner(pOwner)
 {
 }
 
@@ -75,7 +77,12 @@ void CRingUI::Render_Object()
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+	if (static_cast<CPlayer*>(m_pOwner)->Get_PlayerClass() == CLASS_TYPE::THORN)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 215, 0));
+	}
+	else
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
@@ -103,18 +110,17 @@ HRESULT CRingUI::Add_Component()
 
 void CRingUI::Follow_Player()
 {
-	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
+	NULL_CHECK(m_pOwner);
 
 	_vec3		vPlayerPosition;
-	vPlayerPosition = pPlayerTransform->Get_Info(INFO_POS);
+	vPlayerPosition = m_pOwner->Get_Transform()->Get_Info(INFO_POS);
 
 	m_pTransformCom->Set_Pos({ vPlayerPosition.x, vPlayerPosition.y, vPlayerPosition.z + 0.2f });
 }
 
-CRingUI* CRingUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CRingUI* CRingUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pOwner)
 {
-	CRingUI* pInstance = new CRingUI(pGraphicDev);
+	CRingUI* pInstance = new CRingUI(pGraphicDev, pOwner);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
