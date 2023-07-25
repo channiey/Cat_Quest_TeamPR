@@ -169,15 +169,9 @@ CScene_World::~CScene_World()
 HRESULT CScene_World::Ready_Scene()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-	// 한 번만 초기화
-	
-	//if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
-
-	//if (!CQuestMgr::GetInstance()->Get_IsInit()) CQuestMgr::GetInstance()->Init(m_pGraphicDev); // 퀘스트 매니저 초기화
-
 	FAILED_CHECK_RETURN(Ready_Layer_Camera(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(),		E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Player(),	E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Player(),	E_FAIL); // 퀘스트 매니저 Init 실행.
 	FAILED_CHECK_RETURN(Ready_Layer_Effect(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Other(),	E_FAIL);
 
@@ -187,6 +181,10 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_KJM(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
+
+	// 한 번만 초기화
+
+	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
 	return S_OK;
 }
@@ -213,7 +211,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 	__super::Update_Scene(fTimeDelta);
 
-	//CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	return 0;
 }
@@ -434,6 +432,9 @@ HRESULT CScene_World::Ready_Layer_Player()
 		pGameObject = CPlayer::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Player", pGameObject), E_FAIL);
+	
+		if (!CQuestMgr::GetInstance()->Get_IsInit()) 
+			CQuestMgr::GetInstance()->Init(m_pGraphicDev, pGameObject); // 퀘스트 매니저 초기화
 	}
 	else
 	{

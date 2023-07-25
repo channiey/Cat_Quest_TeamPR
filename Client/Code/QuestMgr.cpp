@@ -22,10 +22,10 @@ CQuestMgr::~CQuestMgr()
 	Free();
 }
 
-HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev)
+HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
-	m_mapQuestList.insert(make_pair(10, new CQuest1(L"듀토리얼1", m_pGraphicDev)));
-	m_mapQuestList.insert(make_pair(20, new CQuest2(L"듀토리얼2", m_pGraphicDev)));
+	m_mapQuestList.insert(make_pair(10, new CQuest1(L"대장장이의 부탁", m_pGraphicDev, _pPlayer)));
+	m_mapQuestList.insert(make_pair(20, new CQuest2(L"퀘스트2", m_pGraphicDev, _pPlayer)));
 
 	m_iQuestID = 10;
 

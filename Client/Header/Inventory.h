@@ -198,6 +198,8 @@ public:
 public:
 	// Item
 	void					Add_Item(CGameObject* _pItem) { m_vecItem.push_back(_pItem); }
+	// Skill
+	HRESULT					Add_Skill(CSkill* _pSKill);
 	// Key
 	void					Set_HaveKey(_bool _isAdd)
 	{

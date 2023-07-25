@@ -12,7 +12,7 @@ private:
 	virtual ~CQuestMgr();
 
 public:
-	HRESULT	Init(LPDIRECT3DDEVICE9 m_pGraphicDev);
+	HRESULT	Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer);
 	void	Update(LPDIRECT3DDEVICE9 pGraphicDev);
 
 public:
