@@ -67,6 +67,9 @@ void CDefUI::LateUpdate_Object()
 
 void CDefUI::Render_Object()
 {
+	if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
+		return;
+
 	if (0 < m_pPlayer->Get_StatInfo().fCurDef)
 	{
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));

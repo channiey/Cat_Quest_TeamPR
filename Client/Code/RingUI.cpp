@@ -74,6 +74,9 @@ void CRingUI::LateUpdate_Object()
 
 void CRingUI::Render_Object()
 {
+	if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
+		return;
+
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	

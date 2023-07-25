@@ -58,7 +58,8 @@ void CShadow_Player::Render_Object()
 	vPos.y -= matWorld._22 + 0.02f;
 
 	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT ||
-		static_cast<CPlayer*>(m_pOwnerobject)->Is_Fly())
+		static_cast<CPlayer*>(m_pOwnerobject)->Is_Fly() ||
+		m_pOwnerobject->Get_RigidBody()->Is_Jump())
 	{
 		vPos.y = 0.02f;
 		vPos.z += 0.8f;
@@ -69,7 +70,8 @@ void CShadow_Player::Render_Object()
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
 	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT ||
-		static_cast<CPlayer*>(m_pOwnerobject)->Is_Fly())
+		static_cast<CPlayer*>(m_pOwnerobject)->Is_Fly() ||
+		m_pOwnerobject->Get_RigidBody()->Is_Jump())
 	{
 		matWorld._11 = matWorld._11 * 0.35f;
 		matWorld._33 = matWorld._33 * 0.25f;

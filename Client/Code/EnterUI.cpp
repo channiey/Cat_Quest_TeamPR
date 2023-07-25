@@ -1,5 +1,6 @@
 #include "EnterUI.h"
 #include "Export_Function.h"
+#include "Player.h"
 
 CEnterUI::CEnterUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_ENTER), m_bIsOn(false), m_bIsShirk(false), m_bIsExpand(false), m_bIsStart(false), m_bIsEnd(false)
@@ -113,6 +114,10 @@ void CEnterUI::LateUpdate_Object()
 
 void CEnterUI::Render_Object()
 {
+	NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+	if(static_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Is_PlayerTalking())
+		return;
+
 	if (m_bIsOn)
 	{
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));

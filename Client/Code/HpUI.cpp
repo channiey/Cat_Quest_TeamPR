@@ -112,6 +112,9 @@ void CHpUI::LateUpdate_Object()
 
 void CHpUI::Render_Object()
 {
+	if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
+		return;
+
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
