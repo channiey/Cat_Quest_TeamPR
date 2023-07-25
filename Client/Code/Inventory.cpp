@@ -1069,9 +1069,9 @@ void CInventory::Render_PublicUI()
 	// 알파 따로 끝
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 	// Cancel Button
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_CANCELBUTTON]);
-	m_pInventoryTexCom[INVEN_CANCELBUTTON]->Render_Texture();
-	m_pBufferCom->Render_Buffer();
+	// m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_CANCELBUTTON]);
+	// m_pInventoryTexCom[INVEN_CANCELBUTTON]->Render_Texture();
+	// m_pBufferCom->Render_Buffer();
 
 	// Tab Line 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matInventoryWolrd[INVEN_TABLINE]);
