@@ -6,6 +6,7 @@
 CItem_Object::CItem_Object(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
     :CItem(pGraphicDev, _eID)
 {
+ 
 }
 
 CItem_Object::CItem_Object(const CItem& rhs)

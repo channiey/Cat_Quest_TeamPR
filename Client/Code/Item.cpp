@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "ItemGetEffect.h"
+#include "Effect_Font.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev , const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ITEM, _eID)
@@ -14,6 +15,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev , const OBJ_ID& _eID)
 	, m_bCol(false)
 {
 	ZeroMemory(&m_tStatInfo, sizeof(STATINFO));
+	
 }
 
 CItem::CItem(const CItem & rhs)
@@ -89,6 +91,19 @@ void CItem::OnCollision_Enter(CGameObject* _pColObj)
 
 	if (_pColObj->Get_Type() == OBJ_TYPE::PLAYER)
 	{
+		if (m_eID == OBJ_ID::ITEM_EXP)
+		{
+			CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, m_iItemValue, FONT_TYPE::EXP);
+			NULL_CHECK(pEffect);
+			CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
+		}
+		if (m_eID == OBJ_ID::ITEM_GOLD)
+		{
+			CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, m_iItemValue, FONT_TYPE::GOLD);
+			NULL_CHECK(pEffect);
+			CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
+		}
+
 		CEventMgr::GetInstance()->Add_Obj(L"ItemGetEffect", CItemGetEffect::Create(
 			m_pGraphicDev, _pColObj->Get_Transform()->Get_Info(INFO_POS)
 		));

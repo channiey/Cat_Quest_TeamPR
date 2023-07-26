@@ -17,6 +17,7 @@
 #include "MonstSpirit.h"
 // CutEffect
 #include "MobCutEffect.h"
+#include "Effect_Font.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
@@ -238,7 +239,7 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 			{
 
 				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);		
-
+			
 
 			}
 			
@@ -323,6 +324,10 @@ void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 
 
 	 Set_CurHP(m_tStatInfo.fCurHP - fDamage);
+
+	 CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, fDamage, FONT_TYPE::DAMAGE);
+	 NULL_CHECK(pEffect);
+	 CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
 
 	// cout << "뎀지받음" << endl;
 

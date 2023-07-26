@@ -20,7 +20,10 @@ public:
 	LPD3DXFONT				Get_InGameFont(void) { return m_pInGameFont; }
 	LPD3DXFONT				Get_LevelFont(void) { return m_pLevelFont; }
 	LPD3DXFONT				Get_SkillFont(void) { return m_pSkillFont; }
-	LPD3DXFONT				Get_EffectFont(void) { return m_pEffectFont; }
+	LPD3DXFONT				Get_EffectFont1(void) { return m_pEffectFont1; }
+	LPD3DXFONT				Get_EffectFont2(void) { return m_pEffectFont2; }
+	LPD3DXFONT				Get_XpFont1(void) { return m_pXpFont1; }
+	LPD3DXFONT				Get_XpFont2(void) { return m_pXpFont2; }
 
 public:
 
@@ -37,8 +40,11 @@ private:
 	LPD3DXFONT				m_pInGameFont;
 	LPD3DXFONT				m_pLevelFont;
 	LPD3DXFONT				m_pSkillFont;
-	LPD3DXFONT				m_pEffectFont;
-
+	LPD3DXFONT				m_pEffectFont1;
+	LPD3DXFONT				m_pEffectFont2;
+	LPD3DXFONT				m_pXpFont1;
+	LPD3DXFONT				m_pXpFont2;
+	
 
 public:
 	virtual void	Free();

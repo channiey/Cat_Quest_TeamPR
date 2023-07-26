@@ -25,6 +25,8 @@ HRESULT CExpCoin::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_iItemValue = rand() % 11 + 20;
+
 
 	// STATEINFO Setting
 	m_tStatInfo.fCurExp = 100.f;

@@ -29,6 +29,10 @@ private:
 	_bool					m_bIsExpChange;
 	_float					m_fAcc;
 	
+	LERP_FLOAT_INFO			m_tAlpha;
+	_float					m_fAlpha;
+
+	_bool					m_bGone;
 
 public:
 

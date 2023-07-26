@@ -74,27 +74,44 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		return E_FAIL;
 	}
 	// 인게임 폰트
-	if (FAILED(D3DXCreateFont(m_pGraphicDev, 40, 22, 550, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"CookieRun Bold", &m_pInGameFont)))
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 40, 22, 550, 1, false, DEFAULT_CHARSET, OUT_TT_PRECIS, ANTIALIASED_QUALITY, 0, L"CookieRun Bold", &m_pInGameFont)))
 	{
 		MSG_BOX("Create InGameFont Failed");
 		return E_FAIL;
 	}
 	// 레벨UI 폰트
-	if (FAILED(D3DXCreateFont(m_pGraphicDev, 100, 30, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pLevelFont)))
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 100, 30, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pLevelFont)))
 	{
 		MSG_BOX("Create LevelFont Failed");
 		return E_FAIL;
 	}
 	// 스킬UI 폰트
-	if (FAILED(D3DXCreateFont(m_pGraphicDev, 60, 20, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pSkillFont)))
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 60, 20, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pSkillFont)))
 	{
 		MSG_BOX("Create SkillFont Failed");
 		return E_FAIL;
 	}
 	// 이펙트 폰트
-	if (FAILED(D3DXCreateFont(m_pGraphicDev, 60, 20, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"Chela One", &m_pEffectFont)))
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 105, 0, 900, 1, false, DEFAULT_CHARSET, OUT_TT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pEffectFont1)))
 	{
 		MSG_BOX("Create EffectFont Failed");
+		return E_FAIL;
+	}
+
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 92, 43, 0, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pEffectFont2)))
+	{
+		MSG_BOX("Create EffectFont2 Failed");
+		return E_FAIL;
+	}
+	// Xp 폰트
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 80, 0, 580, 1, false, DEFAULT_CHARSET, OUT_TT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pXpFont1)))
+	{
+		MSG_BOX("Create SkillFont Failed");
+		return E_FAIL;
+	}
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 70, 32, 0, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pXpFont2)))
+	{
+		MSG_BOX("Create EffectFont2 Failed");
 		return E_FAIL;
 	}
 
@@ -133,7 +150,16 @@ void CGraphicDev::Free()
 	if (dwRefCnt = Safe_Release(m_pSkillFont))
 		MSG_BOX("m_pFont Release Failed");
 
-	if (dwRefCnt = Safe_Release(m_pEffectFont))
+	if (dwRefCnt = Safe_Release(m_pEffectFont1))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pEffectFont2))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pXpFont1))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pXpFont2))
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pGraphicDev))

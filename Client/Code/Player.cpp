@@ -46,6 +46,8 @@
 #include "Effect_ThornSparkle.h"
 // UI
 #include "RingUI.h"
+#include "Effect_Font.h"
+
 // Shadow
 #include "Shadow_Player.h"
 
@@ -53,6 +55,7 @@
 #include "EventMgr.h"
 
 #include "Inventory.h"
+#include "Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -468,6 +471,8 @@ void CPlayer::LateUpdate_Object()
 		m_pSkillFly->Set_Active(false);
 	}
 
+	LevelUp();
+
 	__super::LateUpdate_Object();
 
 }
@@ -507,36 +512,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
-		CloseTarget_Dis(_pColObj);
-
-		if (Is_Attack())
-		{
-			Regen_Mana();
-			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
-			{
-				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 5, this);
-
-			}
-			else
-			{
-				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
-				CCameraMgr::GetInstance()->Shake_Camera();
-			}
-
-
-
-		}
-		if (Is_Skill())
-		{
-			for (auto iter : m_arrSkillSlot)
-			{
-				if (nullptr != iter && iter->Is_Active())
-				{
-					dynamic_cast<CMonster*>(_pColObj)->Damaged(dynamic_cast<CSkill*>(iter)->Get_SkillDamage(), this);
-				}
-			}
-
-		}
+		
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
 		if (vOverlap.x > vOverlap.z)
@@ -609,6 +585,12 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 		}
 	}
 	case Engine::OBJ_TYPE::ITEM:
+	{
+		if (_pColObj->Get_ID() == OBJ_ID::ITEM_EXP)
+			Set_CurExp(m_tStatInfo.fCurExp + static_cast<CItem*>(_pColObj)->Get_ItemValue());
+		if (_pColObj->Get_ID() == OBJ_ID::ITEM_GOLD)
+			Set_Gold(m_tStatInfo.fGold + static_cast<CItem*>(_pColObj)->Get_ItemValue());
+	}
 		break;
 	case Engine::OBJ_TYPE::PROJECTILE:
 		break;
@@ -687,7 +669,6 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
 			{
 				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 5, this);
-				
 			}
 			else
 			{
@@ -795,6 +776,10 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	}
 		break;
 	case Engine::OBJ_TYPE::ITEM:
+	{
+	
+			
+	}
 		break;
 	case Engine::OBJ_TYPE::PROJECTILE:
 		break;
@@ -1281,6 +1266,10 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_MoveSpeed(50.f);
 	if (CInputDev::GetInstance()->Key_Down('M'))
 		Set_MoveSpeed(20.f);
+	if (CInputDev::GetInstance()->Key_Down('I'))
+		Set_AD(100.f);
+	if (CInputDev::GetInstance()->Key_Down('O'))
+		Set_AD(10.f);
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
@@ -1349,6 +1338,20 @@ void CPlayer::Create_ThornSparkle(const _float& fTimeDelta)
 
 			m_fThornAcc = 0.f;
 		}
+	}
+}
+
+void CPlayer::LevelUp()
+{
+	if (m_tStatInfo.fCurExp > m_tStatInfo.fMaxExp)
+	{
+		Set_CurExp(0.f);
+		Set_MaxExp(m_tStatInfo.fMaxExp + 25);
+		Set_Level(m_tStatInfo.iLevel + 1);
+		CCameraMgr::GetInstance()->Shake_Camera(0.3f, 30.f);
+		Set_MaxHP(m_tStatInfo.fMaxHP + 5);
+		Set_CurHP(m_tStatInfo.fMaxHP);
+		Set_AD(m_tStatInfo.fAD + 2.f);
 	}
 }
 
@@ -1535,7 +1538,7 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 		m_iClockAlpha = 128.f;
 		m_pSkillFly->Set_Active(false);
 		m_pEffectOra->Set_Active(false);
-		m_tMoveInfo.fMoveSpeed = 30.f;
+		m_tMoveInfo.fMoveSpeed = 25.f;
 
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::NINJA)]);
 		break;
@@ -1567,6 +1570,11 @@ void CPlayer::Damaged(const _float& fDamage)
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
 		return;
+
+	CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, fDamage, FONT_TYPE::HIT);
+	NULL_CHECK(pEffect);
+	CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
+
 
 	if (m_tStatInfo.fCurDef > 0)
 	{
