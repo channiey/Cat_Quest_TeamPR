@@ -79,7 +79,6 @@ HRESULT CSkill::Play()
 
 HRESULT CSkill::End()
 {
-
 	if(nullptr != m_pSKillEffect)
 		m_pSKillEffect->Set_Active(FALSE);
 	if (nullptr != m_pRangeEffect)

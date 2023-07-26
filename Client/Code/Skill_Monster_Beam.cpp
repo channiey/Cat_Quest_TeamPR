@@ -5,7 +5,7 @@
 #include "Effect_Beam.h"
 #include "Effect_Range_Quater.h"
 #include "RangeObj.h"
-
+#include "Monster.h"    
 CSkill_Monster_Beam::CSkill_Monster_Beam(LPDIRECT3DDEVICE9 pGraphicDev)
     :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_BEAM)
 {
@@ -48,10 +48,10 @@ _int CSkill_Monster_Beam::Update_Object(const _float& fTimeDelta)
     _int iExit = __super::Update_Object(fTimeDelta);
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-    // Dead Condition
-    if (!m_pOwnerObject->Is_Active())
+    // Dead Condition5
+ 
+    if (!m_pOwnerObject->Is_Active() || dynamic_cast<CMonster*>(m_pOwnerObject)->Get_StatInfo().bDead)
     {
-        End();
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);

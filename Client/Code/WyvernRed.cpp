@@ -270,14 +270,22 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 			m_bBaseSkill = true;
 		}
 
-		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
+		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 		{
 			m_pBaseSkill->End();
 			m_bBaseSkill = false;
 		}
 
+
 	}
 	
+	if (!m_bActive) // 수정시 팀장 보고  
+	{
+		m_bBaseSkill = false;
+		m_pSkill->Update_Object(Engine::Get_TimeDelta(L"Timer_FPS65"));
+		m_pBaseSkill->Update_Object(Engine::Get_TimeDelta(L"Timer_FPS65"));
+	}
+
 	return iExit;
 }
 
