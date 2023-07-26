@@ -170,7 +170,7 @@
     <ClInclude Include="..\Header\BackgroundShade.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
-    <ClInclude Include="..\Header\ConvergingFire_Bullet.h" />
+    <ClInclude Include="..\Header\ComeBack_Bullet.h" />
     <ClInclude Include="..\Header\Dagger.h" />
     <ClInclude Include="..\Header\DeathTree.h" />
     <ClInclude Include="..\Header\DungeonTextUI.h" />
@@ -482,6 +482,8 @@
     <ClInclude Include="..\Header\VioletDragonState_FullDown_Fly.h" />
     <ClInclude Include="..\Header\VioletDragonState_Patrol.h" />
     <ClInclude Include="..\Header\VioletDragonState_Rest.h" />
+    <ClInclude Include="..\Header\VioletDragonState_ShootingStar.h" />
+    <ClInclude Include="..\Header\VioletDragonState_SpreadBullet.h" />
     <ClInclude Include="..\Header\WarriorWeapon.h" />
     <ClInclude Include="..\Header\WorldTree.h" />
     <ClInclude Include="..\Header\Wyvern.h" />
@@ -527,7 +529,7 @@
     <ClCompile Include="..\Code\BackgroundShade.cpp" />
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
-    <ClCompile Include="..\Code\ConvergingFire_Bullet.cpp" />
+    <ClCompile Include="..\Code\ComeBack_Bullet.cpp" />
     <ClCompile Include="..\Code\Dagger.cpp" />
     <ClCompile Include="..\Code\DeathTree.cpp" />
     <ClCompile Include="..\Code\DungeonTextUI.cpp" />
@@ -841,6 +843,8 @@
     <ClCompile Include="..\Code\VioletDragonState_FullDown_Fly.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Patrol.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Rest.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_ShootingStar.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_SpreadBullet.cpp" />
     <ClCompile Include="..\Code\WarriorWeapon.cpp" />
     <ClCompile Include="..\Code\WorldTree.cpp" />
     <ClCompile Include="..\Code\Wyvern.cpp" />

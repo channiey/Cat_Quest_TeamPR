@@ -291,9 +291,20 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 
 void CWyvernRed::LateUpdate_Object()
 {
+
+
+	// Dead Condition
+	if (m_tStatInfo.fCurHP <= 0.f)
+	{
+		m_tStatInfo.bDead = true;
+	}
+
+	CMonster::LateUpdate_Object();
 	/*if (m_bSkill)
 		m_bSkill = false;*/
-	__super::LateUpdate_Object();
+
+
+
 }
 
 void CWyvernRed::Render_Object()

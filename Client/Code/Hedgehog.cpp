@@ -275,33 +275,31 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	// Bullet Test  ///////////////////////////////////////////////////////
-	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+	//// Bullet Test  ///////////////////////////////////////////////////////
+	//CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
-	if (CInputDev::GetInstance()->Key_Down('G'))
-	{
-		
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir, this));
-	
-	}
-	if (CInputDev::GetInstance()->Key_Down('H'))
-	{
+	//if (CInputDev::GetInstance()->Key_Down('G'))
+	//{
+	//	
+	//	CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vOwnerDir, this));
+	//
+	//}
+	//if (CInputDev::GetInstance()->Key_Down('H'))
+	//{
 
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Chase_Bullet", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
+	//	CEventMgr::GetInstance()->Add_Obj(L"Projectile_Chase_Bullet", CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
 
-	}
-	if (CInputDev::GetInstance()->Key_Down('J'))
-	{
+	//}
+	//if (CInputDev::GetInstance()->Key_Down('J'))
+	//{
 
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_Dagger", CDagger::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
+	//	CEventMgr::GetInstance()->Add_Obj(L"Projectile_Dagger", CDagger::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
 
-	}
-	if (CInputDev::GetInstance()->Key_Down('Y'))
-	{
-		CEventMgr::GetInstance()->Add_Obj(L"Projectile_BlueStar_Bullet", CBlueStar_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
-	}
-
-
+	//}
+	//if (CInputDev::GetInstance()->Key_Down('Y'))
+	//{
+	//	CEventMgr::GetInstance()->Add_Obj(L"Projectile_BlueStar_Bullet", CBlueStar_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, this));
+	//}
 	////////////////////////////////////////////////////
 
 	return iExit;

@@ -3,11 +3,11 @@
 
 
 
-class CVioletDragonState_ConvergingFire : public CState   //  Dagger Use
+class CVioletDragonState_SpreadBullet : public CState
 {
 public:
-	explicit			CVioletDragonState_ConvergingFire(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CVioletDragonState_ConvergingFire();
+	explicit			CVioletDragonState_SpreadBullet(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CVioletDragonState_SpreadBullet();
 
 
 public:
@@ -23,12 +23,21 @@ public:
 
 
 public:
-	static CVioletDragonState_ConvergingFire* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CVioletDragonState_SpreadBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:
 
+	//CComBack_Bullet* m_pBullet1;
+
+
+
+
+
 	_float  m_fAccTime;
+
+	_float  m_fBulletCount;
+	_float  m_fRadius;
 
 	_bool   m_bBullet1;
 	_bool   m_bBullet2;
@@ -50,6 +59,19 @@ private:
 	_bool   m_bBullet15;
 	_bool   m_bBullet16;
 
+	_bool   m_bBullet17;
+	_bool   m_bBullet18;
+	_bool   m_bBullet19;
+	_bool   m_bBullet20;
+
+	_bool   m_bBullet21;
+	_bool   m_bBullet22;
+	_bool   m_bBullet23;
+	_bool   m_bBullet24;
+
+
+
+	
 
 private:
 	virtual void Free();

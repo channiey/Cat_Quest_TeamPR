@@ -29,6 +29,12 @@ public:
 
 	static					CFoxFire* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
 
+private:
+
+	LERP_FLOAT_INFO      m_tAlpha;
+
+	_bool				m_bInit;
+	_bool				m_bEnd;
 protected:
 	virtual void		Free() override;
 

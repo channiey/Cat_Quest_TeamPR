@@ -7,11 +7,14 @@ CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarge
     m_vPos = _vPos;
     m_pTarget = pTarget;
     m_pOwner = pOwner;
+
+    ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
 CDagger::CDagger(const CProjectile& rhs)
     : CBasicProjectile(rhs)
 {
+
 }
 
 CDagger::~CDagger()
@@ -27,9 +30,12 @@ HRESULT CDagger::Ready_Object()
 
     
     m_pTransformCom->Set_Pos(m_vPos);
-    m_fSpeed = 15.f;
+    m_fSpeed = 40.f;
 
-    m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
+    m_bNonTarget = false;
+
+    m_bInit = false;
+
     m_szName = L"Projectile_Dagger";
 
     return S_OK;
@@ -38,46 +44,52 @@ HRESULT CDagger::Ready_Object()
 
 _int CDagger::Update_Object(const _float& fTimeDelta)
 {
+    if (false == m_bInit)
+    {
+      
+        m_tAlpha.Init_Lerp();
+        m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+        m_bInit = true;
+    }
+
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
 
-    _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
-    
-    _vec3 vDir = - (vTargetPos - m_pTransformCom->Get_Info(INFO_POS));
 
-    if (m_vOriginPos.x >= vTargetPos.x)
-    {
-        vDir.x - 30.f;
-    }
-    else
-    {
-        vDir.x + 30.f;
-    }
-
-    m_pTransformCom->Set_Dir(vDir);
-
+    m_tAlpha.Update_Lerp(fTimeDelta);
 
     m_fAccTime += fTimeDelta;
 
-    if (m_fAccTime >= 1.f)
+    _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
+
+
+    _vec3 vBulletDir = vTargetPos - m_vPos;
+
+
+    if (m_fAccTime <= 3.f)
     {
- 
-        m_fSpeed = 30.f;
-        this->m_pAICom->Chase_Target(&vTargetPos, fTimeDelta, m_fSpeed);
-       
+        m_pTransformCom->Set_Dir(vec3.zero);
+
     }
-    else if (m_fAccTime > 3.f)
+    if (m_fAccTime > 3.f && m_bNonTarget == false)
     {
-        m_fSpeed = 10.f;
+        m_pTransformCom->Set_Dir(vBulletDir);
+        //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
+        //vBulletDir = m_pTransformCom->Get_Dir();
+        m_bNonTarget = true;
     }
     if (m_fAccTime >= 4.f)
+    {
+        // m_pTransformCom->Set_Dir(vBulletDir);
+       // m_fSpeed = 40.f;
+    }
+
+    if (m_fAccTime >= 5.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
 
-
     m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
-
 
     return iExit;
 }
@@ -89,6 +101,8 @@ void CDagger::LateUpdate_Object()
 
 void CDagger::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
+
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -97,12 +111,13 @@ void CDagger::Render_Object()
 
     m_pGraphicDev->SetTexture(0, NULL);
 
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB( 255, 255, 255, 255));
 
     __super::Render_Object();
 }
 
 HRESULT CDagger::Add_Component()
-{
+{ 
     CComponent* pComponent;
 
     // Texture

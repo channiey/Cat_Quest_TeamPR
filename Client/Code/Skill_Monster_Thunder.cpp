@@ -60,7 +60,9 @@ _int CSkill_Monster_Thunder::Update_Object(const _float& fTimeDelta)
     // Dead condition
     if (!m_pOwnerObject->Is_Active())
     {
+        m_pRangeEffect->Set_Active(false);
         End();
+        
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -145,6 +147,7 @@ HRESULT CSkill_Monster_Thunder::LatePlay()
 
 HRESULT CSkill_Monster_Thunder::End()
 {   
+    //m_pRangeEffect->Set_Active(false);
     m_pSKillEffect->Set_Active(false);
     return S_OK;
 }

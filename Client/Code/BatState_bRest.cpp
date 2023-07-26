@@ -131,7 +131,7 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
     if (m_bAssault == false)
     {
 
-        if (fPlayerDistance >= 5.f && m_fAccTime >= 0.5f)
+        if (fPlayerDistance >= 5.f && m_fAccTime >= 0.5f && fPlayerDistance <= 20.f)
         {
             m_bAssault = true;
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
@@ -158,12 +158,12 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
   
    
     //// BACK_ MONREST 전이
-    //if (vOwnerDir.z > 0)
+    //if (vOwnerDir.z < vPlayerPos.z)
     //{
     //    // cout <<  "back monattack 전이" << endl;
     //    return STATE_TYPE::MONREST;
     //}
-    // 
+     
      
 
     if (m_fAccTime >= 2.f)
