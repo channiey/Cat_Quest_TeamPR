@@ -76,6 +76,8 @@ public:
 
 	ITEM_TYPE			Get_ItemType() { return m_eItemType; }
 
+	_uint&				Get_ItemValue() { return m_iItemValue; }
+
 #pragma endregion
 	// 성혁 추가
 	_bool				Get_IsCol() { return m_bCol; }
@@ -91,6 +93,11 @@ protected:
 
 	//성혁 추가
 	_bool					m_bCol;
+
+	//준 추가
+	_uint					m_iItemValue;
+
+	
 protected:
 	virtual void			Free() override;
 };

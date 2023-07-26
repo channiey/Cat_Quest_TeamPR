@@ -67,8 +67,8 @@ _int CSkill_Player_Fly::Update_Object(const _float& fTimeDelta)
 
     Picking_Terrain();
 
-    m_pAICom->Chase_Target(&m_vMousePos, fTimeDelta, 8.f);
-    m_pTransformCom->Translate(fTimeDelta * 8.f);
+    m_pAICom->Chase_Target(&m_vMousePos, fTimeDelta, 15.f);
+    m_pTransformCom->Translate(fTimeDelta * 15.f);
 
     return iExit;
 }

@@ -24,6 +24,8 @@ public:
 private:
 	HRESULT					Add_Component();
 
+private:
+	LERP_VEC3_INFO			m_tLerp;
 
 protected:
 

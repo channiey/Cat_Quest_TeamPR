@@ -181,6 +181,8 @@ private:
 
 	void				Create_ThornSparkle(const _float& fTimeDelta);
 
+	void				LevelUp();
+
 private:
 	MOVEINFO					m_tMoveInfo;
 	STATINFO					m_tStatInfo;

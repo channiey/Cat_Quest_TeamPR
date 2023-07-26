@@ -54,6 +54,9 @@ HRESULT CExpUI::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_fAlpha = 255.f;
+	m_bGone = false;
+
 	return S_OK;
 }
 
@@ -65,10 +68,24 @@ _int CExpUI::Update_Object(const _float& fTimeDelta)
 	{
 		m_fAcc += fTimeDelta;
 
-		if (3.f < m_fAcc)
+		if (3.5f < m_fAcc && !m_bGone)
 		{
-			m_bIsExpChange = false;
 			m_fAcc = 0.f;
+			m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+			m_tAlpha.Set_Lerp(0.5f, 255, 0);
+			m_bGone = true;
+		}
+	}
+
+	if (m_bGone)
+	{
+		m_tAlpha.Update_Lerp(fTimeDelta);
+		m_fAlpha = m_tAlpha.fCurValue;
+		if (m_fAlpha <= 0)
+		{
+			m_fAlpha = 255;
+			m_bIsExpChange = false;
+			m_bGone = false;
 		}
 	}
 
@@ -87,7 +104,7 @@ _int CExpUI::Update_Object(const _float& fTimeDelta)
 		{
 			m_fCurExpRatio = ExpRatio;
 			m_bIsExpChange = true;
-			m_fAcc = 0.f;
+			
 		}
 	}
 	
@@ -110,6 +127,8 @@ void CExpUI::Render_Object()
 	
 	if (m_bIsExpChange)
 	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_uint)m_fAlpha, 255, 255, 255));
+
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matExpUI[0]);
 		m_pTextureCom->Render_Texture(7);
 		m_pBufferCom->Render_Buffer();
@@ -121,6 +140,8 @@ void CExpUI::Render_Object()
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matExpUI[2]);
 		m_pTextureCom->Render_Texture(6);
 		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 }
 
