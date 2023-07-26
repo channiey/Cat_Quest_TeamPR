@@ -52,20 +52,14 @@ void CQuestMgr::Update(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 }
 
-_bool CQuestMgr::CheckQuest(_int _iQuestID, _int _iLevelID)
+CQuestData* CQuestMgr::Get_Quest()
 {
-	if (m_iQuestID == _iQuestID && m_mapQuestList[m_iQuestID]->Get_Level() == _iLevelID)
-		return true;
+	if (m_mapQuestList[m_iQuestID] != nullptr)
+	{
+		return m_mapQuestList[m_iQuestID];
+	}
 
-	return false;
-}
-
-void CQuestMgr::NextLevel()
-{
-	auto iter = m_mapQuestList.find(m_iQuestID);
-
-	if (&iter)
-		iter->second->Next_Level();
+	return nullptr;
 }
 
 void CQuestMgr::Free()

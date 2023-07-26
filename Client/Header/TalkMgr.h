@@ -25,6 +25,7 @@ private:
 	map<int, vector<wstring>>	  m_mapTalkData; 
 	_int						  m_iTalkIndex; 
 
+	
 	_bool						  m_bInit = false; // 최초 초기화
 
 	_int					      m_iStayTime; // 카메라가 멈추고 대기 시간.
@@ -32,6 +33,7 @@ private:
 	_bool						  m_bReturnCam; // 카메라 다시원점
 	_bool						  m_bStaySet;  // 카메라 대기 시간 한 번만 세팅
 
+	_bool						  m_bTalkEnd; // 마지막 대사창 러프 효과를 위해
 private:
 	virtual void			Free();
 };

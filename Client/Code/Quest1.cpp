@@ -35,6 +35,8 @@ void CQuest1::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
 
+	m_tQuestContent.push_back({ L"1. 고슴도치 5마리 처치", false });
+
 	m_iKillCount = 0;
 }
 
@@ -65,13 +67,7 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 100, OBJ_ID::NPC_BLACKSMITH)) {
 						m_iLevel += 1;
-						if (*_IsAble)
-						{
-						//	dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-						//		dynamic_cast<CEnvironment*>(CManagement::GetInstance()->
-						//			Get_GameObject(OBJ_TYPE::ENVIRONMENT, L"Dungeon_Grass")));
-							*_IsAble = false;
-						}
+						*_IsAble = false;
 						break;
 					}
 				}
@@ -83,6 +79,7 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 1: // 고슴도치 5마리 소탕
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
+			m_bShowQuestView = true;
 			// 고슴도치 5마리를 잡았다면
 			for (_int i = 0; i < CEventMgr::GetInstance()->Get_VecDeleteObj().size(); ++i)
 			{
@@ -91,9 +88,14 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					m_iKillCount += 1;
 				}
 			}
+			if (m_iKillCount <= 5)
+			{
+				m_tQuestContent[0].m_strQuestContent = L"1. 고슴도치 5마리 처치 :  " + to_wstring(m_iKillCount) + L" / 5";
+			}
 			if (m_iKillCount >= 5)
 			{
 				{
+					m_tQuestContent[0].m_bClear = true;
 					// Npc가 존재 한다면
 					if ((CManagement::GetInstance()->
 						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith") != nullptr))
@@ -127,6 +129,7 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 2:
 			m_iLevel = 99;
 			*_IsAble = false;
+			m_bShowQuestView = false;
 			return true;
 		break;
 	}

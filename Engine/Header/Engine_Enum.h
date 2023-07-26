@@ -362,6 +362,8 @@ namespace Engine
 	
 	enum class CLASS_TYPE			{ NORMAL, NINJA, MAGE, THORN, TYPEEND };
 
+	enum class DIALOG_TYPE			{ DIALOG_START, DIALOG_NORMAL, DIALOG_END };
+
 	enum WINMODE					{ MODE_FULL	, MODE_WIN };
 	
 	enum COMPONENTID				{ ID_DYNAMIC, ID_STATIC, ID_END };		

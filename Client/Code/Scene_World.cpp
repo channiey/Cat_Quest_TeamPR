@@ -397,10 +397,9 @@ HRESULT CScene_World::Ready_Layer_UI()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Flight", pGameObject), E_FAIL);
 
 	// UI - Quest
-	/*pGameObject = CQuestUI::Create(m_pGraphicDev);
+	pGameObject = CQuestUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Quest", pGameObject), E_FAIL);*/
-
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Quest", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ OBJ_TYPE::UI, pLayer });
 

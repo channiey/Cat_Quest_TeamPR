@@ -46,6 +46,22 @@ HRESULT CDialogUI::Ready_Object()
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;
 
+	// 텍스트 박스 사이즈 러프 세팅
+	m_tSizeUpLerpX.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tSizeUpLerpX.Set_Lerp(0.3f, 0.f, m_fSizeX);
+
+	m_tSizeDownLerpX.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tSizeDownLerpX.Set_Lerp(0.3f, m_fSizeX, 0.f);
+
+
+	// 알파
+	m_tAlphaUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tAlphaUpLerp.Set_Lerp(0.3f, 0.f, 255.f);
+	m_tAlphaDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tAlphaDownLerp.Set_Lerp(0.3f, 225.f, 0.f);
+
+	m_fAlpha = 0.f;
+
 	return S_OK;
 }
 
@@ -53,67 +69,88 @@ _int CDialogUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	Typing_Effect(fTimeDelta);
+	if (m_bDialogType == DIALOG_TYPE::DIALOG_START)
+	{
+		m_tSizeUpLerpX.Update_Lerp(fTimeDelta);
+		m_tSizeUpLerpY.Update_Lerp(fTimeDelta);
+		m_tAlphaUpLerp.Update_Lerp(fTimeDelta);
 
-	_float fReach = 1.f;
-	if (m_bDown)
-	{
-		_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_matUI[0]._41, m_matUI[0]._42, 0.f }
-		, _vec3{ m_matUI[0]._41, m_matUI[0]._42 - fReach, 0.f }, 0.12f, fTimeDelta);
-		if (vOut.x != -99)
+		m_UImatWorld._11 = m_tSizeUpLerpX.fCurValue;
+		m_UImatWorld._22 = m_tSizeUpLerpY.fCurValue;
+		m_fAlpha = m_tAlphaUpLerp.fCurValue;
+
+		if (!m_tSizeUpLerpX.bActive && !m_tSizeUpLerpY.bActive)
 		{
-			m_matUI[0]._42 = vOut.y;
-		}
-		else
-		{
-			m_bDown = false;
-			m_bUp = true;
-		}
-			
-	}
-	if (m_bUp)
-	{
-		_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_matUI[0]._41, m_matUI[0]._42, 0.f }
-		, _vec3{ m_matUI[0]._41, m_matUI[0]._42 + fReach, 0.f }, 0.12f, fTimeDelta);
-		if (vOut.x != -99)
-		{
-			m_matUI[0]._42 = vOut.y;
-		}
-		else
-		{
-			m_bDown = true;
-			m_bUp = false;
+			m_bDialogType = DIALOG_TYPE::DIALOG_NORMAL;
 		}
 	}
 
-	_float fScale = 1.2f;
-	if (m_bExpand)
+	if (m_bDialogType == DIALOG_TYPE::DIALOG_NORMAL)
 	{
-		_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 1.f }
-		, _vec3{ m_matUI[1]._11 + (fScale / 2), m_matUI[1]._22 + fScale, 1.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
-		if (vOut.x != -99)
+		m_fAlpha = 255.f;
+		Typing_Effect(fTimeDelta);
+
+		_float fReach = 1.f;
+		if (m_bDown)
 		{
-			m_matUI[1]._11 = vOut.x;
-			m_matUI[1]._22 = vOut.y;
+			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_matUI[0]._41, m_matUI[0]._42, 0.f }
+			, _vec3{ m_matUI[0]._41, m_matUI[0]._42 - fReach, 0.f }, 0.12f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matUI[0]._42 = vOut.y;
+			}
+			else
+			{
+				m_bDown = false;
+				m_bUp = true;
+			}
+
 		}
-		else
+		if (m_bUp)
 		{
-			m_bExpand = false;
+			_vec3 vOut = m_pTransformCom->Lerp(_vec3{ m_matUI[0]._41, m_matUI[0]._42, 0.f }
+			, _vec3{ m_matUI[0]._41, m_matUI[0]._42 + fReach, 0.f }, 0.12f, fTimeDelta);
+			if (vOut.x != -99)
+			{
+				m_matUI[0]._42 = vOut.y;
+			}
+			else
+			{
+				m_bDown = true;
+				m_bUp = false;
+			}
 		}
 
-	}
-	else if (!m_bExpand)
-	{
-		_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
-		, _vec3{ m_matUI[1]._11 - (fScale / 2), m_matUI[1]._22 - fScale, 1.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
-		if (vOut.x != -99)
+		_float fScale = 1.2f;
+		if (m_bExpand)
 		{
-			m_matUI[1]._11 = vOut.x;
-			m_matUI[1]._22 = vOut.y;
+			_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 1.f }
+			, _vec3{ m_matUI[1]._11 + (fScale / 2), m_matUI[1]._22 + fScale, 1.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			if (vOut.x != -99)
+			{
+				m_matUI[1]._11 = vOut.x;
+				m_matUI[1]._22 = vOut.y;
+			}
+			else
+			{
+				m_bExpand = false;
+			}
+
 		}
-		else
+		else if (!m_bExpand)
 		{
-			m_bExpand = true;
+			_vec3 vOut = m_pUITransform->Lerp(_vec3{ m_matUI[1]._11, m_matUI[1]._22, 0.f }
+			, _vec3{ m_matUI[1]._11 - (fScale / 2), m_matUI[1]._22 - fScale, 1.f }, 0.4f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
+			if (vOut.x != -99)
+			{
+				m_matUI[1]._11 = vOut.x;
+				m_matUI[1]._22 = vOut.y;
+			}
+			else
+			{
+				m_bExpand = true;
+			}
+
 		}
 
 	}
@@ -129,32 +166,40 @@ void CDialogUI::LateUpdate_Object()
 
 void CDialogUI::Render_Object()
 {
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_fAlpha, 255, 255, 255));
+
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
+	if (m_bDialogType == DIALOG_TYPE::DIALOG_NORMAL)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
+		m_pUITextureCom[0]->Render_Texture(2);
+		m_pBufferCom->Render_Buffer();
+
+		if (m_eObjID != OBJ_ID::NPC_SPIRIT)
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
+			m_pUITextureCom[1]->Render_Texture(m_iNpc);
+			m_pBufferCom->Render_Buffer();
+		}
+		else
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
+			m_pUITextureCom[2]->Render_Texture(_uint(m_eEmo));
+			m_pBufferCom->Render_Buffer();
+		}
+	}
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
-	m_pUITextureCom[0]->Render_Texture(2);
-	m_pBufferCom->Render_Buffer();
-
-	if (m_eObjID != OBJ_ID::NPC_SPIRIT)
+	if (m_bDialogType == DIALOG_TYPE::DIALOG_NORMAL)
 	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
-		m_pUITextureCom[1]->Render_Texture(m_iNpc);
-		m_pBufferCom->Render_Buffer();
-	}
-	else
-	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
-		m_pUITextureCom[2]->Render_Texture(_uint(m_eEmo));
-		m_pBufferCom->Render_Buffer();
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strTyping.c_str(), -1,
+			&m_rcText, DT_LEFT | DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
 	}
 	
 
-	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strTyping.c_str(), -1,
-		&m_rcText, DT_LEFT | DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
 
 	// 텍스트박스 테스트렉트
 	/*HDC hDC = GetDC(g_hWnd);
@@ -197,12 +242,13 @@ HRESULT CDialogUI::Add_Component()
 	return S_OK;
 }
 
-HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo)
+HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, DIALOG_TYPE _bDialogType, SPIRITEMO_TYPE eEmo)
 {
 	if (0 >= strDialog.size())
 		return E_FAIL;
 
 	m_strDialog = strDialog;
+	m_bDialogType = _bDialogType;
 	Select_Npc(eNpc, eEmo);
 	m_fAcc = 0.f;
 	m_iTextCnt = 0.f;
@@ -227,6 +273,14 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE e
 	m_UImatWorld._42 = WINCY - m_fPosY - 15;
 	m_UImatWorld._22 = m_fSizeY + 20;
 
+	// 텍스트 박스 Y값 사이즈 러프세팅 
+	m_tSizeUpLerpY.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tSizeUpLerpY.Set_Lerp(0.3f, 0.f, m_UImatWorld._22);
+
+	m_tSizeDownLerpY.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tSizeDownLerpY.Set_Lerp(0.3f, m_UImatWorld._22, 0.f);
+
+
 	// 이에따라 화살표 설정
 	m_matUI[0]._41 = m_UImatWorld._41 + 280;
 	m_matUI[0]._42 = (m_UImatWorld._42 - (m_UImatWorld._22 / 2.f) + 5);
@@ -243,8 +297,27 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE e
 	m_bExpand = true;
 	m_bShrink = false;
 
-
 	return S_OK;
+}
+
+_bool CDialogUI::EndLerp_Dialog()
+{
+	m_bDialogType = DIALOG_TYPE::DIALOG_END;
+
+	m_tSizeDownLerpX.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
+	m_tSizeDownLerpY.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
+	m_tAlphaDownLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
+
+	m_UImatWorld._11 = m_tSizeDownLerpX.fCurValue;
+	m_UImatWorld._22 = m_tSizeDownLerpY.fCurValue;
+	m_fAlpha = m_tAlphaDownLerp.fCurValue;
+
+	if (!m_tSizeDownLerpX.bActive && !m_tSizeDownLerpY.bActive)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void CDialogUI::Select_Npc(OBJ_ID eNpc, SPIRITEMO_TYPE eEmo)
@@ -308,7 +381,7 @@ void CDialogUI::Typing_Effect(const _float& fTimeDelta)
 	}
 }
 
-CDialogUI* CDialogUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo)
+CDialogUI* CDialogUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJ_ID eNpc, wstring strDialog, DIALOG_TYPE _bDialogType, SPIRITEMO_TYPE eEmo)
 {
 	CDialogUI* pInstance = new CDialogUI(pGraphicDev);
 
@@ -319,7 +392,7 @@ CDialogUI* CDialogUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJ_ID eNpc, wstring
 		MSG_BOX("DialogUI Create Failed");
 		return nullptr;
 	}
-	if (FAILED(pInstance->Ready_Dialog(eNpc, strDialog, eEmo)))
+	if (FAILED(pInstance->Ready_Dialog(eNpc, strDialog, _bDialogType, eEmo)))
 	{
 		Safe_Release(pInstance);
 
