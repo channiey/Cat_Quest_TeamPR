@@ -206,7 +206,10 @@
     <ClInclude Include="..\Header\Grass.h" />
     <ClInclude Include="..\Header\Grass1.h" />
     <ClInclude Include="..\Header\Island.h" />
+    <ClInclude Include="..\Header\Island_Death.h" />
     <ClInclude Include="..\Header\Island_Ice.h" />
+    <ClInclude Include="..\Header\Island_Jump.h" />
+    <ClInclude Include="..\Header\Island_Village.h" />
     <ClInclude Include="..\Header\ItemGetEffect.h" />
     <ClInclude Include="..\Header\Mage_Bullet.h" />
     <ClInclude Include="..\Header\OtherEnvironment.h" />
@@ -548,7 +551,10 @@
     <ClCompile Include="..\Code\Grass.cpp" />
     <ClCompile Include="..\Code\Grass1.cpp" />
     <ClCompile Include="..\Code\Island.cpp" />
+    <ClCompile Include="..\Code\Island_Death.cpp" />
     <ClCompile Include="..\Code\Island_Ice.cpp" />
+    <ClCompile Include="..\Code\Island_Jump.cpp" />
+    <ClCompile Include="..\Code\Island_Village.cpp" />
     <ClCompile Include="..\Code\Mage_Bullet.cpp" />
     <ClCompile Include="..\Code\OtherEnvironment.cpp" />
     <ClCompile Include="..\Code\PirateHideOut.cpp" />
