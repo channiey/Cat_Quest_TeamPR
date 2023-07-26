@@ -232,9 +232,7 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
 		{
-			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() && 
-				_pColObj->Get_ID() != OBJ_ID::MONSTER_FOX && 
-				_pColObj->Get_ID() != OBJ_ID::MONSTER_SQUIRREL)
+			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
 			{
 
 				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);		

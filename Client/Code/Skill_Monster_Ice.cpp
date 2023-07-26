@@ -55,6 +55,7 @@ _int CSkill_Monster_Ice::Update_Object(const _float& fTimeDelta)
     if (!m_pOwnerObject->Is_Active())
     {
         End();
+        m_pBaseRangeEffect->Set_Active(false);
        // CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -145,6 +146,7 @@ HRESULT CSkill_Monster_Ice::LatePlay()
 
 HRESULT CSkill_Monster_Ice::End()
 {
+    m_pBaseRangeEffect->Set_Active(false);
     m_pSKillEffect->Set_Active(false);
    // m_pRangeEffect->Set_Active(false);
 

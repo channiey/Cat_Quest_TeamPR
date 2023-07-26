@@ -5,6 +5,7 @@
 #include "Effect_Beam.h"
 #include "Effect_Range_Quater.h"
 #include "RangeObj.h"
+#include "Monster.h"
 
 CSkill_Monster_Beam::CSkill_Monster_Beam(LPDIRECT3DDEVICE9 pGraphicDev)
     :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_BEAM)
@@ -13,7 +14,9 @@ CSkill_Monster_Beam::CSkill_Monster_Beam(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CSkill_Monster_Beam::CSkill_Monster_Beam(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
     :CSkill(pGraphicDev, _pOwnerObject , OBJ_ID::SKILL_MONSTER_BEAM)
+  
 {
+    m_pOwnerObject = _pOwnerObject;
 }
 
 CSkill_Monster_Beam::CSkill_Monster_Beam(const CSkill_Monster_Beam& rhs)
@@ -49,8 +52,9 @@ _int CSkill_Monster_Beam::Update_Object(const _float& fTimeDelta)
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
     // Dead Condition
-    if (!m_pOwnerObject->Is_Active())
+    if (dynamic_cast<CMonster*>(m_pOwnerObject)->Is_Dead() == true)
     {
+        m_pBaseRangeEffect->Set_Active(false);
         End();
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
@@ -116,7 +120,7 @@ HRESULT CSkill_Monster_Beam::Play()
     OBJ_ID eObjID = m_pOwnerObject->Get_ID();
 
     m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z +4});
-    m_pBaseRangeEffect->Alphaing(0.01f, 180.f, 180.f);
+    m_pBaseRangeEffect->Alphaing(1.f, 180.f, 180.f);
     m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
 
     m_bActive = true;
@@ -143,6 +147,7 @@ HRESULT CSkill_Monster_Beam::LatePlay()
 
 HRESULT CSkill_Monster_Beam::End()
 {
+    
     m_pSKillEffect->Set_Active(false);
     m_pRangeEffect->Set_Active(false);
     return S_OK;

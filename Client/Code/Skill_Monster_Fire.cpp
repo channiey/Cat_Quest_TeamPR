@@ -57,6 +57,8 @@ _int CSkill_Monster_Fire::Update_Object(const _float& fTimeDelta)
     // Dead condition
     if (!m_pOwnerObject->Is_Active())
     {
+        End();
+        m_pBaseRangeEffect->Set_Active(false);
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
@@ -152,6 +154,7 @@ HRESULT CSkill_Monster_Fire::LatePlay()
 
 HRESULT CSkill_Monster_Fire::End()
 {
+   
     m_pSKillEffect->Set_Active(false);
     m_pRangeEffect->Set_Active(false);
 
