@@ -167,6 +167,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\BackgroundShade.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\ConvergingFire_Bullet.h" />
@@ -521,6 +522,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\BackgroundShade.cpp" />
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
     <ClCompile Include="..\Code\ConvergingFire_Bullet.cpp" />

@@ -1165,6 +1165,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
 			, L"../Bin/Resource/Texture/Logo/white.png")), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BackgroundShade"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
+			, L"../Bin/Resource/Texture/Logo/BackgroundShade.png")), E_FAIL);
+
 #pragma endregion
 
 

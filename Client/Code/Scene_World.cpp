@@ -158,6 +158,8 @@
 
 #include "TerrainTool.h"
 
+#include "BackgroundShade.h"
+
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
 {
@@ -628,6 +630,13 @@ HRESULT CScene_World::Ready_Layer_YC()
 	pGameObject = CLineObject::Create(m_pGraphicDev, vEndPos + _vec3{ 10.f, 0.f, 0.f }, vEndPos + _vec3{ 10.f, 0.f, -10.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_03", pGameObject), E_FAIL);*/
+
+
+	/*Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CBackgroundShade::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);*/
 
 	return S_OK;
 }

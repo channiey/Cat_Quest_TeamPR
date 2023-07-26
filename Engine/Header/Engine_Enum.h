@@ -226,7 +226,7 @@ namespace Engine
 
 		// 새로 추가한 UI
 		UI_QUEST,
-
+		UI_BACKGROUND_SHADE,
 		TYPEEND
 };
 	

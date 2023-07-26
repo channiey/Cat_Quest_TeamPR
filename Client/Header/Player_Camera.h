@@ -21,11 +21,14 @@ public:
 	virtual void			LateUpdate_Object(void) override;
 
 public:
-	virtual void						Start_Fade(const FADE_MODE& _eMode) override;
-	const _bool& Is_Fade() override;
-	const FADE_MODE& Get_FadeMode() const { return m_eFadeMode; }
+	virtual void			Start_Fade(const FADE_MODE& _eMode) override;
+	const _bool&			Is_Fade() override;
+	const FADE_MODE&		Get_FadeMode() const { return m_eFadeMode; }
 
-	const _bool& Is_LerpTargetChange() const { return m_pCameraCom->m_tVec3Lerp.bActive; }
+	const _bool&			Is_LerpTargetChange() const { return m_pCameraCom->m_tVec3Lerp.bActive; }
+
+	virtual _bool			Is_BackView() override { return m_bBackView; };
+	virtual void			Set_BackView(const _bool& _bBackView) override;
 
 private:
 	HRESULT					Add_Component(void);
@@ -37,8 +40,6 @@ private:
 
 public:
 	static CPlayer_Camera*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual _bool Is_BackView() override { return m_bBackView; };
-	virtual void					Set_BackView(const _bool& _bBackView) override;
 
 private:
 	_float					m_fDefaultHeight;

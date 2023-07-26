@@ -136,10 +136,8 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 
 		if (!m_bDrag && 0 < dwMouse)
 		{
-			// Fov
 			m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
 
-			// Distance
 			m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 			m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_DEFAULT);
 
@@ -306,7 +304,6 @@ void CPlayer_Camera::Set_BackView(const _bool& _bBackView)
 	{
 		m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 		m_pCameraCom->m_tDistanceLerp.Set_Lerp(1.f, m_pCameraCom->m_fDistance, CAM_DISTANCE_JUMP);
-
 		m_fJumpDelta.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 		m_fJumpDelta.Set_Lerp(1.f, 0, 10.f);
 		m_bBackView = TRUE;

@@ -129,10 +129,15 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Spirit", CMonstSpirit::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 		// CEventMgr::GetInstance()->Add_Obj(L"Test", CHedgehog_Stemp::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 
-		CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
+		// 플레이어가 나는 상태에서는 코인을 생성하지 않는다 (수정시 팀장 보고)
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+		if(nullptr != pPlayer && !pPlayer->Is_Fly())
+		{
+			CGameObject* GoldCoin = CGoldCoin::Create(m_pGraphicDev);
+			CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin);
+			GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+		}
 
-		GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 		CEventMgr::GetInstance()->Delete_Obj(this);
 	}
 
