@@ -40,6 +40,8 @@ public:
     virtual void		OnCollision_Stay(CGameObject* _pColObj);
     virtual void		OnCollision_Exit(CGameObject* _pColObj);
 
+    CGameObject*        Get_OwnerObj() const { return m_pOwnerObject; }
+
 public:
     void                Set_Radius(const _float& _fRadius);
     const _float&       Get_Radius() const { return m_fRadius; }
