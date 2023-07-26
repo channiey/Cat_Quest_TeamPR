@@ -7,6 +7,8 @@ CBlueStar_Bullet::CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, C
     m_vPos = _vPos;
     m_pTarget = pTarget;
     m_pOwner = pOwner;
+
+    ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
 CBlueStar_Bullet::CBlueStar_Bullet(const CProjectile& rhs)
@@ -35,6 +37,9 @@ HRESULT CBlueStar_Bullet::Ready_Object()
     m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
     
 
+
+    m_bInit = false;
+
     m_bChase = false;
 
     m_szName = L"Projectile_Star";
@@ -45,6 +50,14 @@ HRESULT CBlueStar_Bullet::Ready_Object()
 
 _int CBlueStar_Bullet::Update_Object(const _float& fTimeDelta)
 {
+    if (false == m_bInit)
+    {
+        m_bInit = true;
+        m_tAlpha.Init_Lerp();
+        m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+    }
+
+
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
 
@@ -55,6 +68,7 @@ _int CBlueStar_Bullet::Update_Object(const _float& fTimeDelta)
     _vec3 vBulletDir = vTargetPos - m_vPos;
 
 
+    m_tAlpha.Update_Lerp(fTimeDelta);
 
     if (m_vOriginPos.x >= vTargetPos.x)
     {
@@ -96,6 +110,8 @@ void CBlueStar_Bullet::LateUpdate_Object()
 
 void CBlueStar_Bullet::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
+
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -104,6 +120,7 @@ void CBlueStar_Bullet::Render_Object()
 
     m_pGraphicDev->SetTexture(0, NULL);
 
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
     __super::Render_Object();
 }

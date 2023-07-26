@@ -31,9 +31,10 @@ public:
 
 private:
 
-	LERP_FLOAT_INFO      m_fAlpha;
+	LERP_FLOAT_INFO      m_tAlpha;
 
-
+	_bool				m_bInit;
+	_bool				m_bEnd;
 protected:
 	virtual void		Free() override;
 

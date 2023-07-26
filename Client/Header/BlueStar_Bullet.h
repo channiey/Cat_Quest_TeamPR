@@ -25,8 +25,9 @@ private:
 	_vec3			m_vOriginPos;
 	_bool			m_bChase;
 
+	_bool			m_bInit;
 
-
+	LERP_FLOAT_INFO m_tAlpha;
 
 protected:
 	virtual void		Free() override;

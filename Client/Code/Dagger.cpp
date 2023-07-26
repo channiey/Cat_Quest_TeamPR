@@ -7,11 +7,14 @@ CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarge
     m_vPos = _vPos;
     m_pTarget = pTarget;
     m_pOwner = pOwner;
+
+    ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
 CDagger::CDagger(const CProjectile& rhs)
     : CBasicProjectile(rhs)
 {
+
 }
 
 CDagger::~CDagger()
@@ -31,7 +34,8 @@ HRESULT CDagger::Ready_Object()
 
     m_bNonTarget = false;
 
- 
+    m_bInit = false;
+
     m_szName = L"Projectile_Dagger";
 
     return S_OK;
@@ -40,8 +44,19 @@ HRESULT CDagger::Ready_Object()
 
 _int CDagger::Update_Object(const _float& fTimeDelta)
 {
+    if (false == m_bInit)
+    {
+      
+        m_tAlpha.Init_Lerp();
+        m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+        m_bInit = true;
+    }
+
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
+
+
+    m_tAlpha.Update_Lerp(fTimeDelta);
 
     m_fAccTime += fTimeDelta;
 
@@ -86,6 +101,8 @@ void CDagger::LateUpdate_Object()
 
 void CDagger::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
+
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -94,6 +111,7 @@ void CDagger::Render_Object()
 
     m_pGraphicDev->SetTexture(0, NULL);
 
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB( 255, 255, 255, 255));
 
     __super::Render_Object();
 }

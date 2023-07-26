@@ -24,7 +24,10 @@ public:
 private:
 	
 
-	_bool     m_bNonTarget;
+	_bool				m_bNonTarget;
+
+	_bool				m_bInit;
+	LERP_FLOAT_INFO		m_tAlpha;
 
 protected:
 	virtual void		Free() override;

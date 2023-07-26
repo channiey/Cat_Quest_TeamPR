@@ -9,6 +9,8 @@ CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGa
 	m_vPos = _vPos;
 	m_pTarget = pTarget;
 	m_pOwner = pOwner;
+
+    ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
 CComBack_Bullet::CComBack_Bullet(const CProjectile& rhs)
@@ -39,11 +41,22 @@ HRESULT CComBack_Bullet::Ready_Object()
     m_fAccTime = 0.f;
 	m_szName = L"Projectile_Boss_ComeBack_Bullet";
 
+
+    m_bInit = false;
+
 	return S_OK;
 }
 
 _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
 {
+    if (false == m_bInit)
+    {
+        m_bInit = true;
+        m_tAlpha.Init_Lerp();
+        m_tAlpha.eMode = LERP_MODE::EXPONENTIAL;
+        m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f );
+    }
+
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
 
@@ -61,6 +74,8 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
 
     _float fDistanceOrigin = D3DXVec3Length(&vOriginDir);
 
+
+    m_tAlpha.Update_Lerp(fTimeDelta);
 
     m_fAccTime += fTimeDelta;
 
@@ -112,6 +127,8 @@ void CComBack_Bullet::LateUpdate_Object()
 
 void CComBack_Bullet::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
+
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -120,6 +137,7 @@ void CComBack_Bullet::Render_Object()
 
     m_pGraphicDev->SetTexture(0, NULL);
 
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
     __super::Render_Object();
 }

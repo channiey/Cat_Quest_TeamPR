@@ -36,6 +36,11 @@ private:
 	_bool			m_bComeBack;
 	_bool			m_bStop;
 
+
+	_bool			m_bInit;
+
+	LERP_FLOAT_INFO m_tAlpha;
+
 protected:
 	virtual void		Free() override;
 
