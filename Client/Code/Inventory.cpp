@@ -758,10 +758,10 @@ void CInventory::Ready_SkillUI()
 void CInventory::Ready_SkillFont()
 {
 	m_SkillSelectRc = {
-	(LONG)(m_sBigSkillRing._41 - 100.f),
-	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 30.f),
-	(LONG)(m_sBigSkillRing._41 - 100.f),
-	(LONG)(WINCY - m_sSkillRingAry[3].m_matSkillNumUI._42 + 30.f)
+	(LONG)(m_sBigSkillRing._41 - 50.f),
+	(LONG)(WINCY - 680.f),
+	(LONG)(m_sBigSkillRing._41 - 50.f),
+	(LONG)(WINCY - 680.f)
 	};
 
 	// 스킬 폰트
@@ -1393,7 +1393,7 @@ void CInventory::Render_SkillFont()
 {
 	if (m_bPickMode)
 	{
-		CGraphicDev::GetInstance()->Get_SkillFont()->DrawTextW(NULL, L"슬롯 선택", -1,
+		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"슬롯 선택", -1,
 			&m_SkillSelectRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
 	}
 }

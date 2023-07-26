@@ -57,7 +57,7 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
 
-	m_tQuestContent.push_back({ L"1. 경비냥 만나기.", false });
+	m_tQuestContent.push_back({ L"1.경비냥 만나기.", false });
 
 	m_bCreateKey = false;
 	m_pKey = nullptr;
@@ -155,7 +155,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						pGraphicDev, 310, OBJ_ID::NPC_SOLLIDER, 2, vPlayerPos, vTargetPos))
 					{
 						m_tQuestContent[0].m_bClear = true;
-						m_tQuestContent.push_back({ L"2. 점프맵 통과하여 마법냥 만나기.", false });
+						m_tQuestContent.push_back({ L"2.점프맵 통과하여\n마법냥 만나기.", false });
 						m_iLevel += 1;
 						*_IsAble = false;
 						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
@@ -187,7 +187,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 320, OBJ_ID::NPC_MAGE))
 					{
 						m_tQuestContent[1].m_bClear = true;
-						m_tQuestContent.push_back({ L"3. 마법냥의 열쇠 찾아주기.", false });
+						m_tQuestContent.push_back({ L"3.마법냥의 열쇠 찾아주기.", false });
 						m_iLevel += 1;
 						*_IsAble = false;
 						break;

@@ -5,6 +5,7 @@
 
 CQuestUI::CQuestUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_QUEST)
+	, m_bLeftDownPos(false) , m_bShowFont(false)
 {
 }
 
@@ -30,18 +31,49 @@ HRESULT CQuestUI::Ready_Object()
 	D3DXMatrixIdentity(&m_matQuestUI);
 
 	// 퀘스트 UI
-	m_fPosX = WINCX - 100;
-	m_fPosY = WINCY - 200;
-	m_fSizeX = 100.f;
-	m_fSizeY = 150.f;
-	m_matQuestUI._41 = m_fPosX;
-	m_matQuestUI._42 = m_fPosY;
+	m_fPosX = WINCX - 60;
+	m_fPosY = WINCY - 60;
+	m_fSizeX = 288.f * 0.1f;
+	m_fSizeY = 430.f * 0.1f;
+	// m_fMultipleSizeX = 0.15f;
+	// m_fMultipleSizeY = 0.15f;
+
+	// 제목
+	m_QuestTitleRc = { WINCX - 100, WINCY - 665, WINCX - 100, WINCY - 665 };
+	
+	// 러프
+	// X Size Up
+	m_tSizeUpLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tSizeUpLerpX.Set_Lerp(0.6f, m_fSizeX, m_fSizeX * 3.f);
+	// Y Size Up
+	m_tSizeUpLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tSizeUpLerpY.Set_Lerp(0.6f, m_fSizeY, m_fSizeY * 3.f);
+
+	// X Size Down
+	m_tSizeDownLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tSizeDownLerpX.Set_Lerp(0.6f, m_fSizeX * 3.f, m_fSizeX);
+	// Y Size Down
+	m_tSizeDownLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tSizeDownLerpY.Set_Lerp(0.6f, m_fSizeY * 3.f, m_fSizeY);
+
+	// X Left Down
+	m_tLeftDownPosLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tLeftDownPosLerpX.Set_Lerp(0.6f, m_fPosX, m_fPosX - m_fSizeX * 1.5f);
+	// Y Left Down
+	m_tLeftDownPosLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tLeftDownPosLerpY.Set_Lerp(0.6f, m_fPosY, m_fPosY - m_fSizeY * 1.5f);
+
+	// X Right Up
+	m_tRightUpPosLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tRightUpPosLerpX.Set_Lerp(0.6f, m_fPosX - m_fSizeX * 1.5f, m_fPosX);
+	// Y Right Up
+	m_tRightUpPosLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+	m_tRightUpPosLerpY.Set_Lerp(0.6f, m_fPosY - m_fSizeY * 1.5f, m_fPosY);
+
+
 	m_matQuestUI._11 = m_fSizeX;
 	m_matQuestUI._22 = m_fSizeY;
 
-	// 제목
-	m_QuestTitleRc = { WINCX - 300, WINCY - 670, WINCX - 300, WINCY - 670 };
-	// 내용
 
 	return S_OK;
 }
@@ -49,6 +81,82 @@ HRESULT CQuestUI::Ready_Object()
 _int CQuestUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+	
+
+	if (CQuestMgr::GetInstance()->Get_Quest()->Get_ShowQuestView())
+	{
+		m_tSizeUpLerpX.Update_Lerp(fTimeDelta);
+		m_tSizeUpLerpY.Update_Lerp(fTimeDelta);
+
+		m_tLeftDownPosLerpX.Update_Lerp(fTimeDelta);
+		m_tLeftDownPosLerpY.Update_Lerp(fTimeDelta);
+
+		if (!m_tSizeUpLerpX.bActive && !m_tSizeUpLerpY.bActive &&
+			!m_tLeftDownPosLerpX.bActive && !m_tLeftDownPosLerpY.bActive)
+		{
+			m_bShowFont = true;
+
+			// X Size Down
+			m_tSizeDownLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tSizeDownLerpX.Set_Lerp(0.6f, m_fSizeX * 3.f, m_fSizeX);
+			// Y Size Down
+			m_tSizeDownLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tSizeDownLerpY.Set_Lerp(0.6f, m_fSizeY * 3.f, m_fSizeY);
+
+			// X Right Up
+			m_tRightUpPosLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tRightUpPosLerpX.Set_Lerp(0.6f, m_fPosX - m_fSizeX * 1.5f, m_fPosX);
+			// Y Right Up
+			m_tRightUpPosLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tRightUpPosLerpY.Set_Lerp(0.6f, m_fPosY - m_fSizeY * 1.5f, m_fPosY);
+		}
+	}
+	else
+	{
+		m_bShowFont = false;
+		if (!m_bShowFont)
+		{
+			m_tSizeDownLerpX.Update_Lerp(fTimeDelta);
+			m_tSizeDownLerpY.Update_Lerp(fTimeDelta);
+
+			m_tRightUpPosLerpX.Update_Lerp(fTimeDelta);
+			m_tRightUpPosLerpY.Update_Lerp(fTimeDelta);
+		}
+
+		if (!m_tSizeDownLerpX.bActive && !m_tSizeDownLerpY.bActive &&
+			!m_tRightUpPosLerpX.bActive && !m_tRightUpPosLerpY.bActive)
+		{
+			// X Size Up
+			m_tSizeUpLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tSizeUpLerpX.Set_Lerp(0.6f, m_fSizeX, m_fSizeX * 3.f);
+			// Y Size Up
+			m_tSizeUpLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tSizeUpLerpY.Set_Lerp(0.6f, m_fSizeY, m_fSizeY * 3.f);
+
+			// X Left Down
+			m_tLeftDownPosLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tLeftDownPosLerpX.Set_Lerp(0.6f, m_fPosX, m_fPosX - m_fSizeX * 1.5f);
+			// Y Left Down
+			m_tLeftDownPosLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+			m_tLeftDownPosLerpY.Set_Lerp(0.6f, m_fPosY, m_fPosY - m_fSizeY * 1.5f);
+		}
+	}
+
+	if (CQuestMgr::GetInstance()->Get_Quest()->Get_ShowQuestView())
+	{
+		m_matQuestUI._41 = m_tLeftDownPosLerpX.fCurValue;
+		m_matQuestUI._42 = m_tLeftDownPosLerpY.fCurValue;
+		m_matQuestUI._11 = m_tSizeUpLerpX.fCurValue;
+		m_matQuestUI._22 = m_tSizeUpLerpY.fCurValue;
+	}
+	else
+	{
+		m_matQuestUI._41 = m_tRightUpPosLerpX.fCurValue;
+		m_matQuestUI._42 = m_tRightUpPosLerpY.fCurValue;
+		m_matQuestUI._11 = m_tSizeDownLerpX.fCurValue;
+		m_matQuestUI._22 = m_tSizeDownLerpY.fCurValue;
+	}
+
 
 	return iExit;
 }
@@ -60,32 +168,39 @@ void CQuestUI::LateUpdate_Object()
 
 void CQuestUI::Render_Object()
 {
-	// m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	// m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matQuestUI);
+	if (m_bShowFont)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
+	}
 
-	// m_pQuestUITexCom->Render_Texture();
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matQuestUI);
 
-	// m_pBufferCom->Render_Buffer();
+	m_pQuestUITexCom->Render_Texture();
+
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	// 보고 싶을 때만
-	if (CQuestMgr::GetInstance()->Get_Quest()->Get_ShowQuestView())
+	if (m_bShowFont)
 	{
-		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, CQuestMgr::GetInstance()->Get_Quest()->Get_QuestName().c_str(), -1,
-			&m_QuestTitleRc, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 255, 255, 255));
+		CGraphicDev::GetInstance()->Get_QuestTitleFont()->DrawTextW(NULL, CQuestMgr::GetInstance()->Get_Quest()->Get_QuestName().c_str(), -1,
+			&m_QuestTitleRc, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 102, 051, 0));
 
 		for (_int i = 0; i < CQuestMgr::GetInstance()->Get_Quest()->Get_QuestContent().size(); ++i)
 		{
-			m_QuestContentRc = { WINCX - 300, WINCY - 620 + (i * 50), WINCX - 300, WINCY - 620 + (i * 50) };
+			m_QuestContentRc = { WINCX - 135, WINCY - 635 + (i * 40), WINCX - 70, WINCY - 635 + (i * 40) };
 
 			if (!CQuestMgr::GetInstance()->Get_Quest()->Get_QuestContent()[i].m_bClear)
 			{
-				CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, CQuestMgr::GetInstance()->Get_Quest()->Get_QuestContent()[i].m_strQuestContent.c_str(), -1,
-					&m_QuestContentRc, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 255, 255, 255));
+				CGraphicDev::GetInstance()->Get_QuestContentFont()->DrawTextW(NULL, CQuestMgr::GetInstance()->Get_Quest()->Get_QuestContent()[i].m_strQuestContent.c_str(), -1,
+					&m_QuestContentRc, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 153, 102, 0));
 			}
 			else
 			{
-				CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, CQuestMgr::GetInstance()->Get_Quest()->Get_QuestContent()[i].m_strQuestContent.c_str(), -1,
-					&m_QuestContentRc, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 0, 204, 0));
+				CGraphicDev::GetInstance()->Get_QuestContentFont()->DrawTextW(NULL, CQuestMgr::GetInstance()->Get_Quest()->Get_QuestContent()[i].m_strQuestContent.c_str(), -1,
+					&m_QuestContentRc, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 051, 051, 153));
 			}
 		}
 	}

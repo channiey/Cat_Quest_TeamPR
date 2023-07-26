@@ -22,6 +22,10 @@ public:
 	LPD3DXFONT				Get_SkillFont(void) { return m_pSkillFont; }
 	LPD3DXFONT				Get_EffectFont(void) { return m_pEffectFont; }
 
+	LPD3DXFONT				Get_QuestTitleFont(void) { return m_pQuestTitleFont; }
+	LPD3DXFONT				Get_QuestContentFont(void) { return m_pQuestContentFont; }
+
+
 public:
 
 public:
@@ -38,6 +42,9 @@ private:
 	LPD3DXFONT				m_pLevelFont;
 	LPD3DXFONT				m_pSkillFont;
 	LPD3DXFONT				m_pEffectFont;
+
+	LPD3DXFONT				m_pQuestTitleFont;
+	LPD3DXFONT				m_pQuestContentFont;
 
 
 public:

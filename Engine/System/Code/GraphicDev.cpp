@@ -98,6 +98,19 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		return E_FAIL;
 	}
 
+	// Äù½ºÆ® Á¦¸ñ
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 25, 16, 550, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"CookieRun Bold", &m_pQuestTitleFont)))
+	{
+		MSG_BOX("Create QuestTitle Failed");
+		return E_FAIL;
+	}
+	// Äù½ºÆ® ³»¿ë
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 20, 12, 550, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"CookieRun Bold", &m_pQuestContentFont)))
+	{
+		MSG_BOX("Create QuestContent Failed");
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -134,6 +147,12 @@ void CGraphicDev::Free()
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pEffectFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pQuestTitleFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pQuestContentFont))
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pGraphicDev))

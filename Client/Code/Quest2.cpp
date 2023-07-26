@@ -43,8 +43,8 @@ void CQuest2::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
 
-	m_tQuestContent.push_back({ L"1. 던전 내 모든 몬스터 소탕", false });
-	m_tQuestContent.push_back({ L"2. 모두 소탕 후 던전 내 주민 찾기", false });
+	m_tQuestContent.push_back({ L"1.던전 내 모든 몬스터 소탕", false });
+	m_tQuestContent.push_back({ L"2.모두 소탕 후 던전 내 \n마을냥이 찾기", false });
 }
 
 _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
@@ -97,7 +97,7 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				Get_CurScene()->
 				Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap().empty())
 			{
-				m_tQuestContent[0].m_strQuestContent = L"1. 던전 내 모든 몬스터 소탕 : 완료";
+				m_tQuestContent[0].m_strQuestContent = L"1.던전 내 모든 몬스터 소탕\n완료";
 				m_tQuestContent[0].m_bClear = true;
 				// Npc가 존재 한다면
 				if ((CManagement::GetInstance()->
@@ -129,9 +129,9 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			}
 			else
 			{
-				m_tQuestContent[0].m_strQuestContent = L"1. 던전 내 모든 몬스터 소탕 : " + to_wstring(CManagement::GetInstance()->
+				m_tQuestContent[0].m_strQuestContent = L"1.던전 내 모든 몬스터 소탕\n" + to_wstring(CManagement::GetInstance()->
 					Get_CurScene()->
-					Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap().size()); 
+					Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap().size()) + L"마리 생존";
 			}
 
 		}
