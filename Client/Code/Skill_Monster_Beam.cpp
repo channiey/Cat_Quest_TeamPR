@@ -55,7 +55,7 @@ _int CSkill_Monster_Beam::Update_Object(const _float& fTimeDelta)
     if (dynamic_cast<CMonster*>(m_pOwnerObject)->Is_Dead() == true)
     {
         m_pBaseRangeEffect->Set_Active(false);
-        End();
+        this->End();
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);

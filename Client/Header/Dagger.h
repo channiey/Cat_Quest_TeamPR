@@ -1,6 +1,6 @@
 #pragma once
 #include "BasicProjectile.h"
-class CDagger : public CBasicProjectile   // 회전하는 bullet 
+class CDagger : public CBasicProjectile    // Converging Fire Pattern Use
 {
 protected:
 	explicit CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
@@ -22,8 +22,9 @@ public:
 	static					CDagger* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 
 private:
-	_vec3			m_vOriginPos;
+	
 
+	_bool     m_bNonTarget;
 
 protected:
 	virtual void		Free() override;

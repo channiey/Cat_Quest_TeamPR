@@ -27,6 +27,8 @@ protected:
 	CTexture* m_pTextureCom;
 	CAIComponent* m_pAICom;
 
+	LERP_FLOAT_INFO	m_tLerp;
+	LERP_VEC3_INFO	m_tvecLerp;
 
 protected:
 	virtual void		Free() override;

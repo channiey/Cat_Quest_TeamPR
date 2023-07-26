@@ -1,6 +1,6 @@
 #pragma once
 #include "BasicProjectile.h"
-class CBlueStar_Bullet : public CBasicProjectile   // 회전하는 bullet 
+class CBlueStar_Bullet : public CBasicProjectile   //  Shooting Star Pattern Use
 {
 protected:
 	explicit CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
@@ -23,6 +23,9 @@ public:
 
 private:
 	_vec3			m_vOriginPos;
+	_bool			m_bChase;
+
+
 
 
 protected:

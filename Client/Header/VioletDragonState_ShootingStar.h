@@ -3,11 +3,11 @@
 
 
 
-class CVioletDragonState_ConvergingFire : public CState   //  Dagger Use
+class CVioletDragonState_ShootingStar : public CState   // BlueStar Use
 {
 public:
-	explicit			CVioletDragonState_ConvergingFire(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CVioletDragonState_ConvergingFire();
+	explicit			CVioletDragonState_ShootingStar(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CVioletDragonState_ShootingStar();
 
 
 public:
@@ -23,7 +23,7 @@ public:
 
 
 public:
-	static CVioletDragonState_ConvergingFire* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CVioletDragonState_ShootingStar* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:
@@ -46,7 +46,7 @@ private:
 	_bool   m_bBullet12;
 
 	_bool   m_bBullet13;
-	_bool   m_bBullet14; 
+	_bool   m_bBullet14;
 	_bool   m_bBullet15;
 	_bool   m_bBullet16;
 
@@ -58,4 +58,3 @@ private:
 
 
 };
-

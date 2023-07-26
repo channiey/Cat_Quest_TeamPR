@@ -3,7 +3,6 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 #include "Monster.h"
-#include "Player.h"
 #include "Effect_Boss_Thunder.h"
 #include "Skill_Boss_BloodyThunder.h"
 
@@ -119,7 +118,7 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     {
         m_fAccTime = 0.f;
         //return STATE_TYPE::BOSS_FULLDOWN_FLY;
-        return STATE_TYPE::BOSS_CONVERGING_FIRE;
+        return STATE_TYPE::BOSS_SHOOTING_STAR;
     }
 
 
@@ -157,4 +156,5 @@ CVioletDragonState_BloodyThunder* CVioletDragonState_BloodyThunder::Create(LPDIR
 
 void CVioletDragonState_BloodyThunder::Free()
 {
+    __super::Free();
 }

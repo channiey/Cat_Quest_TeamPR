@@ -30,10 +30,13 @@ HRESULT CBlueStar_Bullet::Ready_Object()
     m_pTransformCom->Set_Dir(_vec3{ 0.f, 0.f, 0.f });
 
 
-    m_fSpeed = 15.f;
+    m_fSpeed = 20.f;
 
     m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
     
+
+    m_bChase = false;
+
     m_szName = L"Projectile_Star";
 
     return S_OK;
@@ -46,40 +49,39 @@ _int CBlueStar_Bullet::Update_Object(const _float& fTimeDelta)
     _int iExit = __super::Update_Object(fTimeDelta);
 
     _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
-    
-    _vec3 vDir = - (vTargetPos - m_pTransformCom->Get_Info(INFO_POS));
+
+    _vec3 vDir = -(vTargetPos - m_pTransformCom->Get_Info(INFO_POS));
+
+    _vec3 vBulletDir = vTargetPos - m_vPos;
 
 
-    _vec3 vOriginDir = m_vOriginPos - m_pTransformCom->Get_Info(INFO_POS);
 
-    _float fDistanceOrigin = D3DXVec3Length(&vOriginDir);
+    if (m_vOriginPos.x >= vTargetPos.x)
+    {
+        vDir.x - 40.f;
+    }
+    else
+    {
+        vDir.x + 40.f;
+    }
+
+    m_pTransformCom->Set_Dir(vDir);
 
 
     m_fAccTime += fTimeDelta;
 
-    if (m_fAccTime <= 1.f)
+    if (m_fAccTime >= 1.f && m_bChase == false)
     {
- 
-        m_fSpeed = 20.f;
-        this->m_pAICom->Chase_Target(&vTargetPos, fTimeDelta, m_fSpeed);
-       
+        m_fSpeed = 50.f;
+        m_pTransformCom->Set_Dir(vBulletDir);
+        //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
+        m_bChase == true;
     }
-    else if (m_fAccTime < 2.f)
-    {
-        m_fSpeed = 5.f;
-    }
-    else if (m_fAccTime <= 3.f)
-    {
-        m_fSpeed = 20.f;
-        this->m_pAICom->Chase_Target(&m_vOriginPos, fTimeDelta, m_fSpeed);
-     
-          
-   
-    }
-    else if (m_fAccTime <= 4)
+    if (m_fAccTime >= 3.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
+
 
     m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 

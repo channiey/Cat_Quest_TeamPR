@@ -2,23 +2,32 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
+//State-===
+//Front
 #include "VioletDragonState_Patrol.h"
 #include "VioletDragonState_Chase.h"
 #include "VioletDragonState_Attack.h"
 #include "VioletDragonState_ComeBack.h"
 #include "VioletDragonState_Rest.h"
-		
+// Back		
 #include "VioletDragonState_bPatrol.h"
 #include "VioletDragonState_bChase.h"
 #include "VioletDragonState_bAttack.h"
 #include "VioletDragonState_bComeBack.h"
 #include "VioletDragonState_bRest.h"
 
+// Pattern State===
+//FullDown
 #include "VioletDragonState_FullDown_Fly.h"
 #include "VioletDragonState_FullDown_Down.h"
-
+// ConvergingFire
 #include "VioletDragonState_ConvergingFire.h"
+// BloodyThunder
 #include "VioletDragonState_BloodyThunder.h"
+// ShootingStar
+#include "VioletDragonState_ShootingStar.h"
+// SpreadBullet
+#include "VioletDragonState_SpreadBullet.h"
 
 // Effect
 #include "Shadow_Monster.h"
@@ -77,7 +86,7 @@ HRESULT CVioletDragon::Ready_Object()
 	fPatternTime = 1.f;
 	m_fAccTime = 0.f;
 
-	m_fJumpingSpeed = 0.05;
+	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 
@@ -185,7 +194,13 @@ HRESULT CVioletDragon::Ready_Object()
 	pState = CVioletDragonState_BloodyThunder::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLOODY_THUNDER, pState);
 
+	//Shooting Star
+	pState = CVioletDragonState_ShootingStar::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SHOOTING_STAR, pState);
 
+	//Spread Bullet
+	pState = CVioletDragonState_SpreadBullet::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SPREAD_BULLET, pState);
 
 #pragma endregion
 
@@ -259,6 +274,14 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLOODY_THUNDER, pAnimation);
 
 	
+	// Shooting Star
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)], STATE_TYPE::BOSS_SHOOTING_STAR, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SHOOTING_STAR, pAnimation);
+	
+
+	// Spread Bullet 
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_BULLET)], STATE_TYPE::BOSS_SPREAD_BULLET, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SPREAD_BULLET, pAnimation);
 
 
 
@@ -272,7 +295,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Test 
-	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_BLOODY_THUNDER);
+	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_CONVERGING_FIRE);
 
 
 
@@ -525,7 +548,8 @@ HRESULT CVioletDragon::Add_Component()
 
 
 	// Pattern ===================================
-
+	
+	// Full Down
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_FLY)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Fly", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
@@ -534,14 +558,27 @@ HRESULT CVioletDragon::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	 
+	// Converging Fire 
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
+	// Bloody Thunder
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+	// Shooting Star
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+	// Shooting Star
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_BULLET)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
 
 
 #pragma endregion
