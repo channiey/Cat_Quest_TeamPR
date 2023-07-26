@@ -90,11 +90,12 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			}
 			if (m_iKillCount <= 5)
 			{
-				m_tQuestContent[0].m_strQuestContent = L"1. 고슴도치 5마리 처치 :  " + to_wstring(m_iKillCount) + L" / 5";
+				m_tQuestContent[0].m_strQuestContent = L"1.고슴도치 5마리 처치  \n" + to_wstring(m_iKillCount) + L" / 5";
 			}
 			if (m_iKillCount >= 5)
 			{
 				{
+					m_tQuestContent[0].m_strQuestContent = L"1. 고슴도치 5마리 처치  \n완료";
 					m_tQuestContent[0].m_bClear = true;
 					// Npc가 존재 한다면
 					if ((CManagement::GetInstance()->

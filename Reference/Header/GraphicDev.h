@@ -25,6 +25,10 @@ public:
 	LPD3DXFONT				Get_XpFont1(void) { return m_pXpFont1; }
 	LPD3DXFONT				Get_XpFont2(void) { return m_pXpFont2; }
 
+	LPD3DXFONT				Get_QuestTitleFont(void) { return m_pQuestTitleFont; }
+	LPD3DXFONT				Get_QuestContentFont(void) { return m_pQuestContentFont; }
+
+
 public:
 
 public:
@@ -40,11 +44,16 @@ private:
 	LPD3DXFONT				m_pInGameFont;
 	LPD3DXFONT				m_pLevelFont;
 	LPD3DXFONT				m_pSkillFont;
+
 	LPD3DXFONT				m_pEffectFont1;
 	LPD3DXFONT				m_pEffectFont2;
 	LPD3DXFONT				m_pXpFont1;
 	LPD3DXFONT				m_pXpFont2;
-	
+
+
+	LPD3DXFONT				m_pQuestTitleFont;
+	LPD3DXFONT				m_pQuestContentFont;
+
 
 public:
 	virtual void	Free();

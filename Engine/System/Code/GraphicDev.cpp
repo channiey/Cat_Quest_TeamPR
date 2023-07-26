@@ -85,12 +85,14 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		MSG_BOX("Create LevelFont Failed");
 		return E_FAIL;
 	}
+
 	// 스킬UI 폰트
 	if (FAILED(D3DXCreateFont(m_pGraphicDev, 60, 20, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pSkillFont)))
 	{
 		MSG_BOX("Create SkillFont Failed");
 		return E_FAIL;
 	}
+
 	// 이펙트 폰트
 	if (FAILED(D3DXCreateFont(m_pGraphicDev, 105, 0, 900, 1, false, DEFAULT_CHARSET, OUT_TT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pEffectFont1)))
 	{
@@ -103,6 +105,7 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		MSG_BOX("Create EffectFont2 Failed");
 		return E_FAIL;
 	}
+
 	// Xp 폰트
 	if (FAILED(D3DXCreateFont(m_pGraphicDev, 80, 0, 580, 1, false, DEFAULT_CHARSET, OUT_TT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pXpFont1)))
 	{
@@ -112,6 +115,20 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 	if (FAILED(D3DXCreateFont(m_pGraphicDev, 70, 32, 0, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pXpFont2)))
 	{
 		MSG_BOX("Create EffectFont2 Failed");
+		return E_FAIL;
+	}
+	
+	// 퀘스트 제목
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 25, 16, 550, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"CookieRun Bold", &m_pQuestTitleFont)))
+	{
+		MSG_BOX("Create QuestTitle Failed");
+		return E_FAIL;
+	}
+
+	// 퀘스트 내용
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 20, 12, 550, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"CookieRun Bold", &m_pQuestContentFont)))
+	{
+		MSG_BOX("Create QuestContent Failed");
 		return E_FAIL;
 	}
 
@@ -160,6 +177,12 @@ void CGraphicDev::Free()
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pXpFont2))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pQuestTitleFont))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pQuestContentFont))
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pGraphicDev))

@@ -35,7 +35,7 @@ void CQuest4::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
 
-	m_tQuestContent.push_back({ L"1. 바다 위 모든 몬스터 소탕", false });
+	m_tQuestContent.push_back({ L"1.바다 위 모든 몬스터 소탕", false });
 
 }
 
@@ -108,14 +108,15 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			{
 				m_tQuestContent[0].m_bClear = true;
 				m_tQuestContent.push_back({ L"2. 죽음의 섬에 있는 정찰냥 만나기", false });
-				m_tQuestContent[0].m_strQuestContent = L"1. 바다 위 모든 몬스터 소탕 : 완료";
+				m_tQuestContent[0].m_strQuestContent = L"1.바다 위 모든 몬스터 소탕\n완료";
 				m_iLevel += 1;
 				*_IsAble = false;
 				break;
 			}
 			else
 			{
-				m_tQuestContent[0].m_strQuestContent = L"1. 바다 위 모든 몬스터 소탕 : " + to_wstring(m_iMonsterCount);
+				m_tQuestContent[0].m_strQuestContent = L"1.바다 위 모든 몬스터 소탕\n" 
+					+ to_wstring(m_iMonsterCount) + L"마리 생존";
 
 				//m_strQuestContent = L"남은 해상 몬스터 수 : " + to_wstring(m_iMonsterCount);
 			}
@@ -133,7 +134,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1")));
-					*_IsAble = false;
+					*_IsAble = true;
 				}
 
 				// 대화 후 다음 단계
@@ -143,7 +144,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 410, OBJ_ID::NPC_CITIZEN_1))
 					{
 						m_tQuestContent[1].m_bClear = true;
-						m_tQuestContent.push_back({ L"3. 드래곤 처치", false });
+						m_tQuestContent.push_back({ L"3.드래곤 처치", false });
 						m_iLevel += 1;
 						*_IsAble = false;
 						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
