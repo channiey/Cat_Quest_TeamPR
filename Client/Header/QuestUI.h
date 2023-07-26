@@ -17,11 +17,13 @@ public:
 	virtual void			Render_Object() override;
 
 private:
-
 	virtual HRESULT			Add_Component() override;
 
 private:
-	_uint					m_iZoomState;
+	CTexture*   m_pQuestUITexCom;
+	_matrix		m_matQuestUI;
+	RECT		m_QuestTitleRc;
+	RECT		m_QuestContentRc;
 
 public:
 

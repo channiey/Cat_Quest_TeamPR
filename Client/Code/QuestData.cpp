@@ -9,6 +9,7 @@ CQuestData::CQuestData()
 	: m_iLevel(0)
 	, m_strQuestName(L"")
 	, m_pPlayer(nullptr)
+	, m_bShowQuestView(false)
 {
 }
 

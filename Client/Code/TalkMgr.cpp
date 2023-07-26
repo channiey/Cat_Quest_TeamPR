@@ -18,7 +18,7 @@
 IMPLEMENT_SINGLETON(CTalkMgr)
 
 CTalkMgr::CTalkMgr()
-	:m_bTargetCam(false), m_bStaySet(false), m_bReturnCam(false), m_iStayTime(0)
+	:m_bTargetCam(false), m_bStaySet(false), m_bReturnCam(false), m_bTalkEnd(false), m_iStayTime(0)
 {
 }
 
@@ -111,7 +111,9 @@ void CTalkMgr::Init()
 // 대장장이
 	m_mapTalkData.insert(make_pair(400, vector<wstring>{
 		{ L"드디어 모든 준비가 끝났네요."},
-		{ L"꼭 드래곤을 물리치고 돌아와 주세요!"}
+		{ L"이제 죽음의 섬으로 날아가셔서 정찰냥이를 만나면 됩니다만.."},
+		{ L"아마 가는 도중 해상에 있는 몬스터들의 방해가 있을겁니다."},
+		{ L"해상 위의 모든 몬스터를 처치하고 정찰냥이에게 가주세요!"}
 	}));
 
 	// 시티즌(1)
@@ -121,19 +123,10 @@ void CTalkMgr::Init()
 		{ L"건투를 빕니다!"},
 		{ L"(냥서커 세트 획득!)" }
 	}));
-
-	// Test
-	m_mapTalkData.insert(make_pair(1000, vector<wstring>{
-		{ L"해상 전투 클리어."}
-	}));
-	m_mapTalkData.insert(make_pair(1001, vector<wstring>{
-		{ L"보스 클리어."}
-	}));
-
-
 	//
 
 #pragma endregion
+
 	m_bInit = true;
 }
 
@@ -145,13 +138,19 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+			// 마법사 대화 시작하자마자 카메라 탑뷰로 바꾸기
+			if (_iTalkID == 320)
+			{
+				if (CCameraMgr::GetInstance()->Get_CurCameraAction()
+					!= CAMERA_ACTION::PLAYER_BACK_TO_TOP)
+				{
+					CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
+				}
+			}
 			// 마지막 대사까지 다 출력했다면
 			if (m_iTalkIndex >= iter->second.size())
 			{
-				CEventMgr::GetInstance()->Delete_Obj
-				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
-				m_iTalkIndex = 0;
-				return true;
+				m_bTalkEnd = true;
 			}
 			if(m_iTalkIndex < iter->second.size())
 			{
@@ -162,12 +161,34 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 					(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
 				}
 				// 생성
-				CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
-					_eObjID, iter->second[m_iTalkIndex]));
+				if (m_iTalkIndex == 0)
+				{
+					CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
+						_eObjID, iter->second[m_iTalkIndex], DIALOG_TYPE::DIALOG_START));
+				}
+				else
+				{
+					CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
+						_eObjID, iter->second[m_iTalkIndex]));
+				}
 				++m_iTalkIndex;
 			}
 		}
 	}
+
+	if (m_bTalkEnd)
+	{
+		if (dynamic_cast<CDialogUI*>(CManagement::GetInstance()->
+			Get_GameObject(OBJ_TYPE::UI, L"DialogUI"))->EndLerp_Dialog())
+		{
+			CEventMgr::GetInstance()->Delete_Obj
+			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
+			m_iTalkIndex = 0;
+			m_bTalkEnd = false;
+			return true;
+		}
+	}
+
 	return false;
 }
 
@@ -193,14 +214,7 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 			// 마지막 대사까지 다 출력했다면
 			if (m_iTalkIndex >= iter->second.size())
 			{
-				CEventMgr::GetInstance()->Delete_Obj
-				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
-				m_iTalkIndex = 0;
-				m_iStayTime  = 0;
-				m_bTargetCam = false;
-				m_bStaySet	 = false;
-				m_bReturnCam = false;
-				return true;
+				m_bTalkEnd = true;
 			}
 			if (m_iTalkIndex < iter->second.size())
 			{
@@ -212,9 +226,16 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 						CEventMgr::GetInstance()->Delete_Obj
 						(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
 					}
-					// 생성
-					CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
-						_eObjID, iter->second[m_iTalkIndex]));
+					if (m_iTalkIndex == 0)
+					{
+						CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
+							_eObjID, iter->second[m_iTalkIndex], DIALOG_TYPE::DIALOG_START));
+					}
+					else
+					{
+						CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
+							_eObjID, iter->second[m_iTalkIndex]));
+					}
 					++m_iTalkIndex;
 				}
 			}
@@ -263,6 +284,23 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 					m_bReturnCam = false;
 					m_bTargetCam = false;
 				}
+			}
+		}
+
+		if (m_bTalkEnd)
+		{
+			if (dynamic_cast<CDialogUI*>(CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::UI, L"DialogUI"))->EndLerp_Dialog())
+			{
+				CEventMgr::GetInstance()->Delete_Obj
+				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
+				m_iTalkIndex = 0;
+				m_iStayTime = 0;
+				m_bTargetCam = false;
+				m_bStaySet = false;
+				m_bReturnCam = false;
+				m_bTalkEnd = false;
+				return true;
 			}
 		}
 	}

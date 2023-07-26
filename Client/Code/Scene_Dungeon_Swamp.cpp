@@ -31,6 +31,8 @@
 #include "EnterUI.h"
 #include "FlightUI.h"
 #include "DungeonTextUI.h"
+#include "QuestUI.h"
+
 #include "Scene_World.h"
 
 CScene_Dungeon_Swamp::CScene_Dungeon_Swamp(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -68,7 +70,7 @@ HRESULT CScene_Dungeon_Swamp::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_YC(), E_FAIL);
 
-	CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+	// CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
 	return S_OK;
 }
@@ -269,6 +271,10 @@ HRESULT CScene_Dungeon_Swamp::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Flight", pGameObject), E_FAIL);
 
+	// UI - Quest
+	pGameObject = CQuestUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Quest", pGameObject), E_FAIL);
 }
 
 HRESULT CScene_Dungeon_Swamp::Ready_Layer_Player()

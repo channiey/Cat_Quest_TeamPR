@@ -11,7 +11,6 @@ class CDialogUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  
 {
 
 protected:
-
 	explicit CDialogUI(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CDialogUI(const CDialogUI& rhs);
 	virtual ~CDialogUI();
@@ -24,7 +23,8 @@ public:
 
 public:
 	_bool					Is_DialogEnd() { return m_bEnd; }
-	HRESULT					Ready_Dialog(OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo = SPIRITEMO_TYPE::HAPPY);
+	HRESULT					Ready_Dialog(OBJ_ID eNpc, wstring strDialog, DIALOG_TYPE _bDialogType = DIALOG_TYPE::DIALOG_NORMAL, SPIRITEMO_TYPE eEmo = SPIRITEMO_TYPE::HAPPY);
+	_bool					EndLerp_Dialog();
 private:
 	virtual HRESULT			Add_Component() override;
 	void					Select_Npc(OBJ_ID eNpc, SPIRITEMO_TYPE eEmo);
@@ -55,9 +55,22 @@ private:
 	// 다이얼로그 끝났는지 판단할 불값
 	_bool					m_bEnd;
 
+	// 다이얼로그 타입
+	DIALOG_TYPE				m_bDialogType;
+	// 다이얼로그 러프
+	LERP_FLOAT_INFO			m_tSizeUpLerpX;
+	LERP_FLOAT_INFO			m_tSizeUpLerpY;
+	LERP_FLOAT_INFO			m_tSizeDownLerpX;
+	LERP_FLOAT_INFO			m_tSizeDownLerpY;
+
+	// 알파
+	LERP_FLOAT_INFO			m_tAlphaUpLerp;
+	LERP_FLOAT_INFO			m_tAlphaDownLerp;
+	_float					m_fAlpha; 
+
 public:
 
-	static CDialogUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJ_ID eNpc, wstring strDialog, SPIRITEMO_TYPE eEmo = SPIRITEMO_TYPE::HAPPY);
+	static CDialogUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJ_ID eNpc, wstring strDialog, DIALOG_TYPE _bDialogType = DIALOG_TYPE::DIALOG_NORMAL, SPIRITEMO_TYPE eEmo = SPIRITEMO_TYPE::HAPPY);
 
 
 protected:

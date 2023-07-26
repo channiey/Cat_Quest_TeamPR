@@ -57,6 +57,8 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
 
+	m_tQuestContent.push_back({ L"1. 경비냥 만나기.", false });
+
 	m_bCreateKey = false;
 	m_pKey = nullptr;
 }
@@ -127,6 +129,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 		break;
 	case 1: // 군인과 대화
+		m_bShowQuestView = true;
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
 			// Npc가 존재 한다면
@@ -151,6 +154,8 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					if (CTalkMgr::GetInstance()->Get_CamTalk(
 						pGraphicDev, 310, OBJ_ID::NPC_SOLLIDER, 2, vPlayerPos, vTargetPos))
 					{
+						m_tQuestContent[0].m_bClear = true;
+						m_tQuestContent.push_back({ L"2. 점프맵 통과하여 마법냥 만나기.", false });
 						m_iLevel += 1;
 						*_IsAble = false;
 						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
@@ -181,9 +186,10 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 320, OBJ_ID::NPC_MAGE))
 					{
+						m_tQuestContent[1].m_bClear = true;
+						m_tQuestContent.push_back({ L"3. 마법냥의 열쇠 찾아주기.", false });
 						m_iLevel += 1;
 						*_IsAble = false;
-						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
 						break;
 					}
 				}
@@ -237,6 +243,8 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 		break;
 	case 5: // 대장장이에게 복귀
+		m_tQuestContent[2].m_bClear = true;
+
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
 			// Npc가 존재 한다면
@@ -276,6 +284,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 6:
 		m_iLevel = 99;
 		*_IsAble = false;
+		m_bShowQuestView = false;
 		return true;
 		break;
 	}
