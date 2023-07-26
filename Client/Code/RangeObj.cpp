@@ -9,8 +9,10 @@ CRangeObj::CRangeObj(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, 
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::RANGE_OBJ, OBJ_ID::RANGE_OBJ)
 	, m_pOwnerObject(_pOwnerObject)
 	, m_fRadius(_fRadius)
+	, m_bSetPos(false)
 {
 	this->Set_Parent(_pOwnerObject);
+	ZeroMemory(&m_vPos, sizeof(_vec3));
 }
 
 CRangeObj::CRangeObj(const CRangeObj& rhs)
@@ -52,20 +54,30 @@ void CRangeObj::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 
-	_vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
+	_vec3 vOwnerPos;
+
+	if (m_bSetPos)
+		vOwnerPos = m_vPos;
+	else
+		vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 
 	m_pTransformCom->Set_Pos(_vec3{ vOwnerPos.x, 0.f, vOwnerPos.z }); // 레인지의 y 포지션은 계산을 위해 0으로 잡는다.
 }
 
 void CRangeObj::Render_Object()
 {
-	_matrix matWorld = Get_Transform()->Get_WorldMat();
+	_matrix  matWorld = Get_Transform()->Get_WorldMat();
+
 	_matrix matBill;
 	D3DXMatrixIdentity(&matBill);
 
 	_vec3 vPos, vScale;
 
-	memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
+	if (m_bSetPos)
+		vPos = m_vPos;
+	else
+		memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
+
 	vScale = m_pTransformCom->Get_Scale();
 
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());

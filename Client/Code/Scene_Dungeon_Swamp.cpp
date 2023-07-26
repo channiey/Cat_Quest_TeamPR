@@ -355,6 +355,10 @@ HRESULT CScene_Dungeon_Swamp::Ready_Layer_Etc()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::PROJECTILE,	pLayer });
 
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ISLAND,	pLayer });
+
 	return S_OK;
 }
 

@@ -8,7 +8,7 @@ namespace Engine
 	
 	// 추가 및 편집시 팀장 보고																			
 	enum class OBJ_TYPE				{ PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE, 
-									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, BACKGROUND, EFFECT, UI, TYPEEND }; // 오브젝트 타입
+									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, ISLAND, BACKGROUND, EFFECT, UI, TYPEEND }; // 오브젝트 타입
 
 	enum class OBJ_ID			
 	{

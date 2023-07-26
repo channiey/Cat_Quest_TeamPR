@@ -159,6 +159,7 @@
 #include "TerrainTool.h"
 
 #include "BackgroundShade.h"
+#include "Island_Ice.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -239,6 +240,10 @@ void CScene_World::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::PLAYER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
+
+		// Player vs Island
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::ISLAND, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리
@@ -576,6 +581,10 @@ HRESULT CScene_World::Ready_Layer_Other()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::PROJECTILE,	pLayer });
 
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::ISLAND,	pLayer });
+
 	return S_OK;
 }
 
@@ -613,9 +622,9 @@ HRESULT CScene_World::Ready_Layer_LHJ()
 
 HRESULT CScene_World::Ready_Layer_YC()
 {
-	/*Engine::CGameObject* pGameObject = nullptr;
+	Engine::CGameObject* pGameObject = nullptr;
 	
-	_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
+	/*_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
 	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
 
 	pGameObject = CLineObject::Create(m_pGraphicDev, vStartPos, vEndPos);
@@ -631,11 +640,13 @@ HRESULT CScene_World::Ready_Layer_YC()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Line Obj_03", pGameObject), E_FAIL);*/
 
 
-	/*Engine::CGameObject* pGameObject = nullptr;
-
-	pGameObject = CBackgroundShade::Create(m_pGraphicDev);
+	/*pGameObject = CBackgroundShade::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);*/
+
+	pGameObject = CIsland_Ice::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
 	return S_OK;
 }

@@ -45,6 +45,7 @@ public:
 public:
     void                Set_Radius(const _float& _fRadius);
     const _float&       Get_Radius() const { return m_fRadius; }
+    void                Set_Pos(const _vec3 _vPos) { m_vPos = _vPos; m_bSetPos = true; }
 
 private:
     HRESULT				Add_Component();
@@ -52,6 +53,9 @@ private:
 private:
     CGameObject*        m_pOwnerObject;
     _float              m_fRadius;
+
+    _vec3               m_vPos; // 직접 넣기도 가능 
+    _bool               m_bSetPos;
 
 public:
     static              CRangeObj* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, const _float& _fRadius);

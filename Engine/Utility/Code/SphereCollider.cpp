@@ -80,13 +80,17 @@ void CSphereCollider::Set_Radius(const _float& _fRadius)
 {
 	m_fRadius = _fRadius;
 
+	_float fMag = 2.f;
+
+	if (30.f < _fRadius) fMag = 0.3f;
+
 	if (m_bClone)
 	{
 		if (nullptr != m_pMesh)
 			Safe_Release(m_pMesh);
 	}
 
-	D3DXCreateSphere(m_pGraphicDev, m_fRadius, m_fRadius * 4, m_fRadius * 4, &m_pMesh, NULL);
+	// D3DXCreateSphere 함수의 매개변수 중 슬라이스와 스택의 값이 너무 크다면 메시가 생성되지 않는다.
+	D3DXCreateSphere(m_pGraphicDev, m_fRadius, m_fRadius * fMag, m_fRadius * fMag, &m_pMesh, NULL);
 	NULL_CHECK_MSG(m_pMesh, L"Failed Create Sphere Mesh");
-	
 }
