@@ -26,7 +26,8 @@ public:
 	HRESULT					End_MiniGame();
 
 private:
-	void					Check_MiniGame();
+	void					Check_MiniGame(const _float& _fDelta);
+	HRESULT					Die_Player();
 
 public:
 	HRESULT					Create_Islands();

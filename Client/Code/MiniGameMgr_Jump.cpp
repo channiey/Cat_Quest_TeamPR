@@ -35,42 +35,88 @@ void CMiniGameMgr_Jump::Update(const _float& _fDelta)
 {
 	if (!m_bActive) return;
 
-	Check_MiniGame();
+	Check_MiniGame(_fDelta);
 }
 
 HRESULT CMiniGameMgr_Jump::Start_MiniGame()
 {
 	m_bActive = TRUE;
-
-	cout << "-------------------------미니게임 스타트\n";
 	return S_OK;
 }
 
 HRESULT CMiniGameMgr_Jump::End_MiniGame()
 {
 	m_bActive = FALSE;
-	cout << "-------------------------미니게임 엔드\n";
 	return S_OK;
 }
 
-void CMiniGameMgr_Jump::Check_MiniGame()
-{
-	/*
-		* 플레이어 사망 조건
-		
-			* 백뷰이고
-			* 점프 상태가 아니고
-			* 현재 점프섬과 충돌하고 있지 않다면
-	*/
 
+
+// 정말 대충 짠 코드니 참고하지 마세요!
+
+_bool bTestDie = false;
+LERP_FLOAT_INFO tLerp;
+
+void CMiniGameMgr_Jump::Check_MiniGame(const _float& _fDelta)
+{
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 	NULL_CHECK(pPlayer);
+	NULL_CHECK(m_arrIsland[(UINT)ISLAND_TYPE::JUMP]);
 
 	if (CCameraMgr::GetInstance()->Is_BackView() && !pPlayer->Is_Jump() && !m_arrIsland[(UINT)ISLAND_TYPE::JUMP]->Is_In_Player())
-		cout << "플레이어 사망\n";
-	else
-		cout << "플레이어 굿굿\n";
+	{
+		if (!bTestDie)
+		{
+			Die_Player();
+		
+			tLerp.Init_Lerp(LERP_MODE::EASE_OUT);
+			_float fTargetLerp = pPlayer->Get_Transform()->Get_Info(INFO_POS).y - pPlayer->Get_Transform()->Get_Scale().y * 2.5f;
+			tLerp.Set_Lerp(0.5f, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, fTargetLerp);
+			tLerp.fCurValue = pPlayer->Get_Transform()->Get_Info(INFO_POS).y;
+		}
+
+	}
+
+	if (bTestDie && tLerp.bActive)
+	{
+		tLerp.Update_Lerp(_fDelta);
+		_vec3 pos = pPlayer->Get_Transform()->Get_Info(INFO_POS);
+		pos.y = tLerp.fCurValue;
+		pPlayer->Get_Transform()->Set_Pos(pos);
+
+		if (!tLerp.bActive)
+		{
+			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_OUT);
+		}
+	}
+
+	if (bTestDie && !tLerp.bActive && !CCameraMgr::GetInstance()->Is_Fade())
+	{
+		bTestDie = FALSE;
+		CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_IN);
+		pPlayer->Get_Transform()->Set_Pos(MINIGAME_JUMP_RESET_POS);
+		CCameraMgr::GetInstance()->Set_ViewSpace();
+	}
+
+}
+
+HRESULT CMiniGameMgr_Jump::Die_Player()
+{
+	bTestDie = true;
+
+	/*
+	
+		* 1. 플레이어 흩어지는 셰이더 효과?
+		
+		* 2. 화면 페이드 인 아웃 (어떤 페이드로?)
+		
+		* 3. 다시 시작위치에서 시작
+	
+	*/
+
+
+	return S_OK;
 }
 
 HRESULT CMiniGameMgr_Jump::Create_Islands()

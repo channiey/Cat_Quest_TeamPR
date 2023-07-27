@@ -227,7 +227,7 @@ namespace Engine
 		void Set_Lerp(const _float& _fTime, const _float _fStartValue, const _float& _fTargetValue)
 		{
 			fEndTime = _fTime;
-			fStartValue = _fStartValue;
+			fStartValue = fCurValue = _fStartValue;
 			fTargetValue = _fTargetValue;
 		}
 
@@ -317,7 +317,7 @@ namespace Engine
 		void Set_Lerp(const _float& _fTime, const _vec3 _fStartValue, const _vec3& _fTargetValue)
 		{
 			fEndTime = _fTime;
-			vStartVec = _fStartValue;
+			vStartVec = vCurVec = _fStartValue;
 			vEndVec = _fTargetValue;
 		}
 

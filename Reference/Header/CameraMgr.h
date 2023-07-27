@@ -30,7 +30,6 @@ public:
 	const _matrix&							Get_WorldMat();
 	const CAMERA_ACTION&					Get_CurCameraAction() const { return m_eCurAction; }
 
-	void									Start_Fade(const FADE_MODE& _eMode);
 
 public:
 	HRESULT									Set_ViewSpace	();
@@ -49,6 +48,7 @@ public:
 	const _bool&							Is_Fade();
 	const _bool&							Is_BackView() const;
 
+	void									Start_Fade(const FADE_MODE& _eMode);
 	HRESULT									Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos = vec3.one, const _vec3& _vEndPos = vec3.one, const _bool& _bFix = FALSE);
 
 private:

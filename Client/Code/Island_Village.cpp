@@ -73,8 +73,8 @@ HRESULT CIsland_Village::Add_RangeObj()
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Island_Village_RangeObj_02", pGameObject);
-	pGameObject->Set_Radius(110.f);
-	pGameObject->Set_Pos(_vec3{ START_POS_WORLD_X - 70.f, 0.f , START_POS_WORLD_Z + 20.f });
+	pGameObject->Set_Radius(120.f);
+	pGameObject->Set_Pos(_vec3{ START_POS_WORLD_X - 60.f, 0.f , START_POS_WORLD_Z + 10.f });
 	m_vecRangeObj.push_back(pGameObject);
 
 	return S_OK;

@@ -19,7 +19,7 @@ public:
 	virtual const _bool&				Is_Fade() { return FALSE; }
 
 	virtual void						Set_BackView(const _bool& _bBackView) {};
-	virtual _bool						Is_BackView()  { return TRUE; }
+	virtual _bool						Is_BackView()  { return TRUE; } 
 
 public:
 	CCamera*							Get_CameraCom() const { return m_pCameraCom; }
