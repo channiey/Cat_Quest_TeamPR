@@ -30,7 +30,8 @@
 #include "VioletDragonState_SpreadBullet.h"
 // Create Wyvern
 #include "VioletDragonState_CreateWyvern.h"
-
+// Dash Attack
+#include "VioletDragonState_Dash_Attack.h"
 
 // Effect
 #include "Shadow_Monster.h"
@@ -251,6 +252,16 @@ HRESULT CVioletDragon::Ready_Object()
 	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CREATE_CAST, pState);
 
 
+	// Dash Attack Pattern ==============================
+	// Dash Attack
+	pState = CVioletDragonState_Dash_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_DASH_ATTACK, pState);
+	// Create Wyvern Cast
+	//pState = CVioletDragonState_CreateCast::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CREATE_CAST, pState);
+
+
+
 
 
 #pragma endregion
@@ -371,6 +382,11 @@ HRESULT CVioletDragon::Ready_Object()
 	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CREATE_CAST, pAnimation);
 
 
+	// Dash Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_ATTACK)], STATE_TYPE::BOSS_DASH_ATTACK, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_DASH_ATTACK, pAnimation);
+
+
 
 
 
@@ -383,7 +399,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Test 
-	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_SPREAD_BULLET);
+	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_DASH_ATTACK);
 
 
 
@@ -546,6 +562,10 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	
 
 	
+
+
+
+
 
 
 
@@ -743,6 +763,18 @@ HRESULT CVioletDragon::Add_Component()
 	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CREATE_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
 	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
+
+	// Dash Attack ==============================
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	// Dash Cast =================================
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
 
 
 
