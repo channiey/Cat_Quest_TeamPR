@@ -478,6 +478,7 @@
     <ClInclude Include="..\Header\VioletDragonState_Chase.h" />
     <ClInclude Include="..\Header\VioletDragonState_ComeBack.h" />
     <ClInclude Include="..\Header\VioletDragonState_ConvergingFire.h" />
+    <ClInclude Include="..\Header\VioletDragonState_CreateWyvern.h" />
     <ClInclude Include="..\Header\VioletDragonState_FullDown_Down.h" />
     <ClInclude Include="..\Header\VioletDragonState_FullDown_Fly.h" />
     <ClInclude Include="..\Header\VioletDragonState_Patrol.h" />
@@ -839,6 +840,7 @@
     <ClCompile Include="..\Code\VioletDragonState_Chase.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ComeBack.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ConvergingFire.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_CreateWyvern.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_FullDown_Down.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_FullDown_Fly.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Patrol.cpp" />
