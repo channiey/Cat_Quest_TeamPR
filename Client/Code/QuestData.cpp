@@ -10,6 +10,8 @@ CQuestData::CQuestData()
 	, m_strQuestName(L"")
 	, m_pPlayer(nullptr)
 	, m_bShowQuestView(false)
+	, m_bReadyNext(false)
+	, m_bStartQuest(false)
 {
 }
 

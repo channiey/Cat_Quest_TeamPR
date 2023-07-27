@@ -170,7 +170,7 @@ void CQuestUI::Render_Object()
 {
 	if (m_bShowFont)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(235, 255, 255, 255));
 	}
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));

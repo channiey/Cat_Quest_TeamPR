@@ -17,6 +17,11 @@
 #include "Skill_Player_Thunder.h"
 #include "Key.h"
 
+#include "SkillGetEffect.h"
+#include "ItemGetEffect.h"
+#include "ShadeUI.h"
+
+
 CQuest2::CQuest2(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
 	m_strQuestName = _QuestName;
@@ -117,14 +122,26 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					{
 						if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 201, OBJ_ID::NPC_CITIZEN_1))
 						{
-							m_iLevel += 1;
-							dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
-								m_vSkillList[0]);
-							dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
-								m_vItemList[0]);
-							break;
+							// ¹è°æ °ËÀº»ö
+							m_pShadeUI = CShadeUI::Create(pGraphicDev);
+							NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+							CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+							// ½ºÅ³ È¹µæ ¿¬Ãâ
+							m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
+							NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
+							CEventMgr::GetInstance()->Add_Obj(L"pSkillGetUI", m_pSkillGetUI);							
 						}
 					}
+					if (m_bReadyNext)
+					{
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+							m_vSkillList[0]);
+						m_bReadyNext = false;
+						m_bStartQuest = true;
+						m_iLevel += 1;
+					}
+					break;
 				}
 			}
 			else
@@ -136,7 +153,32 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 
 		}
 		break;
-	case 2:
+	case 2: // ¾ÆÀÌÅÛ 1 È¹µæ
+		if (m_bStartQuest)
+		{
+			// ¹è°æ °ËÀº»ö
+			m_pShadeUI = CShadeUI::Create(pGraphicDev);
+			NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+			// ¹«±â È¹µæ ¿¬Ãâ
+			m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
+			NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
+
+			m_bStartQuest = false;
+		}
+
+		if (m_bReadyNext)
+		{
+			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
+				m_vItemList[0]);
+			m_bReadyNext = false;
+			m_bStartQuest = true;
+			m_iLevel += 1;
+		}
+		break;
+	case 3:
 		m_iLevel = 99;
 		*_IsAble = false; 
 		m_bShowQuestView = false;

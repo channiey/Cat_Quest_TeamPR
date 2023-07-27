@@ -20,6 +20,8 @@ public:
 	_bool	Get_IsAble() { return m_bIsAble; }
 	void 	Set_IsAble(_bool _IsAble) { m_bIsAble = _IsAble; }
 
+	void	Set_ReadyNext();
+
 	CQuestData* Get_Quest();
 private:
 	_int				   m_iQuestID; // 현재 진행중인 퀘스트 ID
@@ -33,6 +35,7 @@ private:
 	_bool				   m_bIsAble;
 
 	CGameObject*		   m_pIndicator;
+
 private:
 	virtual void			Free();
 };

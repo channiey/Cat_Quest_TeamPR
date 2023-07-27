@@ -46,6 +46,8 @@ HRESULT CSkill_Player_Fly::Ready_Object()
     m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
 
+    m_fontColor = D3DCOLOR_ARGB(255, 102, 0, 102);
+
     return S_OK;
 }
 

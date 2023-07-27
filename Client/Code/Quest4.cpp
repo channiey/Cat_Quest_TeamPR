@@ -14,6 +14,8 @@
 
 #include "WarriorWeapon.h"
 
+#include "WeaponGetEffect.h"
+
 CQuest4::CQuest4(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	: m_iMonsterCount(0), m_bBossKill(false)
 {
@@ -145,13 +147,28 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					{
 						m_tQuestContent[1].m_bClear = true;
 						m_tQuestContent.push_back({ L"3.µå·¡°ï Ã³Ä¡", false });
-						m_iLevel += 1;
-						*_IsAble = false;
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
-							m_vItemList[0]);
-						break;
+
+						// ¹è°æ °ËÀº»ö
+						m_pShadeUI = CShadeUI::Create(pGraphicDev);
+						NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+						CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+						// ¹«±â È¹µæ
+						m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
+						NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
+						CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
 					}
 				}
+				if (m_bReadyNext)
+				{
+					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
+						m_vItemList[0]);
+					m_iLevel += 1;
+					*_IsAble = false;
+					m_bStartQuest = true;
+					m_bReadyNext = false;
+				}
+				break;
 			}
 		}
 		break;

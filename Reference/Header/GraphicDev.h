@@ -49,8 +49,7 @@ private:
 	LPD3DXFONT				m_pEffectFont2;
 	LPD3DXFONT				m_pXpFont1;
 	LPD3DXFONT				m_pXpFont2;
-
-
+	
 	LPD3DXFONT				m_pQuestTitleFont;
 	LPD3DXFONT				m_pQuestContentFont;
 

@@ -14,6 +14,9 @@
 #include "Npc_BlackSmith.h"
 #include "Skill_Player_Fire.h"
 
+#include "SkillGetEffect.h"
+#include "ShadeUI.h"
+
 CQuest1::CQuest1(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	: m_iKillCount(0)
 {
@@ -65,7 +68,8 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
 					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
 				{
-					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 100, OBJ_ID::NPC_BLACKSMITH)) {
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 100, OBJ_ID::NPC_BLACKSMITH)) 
+					{
 						m_iLevel += 1;
 						*_IsAble = false;
 						break;
@@ -115,14 +119,28 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						{
 							if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 101, OBJ_ID::NPC_BLACKSMITH))
 							{
-								m_iLevel += 1;
-								dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
-									m_vSkillList[0]);
-								*_IsAble = false;
-								break;
+								// 배경 검은색
+								CShadeUI* pShadeUI = CShadeUI::Create(pGraphicDev);
+								NULL_CHECK_RETURN(pShadeUI, E_FAIL);
+								CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", pShadeUI);
+
+								// 스킬 획득 연출
+								m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
+								NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
+								CEventMgr::GetInstance()->Add_Obj(L"pSkillGetUI", m_pSkillGetUI);							
 							}
 						}
 					}
+					if (m_bReadyNext)
+					{
+						// 실제 스킬 인벤토리에 추가.
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+							m_vSkillList[0]);
+						m_bStartQuest = true;
+						m_bReadyNext = false;
+						m_iLevel += 1;
+					}
+					break;
 				}
 			}
 		}

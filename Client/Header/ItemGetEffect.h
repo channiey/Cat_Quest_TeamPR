@@ -7,7 +7,7 @@ class CTexture;
 
 END
 
-struct tagSparkle
+struct tagGetSparkle
 {
 	CTransform*				m_pSparkleTransCom;
 	CTexture*				m_pSparkleTextureCom;
@@ -32,9 +32,9 @@ private:
 	virtual void				Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) override;
 
 private:
-	tagSparkle	 m_sSparkle[3];
-	_vec3		 m_vPos;
-	_int		 m_iLevel;
+	tagGetSparkle	 m_sSparkle[3];
+	_vec3			 m_vPos;
+	_int			 m_iLevel;
 public:
 	static CItemGetEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _pPos);
 

@@ -99,10 +99,8 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma region KANG
 
-	
-	// Quest UI
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Quest",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest/QuestBoard2.png")), E_FAIL);
+	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest/QuestBoard2.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_World",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_World.png")), E_FAIL);
@@ -478,7 +476,38 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Book",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/miniscene_codex.png")), E_FAIL);
 
-	
+#pragma region æ∆¿Ã≈€, Ω∫≈≥ »πµÊ ∞¸∑√
+	// Skill Glow
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Glow",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/Effect/UI_skill_glow.png")), E_FAIL);
+	// Skill Shine
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Shine",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/Effect/UI_shine.png")), E_FAIL);
+	// Skill Sparkle
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Sparkle",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/Effect/VFX_yellow_sparks.png")), E_FAIL);
+	// GetSkillUI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Skill_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI.png")), E_FAIL);
+	// GetSkillFly
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Fly_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/UI/UI_flight.png")), E_FAIL);
+
+	// Weapon Glow
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Warrior_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI/EFFECT/thorns_weapon - Glow.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Ninja_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI/EFFECT/ninja_weapon - Glow.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Mage_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI/EFFECT/mage_weapon - Glow.png")), E_FAIL);
+	// GetWeaponUI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI.png")), E_FAIL);
+	// GetInvenUI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Inven_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/UI_inventory.png")), E_FAIL);
+
+#pragma endregion
 
 
 #pragma endregion

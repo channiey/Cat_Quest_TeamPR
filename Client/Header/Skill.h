@@ -80,6 +80,9 @@ public:
 	const D3DCOLOR& Get_SkillFontColor() const { return m_fontColor; }
 	const wstring&  Get_SkillContent()   const { return m_contentStr; }
 
+	_int			Get_SkillLv() { return m_iLv; }
+	void			Skill_LvUp(_int _PlusLv) { m_iLv += _PlusLv; }
+
 protected:
 	CGameObject*			m_pOwnerObject;
 	_bool					m_bPlay;
@@ -95,6 +98,7 @@ protected:
 	// ¼ºÇõ Ãß°¡
 	D3DCOLOR				m_fontColor;
 	wstring					m_contentStr;
+	_int					m_iLv;
 
 protected:
 	virtual void			Free();
