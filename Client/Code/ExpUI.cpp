@@ -32,7 +32,7 @@ HRESULT CExpUI::Ready_Object()
 	m_fPosY = 70;
 
 	m_fSizeX = 78;
-	m_fSizeY = 30;
+	m_fSizeY = 30 * 0.7f;
 
 	m_matExpUI[0]._41 = m_fPosX;
 	m_matExpUI[0]._42 = WINCY - m_fPosY;
@@ -50,7 +50,7 @@ HRESULT CExpUI::Ready_Object()
 	m_matExpUI[2]._42 = WINCY - m_fPosY - 1;
 
 	m_matExpUI[2]._11 = 48.f;
-	m_matExpUI[2]._22 = 47.f;
+	m_matExpUI[2]._22 = 47.f * 0.7f;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -138,7 +138,7 @@ void CExpUI::Render_Object()
 		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matExpUI[2]);
-		m_pTextureCom->Render_Texture(6);
+		m_pTextureCom->Render_Texture(13);
 		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));

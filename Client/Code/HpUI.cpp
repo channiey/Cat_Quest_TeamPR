@@ -22,6 +22,7 @@ HRESULT CHpUI::Ready_Object()
 	CGameObject::Ready_Object();
 
 	m_eUIType = UI_TYPE::WORLD;
+	m_eUILayer = UI_LAYER::LV1;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

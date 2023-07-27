@@ -24,6 +24,7 @@ public:
 	LPD3DXFONT				Get_EffectFont2(void) { return m_pEffectFont2; }
 	LPD3DXFONT				Get_XpFont1(void) { return m_pXpFont1; }
 	LPD3DXFONT				Get_XpFont2(void) { return m_pXpFont2; }
+	LPD3DXFONT				Get_LevelUpFont(void) { return m_pLevelUPFont; }
 
 	LPD3DXFONT				Get_QuestTitleFont(void) { return m_pQuestTitleFont; }
 	LPD3DXFONT				Get_QuestContentFont(void) { return m_pQuestContentFont; }
@@ -49,6 +50,7 @@ private:
 	LPD3DXFONT				m_pEffectFont2;
 	LPD3DXFONT				m_pXpFont1;
 	LPD3DXFONT				m_pXpFont2;
+	LPD3DXFONT				m_pLevelUPFont;
 	
 	LPD3DXFONT				m_pQuestTitleFont;
 	LPD3DXFONT				m_pQuestContentFont;
