@@ -28,8 +28,6 @@ public:
 
 private:
 
-	//CComBack_Bullet* m_pBullet1;
-
 
 
 

@@ -22,6 +22,7 @@
 CWyvernRed::CWyvernRed(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_WYVERNRED)
 {
+	ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
 CWyvernRed::CWyvernRed(const CMonster& rhs)
@@ -35,8 +36,8 @@ CWyvernRed::~CWyvernRed()
 
 HRESULT CWyvernRed::Ready_Object()
 {
-    __super::Ready_Object();
-    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	__super::Ready_Object();
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// MoveInfo
 	m_tMoveInfo.fMoveSpeed = 3.f;
@@ -58,7 +59,7 @@ HRESULT CWyvernRed::Ready_Object()
 
 	// Transform 
 	m_pTransformCom->Set_Scale(_vec3{ m_vImageSize.x * 2.f, m_vImageSize.y * 2.f , m_vImageSize.z });
-	
+
 	m_pTransformCom->Set_Pos(_vec3{ 200.f, m_pTransformCom->Get_Scale().y, 200.f });
 
 	//m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
@@ -70,6 +71,13 @@ HRESULT CWyvernRed::Ready_Object()
 
 	m_fJumpingSpeed = 0.05;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
+
+
+	// Lerp
+	m_tAlpha.Init_Lerp();
+	m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+
+
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_WyvernRed_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
@@ -200,8 +208,10 @@ HRESULT CWyvernRed::Ready_Object()
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
+	// Test
+	m_pStateMachineCom->Set_State(STATE_TYPE::CHASE);
 	m_szName = L"Monster_WyvernRed";
 
     return S_OK;
@@ -218,6 +228,9 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 		m_pStateMachineCom->Get_RealAnimator()->Set_Animation(STATE_TYPE::MONREST);
 		return iExit;
 	}
+
+	//Lerp
+	m_tAlpha.Update_Lerp(fTimeDelta);
 
 	// Jumping 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
@@ -236,16 +249,43 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 	}
 
 
+	//// Skill Use Condition
+	//STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+	//if (STATE_TYPE::BACK_MONATTACK == CurState ||
+	//	STATE_TYPE::MONATTACK == CurState ||
+	//	STATE_TYPE::CHASE == CurState ||
+	//	STATE_TYPE::BACK_CHASE == CurState)
+	//{
+	//	m_bSkill = true;
+	//}
+
+	//if (m_bSkill == true)
+	//{
+	//	m_fAccTime += fTimeDelta;
+	//	if (m_fAccTime >= 2.f)
+	//	{
+	//		m_pSkill->Play();
+	//		if (m_fAccTime >= 3.f)
+	//		{
+	//			dynamic_cast<CSkill_Monster_Beam*>(m_pSkill)->LatePlay();
+	//			m_fAccTime = 0.f;
+	//			m_bSkill = false;
+	//		}
+	//	}
+	//}
+
+
+
+	// Test
 	// Skill Use Condition
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
-		STATE_TYPE::CHASE == CurState ||
-		STATE_TYPE::BACK_CHASE == CurState)
+		STATE_TYPE::BACK_MONREST == CurState ||
+		STATE_TYPE::MONREST == CurState)
 	{
 		m_bSkill = true;
 	}
-
 	if (m_bSkill == true)
 	{
 		m_fAccTime += fTimeDelta;
@@ -260,6 +300,9 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 			}
 		}
 	}
+
+
+
 
 	// Base Skill Use Condition
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
@@ -318,6 +361,7 @@ void CWyvernRed::Render_Object()
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
+	
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 

@@ -23,9 +23,33 @@ public:
 
 private:
 
+
 	_float  m_fAccTime;
 
+	// Very Near
+	_bool   m_bCreateWyvern1;
+	_bool   m_bCreateWyvern2;
 
+	// Near 
+	_bool	m_bCreateWyvern3;
+	_bool	m_bCreateWyvern4;
+	_bool	m_bCreateWyvern5;
+	_bool	m_bCreateWyvern6;
+
+
+	// Boss Near
+	_bool	m_bCreateWyvern7;
+	_bool	m_bCreateWyvern8;
+	_bool	m_bCreateWyvern9;
+	_bool	m_bCreateWyvern10;
+
+
+
+	// Create region
+	_vec3 vCreatePosition;
+	_vec3 vCreateBossPosition;
+
+	_bool m_bInit;
 
 private:
 

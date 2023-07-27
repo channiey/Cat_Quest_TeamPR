@@ -289,7 +289,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
         m_bBullet16 = false;
 
         //return STATE_TYPE::BOSS_FULLDOWN_FLY;
-        return STATE_TYPE::BOSS_CONVERGING_FIRE;
+        return STATE_TYPE::BOSS_SPREAD_BULLET;
     }
 
 

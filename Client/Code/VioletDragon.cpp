@@ -37,6 +37,7 @@
 #include "Skill_Monster_CircleAttack.h"
 #include "Skill_Boss_FullDown.h"
 #include "Skill_Boss_BloodyThunder.h"
+#include "Skill_Boss_CreatWyvern.h"
 #include "BigCircle_Stemp.h"
 
 
@@ -88,6 +89,10 @@ HRESULT CVioletDragon::Ready_Object()
 
 	fPatternTime = 1.f;
 	m_fAccTime = 0.f;
+	m_FullDownTime = 0.f;
+	m_BloodyTime = 0.f;
+	m_CreateTime = 0.f;
+
 
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
@@ -100,7 +105,8 @@ HRESULT CVioletDragon::Ready_Object()
 	m_bSkill = false;
 	m_bFullDown = false;
 	m_bBloodyTunder = false;
-
+	m_bCreatWyvernPlay = false;
+	m_bCreatWyvernLate = false;
 
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -121,6 +127,9 @@ HRESULT CVioletDragon::Ready_Object()
 		NULL_CHECK_RETURN(m_pBloodyThunder, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_BloodyThunder", m_pBloodyThunder), E_FAIL);
 
+		m_pCreateWyvern = CSkill_Boss_CreateWyvern::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pCreateWyvern, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_Create_Wyvern", m_pCreateWyvern), E_FAIL);
 
 	}
 
@@ -374,7 +383,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Test 
-	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_CONVERGING_FIRE);
+	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_SPREAD_BULLET);
 
 
 
@@ -479,14 +488,14 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	// Bloody Thunder Skill Use Condition
 	if (STATE_TYPE::BOSS_BLOODY_THUNDER == CurState && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 	{
-		m_fAccTime += fTimeDelta;
+		m_BloodyTime += fTimeDelta;
 
-		if (!m_bBloodyTunder && m_fAccTime <= 1.f)
+		if (!m_bBloodyTunder && m_BloodyTime <= 1.f)
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Play();
 			m_bBloodyTunder = true;
 		}
-		if ( m_fAccTime >= 2.f && m_bBloodyTunder == true )
+		if (m_BloodyTime >= 2.f && m_bBloodyTunder == true )
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
 	
@@ -494,20 +503,52 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			//CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBloodyTunder = false;
 		}
-		if (m_bBloodyTunder == false && m_fAccTime >= 4.f)
+		if (m_bBloodyTunder == false && m_BloodyTime >= 4.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
-			m_fAccTime = 0.f;
+			m_BloodyTime = 0.f;
 		}
 		
 	}
 
+	// Create Wyvern Skill Use Condition
+	if (STATE_TYPE::BOSS_CREATE_WYVERN == CurState )
+	{
+		m_CreateTime += fTimeDelta;
 
+		if (m_bCreatWyvernPlay == false && m_bCreatWyvernLate == false)
+		{
+			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->Play();
+			m_bCreatWyvernPlay = true;
+		}
+	
+		if (m_bCreatWyvernPlay == true  && m_bCreatWyvernLate == false  && m_CreateTime >= 2.f)
+		{
+			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->LatePlay();
+			m_bCreatWyvernLate = true;
+		}
 
+		if (m_bCreatWyvernPlay == true && m_bCreatWyvernLate == true && m_CreateTime >= 3.f)
+		{
+			m_CreateTime = 0.f;
+			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->End();
+		
+		}
 
+	}
+	else if(STATE_TYPE::BOSS_CREATE_WYVERN != CurState)
+	{
+		m_CreateTime = 0.f;
+		m_bCreatWyvernPlay = false;
+		m_bCreatWyvernLate = false;
+	}
+	
 
 	
+
+
+
 	return iExit;
 }
 

@@ -43,9 +43,16 @@ private:
 
 	CSkill*					m_pFullDown;
 	_bool					m_bFullDown;
+	_float					m_FullDownTime;
 
 	CSkill*					m_pBloodyThunder;
 	_bool					m_bBloodyTunder;
+	_float					m_BloodyTime;
+
+	CSkill*					m_pCreateWyvern;
+	_bool					m_bCreatWyvernPlay;
+	_bool					m_bCreatWyvernLate;
+	_float					m_CreateTime;
 
 protected:
 	virtual void		Free() override;

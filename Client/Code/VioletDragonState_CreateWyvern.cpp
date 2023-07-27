@@ -4,7 +4,8 @@
 #include "Player.h"
 #include "EventMgr.h"
 #include "WyvernRed.h"
-
+#include "Hedgehog.h"
+#include "FoxFire.h"
 CVioletDragonState_CreateWyvern::CVioletDragonState_CreateWyvern(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
@@ -26,7 +27,23 @@ HRESULT CVioletDragonState_CreateWyvern::Ready_State(CStateMachine* pOwner)
     
     m_fAccTime = 0.f;
     
-    
+    m_bInit = false;
+
+    m_bCreateWyvern1 = false;
+    m_bCreateWyvern2 = false;
+
+    m_bCreateWyvern3 = false;
+    m_bCreateWyvern4 = false;
+    m_bCreateWyvern5 = false;
+    m_bCreateWyvern6 = false;
+
+    m_bCreateWyvern7 = false;
+    m_bCreateWyvern8 = false;
+    m_bCreateWyvern9 = false;
+    m_bCreateWyvern10 = false; 
+
+    vCreatePosition = vec3.zero;
+    vCreateBossPosition = vec3.zero;
 
 	return S_OK;
 }
@@ -93,6 +110,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     NULL_CHECK_RETURN(pPlayerTransform, eState);
 
 
+   
     // Setting Value
     // Dir Vector
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
@@ -102,44 +120,174 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
+    if (m_bInit == false)
+    {
+        m_bInit = true;
+        vCreatePosition = vPlayerPos;
+        vCreateBossPosition = vOwnerPos;
+    }
+
+ 
 
     // Time 
     m_fAccTime += fTimeDelta;
     
+    if(fPlayerDistance <= 100.f && m_fAccTime >= 2.f)
+    { 
+        // Very Near 1
+        if (m_bCreateWyvern1 == false )
+        {
+            CGameObject* m_pCreateWyvern1 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern1->Get_Transform()->Get_Scale();
+            m_pCreateWyvern1->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +5.f ,CreateWyvernScale.y ,vCreatePosition.z });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern1", m_pCreateWyvern1);
+            m_bCreateWyvern1 = true;   
+        }
+
+        // Very Near 2
+        if (m_bCreateWyvern2 == false)
+        {
+            CGameObject* m_pCreateWyvern2 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern2->Get_Transform()->Get_Scale();
+            m_pCreateWyvern2->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 5.f ,CreateWyvernScale.y ,vCreatePosition.z });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern2", m_pCreateWyvern2);
+            m_bCreateWyvern2 = true;
+        }
 
 
+        // Near 1
+        if (m_bCreateWyvern3 == false)
+        {
+            CGameObject* m_pCreateWyvern3 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern3->Get_Transform()->Get_Scale();
+            m_pCreateWyvern3->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 10.f ,CreateWyvernScale.y ,vCreatePosition.z + 10.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern3", m_pCreateWyvern3);
+            m_bCreateWyvern3 = true;
+        }
+
+        // Near 2
+        if (m_bCreateWyvern4 == false)
+        {
+            CGameObject* m_pCreateWyvern4= CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern4->Get_Transform()->Get_Scale();
+            m_pCreateWyvern4->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +10.f ,CreateWyvernScale.y ,vCreatePosition.z  +10.f});
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern4", m_pCreateWyvern4);
+            m_bCreateWyvern4 = true;
+        }
 
 
+        // Near 3
+        if (m_bCreateWyvern5 == false)
+        {
+            CGameObject* m_pCreateWyvern5 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern5->Get_Transform()->Get_Scale();
+            m_pCreateWyvern5->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 10.f ,CreateWyvernScale.y ,vCreatePosition.z -10.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern5", m_pCreateWyvern5);
+            m_bCreateWyvern5 = true;
+        }
 
 
+        // Near 4
+        if (m_bCreateWyvern6 == false)
+        {
+            CGameObject* m_pCreateWyvern6 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern6->Get_Transform()->Get_Scale();
+            m_pCreateWyvern6->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +10.f ,CreateWyvernScale.y ,vCreatePosition.z  -10.f});
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern6", m_pCreateWyvern6);
+            m_bCreateWyvern6 = true;
+        }
 
+
+        // Boss Near 1
+        if (m_bCreateWyvern7 == false)
+        {
+            CGameObject* m_pCreateWyvern7 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern7->Get_Transform()->Get_Scale();
+            m_pCreateWyvern7->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x - 5.f ,CreateWyvernScale.y ,vCreateBossPosition.z -5.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern7", m_pCreateWyvern7);
+            m_bCreateWyvern7 = true;
+        }
+
+        //  Boss Near 2
+        if (m_bCreateWyvern8 == false)
+        {
+            CGameObject* m_pCreateWyvern8 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern8->Get_Transform()->Get_Scale();
+            m_pCreateWyvern8->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x - 5.f ,CreateWyvernScale.y ,vCreateBossPosition.z +5.f});
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern8", m_pCreateWyvern8);
+            m_bCreateWyvern8 = true;
+        }
+
+
+        // Boss Near 3
+        if (m_bCreateWyvern9 == false)
+        {
+            CGameObject* m_pCreateWyvern9 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern9->Get_Transform()->Get_Scale();
+            m_pCreateWyvern9->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x +5.f ,CreateWyvernScale.y ,vCreateBossPosition.z  - 5.f});
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern9", m_pCreateWyvern9);
+            m_bCreateWyvern9 = true;
+        }
+
+
+        // Boss Near 4
+        if (m_bCreateWyvern10 == false)
+        {
+            CGameObject* m_pCreateWyvern10 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern10->Get_Transform()->Get_Scale();
+            m_pCreateWyvern10->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x + 5.f ,CreateWyvernScale.y ,vCreateBossPosition.z +5.f});
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern10", m_pCreateWyvern10);
+            m_bCreateWyvern10 = true;
+        }
+
+
+    }
 
 #pragma region State Change
     // FullDown 상태는 FullDown Down 상태로만 전이 한다
 
     // State Change 
 
-    if (m_fAccTime >= 4.f)
+    if (m_fAccTime >= 7.f )
     {
-
         m_fAccTime = 0.f;
-        return STATE_TYPE::BOSS_FULLDOWN_DOWN;
+        m_bCreateWyvern1 = false;
+        m_bCreateWyvern2 = false;
+
+        m_bCreateWyvern3 = false;
+        m_bCreateWyvern4 = false;
+        m_bCreateWyvern5 = false;
+        m_bCreateWyvern6 = false;
+
+        m_bCreateWyvern7 = false;
+        m_bCreateWyvern8 = false;
+        m_bCreateWyvern9 = false;
+        m_bCreateWyvern10 = false;
+
+        m_bInit = false;
+        return STATE_TYPE::BOSS_SPREAD_BULLET;
     }
-    return STATE_TYPE::BOSS_FULLDOWN_FLY;
+
+
+   return STATE_TYPE::BOSS_CREATE_WYVERN;
+
 #pragma endregion
 	
 }
 
 void CVioletDragonState_CreateWyvern::LateUpdate_State()
 {
+ 
 }
 
 void CVioletDragonState_CreateWyvern::Render_State()
 {
+ 
 }
 
 STATE_TYPE CVioletDragonState_CreateWyvern::Key_Input(const _float& fTimeDelta)
 {
+
     return m_eState;
 }
 
@@ -151,7 +299,7 @@ CVioletDragonState_CreateWyvern* CVioletDragonState_CreateWyvern::Create(LPDIREC
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("VioletDragonState Fly Create Failed");
+        MSG_BOX("VioletDragonState CreateWyvern Create Failed");
         return nullptr;
 
     }

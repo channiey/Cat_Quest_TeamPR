@@ -320,6 +320,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
 
 
+
 #pragma region State Change
 
     if (m_fAccTime >= 5.f)
@@ -358,7 +359,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
 
         //cout << " ÀüÀÌ" << endl;
-        return STATE_TYPE::BOSS_SHOOTING_STAR;
+        return STATE_TYPE::BOSS_CREATE_WYVERN;
     }
 
     return STATE_TYPE::BOSS_SPREAD_BULLET;

@@ -71,6 +71,11 @@ HRESULT CEffect_Range_Quater::Ready_Object()
 		m_vSize = m_pTransformCom->Get_Scale();
 	}
 	break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SMALL_RED:
+	{
+		m_pTransformCom->Set_Scale(_vec3{ 2.f,2.f, 2.f * 0.7f });
+	}
+
 	default:
 		break;
 	}
@@ -172,6 +177,12 @@ void CEffect_Range_Quater::Render_Object()
 		Render_Arrow(matWorld);
 	}
 	break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SMALL_RED:
+	{
+		Render_CompleteShape(matWorld);
+	}
+		break;
+
 	default:
 		break;
 	}
@@ -284,6 +295,13 @@ void CEffect_Range_Quater::Render_Rotated_Square(_matrix& matWorld)
 {
 }
 
+void CEffect_Range_Quater::Render_CompleteShape(_matrix& matWorld)
+{
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pBufferCom->Render_Buffer();
+
+}
+
 HRESULT CEffect_Range_Quater::Add_Component()
 {
 	CComponent* pComponent = nullptr;
@@ -330,6 +348,10 @@ HRESULT CEffect_Range_Quater::Add_Component()
 	case Engine::EFFECT_RANGE_QUATER_TYPE::ARROW_VERTICAL_RED:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Vertical_Arrow_Red", this));
 		break;
+	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SMALL_RED:
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Small_Red", this));
+		break;
+		
 	default:
 		break;
 	}

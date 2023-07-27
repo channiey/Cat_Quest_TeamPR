@@ -401,6 +401,7 @@
     <ClInclude Include="..\Header\Skill.h" />
     <ClInclude Include="..\Header\SkillEffect.h" />
     <ClInclude Include="..\Header\Skill_Boss_BloodyThunder.h" />
+    <ClInclude Include="..\Header\Skill_Boss_CreatWyvern.h" />
     <ClInclude Include="..\Header\Skill_Boss_FullDown.h" />
     <ClInclude Include="..\Header\Skill_Monster_Beam.h" />
     <ClInclude Include="..\Header\Skill_Monster_CircleAttack.h" />
@@ -763,6 +764,7 @@
     <ClCompile Include="..\Code\Shadow_Npc.cpp" />
     <ClCompile Include="..\Code\Shadow_Player.cpp" />
     <ClCompile Include="..\Code\Skill_Boss_BloodyThunder.cpp" />
+    <ClCompile Include="..\Code\Skill_Boss_CreateWyvern.cpp" />
     <ClCompile Include="..\Code\Skill_Boss_FullDown.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_Beam.cpp" />
     <ClCompile Include="..\Code\Skill_Monster_CircleAttack.cpp" />

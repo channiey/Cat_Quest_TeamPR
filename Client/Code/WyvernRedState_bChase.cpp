@@ -114,23 +114,99 @@ STATE_TYPE CWyvernRedState_bChase::Update_State(const _float& fTimeDelta)
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
 
-#pragma region State Change
-    // BACK_CHASE 우선순위
-    //  Chase - Attack - Comeback - Patrol
+//#pragma region State Change
+//    // BACK_CHASE 우선순위
+//    //  Chase - Attack - Comeback - Patrol
+//
+//
+//    // CHASE 전이 조건
+//    if (vOwnerDir.z < 0)
+//    {
+//      //  cout << "Chase  전이" << endl;
+//        return STATE_TYPE::CHASE;
+//    }
+//
+//
+//    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
+//    {
+//
+//
+//        // ATTACK 전이 조건
+//        if (fPlayerDistance <= m_fAttackRange)
+//        {
+//            if (vOwnerDir.z < 0)
+//            {
+//                // cout << "attack 전이" << endl;
+//                // pOwnerTransform->Set_Dir(vec3.zero);
+//                return STATE_TYPE::MONATTACK;
+//            }
+//            else
+//            {
+//                //cout << "back attack 전이" << endl;
+//               // pOwnerTransform->Set_Dir(vec3.zero);
+//                return STATE_TYPE::BACK_MONATTACK;
+//            }
+//        }
+//    }
+//    // PATROL 전이 조건
+//    if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
+//    {
+//        if (vOwnerDir.z < 0)
+//        {
+//            //cout << "patrol 전이" << endl;
+//           // pOwnerTransform->Set_Dir(vec3.zero);
+//            return STATE_TYPE::PATROL;
+//        }
+//        else
+//        {
+//            //cout << "Back patrol 전이" << endl;
+//           // pOwnerTransform->Set_Dir(vec3.zero);
+//            return STATE_TYPE::BACK_PATROL;
+//        }
+//    }
+//    // COMEBACK 전이 조건
+//    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
+//    {
+//        if (vOwnerDir.z < 0)
+//        {
+//            // cout << "comback 전이" << endl;
+//           //  pOwnerTransform->Set_Dir(vec3.zero);
+//            return STATE_TYPE::COMEBACK;
+//        }
+//        else
+//        {
+//            // cout << "back comback 전이" << endl;
+//            // pOwnerTransform->Set_Dir(vec3.zero);
+//            return STATE_TYPE::BACK_COMEBACK;
+//        }
+//    }
+//    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() == true)
+//    {
+//        if (vOwnerDir.z < 0)
+//        {
+//            //  cout << "comback 전이" << endl;
+//             // pOwnerTransform->Set_Dir(vec3.zero);
+//            return STATE_TYPE::COMEBACK;
+//        }
+//        else
+//        {
+//            //  cout << "back comback 전이" << endl;
+//             // pOwnerTransform->Set_Dir(vec3.zero);
+//            return STATE_TYPE::BACK_COMEBACK;
+//        }
+//    }
+//    // Default 
+//    return STATE_TYPE::BACK_CHASE;
+//
+//
+//#pragma endregion
 
 
-    // CHASE 전이 조건
-    if (vOwnerDir.z < 0)
-    {
-      //  cout << "Chase  전이" << endl;
-        return STATE_TYPE::CHASE;
-    }
 
 
-    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
-    {
-
-
+    //Test 전이  - 공격으로만 전이 된다
+  //  if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
+  //  {
         // ATTACK 전이 조건
         if (fPlayerDistance <= m_fAttackRange)
         {
@@ -142,66 +218,12 @@ STATE_TYPE CWyvernRedState_bChase::Update_State(const _float& fTimeDelta)
             }
             else
             {
-                //cout << "back attack 전이" << endl;
-               // pOwnerTransform->Set_Dir(vec3.zero);
+                // cout << "back attack 전이" << endl;
+                // pOwnerTransform->Set_Dir(vec3.zero);
                 return STATE_TYPE::BACK_MONATTACK;
             }
         }
-    }
-    // PATROL 전이 조건
-    if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //cout << "patrol 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::PATROL;
-        }
-        else
-        {
-            //cout << "Back patrol 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_PATROL;
-        }
-    }
-    // COMEBACK 전이 조건
-    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            // cout << "comback 전이" << endl;
-           //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::COMEBACK;
-        }
-        else
-        {
-            // cout << "back comback 전이" << endl;
-            // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_COMEBACK;
-        }
-    }
-    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() == true)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //  cout << "comback 전이" << endl;
-             // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::COMEBACK;
-        }
-        else
-        {
-            //  cout << "back comback 전이" << endl;
-             // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_COMEBACK;
-        }
-    }
-    // Default 
-    return STATE_TYPE::BACK_CHASE;
-
-
-#pragma endregion
-
-
+    //}
   
 }
 

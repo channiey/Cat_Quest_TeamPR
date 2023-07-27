@@ -33,6 +33,7 @@ private:
 	void						Render_Arrow(_matrix& matWorld);
 	void						Render_Square(_matrix& matWorld);
 	void						Render_Rotated_Square(_matrix& matWorld);
+	void						Render_CompleteShape(_matrix& matWorld);
 
 private:
 	HRESULT						Add_Component();

@@ -281,7 +281,7 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
         m_bBullet16 = false;
     
       
-        return STATE_TYPE::BOSS_SPREAD_BULLET;
+        return STATE_TYPE::BOSS_SHOOTING_STAR;
     }
 
     return STATE_TYPE::BOSS_CONVERGING_FIRE;

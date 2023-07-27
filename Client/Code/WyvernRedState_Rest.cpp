@@ -123,96 +123,135 @@ STATE_TYPE CWyvernRedState_Rest::Update_State(const _float& fTimeDelta)
  
      
 
-#pragma region State Change
+//#pragma region State Change
+//
+//
+//    //// BACK_ MONREST 전이
+//    //if (vOwnerDir.z > 0)
+//    //{
+//    //   // cout <<  "back monattack 전이" << endl;
+//    //    return STATE_TYPE::BACK_MONREST;
+//    //}
+//
+//    m_fAccTime += fTimeDelta;
+//
+//    if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
+//    {
+//        m_fAccTime = 0.f;
+//        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
+//        {
+//            // Attack 전이 
+//            if (fPlayerDistance <= m_fAttackRange)
+//            {
+//                if (vOwnerDir.z < 0)
+//                {
+//                    // cout << "attack 전이" << endl;
+//                    // pOwnerTransform->Set_Dir(vec3.zero);
+//                    return STATE_TYPE::MONATTACK;
+//                }
+//                else
+//                {
+//                    // cout << "back attack 전이" << endl;
+//                   //  pOwnerTransform->Set_Dir(vec3.zero);
+//                    return STATE_TYPE::BACK_MONATTACK;
+//                }
+//            }
+//
+//            // CHASE 전이 조건
+//            if (fPlayerDistance <= m_fChaseRange)
+//            {
+//                if (vOwnerDir.z < 0)
+//                {
+//                    // cout << "Chase 전이" << endl;
+//                    // pOwnerTransform->Set_Dir(vec3.zero);
+//                    return STATE_TYPE::CHASE;
+//                }
+//                else
+//                {
+//                    // cout << "Back Chase 전이" << endl;
+//                   //  pOwnerTransform->Set_Dir(vec3.zero);
+//                    return STATE_TYPE::BACK_CHASE;
+//                }
+//            }
+//        }
+//       // PATROL 전이 조건
+//       if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
+//       {
+//           if (vOwnerDir.z < 0)
+//           {
+//               //  cout << "patrol 전이" << endl;
+//               //  pOwnerTransform->Set_Dir(vec3.zero);
+//               return STATE_TYPE::PATROL;
+//           }
+//           else
+//           {
+//               //  cout << "Back patrol 전이" << endl;
+//               //  pOwnerTransform->Set_Dir(vec3.zero);
+//               return STATE_TYPE::BACK_PATROL;
+//           }
+//
+//       }
+//        // COMEBACK 전이 조건
+//        if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
+//        {
+//            if (vOwnerDir.z < 0)
+//            {
+//                // cout << "comback 전이" << endl;
+//                // pOwnerTransform->Set_Dir(vec3.zero);
+//                return STATE_TYPE::COMEBACK;
+//            }
+//            else
+//            {
+//                // cout << "back comback 전이" << endl;
+//                // pOwnerTransform->Set_Dir(vec3.zero);
+//                return STATE_TYPE::BACK_COMEBACK;
+//            }
+//        }
+//    }
+//    
+//    return STATE_TYPE::MONREST;
+//
+//
+//#pragma endregion
+
+    //Test 전이  - 공격으로만 전이 된다
 
 
-    //// BACK_ MONREST 전이
-    //if (vOwnerDir.z > 0)
-    //{
-    //   // cout <<  "back monattack 전이" << endl;
-    //    return STATE_TYPE::BACK_MONREST;
-    //}
-
-    m_fAccTime += fTimeDelta;
-
-    if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
+     // ATTACK 전이 조건
+    if (fPlayerDistance <= m_fAttackRange)
     {
-        m_fAccTime = 0.f;
-        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
+        if (vOwnerDir.z < 0)
         {
-            // Attack 전이 
-            if (fPlayerDistance <= m_fAttackRange)
-            {
-                if (vOwnerDir.z < 0)
-                {
-                    // cout << "attack 전이" << endl;
-                    // pOwnerTransform->Set_Dir(vec3.zero);
-                    return STATE_TYPE::MONATTACK;
-                }
-                else
-                {
-                    // cout << "back attack 전이" << endl;
-                   //  pOwnerTransform->Set_Dir(vec3.zero);
-                    return STATE_TYPE::BACK_MONATTACK;
-                }
-            }
-
-            // CHASE 전이 조건
-            if (fPlayerDistance <= m_fChaseRange)
-            {
-                if (vOwnerDir.z < 0)
-                {
-                    // cout << "Chase 전이" << endl;
-                    // pOwnerTransform->Set_Dir(vec3.zero);
-                    return STATE_TYPE::CHASE;
-                }
-                else
-                {
-                    // cout << "Back Chase 전이" << endl;
-                   //  pOwnerTransform->Set_Dir(vec3.zero);
-                    return STATE_TYPE::BACK_CHASE;
-                }
-            }
+            // cout << "attack 전이" << endl;
+            // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::MONATTACK;
         }
-       // PATROL 전이 조건
-       if (fPlayerDistance >= m_fPlayerTargetRange && fOriginDistance <= m_fPatrolRange)
-       {
-           if (vOwnerDir.z < 0)
-           {
-               //  cout << "patrol 전이" << endl;
-               //  pOwnerTransform->Set_Dir(vec3.zero);
-               return STATE_TYPE::PATROL;
-           }
-           else
-           {
-               //  cout << "Back patrol 전이" << endl;
-               //  pOwnerTransform->Set_Dir(vec3.zero);
-               return STATE_TYPE::BACK_PATROL;
-           }
-
-       }
-        // COMEBACK 전이 조건
-        if (fOriginDistance >= m_fComeBackRange || fPlayerDistance > m_fPlayerTargetRange)
+        else
         {
-            if (vOwnerDir.z < 0)
-            {
-                // cout << "comback 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::COMEBACK;
-            }
-            else
-            {
-                // cout << "back comback 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_COMEBACK;
-            }
+            // cout << "back attack 전이" << endl;
+            // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_MONATTACK;
         }
     }
     
-    return STATE_TYPE::MONREST;
+     //CHASE 전이 조건
+    if (fPlayerDistance <= m_fChaseRange)
+    {
+        if (vOwnerDir.z < 0)
+        {
+            // cout << "Chase 전이" << endl;
+            // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::CHASE;
+        }
+        else
+        {
+            // cout << "Back Chase 전이" << endl;
+           //  pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BACK_CHASE;
+        }
+    }
 
 
-#pragma endregion
 
 }
 
