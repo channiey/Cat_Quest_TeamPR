@@ -178,6 +178,13 @@ const _bool& CCameraMgr::Is_Fade()
 	return m_pPreCamera->Is_Fade();
 }
 
+const _bool& CCameraMgr::Is_BackView() const
+{
+	NULL_CHECK_RETURN(m_pCurCamera, E_FAIL);
+
+	return m_pCurCamera->Is_BackView();
+}
+
 HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos, const _vec3& _vEndPos, const _bool& _bFix)
 {	
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/

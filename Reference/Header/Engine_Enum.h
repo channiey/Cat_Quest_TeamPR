@@ -231,11 +231,12 @@ namespace Engine
 
 
 
-		// Island
+		// Island (수정시 CMiniGameMgr_Jump.h의 enum도 같이 수정)
 		ISLAND_RANGE_VILLAGE,
 		ISLAND_RANGE_ICE,
 		ISLAND_RANGE_DEATH,
 		ISLAND_RANGE_JUMP,
+		ISLAND_RANGE_KING,
 
 		TYPEEND
 };

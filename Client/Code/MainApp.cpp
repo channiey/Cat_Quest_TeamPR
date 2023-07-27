@@ -9,6 +9,7 @@
 #include "EventMgr.h"
 #include "QuestMgr.h"
 #include "TalkMgr.h"
+#include "MiniGameMgr_Jump.h"
 
 #include "ImGuiMgr.h"
 #include "Calculator.h"
@@ -179,6 +180,7 @@ void CMainApp::Free()
 	CTalkMgr::DestroyInstance(); // 임시로 여기서 지움.
 	CQuestMgr::DestroyInstance(); // 임시로 여기서 지움.
 	CImGuiMgr::GetInstance()->DestroyInstance();
+	CMiniGameMgr_Jump::GetInstance()->DestroyInstance();
 
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);

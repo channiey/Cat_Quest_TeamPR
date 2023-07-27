@@ -202,6 +202,11 @@ inline const _bool& Is_Fade()
 	return CCameraMgr::GetInstance()->Is_Fade();
 }
 
+inline const _bool& Is_BackView()
+{
+	return CCameraMgr::GetInstance()->Is_BackView();
+}
+
 inline void Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, COL_TYPE& _eColType1, const COL_TYPE& _eColType2)
 {
 	CCollisionMgr::GetInstance()->Check_Collision(_eType1, _eType2, _eParentType, _eColType1, _eColType2);

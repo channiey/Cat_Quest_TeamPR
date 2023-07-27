@@ -873,6 +873,12 @@ void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 	}
 }
 
+const _bool CPlayer::Is_Jump() const
+{
+	NULL_CHECK_RETURN(m_pRigidBodyCom, FALSE);
+
+	return m_pRigidBodyCom->Is_Jump();
+}
 HRESULT CPlayer::Add_Component()
 {
 	CComponent* pComponent = nullptr;

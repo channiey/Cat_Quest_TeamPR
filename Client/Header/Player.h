@@ -171,6 +171,9 @@ public:
 
 	CSkill*				Get_FlySkill() { return m_pSkillFly; }
 
+	// มกวม
+	const _bool			Is_Jump() const;
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);

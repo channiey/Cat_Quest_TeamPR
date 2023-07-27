@@ -159,10 +159,8 @@
 #include "TerrainTool.h"
 
 #include "BackgroundShade.h"
-#include "Island_Ice.h"
-#include "Island_Death.h"
-#include "Island_Jump.h"
-#include "Island_Village.h"
+
+#include "MiniGameMgr_Jump.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -187,11 +185,15 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_KSH(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_KJM(),	E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL);
+
+	if (!CMiniGameMgr_Jump::GetInstance()->Is_Init()) CMiniGameMgr_Jump::GetInstance()->Init(m_pGraphicDev);
+	
+	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL); // 아일랜드 생성
 
 	// 한 번만 초기화
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+
 
 	return S_OK;
 }
@@ -219,6 +221,8 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	__super::Update_Scene(fTimeDelta);
 
 	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
+
+	CMiniGameMgr_Jump::GetInstance()->Update(fTimeDelta);
 
 	return 0;
 }
@@ -628,6 +632,8 @@ HRESULT CScene_World::Ready_Layer_YC()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 	
+	CMiniGameMgr_Jump::GetInstance()->Create_Islands();
+
 	/*_vec3 vStartPos{ START_POS_WORLD_X, 0.2f, START_POS_WORLD_Z };
 	_vec3 vEndPos = vStartPos + _vec3{ 10.f , 0.2f, -10.f };
 
@@ -648,21 +654,6 @@ HRESULT CScene_World::Ready_Layer_YC()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);*/
 
-	pGameObject = CIsland_Village::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	pGameObject = CIsland_Ice::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	pGameObject = CIsland_Death::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	pGameObject = CIsland_Jump::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
 	return S_OK;
 }

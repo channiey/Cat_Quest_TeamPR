@@ -14,6 +14,7 @@
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
 
+#include "MiniGameMgr_Jump.h"
 
 IMPLEMENT_SINGLETON(CTalkMgr)
 
@@ -145,6 +146,7 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 					!= CAMERA_ACTION::PLAYER_BACK_TO_TOP)
 				{
 					CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
+					CMiniGameMgr_Jump::GetInstance()->End_MiniGame(); // 미니게임 종료
 				}
 			}
 			// 마지막 대사까지 다 출력했다면

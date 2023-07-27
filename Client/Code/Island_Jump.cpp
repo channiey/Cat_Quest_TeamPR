@@ -62,6 +62,14 @@ HRESULT CIsland_Jump::Add_RangeObj()
 {
 	CRangeObj* pGameObject = nullptr;
 
+	// 00
+	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Island_Jump_RangeObj_00", pGameObject);
+	pGameObject->Set_Radius(33.f);
+	pGameObject->Set_Pos(_vec3{ 370.f, 0.f , 270.f });
+	m_vecRangeObj.push_back(pGameObject);
+
 	// 01
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -118,6 +126,13 @@ HRESULT CIsland_Jump::Add_RangeObj()
 	pGameObject->Set_Pos(_vec3{ 303.f, 0.f , 360.f });
 	m_vecRangeObj.push_back(pGameObject);
 
+	// 08
+	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Island_Jump_RangeObj_08", pGameObject);
+	pGameObject->Set_Radius(30.f);
+	pGameObject->Set_Pos(_vec3{ 280.f, 0.f , 380.f });
+	m_vecRangeObj.push_back(pGameObject);
 	return S_OK;
 }
 

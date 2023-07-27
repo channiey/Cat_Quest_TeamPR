@@ -20,6 +20,8 @@
 #include "Skill_Player_Beam.h"
 #include "Key.h"
 
+#include "MiniGameMgr_Jump.h"
+
 CQuest3::CQuest3(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
 	m_strQuestName = _QuestName;
@@ -159,6 +161,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						m_iLevel += 1;
 						*_IsAble = false;
 						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
+						CMiniGameMgr_Jump::GetInstance()->Start_MiniGame(); // 미니게임 시작
 						break;
 					}
 				}

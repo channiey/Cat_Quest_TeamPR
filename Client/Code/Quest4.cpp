@@ -14,6 +14,7 @@
 
 #include "WarriorWeapon.h"
 
+
 CQuest4::CQuest4(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	: m_iMonsterCount(0), m_bBossKill(false)
 {

@@ -209,9 +209,11 @@
     <ClInclude Include="..\Header\Island_Death.h" />
     <ClInclude Include="..\Header\Island_Ice.h" />
     <ClInclude Include="..\Header\Island_Jump.h" />
+    <ClInclude Include="..\Header\Island_King.h" />
     <ClInclude Include="..\Header\Island_Village.h" />
     <ClInclude Include="..\Header\ItemGetEffect.h" />
     <ClInclude Include="..\Header\Mage_Bullet.h" />
+    <ClInclude Include="..\Header\MiniGameMgr_Jump.h" />
     <ClInclude Include="..\Header\OtherEnvironment.h" />
     <ClInclude Include="..\Header\PirateHideOut.h" />
     <ClInclude Include="..\Header\PlayerHitEffect.h" />
@@ -554,8 +556,10 @@
     <ClCompile Include="..\Code\Island_Death.cpp" />
     <ClCompile Include="..\Code\Island_Ice.cpp" />
     <ClCompile Include="..\Code\Island_Jump.cpp" />
+    <ClCompile Include="..\Code\Island_King.cpp" />
     <ClCompile Include="..\Code\Island_Village.cpp" />
     <ClCompile Include="..\Code\Mage_Bullet.cpp" />
+    <ClCompile Include="..\Code\MiniGameMgr_Jump.cpp" />
     <ClCompile Include="..\Code\OtherEnvironment.cpp" />
     <ClCompile Include="..\Code\PirateHideOut.cpp" />
     <ClCompile Include="..\Code\Quest3.cpp" />

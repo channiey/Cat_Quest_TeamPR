@@ -98,10 +98,10 @@ inline const _bool&		Is_Shake_Camera();
 inline void				Stop_Shake();
 inline HRESULT			Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vStartPos = vec3.one, const _vec3& _vEndPos = vec3.one, const _bool& _bFix = FALSE);
 inline const CAMERA_ACTION& Get_CurCameraAction();
-inline const _bool&		 Is_Fix();
+inline const _bool&		Is_Fix();
 inline void				Start_Fade(const FADE_MODE& _eMode);
 inline const _bool&		Is_Fade();
-
+inline const _bool&		Is_BackView();
 
 // CollisionMgr
 inline void				Check_Collision(const OBJ_TYPE& _eType1, const OBJ_TYPE& _eType2, const OBJ_TYPE& _eParentType, const COL_TYPE& _eColType1, const COL_TYPE& _eColType2);
