@@ -93,6 +93,7 @@ void CIsland_Ice::Enter_Player()
 	// 플레이어가 해당 섬에 처음 들어왔을 때
 
 	// Action : 대륙 이름 UI, 플레이어 미끄러짐, 브금 변경, 눈 이펙트 On
+
 }
 
 void CIsland_Ice::Exit_Player()

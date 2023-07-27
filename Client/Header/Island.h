@@ -11,6 +11,8 @@
 
 */
 
+enum class PLAYER_COLLISION { ENTER, STAY, EXIT, NONE, TYPEEND };
+
 #include "GameObject.h"
 
 class CRangeObj;
@@ -37,21 +39,20 @@ private:
 	HRESULT				Add_Component(void);
 
 protected:
-	virtual HRESULT		Add_RangeObj();
+	virtual HRESULT		Add_RangeObj() PURE;
 
 public:
-	virtual void		Enter_Player();
-	virtual void		Exit_Player();
+	void				Check_Player_Collision();
+	virtual void		Enter_Player() PURE;
+	virtual void		Exit_Player() PURE;
 
 protected:
 
-	_int				m_iIN;
+	_int				m_iCurIn;
+	_int				m_iPrevIn;
 
+	PLAYER_COLLISION	m_eCurCollison;
 	vector<CRangeObj*>	m_vecRangeObj;
-
-public:
-	static CIsland* Create(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID);
-
 
 protected:
 	virtual void		Free() override;

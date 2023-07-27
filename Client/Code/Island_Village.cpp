@@ -85,11 +85,13 @@ void CIsland_Village::Enter_Player()
 	// 플레이어가 해당 섬에 처음 들어왔을 때
 
 	// Action : 대륙 이름 UI, 플레이어 미끄러짐, 브금 변경, 눈 이펙트 On
+
 }
 
 void CIsland_Village::Exit_Player()
 {
 	// 플레이어가 해당 섬에서 나갔을 때
+
 }
 
 void CIsland_Village::Free()
