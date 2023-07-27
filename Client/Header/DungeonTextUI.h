@@ -21,7 +21,7 @@ private:
 
 private:
 	LERP_FLOAT_INFO			m_tAlpha;
-	_uint					m_iTranslucent;
+	_float					m_fTranslucent;
 	
 	_float					m_fAcc;
 

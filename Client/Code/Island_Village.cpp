@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "RangeObj.h"
+#include "DungeonTextUI.h"
 
 CIsland_Village::CIsland_Village(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_VILLAGE)
@@ -86,6 +87,13 @@ void CIsland_Village::Enter_Player()
 
 	// Action : ´ë·ú ÀÌ¸§ UI, ÇÃ·¹ÀÌ¾î ¹Ì²ô·¯Áü, ºê±Ý º¯°æ, ´« ÀÌÆåÆ® On
 
+	if (!CCameraMgr::GetInstance()->Is_BackView())
+	{
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
+		NULL_CHECK(pGameObject);
+		CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
+	}
 }
 
 void CIsland_Village::Exit_Player()

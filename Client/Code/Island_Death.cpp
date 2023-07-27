@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 #include "RangeObj.h"
-
+#include "DungeonTextUI.h"
 CIsland_Death::CIsland_Death(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_DEATH)
 {
@@ -79,7 +79,10 @@ void CIsland_Death::Enter_Player()
 	// 플레이어가 해당 섬에 처음 들어왔을 때
 
 	// Action : 대륙 이름 UI, 플레이어 미끄러짐, 브금 변경, 눈 이펙트 On
-
+	Engine::CGameObject* pGameObject = nullptr;
+	pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
+	NULL_CHECK(pGameObject);
+	CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
 }
 
 void CIsland_Death::Exit_Player()

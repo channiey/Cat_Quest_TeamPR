@@ -18,7 +18,7 @@ CRigidBody::CRigidBody(LPDIRECT3DDEVICE9 pGraphicDev)
 	ZeroMemory(&m_vVelocity, sizeof(_vec3));
 
 	m_fMass		= 8.f;
-	m_fMaxSpeed = 40.f;
+	m_fMaxSpeed = DF_RB_MAXSPEED;
 	m_fFriction = 0.05f;
 	m_vGravity = vec3.down;
 	m_bJump = false;
@@ -132,6 +132,7 @@ void CRigidBody::Jump()
 	if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() || m_bJump)
 		return;
 
+	Set_MaxSpeed(DF_RB_MAXSPEED);
 	m_bJump = TRUE;
 	Add_Impulse(vec3.up * JUMP_POWER);
 	m_fStartY = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS).y;

@@ -54,6 +54,11 @@ CComponent * CManagement::Get_Component(const OBJ_TYPE& _eObjType, const _tchar 
 	return m_pCurScene->Get_Component(_eObjType, pObjTag, _eComponentType, eID);
 }
 
+CGameObject* CManagement::Get_Player()
+{
+	return Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
+}
+
 CLayer * CManagement::Get_Layer(const OBJ_TYPE& _eType)
 {
 	return 	m_pCurScene->Get_Layer(_eType);

@@ -3,7 +3,10 @@
 
 #include "Export_Function.h"
 
+#include "Management.h"
+#include "Player.h"
 #include "RangeObj.h"
+#include "DungeonTextUI.h"
 
 CIsland_Ice::CIsland_Ice(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_ICE)
@@ -73,16 +76,16 @@ HRESULT CIsland_Ice::Add_RangeObj()
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Island_Ice_RangeObj_02", pGameObject);
-	pGameObject->Set_Radius(60.f);
-	pGameObject->Set_Pos(_vec3{ 220.f, 0.f , 380.f });
+	pGameObject->Set_Radius(63.f);
+	pGameObject->Set_Pos(_vec3{ 223.f, 0.f , 380.f });
 	m_vecRangeObj.push_back(pGameObject);
 
 	// 03
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Island_Ice_RangeObj_03", pGameObject);
-	pGameObject->Set_Radius(50.f);
-	pGameObject->Set_Pos(_vec3{ 290.f, 0.f , 415.f });
+	pGameObject->Set_Radius(45.f);
+	pGameObject->Set_Pos(_vec3{ 290.f, 0.f , 420.f });
 	m_vecRangeObj.push_back(pGameObject);
 
 	return S_OK;
@@ -94,11 +97,31 @@ void CIsland_Ice::Enter_Player()
 
 	// Action : ´ë·ú ÀÌ¸§ UI, ÇÃ·¹ÀÌ¾î ¹Ì²ô·¯Áü, ºê±Ý º¯°æ, ´« ÀÌÆåÆ® On
 
+	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
+
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_Player());
+
+	NULL_CHECK(pPlayer);
+
+	pPlayer->Set_CurGroudType(GROUND_TYPE::ICE);
+
+
+	Engine::CGameObject* pGameObject = nullptr;
+	pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
+	NULL_CHECK(pGameObject);
+	CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
 }
 
 void CIsland_Ice::Exit_Player()
 {
 	// ÇÃ·¹ÀÌ¾î°¡ ÇØ´ç ¼¶¿¡¼­ ³ª°¬À» ¶§
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_Player());
+
+	NULL_CHECK(pPlayer);
+
+	pPlayer->Set_CurGroudType(GROUND_TYPE::NORMAL);
 }
 
 void CIsland_Ice::Free()

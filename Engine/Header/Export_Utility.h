@@ -54,7 +54,7 @@ inline CComponent*		Get_Component(const OBJ_TYPE& _eObjType,
 inline HRESULT			Create_Management(LPDIRECT3DDEVICE9 pGraphicDev, CManagement** ppInstance);
 inline const _bool&		Is_Enter_InGame();
 inline void				Set_Enter_InGame(const _bool& _b);
-
+inline CGameObject*		Get_Player();
 // Scene
 inline HRESULT			Set_Scene(CScene* pScene);
 inline _int				Update_Scene(const _float& fTimeDelta);

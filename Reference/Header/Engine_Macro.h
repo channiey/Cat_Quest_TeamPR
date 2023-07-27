@@ -57,7 +57,12 @@ namespace Engine
 #define START_POS_DUNGEON_X			53.f
 #define START_POS_DUNGEON_Z			32.f
 #define	MINIGAME_JUMP_RESET_POS		_vec3{ 360.f, 3.f , 280.f }
+
+
 #define	JUMP_POWER					600.f
+#define	SLIP_SPEED					25.f
+#define	DF_RB_MAXSPEED				40.f
+#define DF_SLEEP_MAXDPEED			0.3f
 
 // Terrain Size
 #define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile

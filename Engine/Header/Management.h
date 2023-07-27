@@ -36,7 +36,7 @@ public:
 											const _tchar* pObjTag,
 											const COMPONENT_TYPE& _eComponentType,
 											COMPONENTID eID);
-	
+	CGameObject*		Get_Player();
 
 	const PLAY_MODE&	Get_PlayMode	() const { return m_ePlayMode; }
 	const GAME_STATUS&	Get_GameStatus	() const { return m_eGameStatus; }

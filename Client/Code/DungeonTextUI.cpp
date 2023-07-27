@@ -21,7 +21,7 @@ HRESULT CDungeonTextUI::Ready_Object()
 
 	D3DXMatrixIdentity(&m_UImatWorld);
 
-	m_iTranslucent = 255;
+	m_fTranslucent - 0.f;
 
 	m_fPosX = WINCX >> 1;
 	m_fPosY = WINCY - 250;
@@ -38,8 +38,8 @@ HRESULT CDungeonTextUI::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tAlpha.Set_Lerp(2.5f, 255, 0);
-
+	m_tAlpha.Set_Lerp(1.0f, 0.01f, 255);
+	
 	m_fAcc = 0.f;
 
 	return S_OK;
@@ -47,18 +47,30 @@ HRESULT CDungeonTextUI::Ready_Object()
 
 _int CDungeonTextUI::Update_Object(const _float& fTimeDelta)
 {
+	// 수정시 팀장 보고 필수
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	if (m_iTranslucent <= 0)
-		CEventMgr::GetInstance()->Delete_Obj(this);
+	m_tAlpha.Update_Lerp(fTimeDelta);
 
-	m_fAcc += fTimeDelta;
-
-	if(m_fAcc > 3.f)
+	if (m_tAlpha.fCurValue <= 0)
 	{
-		m_tAlpha.Update_Lerp(fTimeDelta);
-		m_iTranslucent = m_tAlpha.fCurValue;
+		CEventMgr::GetInstance()->Delete_Obj(this);
+		m_fTranslucent = m_tAlpha.fCurValue;
+		return iExit;
 	}
+
+	if(!m_tAlpha.bActive)
+	{
+		m_fAcc += fTimeDelta;
+		if (2.f < m_fAcc)
+		{
+			m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+			m_tAlpha.Set_Lerp(2.5f, 255, 0);
+		}
+	}
+
+	m_fTranslucent = m_tAlpha.fCurValue;
 
 	
 	return iExit;
@@ -73,7 +85,7 @@ void CDungeonTextUI::LateUpdate_Object()
 
 void CDungeonTextUI::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_fTranslucent), 255, 255, 255));
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);

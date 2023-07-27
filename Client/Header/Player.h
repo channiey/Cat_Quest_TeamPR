@@ -103,8 +103,8 @@ public:
 
 #pragma region OTHER
 
-	void				Set_CurGroudType(const LINE_TYPE& _eType)	{ m_eCurGroundType = _eType; }
-	const LINE_TYPE&	Get_CurGroundType() const					{ return m_eCurGroundType; }
+	void				Set_CurGroudType(const GROUND_TYPE& _eType)	{ m_eCurGroundType = _eType; }
+	const GROUND_TYPE&	Get_CurGroundType() const					{ return m_eCurGroundType; }
 
 #pragma endregion
 
@@ -190,7 +190,7 @@ private:
 	MOVEINFO					m_tMoveInfo;
 	STATINFO					m_tStatInfo;
 
-	LINE_TYPE					m_eCurGroundType; // 현재 플레이어가 위치한 그라운드 정보
+	GROUND_TYPE					m_eCurGroundType; // 현재 플레이어가 위치한 그라운드 정보
 
 private:
 	CTexture*					m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];

@@ -139,13 +139,11 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
-			// 마법사 대화 시작하자마자 카메라 탑뷰로 바꾸기
 			if (_iTalkID == 320)
 			{
 				if (CCameraMgr::GetInstance()->Get_CurCameraAction()
 					!= CAMERA_ACTION::PLAYER_BACK_TO_TOP)
 				{
-					CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
 					CMiniGameMgr_Jump::GetInstance()->End_MiniGame(); // 미니게임 종료
 				}
 			}

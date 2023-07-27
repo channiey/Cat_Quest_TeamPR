@@ -60,7 +60,7 @@
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
 	, m_pStateMachineCom(nullptr)
-	, m_eCurGroundType(LINE_TYPE::LAND)
+	, m_eCurGroundType(GROUND_TYPE::NORMAL)
 {
 	ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 }

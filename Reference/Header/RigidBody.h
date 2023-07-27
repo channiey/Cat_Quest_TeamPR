@@ -36,8 +36,11 @@ public:						// 직접 지정한 방향으로 넉백 (방향 계산 수동)
 
 	const _bool&			Is_Jump() const { return m_bJump; }
 
-private:
 	void					Add_Impulse(const _vec3& _vForce) { m_vForce += _vForce; }
+
+	void					Set_MaxSpeed(const _float& _bSpeed) { m_fMaxSpeed = _bSpeed; }
+	void					Set_MaxSpeed_By_Df() { m_fMaxSpeed = DF_RB_MAXSPEED; }
+private:
 
 	void					Zero_Force() { m_vForce = vec3.zero; }
 	void					Zero_Velocity() { m_vVelocity = vec3.zero;  }

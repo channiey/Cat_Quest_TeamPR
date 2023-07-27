@@ -28,6 +28,11 @@ inline void Set_Enter_InGame(const _bool& _b)
 	CManagement::GetInstance()->Set_Enter_InGame(_b);
 }
 
+inline CGameObject* Get_Player()
+{
+	return CManagement::GetInstance()->Get_Player();
+}
+
 HRESULT		Set_Scene(CScene* pScene)
 {
 	return CManagement::GetInstance()->Set_Scene(pScene);
