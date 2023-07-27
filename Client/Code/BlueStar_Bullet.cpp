@@ -23,7 +23,6 @@ CBlueStar_Bullet::~CBlueStar_Bullet()
 
 HRESULT CBlueStar_Bullet::Ready_Object()
 {
-
     __super::Ready_Object();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -57,6 +56,10 @@ _int CBlueStar_Bullet::Update_Object(const _float& fTimeDelta)
         m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
     }
 
+    if (m_pOwner->Is_Active() == false)
+    {
+        CEventMgr::GetInstance()->Delete_Obj(this);
+    }
 
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);

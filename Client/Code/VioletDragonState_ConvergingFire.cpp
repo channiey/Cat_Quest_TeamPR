@@ -128,7 +128,7 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
     if (m_bBullet1 == false && m_fAccTime >= 0.5f) //1 
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y  , vOwnerPos.z }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 10.f , vOwnerPos.y  , vOwnerPos.z }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet1 = true;
     }
 
@@ -136,7 +136,7 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
     if (m_bBullet2 == false && m_fAccTime >= 0.6f) //2
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging2",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y , vOwnerPos.z  }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 10.f , vOwnerPos.y , vOwnerPos.z  }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet2 = true;
     }
 
@@ -144,14 +144,14 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
     if (m_bBullet3 == false && m_fAccTime >= 0.7f) //3
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging3",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 6.f , vOwnerPos.y , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet3 = true;
     }
 
     if (m_bBullet4 == false && m_fAccTime >= 0.8f) //4
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging4",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 6.f , vOwnerPos.y , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet4 = true;
     }
 
@@ -159,21 +159,21 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
     if (m_bBullet5 == false && m_fAccTime >= 0.9f) //5
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x -4.f , vOwnerPos.y , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x -6.f , vOwnerPos.y , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet5 = true;
     }
 
     if (m_bBullet6 == false && m_fAccTime >= 1.f) //6
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging6",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 6.f , vOwnerPos.y , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet6 = true;
     }
 
     if (m_bBullet7 == false && m_fAccTime >= 1.1f) //7
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging7",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x -2.f , vOwnerPos.y , vOwnerPos.z -6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x -4.f , vOwnerPos.y , vOwnerPos.z -6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet7 = true;
     }
 
@@ -181,7 +181,7 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
     if (m_bBullet8 == false && m_fAccTime >= 1.2f) //8
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging8",
-            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 2.f , vOwnerPos.y , vOwnerPos.z - 6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y , vOwnerPos.z - 6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet8 = true;
     }
     ///// cicle 1 end/////// 

@@ -2,13 +2,15 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 
-CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
+CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime)
 	: CBossProjectile(pGraphicDev, OBJ_ID::PROJECTILE_BOSS_CONVERGING)
 {
 
 	m_vPos = _vPos;
 	m_pTarget = pTarget;
 	m_pOwner = pOwner;
+
+    m_fChaseTime = fCombackTime;
 
     ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
@@ -57,6 +59,11 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f );
     }
 
+    if (m_pOwner->Is_Active() == false)
+    {
+        CEventMgr::GetInstance()->Delete_Obj(this);
+    }
+
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
 
@@ -97,7 +104,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_bComeBack = true;
     } 
     
-    if (m_bComeBack == true && m_bStop == true && m_fAccTime >= 3.f)
+    if (m_bComeBack == true && m_bStop == true && m_fAccTime >= m_fChaseTime)
     {
         m_fSpeed = 40.f;
         //m_pTransformCom->Set_Dir(vec3.zero);
@@ -165,9 +172,9 @@ HRESULT CComBack_Bullet::Add_Component()
 }
 
 
-CComBack_Bullet* CComBack_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
+CComBack_Bullet* CComBack_Bullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime)
 {
-    CComBack_Bullet* pInstance = new CComBack_Bullet(pGraphicDev, _vPos, pTarget, pOwner);
+    CComBack_Bullet* pInstance = new CComBack_Bullet(pGraphicDev, _vPos, pTarget, pOwner, fCombackTime);
 
     if (FAILED(pInstance->Ready_Object()))
     {

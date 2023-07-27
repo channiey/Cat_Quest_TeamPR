@@ -52,6 +52,11 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
         m_bInit = true;
     }
 
+    if (m_pOwner->Is_Active() == false)
+    {
+        CEventMgr::GetInstance()->Delete_Obj(this);
+    }
+
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
 
