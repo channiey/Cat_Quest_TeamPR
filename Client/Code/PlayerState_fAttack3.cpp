@@ -6,6 +6,8 @@
 
 #include "Effect_ThornAttack.h"
 
+#include "SoundMgr.h"
+
 CPlayerState_fAttack3::CPlayerState_fAttack3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev)
 {
@@ -43,6 +45,8 @@ STATE_TYPE CPlayerState_fAttack3::Update_State(const _float& fTimeDelta)
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Reset_Lerp();
 		m_bAttack = false;
 		m_bEnter = true;
+
+		CSoundMgr::GetInstance()->PlaySoundW(L"short_growl.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_ATTACK);
 	}
 
 	if (!m_bIsTarget)
@@ -75,6 +79,7 @@ STATE_TYPE CPlayerState_fAttack3::Update_State(const _float& fTimeDelta)
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Attack(true);
 		CCameraMgr::GetInstance()->Shake_Camera(0.2, 50);
 		m_bAttack = true;
+		CSoundMgr::GetInstance()->PlaySoundW(L"skill_lightnyan.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
 	}
 		
 

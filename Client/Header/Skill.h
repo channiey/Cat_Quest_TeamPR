@@ -2,6 +2,7 @@
 
 #include "Engine_Define.h"
 #include "GameObject.h"
+#include "SoundMgr.h"
 
 /*
 

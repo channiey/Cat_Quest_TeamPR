@@ -39,6 +39,8 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(40.f);
 
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_FLY); // << Test
+		CSoundMgr::GetInstance()->PlaySoundW(L"map_transition.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_FLY);
+		m_fAccTime = 0.f;
 	}
 	if(static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed <= 40)
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(40.f);
@@ -63,28 +65,13 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 
 	if (m_bIsSky && !m_bIsLand)
 	{
-		/*if (m_bFlying)
+		m_fAccTime += fTimeDelta;
+
+		if (m_fAccTime > 0.2f)
 		{
-			_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-			_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y + 0.1f, vStart.z }, 0.2f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
-			if (vOut.x != -99)
-			{
-				m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
-			}
-			else
-				m_bFlying = false;
+			CSoundMgr::GetInstance()->PlaySoundW(L"flying_swish.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_FLY);
+			m_fAccTime -= 0.2f;
 		}
-		if (!m_bFlying)
-		{
-			_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
-			_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(vStart, _vec3{ vStart.x, vStart.y - 0.1f, vStart.z }, 0.2f, fTimeDelta, LERP_MODE::SMOOTHERSTEP);
-			if (vOut.x != -99)
-			{
-				m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
-			}
-			else
-				m_bFlying = true;
-		}*/
 		
 		eState = Key_Input(fTimeDelta);
 	}
@@ -96,6 +83,10 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		if (vOut.x != -99)
 		{
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(vOut);
+
+			if(vOut.y >= vStart.y - 0.15f)
+				CSoundMgr::GetInstance()->PlaySoundW(L"roll_2.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_FLY);
+
 		}
 		else
 		{	
@@ -106,6 +97,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(25.f);
 			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Fly(false);
 			m_bEnter = false;
+			
 			return STATE_TYPE::FRONT_IDLE;
 		}
 
@@ -141,6 +133,7 @@ STATE_TYPE CPlayerState_fFlight::Key_Input(const _float& fTimeDelta)
 
 	if (!m_bIsLand && m_bIsSky &&  CInputDev::GetInstance()->Key_Down(VK_LBUTTON) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE)
 	{
+		CSoundMgr::GetInstance()->PlaySoundW(L"skill_lightnyan.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
 		return STATE_TYPE::FRONT_ATTACK1;
 	}
 		

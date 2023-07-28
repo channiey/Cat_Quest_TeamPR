@@ -406,9 +406,9 @@ HRESULT CScene_World::Ready_Layer_UI()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
 
 	//// UI - Exp
-	//pGameObject = CExpUI::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Exp", pGameObject), E_FAIL);
+	pGameObject = CExpUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Exp", pGameObject), E_FAIL);
 
 	// UI - Hp
 	pGameObject = CHpUI::Create(m_pGraphicDev);

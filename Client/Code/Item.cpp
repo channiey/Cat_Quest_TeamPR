@@ -5,6 +5,7 @@
 
 #include "ItemGetEffect.h"
 #include "Effect_Font.h"
+#include "SoundMgr.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev , const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::ITEM, _eID)
@@ -96,12 +97,14 @@ void CItem::OnCollision_Enter(CGameObject* _pColObj)
 			CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, m_iItemValue, FONT_TYPE::EXP);
 			NULL_CHECK(pEffect);
 			CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
+			CSoundMgr::GetInstance()->PlaySoundW(L"exp_pickup.wav", CHANNEL_ID::EFFECT_6, VOLUME_PLAYER_EXPPICK);
 		}
 		if (m_eID == OBJ_ID::ITEM_GOLD)
 		{
 			CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, m_iItemValue, FONT_TYPE::GOLD);
 			NULL_CHECK(pEffect);
 			CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
+			CSoundMgr::GetInstance()->PlaySoundW(L"coin_pickup.wav", CHANNEL_ID::EFFECT_7, VOLUME_PLAYER_GOLDPICK);
 		}
 
 		CEventMgr::GetInstance()->Add_Obj(L"ItemGetEffect", CItemGetEffect::Create(

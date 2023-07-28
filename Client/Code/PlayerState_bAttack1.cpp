@@ -6,6 +6,8 @@
 
 #include "Mage_Bullet.h"
 
+#include "SoundMgr.h"
+
 CPlayerState_bAttack1::CPlayerState_bAttack1(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev), m_bAttackContinue(false)
 {
@@ -42,6 +44,7 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 			CEventMgr::GetInstance()->Add_Obj(L"Player_Slash_Chopping", CPlayerSlash::Create(
 				m_pGraphicDev, m_pOwner->Get_OwnerObject(), true
 			));
+			CSoundMgr::GetInstance()->PlaySoundW(L"woosh.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_ATTACK);
 		}
 		else
 		{	
@@ -49,6 +52,7 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 			_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
 			CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
 			CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
+			CSoundMgr::GetInstance()->PlaySoundW(L"magic_appear.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_ATTACK);
 		}
 
 		if (CLASS_TYPE::NINJA == static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass())

@@ -139,6 +139,7 @@ HRESULT CSkill_Player_Fire::Play()
     m_pRangeEffect->Alphaing(1.f, 255, 128);
     m_pRangeEffect->Set_Size(_vec3{ 7.5f, 7.5f, 7.5f * 0.7 });
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_flamepurr.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
     m_bActive = true;
 
     return S_OK;

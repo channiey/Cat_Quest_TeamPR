@@ -1,6 +1,7 @@
 #include "PlayerState_fRoll.h"
 
 #include "Export_Function.h"
+#include "SoundMgr.h"
 
 CPlayerState_fRoll::CPlayerState_fRoll(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -25,6 +26,7 @@ STATE_TYPE CPlayerState_fRoll::Update_State(const _float& fTimeDelta)
 {
     if (!m_bEnter)
     {
+        CSoundMgr::GetInstance()->PlaySoundW(L"roll_2.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_ROLL);
         m_bEnter = true;
     }
 

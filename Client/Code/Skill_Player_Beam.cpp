@@ -171,6 +171,7 @@ HRESULT CSkill_Player_Beam::Play()
         m_pGoldRange->Scaling(0.5f, 0.1f, 1.f);
     }
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_astropaw.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
     m_bActive = true;
 
     return S_OK;

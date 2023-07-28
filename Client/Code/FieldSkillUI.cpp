@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "Skill.h"
 
+#include "SoundMgr.h"
+
 CFieldSkillUI::CFieldSkillUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_FILEDSKILL)
 	, m_bIsOn(false), m_pPlayer(nullptr)
@@ -30,6 +32,7 @@ HRESULT CFieldSkillUI::Ready_Object()
 	
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
+	m_bPlaySound = false;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -514,22 +517,43 @@ void CFieldSkillUI::Picking_UI()
 	ScreenToClient(g_hWnd, &pt);
 	pt.y = WINCY - pt.y;
 
-	if (PtInRect(&m_rcPick[0], pt))
+	if (PtInRect(&m_rcPick[0], pt) && m_pPlayerSkill[0] != nullptr)
 	{
 		m_bPick[0] = true;
+		if (!m_bPlaySound)
+		{
+			CSoundMgr::GetInstance()->PlaySoundW(L"world_button.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+			m_bPlaySound = true;
+		}
+			
 	}
-	else if (PtInRect(&m_rcPick[1], pt))
+	else if (PtInRect(&m_rcPick[1], pt) && m_pPlayerSkill[1] != nullptr)
 	{
 		m_bPick[1] = true;
+		if (!m_bPlaySound)
+		{
+			CSoundMgr::GetInstance()->PlaySoundW(L"world_button.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+			m_bPlaySound = true;
+		}
 	}
 		
-	else if (PtInRect(&m_rcPick[2], pt))
+	else if (PtInRect(&m_rcPick[2], pt) && m_pPlayerSkill[2] != nullptr)
 	{
 		m_bPick[2] = true;
+		if (!m_bPlaySound)
+		{
+			CSoundMgr::GetInstance()->PlaySoundW(L"world_button.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+			m_bPlaySound = true;
+		}
 	}
-	else if (PtInRect(&m_rcPick[3], pt))
+	else if (PtInRect(&m_rcPick[3], pt) && m_pPlayerSkill[3] != nullptr)
 	{
 		m_bPick[3] = true;
+		if (!m_bPlaySound)
+		{
+			CSoundMgr::GetInstance()->PlaySoundW(L"world_button.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+			m_bPlaySound = true;
+		}
 	}
 	else
 	{
@@ -537,6 +561,8 @@ void CFieldSkillUI::Picking_UI()
 			m_bPick[i] = false;
 		for (_uint i = 0; i < 4; ++i)
 			m_bSkill[i] = false;
+
+		m_bPlaySound = false;
 	}
 
 
@@ -557,6 +583,8 @@ void CFieldSkillUI::Mouse_Input()
 		pRingUI->Set_Active(false);
 
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 235, 168, 35));
+
+		CSoundMgr::GetInstance()->PlaySoundW(L"scroll_select.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
 	}
 	else
 	{

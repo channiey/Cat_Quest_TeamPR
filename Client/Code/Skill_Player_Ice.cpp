@@ -121,6 +121,7 @@ HRESULT CSkill_Player_Ice::Play()
     m_bActive = true;
 
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_freezepaw.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
     return S_OK;
 }
 

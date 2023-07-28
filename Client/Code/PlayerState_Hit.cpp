@@ -2,6 +2,7 @@
 
 #include "Export_Function.h"
 #include "PlayerHitEffect.h"
+#include "SoundMgr.h"
 
 CPlayerState_Hit::CPlayerState_Hit(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev)
@@ -27,6 +28,8 @@ STATE_TYPE CPlayerState_Hit::Update_State(const _float& fTimeDelta)
 {
 	if (!m_bEnter)
 	{
+        CSoundMgr::GetInstance()->PlaySoundW(L"cat_meow.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_HIT);
+        CSoundMgr::GetInstance()->PlaySoundW(L"player_hit.wav", CHANNEL_ID::EFFECT_4, VOLUME_PLAYER_HIT);
         CEventMgr::GetInstance()->Add_Obj(L"PlayerHit", CPlayerHitEffect::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS)));
 		m_bEnter = true;
         m_fAcc = 0.f;

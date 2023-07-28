@@ -1,6 +1,8 @@
 #include "ZoomUI.h"
 #include "Export_Function.h"
 
+#include "SoundMgr.h"
+
 CZoomUI::CZoomUI(LPDIRECT3DDEVICE9 pGraphicDev)
      :CUI(pGraphicDev, OBJ_ID::UI_ZOOM)
 {
@@ -52,10 +54,12 @@ _int CZoomUI::Update_Object(const _float& fTimeDelta)
 		if (0 > dwMouse && m_iZoomState == 0)
 		{
 			m_iZoomState = 1;
+			CSoundMgr::GetInstance()->PlaySoundW(L"map_transition.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
 		}
 		else if (0 < dwMouse && m_iZoomState == 1)
 		{
 			m_iZoomState = 0;
+			CSoundMgr::GetInstance()->PlaySoundW(L"map_transition.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
 		}
 			
 	}

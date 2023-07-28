@@ -76,6 +76,23 @@ namespace Engine
 
 	/*-------------------------------------------------------------------------------*/
 
+#pragma region LHJ Sound
+
+#define VOLUME_PLAYER_SKILL			1.f
+#define VOLUME_PLAYER_ROLL			1.f
+#define VOLUME_PLAYER_WALK			1.f
+#define VOLUME_PLAYER_HIT			1.f
+#define VOLUME_PLAYER_GOLDPICK		1.f
+#define VOLUME_PLAYER_EXPPICK		1.f
+#define VOLUME_PLAYER_FLY			1.f
+#define VOLUME_PLAYER_ATTACK		1.f
+#define VOLUME_PLAYER_MAGICATTACK	1.f
+#define VOLUME_PLAYER_UI			1.f
+#define VOLUME_PLAYER_LEVEL			1.f
+
+#pragma endregion
+
+
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\
 										DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(150, 255, 255, 255));\
