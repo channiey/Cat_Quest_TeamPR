@@ -1,16 +1,20 @@
 #include "Fox.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "Engine_Define.h"
+#include "SoundMgr.h"
 
 #include "FoxState_Patrol.h"
 #include "FoxState_Chase.h"
 #include "FoxState_ComeBack.h"
 #include "FoxState_Attack.h"
+#include "FoxState_Rest.h"
 
 #include "FoxState_bPatrol.h"
 #include "FoxState_bChase.h"
 #include "FoxState_bComeBack.h"
 #include "FoxState_bAttack.h"
+#include "FoxState_bRest.h"
 
 #include "Player.h"
 #include "Shadow_Monster.h"
@@ -116,6 +120,9 @@ HRESULT CFox::Ready_Object()
 	pState = CFoxState_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::MONATTACK, pState);
 
+	//Rest
+	pState = CFoxState_Rest::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::MONREST, pState);
 
 	// Back
 	// Patrol
@@ -134,6 +141,11 @@ HRESULT CFox::Ready_Object()
 	// Attack
 	pState = CFoxState_bAttack::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONATTACK, pState);
+
+	//Rest 
+	pState = CFoxState_bRest::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BACK_MONREST, pState);
+
 
 
 #pragma endregion
@@ -155,8 +167,14 @@ HRESULT CFox::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONATTACK, pAnimation);
+
+	// Rest
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONREST)], STATE_TYPE::MONREST, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONREST, pAnimation);
+
+
 
 
 	// Back
@@ -173,11 +191,13 @@ HRESULT CFox::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, TRUE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONATTACK, pAnimation);
 
 
-
+	// Rest
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)], STATE_TYPE::BACK_MONREST, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONREST, pAnimation);
 
 
 #pragma endregion
@@ -236,7 +256,9 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::CHASE == CurState ||
-		STATE_TYPE::BACK_CHASE == CurState)
+		STATE_TYPE::BACK_CHASE == CurState||    
+		STATE_TYPE::MONREST == CurState ||
+		STATE_TYPE::BACK_MONREST == CurState)
 	{
 		m_bSkill = true;
 		m_fAccTime += fTimeDelta;
@@ -250,6 +272,7 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 			if (m_fAccTime >= 3.f)
 			{
 				dynamic_cast<CSkill_Monster_Fire*>(m_pSkill)->LatePlay();
+				CSoundMgr::GetInstance()->PlaySound(L"skill_flamepurr.wav", CHANNEL_ID::MONSTER_FOX, SOUND_VOLUME_MONSKILL_FIRE);
 				m_fAccTime = 0.f;
 				m_bSkill = false;
 			}
@@ -305,17 +328,17 @@ void CFox::Render_Object()
 
 void CFox::OnCollision_Enter(CGameObject* _pColObj)
 {
-	//__super::OnCollision_Enter(_pColObj);
+	__super::OnCollision_Enter(_pColObj);
 }
 
 void CFox::OnCollision_Stay(CGameObject* _pColObj)
 {
-	//__super::OnCollision_Stay(_pColObj);
+	__super::OnCollision_Stay(_pColObj);
 }
 
 void CFox::OnCollision_Exit(CGameObject* _pColObj)
 {
-	//__super::OnCollision_Exit(_pColObj);
+	__super::OnCollision_Exit(_pColObj);
 }
 
 HRESULT CFox::Add_Component()
@@ -355,6 +378,11 @@ HRESULT CFox::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fox", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
 
 
 	// Back
@@ -373,6 +401,11 @@ HRESULT CFox::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_Fox", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BACK_MONREST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_Fox", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 
 
 

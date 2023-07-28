@@ -116,134 +116,21 @@ STATE_TYPE CFoxState_Attack::Update_State(const _float& fTimeDelta)
 
 
 
-    m_fAccTime += fTimeDelta;
-    m_fAttackTime += fTimeDelta;
+   // m_fAccTime += fTimeDelta;
+   // m_fAttackTime += fTimeDelta;
 
 
-    // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-
-
-
-    _vec3    vRunDir = { -vDir.x, 0.f, -vDir.z };
-
-    // 현재 상태의 기능
-    if (fPlayerDistance >= 10.f)
-    {
-        dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-    }
-
-    else if (fPlayerDistance <= 7.f)
-    {
-        pOwnerTransform->Set_Dir(vRunDir);
-        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-    }
-    
-   
-
-
-    if (m_fAttackTime >= 1.5f)
-    {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vDir, m_pOwner->Get_OwnerObject()));
-        m_fAttackTime = 0.f;
-      
-
-    }
 
 
 #pragma region State Change
 
 
-    if (vPlayerPos.z > vOwnerPos.z)
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
-       
-        return STATE_TYPE::BACK_MONATTACK;
+        return STATE_TYPE::BACK_MONREST;
     }
 
-    if (m_fAccTime >= 2.5f)  // 몇 초 후 전이 조건
-    {
-        m_fAccTime = 0.f;
-        dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
-        if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
-        {
-            // CHASE 전이 조건
-            if (fPlayerDistance <= m_fChaseRange && fPlayerDistance >= m_fAttackRange)
-            {
-                if (vOwnerDir.z < 0)
-                {
-                    // cout << "Chase 전이" << endl;
-                    // pOwnerTransform->Set_Dir(vec3.zero);
-                    return STATE_TYPE::CHASE;
-                }
-                else
-                {
-                    // cout << "Back Chase 전이" << endl;
-                   //  pOwnerTransform->Set_Dir(vec3.zero);
-                    return STATE_TYPE::BACK_CHASE;
-                }
-            }
-        }
-     // PATROL 전이 조건
-
-        if (fPlayerDistance >= m_fPlayerTargetRange )
-        {
-            if (vOwnerDir.z < 0)
-            {
-                //  cout << "patrol 전이" << endl;
-                //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::PATROL;
-            }
-            else
-            {
-                //  cout << "Back patrol 전이" << endl;
-                //  pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_PATROL;
-            }
-
-        }
-        // COMEBACK 전이 조건
-        if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-        {
-            if (vOwnerDir.z < 0)
-            {
-                // cout << "comback 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::COMEBACK;
-            }
-            else
-            {
-                // cout << "back comback 전이" << endl;
-                // pOwnerTransform->Set_Dir(vec3.zero);
-                return STATE_TYPE::BACK_COMEBACK;
-            }
-        }
-     }
-
-    if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() == true)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //  cout << "comback 전이" << endl;
-             // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::COMEBACK;
-        }
-        else
-        {
-            //  cout << "back comback 전이" << endl;
-             // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_COMEBACK;
-        }
-    }
-
-    return STATE_TYPE::MONATTACK;
+    return STATE_TYPE::BACK_MONATTACK;
 
 
 #pragma endregion

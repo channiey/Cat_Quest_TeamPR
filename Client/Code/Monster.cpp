@@ -5,7 +5,7 @@
 #include "RangeObj.h"
 #include "Player.h"
 #include "Mage_Bullet.h"
-
+#include "Engine_Define.h"
 #include "GoldCoin.h"
 #include "ExpCoin.h"
 
@@ -19,6 +19,8 @@
 #include "MobCutEffect.h"
 #include "Effect_Font.h"
 
+#include "SoundMgr.h"
+
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::MONSTER, _eID)
 	, m_pStateMachineCom(nullptr)
@@ -31,6 +33,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_bHit(false)
 	, m_bInit(false)
 	, m_fAccTime(0.f)
+	, m_bLateSkill(false)
 {
 	//ZeroMemory(&m_pTextureCom, sizeof(CTexture*) * _uint(STATE_TYPE::TYPEEND));
 
@@ -140,6 +143,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 		}
 
 		CEventMgr::GetInstance()->Delete_Obj(this);
+		CSoundMgr::GetInstance()->PlaySound(L"enemy_death.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MON_DEATH);
 	}
 
 	// Hit state return 
@@ -149,6 +153,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 		if (m_fAccTime >= 0.2f) // 플레이어 딜레이 만큼이 베스트
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"enemy_hit.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MON_HIT);
 			m_bHit = false;
 			m_fAccTime = 0.f;
 		}
@@ -163,6 +168,7 @@ void CMonster::LateUpdate_Object()
 	if (m_tStatInfo.fCurHP <= 0.f)
 	{
 		m_tStatInfo.bDead = true;
+		
 	}
 
 	__super::LateUpdate_Object();
@@ -235,14 +241,22 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
+		if ((m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK) &&
+			_pColObj->Get_ID() != OBJ_ID::MONSTER_FOX )
 		{
 			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
 			{
 
 				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);		
-			
+				if (this->Get_ID() == OBJ_ID::MONSTER_HEDGEHOG || this->Get_ID() == OBJ_ID::MONSTER_RAM)
+				{
+					CSoundMgr::GetInstance()->PlaySound(L"footstep.wav", CHANNEL_ID::MONSTER_HEDGEHOG, SOUND_VOLUME_MON_FOOT_ATTACK);
+				}
+				if (this->Get_ID() == OBJ_ID::MONSTER_BAT || this->Get_ID() == OBJ_ID::MONSTER_WYVERN || this->Get_ID() == OBJ_ID::MONSTER_WYVERNRED)
+				{
+					CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
+				}
 
 			}
 			
@@ -335,6 +349,7 @@ void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 	// cout << "뎀지받음" << endl;
 
 	m_bHit = true;
+
 	if (!m_pRigidBodyCom->Is_Vel_Zero())
 	{
 		m_pRigidBodyCom->Zero_KnockBack();

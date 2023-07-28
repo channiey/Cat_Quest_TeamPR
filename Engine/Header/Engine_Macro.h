@@ -72,9 +72,32 @@ namespace Engine
 
 //Sound
 
-#define SOUND_VOLUME_BGM			1.f
+#define SOUND_VOLUME_BGM			0.7f
+
 
 	/*-------------------------------------------------------------------------------*/
+
+#pragma region KJM SOUND
+
+
+#define SOUND_VOLUME_MON_HIT			0.7f
+#define SOUND_VOLUME_MON_ATTACK			0.5f
+#define SOUND_VOLUME_MON_DEATH		    0.5f
+
+#define SOUND_VOLUME_MON_FLY_ATTACK     1.f
+#define SOUND_VOLUME_MON_FOOT_ATTACK    1.f
+
+#define SOUND_VOLUME_MONSKILL_FIRE      0.5f
+#define SOUND_VOLUME_MONSKILL_BEAM		0.5f
+#define SOUND_VOLUME_MONSKILL_ICE		0.5f
+#define SOUND_VOLUME_MONSKILL_THUNDER   0.5f
+
+
+
+#pragma endregion
+
+
+
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\

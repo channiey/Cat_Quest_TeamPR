@@ -1,6 +1,8 @@
 #include "WyvernRed.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
+#include "Engine_Define.h"
 //State - Front
 #include "WyvernRedState_Patrol.h"
 #include "WyvernRedState_Chase.h"
@@ -282,7 +284,9 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::BACK_MONREST == CurState ||
-		STATE_TYPE::MONREST == CurState)
+		STATE_TYPE::MONREST == CurState ||
+		STATE_TYPE::MONREST == CurState ||
+		STATE_TYPE::BACK_MONREST == CurState)
 	{
 		m_bSkill = true;
 	}
@@ -295,6 +299,7 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 			if (m_fAccTime >= 3.f)
 			{
 				dynamic_cast<CSkill_Monster_Beam*>(m_pSkill)->LatePlay();
+				CSoundMgr::GetInstance()->PlaySound(L"skill_astropaw.wav", CHANNEL_ID::MONSTER_WYVERN_RED, SOUND_VOLUME_MONSKILL_BEAM);
 				m_fAccTime = 0.f;
 				m_bSkill = false;
 			}
@@ -315,6 +320,8 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_WYVERN_RED, SOUND_VOLUME_MON_FLY_ATTACK);
+
 			m_pBaseSkill->End();
 			m_bBaseSkill = false;
 		}
