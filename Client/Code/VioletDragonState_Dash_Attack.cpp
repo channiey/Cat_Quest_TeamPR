@@ -120,7 +120,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
 
     if (m_bAssault == false)
     {
-        _vec3 CurPos = vOwnerPos;
+       
         if (m_fAccTime >= 0.2f )
         {
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
@@ -129,7 +129,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
         }
     }
 
-    if (m_bAssault == true && m_fAccTime >= 0.5f)
+    if (m_bAssault == true && m_fAccTime >= 1.f)
     {
         pOwnerTransform->Set_Dir(vec3.zero);
     }

@@ -399,7 +399,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Test 
-	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_DASH_ATTACK);
+	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
 
