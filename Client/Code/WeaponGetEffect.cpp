@@ -169,7 +169,7 @@ void CWeaponGetEffect::Ready_Sparkle()
 	m_SparkleAry[3].m_matSparkle._42 = m_fPosY;
 
 	m_SparkleAry[3].m_tMoveLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-	m_SparkleAry[3].m_tMoveLerpX.Set_Lerp(0.3f, m_fPosX, m_fPosX - 20.f);
+	m_SparkleAry[3].m_tMoveLerpX.Set_Lerp(0.3f, m_fPosX, m_fPosX - 40.f);
 	m_SparkleAry[3].m_tMoveLerpX.fCurValue = m_SparkleAry[3].m_tMoveLerpX.fStartValue;
 
 	m_SparkleAry[3].m_tMoveLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);

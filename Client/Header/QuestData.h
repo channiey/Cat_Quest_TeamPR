@@ -34,6 +34,8 @@ public:
 	virtual vector<tagQuestContent> Get_QuestContent() { return m_tQuestContent; }
 	virtual _bool					Get_ShowQuestView() { return m_bShowQuestView; }
 	virtual void					Set_ReadyNext() { m_bReadyNext = true; }
+
+	virtual void					Set_ReadyTalk(CGameObject* _pNpc, _bool isTalk);
 protected:
 	wstring					m_strQuestName; // 퀘스트 이름
 	vector<tagQuestContent> m_tQuestContent; // 퀘스트 내용
@@ -49,6 +51,9 @@ protected:
 	_bool					m_bShowQuestView; // 퀘스트 내용을 띄우고 싶을때만
 	_bool					m_bReadyNext;	  // 아이템 중복 획득 방지용 대기 변수
 	_bool					m_bStartQuest;    // 레벨 진입 시 최초 한 번만.
+
+	_bool					m_bReadyTalk;    // Idle일 때만 대화 가능.
+	STATE_TYPE				ePlayerState;    // Idle일 때만 대화 가능.
 
 private:
 	virtual void			Free();

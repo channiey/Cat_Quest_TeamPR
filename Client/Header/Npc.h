@@ -28,6 +28,8 @@ public:
 	void					Play_ColLogic(const _float& fTimeDelta); // 충돌 로직
 	_bool					Get_IsCol() { return m_bCol; }
 
+	_bool					Get_ReadyTalk() { return m_bReadyTalk; }
+	void					Set_ReadyTalk(_bool isTalk) { m_bReadyTalk = isTalk; }
 public:
 	CTexture*				Get_Texture() { return m_pTextureCom; }
 
@@ -39,6 +41,7 @@ protected:
 	CAnimation* m_pAnimation;
 
 	_bool		m_bCol;
+	_bool		m_bReadyTalk;
 protected:
 	virtual void			Free() override;
 

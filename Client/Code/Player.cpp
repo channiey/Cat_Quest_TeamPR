@@ -577,12 +577,23 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 			}
 		}
 		// 대화 가능 UI
-		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT) {
+		if (!m_bIsTalking)
+		{
+			if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT
+				&& dynamic_cast<CNpc*>(_pColObj)->Get_ReadyTalk() == true) {
+				CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+					(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+				m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+			}
+		} 
+		else
+		{
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-			m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+			m_pEnterUI->EnterUI_Off();
 		}
+
 	}
 	case Engine::OBJ_TYPE::ITEM:
 	{
@@ -755,24 +766,22 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 			}
 		}
 		// 대화 가능 UI
-		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT) {
+		if (!m_bIsTalking)
+		{
+			if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT
+				&& dynamic_cast<CNpc*>(_pColObj)->Get_ReadyTalk() == true) {
+				CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+					(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+				m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+			}
+		}
+		else
+		{
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-			m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+			m_pEnterUI->EnterUI_Off();
 		}
-		// 퀘스트 진입 테스트
-		//if (CInputDev::GetInstance()->Key_Down('E')) 
-		//{
-		//	if (dynamic_cast<CNpc*>(_pColObj)->Get_IsReadyQuest() && !CQuestMgr::GetInstance()->Get_Active()) 
-		//	{
-		//		dynamic_cast<CNpc*>(_pColObj)->Set_IsReadyQuest(false);
-		//		CQuestMgr::GetInstance()->Set_Quest(dynamic_cast<CNpc*>(_pColObj)->Get_HaveQuest());
-		//		CQuestMgr::GetInstance()->Set_Active(true);
-		//		CQuestMgr::GetInstance()->Set_Player(this);
-		//	}
-		//}
-
 	}
 		break;
 	case Engine::OBJ_TYPE::ITEM:

@@ -14,6 +14,7 @@
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
 
+#include "Player.h"
 
 IMPLEMENT_SINGLETON(CTalkMgr)
 
@@ -128,13 +129,17 @@ void CTalkMgr::Init()
 }
 
 _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _eObjID)
-{
+{	
 	auto iter = m_mapTalkData.find(_iTalkID);
 
 	if (&iter)
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+			// 대화 중 움직일 수 없게
+			dynamic_cast<CPlayer*>(CManagement::GetInstance()
+				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(true);
+
 			// 마법사 대화 시작하자마자 카메라 탑뷰로 바꾸기
 			// 종료
 			if (_iTalkID == 320)
@@ -181,6 +186,11 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 		{
 			CEventMgr::GetInstance()->Delete_Obj
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
+		
+			// 다시 움직일 수 있게
+			dynamic_cast<CPlayer*>(CManagement::GetInstance()
+				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(false);
+			
 			m_iTalkIndex = 0;
 			m_bTalkEnd = false;
 			return true;
@@ -194,13 +204,16 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 	_int _iTalkID, OBJ_ID _eObjID, _int _EventIndex,
 	_vec3 _StartPos, _vec3 _TargetPos)
 {
-
 	auto iter = m_mapTalkData.find(_iTalkID);
 	
 	if (&iter)
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+			// 대화 중 움직일 수 없게
+			dynamic_cast<CPlayer*>(CManagement::GetInstance()
+				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(true);
+
 			// 이벤트 인덱스라면
 			if (m_iTalkIndex == _EventIndex)
 			{
@@ -292,6 +305,11 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 			{
 				CEventMgr::GetInstance()->Delete_Obj
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
+				
+				// 움직일 수 있게 다시
+				dynamic_cast<CPlayer*>(CManagement::GetInstance()
+					->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(false);
+				
 				m_iTalkIndex = 0;
 				m_iStayTime = 0;
 				m_bTargetCam = false;

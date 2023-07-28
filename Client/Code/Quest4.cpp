@@ -43,6 +43,10 @@ void CQuest4::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
 {
+	// 대화 가능 상태 여부 확인
+	ePlayerState = dynamic_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState();
+	m_bReadyTalk = (ePlayerState == STATE_TYPE::BACK_IDLE ||
+		ePlayerState == STATE_TYPE::FRONT_IDLE) ? true : false;
 
 	switch (m_iLevel)
 	{
@@ -55,6 +59,9 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			{
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
@@ -63,10 +70,14 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 
 				// 대화 후 다음 단계
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol()
+					&& m_bReadyTalk)
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 400, OBJ_ID::NPC_BLACKSMITH))
 					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);
+
 						multimap<const _tchar*, CGameObject*> tempMap
 							= CManagement::GetInstance()->
 							Get_CurScene()->
@@ -133,6 +144,9 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			{
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1")));
@@ -141,10 +155,14 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 
 				// 대화 후 다음 단계
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1"))->Get_IsCol())
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1"))->Get_IsCol()
+					&& m_bReadyTalk)
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 410, OBJ_ID::NPC_CITIZEN_1))
 					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1"), false);
+
 						m_tQuestContent[1].m_bClear = true;
 						m_tQuestContent.push_back({ L"3.드래곤 처치", false });
 

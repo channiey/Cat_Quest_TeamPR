@@ -54,6 +54,11 @@ void CQuest2::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
 {
+	// 대화 가능 상태 여부 확인
+	ePlayerState = dynamic_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState();
+	m_bReadyTalk = (ePlayerState == STATE_TYPE::BACK_IDLE ||
+		ePlayerState == STATE_TYPE::FRONT_IDLE) ? true : false;
+
 	switch (m_iLevel)
 	{
 	case 0: // 대장장이와 대화
@@ -65,6 +70,9 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			{
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
@@ -75,8 +83,12 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 200, OBJ_ID::NPC_BLACKSMITH)) {
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);
+						
 						m_iLevel += 1;
 						*_IsAble = false;
+						m_bReadyNext = false;
 						break;
 					}
 				}
@@ -111,17 +123,25 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					// 인디케이터 설정
 					if (!*_IsAble)
 					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"), true);
+
 						dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 							dynamic_cast<CNpc*>(CManagement::GetInstance()->
 								Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2")));
+						
 						*_IsAble = true;
 					}
 					// 대화 후 보상
 					if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Get_IsCol())
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"))->Get_IsCol()
+						&&m_bReadyTalk)
 					{
 						if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 201, OBJ_ID::NPC_CITIZEN_1))
 						{
+							Set_ReadyTalk(CManagement::GetInstance()->
+								Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen2"), false);
+
 							// 배경 검은색
 							m_pShadeUI = CShadeUI::Create(pGraphicDev);
 							NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
@@ -140,8 +160,8 @@ _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						m_bReadyNext = false;
 						m_bStartQuest = true;
 						m_iLevel += 1;
+						break;
 					}
-					break;
 				}
 			}
 			else

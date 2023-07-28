@@ -52,7 +52,10 @@ private:
 	CTexture*		 m_pArmorTexCom;
 	_matrix			 m_matArmor;
 
-	// 일반 스킬 폰트
+	// 일반 무기 폰트
+	LERP_FLOAT_INFO m_tStatLerp;
+	_int			m_iStatTranslucent;
+
 	RECT			m_rcName;
 	RECT			m_rcnNavigation;
 

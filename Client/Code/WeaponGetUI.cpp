@@ -10,6 +10,7 @@
 CWeaponGetUI::CWeaponGetUI(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pWeapon)
 	: CUI(pGraphicDev, OBJ_ID::UI_WEAPON_GET_UI)
 	, m_bDelete(false)
+	, m_iStatTranslucent(0)
 {
 	m_pWeapon = _pWeapon;
 }
@@ -66,8 +67,8 @@ HRESULT CWeaponGetUI::Ready_Object()
 	// 무기
 	m_fPosX = WINCX / 2;
 	m_fPosY = WINCY / 2;
-	m_fSizeX = 165.f;
-	m_fSizeY = 165.f;
+	m_fSizeX = 60.f;
+	m_fSizeY = 120.f;
 	m_fMultipleSizeX = 0.3f;
 	m_fMultipleSizeY = 0.3f;
 	m_matWeapon._41 = m_fPosX;
@@ -88,7 +89,7 @@ HRESULT CWeaponGetUI::Ready_Object()
 	m_matInventory._22 = m_fSizeY * m_fMultipleSizeY;
 
 	// Heart
-	m_fPosX = WINCX / 2 - 90.f;
+	m_fPosX = WINCX / 2 - 120.f;
 	m_fPosY = WINCY / 2 - 85.f;
 	m_fSizeX = 43.f;
 	m_fSizeY = 43.f;
@@ -100,7 +101,7 @@ HRESULT CWeaponGetUI::Ready_Object()
 	m_matHeart._22 = m_fSizeY * m_fMultipleSizeY;
 
 	// Damage
-	m_fPosX = WINCX / 2;
+	m_fPosX = WINCX / 2 - 30.f;
 	m_fPosY = WINCY / 2 - 85.f;
 	m_fSizeX = 43.f;
 	m_fSizeY = 43.f;
@@ -112,7 +113,7 @@ HRESULT CWeaponGetUI::Ready_Object()
 	m_matDamage._22 = m_fSizeY * m_fMultipleSizeY;
 
 	// Armor
-	m_fPosX = WINCX / 2 + 80.f;
+	m_fPosX = WINCX / 2 + 65.f;
 	m_fPosY = WINCY / 2 - 85.f;
 	m_fSizeX = 43.f;
 	m_fSizeY = 43.f;
@@ -123,13 +124,17 @@ HRESULT CWeaponGetUI::Ready_Object()
 	m_matArmor._11 = m_fSizeX * m_fMultipleSizeX;
 	m_matArmor._22 = m_fSizeY * m_fMultipleSizeY;
 
-	// 무기 폰트
+	// 무기 정보 폰트
 	m_rcName = { WINCX / 2, WINCY / 2 - 100,  WINCX / 2,  WINCY / 2 - 100 };
 	m_rcnNavigation = { WINCX / 2 - 25, WINCY / 2 + 120, WINCX / 2 - 25, WINCY / 2 + 120 };
 	
-	m_rcHeart = { WINCX / 2 - 15, WINCY / 2 + 55,  WINCX / 2 - 15,  WINCY / 2 + 55 };
-	m_rcDamage = { WINCX / 2 + 15, WINCY / 2 + 55,  WINCX / 2 + 15,  WINCY / 2 + 55 };
-	m_rcArmor = { WINCX / 2 + 20, WINCY / 2 + 55,  WINCX / 2 + 20,  WINCY / 2 + 55 };
+	m_rcHeart = { WINCX / 2 - 95, WINCY / 2 + 65,  WINCX / 2 - 95,  WINCY / 2 + 65 };
+	m_rcDamage = { WINCX / 2 + 35, WINCY / 2 + 65,  WINCX / 2 + 35,  WINCY / 2 + 65 };
+	m_rcArmor = { WINCX / 2 + 120, WINCY / 2 + 65,  WINCX / 2 + 120,  WINCY / 2 + 65 };
+
+	// 스탯 러프
+	m_tStatLerp.Init_Lerp(LERP_MODE::EASE_OUT);
+	m_tStatLerp.Set_Lerp(0.5f, WINCY / 2 + 55, WINCY / 2 + 65);
 
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV2;
@@ -151,6 +156,7 @@ _int CWeaponGetUI::Update_Object(const _float& fTimeDelta)
 	if (m_bDelete)
 	{
 		m_iTranslucent -= 5;
+		m_iStatTranslucent -= 5;
 		if (m_iTranslucent < 5)
 		{
 			// 퀘스트가 다음 단계로 나아갈 수 있게
@@ -161,6 +167,20 @@ _int CWeaponGetUI::Update_Object(const _float& fTimeDelta)
 			CEventMgr::GetInstance()->Delete_Obj(this);
 		}
 	}
+
+	// 스탯 폰트
+	if (m_iTranslucent > 250)
+	{
+		if (m_iStatTranslucent < 255)
+			m_iStatTranslucent += 5;
+
+		m_tStatLerp.Update_Lerp(fTimeDelta);
+
+		m_rcHeart = { WINCX / 2 - 85, (_int)m_tStatLerp.fCurValue,  WINCX / 2 - 85,  (_int)m_tStatLerp.fCurValue };
+		m_rcDamage = { WINCX / 2 + 5, (_int)m_tStatLerp.fCurValue,  WINCX / 2 + 5,  (_int)m_tStatLerp.fCurValue };
+		m_rcArmor = { WINCX / 2 + 100, (_int)m_tStatLerp.fCurValue,  WINCX / 2 + 100,  (_int)m_tStatLerp.fCurValue };
+	}
+
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -235,19 +255,31 @@ void CWeaponGetUI::Render_Object()
 
 	// 능력치
 	wstring strStat;
-
+	D3DCOLOR statColor;
 	// 체력
-	strStat = dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().fMaxHP;
+	strStat = to_wstring((_int)dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().fMaxHP);
+	statColor = (stoi(strStat) > 0) ?
+		statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 0, 153, 0)
+		: statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 153, 102, 0);
+	
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, strStat.c_str(), -1,
-		&m_rcHeart, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		&m_rcHeart, DT_CENTER | DT_NOCLIP, statColor);
 	// 데미지
-	strStat = dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().fAD;
+	strStat = to_wstring((_int)dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().fAD);
+	statColor = (stoi(strStat) > 0) ?
+		statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 0, 153, 0)
+		: statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 153, 102, 0);
+
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, strStat.c_str(), -1,
-		&m_rcDamage, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		&m_rcDamage, DT_CENTER | DT_NOCLIP, statColor);
 	// 아머
-	//strStat = dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().;
-	//CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, strStat.c_str(), -1,
-	//	&m_rcArmor, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0));
+	strStat = to_wstring((_int)dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().fMaxDef);
+	statColor = (stoi(strStat) > 0) ?
+		statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 0, 153, 0)
+		: statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 153, 102, 0);
+
+	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, strStat.c_str(), -1,
+		&m_rcArmor, DT_CENTER | DT_NOCLIP, statColor);
 
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"Equip new items in", -1,
 			&m_rcnNavigation, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));

@@ -170,6 +170,10 @@ void CDialogUI::Render_Object()
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
+	m_pTextureCom->Render_Texture();
+	m_pBufferCom->Render_Buffer();
+
 	if (m_bDialogType == DIALOG_TYPE::DIALOG_NORMAL)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
@@ -189,9 +193,6 @@ void CDialogUI::Render_Object()
 			m_pBufferCom->Render_Buffer();
 		}
 	}
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
-	m_pTextureCom->Render_Texture();
-	m_pBufferCom->Render_Buffer();
 
 	if (m_bDialogType == DIALOG_TYPE::DIALOG_NORMAL)
 	{
