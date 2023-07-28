@@ -1,5 +1,6 @@
 #include "Hedgehog.h"
 #include "Export_Function.h"
+#include "Engine_Define.h"
 #include "EventMgr.h"
 #include "Player.h"
 //state
@@ -30,6 +31,8 @@
 #include "Chase_Bullet.h"
 #include "Dagger.h"
 #include "BlueStar_Bullet.h"
+//Sound
+#include "SoundMgr.h" 
 
 CHedgehog::CHedgehog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_HEDGEHOG)
@@ -271,6 +274,7 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
 		{
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z } ));
+			
 		}
 	}
 

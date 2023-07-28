@@ -1,6 +1,8 @@
 #include "Ram.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "Engine_Define.h"
+#include "SoundMgr.h"
 
 //State
 #include "RamState_Patrol.h"
@@ -246,9 +248,16 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::CHASE == CurState ||
-		STATE_TYPE::BACK_CHASE == CurState)
+		STATE_TYPE::BACK_CHASE == CurState ||
+		STATE_TYPE::MONREST == CurState ||
+		STATE_TYPE::BACK_MONREST == CurState)
 	{
 		m_bSkill = true;		
+	}
+	else
+	{
+		m_bSkill = false;
+		dynamic_cast<CSkill_Monster_Thunder*>(m_pSkill)->End();
 	}
 	
 	if(m_bSkill == true)
@@ -256,15 +265,19 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 		m_fAccTime += fTimeDelta;
 		if (m_fAccTime >= 2.f)
 		{
-			m_pSkill->Play();
+			dynamic_cast<CSkill_Monster_Thunder*>(m_pSkill)->Play();
 			if (m_fAccTime >= 3.f)
 			{
 				dynamic_cast<CSkill_Monster_Thunder*>(m_pSkill)->LatePlay();
+				CSoundMgr::GetInstance()->PlaySound(L"skill_lightnyan.wav", CHANNEL_ID::MONSTER_RAM, SOUND_VOLUME_MONSKILL_THUNDER);
 				m_fAccTime = 0.f;
 				m_bSkill = false;
 			}
+
 		}
 	}
+	
+
 
 
 	// Base Skill Use Condition
@@ -289,6 +302,7 @@ _int CRam::Update_Object(const _float& fTimeDelta)
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
 		{
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Ram_Stemp", CCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
+	
 		}
 	}
 

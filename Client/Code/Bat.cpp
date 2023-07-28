@@ -1,6 +1,8 @@
 #include "Bat.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
+#include "Engine_Define.h"
 
 #include "BatState_Patrol.h"
 #include "BatState_Chase.h"
@@ -234,6 +236,7 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End()|| this->m_bActive == false )
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
 			m_pBaseSkill->End();
 			m_bSkill = false;
 		}	

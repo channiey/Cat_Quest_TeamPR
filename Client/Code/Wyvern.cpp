@@ -1,6 +1,8 @@
 #include "Wyvern.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
+#include "Engine_Define.h"
 
 #include "WyvernState_Patrol.h"
 #include "WyvernState_Chase.h"
@@ -240,7 +242,9 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 	if (STATE_TYPE::BACK_MONATTACK == CurState ||
 		STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::CHASE == CurState ||
-		STATE_TYPE::BACK_CHASE == CurState)
+		STATE_TYPE::BACK_CHASE == CurState ||
+		STATE_TYPE::MONREST == CurState ||
+		STATE_TYPE::BACK_MONREST == CurState)
 	{
 		m_bSkill = true;
 	}
@@ -254,11 +258,14 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 			if (m_fAccTime >= 3.f)
 			{
 				dynamic_cast<CSkill_Monster_Ice*>(m_pSkill)->LatePlay();
+				CSoundMgr::GetInstance()->PlaySound(L"skill_freezepaw.wav", CHANNEL_ID::MONSTER_WYVERN, SOUND_VOLUME_MONSKILL_ICE);
 				m_fAccTime = 0.f;
 				m_bSkill = false;
 			}
 		}
 	}
+
+
 	// Base Skill Use Condition
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
 	{
@@ -270,6 +277,8 @@ _int CWyvern::Update_Object(const _float& fTimeDelta)
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
+
+			CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_WYVERN, SOUND_VOLUME_MON_FLY_ATTACK);
 			m_pBaseSkill->End();
 			m_bBaseSkill = false;
 		}
