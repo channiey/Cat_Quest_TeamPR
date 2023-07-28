@@ -99,7 +99,7 @@ HRESULT CInventory::Add_Skill(CSkill* _pSKill)
 	if (!m_bIsSkill)
 	{
 		tagInvenSkill temp;
-
+		
 		// ½ºÅ³
 		temp.m_pSkill = _pSKill;
 		CEventMgr::GetInstance()->Add_Obj(_pSKill->Get_Name(), temp.m_pSkill);
@@ -112,7 +112,7 @@ HRESULT CInventory::Add_Skill(CSkill* _pSKill)
 		temp.m_pSkill->Set_Maintain(true);
 
 		m_vecSkill.push_back(temp);
-
+		return true;
 	}
 
 	return S_OK;

@@ -15,6 +15,7 @@
 #include "Npc_Citizen2.h"
 
 #include "MiniGameMgr_Jump.h"
+#include "Player.h"
 
 IMPLEMENT_SINGLETON(CTalkMgr)
 
@@ -46,8 +47,7 @@ void CTalkMgr::Init()
 		{ L"고슴도치 5마리를 잡았구나!"},
 		{ L"이걸로 녀석들도 이전처럼 활개치진 못 할거야." },
 		{ L"고마워! 이건 우리집에 대대로 있던 스킬북인데 어차피 난 못써서 말이야." },
-		{ L"니가 가져가주면 드래곤을 처치하는 데 도움이 되겠지!"},
-		{ L"(스킬을 얻었다.)"}
+		{ L"니가 가져가주면 드래곤을 처치하는 데 도움이 되겠지!"}
 	}));
 #pragma endregion
 #pragma region Quest2 : 던전 정리
@@ -61,8 +61,7 @@ void CTalkMgr::Init()
 	m_mapTalkData.insert(make_pair(201, vector<wstring>{
 		{ L"몬스터를 모두 소탕하셨네요!"},
 		{ L"이곳에서 사라져버린 어떤 고양이의 유품일까요? 이런게 떨어져 있더라구요." },
-		{ L"용사님한테 더 도움이 될 거 같으니 가져가세요!" },
-		{ L"닌자 코스튬, 라이트냥 획득!" }
+		{ L"용사님한테 더 도움이 될 거 같으니 가져가세요!" }
 	}));
 	//
 
@@ -81,8 +80,7 @@ void CTalkMgr::Init()
 		{ L"얼음섬에서 날아서 오시는게 여기서도 보이더군요!"},
 		{ L"용사님이라면 해내실 줄 알았습니다!" },
 		{ L"그리고 용사님이 얼음섬에 가 계신 동안 이런걸 찾았습니다." },
-		{ L"부디 요긴하게 써주세요!" },
-		{ L"(스킬, 코스튬 획득!)"}
+		{ L"부디 요긴하게 써주세요!" }
 	}));
 
 
@@ -102,7 +100,8 @@ void CTalkMgr::Init()
 	}));
 	m_mapTalkData.insert(make_pair(321, vector<wstring>{
 		{ L"내 열쇠가 확실해. 고맙군!"},
-		{ L"이제 날 수 있을거야. 덤으로 스킬북과 얼마전에 주은 아이템도 하나 주지." },
+		{ L"날기 능력을 전수해 주지." },
+		{ L"이제 날 수 있을거야. 날아서 돌아가봐."}
 	}));
 	//
 
@@ -121,8 +120,7 @@ void CTalkMgr::Init()
 	m_mapTalkData.insert(make_pair(410, vector<wstring>{
 		{ L"기다리고 있었습니다."},
 		{ L"이 앞에 사악한 드래곤이 있습니다." },
-		{ L"건투를 빕니다!"},
-		{ L"(냥서커 세트 획득!)" }
+		{ L"건투를 빕니다!"}
 	}));
 	//
 
@@ -132,13 +130,20 @@ void CTalkMgr::Init()
 }
 
 _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _eObjID)
-{
+{	
 	auto iter = m_mapTalkData.find(_iTalkID);
 
 	if (&iter)
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+
+			// 대화 중 움직일 수 없게
+			dynamic_cast<CPlayer*>(CManagement::GetInstance()
+				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(true);
+
+			// 마법사 대화 시작하자마자 카메라 탑뷰로 바꾸기
+			// 종료
 			if (_iTalkID == 320)
 			{
 				if (CCameraMgr::GetInstance()->Get_CurCameraAction()
@@ -183,6 +188,11 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 		{
 			CEventMgr::GetInstance()->Delete_Obj
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
+		
+			// 다시 움직일 수 있게
+			dynamic_cast<CPlayer*>(CManagement::GetInstance()
+				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(false);
+			
 			m_iTalkIndex = 0;
 			m_bTalkEnd = false;
 			return true;
@@ -196,13 +206,16 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 	_int _iTalkID, OBJ_ID _eObjID, _int _EventIndex,
 	_vec3 _StartPos, _vec3 _TargetPos)
 {
-
 	auto iter = m_mapTalkData.find(_iTalkID);
 	
 	if (&iter)
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+			// 대화 중 움직일 수 없게
+			dynamic_cast<CPlayer*>(CManagement::GetInstance()
+				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(true);
+
 			// 이벤트 인덱스라면
 			if (m_iTalkIndex == _EventIndex)
 			{
@@ -294,6 +307,11 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 			{
 				CEventMgr::GetInstance()->Delete_Obj
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"DialogUI"));
+				
+				// 움직일 수 있게 다시
+				dynamic_cast<CPlayer*>(CManagement::GetInstance()
+					->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(false);
+				
 				m_iTalkIndex = 0;
 				m_iStayTime = 0;
 				m_bTargetCam = false;

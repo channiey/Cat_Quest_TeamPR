@@ -35,6 +35,7 @@ HRESULT CSkill_Player_Beam::Ready_Object()
 
     m_fSkillDamage = 30;
     m_iSkillUsage = 3;
+    m_iLv = 0;
 
     m_bActive = false;
     m_bIsEffectEnd = false;

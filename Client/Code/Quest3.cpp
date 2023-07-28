@@ -18,9 +18,13 @@
 #include "MageWeapon.h"
 #include "Skill_Player_Ice.h"
 #include "Skill_Player_Beam.h"
+#include "Skill_Player_Fly.h"
 #include "Key.h"
 
 #include "MiniGameMgr_Jump.h"
+#include "SkillGetEffect.h"
+#include "WeaponGetEffect.h"
+#include "ShadeUI.h"
 
 CQuest3::CQuest3(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
@@ -40,8 +44,14 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
 	m_pPlayer = _pPlayer;
 
+	// Fly Skill
+	CSkill* pSkill = CSkill_Player_Fly::Create(m_pGraphicDev, m_pPlayer);
+	CEventMgr::GetInstance()->Add_Obj(L"냥다람쥐", pSkill);
+	m_vSkillList.push_back(pSkill);
+	pSkill->Set_Maintain(true);
+
 	// Ice Skill
-	CSkill* pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
+	pSkill = CSkill_Player_Ice::Create(m_pGraphicDev, m_pPlayer);
 	CEventMgr::GetInstance()->Add_Obj(L"꽁꽁 꾹꾹이", pSkill);
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
@@ -67,6 +77,11 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
 {
+	// 대화 가능 상태 여부 확인
+	ePlayerState = dynamic_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState();
+	m_bReadyTalk = (ePlayerState == STATE_TYPE::BACK_IDLE ||
+		ePlayerState == STATE_TYPE::FRONT_IDLE) ? true : false;
+
 
 	// 열쇠
 	// 퀘스트 단계가 4단계이고 월드에 키가 생성이 안됐을 때 + (중복 생성 방지)
@@ -107,6 +122,9 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			{
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
@@ -114,7 +132,8 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				}
 
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol()
+					&& m_bReadyTalk)
 				{
 					_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
 					_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier")->Get_Transform()->Get_Info(INFO_POS);
@@ -122,6 +141,9 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					if (CTalkMgr::GetInstance()->Get_CamTalk(
 						pGraphicDev, 300, OBJ_ID::NPC_BLACKSMITH, 3, vPlayerPos, vTargetPos))
 					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);
+
 						m_iLevel += 1;
 						*_IsAble = false;
 						break;
@@ -141,6 +163,9 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				// 인디케이터 설정
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier")));
@@ -148,7 +173,8 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				}
 				// 대화 후 다음 단계
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"))->Get_IsCol())
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"))->Get_IsCol()
+					&& m_bReadyTalk)
 				{
 					_vec3 vPlayerPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS);
 					_vec3 vTargetPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage")->Get_Transform()->Get_Info(INFO_POS);
@@ -156,10 +182,14 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					if (CTalkMgr::GetInstance()->Get_CamTalk(
 						pGraphicDev, 310, OBJ_ID::NPC_SOLLIDER, 2, vPlayerPos, vTargetPos))
 					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier"), false);
+
 						m_tQuestContent[0].m_bClear = true;
 						m_tQuestContent.push_back({ L"2.점프맵 통과하여\n마법냥 만나기.", false });
 						m_iLevel += 1;
 						*_IsAble = false;
+						// 시작
 						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_TOP_TO_BACK);
 						CMiniGameMgr_Jump::GetInstance()->Start_MiniGame(); // 미니게임 시작
 						break;
@@ -178,6 +208,9 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				// 인디케이터 설정
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage")));
@@ -185,10 +218,14 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				}
 				// 대화 후 다음 단계
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"))->Get_IsCol())
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"))->Get_IsCol()
+					&& m_bReadyTalk)
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 320, OBJ_ID::NPC_MAGE))
 					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"), false);
+
 						m_tQuestContent[1].m_bClear = true;
 						m_tQuestContent.push_back({ L"3.마법냥의 열쇠 찾아주기.", false });
 						m_iLevel += 1;
@@ -223,6 +260,9 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			{
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage")));
@@ -231,17 +271,34 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
 					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"))->Get_IsCol() &&
-					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1)
+					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Get_HaveKey() >= 1
+					&& m_bReadyTalk)
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 321, OBJ_ID::NPC_MAGE)) {
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"), false);
+
 						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(false);
-						// dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(m_vItemList[0]);
-						m_iLevel += 1;
-						*_IsAble = false;
-						break;
+						// 배경 검은색
+						m_pShadeUI = CShadeUI::Create(pGraphicDev);
+						NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+						CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+						// 스킬 획득
+						m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
+						NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
+						CEventMgr::GetInstance()->Add_Obj(L"SkillGetUI", m_pSkillGetUI);
 					}
 				}
-		
+				if (m_bReadyNext)
+				{
+					dynamic_cast<CPlayer*>(dynamic_cast<CPlayer*>(m_pPlayer))->Set_HasFlight(true);
+					m_iLevel += 1;
+					m_bStartQuest = true;
+					m_bReadyNext = false;
+					*_IsAble = false;
+					break;
+				}
 			}
 		}
 		break;
@@ -257,6 +314,9 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				// 인디케이터 설정
 				if (!*_IsAble)
 				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), true);
+
 					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
 						dynamic_cast<CNpc*>(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
@@ -264,27 +324,90 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				}
 				// 대화 후 다음 단계
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
-					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol())
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol()
+					&& m_bReadyTalk)
 				{
 					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 301, OBJ_ID::NPC_BLACKSMITH))
 					{
-						m_iLevel += 1;
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
-							m_vSkillList[0]);
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
-							m_vSkillList[1]);
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
-							m_vItemList[0]);
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);
 
-						*_IsAble = false;
-						break;
+						// 배경 검은색
+						m_pShadeUI = CShadeUI::Create(pGraphicDev);
+						NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+						CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+						// 스킬 획득
+						m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[1]);
+						NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
+						CEventMgr::GetInstance()->Add_Obj(L"SkillGetUI", m_pSkillGetUI);
 					}
 				}
 			}
+			if (m_bReadyNext)
+			{
+				dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+					m_vSkillList[1]);
+				m_iLevel += 1;
+				m_bStartQuest = true;
+				m_bReadyNext = false;
+			}
+			break;
 		}
 
 		break;
-	case 6:
+	case 6: // 스킬 2 획득
+		if (m_bStartQuest)
+		{
+			// 배경 검은색
+			m_pShadeUI = CShadeUI::Create(pGraphicDev);
+			NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+			// 스킬 획득
+			m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[2]);
+			NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"SkillGetUI", m_pSkillGetUI);
+
+			m_bStartQuest = false;
+		}
+
+		if (m_bReadyNext)
+		{
+			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+				m_vSkillList[2]);
+			m_iLevel += 1;
+			m_bStartQuest = true;
+			m_bReadyNext = false;
+		}
+		break;
+	case 7:// 아이템 1 획득
+		if (m_bStartQuest)
+		{
+			// 배경 검은색
+			m_pShadeUI = CShadeUI::Create(pGraphicDev);
+			NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+			// 무기 획득
+			m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
+			NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
+
+			m_bStartQuest = false;
+
+		}
+		if (m_bReadyNext)
+		{
+			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
+				m_vItemList[0]);
+			m_iLevel += 1;
+			m_bStartQuest = true;
+			m_bReadyNext = false;
+		}
+		break;
+
+	case 8:
 		m_iLevel = 99;
 		*_IsAble = false;
 		m_bShowQuestView = false;

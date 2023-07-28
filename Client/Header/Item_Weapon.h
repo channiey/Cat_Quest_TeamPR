@@ -34,7 +34,6 @@ public:
 
 	virtual	CLASS_TYPE	Get_ItemClassType() { return m_eClass; }
 
-
 private:
 	HRESULT					Add_Component();
 

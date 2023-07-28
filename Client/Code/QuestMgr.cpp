@@ -52,6 +52,11 @@ void CQuestMgr::Update(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 }
 
+void CQuestMgr::Set_ReadyNext()
+{
+	m_mapQuestList[m_iQuestID]->Set_ReadyNext();
+}
+
 CQuestData* CQuestMgr::Get_Quest()
 {
 	if (m_mapQuestList[m_iQuestID] != nullptr)

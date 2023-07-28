@@ -99,10 +99,8 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma region KANG
 
-	
-	// Quest UI
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Quest",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest/QuestBoard2.png")), E_FAIL);
+	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest/QuestBoard2.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_World",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_World.png")), E_FAIL);
@@ -139,6 +137,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Magic Shop
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_MagicShop",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/arcane_temples.png")), E_FAIL);
+
+	// Wall
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wall1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/wall_01.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wall2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/wall_02.png")), E_FAIL);
 
 
 #pragma endregion
@@ -284,6 +288,78 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// 기본 상자
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Regular_Chest",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Chest/chest_regular.png")), E_FAIL);
+
+#pragma region Sign
+	// 게시판
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_NoticeBoard",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/notice_board.png")), E_FAIL);
+	// 표지판 - Astropaw
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Astropaw",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_astropaw.png")), E_FAIL);
+	// 표지판 - Cattrap
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Cattrap",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_cattrap.png")), E_FAIL);
+	// 표지판 - Flame
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Flame",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_flamepurr.png")), E_FAIL);
+	// 표지판 - Freeze
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Freeze",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_freezepaw.png")), E_FAIL);
+	// 표지판 - Heal
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Heal",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_healpaw.png")), E_FAIL);
+	// 표지판 - Light
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Light",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_lightnyan.png")), E_FAIL);
+	// 표지판 - Purrserk
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Purrserk",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_purrserk.png")), E_FAIL);
+	// 표지판 - Stop
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Stop",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/stop_sign.png")), E_FAIL);
+	// 표지판 - TwinTown
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_TwinTown",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/town_twintowns.png")), E_FAIL);
+	// 표지판 - Fish
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Fish",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/town_eastpawt.png")), E_FAIL);
+	// 표지판 - WoodFish
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_WoodFish",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/town_westpawt.png")), E_FAIL);
+#pragma endregion
+
+#pragma region Skull
+	// 드래곤뼈 1
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skull_Dragon1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Skull/dragonskull_1.png")), E_FAIL);
+	// 드래곤뼈 2
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skull_Dragon2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Skull/dragonskull_2.png")), E_FAIL);
+	// 드래곤뼈 3
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skull_Dragon3",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Skull/dragonskull_3.png")), E_FAIL);
+#pragma endregion
+
+#pragma region Wreck
+	// 난파선 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Ship",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/shipwreck.png")), E_FAIL);
+	// 난파선 조각1
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece1",
+	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_1.png")), E_FAIL);
+	// 난파선 조각2
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_2.png")), E_FAIL);
+	// 난파선 조각3
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece3",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_3.png")), E_FAIL);
+	// 난파선 조각4
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece4",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_4.png")), E_FAIL);
+#pragma endregion
+
+
+
 #pragma endregion
 
 	// ===============================================================
@@ -478,7 +554,38 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Inventory_Skill_Book",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Inventory/miniscene_codex.png")), E_FAIL);
 
-	
+#pragma region 아이템, 스킬 획득 관련
+	// Skill Glow
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Glow",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/Effect/UI_skill_glow.png")), E_FAIL);
+	// Skill Shine
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Shine",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/Effect/UI_shine.png")), E_FAIL);
+	// Skill Sparkle
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skill_Sparkle",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/Effect/VFX_yellow_sparks.png")), E_FAIL);
+	// GetSkillUI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Skill_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI.png")), E_FAIL);
+	// GetSkillFly
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Fly_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetSkillUI/UI/UI_flight.png")), E_FAIL);
+
+	// Weapon Glow
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Warrior_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI/EFFECT/thorns_weapon - Glow.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Ninja_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI/EFFECT/ninja_weapon - Glow.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Mage_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI/EFFECT/mage_weapon - Glow.png")), E_FAIL);
+	// GetWeaponUI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Weapon_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/GetWeaponUI.png")), E_FAIL);
+	// GetInvenUI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Get_Inven_UI",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/GetUI/UI_inventory.png")), E_FAIL);
+
+#pragma endregion
 
 
 #pragma endregion
