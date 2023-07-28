@@ -47,12 +47,6 @@
 #include "Wall1.h"
 #include "Wall2.h"
 
-// 그 외
-#include "DrakothTable.h"
-#include "WorldPotion.h"
-#include "TownSanctuary.h"
-#include "Paper.h"
-#include "Present.h"
 
 
 /////////
@@ -236,12 +230,16 @@ HRESULT CScene_World::Ready_Scene()
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
+	CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_theme.wav");
+
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
+
+	CSoundMgr::GetInstance()->Update(fTimeDelta);
 	if (!m_bStartFade)
 	{
 		if (!CManagement::GetInstance()->Is_Enter_InGame())
@@ -407,7 +405,7 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
 
-	// UI - Exp
+	//// UI - Exp
 	pGameObject = CExpUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Exp", pGameObject), E_FAIL);
@@ -741,50 +739,7 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
-	// 드라코 테이블
-	pGameObject = CDrakothTable::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 포션
-	pGameObject = CWorldPotion::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-	
-	// 선물 상자
-	pGameObject = CPresent::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 종이 
-	pGameObject = CPaper::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 성소
-	pGameObject = CTownSanctuary::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 돌
-	pGameObject = CRock1::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 돌
-	pGameObject = CRock2::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 돌
-	pGameObject = CRock3::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 돌
-	pGameObject = CRock4::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+	//
 
 	return S_OK;
 }

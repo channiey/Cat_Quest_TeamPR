@@ -30,6 +30,8 @@ private:
 	_bool			m_bIsLand;
 	_bool			m_bFlying;
 
+	_float			m_fAccTime;
+
 private:
 	virtual void	Free();
 };

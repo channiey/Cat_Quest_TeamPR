@@ -78,6 +78,8 @@ private:
 	CSkill*					m_pPlayerSkill[4];
 	_uint					m_SkillKind[4];
 
+	_bool					m_bPlaySound;
+
 public:
 	static CFieldSkillUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

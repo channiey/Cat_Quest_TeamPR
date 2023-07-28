@@ -25,6 +25,7 @@ STATE_TYPE CPlayerState_bRoll::Update_State(const _float& fTimeDelta)
 {
     if (!m_bEnter)
     {
+        CSoundMgr::GetInstance()->PlaySoundW(L"roll_2.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_ROLL);
         m_bEnter = true;
     }
 
@@ -32,8 +33,8 @@ STATE_TYPE CPlayerState_bRoll::Update_State(const _float& fTimeDelta)
 
     if (m_pOwner->Is_AnimationEnd())
     {
-        return STATE_TYPE::BACK_IDLE;
         m_bEnter = false;
+        return STATE_TYPE::BACK_IDLE;
     }
     else
         return m_eState;

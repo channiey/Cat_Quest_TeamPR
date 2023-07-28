@@ -697,11 +697,13 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
 			{
 				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 10, this);
+				
 			}
 			else
 			{
 				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + (rand() % 10), this);
 				CCameraMgr::GetInstance()->Shake_Camera();
+				
 			}
 				
 
@@ -714,6 +716,7 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 				if (nullptr != iter && iter->Is_Active())
 				{
 					dynamic_cast<CMonster*>(_pColObj)->Damaged(dynamic_cast<CSkill*>(iter)->Get_SkillDamage(), this);
+					
 				}
 			}
 			
@@ -1386,6 +1389,7 @@ void CPlayer::LevelUp()
 		Set_AD(m_tStatInfo.fAD + 1.f);
 		m_pEffectShine->Play_Effect(vec3.one);
 		m_pEffectBanner->Play_Effect(vec3.one);
+		CSoundMgr::GetInstance()->PlaySoundW(L"skill_purrserk.wav", CHANNEL_ID::EFFECT_5, VOLUME_PLAYER_LEVEL);
 	}
 }
 

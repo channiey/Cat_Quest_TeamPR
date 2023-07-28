@@ -162,7 +162,8 @@ void CEffectLevel_Banner::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	m_matEffect[0]._41 = vPlayerPos.x;
 	m_matEffect[0]._42 = vPlayerPos.y + m_fBanner_Y;
 	m_matEffect[1]._41 = floor(vPlayerPos.x + 0.5);
-	m_matEffect[1]._42 = floor(vPlayerPos.y + m_fEmble_Y + 0.5);
+	vPlayerPos.y += m_fEmble_Y;
+	m_matEffect[1]._42 = floor(vPlayerPos.y + 0.5);
 
 	m_matEffect[0]._11 = 0;
 	m_matEffect[0]._22 = m_fBannerSizeY;

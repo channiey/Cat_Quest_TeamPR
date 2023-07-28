@@ -172,7 +172,7 @@ HRESULT CSkill_Player_Thunder::Play()
     m_bActive = true;
 
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
-
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_lightnyan.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
     return S_OK;
 }
 

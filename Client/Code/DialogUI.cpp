@@ -375,6 +375,7 @@ void CDialogUI::Typing_Effect(const _float& fTimeDelta)
 
 	if (0.04f < m_fAcc)
 	{
+		CSoundMgr::GetInstance()->PlaySoundW(L"dialogue.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
 		m_strTyping += m_strDialog[m_iTextCnt];
 		m_iTextCnt++;
 

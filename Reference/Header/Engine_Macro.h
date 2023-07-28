@@ -90,11 +90,24 @@ namespace Engine
 #define SOUND_VOLUME_MONSKILL_ICE		0.5f
 #define SOUND_VOLUME_MONSKILL_THUNDER   0.5f
 
-
-
 #pragma endregion
 
 
+#pragma region LHJ Sound
+
+#define VOLUME_PLAYER_SKILL			1.f
+#define VOLUME_PLAYER_ROLL			1.f
+#define VOLUME_PLAYER_WALK			1.f
+#define VOLUME_PLAYER_HIT			1.f
+#define VOLUME_PLAYER_GOLDPICK		1.f
+#define VOLUME_PLAYER_EXPPICK		1.f
+#define VOLUME_PLAYER_FLY			1.f
+#define VOLUME_PLAYER_ATTACK		1.f
+#define VOLUME_PLAYER_MAGICATTACK	1.f
+#define VOLUME_PLAYER_UI			1.f
+#define VOLUME_PLAYER_LEVEL			1.f
+
+#pragma endregion
 
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\

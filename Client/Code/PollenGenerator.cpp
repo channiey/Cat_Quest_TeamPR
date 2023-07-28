@@ -57,7 +57,7 @@ void CPollenGenerator::Render_Object()
 
 void CPollenGenerator::Caculate_CreateTime()
 {
-	_float fMin = 0.8f;
+	_float fMin = 1.f;
 	_float fMax = 2.f;
 	_float fGenerTime = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
 	m_fCreateTime = floor(fGenerTime * 10) / 10;
