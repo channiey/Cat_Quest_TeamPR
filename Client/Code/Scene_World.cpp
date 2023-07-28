@@ -197,7 +197,7 @@
 
 #include "MiniGameMgr_Jump.h"
 #include "SoundMgr.h"
-
+#include "Island_Village.h"
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
 {
@@ -229,8 +229,6 @@ HRESULT CScene_World::Ready_Scene()
 	// 한 번만 초기화
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
-
-	CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_theme.wav");
 
 	return S_OK;
 }
@@ -333,6 +331,11 @@ void CScene_World::Render_Scene()
 
 void CScene_World::Free()
 {
+	CIsland* pVillage = dynamic_cast<CIsland_Village*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::ISLAND, L"Island_Village"));
+	
+	if (nullptr != pVillage)
+		pVillage->Change_Scene();
+
 	__super::Free();
 }
 

@@ -45,42 +45,37 @@ namespace Engine
 #define	CAM_FOV_DRAG_MAX			D3DXToRadian(90.f) // 드래그시 FOV
 
 // Cam Height
-#define CAM_HEIGHT_MAG				1.5f
-#define CAM_HEIGHT_JUMP				1.5f
+#define CAM_HEIGHT_MAG					1.5f
+#define CAM_HEIGHT_JUMP					1.5f
 
 // VTX
-#define	VTXCNTX						257
-#define VTXCNTZ						257
-#define VTXITV						3
+#define	VTXCNTX							257
+#define VTXCNTZ							257
+#define VTXITV							3
 
 // Player Pos
-#define START_POS_WORLD_X			346.f
-#define START_POS_WORLD_Z			120.f
-#define START_POS_DUNGEON_X			53.f
-#define START_POS_DUNGEON_Z			32.f
-#define	MINIGAME_JUMP_RESET_POS		_vec3{ 360.f, 3.f , 280.f }
+#define START_POS_WORLD_X				346.f
+#define START_POS_WORLD_Z				120.f
+#define START_POS_DUNGEON_X				53.f
+#define START_POS_DUNGEON_Z				32.f
+#define	MINIGAME_JUMP_RESET_POS			_vec3{ 360.f, 3.f , 280.f }
 
 
-#define	JUMP_POWER					600.f
-#define	SLIP_SPEED					25.f
-#define	DF_RB_MAXSPEED				40.f
-#define DF_SLEEP_MAXDPEED			0.3f
+#define	JUMP_POWER						600.f
+#define	SLIP_SPEED						25.f
+#define	DF_RB_MAXSPEED					40.f
+#define DF_SLEEP_MAXDPEED				0.3f
 
 // Terrain Size
-#define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile
-#define	TERRAIN_SIZE_DUNGEON		165.f // 74 Tile * 74 Tile
+#define	TERRAIN_SIZE_WORLD				330.f // 150 Tile * 150 Tile
+#define	TERRAIN_SIZE_DUNGEON			165.f // 74 Tile * 74 Tile
 
-//Sound
+//Sound (수정시 보고 필수)
+#define SOUND_VOLUME_BGM				0.3f
 
-#define SOUND_VOLUME_BGM			0.7f
-
-	/*-------------------------------------------------------------------------------*/
-
-#pragma region KJM SOUND
-
-#define SOUND_VOLUME_MON_HIT			0.7f
+#define SOUND_VOLUME_MON_HIT			1.f
 #define SOUND_VOLUME_MON_ATTACK			0.5f
-#define SOUND_VOLUME_MON_DEATH		    0.5f
+#define SOUND_VOLUME_MON_DEATH		    1.f
 
 #define SOUND_VOLUME_MON_FLY_ATTACK     1.f
 #define SOUND_VOLUME_MON_FOOT_ATTACK    1.f
@@ -90,24 +85,21 @@ namespace Engine
 #define SOUND_VOLUME_MONSKILL_ICE		0.5f
 #define SOUND_VOLUME_MONSKILL_THUNDER   0.5f
 
-#pragma endregion
+#define VOLUME_PLAYER_SKILL				0.7f
+#define VOLUME_PLAYER_ROLL				0.7f
+#define VOLUME_PLAYER_WALK				0.7f
+#define VOLUME_PLAYER_HIT				0.7f
+#define VOLUME_PLAYER_FLY				0.7f
+#define VOLUME_PLAYER_ATTACK			1.f
+#define VOLUME_PLAYER_MAGICATTACK		0.7f
 
+#define VOLUME_PLAYER_UI				0.7f
+#define VOLUME_PLAYER_LEVEL				0.7f
 
-#pragma region LHJ Sound
+#define VOLUME_PLAYER_GOLDPICK			1.f
+#define VOLUME_PLAYER_EXPPICK			1.f
 
-#define VOLUME_PLAYER_SKILL			1.f
-#define VOLUME_PLAYER_ROLL			1.f
-#define VOLUME_PLAYER_WALK			1.f
-#define VOLUME_PLAYER_HIT			1.f
-#define VOLUME_PLAYER_GOLDPICK		1.f
-#define VOLUME_PLAYER_EXPPICK		1.f
-#define VOLUME_PLAYER_FLY			1.f
-#define VOLUME_PLAYER_ATTACK		1.f
-#define VOLUME_PLAYER_MAGICATTACK	1.f
-#define VOLUME_PLAYER_UI			1.f
-#define VOLUME_PLAYER_LEVEL			1.f
-
-#pragma endregion
+	/*--------------------- ! (점선 안의 내용) 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\

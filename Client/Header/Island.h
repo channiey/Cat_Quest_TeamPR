@@ -35,6 +35,9 @@ public:
 	virtual void		OnCollision_Stay(CGameObject* _pColObj);
 	virtual void		OnCollision_Exit(CGameObject* _pColObj);
 
+public:
+	void				Change_Scene() { m_iCurIn = 0.f; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -46,6 +49,7 @@ public:
 	virtual void		Enter_Player() PURE;
 	virtual void		Exit_Player() PURE;
 	const _bool			Is_In_Player() const { return 0 < m_iCurIn; }
+
 
 protected:
 
