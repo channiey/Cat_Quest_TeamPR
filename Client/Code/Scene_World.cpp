@@ -204,6 +204,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
+	CSoundMgr::GetInstance()->Update(fTimeDelta);
 	if (!m_bStartFade)
 	{
 		if (!CManagement::GetInstance()->Is_Enter_InGame())

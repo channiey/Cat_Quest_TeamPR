@@ -1,12 +1,17 @@
 #include "SoundMgr.h"
 #include "Export_Function.h"
 
+/* ---------------------------- 수정시 반드시 팀장 보고 ---------------------------- */
 
 IMPLEMENT_SINGLETON(CSoundMgr)
 
 CSoundMgr::CSoundMgr()
 {
 	m_pSystem = nullptr; 
+
+	m_bPlayingBGM = FALSE;
+
+	ZeroMemory(&m_LerpBgmVolume, sizeof(LERP_FLOAT_INFO));
 }
 
 
@@ -17,13 +22,20 @@ CSoundMgr::~CSoundMgr()
 
 void CSoundMgr::Initialize()
 {
-	// 사운드를 담당하는 대표객체를 생성하는 함수
 	FMOD_System_Create(&m_pSystem);
 	
-	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
 	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
 
 	LoadSoundFile(); 
+}
+void CSoundMgr::Update(const _float& fTimeDelta)
+{
+	if (m_bPlayingBGM && m_LerpBgmVolume.bActive)
+	{
+		m_LerpBgmVolume.Update_Lerp(fTimeDelta);
+
+		FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpBgmVolume.fCurValue);
+	}
 }
 void CSoundMgr::Release()
 {
@@ -44,7 +56,6 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 
 	map<TCHAR*, FMOD_SOUND*>::iterator iter; 
 
-	// iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
 	iter = find_if(m_mapSound.begin(), m_mapSound.end(), 
 		[&](auto& iter)->bool 
 	{
@@ -68,9 +79,15 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 
 void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 {
+	if (!m_bPlayingBGM)
+	{
+		m_bPlayingBGM = TRUE;
+		m_LerpBgmVolume.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_LerpBgmVolume.Set_Lerp(1.f, 0.f, 1.f);
+	}
+
 	map<TCHAR*, FMOD_SOUND*>::iterator iter;
 
-	// iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
 	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)->bool
 	{
 		return !lstrcmp(pSoundKey, iter.first);
@@ -79,10 +96,16 @@ void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 	if (iter == m_mapSound.end())
 		return;
 
-	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND]);
-	FMOD_Channel_SetMode(m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND], FMOD_LOOP_NORMAL);
-	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND], SOUND_VOLUME_BGM);
+	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR]);
+	FMOD_Channel_SetMode(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], FMOD_LOOP_NORMAL);
+	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpBgmVolume.fCurValue);
 	FMOD_System_Update(m_pSystem);
+}
+
+void CSoundMgr::ChangeBGM(TCHAR* pSoundKey)
+{
+	if (!m_bPlayingBGM) return;
+
 }
 
 void CSoundMgr::StopSound(CHANNEL_ID eID)
@@ -105,10 +128,8 @@ void CSoundMgr::SetChannelVolume(CHANNEL_ID eID, float fVolume)
 
 void CSoundMgr::LoadSoundFile()
 {
-	// _finddata_t : <io.h>에서 제공하며 파일 정보를 저장하는 구조체
 	_finddata_t fd; 
 
-	// _findfirst : <io.h>에서 제공하며 사용자가 설정한 경로 내에서 가장 첫 번째 파일을 찾는 함수
 	long long handle = _findfirst("../Bin/Resource/Sound/*.*", &fd); // 64bit니까 long lone이나 intptr_t으로 사용 (32bit는 long 사용 가능)
 
 	if (handle == -1)
@@ -122,8 +143,6 @@ void CSoundMgr::LoadSoundFile()
 	while (iResult != -1)
 	{
 		strcpy_s(szFullPath, szCurPath); 
-
-		// "../ Sound/Success.wav"
 		strcat_s(szFullPath, fd.name);
 
 		FMOD_SOUND* pSound = nullptr; 
@@ -136,13 +155,11 @@ void CSoundMgr::LoadSoundFile()
 			TCHAR* pSoundKey = new TCHAR[iLength];
 			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
 
-			// 아스키 코드 문자열을 유니코드 문자열로 변환시켜주는 함수
 			MultiByteToWideChar(CP_ACP, 0, fd.name, iLength, pSoundKey, iLength);
 
 			m_mapSound.emplace(pSoundKey, pSound);
 		}
 
-		//_findnext : <io.h>에서 제공하며 다음 위치의 파일을 찾는 함수, 더이상 없다면 -1을 리턴
 		iResult = _findnext(handle, &fd);
 	}
 
