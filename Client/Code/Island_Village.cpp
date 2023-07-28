@@ -5,7 +5,7 @@
 
 #include "RangeObj.h"
 #include "DungeonTextUI.h"
-
+#include "SoundMgr.h"
 CIsland_Village::CIsland_Village(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_VILLAGE)
 {
@@ -94,6 +94,8 @@ void CIsland_Village::Enter_Player()
 		NULL_CHECK(pGameObject);
 		CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
 	}
+
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_overworld_theme.wav");
 }
 
 void CIsland_Village::Exit_Player()

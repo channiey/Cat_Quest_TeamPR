@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "RangeObj.h"
 #include "DungeonTextUI.h"
+#include "SoundMgr.h"
 
 CIsland_Ice::CIsland_Ice(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_ICE)
@@ -111,6 +112,9 @@ void CIsland_Ice::Enter_Player()
 	pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
 	NULL_CHECK(pGameObject);
 	CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
+
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_calm_theme.wav");
+
 }
 
 void CIsland_Ice::Exit_Player()

@@ -230,15 +230,12 @@ HRESULT CScene_World::Ready_Scene()
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
-	CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_theme.wav");
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-
-	CSoundMgr::GetInstance()->Update(fTimeDelta);
 	if (!m_bStartFade)
 	{
 		if (!CManagement::GetInstance()->Is_Enter_InGame())

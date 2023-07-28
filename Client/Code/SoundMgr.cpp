@@ -11,9 +11,9 @@ CSoundMgr::CSoundMgr()
 
 	m_bPlayingBGM = FALSE;
 
-	ZeroMemory(&m_LerpBgmVolume, sizeof(LERP_FLOAT_INFO));
+	ZeroMemory(&m_LerpCurBgmVolume, sizeof(LERP_FLOAT_INFO));
+	ZeroMemory(&m_LerpPrevBgmVolume, sizeof(LERP_FLOAT_INFO));
 }
-
 
 CSoundMgr::~CSoundMgr()
 {
@@ -28,13 +28,26 @@ void CSoundMgr::Initialize()
 
 	LoadSoundFile(); 
 }
+
 void CSoundMgr::Update(const _float& fTimeDelta)
 {
-	if (m_bPlayingBGM && m_LerpBgmVolume.bActive)
-	{
-		m_LerpBgmVolume.Update_Lerp(fTimeDelta);
 
-		FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpBgmVolume.fCurValue);
+	if (m_bPlayingBGM && m_LerpPrevBgmVolume.bActive)
+	{
+		m_LerpPrevBgmVolume.Update_Lerp(fTimeDelta);
+
+		FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_PREV], m_LerpPrevBgmVolume.fCurValue);
+
+		if (!m_LerpPrevBgmVolume.bActive && 0.f == m_LerpPrevBgmVolume.fCurValue) StopSound(CHANNEL_ID::BGM_PREV);
+	}
+
+	if (m_bPlayingBGM && m_LerpCurBgmVolume.bActive)
+	{
+		m_LerpCurBgmVolume.Update_Lerp(fTimeDelta);
+
+		FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpCurBgmVolume.fCurValue);
+
+		if (!m_LerpCurBgmVolume.bActive && 0.f == m_LerpCurBgmVolume.fCurValue) StopSound(CHANNEL_ID::BGM_CUR);
 	}
 }
 void CSoundMgr::Release()
@@ -77,13 +90,13 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
+HRESULT CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 {
-	if (!m_bPlayingBGM)
+	if (!m_bPlayingBGM) // 최초 브금 (월드 입장)
 	{
 		m_bPlayingBGM = TRUE;
-		m_LerpBgmVolume.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-		m_LerpBgmVolume.Set_Lerp(1.f, 0.f, 1.f);
+		m_LerpCurBgmVolume.Init_Lerp(LERP_MODE::EASE_OUT);
+		m_LerpCurBgmVolume.Set_Lerp(4.f, 0.f, SOUND_VOLUME_BGM);
 	}
 
 	map<TCHAR*, FMOD_SOUND*>::iterator iter;
@@ -94,18 +107,30 @@ void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 	});
 	
 	if (iter == m_mapSound.end())
-		return;
+		return E_FAIL;
 
 	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR]);
 	FMOD_Channel_SetMode(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], FMOD_LOOP_NORMAL);
-	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpBgmVolume.fCurValue);
+	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpCurBgmVolume.fCurValue);
 	FMOD_System_Update(m_pSystem);
+	
+	return S_OK;
 }
 
-void CSoundMgr::ChangeBGM(TCHAR* pSoundKey)
+HRESULT CSoundMgr::ChangeBGM(TCHAR* pSoundKey)
 {
-	if (!m_bPlayingBGM) return;
+	m_LerpPrevBgmVolume = m_LerpCurBgmVolume;
+	m_pChannelArr[(_uint)CHANNEL_ID::BGM_PREV] = m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR];
 
+	m_LerpPrevBgmVolume.Init_Lerp(LERP_MODE::EASE_OUT);
+	m_LerpPrevBgmVolume.Set_Lerp(1.5f, SOUND_VOLUME_BGM, 0.f);
+
+	m_LerpCurBgmVolume.Init_Lerp(LERP_MODE::EASE_OUT);
+	m_LerpCurBgmVolume.Set_Lerp(2.f, 0.f, SOUND_VOLUME_BGM);
+	
+	PlayBGM(pSoundKey);
+
+	return S_OK;
 }
 
 void CSoundMgr::StopSound(CHANNEL_ID eID)

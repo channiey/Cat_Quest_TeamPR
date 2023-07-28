@@ -21,8 +21,8 @@ public:
 
 public:
 	void						PlaySound(TCHAR* pSoundKey, CHANNEL_ID eID, float fVolume);
-	void						PlayBGM(TCHAR* pSoundKey);
-	void						ChangeBGM(TCHAR* pSoundKey);
+	HRESULT						PlayBGM(TCHAR* pSoundKey);
+	HRESULT						ChangeBGM(TCHAR* pSoundKey);
 	void						StopAll();
 	void						SetChannelVolume(CHANNEL_ID eID, float fVolume);
 
@@ -35,7 +35,9 @@ private:
 	FMOD_CHANNEL*				m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND]; 
 	FMOD_SYSTEM*				m_pSystem; 
 
-	LERP_FLOAT_INFO				m_LerpBgmVolume;
+	LERP_FLOAT_INFO				m_LerpCurBgmVolume;
+	LERP_FLOAT_INFO				m_LerpPrevBgmVolume;
+
 	_bool						m_bPlayingBGM;
 
 private:

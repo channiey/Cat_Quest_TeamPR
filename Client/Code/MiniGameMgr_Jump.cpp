@@ -11,6 +11,7 @@
 
 #include "CameraMgr.h"
 #include "Player.h"
+#include "SoundMgr.h"
 
 IMPLEMENT_SINGLETON(CMiniGameMgr_Jump)
 
@@ -41,6 +42,10 @@ void CMiniGameMgr_Jump::Update(const _float& _fDelta)
 HRESULT CMiniGameMgr_Jump::Start_MiniGame()
 {
 	m_bActive = TRUE;
+
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_kitcat_theme.wav");
+
+
 	return S_OK;
 }
 

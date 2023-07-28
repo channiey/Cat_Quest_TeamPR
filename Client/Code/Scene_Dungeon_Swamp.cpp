@@ -8,6 +8,7 @@
 #include "TalkMgr.h"
 #include "QuestMgr.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
 
 // Player
 #include "Player.h"
@@ -73,6 +74,8 @@ HRESULT CScene_Dungeon_Swamp::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_YC(), E_FAIL);
 
 	// CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_dungeon_theme.wav");
 
 	return S_OK;
 }

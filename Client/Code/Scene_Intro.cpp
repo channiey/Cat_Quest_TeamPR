@@ -31,6 +31,7 @@ HRESULT CScene_Intro::Ready_Scene()
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	
 	CSoundMgr::GetInstance()->Initialize();
+
 	return S_OK;
 }
 

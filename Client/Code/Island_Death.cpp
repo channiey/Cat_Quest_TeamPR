@@ -5,6 +5,9 @@
 
 #include "RangeObj.h"
 #include "DungeonTextUI.h"
+
+#include "SoundMgr.h"
+
 CIsland_Death::CIsland_Death(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_DEATH)
 {
@@ -83,6 +86,9 @@ void CIsland_Death::Enter_Player()
 	pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
 	NULL_CHECK(pGameObject);
 	CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
+
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_drakoth_theme_short.wav");
+
 }
 
 void CIsland_Death::Exit_Player()
