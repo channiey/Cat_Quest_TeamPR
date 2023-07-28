@@ -13,6 +13,7 @@
 
 #include "ImGuiMgr.h"
 #include "Calculator.h"
+#include "SoundMgr.h"
 
 #include "Scene_Intro.h"
 #include "Scene_Tool.h"
@@ -181,6 +182,7 @@ void CMainApp::Free()
 	CQuestMgr::DestroyInstance(); // 임시로 여기서 지움.
 	CImGuiMgr::GetInstance()->DestroyInstance();
 	CMiniGameMgr_Jump::GetInstance()->DestroyInstance();
+	CSoundMgr::GetInstance()->DestroyInstance();
 
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);

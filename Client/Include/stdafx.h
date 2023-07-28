@@ -17,6 +17,13 @@
 #include <memory.h>
 #include <tchar.h>
 
+#include "../FMOD/inc/fmod.h"
+//#include "fmod.hpp"
+//#pragma comment(lib, "fmod_vc.lib")
+//#pragma comment(lib, "fmodex_vc.lib")
+
+#include <io.h>
+
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 

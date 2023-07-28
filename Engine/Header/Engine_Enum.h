@@ -289,6 +289,8 @@ namespace Engine
 	enum class SPIRITEMO_TYPE		{ HAPPY, ANGRY, SAD, SLY, STUN, TYPEEND};
 
 	enum class SKILL_TYPE			{ FIRE, THUNDER, ICE, BEAM, HEAL, PURSERKER, TYPEEND};
+	
+	enum CHANNELID { SOUND_EFFECT, SOUND_BGM, MAXCHANNEL };
 
 	enum class TALK_ID {
 		// KING

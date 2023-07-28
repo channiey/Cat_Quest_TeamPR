@@ -161,6 +161,7 @@
 #include "BackgroundShade.h"
 
 #include "MiniGameMgr_Jump.h"
+#include "SoundMgr.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -194,6 +195,7 @@ HRESULT CScene_World::Ready_Scene()
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
+	CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_theme.wav", 1.f);
 
 	return S_OK;
 }

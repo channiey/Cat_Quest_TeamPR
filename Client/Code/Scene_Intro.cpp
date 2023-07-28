@@ -7,6 +7,7 @@
 #include "Scene_World.h"
 #include "Scene_Tool.h"
 #include "BackGround.h"
+#include "SoundMgr.h"
 
 CScene_Intro::CScene_Intro(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::INTRO)
@@ -29,6 +30,7 @@ HRESULT CScene_Intro::Ready_Scene()
 	
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	
+	CSoundMgr::GetInstance()->Initialize();
 	return S_OK;
 }
 
