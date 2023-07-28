@@ -46,6 +46,7 @@
 #include "Effect_ThornSparkle.h"
 #include "EffectLevel_Banner.h"
 #include "EffectLevel_Shine.h"
+#include "Pollen.h"
 // UI
 #include "RingUI.h"
 #include "Effect_Font.h"
@@ -1284,12 +1285,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_AD(100.f);
 	if (CInputDev::GetInstance()->Key_Down('O'))
 		Set_AD(10.f);
-
-	if (CInputDev::GetInstance()->Key_Down(VK_RSHIFT))
-	{
-		m_pEffectShine->Play_Effect(vec3.one);
-		m_pEffectBanner->Play_Effect(vec3.one);
-	}
 		
 }
 
@@ -1364,14 +1359,14 @@ void CPlayer::Create_ThornSparkle(const _float& fTimeDelta)
 
 void CPlayer::LevelUp()
 {
-	if (m_tStatInfo.fCurExp > m_tStatInfo.fMaxExp)
+	if (m_tStatInfo.fCurExp >= m_tStatInfo.fMaxExp)
 	{
-		Set_CurExp(0.f);
 		Set_MaxExp(m_tStatInfo.fMaxExp + 25);
+		Set_CurExp(0.f);
 		Set_Level(m_tStatInfo.iLevel + 1);
-		Set_MaxHP(m_tStatInfo.fMaxHP + 5);
+		Set_MaxHP(m_tStatInfo.fMaxHP + 4);
 		Set_CurHP(m_tStatInfo.fMaxHP);
-		Set_AD(m_tStatInfo.fAD + 2.f);
+		Set_AD(m_tStatInfo.fAD + 1.f);
 		m_pEffectShine->Play_Effect(vec3.one);
 		m_pEffectBanner->Play_Effect(vec3.one);
 	}

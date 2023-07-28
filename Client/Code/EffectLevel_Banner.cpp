@@ -126,8 +126,6 @@ void CEffectLevel_Banner::Render_Object()
 	if (m_bReadyEnd)
 		return;
 
-	cout << "·»´õ : " << m_rcFont.top << endl;
-
 	if(!m_t_vSize_Emble.bActive)
 		CGraphicDev::GetInstance()->Get_LevelUpFont()->DrawTextW(NULL, m_strLv.c_str(), -1,
 			&m_rcFont, DT_CENTER |DT_VCENTER, D3DCOLOR_ARGB(200, 0, 0, 0));

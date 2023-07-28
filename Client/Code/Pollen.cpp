@@ -26,13 +26,31 @@ HRESULT CPollen::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	D3DVIEWPORT9 viewPort =
-		CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+	m_fSpeed = 10 + rand() % 5;
 
+	_float fMin = 0.1;
+	_float fMax = 0.25;
+	_float	fScale = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
+	fScale = floor(fScale * 100) / 100;
+	m_pTransformCom->Set_Scale(_vec3{ fScale, fScale, fScale });
+
+
+	fMin = 0.3;
+	fMax = 0.8;
+	_float	fDirZ = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
+	m_fDirZ = floor(fDirZ * 10) / 10;
+
+
+	m_InitPos.y += 2.f + rand() % 3;
 	m_pTransformCom->Set_Pos(m_InitPos);
-	m_pTransformCom->Set_Scale(_vec3{ 0.3f, 0.3f, 0.3f });
 
-	m_fSpeed = 4.f;
+	m_fAccTime = 0.f;
+
+	m_vWindVelo.x = (double)rand() / RAND_MAX - 0.5;
+	m_vWindVelo.y = (double)rand() / RAND_MAX - 0.5;
+	m_vWindVelo.z = (double)rand() / RAND_MAX - 0.5;
+
+	m_bActive = true;
 
 	return S_OK;
 }
@@ -42,14 +60,37 @@ _int CPollen::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_pTransformCom->Translate(DIR_RIGHT, fTimeDelta * m_fSpeed);
-	m_pTransformCom->Translate(DIR_UP, fTimeDelta * (m_fSpeed / 3.f));
+
+	m_vWindVelo.x += (double)rand() / RAND_MAX * WINDFORCE * 1;
+	m_vWindVelo.y += (double)rand() / RAND_MAX * WINDFORCE - WINDFORCE / 2.0;
+	m_vWindVelo.z += (double)rand() / RAND_MAX * WINDFORCE * m_fDirZ;
+
+	m_pTransformCom->Set_Dir(m_vWindVelo);
+	m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
+
+
+	m_fAccTime += fTimeDelta;
+	if (m_fAccTime >= 12.f)
+		CEventMgr::GetInstance()->Delete_Obj(this);
 
 	return iExit;
 }
 
 void CPollen::LateUpdate_Object()
 {
+	_vec3 vPollenPos = m_pTransformCom->Get_Info(INFO::INFO_POS);
+
+	CGameObject* pPlayer = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player");
+	NULL_CHECK(pPlayer);
+	_vec3 vPlayerPos = pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
+
+	_vec3 vDis = vPollenPos - vPlayerPos;
+	_float fLength = D3DXVec3Length(&vDis);
+	D3DXVec3Normalize(&vDis, &vDis);
+
+	if(fLength > 50 && vDis.x > 0)
+		CEventMgr::GetInstance()->Delete_Obj(this);
+
 	__super::LateUpdate_Object();
 }
 
@@ -89,9 +130,6 @@ HRESULT CPollen::Add_Component()
 
 void CPollen::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 {
-	m_vOffSet = _vPos;
-	m_vSize = _vSize;
-	m_bActive = true;
 }
 
 CPollen* CPollen::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos)

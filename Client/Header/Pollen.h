@@ -27,6 +27,14 @@ private:
 	CTexture* m_pTextureCom;
 	_float    m_fSpeed;
 	_vec3     m_InitPos;
+
+	_float	  m_fDirZ;
+
+	_vec3	  m_vWindVelo;
+	_float    m_fdriftAngle;
+
+	_float	  m_fAccTime;
+
 public:
 	static CPollen* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos);
 

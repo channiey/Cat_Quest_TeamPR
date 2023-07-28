@@ -19,6 +19,8 @@ namespace Engine
 #define HITCOLOR_G					120
 #define HITCOLOR_B					120
 
+#define WINDFORCE					0.1
+
 	/*--------------------- ! (점선 안의 내용) 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 #define	DF_CAMERA_SHAKE_INTENSITY	25.f

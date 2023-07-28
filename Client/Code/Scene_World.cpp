@@ -585,6 +585,10 @@ HRESULT CScene_World::Ready_Layer_Other()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::ISLAND,	pLayer });
 
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::GENERATOR,	pLayer });
+
 	return S_OK;
 }
 
@@ -615,6 +619,10 @@ HRESULT CScene_World::Ready_Layer_LHJ()
 	pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject), E_FAIL);
+
+	pGameObject = CPollenGenerator::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Pollen_Generator", pGameObject), E_FAIL);
 
 	
 	return S_OK;

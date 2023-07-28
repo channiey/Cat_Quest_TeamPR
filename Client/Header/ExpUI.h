@@ -32,8 +32,8 @@ private:
 	LERP_FLOAT_INFO			m_tAlpha;
 	_float					m_fAlpha;
 
-	LERP_VEC3_INFO			m_tMove;
-	_vec3					m_vMove;
+	LERP_FLOAT_INFO			m_tSize;
+	_float					m_fBarSizeX;
 
 	_bool					m_bGone;
 

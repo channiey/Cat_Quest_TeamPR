@@ -32,7 +32,7 @@ HRESULT CExpUI::Ready_Object()
 	m_fPosY = 70;
 
 	m_fSizeX = 78;
-	m_fSizeY = 30 * 0.7f;
+	m_fSizeY = 30 * 0.6f;
 
 	m_matExpUI[0]._41 = m_fPosX;
 	m_matExpUI[0]._42 = WINCY - m_fPosY;
@@ -50,12 +50,16 @@ HRESULT CExpUI::Ready_Object()
 	m_matExpUI[2]._42 = WINCY - m_fPosY - 1;
 
 	m_matExpUI[2]._11 = 48.f;
-	m_matExpUI[2]._22 = 47.f * 0.7f;
+	m_matExpUI[2]._22 = 47.f * 0.6f;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fAlpha = 255.f;
+	m_fAlpha = 0.f;
+	m_fBarSizeX = 0.f;
+
 	m_bGone = false;
+
+	m_fCurExpRatio = 0.f;
 
 	return S_OK;
 }
@@ -68,7 +72,7 @@ _int CExpUI::Update_Object(const _float& fTimeDelta)
 	{
 		m_fAcc += fTimeDelta;
 
-		if (3.5f < m_fAcc && !m_bGone)
+		if (2.f < m_fAcc && !m_bGone)
 		{
 			m_fAcc = 0.f;
 			m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
@@ -79,44 +83,65 @@ _int CExpUI::Update_Object(const _float& fTimeDelta)
 
 	if (m_bGone)
 	{
-		m_tAlpha.Update_Lerp(fTimeDelta);
-		m_fAlpha = m_tAlpha.fCurValue;
-		if (m_fAlpha <= 0)
+		if (m_fAlpha <= 1.f)
 		{
-			m_fAlpha = 255;
+			m_fAlpha = 0;
 			m_bIsExpChange = false;
 			m_bGone = false;
 		}
 	}
-
 
 	if (nullptr == m_pPlayer)
 		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 	if (nullptr != m_pPlayer)
 	{
-		_float ExpRatio = m_pPlayer->Get_StatInfo().fCurExp / m_pPlayer->Get_StatInfo().fMaxExp;
+		_float fExpRatio = m_pPlayer->Get_StatInfo().fCurExp / m_pPlayer->Get_StatInfo().fMaxExp;
 
-		if (1.f < ExpRatio)
-			ExpRatio = 1.f;
+		if (1.f <= fExpRatio)
+			fExpRatio = 1.f;
 
-		if (ExpRatio != m_fCurExpRatio)
+		if (fExpRatio != m_fCurExpRatio)
 		{
-			m_fCurExpRatio = ExpRatio;
+			if (0.f >= m_fAlpha)
+			{
+				m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+				m_tAlpha.Set_Lerp(0.2f, 0.f, 255.f);
+			}
+			m_tSize.Init_Lerp();
+			m_tSize.Set_Lerp(0.5f, m_fCurExpRatio, fExpRatio);
+
+			m_fCurExpRatio = fExpRatio;
 			m_bIsExpChange = true;
-			
+			m_bGone = false;
+			m_fAcc = 0.f;
 		}
 	}
 	
+	m_tSize.Update_Lerp(fTimeDelta);
+	m_tAlpha.Update_Lerp(fTimeDelta);
+
 	return iExit;
 }
 
 void CExpUI::LateUpdate_Object()
 {
-	float fMoveX = (1.f - m_fCurExpRatio) * m_fSizeX;
+	if (m_tSize.bActive)
+	{
+		float fMoveX = (1.f - m_tSize.fCurValue) * m_fSizeX;
 
-	m_matExpUI[1]._11 = m_fSizeX * m_fCurExpRatio;
-	m_matExpUI[1]._41 = m_fPosX  - fMoveX;
+		m_matExpUI[1]._11 = m_tSize.fCurValue * m_fSizeX;
+		m_matExpUI[1]._41 = m_fPosX - fMoveX;
+	}
+	if (m_fCurExpRatio <= 0 && !m_tSize.bActive)
+	{
+		float fMoveX = (1.f - m_fCurExpRatio) * m_fSizeX;
+
+		m_matExpUI[1]._11 = m_fCurExpRatio * m_fSizeX;
+		m_matExpUI[1]._41 = m_fPosX - fMoveX;
+	}
+	
+	m_fAlpha = m_tAlpha.fCurValue;
 
 	__super::LateUpdate_Object();
 }
