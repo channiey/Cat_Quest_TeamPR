@@ -138,6 +138,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_MagicShop",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/arcane_temples.png")), E_FAIL);
 
+	// Wall
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wall1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/wall_01.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wall2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Building/wall_02.png")), E_FAIL);
+
 
 #pragma endregion
 
@@ -282,6 +288,78 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// 기본 상자
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Regular_Chest",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Chest/chest_regular.png")), E_FAIL);
+
+#pragma region Sign
+	// 게시판
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_NoticeBoard",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/notice_board.png")), E_FAIL);
+	// 표지판 - Astropaw
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Astropaw",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_astropaw.png")), E_FAIL);
+	// 표지판 - Cattrap
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Cattrap",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_cattrap.png")), E_FAIL);
+	// 표지판 - Flame
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Flame",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_flamepurr.png")), E_FAIL);
+	// 표지판 - Freeze
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Freeze",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_freezepaw.png")), E_FAIL);
+	// 표지판 - Heal
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Heal",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_healpaw.png")), E_FAIL);
+	// 표지판 - Light
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Light",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_lightnyan.png")), E_FAIL);
+	// 표지판 - Purrserk
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Purrserk",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/sign_purrserk.png")), E_FAIL);
+	// 표지판 - Stop
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Stop",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/stop_sign.png")), E_FAIL);
+	// 표지판 - TwinTown
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_TwinTown",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/town_twintowns.png")), E_FAIL);
+	// 표지판 - Fish
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_Fish",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/town_eastpawt.png")), E_FAIL);
+	// 표지판 - WoodFish
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Sign_WoodFish",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Sign/town_westpawt.png")), E_FAIL);
+#pragma endregion
+
+#pragma region Skull
+	// 드래곤뼈 1
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skull_Dragon1",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Skull/dragonskull_1.png")), E_FAIL);
+	// 드래곤뼈 2
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skull_Dragon2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Skull/dragonskull_2.png")), E_FAIL);
+	// 드래곤뼈 3
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Skull_Dragon3",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Skull/dragonskull_3.png")), E_FAIL);
+#pragma endregion
+
+#pragma region Wreck
+	// 난파선 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Ship",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/shipwreck.png")), E_FAIL);
+	// 난파선 조각1
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece1",
+	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_1.png")), E_FAIL);
+	// 난파선 조각2
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece2",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_2.png")), E_FAIL);
+	// 난파선 조각3
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece3",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_3.png")), E_FAIL);
+	// 난파선 조각4
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Wreck_Piece4",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_4.png")), E_FAIL);
+#pragma endregion
+
+
+
 #pragma endregion
 
 	// ===============================================================
