@@ -3,7 +3,7 @@
 #include "Monster.h"
 #include "Player.h"
 #include "ComeBack_Bullet.h"
-
+#include "VioletDragon.h"
 #include "EventMgr.h"
 
 CVioletDragonState_SpreadBullet::CVioletDragonState_SpreadBullet(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -84,6 +84,12 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
+
+    //Monster - Cur HP Condition
+    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
+    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
     // Player Component ==============================
     // Player
     CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
@@ -143,6 +149,17 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     _float fYPosMul;
     fYPosMul = 1.5;
+
+
+    // x 이동 방향에 따라 스케일 전환 
+    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
+    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    {
+        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    }
 
 
 
@@ -359,7 +376,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
 
         //cout << " 전이" << endl;
-        return STATE_TYPE::BOSS_DASH_ATTACK;
+        return STATE_TYPE::BOSS_CONVERGING_CAST;
     }
 
     return STATE_TYPE::BOSS_SPREAD_BULLET;

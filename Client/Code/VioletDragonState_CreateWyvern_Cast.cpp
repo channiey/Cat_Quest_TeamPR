@@ -1,4 +1,4 @@
-#include "VioletDragonState_CreateWyvern.h"
+#include "VioletDragonState_CreateWyvern_Cast.h"
 #include "Export_Function.h"
 #include "Monster.h"
 #include "Player.h"
@@ -7,25 +7,24 @@
 #include "Hedgehog.h"
 #include "FoxFire.h"
 #include "VioletDragon.h"
-
-CVioletDragonState_CreateWyvern::CVioletDragonState_CreateWyvern(LPDIRECT3DDEVICE9 pGraphicDev)
+CVioletDragonState_CreateWyvern_Cast::CVioletDragonState_CreateWyvern_Cast(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
 
 {
 }
 
-CVioletDragonState_CreateWyvern::~CVioletDragonState_CreateWyvern()
+CVioletDragonState_CreateWyvern_Cast::~CVioletDragonState_CreateWyvern_Cast()
 {
 }
 
-HRESULT CVioletDragonState_CreateWyvern::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_CreateWyvern_Cast::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::BOSS_CREATE_WYVERN;
+    m_eState = STATE_TYPE::BOSS_CREATE_CAST;
     
     m_fAccTime = 0.f;
     
@@ -50,7 +49,7 @@ HRESULT CVioletDragonState_CreateWyvern::Ready_State(CStateMachine* pOwner)
 	return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_CreateWyvern_Cast::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -71,11 +70,11 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
+
     //Monster - Cur HP Condition
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
-
 
     // Player Component ==============================
     // Player
@@ -136,17 +135,6 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     }
 
  
-
-    // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-
 
     // Time 
     m_fAccTime += fTimeDelta;
@@ -263,57 +251,39 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     }
 
 #pragma region State Change
-    // FullDown 상태는 FullDown Down 상태로만 전이 한다
 
-    // State Change 
-
-    if (m_fAccTime >= 7.f )
+    if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {
-        m_fAccTime = 0.f;
-        m_bCreateWyvern1 = false;
-        m_bCreateWyvern2 = false;
 
-        m_bCreateWyvern3 = false;
-        m_bCreateWyvern4 = false;
-        m_bCreateWyvern5 = false;
-        m_bCreateWyvern6 = false;
-
-        m_bCreateWyvern7 = false;
-        m_bCreateWyvern8 = false;
-        m_bCreateWyvern9 = false;
-        m_bCreateWyvern10 = false;
-
-        m_bInit = false;
-        return STATE_TYPE::BOSS_SPREAD_BULLET;
+        return STATE_TYPE::BOSS_CREATE_WYVERN;
     }
 
-
-   return STATE_TYPE::BOSS_CREATE_WYVERN;
+   return STATE_TYPE::BOSS_CREATE_CAST;
 
 #pragma endregion
 	
 }
 
-void CVioletDragonState_CreateWyvern::LateUpdate_State()
+void CVioletDragonState_CreateWyvern_Cast::LateUpdate_State()
 {
  
 }
 
-void CVioletDragonState_CreateWyvern::Render_State()
+void CVioletDragonState_CreateWyvern_Cast::Render_State()
 {
  
 }
 
-STATE_TYPE CVioletDragonState_CreateWyvern::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_CreateWyvern_Cast::Key_Input(const _float& fTimeDelta)
 {
 
     return m_eState;
 }
 
-CVioletDragonState_CreateWyvern* CVioletDragonState_CreateWyvern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_CreateWyvern_Cast* CVioletDragonState_CreateWyvern_Cast::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
 
-    CVioletDragonState_CreateWyvern* pInstance = new CVioletDragonState_CreateWyvern(pGraphicDev);
+    CVioletDragonState_CreateWyvern_Cast* pInstance = new CVioletDragonState_CreateWyvern_Cast(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
@@ -326,7 +296,7 @@ CVioletDragonState_CreateWyvern* CVioletDragonState_CreateWyvern::Create(LPDIREC
     return pInstance;
 }
 
-void CVioletDragonState_CreateWyvern::Free()
+void CVioletDragonState_CreateWyvern_Cast::Free()
 {
 
 	__super::Free();

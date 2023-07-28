@@ -1,8 +1,7 @@
 #include "Chase_Bullet.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
-
-
+#include "Player.h"
 
 CChase_Bullet::CChase_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     : CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CHASE_BULLET)
@@ -64,10 +63,6 @@ _int CChase_Bullet::Update_Object(const _float& fTimeDelta)
     m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
     
-
-
-
-
     return iExit;
 }
 
@@ -91,6 +86,32 @@ void CChase_Bullet::Render_Object()
 
 
     __super::Render_Object();
+}
+
+void CChase_Bullet::OnCollision_Enter(CGameObject* _pColObj)
+{
+
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
+
+    switch (_pColObj->Get_Type())
+    {
+    case OBJ_TYPE::PLAYER:
+
+        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage);
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        break;
+    default:
+        break;
+    }
+}
+
+void CChase_Bullet::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CChase_Bullet::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CChase_Bullet::Add_Component()

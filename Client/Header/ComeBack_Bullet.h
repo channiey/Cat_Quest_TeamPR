@@ -23,6 +23,13 @@ public:
 
 	void					Comeback(const _float& fTimeDelta);
 
+public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
+
+
+
 private:
 	HRESULT					Add_Component();
 
@@ -42,6 +49,11 @@ private:
 	LERP_FLOAT_INFO m_tAlpha;
 
 	_float			m_fChaseTime;
+
+
+
+private:
+	_float					m_fDamage;
 
 protected:
 	virtual void		Free() override;

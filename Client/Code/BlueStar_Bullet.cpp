@@ -1,5 +1,7 @@
 #include "BlueStar_Bullet.h"
 #include "Export_Function.h"
+#include "Player.h"
+
 
 CBlueStar_Bullet::CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_STAR_BULLET)
@@ -35,7 +37,7 @@ HRESULT CBlueStar_Bullet::Ready_Object()
 
     m_vOriginPos = m_pTransformCom->Get_Info(INFO_POS);
     
-
+    m_fDamage = 5.f;
 
     m_bInit = false;
 
@@ -126,6 +128,33 @@ void CBlueStar_Bullet::Render_Object()
     m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
     __super::Render_Object();
+}
+
+void CBlueStar_Bullet::OnCollision_Enter(CGameObject* _pColObj)
+{
+
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
+
+    switch (_pColObj->Get_Type())
+    {
+    case OBJ_TYPE::PLAYER:
+
+        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage);
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        break;
+    default:
+        break;
+    }
+
+}
+
+void CBlueStar_Bullet::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CBlueStar_Bullet::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CBlueStar_Bullet::Add_Component()

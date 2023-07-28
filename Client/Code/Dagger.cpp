@@ -1,5 +1,7 @@
 #include "Dagger.h"
 #include "Export_Function.h"
+#include "Player.h"
+
 
 CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)
@@ -35,6 +37,9 @@ HRESULT CDagger::Ready_Object()
     m_bNonTarget = false;
 
     m_bInit = false;
+
+
+    m_fDamage = 7.f;
 
     m_szName = L"Projectile_Dagger";
 
@@ -119,6 +124,33 @@ void CDagger::Render_Object()
     m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB( 255, 255, 255, 255));
 
     __super::Render_Object();
+}
+
+void CDagger::OnCollision_Enter(CGameObject* _pColObj)
+{
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+
+
+    switch (_pColObj->Get_Type())
+    {
+    case OBJ_TYPE::PLAYER:
+
+        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage);
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        break;
+    default:
+        break;
+    }
+
+
+}
+
+void CDagger::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CDagger::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CDagger::Add_Component()

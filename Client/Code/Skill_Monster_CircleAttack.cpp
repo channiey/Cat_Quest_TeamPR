@@ -170,7 +170,7 @@ HRESULT CSkill_Monster_CircleAttack::Play()
     {
         m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
         m_pRangeEffect->Alphaing(0.01f, fRangeAlphaValue, fRangeAlphaValue);
-        m_pRangeEffect->Scaling(1.8f, 0.3f, 1.2f);    // 18 Frame
+        m_pRangeEffect->Scaling(0.9f, 0.3f, 1.2f);    // 18 Frame
 
         m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
         m_pBaseRangeEffect->Alphaing(0.01f, fBaseAlphaValue, fBaseAlphaValue);

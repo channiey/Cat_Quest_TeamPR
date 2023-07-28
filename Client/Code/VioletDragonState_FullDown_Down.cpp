@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "Monster.h"
 #include "Player.h"
-
+#include "VioletDragon.h"
 CVioletDragonState_FullDown_Down::CVioletDragonState_FullDown_Down(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
@@ -48,6 +48,12 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
     // Monster - Cur Animation
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
+
+
+    //Monster - Cur HP Condition
+    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
+    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
 
     // Player Component ==============================
     // Player
@@ -102,6 +108,8 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 
 
 
+    pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x, vOwnerOriginPos.y , vOwnerOriginPos.z });
+
 	// Time
 	m_fAccTime += fTimeDelta;
 
@@ -121,13 +129,11 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 	// 임시로 전이 반복 시킴 
 	// State Change 
 
-	if (m_fAccTime >= 5.f)
+	if (m_fAccTime >= 1.1f)
 	{
 		m_fAccTime = 0.f;
-		return STATE_TYPE::BOSS_CONVERGING_FIRE;
+		return STATE_TYPE::BOSS_CONVERGING_CAST;
 	}
-
-
 	return STATE_TYPE::BOSS_FULLDOWN_DOWN;
 }
 
