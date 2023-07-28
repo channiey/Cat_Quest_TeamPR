@@ -231,7 +231,6 @@ HRESULT CScene_World::Ready_Scene()
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
 	CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_theme.wav");
-
 	return S_OK;
 }
 
@@ -405,10 +404,10 @@ HRESULT CScene_World::Ready_Layer_UI()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Zoom", pGameObject), E_FAIL);
 
-	//// UI - Exp
-	//pGameObject = CExpUI::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Exp", pGameObject), E_FAIL);
+	// UI - Exp
+	pGameObject = CExpUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Exp", pGameObject), E_FAIL);
 
 	// UI - Hp
 	pGameObject = CHpUI::Create(m_pGraphicDev);

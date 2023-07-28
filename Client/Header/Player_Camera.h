@@ -29,6 +29,7 @@ public:
 
 	virtual _bool			Is_BackView() override { return m_bBackView; };
 	virtual void			Set_BackView(const _bool& _bBackView) override;
+	virtual void			Set_FlightView(const _bool& _bFlightView) override;
 
 private:
 	HRESULT					Add_Component(void);
@@ -54,8 +55,11 @@ private:
 	_bool					m_bDrag;
 
 	_bool					m_bBackView;
+	_bool					m_bFlightView;
 
 	LERP_FLOAT_INFO			m_fJumpDelta;
+	LERP_FLOAT_INFO			m_fFlightDelta;
+
 private:
 	virtual void			Free() override;
 

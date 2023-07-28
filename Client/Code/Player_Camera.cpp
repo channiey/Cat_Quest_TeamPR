@@ -11,6 +11,7 @@ CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_eFadeMode(FADE_MODE::TYPEEND)
 	, m_bDrag(TRUE)
 	, m_bBackView(FALSE)
+	, m_bFlightView(FALSE)
 {
 
 }
@@ -18,7 +19,9 @@ CPlayer_Camera::CPlayer_Camera(const CPlayer_Camera& rhs)
 	: Engine::CCameraObject(rhs)
 {
 	ZeroMemory(&m_fJumpDelta, sizeof(LERP_FLOAT_INFO));
+	ZeroMemory(&m_fFlightDelta, sizeof(LERP_FLOAT_INFO));
 }
+
 CPlayer_Camera::~CPlayer_Camera()
 {
 }
@@ -66,7 +69,7 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 	{
 		m_pCameraCom->m_tHeightLerp.Update_Lerp(fTimeDelta);
 	}
-
+	
 	if (m_pCameraCom->m_tVec3Lerp.bActive)
 	{
 		m_pCameraCom->m_tVec3Lerp.Update_Lerp(fTimeDelta);
@@ -79,6 +82,7 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 	}
 
 	m_fJumpDelta.Update_Lerp(fTimeDelta);
+	m_fFlightDelta.Update_Lerp(fTimeDelta);
 
 	return iExit;
 }
@@ -203,8 +207,10 @@ void CPlayer_Camera::Set_ViewSpace()
 	_float fY = 0.f;
 
 	
-	// 카메라 높이 세팅 (백뷰라면, 카메라의 높이를 낮춘다)
-	fY = (sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG) - (m_fJumpDelta.fCurValue * 0.25f); // m_fJumpDelta.fCurValue는 백뷰에서 사용
+	if (m_fFlightDelta.bActive || m_bFlightView) // 카메라 높이 세팅 (점프뷰라면, 카메라의 높이를 높인다)	
+		fY = (sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG) + (m_fFlightDelta.fCurValue);
+	else // 카메라 높이 세팅 (백뷰라면, 카메라의 높이를 낮춘다 -> 일반뷰라면 0들어감)	 
+		fY = (sinf(fTheta) * m_pCameraCom->m_fDistance * CAM_HEIGHT_MAG) - (m_fJumpDelta.fCurValue * 0.25f); // m_fJumpDelta.fCurValue는 백뷰에서 사용
 
 	// 백뷰라면 바라보는 시점의 높이를 높인다.
 	vLerpPos.y += m_fJumpDelta.fCurValue * 0.5f;
@@ -318,5 +324,26 @@ void CPlayer_Camera::Set_BackView(const _bool& _bBackView)
 		m_fJumpDelta.fCurValue = 10.f;
 
 		m_bBackView = FALSE;
+	}
+}
+
+void CPlayer_Camera::Set_FlightView(const _bool& _bFlightView)
+{
+	if (_bFlightView && !m_bFlightView)
+	{
+		m_fFlightDelta.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_fFlightDelta.Set_Lerp(1.f, 0.f, 8.f);
+		m_bFlightView = TRUE;
+
+	}
+	else if (!_bFlightView && m_bFlightView)
+	{
+		//m_fFlightDelta.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+		m_fFlightDelta.bActive = TRUE;
+		m_fFlightDelta.fCurTime = 0.f;
+		m_fFlightDelta.eMode = LERP_MODE::SMOOTHERSTEP;
+		m_fFlightDelta.Set_Lerp(1.f, m_fFlightDelta.fCurValue, 0.f);
+
+		m_bFlightView = FALSE;
 	}
 }

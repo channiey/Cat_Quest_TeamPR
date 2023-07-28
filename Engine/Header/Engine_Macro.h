@@ -72,7 +72,7 @@ namespace Engine
 
 //Sound
 
-#define SOUND_VOLUME_BGM			1.f
+#define SOUND_VOLUME_BGM			0.7f
 
 	/*-------------------------------------------------------------------------------*/
 

@@ -19,6 +19,7 @@ public:
 	virtual const _bool&				Is_Fade() { return FALSE; }
 
 	virtual void						Set_BackView(const _bool& _bBackView) {};
+	virtual void						Set_FlightView(const _bool& _bFlightView) {};
 	virtual _bool						Is_BackView()  { return TRUE; } 
 
 public:
