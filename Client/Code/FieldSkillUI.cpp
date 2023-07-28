@@ -572,6 +572,9 @@ void CFieldSkillUI::Mouse_Input()
 {
 	if (CInputDev::GetInstance()->Get_DIMouseState(DIM_RB))
 	{
+		if(!m_bIsOn)
+			CSoundMgr::GetInstance()->PlaySoundW(L"scroll_select.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+
 		m_bIsOn = true;
 		
 		CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
@@ -584,7 +587,7 @@ void CFieldSkillUI::Mouse_Input()
 
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 235, 168, 35));
 
-		CSoundMgr::GetInstance()->PlaySoundW(L"scroll_select.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+		
 	}
 	else
 	{
