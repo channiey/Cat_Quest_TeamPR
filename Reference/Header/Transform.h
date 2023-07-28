@@ -28,7 +28,7 @@ public:
 	void					Set_Pos			(const _vec3& _vPos);								
 	void					Set_Rot			(const _vec3& _vRot, const SPACEID _eSpace = LOCAL);
 	void					Set_Scale		(const _vec3& _vPos);
-	void					Set_Dir			(const _vec3& _vDir)		{ m_vDir = _vDir; }
+	void					Set_Dir			(const _vec3& _vDir)		{ D3DXVec3Normalize(&m_vDir, &_vDir); }
 
 	void					Reverse			();
 

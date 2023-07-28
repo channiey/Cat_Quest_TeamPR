@@ -978,7 +978,7 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Enter/%d.png", 5)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Bar",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Bar/%d.png", 13)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Bar/%d.png", 14)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Indicator",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Indicator.png")), E_FAIL);
@@ -1065,6 +1065,15 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Square_Gold"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Square_Gold.png")), E_FAIL);
+	// 레벨업 이펙트
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Banner_Blue"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/LevelUp/banner_blue.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Glow"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/LevelUp/glow.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Shine"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/LevelUp/shine.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Shine02"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/LevelUp/shine_02.png")), E_FAIL);
 #pragma endregion
 	 
 #pragma region YUN

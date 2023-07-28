@@ -181,6 +181,8 @@
     <ClInclude Include="..\Header\Dagger.h" />
     <ClInclude Include="..\Header\DeathTree.h" />
     <ClInclude Include="..\Header\DungeonTextUI.h" />
+    <ClInclude Include="..\Header\EffectLevel_Shine.h" />
+    <ClInclude Include="..\Header\EffectLevel_Banner.h" />
     <ClInclude Include="..\Header\Effect_Boss_Thunder.h" />
     <ClInclude Include="..\Header\Effect_FlyLighting.h" />
     <ClInclude Include="..\Header\Effect_Font.h" />
@@ -546,6 +548,8 @@
     <ClCompile Include="..\Code\Dagger.cpp" />
     <ClCompile Include="..\Code\DeathTree.cpp" />
     <ClCompile Include="..\Code\DungeonTextUI.cpp" />
+    <ClCompile Include="..\Code\EffectLevel_Shine.cpp" />
+    <ClCompile Include="..\Code\EffectLevel_Banner.cpp" />
     <ClCompile Include="..\Code\Effect_Boss_Thunder.cpp" />
     <ClCompile Include="..\Code\Effect_FlyLighting.cpp" />
     <ClCompile Include="..\Code\Effect_Font.cpp" />

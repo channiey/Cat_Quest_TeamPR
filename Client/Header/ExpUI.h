@@ -32,6 +32,9 @@ private:
 	LERP_FLOAT_INFO			m_tAlpha;
 	_float					m_fAlpha;
 
+	LERP_FLOAT_INFO			m_tSize;
+	_float					m_fBarSizeX;
+
 	_bool					m_bGone;
 
 public:

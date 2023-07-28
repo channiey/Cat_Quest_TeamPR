@@ -227,7 +227,10 @@ private:
 	
 	// 날자꾸나
 	_bool						m_bhasFlight;
+	_bool						m_bFly;
+	CSkill*						m_pSkillFly;
 
+	// 미사일발사
 	_float						m_fBallTargetLenght;
 	_vec3						m_vBallDir;
 	CGameObject*				m_pBallTarget;
@@ -237,15 +240,15 @@ private:
 	_float						m_fClockingAcc;
 	_uint						m_iClockAlpha;
 
-	// 날기
-	_bool						m_bFly;
-	CSkill*						m_pSkillFly;
-
-	// 오라
+	// 이펙트
 	CEffect*				    m_pEffectOra;
+	CEffect*					m_pEffectBanner;
+	CEffect*					m_pEffectShine;
+
 	// UI
 	CUI*						m_pRingUI;
 
+	// 냥서커 반짝이
 	_float						m_fThornAcc;
 
 	/////////////////////////////////

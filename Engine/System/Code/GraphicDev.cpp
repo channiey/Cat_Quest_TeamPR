@@ -132,6 +132,13 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		return E_FAIL;
 	}
 
+	// Äù½ºÆ® ³»¿ë
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 32, 14, 500, 0, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Chela One", &m_pLevelUPFont)))
+	{
+		MSG_BOX("Create LevelUPFont Failed");
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -177,6 +184,9 @@ void CGraphicDev::Free()
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pXpFont2))
+		MSG_BOX("m_pFont Release Failed");
+
+	if (dwRefCnt = Safe_Release(m_pLevelUPFont))
 		MSG_BOX("m_pFont Release Failed");
 
 	if (dwRefCnt = Safe_Release(m_pQuestTitleFont))

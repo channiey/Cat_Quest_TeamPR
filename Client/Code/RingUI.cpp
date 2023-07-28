@@ -23,7 +23,7 @@ HRESULT CRingUI::Ready_Object()
 
 
 	m_eUIType = UI_TYPE::WORLD;
-	m_eUILayer = UI_LAYER::LV1;
+	//m_eUILayer = UI_LAYER::LV1;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

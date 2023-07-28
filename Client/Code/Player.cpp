@@ -44,6 +44,9 @@
 #include "Skill_Player_Fly.h"
 #include "Effect_Ora.h"
 #include "Effect_ThornSparkle.h"
+#include "EffectLevel_Banner.h"
+#include "EffectLevel_Shine.h"
+#include "Pollen.h"
 // UI
 #include "RingUI.h"
 #include "Effect_Font.h"
@@ -364,17 +367,29 @@ HRESULT CPlayer::Ready_Object()
 	m_pSkillFly = pSkillFly;
 	m_pSkillFly->Set_Maintain(TRUE);
 
-	CEffect* pEffectOra = CEffect_Ora::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(pEffectOra, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Ora", pEffectOra), E_FAIL);
-	m_pEffectOra = pEffectOra;
-	m_pEffectOra->Set_Maintain(TRUE);
-
 	CUI* pUI = CRingUI::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"UI_Ring", pUI), E_FAIL);
 	m_pRingUI = pUI;
 	m_pRingUI->Set_Maintain(TRUE);
+
+	CEffect* pEffect = CEffect_Ora::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Ora", pEffect), E_FAIL);
+	m_pEffectOra = pEffect;
+	m_pEffectOra->Set_Maintain(TRUE);
+
+	pEffect = CEffectLevel_Banner::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Banner", pEffect), E_FAIL);
+	m_pEffectBanner = pEffect;
+	m_pEffectBanner->Set_Maintain(TRUE);
+
+	pEffect = CEffectLevel_Shine::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Shine", pEffect), E_FAIL);
+	m_pEffectShine = pEffect;
+	m_pEffectShine->Set_Maintain(TRUE);
 
 #pragma endregion
 
@@ -670,11 +685,11 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 			Regen_Mana();
 			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
 			{
-				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 5, this);
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 10, this);
 			}
 			else
 			{
-				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + (rand() % 10), this);
 				CCameraMgr::GetInstance()->Shake_Camera();
 			}
 				
@@ -1278,6 +1293,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Set_AD(100.f);
 	if (CInputDev::GetInstance()->Key_Down('O'))
 		Set_AD(10.f);
+		
 }
 
 void CPlayer::Regen_Def(const _float& fTimeDelta)
@@ -1351,15 +1367,16 @@ void CPlayer::Create_ThornSparkle(const _float& fTimeDelta)
 
 void CPlayer::LevelUp()
 {
-	if (m_tStatInfo.fCurExp > m_tStatInfo.fMaxExp)
+	if (m_tStatInfo.fCurExp >= m_tStatInfo.fMaxExp)
 	{
-		Set_CurExp(0.f);
 		Set_MaxExp(m_tStatInfo.fMaxExp + 25);
+		Set_CurExp(0.f);
 		Set_Level(m_tStatInfo.iLevel + 1);
-		CCameraMgr::GetInstance()->Shake_Camera(0.3f, 30.f);
-		Set_MaxHP(m_tStatInfo.fMaxHP + 5);
+		Set_MaxHP(m_tStatInfo.fMaxHP + 4);
 		Set_CurHP(m_tStatInfo.fMaxHP);
-		Set_AD(m_tStatInfo.fAD + 2.f);
+		Set_AD(m_tStatInfo.fAD + 1.f);
+		m_pEffectShine->Play_Effect(vec3.one);
+		m_pEffectBanner->Play_Effect(vec3.one);
 	}
 }
 

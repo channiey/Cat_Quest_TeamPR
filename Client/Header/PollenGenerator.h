@@ -6,6 +6,8 @@ BEGIN(Engine)
 
 END
 
+class CPollen;
+
 class CPollenGenerator : public Engine::CGameObject
 {
 private:
@@ -19,13 +21,20 @@ public:
 	virtual void		LateUpdate_Object() override;
 	virtual void		Render_Object() override;
 
+private:
+	void	Caculate_CreateTime();
+	void	Caculate_InitPos();
+
+private:
+	_vec3	 m_vecCreatePos;
+
+	_float	  m_fAccTime;
+	_float	  m_fCreateTime;
+
+
 public:
 	static CPollenGenerator* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
-private:
-	_matrix m_matView, m_matWorld;
-	_vec3	m_vecCreatePos;
-	_int    m_fCreatTime;
 private:
 	virtual void		Free() override;
 

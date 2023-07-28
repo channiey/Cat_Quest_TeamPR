@@ -228,7 +228,8 @@ namespace Engine
 		UI_QUEST,
 		UI_BACKGROUND_SHADE,
 
-
+		//Effect
+		EFFECT_LEVELUP_SHINE, EFFECT_LEVELUP_BANNER, EFFECT_LEVELUP_SHINE2,
 
 
 		// Island (수정시 CMiniGameMgr_Jump.h의 enum도 같이 수정)
