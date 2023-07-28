@@ -38,10 +38,19 @@ void CSoundMgr::Release()
 	FMOD_System_Close(m_pSystem);
 }
 
+//void CSoundMgr::Play_Bgm(TCHAR* pSoundKey)
+//{
+//}
+//
+//void CSoundMgr::Play_Sound(TCHAR* pSoundKey, const SOUND_TYPE& _eType)
+//{
+//}
+//
+//void CSoundMgr::Change_Bgm(TCHAR* pSoundKey)
+//{
+//}
 
-
-
-void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
+void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 {
 	map<TCHAR*, FMOD_SOUND*>::iterator iter; 
 
@@ -59,7 +68,7 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
 
 	if (FMOD_Channel_IsPlaying(m_pChannelArr[eID], &bPlay))
 	{
-		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[eID]);
+		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)eID]);
 	}
 
 	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
@@ -67,7 +76,7 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::PlayBGM(TCHAR * pSoundKey, float fVolume)
+void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 {
 	map<TCHAR*, FMOD_SOUND*>::iterator iter;
 
@@ -82,24 +91,24 @@ void CSoundMgr::PlayBGM(TCHAR * pSoundKey, float fVolume)
 
 	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[SOUND_BGM]);
 	FMOD_Channel_SetMode(m_pChannelArr[SOUND_BGM], FMOD_LOOP_NORMAL);
-	FMOD_Channel_SetVolume(m_pChannelArr[SOUND_BGM], fVolume);
+	FMOD_Channel_SetVolume(m_pChannelArr[SOUND_BGM], SOUND_VOLUME_BGM);
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::StopSound(CHANNELID eID)
+void CSoundMgr::StopSound(CHANNEL_ID eID)
 {
-	FMOD_Channel_Stop(m_pChannelArr[eID]);
+	FMOD_Channel_Stop(m_pChannelArr[(_uint)eID]);
 }
 
 void CSoundMgr::StopAll()
 {
-	for (int i = 0 ; i < MAXCHANNEL ; ++i)
+	for (int i = 0 ; i < (_uint)MAXCHANNEL; ++i)
 		FMOD_Channel_Stop(m_pChannelArr[i]);
 }
 
-void CSoundMgr::SetChannelVolume(CHANNELID eID, float fVolume)
+void CSoundMgr::SetChannelVolume(CHANNEL_ID eID, float fVolume)
 {
-	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
+	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)eID], fVolume);
 
 	FMOD_System_Update(m_pSystem);
 }
@@ -110,16 +119,13 @@ void CSoundMgr::LoadSoundFile()
 	_finddata_t fd; 
 
 	// _findfirst : <io.h>에서 제공하며 사용자가 설정한 경로 내에서 가장 첫 번째 파일을 찾는 함수
-	//long handle = _findfirst("../Sound/*.*", &fd);
-	long long handle = _findfirst("../Bin/Resource/Sound/*.*", &fd);
+	long long handle = _findfirst("../Bin/Resource/Sound/*.*", &fd); // 64bit니까 long lone이나 intptr_t으로 사용 (32bit는 long 사용 가능)
 
 	if (handle == -1)
 		return; 
 
 	int iResult = 0; 
 
-	// ../Bin/Resource/Sound/
-	//char szCurPath[128] = "../Sound/";
 	char szCurPath[128] = "../Bin/Resource/Sound/";
 	char szFullPath[128] = ""; 
 
@@ -145,6 +151,7 @@ void CSoundMgr::LoadSoundFile()
 
 			m_mapSound.emplace(pSoundKey, pSound);
 		}
+
 		//_findnext : <io.h>에서 제공하며 다음 위치의 파일을 찾는 함수, 더이상 없다면 -1을 리턴
 		iResult = _findnext(handle, &fd);
 	}

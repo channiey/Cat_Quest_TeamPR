@@ -43,7 +43,7 @@ namespace Engine
 #define	CAM_FOV_DRAG_MAX			D3DXToRadian(90.f) // 드래그시 FOV
 
 // Cam Height
-#define CAM_HEIGHT_MAG				1.8f
+#define CAM_HEIGHT_MAG				1.5f
 #define CAM_HEIGHT_JUMP				1.5f
 
 // VTX
@@ -67,6 +67,10 @@ namespace Engine
 // Terrain Size
 #define	TERRAIN_SIZE_WORLD			330.f // 150 Tile * 150 Tile
 #define	TERRAIN_SIZE_DUNGEON		165.f // 74 Tile * 74 Tile
+
+//Sound
+
+#define SOUND_VOLUME_BGM			1.f
 
 	/*-------------------------------------------------------------------------------*/
 

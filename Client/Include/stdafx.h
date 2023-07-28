@@ -17,14 +17,21 @@
 #include <memory.h>
 #include <tchar.h>
 
+// << : fmode
 #include "../FMOD/inc/fmod.h"
-//#include "fmod.hpp"
+//#include "../FMOD/inc/fmod.hpp"
 //#pragma comment(lib, "fmod_vc.lib")
 //#pragma comment(lib, "fmodex_vc.lib")
 
+#ifdef UNICODE
+#define PlaySound  PlaySoundW
+#else
+#define PlaySound  PlaySoundA
+#endif // !UNICODE
+
 #include <io.h>
 
-
+// >> : fmode
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 
 #include <d3d9.h>

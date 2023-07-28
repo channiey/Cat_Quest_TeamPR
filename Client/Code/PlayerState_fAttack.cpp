@@ -6,6 +6,8 @@
 
 #include "Mage_Bullet.h"
 
+#include "SoundMgr.h"
+
 CPlayerState_fAttack::CPlayerState_fAttack(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CState(pGraphicDev), m_bAttackContinue(false)
 {
@@ -86,6 +88,8 @@ STATE_TYPE CPlayerState_fAttack::Update_State(const _float& fTimeDelta)
 		}
 		else
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+		
+
 	}
 	else
 	{

@@ -57,6 +57,8 @@
 #include "Inventory.h"
 #include "Item.h"
 
+#include "SoundMgr.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
 	, m_pStateMachineCom(nullptr)
