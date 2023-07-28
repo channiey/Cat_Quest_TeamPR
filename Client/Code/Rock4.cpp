@@ -23,8 +23,8 @@ HRESULT CRock4::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 0.5f, 0.5f, 0.5f });
-	m_pTransformCom->Set_Pos(_vec3{ 105.f, m_pTransformCom->Get_Scale().y, 90.f });
+	m_pTransformCom->Set_Scale(_vec3{ 4.8f, 1.7f, 2.f });
+	m_pTransformCom->Set_Pos(_vec3{ 350.f, m_pTransformCom->Get_Scale().y, 50.f });
 	
 	m_szName = L"Rock4";
 	

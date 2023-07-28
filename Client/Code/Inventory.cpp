@@ -1,6 +1,16 @@
 #include "Inventory.h"
 #include "Export_Function.h"
 
+#include "SoundMgr.h"
+
+// 사운드
+#define INVETORY_BAG			1.f
+#define INVETORY_ARMOR_EQUIP	1.f
+#define INVETORY_SKILL_CLICK	1.f
+#define INVETORY_SKILL_EQUIP	1.f
+#define INVETORY_SKILL_UNEQUIP  1.f
+#define INVETORY_TAB_CLICK		1.f
+
 // 아이템
 #include "Item_Weapon.h"
 #include "WarriorWeapon.h"
@@ -952,6 +962,8 @@ void CInventory::Skill_Slot()
 	{
 		if (CInputDev::GetInstance()->Key_Down('1'))
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"magic_unlock.wav", CHANNEL_ID::UI_2, INVETORY_SKILL_EQUIP);
+
 			for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
 			{
 				if (m_sSkillRingAry[i].m_pEquipSkill != nullptr &&
@@ -969,6 +981,8 @@ void CInventory::Skill_Slot()
 		}
 		else if (CInputDev::GetInstance()->Key_Down('2'))
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"magic_unlock.wav", CHANNEL_ID::UI_2, INVETORY_SKILL_EQUIP);
+
 			for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
 			{
 				if (m_sSkillRingAry[i].m_pEquipSkill != nullptr &&
@@ -986,6 +1000,8 @@ void CInventory::Skill_Slot()
 		}
 		else if (CInputDev::GetInstance()->Key_Down('3'))
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"magic_unlock.wav", CHANNEL_ID::UI_2, INVETORY_SKILL_EQUIP);
+
 			for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
 			{
 				if (m_sSkillRingAry[i].m_pEquipSkill != nullptr &&
@@ -1003,6 +1019,8 @@ void CInventory::Skill_Slot()
 		}
 		else if (CInputDev::GetInstance()->Key_Down('4'))
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"magic_unlock.wav", CHANNEL_ID::UI_2, INVETORY_SKILL_EQUIP);
+
 			for (_int i = 0; i < MAX_SKILL_SLOT; ++i)
 			{
 				if (m_sSkillRingAry[i].m_pEquipSkill != nullptr &&
@@ -1428,6 +1446,8 @@ void CInventory::ItemPicking_UI()
 			// 마우스 클릭 시
 			if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 			{
+				CSoundMgr::GetInstance()->PlaySound(L"armor_equip.wav", CHANNEL_ID::UI_1, INVETORY_ARMOR_EQUIP);
+
 				if (!m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bEquip && m_sItemSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace)
 				{
 					// 이미 선택된 애들은 해제
@@ -1621,6 +1641,8 @@ void CInventory::SkillPicking_UI()
 				// 제대로 존재하는 스킬을 눌렀을 시.
 				if (m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bIsSpace && m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_bOnSpace)
 				{
+					CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_1, INVETORY_SKILL_CLICK);
+
 					_bool bIsCheck = false; // 장착 여부 bool 변수
 
 					for (_int j = 0; j < MAX_SKILL_SLOT; ++j)
@@ -1631,6 +1653,13 @@ void CInventory::SkillPicking_UI()
 							// 이름 비교
 							if (m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSkill.m_pSkill->Get_Name() == m_sSkillRingAry[j].m_pEquipSkill->m_pSkill->Get_Name())
 							{
+								if (j == 0 ) 
+									CSoundMgr::GetInstance()->PlaySound(L"magic_appear.wav", CHANNEL_ID::UI_3, INVETORY_SKILL_UNEQUIP);
+								if (j == 1 || j == 2)
+									CSoundMgr::GetInstance()->PlaySound(L"magic_appear_2.wav", CHANNEL_ID::UI_3, INVETORY_SKILL_UNEQUIP);
+								if (j == 3)
+									CSoundMgr::GetInstance()->PlaySound(L"magic_unlock.wav", CHANNEL_ID::UI_3, INVETORY_SKILL_UNEQUIP);
+
 								m_sSkillSpaceAry[(INVEN_BUTTON1 + i) - 3].m_pSpaceSkill.m_bEquip = false;
 								m_sSkillRingAry[j].m_pEquipSkill = nullptr;
 								m_pPlayer->Set_SkillSlot(j, nullptr);
@@ -1722,6 +1751,8 @@ void CInventory::TabPicking_UI()
 			m_bTabItemPick = true;
 			if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 			{
+				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_1, INVETORY_TAB_CLICK);
+
 				if (m_eInvenType != INVENTYPE::INVEN_ITEM)
 				{
 					m_eInvenType = INVENTYPE::INVEN_ITEM;
@@ -1735,6 +1766,8 @@ void CInventory::TabPicking_UI()
 			m_bTabSkillPick = true;
 			if (CInputDev::GetInstance()->Key_Down(MK_LBUTTON))
 			{
+				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_1, INVETORY_SKILL_CLICK);
+
 				if (m_eInvenType != INVENTYPE::INVEN_SKILL)
 				{
 					m_eInvenType = INVENTYPE::INVEN_SKILL;
@@ -2048,6 +2081,7 @@ void CInventory::Key_Input()
 {
 	if (CInputDev::GetInstance()->Key_Down(VK_TAB))
 	{
+		CSoundMgr::GetInstance()->PlaySound(L"bag_inventory.wav", CHANNEL_ID::UI_1, INVETORY_BAG);
 		if (!m_bIsOn) {
 			m_bIsOn = true;
 			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);

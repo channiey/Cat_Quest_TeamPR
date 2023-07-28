@@ -6,6 +6,7 @@
 #include "DialogUI.h"
 #include "EventMgr.h"
 #include "QuestMgr.h"
+#include "SoundMgr.h"
 
 #include "Npc_King.h"
 #include "Npc_Mage.h"
@@ -17,7 +18,13 @@
 #include "MiniGameMgr_Jump.h"
 #include "Player.h"
 
+
+#define TALK_SOUND 1.f
+#define MEOW_SOUND 1.f
+
+
 IMPLEMENT_SINGLETON(CTalkMgr)
+
 
 CTalkMgr::CTalkMgr()
 	:m_bTargetCam(false), m_bStaySet(false), m_bReturnCam(false), m_bTalkEnd(false), m_iStayTime(0)
@@ -137,6 +144,10 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+			if(m_iTalkIndex != 0)
+				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);
+			else 
+				CSoundMgr::GetInstance()->PlaySound(L"cat_meow.wav", CHANNEL_ID::UI_1, MEOW_SOUND);
 
 			// 대화 중 움직일 수 없게
 			dynamic_cast<CPlayer*>(CManagement::GetInstance()
@@ -212,6 +223,11 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 	{
 		if (CInputDev::GetInstance()->Key_Down('E'))
 		{
+			if (m_iTalkIndex != 0)
+				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);
+			else
+				CSoundMgr::GetInstance()->PlaySound(L"cat_meow.wav", CHANNEL_ID::UI_1, MEOW_SOUND);
+
 			// 대화 중 움직일 수 없게
 			dynamic_cast<CPlayer*>(CManagement::GetInstance()
 				->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Set_PlayerTalk(true);

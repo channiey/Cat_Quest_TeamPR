@@ -23,7 +23,7 @@ HRESULT CWreckPiece2::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 3.f, 1.f, 1.f });
+	m_pTransformCom->Set_Scale(_vec3{ 2.f, 0.5f, 1.f });
 	m_pTransformCom->Set_Pos(_vec3{ 318.f, m_pTransformCom->Get_Scale().y, 50.f });
 
 	m_szName = L"WreckPiece2";

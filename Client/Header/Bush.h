@@ -34,6 +34,7 @@ protected:
 
 	_int					m_iTranslucent;
 
+	_bool					m_bReadySound;
 protected:
 	virtual void			Free() override;
 
