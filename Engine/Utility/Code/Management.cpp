@@ -5,7 +5,7 @@ IMPLEMENT_SINGLETON(CManagement)
 
 CManagement::CManagement() 
 			: m_pCurScene(nullptr)
-			, m_ePlayMode(PLAY_MODE::TOOL)
+			, m_ePlayMode(PLAY_MODE::GAME)
 			, m_eGameStatus(GAME_STATUS::PLAYING)
 			, m_bDebug(FALSE)
 			, m_bEnterInGame(FALSE)

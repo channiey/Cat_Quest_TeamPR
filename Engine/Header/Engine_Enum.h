@@ -290,7 +290,56 @@ namespace Engine
 
 	enum class SKILL_TYPE			{ FIRE, THUNDER, ICE, BEAM, HEAL, PURSERKER, TYPEEND};
 	
-	enum CHANNEL_ID			{ SOUND_EFFECT_01, SOUND_EFFECT_02, SOUND_BGM, MAXCHANNEL };
+	enum class CHANNEL_ID			
+	{ 		
+		// bgm
+		BGM_PREV,
+		BGM_CUR,
+
+		// player
+		PLAYER_0, 
+		PLAYER_1, 
+		PLAYER_2, 
+
+		// monster
+		MONSTER_HEDGEHOG,
+		MONSTER_BAT,
+		MONSTER_RAM,
+		MONSTER_FOX,
+		MONSTER_WYVERN,
+		MONSTER_WYVERN_RED,
+		MONSTER_FISH,
+		MONSTER_SERPENT,
+
+		MONSTER_BOSS_0,
+		MONSTER_BOSS_1,
+		MONSTER_BOSS_2,
+
+		// environment
+		ENVIRONMENT_0,
+		ENVIRONMENT_1,
+		ENVIRONMENT_2,
+		ENVIRONMENT_3,
+
+		// ui
+		UI_0,
+		UI_1,
+		UI_2,
+		UI_3,
+
+		// effect
+		EFFECT_0,
+		EFFECT_1,
+		EFFECT_2,
+		EFFECT_3,
+		EFFECT_4,
+		EFFECT_5,
+		EFFECT_6,
+		EFFECT_7,
+
+		TYPEEND = 32 
+	
+	};
 
 	enum class TALK_ID {
 		// KING

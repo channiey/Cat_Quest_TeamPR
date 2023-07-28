@@ -38,20 +38,10 @@ void CSoundMgr::Release()
 	FMOD_System_Close(m_pSystem);
 }
 
-//void CSoundMgr::Play_Bgm(TCHAR* pSoundKey)
-//{
-//}
-//
-//void CSoundMgr::Play_Sound(TCHAR* pSoundKey, const SOUND_TYPE& _eType)
-//{
-//}
-//
-//void CSoundMgr::Change_Bgm(TCHAR* pSoundKey)
-//{
-//}
-
 void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 {
+	StopSound(eID);
+
 	map<TCHAR*, FMOD_SOUND*>::iterator iter; 
 
 	// iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
@@ -66,12 +56,12 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 
 	FMOD_BOOL bPlay = FALSE; 
 
-	if (FMOD_Channel_IsPlaying(m_pChannelArr[eID], &bPlay))
+	if (FMOD_Channel_IsPlaying(m_pChannelArr[(_uint)eID], &bPlay))
 	{
 		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)eID]);
 	}
 
-	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
+	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)eID], fVolume);
 
 	FMOD_System_Update(m_pSystem);
 }
@@ -89,9 +79,9 @@ void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 	if (iter == m_mapSound.end())
 		return;
 
-	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[SOUND_BGM]);
-	FMOD_Channel_SetMode(m_pChannelArr[SOUND_BGM], FMOD_LOOP_NORMAL);
-	FMOD_Channel_SetVolume(m_pChannelArr[SOUND_BGM], SOUND_VOLUME_BGM);
+	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND]);
+	FMOD_Channel_SetMode(m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND], FMOD_LOOP_NORMAL);
+	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::TYPEEND], SOUND_VOLUME_BGM);
 	FMOD_System_Update(m_pSystem);
 }
 
@@ -102,7 +92,7 @@ void CSoundMgr::StopSound(CHANNEL_ID eID)
 
 void CSoundMgr::StopAll()
 {
-	for (int i = 0 ; i < (_uint)MAXCHANNEL; ++i)
+	for (int i = 0 ; i < (_uint)CHANNEL_ID::TYPEEND; ++i)
 		FMOD_Channel_Stop(m_pChannelArr[i]);
 }
 
