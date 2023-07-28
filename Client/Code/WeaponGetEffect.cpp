@@ -7,9 +7,11 @@
 #include "WeaponGetUI.h"
 #include "Item_Weapon.h"
 
+#include "SoundMgr.h"
+
 CWeaponGetEffect::CWeaponGetEffect(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pWeapon)
 	: CUI(pGraphicDev, OBJ_ID::UI_WEAPON_GET_EFFECT_UI)
-	, m_bSizeUp(false), m_bTimeSet(false), m_bResultStay(false)
+	, m_bSizeUp(false), m_bTimeSet(false), m_bResultStay(false), m_bReadySound(true)
 	, m_iStayCount(0)
 {
 	m_pWeapon = _pWeapon;
@@ -76,9 +78,9 @@ void CWeaponGetEffect::Ready_WeaponGlow()
 
 	// 무기 사이즈 다운
 	m_tSmallerLerpX.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tSmallerLerpX.Set_Lerp(2.f, m_fSizeX, m_fSizeX * 0.7f);
+	m_tSmallerLerpX.Set_Lerp(1.f, m_fSizeX, m_fSizeX * 0.7f);
 	m_tSmallerLerpY.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tSmallerLerpY.Set_Lerp(2.f, m_fSizeY, m_fSizeY * 0.7f);
+	m_tSmallerLerpY.Set_Lerp(1.f, m_fSizeY, m_fSizeY * 0.7f);
 	// 무기 사이즈 서든
 	m_tSuddenWeaponLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 	m_tSuddenWeaponLerpX.Set_Lerp(0.25f, m_fSizeX * 0.7f, m_fSizeX * 2.f);
@@ -261,6 +263,13 @@ _int CWeaponGetEffect::Update_Object(const _float& fTimeDelta)
 
 	if (!m_bSizeUp)
 	{
+		if (m_bReadySound)
+		{
+			CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.f);
+			CSoundMgr::GetInstance()->PlaySound(L"Open Chest.wav", CHANNEL_ID::EFFECT_0, 0.8f);
+			m_bReadySound = false;
+		}
+
 		Random_Move();
 		Smaller_Weapon();
 	}
@@ -310,7 +319,7 @@ void CWeaponGetEffect::Smaller_Weapon()
 
 	if (!m_tSmallerLerpX.bActive && !m_bTimeSet)
 	{
-		m_iStayCount = GetTickCount64() + 500;
+		m_iStayCount = GetTickCount64() + 10;
 		m_bTimeSet = true;
 	}
 
@@ -329,7 +338,7 @@ void CWeaponGetEffect::Sudden_Weapon()
 	{
 		if (!m_bResultStay)
 		{
-			m_iStayCount2 = GetTickCount64() + 1200;
+			m_iStayCount2 = GetTickCount64() + 300;
 			m_bResultStay = true;
 		}
 		// 스파클

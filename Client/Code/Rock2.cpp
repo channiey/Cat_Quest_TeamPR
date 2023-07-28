@@ -23,9 +23,9 @@ HRESULT CRock2::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 0.5f, 0.5f, 0.5f });
-	m_pTransformCom->Set_Pos(_vec3{ 95.f, m_pTransformCom->Get_Scale().y, 90.f });
-	
+	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 1.f, 1.f });
+	m_pTransformCom->Set_Pos(_vec3{ 370.f, m_pTransformCom->Get_Scale().y, 50.f });
+
 	m_szName = L"Rock2";
 
 	return S_OK;

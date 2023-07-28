@@ -6,9 +6,11 @@
 
 #include "SkillGetUI.h"
 
+#include "SoundMgr.h"
+
 CSkillGetEffect::CSkillGetEffect(LPDIRECT3DDEVICE9 pGraphicDev, CSkill* _pSkill)
 	:	CUI(pGraphicDev, OBJ_ID::UI_SKILL_GET_EFFECT_UI)
-		, m_bSizeUp(false) , m_bTimeSet(false), m_bResultStay(false)
+		, m_bSizeUp(false) , m_bTimeSet(false), m_bResultStay(false), m_bReadySound(true)
 		, m_iStayCount(0)
 {
 	m_pSkill = _pSkill;
@@ -44,7 +46,6 @@ HRESULT CSkillGetEffect::Ready_Object()
 	Ready_Sparkle();
 
 	m_iAllTranslucent = 255;
-
 	return S_OK;
 }
 
@@ -75,7 +76,7 @@ void CSkillGetEffect::Ready_SkillGlow()
 
 	// 스킬 사이즈 다운
 	m_tSmallerLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tSmallerLerp.Set_Lerp(2.f, m_fSizeX, m_fSizeX * 0.7f);
+	m_tSmallerLerp.Set_Lerp(1.f, m_fSizeX, m_fSizeX * 0.7f);
 	// 스킬 사이즈 서든
 	m_tSuddenSkillLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 	m_tSuddenSkillLerp.Set_Lerp(0.25f, m_fSizeX * 0.7f, m_fSizeX * 2.f);
@@ -239,6 +240,7 @@ _int CSkillGetEffect::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
+
 	if (m_iStayCount2 < GetTickCount64())
 	{
 		m_iAllTranslucent -= 5;
@@ -255,6 +257,13 @@ _int CSkillGetEffect::Update_Object(const _float& fTimeDelta)
 
 	if (!m_bSizeUp)
 	{
+		if (m_bReadySound)
+		{
+			CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.f);
+			CSoundMgr::GetInstance()->PlaySound(L"Open Chest.wav", CHANNEL_ID::EFFECT_0, 0.8f);
+			m_bReadySound = false;
+		}
+
 		Random_Move();
 		Smaller_Skill();
 	}
@@ -302,7 +311,7 @@ void CSkillGetEffect::Smaller_Skill()
 
 	if (!m_tSmallerLerp.bActive && !m_bTimeSet)
 	{
-		m_iStayCount = GetTickCount64() + 500;
+		m_iStayCount = GetTickCount64() + 10;
 		m_bTimeSet = true;
 	}
 
@@ -320,7 +329,7 @@ void CSkillGetEffect::Sudden_Skill()
 	{
 		if (!m_bResultStay)
 		{
-			m_iStayCount2 = GetTickCount64() + 1200;
+			m_iStayCount2 = GetTickCount64() + 300;
 			m_bResultStay = true;
 		}
 		// 스파클

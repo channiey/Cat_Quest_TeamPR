@@ -83,7 +83,7 @@ void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 	{
 		m_bPlayingBGM = TRUE;
 		m_LerpBgmVolume.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-		m_LerpBgmVolume.Set_Lerp(1.f, 0.f, 1.f);
+		m_LerpBgmVolume.Set_Lerp(1.f, 0.f, 0.7f);
 	}
 
 	map<TCHAR*, FMOD_SOUND*>::iterator iter;

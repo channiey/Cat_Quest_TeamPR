@@ -49,6 +49,7 @@ private:
 	virtual HRESULT			Add_Component() override;
 
 private:
+	_bool	  m_bReadySound;
 	// 알파효과 주면서 지우기
 	// _bool	  m_bDelete;
 	_bool	  m_bResultStay;

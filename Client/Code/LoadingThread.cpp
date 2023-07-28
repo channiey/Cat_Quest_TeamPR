@@ -358,6 +358,30 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Wreck/wreck_4.png")), E_FAIL);
 #pragma endregion
 
+#pragma region 그 외 환경 오브젝트
+
+	// 드라코 테이블
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Other_DrakothTable",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/Use/drakoth_table.png")), E_FAIL);
+
+	// 포션
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Other_WorldPotion",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/Use/potion.png")), E_FAIL);
+
+	// 선물상자
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Other_Present",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/Use/present.png")), E_FAIL);
+
+	// 종이
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Other_Paper",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/Use/scrap_paper.png")), E_FAIL);
+
+	// 성소
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Otehr_TownSanctuary",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Other/Use/town_sanctuary.png")), E_FAIL);
+
+
+#pragma endregion
 
 
 #pragma endregion

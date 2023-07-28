@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../Bin\</OutDir>
-    <IncludePath>$(DXSDK_DIR)Include;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\inc;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib;$(IncludePath)</IncludePath>
+    <IncludePath>E:\SR_CAT\Client\FMOD\inc;E:\SR_CAT\Client\FMOD\lib;$(DXSDK_DIR)Include</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,6 +90,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>E:\SR_CAT\Client\FMOD\inc;E:\SR_CAT\Client\FMOD\lib</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -123,7 +124,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;fmodex64_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;fmodex64_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -177,9 +178,14 @@
     <ClInclude Include="..\Header\BackgroundShade.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
+    <ClInclude Include="..\Header\DrakothTable.h" />
+    <ClInclude Include="..\Header\Paper.h" />
+    <ClInclude Include="..\Header\Present.h" />
+    <ClInclude Include="..\Header\TownSanctuary.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\Wall1.h" />
     <ClInclude Include="..\Header\Wall2.h" />
+    <ClInclude Include="..\Header\WorldPotion.h" />
     <ClInclude Include="..\Header\Wreck.h" />
     <ClInclude Include="..\Header\Skull.h" />
     <ClInclude Include="..\Header\DragonSkull1.h" />
@@ -584,9 +590,14 @@
     <ClCompile Include="..\Code\BackgroundShade.cpp" />
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
+    <ClCompile Include="..\Code\DrakothTable.cpp" />
+    <ClCompile Include="..\Code\Paper.cpp" />
+    <ClCompile Include="..\Code\Present.cpp" />
+    <ClCompile Include="..\Code\TownSanctuary.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\Wall1.cpp" />
     <ClCompile Include="..\Code\Wall2.cpp" />
+    <ClCompile Include="..\Code\WorldPotion.cpp" />
     <ClCompile Include="..\Code\Wreck.cpp" />
     <ClCompile Include="..\Code\Skull.cpp" />
     <ClCompile Include="..\Code\DragonSkull1.cpp" />

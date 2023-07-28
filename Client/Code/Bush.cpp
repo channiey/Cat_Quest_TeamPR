@@ -4,9 +4,11 @@
 #include "Export_Function.h"
 
 #include "EventMgr.h"
+#include "SoundMgr.h"
 
 CBush::CBush(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: CEnvironment(pGraphicDev, _eID)
+	, m_bReadySound(true)
 {
 }
 
@@ -76,7 +78,13 @@ void CBush::Render_Object()
 
 void CBush::Play_ColLogic(const _float& fTimeDelta)
 {
+
 	if (m_bEventSwitch) {
+		if (m_bReadySound)
+		{
+			CSoundMgr::GetInstance()->PlaySound(L"leaves_rustle.wav", CHANNEL_ID::UI_3, 1.f);
+			m_bReadySound = false;
+		}
 		// 줄어들었다
 		if (!m_bTransSwitch1 && !m_bTransSwitch2) {
 			m_pTransformCom->Set_Scale(_vec3{
@@ -109,6 +117,7 @@ void CBush::Play_ColLogic(const _float& fTimeDelta)
 			if (m_pTransformCom->Get_Scale().y <= m_vecInitScale.y) {
 				m_bTransSwitch2 = false;
 				m_bEventSwitch = false;
+				m_bReadySound = true;
 			}
 		}
 	}

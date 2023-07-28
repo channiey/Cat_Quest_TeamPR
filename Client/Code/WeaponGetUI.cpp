@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Item_Weapon.h"
 #include "QuestMgr.h"
+#include "SoundMgr.h"
 
 
 CWeaponGetUI::CWeaponGetUI(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pWeapon)
@@ -146,11 +147,13 @@ HRESULT CWeaponGetUI::Ready_Object()
 
 _int CWeaponGetUI::Update_Object(const _float& fTimeDelta)
 {
+
 	if (!m_bDelete && m_iTranslucent < 255)
 		m_iTranslucent += 5;
 
 	if (CInputDev::GetInstance()->Key_Down('E'))
 	{
+		CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_1, 1.f);
 		m_bDelete = true;
 	}
 	if (m_bDelete)
@@ -159,6 +162,9 @@ _int CWeaponGetUI::Update_Object(const _float& fTimeDelta)
 		m_iStatTranslucent -= 5;
 		if (m_iTranslucent < 5)
 		{
+			// bgm 다시 재생
+			CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.7f);
+
 			// 퀘스트가 다음 단계로 나아갈 수 있게
 			CQuestMgr::GetInstance()->Set_ReadyNext();
 			// 지금 있는 세이드도 같이 지운다.
@@ -167,6 +173,7 @@ _int CWeaponGetUI::Update_Object(const _float& fTimeDelta)
 			CEventMgr::GetInstance()->Delete_Obj(this);
 		}
 	}
+	
 
 	// 스탯 폰트
 	if (m_iTranslucent > 250)
