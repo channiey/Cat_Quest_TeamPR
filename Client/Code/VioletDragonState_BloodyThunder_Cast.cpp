@@ -1,4 +1,4 @@
-#include "VioletDragonState_BloodyThunder.h"
+#include "VioletDragonState_BloodyThunder_Cast.h"
 #include "Player.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
@@ -7,25 +7,25 @@
 #include "Skill_Boss_BloodyThunder.h"
 #include "VioletDragon.h"
 
-CVioletDragonState_BloodyThunder::CVioletDragonState_BloodyThunder(LPDIRECT3DDEVICE9 pGraphicDev)
+CVioletDragonState_BloodyThunder_Cast::CVioletDragonState_BloodyThunder_Cast(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
 {
 	
 }
 
-CVioletDragonState_BloodyThunder::~CVioletDragonState_BloodyThunder()
+CVioletDragonState_BloodyThunder_Cast::~CVioletDragonState_BloodyThunder_Cast()
 {
 }
 
-HRESULT CVioletDragonState_BloodyThunder::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_BloodyThunder_Cast::Ready_State(CStateMachine* pOwner)
 {
 
 	if (nullptr != pOwner)
 	{
 		m_pOwner = pOwner;
 	}
-	m_eState = STATE_TYPE::BOSS_BLOODY_THUNDER;
+	m_eState = STATE_TYPE::BOSS_BLOODY_CAST;
 
 	m_fAccTime = 0.f;
 
@@ -34,7 +34,7 @@ HRESULT CVioletDragonState_BloodyThunder::Ready_State(CStateMachine* pOwner)
 	return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_BloodyThunder_Cast::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -60,6 +60,7 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
 
     // Player Component ==============================
     // Player
@@ -113,15 +114,6 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
 
 
 
-      // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
 
 
     m_fAccTime += fTimeDelta;
@@ -129,34 +121,34 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
 
 
 
-    if (m_fAccTime >= 5.f)
+    if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {
-        m_fAccTime = 0.f;
-        //return STATE_TYPE::BOSS_FULLDOWN_FLY;
-        return STATE_TYPE::BOSS_SHOOTING_STAR;
+
+        return STATE_TYPE::BOSS_BLOODY_THUNDER;
     }
 
 
-	return STATE_TYPE::BOSS_BLOODY_THUNDER;
+
+	return STATE_TYPE::BOSS_BLOODY_CAST;
 }
 
-void CVioletDragonState_BloodyThunder::LateUpdate_State()
+void CVioletDragonState_BloodyThunder_Cast::LateUpdate_State()
 {
 
 }
 
-void CVioletDragonState_BloodyThunder::Render_State()
+void CVioletDragonState_BloodyThunder_Cast::Render_State()
 {
 }
 
-STATE_TYPE CVioletDragonState_BloodyThunder::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_BloodyThunder_Cast::Key_Input(const _float& fTimeDelta)
 {
 	return m_eState;
 }
 
-CVioletDragonState_BloodyThunder* CVioletDragonState_BloodyThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_BloodyThunder_Cast* CVioletDragonState_BloodyThunder_Cast::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-	CVioletDragonState_BloodyThunder* pInstance = new CVioletDragonState_BloodyThunder(pGraphicDev);
+	CVioletDragonState_BloodyThunder_Cast* pInstance = new CVioletDragonState_BloodyThunder_Cast(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_State(pOwner)))
 	{
@@ -169,7 +161,7 @@ CVioletDragonState_BloodyThunder* CVioletDragonState_BloodyThunder::Create(LPDIR
 	return pInstance;
 }
 
-void CVioletDragonState_BloodyThunder::Free()
+void CVioletDragonState_BloodyThunder_Cast::Free()
 {
     __super::Free();
 }

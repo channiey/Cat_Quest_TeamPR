@@ -1,6 +1,6 @@
 #include "FoxFire.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 
 CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner)
@@ -37,6 +37,8 @@ HRESULT CFoxFire::Ready_Object()
     m_bEnd = false;
 
 
+    m_fDamage = 5.f;
+
     m_fSpeed = 20.f;
 
     m_szName = L"Projectile_FoxFire";
@@ -61,6 +63,10 @@ _int CFoxFire::Update_Object(const _float& fTimeDelta)
         m_bEnd = false;
     }
 
+    if (m_pOwner->Is_Active() == false)
+    {
+        CEventMgr::GetInstance()->Delete_Obj(this);
+    }
 
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
@@ -116,6 +122,33 @@ void CFoxFire::Render_Object()
     m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
     __super::Render_Object();
+}
+
+void CFoxFire::OnCollision_Enter(CGameObject* _pColObj)
+{
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+  
+
+    switch (_pColObj->Get_Type())
+    {
+    case OBJ_TYPE::PLAYER:
+
+        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage);
+        CEventMgr::GetInstance()->Delete_Obj(this);
+        break;
+    default:
+        break;
+    }
+
+
+}
+
+void CFoxFire::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CFoxFire::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CFoxFire::Add_Component()

@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "Monster.h"
 #include "Player.h"
-
+#include "VioletDragon.h"
 CVioletDragonState_FullDown_Fly::CVioletDragonState_FullDown_Fly(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
@@ -49,6 +49,12 @@ STATE_TYPE CVioletDragonState_FullDown_Fly::Update_State(const _float& fTimeDelt
     // Monster - Cur Animation
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
+
+
+    //Monster - Cur HP Condition
+    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
+    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
 
     // Player Component ==============================
     // Player
@@ -107,6 +113,7 @@ STATE_TYPE CVioletDragonState_FullDown_Fly::Update_State(const _float& fTimeDelt
 
     m_fAccTime += fTimeDelta;
     
+   // pOwnerTransform->Set_Pos(_vec3{ vOwnerPos.x, 100.f , vOwnerPos.z });
 
   /*  if (m_fAccTime >= 1.5)
     {

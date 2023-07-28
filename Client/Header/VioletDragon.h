@@ -38,14 +38,37 @@ public:
 	static				CVioletDragon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
+public:
+	
+	_bool			Get_HP80() { return m_bHP_80; }
+	_bool			Get_HP50() { return m_bHP_50; }
+	_bool			Get_HP20() { return m_bHP_20; }
+
+	void			Set_HP80(_bool _bHP80) { m_bHP_80 = _bHP80; }
+	void			Set_HP50(_bool _bHP50) { m_bHP_50 = _bHP50; }
+	void			Set_HP30(_bool _bHP20) { m_bHP_20 = _bHP20; }
+
 
 private:
 
 	CSkill*					m_pFullDown;
 	_bool					m_bFullDown;
+	_float					m_FullDownTime;
 
 	CSkill*					m_pBloodyThunder;
 	_bool					m_bBloodyTunder;
+	_float					m_BloodyTime;
+
+	CSkill*					m_pCreateWyvern;
+	_bool					m_bCreatWyvernPlay;
+	_bool					m_bCreatWyvernLate;
+	_float					m_CreateTime;
+
+	_bool					m_bHP_80;
+	_bool					m_bHP_50;
+	_bool					m_bHP_20;
+
+
 
 protected:
 	virtual void		Free() override;

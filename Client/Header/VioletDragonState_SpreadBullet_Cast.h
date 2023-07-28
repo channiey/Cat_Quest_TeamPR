@@ -3,11 +3,11 @@
 
 
 
-class CVioletDragonState_SpreadBullet : public CState
+class CVioletDragonState_SpreadBullet_Cast : public CState
 {
 public:
-	explicit			CVioletDragonState_SpreadBullet(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CVioletDragonState_SpreadBullet();
+	explicit			CVioletDragonState_SpreadBullet_Cast(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CVioletDragonState_SpreadBullet_Cast();
 
 
 public:
@@ -23,7 +23,7 @@ public:
 
 
 public:
-	static CVioletDragonState_SpreadBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CVioletDragonState_SpreadBullet_Cast* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

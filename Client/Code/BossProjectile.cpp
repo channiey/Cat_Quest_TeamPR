@@ -1,4 +1,5 @@
 #include "BossProjectile.h"
+#include "Player.h"
 
 CBossProjectile::CBossProjectile(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: CProjectile(pGraphicDev, _eID)

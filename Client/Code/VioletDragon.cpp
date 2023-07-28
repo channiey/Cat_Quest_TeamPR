@@ -22,18 +22,28 @@
 #include "VioletDragonState_FullDown_Down.h"
 // ConvergingFire
 #include "VioletDragonState_ConvergingFire.h"
+#include "VioletDragonState_ConvergingFire_Cast.h"
 // BloodyThunder
 #include "VioletDragonState_BloodyThunder.h"
+#include "VioletDragonState_BloodyThunder_Cast.h"
 // ShootingStar
 #include "VioletDragonState_ShootingStar.h"
 // SpreadBullet
 #include "VioletDragonState_SpreadBullet.h"
+#include "VioletDragonState_SpreadBullet_Cast.h"
+// Create Wyvern
+#include "VioletDragonState_CreateWyvern.h"
+#include "VioletDragonState_CreateWyvern_Cast.h"
+// Dash Attack
+#include "VioletDragonState_Dash_Attack.h"
+#include "VioletDragonState_Dash_Attack_Back.h"
 
 // Effect
 #include "Shadow_Monster.h"
 #include "Skill_Monster_CircleAttack.h"
 #include "Skill_Boss_FullDown.h"
 #include "Skill_Boss_BloodyThunder.h"
+#include "Skill_Boss_CreatWyvern.h"
 #include "BigCircle_Stemp.h"
 
 
@@ -62,11 +72,14 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 40.f;
+	m_tStatInfo.fCurHP = 100.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
 
+	m_bHP_80 = false;
+	m_bHP_50 = false;
+	m_bHP_20 = false;
 
 	// 원래 이미지 크기
 	m_vImageSize.x = 5.f;  // 100px = 1.f
@@ -85,6 +98,10 @@ HRESULT CVioletDragon::Ready_Object()
 
 	fPatternTime = 1.f;
 	m_fAccTime = 0.f;
+	m_FullDownTime = 0.f;
+	m_BloodyTime = 0.f;
+	m_CreateTime = 0.f;
+
 
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
@@ -97,7 +114,8 @@ HRESULT CVioletDragon::Ready_Object()
 	m_bSkill = false;
 	m_bFullDown = false;
 	m_bBloodyTunder = false;
-
+	m_bCreatWyvernPlay = false;
+	m_bCreatWyvernLate = false;
 
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -118,6 +136,9 @@ HRESULT CVioletDragon::Ready_Object()
 		NULL_CHECK_RETURN(m_pBloodyThunder, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_BloodyThunder", m_pBloodyThunder), E_FAIL);
 
+		m_pCreateWyvern = CSkill_Boss_CreateWyvern::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pCreateWyvern, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_Create_Wyvern", m_pCreateWyvern), E_FAIL);
 
 	}
 
@@ -177,30 +198,77 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Pattern ================================	
-	// 
-	//FullDown - Fly
+	
+	// Full Down Pattern =============================
+	// FullDown - Fly
 	pState = CVioletDragonState_FullDown_Fly::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_FLY, pState);
 	
+	//FullDown - Move
+	//pState = CVioletDragonState_FullDown_Move::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_Move, pState);
+
 	// FullDown - Down
 	pState = CVioletDragonState_FullDown_Down::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_FULLDOWN_DOWN, pState);
 
+	
+	// Convergint Fire Pattern =========================
 	// Converging Fire
 	pState = CVioletDragonState_ConvergingFire::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CONVERGING_FIRE, pState);
 
+	// Converging Cast
+	pState = CVioletDragonState_ConvergingFire_Cast::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CONVERGING_CAST, pState);
+
+
+
+	// Bloody Thunder Pattern ==========================
 	// Bloody Thunder
 	pState = CVioletDragonState_BloodyThunder::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLOODY_THUNDER, pState);
+	// Bloody Cast
+	pState = CVioletDragonState_BloodyThunder_Cast::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLOODY_CAST, pState);
 
-	//Shooting Star
+
+	// Shooting Star Pattern ===========================
+	// Shooting Star
 	pState = CVioletDragonState_ShootingStar::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SHOOTING_STAR, pState);
+	// Shooting Cast
+	//pState = CVioletDragonState_::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SHOOTING_CAST, pState);
 
-	//Spread Bullet
+
+	// Spread Bullet Pattern =============================
+	// Spread Bullet
 	pState = CVioletDragonState_SpreadBullet::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SPREAD_BULLET, pState);
+	// Spread Cast
+	pState = CVioletDragonState_SpreadBullet_Cast::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SPREAD_CAST, pState);
+
+
+	// Create Wyvern Pattern ==============================
+	// Create Wyvern 
+	pState = CVioletDragonState_CreateWyvern::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CREATE_WYVERN, pState);
+	// Create Wyvern Cast
+	pState = CVioletDragonState_CreateWyvern_Cast::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CREATE_CAST, pState);
+
+
+	// Dash Attack Pattern ==============================
+	// Dash Attack
+	pState = CVioletDragonState_Dash_Attack::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_DASH_ATTACK, pState);
+	// Dash Attack Backj
+	pState = CVioletDragonState_Dash_Attack_Back::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_DASH_BACK_ATTACK, pState);
+
+
 
 #pragma endregion
 
@@ -224,7 +292,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.1f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::MONATTACK)], STATE_TYPE::MONATTACK, 0.05f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::MONATTACK, pAnimation);
 
 	// Rest
@@ -246,7 +314,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_CHASE, pAnimation);
 
 	// Attack
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.1f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BACK_MONATTACK)], STATE_TYPE::BACK_MONATTACK, 0.05f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BACK_MONATTACK, pAnimation);
 
 	// Rest
@@ -258,30 +326,76 @@ HRESULT CVioletDragon::Ready_Object()
 	// Pattern ==================================
 	
 	// FullDown - Fly
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_FLY)], STATE_TYPE::BOSS_FULLDOWN_FLY, 0.08f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_FLY)], STATE_TYPE::BOSS_FULLDOWN_FLY, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_FULLDOWN_FLY, pAnimation);
+
+	// FullDown - Move
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_MOVE)], STATE_TYPE::BOSS_FULLDOWN_MOVE, 0.05f, FALSE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_FULLDOWN_MOVE, pAnimation);
+
 
 	// FullDown - Down
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_DOWN)], STATE_TYPE::BOSS_FULLDOWN_DOWN, 0.05f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_FULLDOWN_DOWN, pAnimation);
 
+
+
 	// Converging Fire
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)], STATE_TYPE::BOSS_CONVERGING_FIRE, 0.05f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)], STATE_TYPE::BOSS_CONVERGING_FIRE, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CONVERGING_FIRE, pAnimation);
 
+	// Converging Cast
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_CAST)], STATE_TYPE::BOSS_CONVERGING_CAST, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CONVERGING_CAST, pAnimation);
+
+
+
 	// Bloody Thunder
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)], STATE_TYPE::BOSS_BLOODY_THUNDER, 0.05f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)], STATE_TYPE::BOSS_BLOODY_THUNDER, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLOODY_THUNDER, pAnimation);
+
+	// Bloody Cast
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_CAST)], STATE_TYPE::BOSS_BLOODY_CAST, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLOODY_CAST, pAnimation);
+
 
 	
 	// Shooting Star
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)], STATE_TYPE::BOSS_SHOOTING_STAR, 0.05f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)], STATE_TYPE::BOSS_SHOOTING_STAR, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SHOOTING_STAR, pAnimation);
 	
+	//// Shooting Cast
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_CAST)], STATE_TYPE::BOSS_SHOOTING_CAST, 0.05f, FALSE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SHOOTING_CAST, pAnimation);
+
+
 
 	// Spread Bullet 
-	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_BULLET)], STATE_TYPE::BOSS_SPREAD_BULLET, 0.05f, FALSE);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_BULLET)], STATE_TYPE::BOSS_SPREAD_BULLET, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SPREAD_BULLET, pAnimation);
+
+	// Spread Cast
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_CAST)], STATE_TYPE::BOSS_SPREAD_CAST, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SPREAD_CAST, pAnimation);
+
+
+	// Creat Wyvern 
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CREATE_WYVERN)], STATE_TYPE::BOSS_CREATE_WYVERN, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CREATE_WYVERN, pAnimation);
+
+	// Creat Cast
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CREATE_CAST)], STATE_TYPE::BOSS_CREATE_CAST, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CREATE_CAST, pAnimation);
+
+
+	// Dash Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_ATTACK)], STATE_TYPE::BOSS_DASH_ATTACK, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_DASH_ATTACK, pAnimation);
+
+
+	// Dash Attack Back
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_BACK_ATTACK)], STATE_TYPE::BOSS_DASH_BACK_ATTACK, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_DASH_BACK_ATTACK, pAnimation);
 
 
 
@@ -295,7 +409,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 	// Test 
-	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_CONVERGING_FIRE);
+	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
 
@@ -316,39 +430,10 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		return iExit;
 	}
 
-	//// Jumping 
+
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
-	//float Y = m_pTransformCom->Get_Scale().y;
-	//STATE_TYPE eCurType = m_pStateMachineCom->Get_CurState();
-
-	//if (eCurType != STATE_TYPE::MONATTACK && eCurType != STATE_TYPE::BACK_MONATTACK)
-	//{
-
-	//	if (vOwnerPos.y < Y || vOwnerPos.y > m_fMaxJumpY )
-	//	{
-	//		m_fJumpingSpeed *= -1;
-	//	}
-	//	m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
-
-	//}
-
-
-	// Skill Use
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
-	//if (STATE_TYPE::BACK_MONATTACK == CurState ||
-	//	STATE_TYPE::MONATTACK == CurState ||
-	//	STATE_TYPE::CHASE == CurState ||
-	//	STATE_TYPE::BACK_CHASE == CurState)
-	//{
-	//	m_fAccTime += fTimeDelta;
 
-	//	if (m_fAccTime >= 2.f)
-	//	{
-	//		m_fAccTime = 0.f;
-	//		m_pSkill->Play();
-	//		m_bSkill = true;
-	//	}
-	//}
 
 
 	// Base Skill Use Condition
@@ -366,6 +451,10 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			m_bSkill = false;
 		}
 
+	}
+	else
+	{
+		m_pBaseSkill->End();
 	}
 
 
@@ -400,14 +489,14 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	// Bloody Thunder Skill Use Condition
 	if (STATE_TYPE::BOSS_BLOODY_THUNDER == CurState && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 	{
-		m_fAccTime += fTimeDelta;
+		m_BloodyTime += fTimeDelta;
 
-		if (!m_bBloodyTunder && m_fAccTime <= 1.f)
+		if (!m_bBloodyTunder && m_BloodyTime <= 1.f)
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Play();
 			m_bBloodyTunder = true;
 		}
-		if ( m_fAccTime >= 2.f && m_bBloodyTunder == true )
+		if (m_BloodyTime >= 2.f && m_bBloodyTunder == true )
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
 	
@@ -415,25 +504,70 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			//CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBloodyTunder = false;
 		}
-		if (m_bBloodyTunder == false && m_fAccTime >= 4.f)
+		if (m_bBloodyTunder == false && m_BloodyTime >= 4.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
-			m_fAccTime = 0.f;
+			m_BloodyTime = 0.f;
 		}
 		
 	}
 
+	// Create Wyvern Skill Use Condition
+	if (STATE_TYPE::BOSS_CREATE_WYVERN == CurState )
+	{
+		m_CreateTime += fTimeDelta;
 
-
-
-
+		if (m_bCreatWyvernPlay == false && m_bCreatWyvernLate == false)
+		{
+			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->Play();
+			m_bCreatWyvernPlay = true;
+		}
 	
+		if (m_bCreatWyvernPlay == true  && m_bCreatWyvernLate == false  && m_CreateTime >= 2.f)
+		{
+			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->LatePlay();
+			m_bCreatWyvernLate = true;
+		}
+
+		if (m_bCreatWyvernPlay == true && m_bCreatWyvernLate == true && m_CreateTime >= 3.f)
+		{
+			m_CreateTime = 0.f;
+			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->End();
+		
+		}
+
+	}
+	else if(STATE_TYPE::BOSS_CREATE_WYVERN != CurState)
+	{
+		m_CreateTime = 0.f;
+		m_bCreatWyvernPlay = false;
+		m_bCreatWyvernLate = false;
+	}
+
+
 	return iExit;
 }
 
 void CVioletDragon::LateUpdate_Object()
 {
+
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.8f   ))
+	{
+		m_bHP_80 = true;
+	}
+
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.5f)
+	{
+		m_bHP_50 = true;
+	}
+
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.2f)
+	{
+		m_bHP_20 = true;
+	}
+
+
 
 	__super::LateUpdate_Object();
 }
@@ -549,34 +683,92 @@ HRESULT CVioletDragon::Add_Component()
 
 	// Pattern ===================================
 	
-	// Full Down
+	// Full Down ===========================
+	// Full Down Fly
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_FLY)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Fly", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	
+	//// Full Down Move
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_MOVE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Fly", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	// Full Down Down
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_FULLDOWN_DOWN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+
+	// Converging Fire ======================
 	// Converging Fire 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
+	//Converging Fire Cast
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_ConvergingFire_VioletDragon_Cast", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
+	// Bloody Thunder ===========================
 	// Bloody Thunder
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	// Bloody Cast
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
+
+
+	// Shooting Star ============================
 	// Shooting Star
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	// Shooting Cast
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
+
+	// Spread Bullet ============================
+	// Spread Bullet 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_BULLET)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	// Spread Cast
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_SpreadBullet_VioletDragon_Cast", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
-	// Shooting Star
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SPREAD_BULLET)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
+
+
+	// Create Wyvern ===========================
+	// Create Wyvern 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CREATE_WYVERN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	// Create Cast
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CREATE_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
+
+	// Dash Attack - Front ==============================
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dash_VioletDragon_Front", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	//Dash Attack - Back =================================
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dash_VioletDragon_Back", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
 
 
 

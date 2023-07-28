@@ -10,7 +10,7 @@ END
 class CComBack_Bullet :  public CBossProjectile
 {
 protected:
-	explicit CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner );
+	explicit CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner , _float fCombackTime);
 	explicit CComBack_Bullet(const CProjectile& rhs);
 	virtual ~CComBack_Bullet();
 
@@ -23,12 +23,19 @@ public:
 
 	void					Comeback(const _float& fTimeDelta);
 
+public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
+
+
+
 private:
 	HRESULT					Add_Component();
 
 public:
 
-	static					CComBack_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
+	static					CComBack_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime);
 
 
 private:
@@ -40,6 +47,13 @@ private:
 	_bool			m_bInit;
 
 	LERP_FLOAT_INFO m_tAlpha;
+
+	_float			m_fChaseTime;
+
+
+
+private:
+	_float					m_fDamage;
 
 protected:
 	virtual void		Free() override;

@@ -1,40 +1,35 @@
-#include "VioletDragonState_BloodyThunder.h"
-#include "Player.h"
+#include "VioletDragonState_Dash_Attack.h"
 #include "Export_Function.h"
-#include "EventMgr.h"
 #include "Monster.h"
-#include "Effect_Boss_Thunder.h"
-#include "Skill_Boss_BloodyThunder.h"
+#include "Player.h"
 #include "VioletDragon.h"
 
-CVioletDragonState_BloodyThunder::CVioletDragonState_BloodyThunder(LPDIRECT3DDEVICE9 pGraphicDev)
+CVioletDragonState_Dash_Attack::CVioletDragonState_Dash_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
 {
-	
 }
 
-CVioletDragonState_BloodyThunder::~CVioletDragonState_BloodyThunder()
+CVioletDragonState_Dash_Attack::~CVioletDragonState_Dash_Attack()
 {
 }
 
-HRESULT CVioletDragonState_BloodyThunder::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_Dash_Attack::Ready_State(CStateMachine* pOwner)
 {
-
 	if (nullptr != pOwner)
 	{
 		m_pOwner = pOwner;
 	}
-	m_eState = STATE_TYPE::BOSS_BLOODY_THUNDER;
+	m_eState = STATE_TYPE::BOSS_DASH_ATTACK;
 
 	m_fAccTime = 0.f;
-
-    m_bThunder = false;
+    
+    m_bAssault = false;
 
 	return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -55,11 +50,11 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
-
     //Monster - Cur HP Condition
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
 
     // Player Component ==============================
     // Player
@@ -107,13 +102,17 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
+
     // Distance
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
+    // Time
+    m_fAccTime += fTimeDelta;
 
-      // x 이동 방향에 따라 스케일 전환 
+
+    // x 이동 방향에 따라 스케일 전환 
     if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
     {
         pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
@@ -124,52 +123,87 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     }
 
 
-    m_fAccTime += fTimeDelta;
-   
 
 
-
-    if (m_fAccTime >= 5.f)
+    if (m_bAssault == false)
     {
-        m_fAccTime = 0.f;
-        //return STATE_TYPE::BOSS_FULLDOWN_FLY;
-        return STATE_TYPE::BOSS_SHOOTING_STAR;
+       
+        if (m_fAccTime >= 0.2f )
+        {
+            dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
+            pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
+            m_bAssault = true;
+        }
     }
 
+    if (m_bAssault == true && m_fAccTime >= 1.f)
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
 
-	return STATE_TYPE::BOSS_BLOODY_THUNDER;
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+
+
+
+
+    //// 현재 상태의 기능
+    //dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+    //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed *2 );
+    //
+
+
+
+
+
+
+#pragma region State Change
+
+
+    if (m_fAccTime >= 4.f)
+    {
+        m_fAccTime = 0.f;
+        m_bAssault =false;
+
+        return STATE_TYPE::BOSS_SPREAD_BULLET;
+    }
+
+    return STATE_TYPE::BOSS_DASH_ATTACK;
+
+#pragma endregion
+
+
+
 }
 
-void CVioletDragonState_BloodyThunder::LateUpdate_State()
+void CVioletDragonState_Dash_Attack::LateUpdate_State()
 {
-
 }
 
-void CVioletDragonState_BloodyThunder::Render_State()
+void CVioletDragonState_Dash_Attack::Render_State()
 {
 }
 
-STATE_TYPE CVioletDragonState_BloodyThunder::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Dash_Attack::Key_Input(const _float& fTimeDelta)
 {
-	return m_eState;
+    return m_eState;
 }
 
-CVioletDragonState_BloodyThunder* CVioletDragonState_BloodyThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_Dash_Attack* CVioletDragonState_Dash_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-	CVioletDragonState_BloodyThunder* pInstance = new CVioletDragonState_BloodyThunder(pGraphicDev);
+    CVioletDragonState_Dash_Attack* pInstance = new CVioletDragonState_Dash_Attack(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_State(pOwner)))
-	{
-		Safe_Release(pInstance);
-		MSG_BOX("VioletDragonState BloodyThunder Create Failed");
-		return nullptr;
+    if (FAILED(pInstance->Ready_State(pOwner)))
+    {
+        Safe_Release(pInstance);
+        MSG_BOX("VioletDragonState Dash_Attack Create Failed");
+        return nullptr;
 
-	}
+    }
+    return pInstance;
 
-	return pInstance;
 }
 
-void CVioletDragonState_BloodyThunder::Free()
+void CVioletDragonState_Dash_Attack::Free()
 {
     __super::Free();
 }

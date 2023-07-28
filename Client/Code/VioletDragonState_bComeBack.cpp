@@ -1,6 +1,7 @@
 #include "VioletDragonState_bComeBack.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "VioletDragon.h"
 
 CVioletDragonState_bComeBack::CVioletDragonState_bComeBack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -55,6 +56,14 @@ STATE_TYPE CVioletDragonState_bComeBack::Update_State(const _float& fTimeDelta)
     // Monster - Cur Animation
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
+
+
+    //Monster - Cur HP Condition
+    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
+    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
+
 
     // Player Component ==============================
     // Player
@@ -118,6 +127,11 @@ STATE_TYPE CVioletDragonState_bComeBack::Update_State(const _float& fTimeDelta)
 
     // BACK_COMBACK 우선순위
     // comback - Patrol - CHASE - ATTACK
+
+    if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+    {
+        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+    }
 
 
 

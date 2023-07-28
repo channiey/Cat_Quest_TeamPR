@@ -34,6 +34,9 @@ private:
 	HRESULT				Add_Component();
 
 
+private:
+
+	LERP_FLOAT_INFO    m_tAlpha;
 
 
 public:

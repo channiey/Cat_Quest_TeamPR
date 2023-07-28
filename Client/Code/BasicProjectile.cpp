@@ -1,5 +1,5 @@
 #include "BasicProjectile.h"
-
+#include "Player.h"
 
 
 CBasicProjectile::CBasicProjectile(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)

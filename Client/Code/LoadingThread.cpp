@@ -753,30 +753,59 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 	// Boss Monster - Violet Dragon
+	
+	// Front
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Basic/Front/%d.png", 8)), E_FAIL);
-
+	// Back
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Basic/Back/%d.png", 8)), E_FAIL);
-
+	// Attack Front
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Front_VioletDragon_Attack",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Attack/Front/%d.png", 18)), E_FAIL);
-
+	// Attack Back
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Back_VioletDragon_Attack",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Attack/Back/%d.png", 18)), E_FAIL);
-
-
+	
+	// Pattern ========
+	// FullDown Fly
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_FullDown_VioletDragon_Fly",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/FullDown/Fly/%d.png", 13)), E_FAIL);
-
+	// FullDown Down
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_FullDown_VioletDragon_Down",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/FullDown/Down/%d.png", 6)), E_FAIL);
 
+	// ConvergingFire Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_ConvergingFire_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/ConvergingFire/%d.png", 11)), E_FAIL);
+
+	// Bloody Thunder Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/BloodyThunder/%d.png", 10)), E_FAIL);
+
+	// Create Wyvern Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_CreateWyvern_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/CreateWyvern/%d.png", 7)), E_FAIL);
+
+	// SpreadBullet Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_SpreadBullet_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/SpreadBullet/%d.png", 11)), E_FAIL);
+
+	// ShootingStar Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_ShootingStar_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/ShootingStar/%d.png", 8)), E_FAIL);
+
+	// Dash - Front
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dash_VioletDragon_Front",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dash/Front/%d.png", 6)), E_FAIL);
+
+	// Dash - Back
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dash_VioletDragon_Back",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dash/Back/%d.png", 6)), E_FAIL);
 
 
 
 	// Projectile ==================================================================
-
 
 	// Puple_Bullet
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_PupleBullet",
@@ -844,6 +873,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	//// Boss Skill =====================================================================
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+
+
+	// Effect Range 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Small_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Small_Red.png")), E_FAIL);
+
 
 
 

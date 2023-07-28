@@ -106,6 +106,7 @@ void CScene_Dungeon_Swamp::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::NPC);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::ITEM);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::PROJECTILE);
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PROJECTILE, OBJ_TYPE::PLAYER);
 
 	// Rect vs Line
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);

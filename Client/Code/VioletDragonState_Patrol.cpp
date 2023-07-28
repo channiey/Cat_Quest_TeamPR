@@ -1,6 +1,8 @@
 #include "VioletDragonState_Patrol.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "VioletDragon.h"
+
 
 CVioletDragonState_Patrol::CVioletDragonState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -57,6 +59,12 @@ STATE_TYPE CVioletDragonState_Patrol::Update_State(const _float& fTimeDelta)
     // Monster - Cur Animation
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
+
+    //Monster - Cur HP Condition
+    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
+    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
 
     // Player Component ==============================
     // Player
@@ -124,6 +132,11 @@ STATE_TYPE CVioletDragonState_Patrol::Update_State(const _float& fTimeDelta)
 #pragma region State Change 
     // PATROL 우선순위
     // Back Patrol - Chase - Comeback - Attack
+
+    if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+    {
+        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+    }
 
 
    // BACK Patrol 전이 조건
