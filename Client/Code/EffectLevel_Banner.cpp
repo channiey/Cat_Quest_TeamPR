@@ -99,6 +99,7 @@ void CEffectLevel_Banner::LateUpdate_Object()
 		m_matEffect[1]._22 = vEmble_Size.y;
 	}
 
+	
 	Follow_Owner();
 	Follow_Emble();
 
@@ -125,9 +126,11 @@ void CEffectLevel_Banner::Render_Object()
 	if (m_bReadyEnd)
 		return;
 
+	cout << "·»´õ : " << m_rcFont.top << endl;
+
 	if(!m_t_vSize_Emble.bActive)
 		CGraphicDev::GetInstance()->Get_LevelUpFont()->DrawTextW(NULL, m_strLv.c_str(), -1,
-			&m_rcFont, DT_CENTER |DT_VCENTER | DT_NOCLIP |  DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
+			&m_rcFont, DT_CENTER |DT_VCENTER, D3DCOLOR_ARGB(200, 0, 0, 0));
 
 }
 
@@ -154,14 +157,14 @@ void CEffectLevel_Banner::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	D3DXVec3TransformCoord(&vPlayerPos, &vPlayerPos, &matProj);
 
 	_float ScreenX = vPlayerPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
-	_float ScreenY = (-vPlayerPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
+	_float ScreenY = WINCY - (-vPlayerPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
 
 	vPlayerPos = { ScreenX , ScreenY, 0.f };
 
 	m_matEffect[0]._41 = vPlayerPos.x;
 	m_matEffect[0]._42 = vPlayerPos.y + m_fBanner_Y;
-	m_matEffect[1]._41 = vPlayerPos.x;
-	m_matEffect[1]._42 = vPlayerPos.y + m_fEmble_Y;
+	m_matEffect[1]._41 = floor(vPlayerPos.x + 0.5);
+	m_matEffect[1]._42 = floor(vPlayerPos.y + m_fEmble_Y + 0.5);
 
 	m_matEffect[0]._11 = 0;
 	m_matEffect[0]._22 = m_fBannerSizeY;
@@ -195,12 +198,12 @@ void CEffectLevel_Banner::Follow_Owner()
 	D3DXVec3TransformCoord(&vPlayerPos, &vPlayerPos, &matProj);
 
 	_float ScreenX = vPlayerPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
-	_float ScreenY = (-vPlayerPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
+	_float ScreenY = WINCY - (-vPlayerPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
 
-	 vPlayerPos = { ScreenX , ScreenY, 0.f };
+	vPlayerPos = { ScreenX , ScreenY, 0.f };
 	_vec3 vOwnerPos_Banner;
 	_vec3 vOwnerPos_Emble = vOwnerPos_Banner = vPlayerPos;
-	
+
 
 	vOwnerPos_Banner.y += m_fBanner_Y;
 	vOwnerPos_Emble.y += m_fEmble_Y;
@@ -208,8 +211,10 @@ void CEffectLevel_Banner::Follow_Owner()
 
 	m_matEffect[0]._41 = vOwnerPos_Banner.x;
 	m_matEffect[0]._42 = vOwnerPos_Banner.y;
-	m_matEffect[1]._41 = vOwnerPos_Emble.x;
-	m_matEffect[1]._42 = vOwnerPos_Emble.y;
+
+	m_matEffect[1]._41 = floor(vOwnerPos_Emble.x + 0.5);
+	m_matEffect[1]._42 = floor(vOwnerPos_Emble.y + 0.5);
+
 }
 
 void CEffectLevel_Banner::Follow_Emble()
@@ -221,6 +226,7 @@ void CEffectLevel_Banner::Follow_Emble()
 	m_rcFont.right = vRectPos.x + fRadi;
 	m_rcFont.top = vRectPos.y - 50;
 	m_rcFont.bottom = vRectPos.y + 50;
+
 
 	wstring strLevel = to_wstring(static_cast<CPlayer*>(m_pOwnerobject)->Get_StatInfo().iLevel);
 	m_strLv = L"Level\n" + strLevel;

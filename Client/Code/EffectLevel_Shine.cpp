@@ -194,7 +194,7 @@ void CEffectLevel_Shine::Follow_Owner()
 	D3DXVec3TransformCoord(&vPlayerPos, &vPlayerPos, &matProj);
 
 	_float ScreenX = vPlayerPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
-	_float ScreenY = (-vPlayerPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
+	_float ScreenY = WINCY - (-vPlayerPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
 
 	vPlayerPos = { ScreenX , ScreenY, 0.f };
 
