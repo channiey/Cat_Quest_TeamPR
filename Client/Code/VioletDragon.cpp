@@ -663,6 +663,29 @@ void CVioletDragon::LateUpdate_Object()
 	}
 
 
+	// Position Value
+	_vec3 vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+
+	if (true == m_tStatInfo.bDead)
+	{
+
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 3.f, vOwnerPos.y, vOwnerPos.z -3.f }));
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 3.f, vOwnerPos.y, vOwnerPos.z + 3.f }));
+
+
+
+
+		dynamic_cast<CSkill_Monster_CircleAttack*>(m_pBaseSkill)->End();
+	
+
+	}
+
+
+
+
+
 
 	__super::LateUpdate_Object();
 }
