@@ -23,8 +23,10 @@ HRESULT CRock3::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 1.f, 0.4f, 1.f });
-	m_pTransformCom->Set_Pos(_vec3{ 360.f, m_pTransformCom->Get_Scale().y, 50.f });
+	m_pTransformCom->Set_Scale(_vec3{ 0.5f, 0.27f, 0.5f });
+	m_pTransformCom->Set_Pos(_vec3{ 360.f, m_pTransformCom->Get_Scale().y, 88.f });
+
+	m_eEnter = ENTER_TYPE::ENTER;
 
 	m_szName = L"Rock3";
 

@@ -17,8 +17,10 @@
 #include "SkillGetEffect.h"
 #include "ShadeUI.h"
 
+// test
 #include "WeaponGetEffect.h"
 #include "NinjaWeapon.h"
+
 CQuest1::CQuest1(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	: m_iKillCount(0)
 {
@@ -40,11 +42,12 @@ void CQuest1::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
 
+	// test
 	// Item Ninja
-	CGameObject* pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
-	CEventMgr::GetInstance()->Add_Obj(L"닌자냥이 세트", pGameObject);
-	m_vItemList.push_back(pGameObject);
-	pGameObject->Set_Maintain(true);
+	// CGameObject* pGameObject = CNinjaWeapon::Create(m_pGraphicDev);
+	// CEventMgr::GetInstance()->Add_Obj(L"닌자냥이 세트", pGameObject);
+	// m_vItemList.push_back(pGameObject);
+	// pGameObject->Set_Maintain(true);
 
 
 	m_tQuestContent.push_back({ L"1. 고슴도치 5마리 처치", false });
@@ -90,9 +93,9 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					{
 						// test
 						// 배경 검은색
-						//m_pShadeUI = CShadeUI::Create(pGraphicDev);
-						//NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
-						//CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+						// m_pShadeUI = CShadeUI::Create(pGraphicDev);
+						// NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+						// CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
 						//
 						//// 스킬
 						//m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
@@ -100,9 +103,9 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						//CEventMgr::GetInstance()->Add_Obj(L"pSkillGetUI", m_pSkillGetUI);
 
 						// 무기 획득 연출
-						//m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
-						//NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
-						//CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
+						 // m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
+						 // NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
+						 // CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
 
 						Set_ReadyTalk(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);
@@ -113,6 +116,7 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					}
 					break;
 				}
+				// test
 				//if (m_bReadyNext)
 				//{
 				//	//dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(

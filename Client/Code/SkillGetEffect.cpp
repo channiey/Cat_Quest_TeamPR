@@ -11,7 +11,8 @@
 CSkillGetEffect::CSkillGetEffect(LPDIRECT3DDEVICE9 pGraphicDev, CSkill* _pSkill)
 	:	CUI(pGraphicDev, OBJ_ID::UI_SKILL_GET_EFFECT_UI)
 		, m_bSizeUp(false) , m_bTimeSet(false), m_bResultStay(false), m_bReadySound(true)
-		, m_iStayCount(0)
+		, m_ReadyEffect(false)
+		, m_iStayCount(0), m_iAllTranslucent(0)
 {
 	m_pSkill = _pSkill;
 }
@@ -45,7 +46,9 @@ HRESULT CSkillGetEffect::Ready_Object()
 	Ready_SkillShine();
 	Ready_Sparkle();
 
-	m_iAllTranslucent = 255;
+	m_tReadyEffectLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tReadyEffectLerp.Set_Lerp(0.5f, 0.f, 255.f);
+
 	return S_OK;
 }
 
@@ -76,7 +79,7 @@ void CSkillGetEffect::Ready_SkillGlow()
 
 	// 스킬 사이즈 다운
 	m_tSmallerLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tSmallerLerp.Set_Lerp(1.f, m_fSizeX, m_fSizeX * 0.7f);
+	m_tSmallerLerp.Set_Lerp(0.8f, m_fSizeX, m_fSizeX * 0.7f);
 	// 스킬 사이즈 서든
 	m_tSuddenSkillLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 	m_tSuddenSkillLerp.Set_Lerp(0.25f, m_fSizeX * 0.7f, m_fSizeX * 2.f);
@@ -113,8 +116,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_fSizeY = 80.f;
 
 	// 1번 별
-	m_SparkleAry[0].m_matSparkle._11 = m_fSizeX * 0.5f;
-	m_SparkleAry[0].m_matSparkle._22 = m_fSizeX * 0.5f;
+	m_SparkleAry[0].m_fTempSize = m_fSizeX * 0.5f;
 	m_SparkleAry[0].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[0].m_matSparkle._42 = m_fPosY;
 
@@ -127,8 +129,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[0].m_tMoveLerpY.fCurValue = m_SparkleAry[0].m_tMoveLerpY.fStartValue;
 
 	// 2번 별
-	m_SparkleAry[1].m_matSparkle._11 = m_fSizeX * 0.2f;
-	m_SparkleAry[1].m_matSparkle._22 = m_fSizeX * 0.2f;
+	m_SparkleAry[1].m_fTempSize = m_fSizeX * 0.2f;
 	m_SparkleAry[1].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[1].m_matSparkle._42 = m_fPosY;
 
@@ -141,8 +142,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[1].m_tMoveLerpY.fCurValue = m_SparkleAry[1].m_tMoveLerpY.fStartValue;
 
 	// 3번 별
-	m_SparkleAry[2].m_matSparkle._11 = m_fSizeX * 0.25f;
-	m_SparkleAry[2].m_matSparkle._22 = m_fSizeX * 0.25f;
+	m_SparkleAry[2].m_fTempSize = m_fSizeX * 0.25f;
 	m_SparkleAry[2].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[2].m_matSparkle._42 = m_fPosY;
 
@@ -155,13 +155,12 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[2].m_tMoveLerpY.fCurValue = m_SparkleAry[2].m_tMoveLerpY.fStartValue;
 
 	// 4번 별
-	m_SparkleAry[3].m_matSparkle._11 = m_fSizeX * 0.2f;
-	m_SparkleAry[3].m_matSparkle._22 = m_fSizeX * 0.2f;
+	m_SparkleAry[3].m_fTempSize = m_fSizeX * 0.2f;
 	m_SparkleAry[3].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[3].m_matSparkle._42 = m_fPosY;
 
 	m_SparkleAry[3].m_tMoveLerpX.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-	m_SparkleAry[3].m_tMoveLerpX.Set_Lerp(0.3f, m_fPosX, m_fPosX - 20.f);
+	m_SparkleAry[3].m_tMoveLerpX.Set_Lerp(0.3f, m_fPosX, m_fPosX - 40.f);
 	m_SparkleAry[3].m_tMoveLerpX.fCurValue = m_SparkleAry[3].m_tMoveLerpX.fStartValue;
 
 	m_SparkleAry[3].m_tMoveLerpY.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
@@ -169,8 +168,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[3].m_tMoveLerpY.fCurValue = m_SparkleAry[3].m_tMoveLerpY.fStartValue;
 
 	// 5번 별
-	m_SparkleAry[4].m_matSparkle._11 = m_fSizeX * 0.45f;
-	m_SparkleAry[4].m_matSparkle._22 = m_fSizeX * 0.45f;
+	m_SparkleAry[4].m_fTempSize = m_fSizeX * 0.45f;
 	m_SparkleAry[4].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[4].m_matSparkle._42 = m_fPosY;
 
@@ -183,8 +181,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[4].m_tMoveLerpY.fCurValue = m_SparkleAry[4].m_tMoveLerpY.fStartValue;
 
 	// 6번별
-	m_SparkleAry[5].m_matSparkle._11 = m_fSizeX * 0.15f;
-	m_SparkleAry[5].m_matSparkle._22 = m_fSizeX * 0.15f;
+	m_SparkleAry[5].m_fTempSize = m_fSizeX * 0.15f;
 	m_SparkleAry[5].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[5].m_matSparkle._42 = m_fPosY;
 
@@ -197,8 +194,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[5].m_tMoveLerpY.fCurValue = m_SparkleAry[5].m_tMoveLerpY.fStartValue;
 
 	// 7번별
-	m_SparkleAry[6].m_matSparkle._11 = m_fSizeX * 0.55f;
-	m_SparkleAry[6].m_matSparkle._22 = m_fSizeX * 0.55f;
+	m_SparkleAry[6].m_fTempSize = m_fSizeX * 0.55f;
 	m_SparkleAry[6].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[6].m_matSparkle._42 = m_fPosY;
 
@@ -211,8 +207,7 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[6].m_tMoveLerpY.fCurValue = m_SparkleAry[6].m_tMoveLerpY.fStartValue;
 
 	// 마지막 별
-	m_SparkleAry[7].m_matSparkle._11 = m_fSizeX * 0.55f;
-	m_SparkleAry[7].m_matSparkle._22 = m_fSizeX * 0.55f;
+	m_SparkleAry[7].m_fTempSize = m_fSizeX * 0.55f;
 	m_SparkleAry[7].m_matSparkle._41 = m_fPosX;
 	m_SparkleAry[7].m_matSparkle._42 = m_fPosY;
 
@@ -224,59 +219,73 @@ void CSkillGetEffect::Ready_Sparkle()
 	m_SparkleAry[7].m_tMoveLerpY.Set_Lerp(0.5f, m_fPosY, m_fPosY + 30.f);
 	m_SparkleAry[7].m_tMoveLerpY.fCurValue = m_SparkleAry[7].m_tMoveLerpY.fStartValue;
 
-
-
 	for (_int i = 0; i < MAX_SPARKLE_SIZE; ++i)
 	{
 		m_SparkleAry[i].m_tSizeUpLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-		m_SparkleAry[i].m_tSizeUpLerp.Set_Lerp(1.f, 0.f, m_SparkleAry[i].m_matSparkle._11);
+		m_SparkleAry[i].m_tSizeUpLerp.Set_Lerp(0.8f, 0.f, m_SparkleAry[i].m_fTempSize);
 		m_SparkleAry[i].m_tSizeDownLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-		m_SparkleAry[i].m_tSizeDownLerp.Set_Lerp(1.f, m_SparkleAry[i].m_matSparkle._11, 0.f);
+		m_SparkleAry[i].m_tSizeDownLerp.Set_Lerp(1.f, m_SparkleAry[i].m_fTempSize, 0.f);
 	}
 
 }
 
 _int CSkillGetEffect::Update_Object(const _float& fTimeDelta)
 {
+	CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
+	CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(false);
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
-
-	if (m_iStayCount2 < GetTickCount64())
+	// 시작 알파 보간 처리
+	m_tReadyEffectLerp.Update_Lerp(fTimeDelta);
+	if (m_tReadyEffectLerp.bActive && !m_ReadyEffect)
 	{
-		m_iAllTranslucent -= 5;
-		if (m_iAllTranslucent < 10)
+		m_iAllTranslucent = (_int)m_tReadyEffectLerp.fCurValue;
+	}
+	else
+	{
+		m_ReadyEffect = true;
+	}
+
+	if (m_ReadyEffect)
+	{
+		if (m_iStayCount2 < GetTickCount64())
 		{
-			CSkillGetUI* pGetUI = CSkillGetUI::Create(m_pGraphicDev, m_pSkill);
-			NULL_CHECK_RETURN(pGetUI, E_FAIL);
-			CEventMgr::GetInstance()->Add_Obj(L"GetObjUI", pGetUI);
+			m_iAllTranslucent -= 5;
+			if (m_iAllTranslucent < 10)
+			{
+				CSkillGetUI* pGetUI = CSkillGetUI::Create(m_pGraphicDev, m_pSkill);
+				NULL_CHECK_RETURN(pGetUI, E_FAIL);
+				CEventMgr::GetInstance()->Add_Obj(L"GetObjUI", pGetUI);
 
-			CEventMgr::GetInstance()->Delete_Obj(this);
-			return true;
+				CEventMgr::GetInstance()->Delete_Obj(this);
+				return true;
+			}
 		}
-	}
 
-	if (!m_bSizeUp)
-	{
-		if (m_bReadySound)
+		if (!m_bSizeUp)
 		{
-			CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.f);
-			CSoundMgr::GetInstance()->PlaySound(L"Open Chest.wav", CHANNEL_ID::EFFECT_0, 0.8f);
-			m_bReadySound = false;
+			if (m_bReadySound)
+			{
+				// CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.f);
+				CSoundMgr::GetInstance()->PlaySound(L"Open Chest.wav", CHANNEL_ID::EFFECT_0, ITEM_SKILL_GET_EFFECT);
+				m_bReadySound = false;
+			}
+
+			Random_Move();
+			Smaller_Skill();
+		}
+		else if (GetTickCount64() > m_iStayCount && m_bSizeUp)
+		{
+			m_iSkillAlpha = 255;
+			Sudden_Skill();
 		}
 
-		Random_Move();
-		Smaller_Skill();
+		m_matGlow._41 = m_tRandomMoveLerpX.fCurValue;
+		m_matGlow._42 = m_tRandomMoveLerpY.fCurValue;
+		m_matGlow._11 = m_fCurSkillSize;
+		m_matGlow._22 = m_fCurSkillSize;
 	}
-	else if(GetTickCount64() > m_iStayCount && m_bSizeUp)
-	{
-		m_iSkillAlpha = 255;
-		Sudden_Skill();
-	}
-
-	m_matGlow._41 = m_tRandomMoveLerpX.fCurValue;
-	m_matGlow._42 = m_tRandomMoveLerpY.fCurValue;
-	m_matGlow._11 = m_fCurSkillSize;
-	m_matGlow._22 = m_fCurSkillSize;
 
 	return iExit;
 }
@@ -423,8 +432,8 @@ void CSkillGetEffect::Render_Object()
 	m_pGlowTexCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
-	// 스킬
-	if (!m_bSizeUp)
+	// 스킬 (시작할 때 알파 보간 등장. 이후 연출 땐 알파 줄어드는 연출)
+	if (m_ReadyEffect && !m_bSizeUp)
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_iSkillAlpha, 255, 255, 255));
 	}

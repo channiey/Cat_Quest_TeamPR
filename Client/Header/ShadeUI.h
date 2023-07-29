@@ -25,7 +25,9 @@ private:
 	virtual HRESULT			Add_Component() override;
 
 private:
-	_matrix m_matBack;
+	_matrix			m_matBack;
+	LERP_FLOAT_INFO	m_tTranslucentLerp;
+	_int			m_iTranslucent;
 
 public:
 	static CShadeUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);

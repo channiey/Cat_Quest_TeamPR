@@ -147,7 +147,7 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 			if(m_iTalkIndex != 0)
 				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);
 			else 
-				CSoundMgr::GetInstance()->PlaySound(L"cat_meow.wav", CHANNEL_ID::UI_1, MEOW_SOUND);
+				CSoundMgr::GetInstance()->PlaySound(L"npc_greet.wav", CHANNEL_ID::UI_1, MEOW_SOUND);
 
 			// 대화 중 움직일 수 없게
 			dynamic_cast<CPlayer*>(CManagement::GetInstance()
@@ -226,7 +226,7 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 			if (m_iTalkIndex != 0)
 				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);
 			else
-				CSoundMgr::GetInstance()->PlaySound(L"cat_meow.wav", CHANNEL_ID::UI_1, MEOW_SOUND);
+				CSoundMgr::GetInstance()->PlaySound(L"npc_greet.wav", CHANNEL_ID::UI_1, MEOW_SOUND);
 
 			// 대화 중 움직일 수 없게
 			dynamic_cast<CPlayer*>(CManagement::GetInstance()

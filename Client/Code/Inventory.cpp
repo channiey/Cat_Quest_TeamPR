@@ -3,13 +3,6 @@
 
 #include "SoundMgr.h"
 
-// 사운드
-#define INVETORY_BAG			1.f
-#define INVETORY_ARMOR_EQUIP	1.f
-#define INVETORY_SKILL_CLICK	1.f
-#define INVETORY_SKILL_EQUIP	1.f
-#define INVETORY_SKILL_UNEQUIP  1.f
-#define INVETORY_TAB_CLICK		1.f
 
 // 아이템
 #include "Item_Weapon.h"
