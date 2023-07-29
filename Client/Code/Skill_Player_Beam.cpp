@@ -37,6 +37,7 @@ HRESULT CSkill_Player_Beam::Ready_Object()
     m_iSkillUsage = 3;
     m_iLv = 0;
 
+    m_bAttackStart = false;
     m_bActive = false;
     m_bIsEffectEnd = false;
     //m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
@@ -54,6 +55,8 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = CSkill::Update_Object(fTimeDelta);
 
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -65,6 +68,13 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
     //m_pRangeObj->Update_Object(fTimeDelta);
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
+
+    if (!m_bAttackStart && m_pSKillEffect->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 4)
+    {
+        static_cast<CPlayer*>(m_pOwnerObject)->Set_Skill(true);
+        m_bAttackStart = true;
+    }
+
 
     if (static_cast<CPlayer*>(m_pOwnerObject)->Get_PlayerClass() != CLASS_TYPE::THORN)
     {
@@ -78,6 +88,7 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
         {
             m_bIsEffectEnd = false;
             __super::End();
+            m_bAttackStart = false;
             m_bActive = false;
         }
     }
@@ -94,6 +105,7 @@ _int CSkill_Player_Beam::Update_Object(const _float& fTimeDelta)
             m_bIsEffectEnd = false;
             m_pGoldRange->Set_Active(FALSE);
             __super::End();
+            m_bAttackStart = false;
             m_bActive = false;
         }
     }
@@ -154,6 +166,11 @@ HRESULT CSkill_Player_Beam::Add_Component()
 
 HRESULT CSkill_Player_Beam::Play()
 {
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
+    if (static_cast<CPlayer*>(m_pOwnerObject)->Get_PlayerClass() == CLASS_TYPE::NINJA)
+        static_cast<CPlayer*>(m_pOwnerObject)->Off_Clocking();
+
     _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
    
    
@@ -171,7 +188,7 @@ HRESULT CSkill_Player_Beam::Play()
         m_pGoldRange->Scaling(0.5f, 0.1f, 1.f);
     }
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
-    CSoundMgr::GetInstance()->PlaySoundW(L"skill_astropaw.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_astropaw.wav", CHANNEL_ID::PLAYER_2, VOLUME_PLAYER_SKILL);
     m_bActive = true;
 
     return S_OK;

@@ -67,64 +67,46 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.back);
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::FRONT_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right + vec3.back);
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::FRONT_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.forward);
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right + vec3.forward);
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left);
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::FRONT_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right);
         static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::FRONT_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back);
-        static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::FRONT_ROLL;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
     {
         m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.forward);
-        static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_ROLL;
     }
 
@@ -143,20 +125,16 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
 
     if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
     {
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_WALK;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
     {
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_WALK;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
     {
         CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pOwner->Get_OwnerObject());
-        NULL_CHECK_RETURN(pPlayer, STATE_TYPE::FRONT_DIE);
+        NULL_CHECK_RETURN(pPlayer, m_eState);
 
         if (GROUND_TYPE::NORMAL == pPlayer->Get_CurGroundType())
         {
@@ -166,11 +144,12 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         }
         else if (GROUND_TYPE::ICE == pPlayer->Get_CurGroundType())
         {
-            CRigidBody* pRb = pPlayer->Get_RigidBody();
-            _vec3 vDir;
-            D3DXVec3Normalize(&vDir, &(vec3.back + vec3.right));
-            pRb->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
-            pRb->Add_Impulse(vDir * SLIP_SPEED);
+            m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back + vec3.right);
+            static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
+            _vec3 vDir = vec3.back + vec3.right;
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse(vDir * SLIP_SPEED);
         }
         
         return m_eState;
@@ -179,7 +158,7 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
     {
 
         CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pOwner->Get_OwnerObject());
-        NULL_CHECK_RETURN(pPlayer, STATE_TYPE::FRONT_DIE);
+        NULL_CHECK_RETURN(pPlayer, m_eState);
 
         if (GROUND_TYPE::NORMAL == pPlayer->Get_CurGroundType())
         {
@@ -189,25 +168,24 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         }
         else if (GROUND_TYPE::ICE == pPlayer->Get_CurGroundType())
         {
-            CRigidBody* pRb = pPlayer->Get_RigidBody();
-            _vec3 vDir;
-            D3DXVec3Normalize(&vDir, &(vec3.back + vec3.left));
-            pRb->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
-            pRb->Add_Impulse(vDir* SLIP_SPEED);
+            m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back + vec3.left);
+            static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
+            _vec3 vDir = vec3.back + vec3.left;
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse(vDir* SLIP_SPEED);
         }
 
         return m_eState;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
     {
-        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
         return STATE_TYPE::BACK_WALK;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
     {
         CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pOwner->Get_OwnerObject());
-        NULL_CHECK_RETURN(pPlayer, STATE_TYPE::FRONT_DIE);
+        NULL_CHECK_RETURN(pPlayer, m_eState);
 
         if (GROUND_TYPE::NORMAL == pPlayer->Get_CurGroundType())
         {
@@ -216,9 +194,11 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         }
         else if (GROUND_TYPE::ICE == pPlayer->Get_CurGroundType())
         {
-            CRigidBody* pRb = pPlayer->Get_RigidBody();
-            pRb->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
-            pRb->Add_Impulse(vec3.back * SLIP_SPEED);
+            m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back);
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
+            _vec3 vDir = vec3.back;
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse(vDir* SLIP_SPEED);
         }
 
         return m_eState;
@@ -227,7 +207,7 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
     {
 
         CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pOwner->Get_OwnerObject());
-        NULL_CHECK_RETURN(pPlayer, STATE_TYPE::FRONT_DIE);
+        NULL_CHECK_RETURN(pPlayer, m_eState);
 
         if (GROUND_TYPE::NORMAL == pPlayer->Get_CurGroundType())
         {
@@ -237,25 +217,21 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         }
         else if (GROUND_TYPE::ICE == pPlayer->Get_CurGroundType())
         {
-            CRigidBody* pRb = pPlayer->Get_RigidBody();
-            pRb->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
-            pRb->Add_Impulse(vec3.right * SLIP_SPEED);
+            m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right);
+            static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
+            _vec3 vDir = vec3.right;
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse(vDir* SLIP_SPEED);
         }
   
-        if (CInputDev::GetInstance()->Key_Down('D') &&
-            !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust")) 
-        {
-            CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-            CEventMgr::GetInstance()->Add_Obj(L"MoveDustR", p);
-        }
-       
         return m_eState;
     }
     else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
     {
 
         CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pOwner->Get_OwnerObject());
-        NULL_CHECK_RETURN(pPlayer, STATE_TYPE::FRONT_DIE);
+        NULL_CHECK_RETURN(pPlayer,m_eState);
 
         if (GROUND_TYPE::NORMAL == pPlayer->Get_CurGroundType())
         {
@@ -265,16 +241,12 @@ STATE_TYPE CPlayerState_fWalk::Key_Input(const _float& fTimeDelta)
         }
         else if (GROUND_TYPE::ICE == pPlayer->Get_CurGroundType())
         {
-            CRigidBody* pRb = pPlayer->Get_RigidBody();
-            pRb->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
-            pRb->Add_Impulse(vec3.left * SLIP_SPEED);
-        }
-
-        if (CInputDev::GetInstance()->Key_Down('A') &&
-            !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"MoveDust")) 
-        {
-            CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
-            CEventMgr::GetInstance()->Add_Obj(L"MoveDustL", p);
+            m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left);
+            static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Set_MaxSpeed(DF_SLEEP_MAXDPEED);
+            _vec3 vDir = vec3.left;
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse(vDir* SLIP_SPEED);
         }
 
         return m_eState;

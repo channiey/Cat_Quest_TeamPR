@@ -29,6 +29,7 @@ public:
 	void					Set_Rot			(const _vec3& _vRot, const SPACEID _eSpace = LOCAL);
 	void					Set_Scale		(const _vec3& _vPos);
 	void					Set_Dir			(const _vec3& _vDir)		{ m_vDir = _vDir; }
+	void					Set_PosY		(const _float& _fHeight);
 
 	void					Reverse			();
 

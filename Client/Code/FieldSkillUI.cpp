@@ -57,6 +57,9 @@ HRESULT CFieldSkillUI::Ready_Object()
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;
 	
+	D3DXMatrixIdentity(&m_matMouse);
+	m_UImatWorld._11 = m_fSizeX;
+	m_UImatWorld._22 = m_fSizeY;
 
 	for (_uint i = 0; i < 17; ++i)
 	{
@@ -319,6 +322,7 @@ void CFieldSkillUI::LateUpdate_Object()
 
 	if (m_bIsOn)
 	{
+		Mouse_Update();
 		Picking_UI();
 
 		__super::LateUpdate_Object();
@@ -504,6 +508,10 @@ void CFieldSkillUI::Render_Object()
 			}
 		}
 		
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMouse);
+		m_pCursorTexCom->Render_Texture();
+		m_pBufferCom->Render_Buffer();
+
 
 		__super::Render_Object();
 	
@@ -566,6 +574,20 @@ void CFieldSkillUI::Picking_UI()
 	}
 
 
+}
+
+void CFieldSkillUI::Mouse_Update()
+{
+	POINT CursorUIpt;
+	GetCursorPos(&CursorUIpt);
+	ScreenToClient(g_hWnd, &CursorUIpt);
+
+	CursorUIpt.y = WINCY - CursorUIpt.y;
+
+	m_matMouse._41 = CursorUIpt.x;
+	m_matMouse._42 = CursorUIpt.y - 70.f * 0.3f;
+	m_matMouse._11 = 70.f * 0.3f;
+	m_matMouse._22 = 87.f * 0.3f;
 }
 
 void CFieldSkillUI::Mouse_Input()
@@ -645,7 +667,6 @@ void CFieldSkillUI::Play_SKill()
 			{
 				m_pPlayerSkill[i]->Play();
 				m_pPlayer->Using_Mana(m_pPlayerSkill[i]->Get_SkillUsage());
-				m_pPlayer->Set_Skill(true);
 				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 			}
 		}
@@ -712,6 +733,10 @@ HRESULT CFieldSkillUI::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	pComponent = m_pUITextureCom[3] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_MpCircle", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pCursorTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Cursor", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

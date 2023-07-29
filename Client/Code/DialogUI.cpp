@@ -364,7 +364,7 @@ void CDialogUI::Select_Npc(OBJ_ID eNpc, SPIRITEMO_TYPE eEmo)
 
 void CDialogUI::Typing_Effect(const _float& fTimeDelta)
 {
-	if (m_strDialog.size() < m_iTextCnt)
+	if (m_strDialog.length() <= m_iTextCnt)
 	{
 		m_bEnd = true;
 		return;
@@ -375,7 +375,9 @@ void CDialogUI::Typing_Effect(const _float& fTimeDelta)
 
 	if (0.04f < m_fAcc)
 	{
-		CSoundMgr::GetInstance()->PlaySoundW(L"dialogue.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+		if(m_iTextCnt % 3 == 0 && m_strDialog.length() - 4 >= m_iTextCnt)
+			CSoundMgr::GetInstance()->PlaySoundW(L"dialogue.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+
 		m_strTyping += m_strDialog[m_iTextCnt];
 		m_iTextCnt++;
 

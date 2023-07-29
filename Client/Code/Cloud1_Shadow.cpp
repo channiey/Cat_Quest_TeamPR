@@ -30,7 +30,7 @@ HRESULT CCloud1_Shadow::Ready_Object()
 	m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y - 12.f,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
-	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.f, 5.f });
+	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.1f, 5.f });
 
 	m_bActive = true;
 

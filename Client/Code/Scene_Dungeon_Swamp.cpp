@@ -272,11 +272,6 @@ HRESULT CScene_Dungeon_Swamp::Ready_Layer_UI()
 	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	// FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Inventory", pGameObject), E_FAIL);
 
-	// UI - Flight
-	pGameObject = CFlightUI::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"UI_Flight", pGameObject), E_FAIL);
-
 	// UI - Quest
 	pGameObject = CQuestUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -38,7 +38,7 @@ HRESULT CSkill_Player_Ice::Ready_Object()
     m_iLv = 0;
 
     m_bActive = false;
-
+    m_bAttackStart = false;
     //m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -53,6 +53,8 @@ _int CSkill_Player_Ice::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = CSkill::Update_Object(fTimeDelta);
 
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -65,9 +67,17 @@ _int CSkill_Player_Ice::Update_Object(const _float& fTimeDelta)
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
+    if (!m_bAttackStart && m_pSKillEffect->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 4)
+    {
+        static_cast<CPlayer*>(m_pOwnerObject)->Set_Skill(true);
+        m_bAttackStart = true;
+    }
+
+
     if (!m_pSKillEffect->Is_Active())
     {
         CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+        m_bAttackStart = false;
         m_bActive = false;
     }
 
@@ -114,6 +124,11 @@ HRESULT CSkill_Player_Ice::Add_Component()
 
 HRESULT CSkill_Player_Ice::Play()
 {
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
+    if (static_cast<CPlayer*>(m_pOwnerObject)->Get_PlayerClass() == CLASS_TYPE::NINJA)
+        static_cast<CPlayer*>(m_pOwnerObject)->Off_Clocking();
+
     _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
    
     m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 2 });
@@ -121,7 +136,7 @@ HRESULT CSkill_Player_Ice::Play()
     m_bActive = true;
 
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
-    CSoundMgr::GetInstance()->PlaySoundW(L"skill_freezepaw.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_freezepaw.wav", CHANNEL_ID::PLAYER_2, VOLUME_PLAYER_SKILL);
     return S_OK;
 }
 

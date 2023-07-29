@@ -85,10 +85,21 @@ void CRenderMgr::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
 	{
 		if (!iter->Is_Active()) continue;
+		if (iter->Get_ID() == OBJ_ID::EFFECT_CLOUD_1 ||
+			iter->Get_ID() == OBJ_ID::EFFECT_CLOUD_2 ||
+			iter->Get_ID() == OBJ_ID::EFFECT_CLOUD_3) continue;
 
 		float z = iter->Get_ViewZ();
 
 		iter->Render_Object();
+	}
+	for (auto iter : m_RenderGroup[RENDER_ALPHA])
+	{
+		if (!iter->Is_Active()) continue;
+		if (iter->Get_ID() == OBJ_ID::EFFECT_CLOUD_1 ||
+			iter->Get_ID() == OBJ_ID::EFFECT_CLOUD_2 ||
+			iter->Get_ID() == OBJ_ID::EFFECT_CLOUD_3) 
+				iter->Render_Object();	
 	}
 
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); // 다시 z 버퍼 자동정렬 켠다.
