@@ -54,6 +54,10 @@ _int CShadow_Item::Update_Object(const _float& fTimeDelta)
 
 void CShadow_Item::LateUpdate_Object()
 {
+	if (!m_pOwnerobject->Is_Active())
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);
+	}
 	__super::LateUpdate_Object();
 }
 
