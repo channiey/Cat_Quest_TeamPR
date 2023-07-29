@@ -81,6 +81,7 @@
     <OutDir>../Bin\</OutDir>
     <IncludePath>$(DXSDK_DIR)Include;D:\SR_Team\Client\FMOD\inc;D:\SR_Team\Client\FMOD\lib;$(IncludePath)</IncludePath>
     <IncludePath>$(DXSDK_DIR)Include;C:\Project\SR Team Project\Client\FMOD\inc;C:\Project\SR Team Project\Client\FMOD\lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;E:\SR_CAT\Client\FMOD\inc;E:\SR_CAT\Client\FMOD\lib;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,6 +128,7 @@
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;D:\SR_Team\Client\FMOD\lib\fmodex_vc.lib;fmodex64_vc.lib;D:\SR_Team\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex_vc.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -197,6 +199,7 @@
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\Wall1.h" />
     <ClInclude Include="..\Header\Wall2.h" />
+    <ClInclude Include="..\Header\WorldFlight.h" />
     <ClInclude Include="..\Header\WorldPotion.h" />
     <ClInclude Include="..\Header\Wreck.h" />
     <ClInclude Include="..\Header\Skull.h" />
@@ -619,6 +622,7 @@
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\Wall1.cpp" />
     <ClCompile Include="..\Code\Wall2.cpp" />
+    <ClCompile Include="..\Code\WorldFlight.cpp" />
     <ClCompile Include="..\Code\WorldPotion.cpp" />
     <ClCompile Include="..\Code\Wreck.cpp" />
     <ClCompile Include="..\Code\Skull.cpp" />

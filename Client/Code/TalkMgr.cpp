@@ -15,6 +15,8 @@
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
 
+#include "EnterUI.h"
+
 #include "MiniGameMgr_Jump.h"
 #include "Player.h"
 
@@ -142,7 +144,8 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 
 	if (&iter)
 	{
-		if (CInputDev::GetInstance()->Key_Down('E'))
+		if (CInputDev::GetInstance()->Key_Down('E')
+			&& !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"ShadeUI"))
 		{
 			if(m_iTalkIndex != 0)
 				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);
@@ -221,7 +224,8 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 	
 	if (&iter)
 	{
-		if (CInputDev::GetInstance()->Key_Down('E'))
+		if (CInputDev::GetInstance()->Key_Down('E')
+			&& !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"ShadeUI"))
 		{
 			if (m_iTalkIndex != 0)
 				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);

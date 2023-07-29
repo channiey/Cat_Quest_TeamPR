@@ -115,8 +115,8 @@ void CEnterUI::LateUpdate_Object()
 void CEnterUI::Render_Object()
 {
 	NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-	if(static_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Is_PlayerTalking())
-		return;
+	//if(static_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"))->Is_PlayerTalking())
+	//	return;
 
 	if (m_bIsOn)
 	{

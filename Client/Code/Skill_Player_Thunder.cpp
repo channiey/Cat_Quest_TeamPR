@@ -44,7 +44,7 @@ HRESULT CSkill_Player_Thunder::Ready_Object()
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_fontColor = D3DCOLOR_ARGB(255, 0, 153, 255);
+    m_fontColor = D3DCOLOR_ARGB(255, 0, 051, 255);
     m_contentStr = L"좌우의 적을 기습합니다!";
 
     return S_OK;

@@ -1259,15 +1259,15 @@ void CInventory::Render_PlayerItemFont()
 
 	// Heart
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fMaxHP)).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_HEART].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		&m_sPlayerStatFont[PLAYER_HEART].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 	// Damage
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fAD)).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_DAMAGE].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		&m_sPlayerStatFont[PLAYER_DAMAGE].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 	// Magic
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
-		&m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		&m_sPlayerStatFont[PLAYER_MAGIC].m_plStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 	// CurHp
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(m_pPlayer->Get_StatInfo().fCurHP)).c_str(), -1,
@@ -1279,7 +1279,7 @@ void CInventory::Render_PlayerItemFont()
 
 	// Fancy
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"Statistics", -1,
-		&m_FancyRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+		&m_FancyRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 }
 
 void CInventory::Render_SkillInventory()
@@ -1405,7 +1405,7 @@ void CInventory::Render_SkillFont()
 	if (m_bPickMode)
 	{
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"슬롯 선택", -1,
-			&m_SkillSelectRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_SkillSelectRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 	}
 }
 
@@ -1527,23 +1527,23 @@ void CInventory::Item_StatView(_int _Index)
 		//								Item Font
 		// Heart
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fMaxHP)).c_str(), -1,
-			&m_sItemStatFont[ITEM_HEART].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_sItemStatFont[ITEM_HEART].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 		// Damage
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring((int)(pWeapon->Get_StatInfo().fAD)).c_str(), -1,
-			&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_sItemStatFont[ITEM_DAMAGE].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 		// Magic
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, to_wstring(10).c_str(), -1,
-			&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_sItemStatFont[ITEM_MAGIC].m_pItemStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 		// Name
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pWeapon->Get_Name(), -1,
-			&m_ItemNameRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_ItemNameRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 		// LV
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"LV 1", -1,
-			&m_ItemLvRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_ItemLvRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 
 		// 스탯 증감량 폰트
 #pragma region StatCalculFont
@@ -1558,7 +1558,7 @@ void CInventory::Item_StatView(_int _Index)
 		if (iResult > 0)
 		{
 			HpResultStr = L"+" + to_wstring(iResult);
-			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0);
+			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 051, 102, 255);
 		}
 		else
 		{
@@ -1578,7 +1578,7 @@ void CInventory::Item_StatView(_int _Index)
 		if (iResult > 0)
 		{
 			DmgResultStr = L"+" + to_wstring(iResult);
-			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 0, 153, 0);
+			FontColor = D3DCOLOR_ARGB(m_iTranslucent, 051, 102, 255);
 		}
 		else
 		{
@@ -1710,10 +1710,10 @@ void CInventory::Skill_StatView(_int _Index)
 			&m_sPlayerSkillFont[SKILL_DAMAGE_NUM].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, (pSkill->Get_SkillFontColor() & 0x00FFFFFF) | (newAlpha << 24));
 		// Damage Str
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, L"피해", -1,
-			&m_sPlayerSkillFont[SKILL_DAMAGE_STR].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_sPlayerSkillFont[SKILL_DAMAGE_STR].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 		// Content
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, pSkill->Get_SkillContent().c_str(), -1,
-			&m_sPlayerSkillFont[SKILL_CONTENT].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 102, 0));
+			&m_sPlayerSkillFont[SKILL_CONTENT].m_pSkillStatRc, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 051, 0));
 	}
 }
 

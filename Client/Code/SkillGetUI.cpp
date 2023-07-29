@@ -210,8 +210,9 @@ void CSkillGetUI::Render_Object()
 
 
 	// 스킬명
+	BYTE newAlpha = m_iTranslucent;
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_pSkill->Get_Name(), -1,
-		&m_rcName, DT_CENTER | DT_NOCLIP, (m_pSkill->Get_SkillFontColor()));
+		&m_rcName, DT_CENTER | DT_NOCLIP, (m_pSkill->Get_SkillFontColor() & 0x00FFFFFF) | (newAlpha << 24));
 
 	// 레벨
 	wstring strSkillLv;

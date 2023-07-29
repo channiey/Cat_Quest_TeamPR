@@ -615,22 +615,22 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 			}
 		}
 		// 대화 가능 UI
-		if (!m_bIsTalking)
-		{
-			if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT
-				&& dynamic_cast<CNpc*>(_pColObj)->Get_ReadyTalk() == true) {
-				CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-					(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-				m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
-			}
-		} 
-		else
-		{
-			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-			m_pEnterUI->EnterUI_Off();
-		}
+		// if (!m_bIsTalking)
+		// {
+		// 	if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT
+		// 		&& dynamic_cast<CNpc*>(_pColObj)->Get_ReadyTalk() == true) {
+		// 		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+		// 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+		// 
+		// 		m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHAT, _pColObj);
+		// 	}
+		// } 
+		// else
+		// {
+		// 	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+		// 		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+		// 	m_pEnterUI->EnterUI_Off();
+		// }
 
 	}
 	case Engine::OBJ_TYPE::ITEM:
@@ -806,7 +806,8 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		if (!m_bIsTalking)
 		{
 			if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT
-				&& dynamic_cast<CNpc*>(_pColObj)->Get_ReadyTalk() == true) {
+				&& dynamic_cast<CNpc*>(_pColObj)->Get_ReadyTalk() == true) 
+			{
 				CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 					(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
@@ -817,10 +818,11 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		{
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+		
 			m_pEnterUI->EnterUI_Off();
 		}
 	}
-		break;
+	break;
 	case Engine::OBJ_TYPE::ITEM:
 	{
 	
