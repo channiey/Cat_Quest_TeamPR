@@ -86,7 +86,7 @@ void CSkill_Player_Fly::LateUpdate_Object()
     _vec3 vDir = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS) - m_pTransformCom->Get_Info(INFO::INFO_POS);
     _float fLength = D3DXVec3Length(&vDir);
 
-    if (fLength > 45)
+    if (fLength > 40)
         m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
 
     __super::LateUpdate_Object();
@@ -129,7 +129,7 @@ void CSkill_Player_Fly::OnCollision_Stay(CGameObject* _pColObj)
     case Engine::OBJ_TYPE::MONSTER:
     {
         if (m_bAttack)
-            static_cast<CMonster*>(_pColObj)->Damaged(m_fSkillDamage);
+            static_cast<CMonster*>(_pColObj)->Damaged(m_fSkillDamage + rand() % 10);
     }
     break;
     default:

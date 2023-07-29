@@ -28,7 +28,8 @@ private:
 private:
 	_bool			m_bIsSky;
 	_bool			m_bIsLand;
-	_bool			m_bFlying;
+
+	_float			m_fOriginPosY;
 
 	_float			m_fAccTime;
 

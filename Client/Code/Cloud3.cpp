@@ -6,8 +6,10 @@
 #include "Cloud3_Shadow.h"
 #include "CameraMgr.h"
 
-CCloud3::CCloud3(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CLOUD_3)
+#include "ZoomUI.h"
+
+CCloud3::CCloud3(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CLOUD_3), m_vCloudPos(vPos)
 {
 }
 
@@ -28,9 +30,13 @@ HRESULT CCloud3::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_fAccTime = 0.f;
+
 	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.f, 5.f });
 	Set_RandomSize();
 	m_pTransformCom->Set_Pos(_vec3{ START_POS_WORLD_X + 100, Set_RandomHeight(), START_POS_WORLD_Z + 50 });
+	m_pTransformCom->Set_Pos(m_vCloudPos);
+
 
 	// Add_GameObject를 호출할 때 this가 NULL이다 확인하자.
 	CEventMgr::GetInstance()->Add_Obj(L"Cloud3_Shadow", CCloud3_Shadow::Create(m_pGraphicDev, this));
@@ -59,11 +65,16 @@ void CCloud3::LateUpdate_Object()
 
 void CCloud3::Render_Object()
 {
-	_int iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
+	/*CZoomUI* pUI = static_cast<CZoomUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Zoom"));
+	NULL_CHECK(pUI);
+	if (pUI->Get_ZoomState() == 1)
+		return;*/
 
-	if (OBJ_CLOUD_MAX_ALPHA < iAlpha) iAlpha = OBJ_CLOUD_MAX_ALPHA;
+	m_iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
 
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(iAlpha, 255, 255, 255));
+	if (OBJ_CLOUD_MAX_ALPHA < m_iAlpha) m_iAlpha = OBJ_CLOUD_MAX_ALPHA;
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -140,9 +151,9 @@ const _float CCloud3::Set_RandomHeight()
 
 }
 
-CCloud3* CCloud3::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CCloud3* CCloud3::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
 {
-	CCloud3* pInstance = new CCloud3(pGraphicDev);
+	CCloud3* pInstance = new CCloud3(pGraphicDev, vPos);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

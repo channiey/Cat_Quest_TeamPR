@@ -16,7 +16,7 @@
 // Camera
 #include "Player_Camera.h"
 
-#include "PollenGenerator.h"
+#include "EffectGenerator.h"
 
 // UI
 #include "LevelUI.h"
@@ -388,9 +388,9 @@ HRESULT CScene_Dungeon_Swamp::Ready_Layer_LHJ()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject), E_FAIL);
 
-	pGameObject = CPollenGenerator::Create(m_pGraphicDev);
+	pGameObject = CEffectGenerator::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Pollen_Generator", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Generator", pGameObject), E_FAIL);
 
 	return S_OK;
 }

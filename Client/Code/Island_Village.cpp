@@ -3,6 +3,7 @@
 
 #include "Export_Function.h"
 
+#include "EffectGenerator.h"
 #include "RangeObj.h"
 #include "DungeonTextUI.h"
 #include "SoundMgr.h"
@@ -86,7 +87,6 @@ void CIsland_Village::Enter_Player()
 	// 플레이어가 해당 섬에 처음 들어왔을 때
 
 	// Action : 대륙 이름 UI, 플레이어 미끄러짐, 브금 변경, 눈 이펙트 On
-
 	if (!CCameraMgr::GetInstance()->Is_BackView())
 	{
 		Engine::CGameObject* pGameObject = nullptr;
@@ -96,12 +96,18 @@ void CIsland_Village::Enter_Player()
 	}
 
 	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_overworld_theme.wav");
+
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(m_eID);
 }
 
 void CIsland_Village::Exit_Player()
 {
 	// 플레이어가 해당 섬에서 나갔을 때
-
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(OBJ_ID::TYPEEND);
 }
 
 void CIsland_Village::Free()

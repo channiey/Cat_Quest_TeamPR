@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../Bin\</OutDir>
-    <IncludePath>$(DXSDK_DIR)Include;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\inc;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;C:\Project\SR Team Project\Client\FMOD\inc;C:\Project\SR Team Project\Client\FMOD\lib;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex_vc.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -405,7 +405,7 @@
     <ClInclude Include="..\Header\PlayerState_fWalk.h" />
     <ClInclude Include="..\Header\PlayerState_fIdle.h" />
     <ClInclude Include="..\Header\Pollen.h" />
-    <ClInclude Include="..\Header\PollenGenerator.h" />
+    <ClInclude Include="..\Header\EffectGenerator.h" />
     <ClInclude Include="..\Header\Ram.h" />
     <ClInclude Include="..\Header\RamState_Attack.h" />
     <ClInclude Include="..\Header\RamState_Chase.h" />
@@ -822,7 +822,7 @@
     <ClCompile Include="..\Code\PlayerState_fWalk.cpp" />
     <ClCompile Include="..\Code\PlayerState_fIdle.cpp" />
     <ClCompile Include="..\Code\Pollen.cpp" />
-    <ClCompile Include="..\Code\PollenGenerator.cpp" />
+    <ClCompile Include="..\Code\EffectGenerator.cpp" />
     <ClCompile Include="..\Code\Ram.cpp" />
     <ClCompile Include="..\Code\RamState_Attack.cpp" />
     <ClCompile Include="..\Code\RamState_Chase.cpp" />

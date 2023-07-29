@@ -444,9 +444,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
-
-	
-
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -477,13 +474,6 @@ void CPlayer::LateUpdate_Object()
 
 	if (m_bIsTalking && m_bClocking)
 		Off_Clocking();
-
-
-	if (m_bhasFlight)
-	{
-		NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight"))
-		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight")->Set_Active(true);
-	}
 
 	if(!m_bFly && m_pSkillFly->Is_Active())
 	{
@@ -548,9 +538,6 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 				CCameraMgr::GetInstance()->Shake_Camera();
 
 			}
-
-
-
 		}
 		if (Is_Skill())
 		{
@@ -738,9 +725,6 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 				CCameraMgr::GetInstance()->Shake_Camera();
 				
 			}
-				
-
-			
 		}
 		if (Is_Skill())
 		{
