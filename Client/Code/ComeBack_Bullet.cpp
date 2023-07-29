@@ -118,7 +118,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
        
     }
      
-    if (m_bComeBack == true && m_bStop == true && fDistanceOrigin <= 2.f || m_fAccTime >= 6.f)
+    if (m_bComeBack == true && m_bStop == true && fDistanceOrigin <= 1.f || m_fAccTime >= 6.f)
     {
         m_fAccTime = 0.f;
         CEventMgr::GetInstance()->Delete_Obj(this);

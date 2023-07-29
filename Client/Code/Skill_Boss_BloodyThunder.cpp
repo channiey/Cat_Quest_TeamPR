@@ -161,22 +161,22 @@ HRESULT CSkill_Boss_BloodyThunder::Play()
 	NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
 
 	// 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 20, 0.01f, vOwnerPos.z+ 20 });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 15.f, 0.01f, vOwnerPos.z + 15.f });
 	m_pBaseRangeEffect1->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect1->Scaling(2.f, 0.3f, 1.f);
 
 	// 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z +20 });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z +15.f });
 	m_pBaseRangeEffect2->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect2->Scaling(2.f, 0.3f, 1.f);
 
 	// 3
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x -20 , 0.01f, vOwnerPos.z -20 });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x -15.f , 0.01f, vOwnerPos.z -15.f });
 	m_pBaseRangeEffect3->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect3->Scaling(2.f, 0.3f, 1.f);
 
 	// 4
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x +20 , 0.01f, vOwnerPos.z -20 });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x +15.f , 0.01f, vOwnerPos.z -15.f });
 	m_pBaseRangeEffect4->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect4->Scaling(2.f, 0.3f, 1.f);
 
@@ -210,22 +210,22 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 
 
 	// 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 20, 0.01f, vOwnerPos.z + 20 });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 15.f, 0.01f, vOwnerPos.z + 15.f });
 	m_pBaseRangeEffect1->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect1->Scaling(2.f, 0.3f, 1.f);
 
 	// 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z + 20 });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z + 15.f });
 	m_pBaseRangeEffect2->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect2->Scaling(2.f, 0.3f, 1.f);
 
 	// 3
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 20 , 0.01f, vOwnerPos.z - 20 });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 15.f , 0.01f, vOwnerPos.z - 15.f });
 	m_pBaseRangeEffect3->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect3->Scaling(2.f, 0.3f, 1.f);
 
 	// 4
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z - 20 });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z - 15.f });
 	m_pBaseRangeEffect4->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect4->Scaling(2.f, 0.3f, 1.f);
 
@@ -241,10 +241,10 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 	_float fSkillEffectScaleY = m_pSKillEffect1->Get_Transform()->Get_Scale().y;
 
 
-	m_pSKillEffect1->Play_Effect(_vec3{ vOwnerPos.x - 20 , 0.01f  , vOwnerPos.z + 20 });
-	m_pSKillEffect2->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f  , vOwnerPos.z + 20 });
-	m_pSKillEffect3->Play_Effect(_vec3{ vOwnerPos.x - 20 , 0.01f  , vOwnerPos.z - 20 });
-	m_pSKillEffect4->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f  , vOwnerPos.z - 20 });
+	m_pSKillEffect1->Play_Effect(_vec3{ vOwnerPos.x - 15.f , 0.01f  , vOwnerPos.z + 15.f });
+	m_pSKillEffect2->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f  , vOwnerPos.z + 15.f });
+	m_pSKillEffect3->Play_Effect(_vec3{ vOwnerPos.x - 15.f , 0.01f  , vOwnerPos.z - 15.f });
+	m_pSKillEffect4->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f  , vOwnerPos.z - 15.f });
 	//m_pSKillEffect5->Play_Effect(_vec3{ vPlayerPos.x, 0.01f, vPlayerPos.z });
 	
 

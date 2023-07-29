@@ -52,6 +52,10 @@ HRESULT CExpCoin::Ready_Object()
 
 	m_szName = L"Item_ExpCoin";
 
+
+	m_tAlpha.Init_Lerp();
+	m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+
 	return S_OK;
 }
 
@@ -60,6 +64,7 @@ _int CExpCoin::Update_Object(const _float& fTimeDelta)
 	_int iExit = CItem::Update_Object(fTimeDelta);   // 상위 먼저
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);	 //	렌더 그룹 추가
 
+	m_tAlpha.Update_Lerp(fTimeDelta);
 
 	// Jumping 
 
@@ -90,6 +95,10 @@ void CExpCoin::LateUpdate_Object()
 void CExpCoin::Render_Object()
 {
 
+
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
+
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -99,6 +108,8 @@ void CExpCoin::Render_Object()
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	CGameObject::Render_Object(); // 콜라이더 출력
 

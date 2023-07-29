@@ -807,6 +807,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/BloodyThunder/%d.png", 10)), E_FAIL);
 
+	// Blue Thunder Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BlueThunder_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/BlueThunder/%d.png", 10)), E_FAIL);
+
+
+
 	// Create Wyvern Cast
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_CreateWyvern_VioletDragon_Cast",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/CreateWyvern/%d.png", 7)), E_FAIL);
@@ -907,8 +913,13 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 	//// Boss Skill =====================================================================
+	// Bloody Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+
+	// Blue Thunder
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 9)), E_FAIL);
 
 
 

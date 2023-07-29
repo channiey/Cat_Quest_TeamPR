@@ -280,11 +280,11 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
 
 
 
-
+    // Five Group
     if (m_bBullet17 == false && m_fAccTime >= 4.f) //17
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging17",
-            CRedStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CRedStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet17 = true;
     }
 
@@ -292,7 +292,7 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
     if (m_bBullet18 == false && m_fAccTime >= 4.f) //18
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging18",
-            CRedStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CRedStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet18 = true;
     }
 
@@ -301,7 +301,7 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
     if (m_bBullet19 == false && m_fAccTime >= 4.f) //19
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging19",
-            CRedStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+            CRedStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet19 = true;
     }
 
@@ -364,10 +364,12 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
         {
             return STATE_TYPE::BOSS_DASH_BACK_ATTACK;
         }
+
         if (vOwnerPos.z > vPlayerPos.z)
         {
             return STATE_TYPE::BOSS_DASH_ATTACK;
         }
+    
 
     }
     return STATE_TYPE::BOSS_SHOOTING_RED;

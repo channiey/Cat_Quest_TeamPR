@@ -130,6 +130,8 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 	if (true == m_tStatInfo.bDead)
 	{
+		
+
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Spirit", CMonstSpirit::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 		// CEventMgr::GetInstance()->Add_Obj(L"Test", CHedgehog_Stemp::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
 
@@ -356,7 +358,8 @@ void CMonster::Damaged(const _float& fDamage, CGameObject* pObj)
 	}
 	
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK )
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK ||
+		Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON )
 	{
 		m_pRigidBodyCom->Zero_KnockBack();
 	}

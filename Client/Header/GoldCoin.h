@@ -28,6 +28,11 @@ private:
 public:
 	static				CGoldCoin* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
+private: 
+
+	LERP_FLOAT_INFO       m_tAlpha;
+
+
 protected:
 	virtual void		Free() override;
 

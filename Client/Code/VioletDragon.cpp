@@ -26,6 +26,9 @@
 // BloodyThunder
 #include "VioletDragonState_BloodyThunder.h"
 #include "VioletDragonState_BloodyThunder_Cast.h"
+// Blue Thunder
+#include "VioletDragonState_BlueThunder.h"
+#include "VioletDragonState_BlueThunder_Cast.h"
 // ShootingStar
 #include "VioletDragonState_ShootingStar.h"
 #include "VioletDragonState_ShootingStarRed.h"
@@ -45,10 +48,13 @@
 // Effect
 #include "Shadow_Monster.h"
 #include "Skill_Monster_CircleAttack.h"
+#include "Skill_Boss_BlueThunder.h"
 #include "Skill_Boss_FullDown.h"
 #include "Skill_Boss_BloodyThunder.h"
 #include "Skill_Boss_CreatWyvern.h"
 #include "BigCircle_Stemp.h"
+#include "MonstSpirit.h"
+
 
 
 CVioletDragon::CVioletDragon(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -105,7 +111,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_FullDownTime = 0.f;
 	m_BloodyTime = 0.f;
 	m_CreateTime = 0.f;
-
+	m_BlueTime = 0.f; 
 
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
@@ -117,10 +123,16 @@ HRESULT CVioletDragon::Ready_Object()
 
 	m_bSkill = false;
 	m_bFullDown = false;
+
 	m_bBloodyTunder = false;
 	m_bBloodyLate = false;
 	m_bCreatWyvernPlay = false;
 	m_bCreatWyvernLate = false;
+
+	m_bBlueTunder = false;
+	m_bBlueLate = false;
+	
+
 
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -144,6 +156,11 @@ HRESULT CVioletDragon::Ready_Object()
 		m_pCreateWyvern = CSkill_Boss_CreateWyvern::Create(m_pGraphicDev, this);
 		NULL_CHECK_RETURN(m_pCreateWyvern, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_Create_Wyvern", m_pCreateWyvern), E_FAIL);
+
+
+		m_pBlueThunder = CSkill_Boss_BlueThunder::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pBlueThunder, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_BlueThunder", m_pBlueThunder), E_FAIL);
 
 	}
 
@@ -238,6 +255,16 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLOODY_CAST, pState);
 
 
+	// Blue Thunder Pattern ==========================
+	// Blue Thunder
+	pState = CVioletDragonState_BlueThunder::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLUE_THUNDER, pState);
+	// Bloody Cast
+	pState = CVioletDragonState_BlueThunder_Cast::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BLUE_CAST, pState);
+
+
+
 	// Shooting Star Pattern ===========================
 	// Shooting Star
 	pState = CVioletDragonState_ShootingStar::Create(m_pGraphicDev, m_pStateMachineCom);
@@ -273,11 +300,10 @@ HRESULT CVioletDragon::Ready_Object()
 	pState = CVioletDragonState_Dash_Attack_Back::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_DASH_BACK_ATTACK, pState);
 
-
-
 	// Ready Pattern
 	pState = CVioletDragonState_ReadyPattern::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_READY_PATTERN, pState);
+
 
 
 
@@ -370,6 +396,16 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLOODY_CAST, pAnimation);
 
 
+	// Blue Thunder
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BLUE_THUNDER)], STATE_TYPE::BOSS_BLUE_THUNDER, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLUE_THUNDER, pAnimation);
+
+	// Blue Cast
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BLUE_CAST)], STATE_TYPE::BOSS_BLUE_CAST, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BLUE_CAST, pAnimation);
+
+
+
 	
 	// Shooting Star
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)], STATE_TYPE::BOSS_SHOOTING_STAR, 0.1f, TRUE);
@@ -421,11 +457,9 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
-
-
-	// Test 
 	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+
+
 
 
 
@@ -527,13 +561,55 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
 			m_BloodyTime = 0.f;
-			m_bBloodyLate = false;
+			
 		}
 		
 	}
+	else
+	{
+		m_BloodyTime = 0.f;
+
+		m_bBloodyLate = false;
+	}
+
+
+	// Blue Thunder Skill Use Condition
+	if ((STATE_TYPE::BOSS_BLUE_THUNDER == CurState || STATE_TYPE::BOSS_BLUE_CAST == CurState))
+	{
+		m_BlueTime += fTimeDelta;
+
+		if (m_bBlueTunder == false && m_bBlueLate == false && m_BlueTime >= 1.f)
+		{
+			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->Play();
+			m_bBlueTunder = true;
+		}
+		if (m_bBlueTunder == true && m_bBlueLate == false && m_BlueTime >= 2.f)
+		{
+			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->End();
+
+			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LatePlay();
+			CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
+			m_bBlueTunder = false;
+			m_bBlueLate = true;
+		}
+		if (m_bBlueTunder == false && m_bBlueLate == true && m_BlueTime >= 4.f)
+		{
+			CCameraMgr::GetInstance()->Stop_Shake();
+			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LateEnd();
+			m_BlueTime = 0.f;
+		}
+
+	}
+	else
+	{
+		m_BlueTime = 0.f;
+		m_bBlueLate = false;
+	}
+
+
 
 	// Create Wyvern Skill Use Condition
-	if (STATE_TYPE::BOSS_CREATE_CAST == CurState )
+	if (STATE_TYPE::BOSS_CREATE_CAST == CurState  || STATE_TYPE::BOSS_CREATE_WYVERN == CurState)
 	{
 		m_CreateTime += fTimeDelta;
 
@@ -557,7 +633,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		}
 
 	}
-	else if(STATE_TYPE::BOSS_CREATE_WYVERN != CurState)
+	else
 	{
 		m_CreateTime = 0.f;
 		m_bCreatWyvernPlay = false;
@@ -740,6 +816,18 @@ HRESULT CVioletDragon::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
+
+	// Blue Thunder ===========================
+	// Blue Thunder
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLUE_THUNDER)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	// Blue Cast
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLUE_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_BlueThunder_VioletDragon_Cast", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
 
 
 
