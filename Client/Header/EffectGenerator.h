@@ -7,6 +7,9 @@ BEGIN(Engine)
 END
 
 class CPollen;
+class CCloud1;
+class CCloud2;
+class CCloud3;
 
 class CEffectGenerator : public Engine::CGameObject
 {
@@ -22,7 +25,7 @@ public:
 	virtual void		Render_Object() override;
 
 public:
-	void	Set_Locate(OBJ_ID _eLocation) { m_ePlayerLocate = _eLocation; }
+	void	Set_Locate(OBJ_ID _eLocation);
 
 
 private:
@@ -34,19 +37,43 @@ private:
 	void	Cloud_Caculate_CreateTime();
 	void	Cloud_Caculate_InitPos();
 
+	void	Snow_Create(const _float& fTimeDelta) {}
+	void	Snow_Caculate_CreateTime() {}
+	void	Snow_Caculate_InitPos() {}
+
+	void	Rain_Create(const _float& fTimeDelta) {}
+	void	Rain_Caculate_CreateTime() {}
+	void	Rain_Caculate_InitPos() {}
 
 private:
+	CGameObject* m_pPlayer;
+	_vec3		 m_vPlayerPos;
+
 	OBJ_ID		m_ePlayerLocate;
 
 	// 먼지
-	_vec3		m_vPollen_CreatePos;
+	vector<CGameObject*> m_vecPollen;
 	_float		m_fPollen_AccTime;
 	_float		m_fPollen_CreateTime;
+	_vec3		m_vPollen_CreatePos;
 
 	// 구름
-	_vec3		m_vCloud_CreatePos;
+	vector<CGameObject*> m_vecCloud;
 	_float		m_fCloud_AccTime;
 	_float		m_fCloud_CreateTime;
+	_vec3		m_vCloud_CreatePos;
+
+	// 눈
+	vector<CGameObject*> m_vecSnow;
+	_float		m_fSnow_AccTime;
+	_float		m_fSnow_CreateTime;
+	_vec3		m_vSnow_CreatePos;
+
+	// 비
+	vector<CGameObject*> m_vecRain;
+	_float		m_fRain_AccTime;
+	_float		m_fRain_CreateTime;
+	_vec3		m_vRain_CreatePos;
 
 
 public:
@@ -54,6 +81,5 @@ public:
 
 private:
 	virtual void		Free() override;
-
 };
 

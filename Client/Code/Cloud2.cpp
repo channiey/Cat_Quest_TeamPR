@@ -30,11 +30,18 @@ HRESULT CCloud2::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	std::uniform_real_distribution<float> xDist1(10.f, 15.f);
+	m_fDeadTime = xDist1(gen);
 	m_fAccTime = 0.f;
+
+	m_bDead_Start = false;
 
 	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.f, 5.f });
 	Set_RandomSize();
-	m_pTransformCom->Set_Pos(_vec3{ START_POS_WORLD_X + 50, Set_RandomHeight(), START_POS_WORLD_Z + 50});
+	m_pTransformCom->Set_Pos(_vec3{ m_vCloudPos.x, Set_RandomHeight(), m_vCloudPos.z });
 
 	// Add_GameObject를 호출할 때 this가 NULL이다 확인하자.
 	CEventMgr::GetInstance()->Add_Obj(L"Cloud2_Shadow", CCloud2_Shadow::Create(m_pGraphicDev, this));
@@ -53,11 +60,38 @@ _int CCloud2::Update_Object(const _float& fTimeDelta)
 		 this->m_pTransformCom->Get_Info(INFO_POS).z }
 	);
 
+	m_fAccTime += fTimeDelta;
+	if (m_fAccTime >= m_fDeadTime && !m_bDead_Start)
+	{
+		m_tLerpAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+		m_tLerpAlpha.Set_Lerp(5.f, m_iAlpha, 0);
+		m_tLerpAlpha.fCurValue = m_tLerpAlpha.fStartValue;
+		m_bDead_Start = true;
+	}
+
+
+
+	if (m_bDead_Start)
+	{
+		m_tLerpAlpha.Update_Lerp(fTimeDelta);
+		m_iAlpha = m_tLerpAlpha.fCurValue;
+
+		if (m_iAlpha == 0)
+			CEventMgr::GetInstance()->Delete_Obj(this);
+	}
+
 	return iExit;
 }
 
 void CCloud2::LateUpdate_Object()
 {
+	if (!m_bDead_Start)
+	{
+		m_iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
+
+		if (OBJ_CLOUD_MAX_ALPHA < m_iAlpha) m_iAlpha = OBJ_CLOUD_MAX_ALPHA;
+	}
+
 	__super::LateUpdate_Object();
 }
 
@@ -68,9 +102,6 @@ void CCloud2::Render_Object()
 	if (pUI->Get_ZoomState() == 1)
 		return;*/
 
-	m_iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
-
-	if (OBJ_CLOUD_MAX_ALPHA < m_iAlpha) m_iAlpha = OBJ_CLOUD_MAX_ALPHA;
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
