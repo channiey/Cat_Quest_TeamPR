@@ -79,9 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../Bin\</OutDir>
-    <IncludePath>$(DXSDK_DIR)Include;D:\SR_Team\Client\FMOD\inc;D:\SR_Team\Client\FMOD\lib;$(IncludePath)</IncludePath>
     <IncludePath>$(DXSDK_DIR)Include;C:\Project\SR Team Project\Client\FMOD\inc;C:\Project\SR Team Project\Client\FMOD\lib;$(IncludePath)</IncludePath>
-    <IncludePath>$(DXSDK_DIR)Include;E:\SR_CAT\Client\FMOD\inc;E:\SR_CAT\Client\FMOD\lib;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,10 +123,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;D:\SR_Team\Client\FMOD\lib\fmodex_vc.lib;fmodex64_vc.lib;D:\SR_Team\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex_vc.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -189,8 +185,6 @@
     <ClInclude Include="..\Header\Present.h" />
     <ClInclude Include="..\Header\TownSanctuary.h" />
     <ClInclude Include="..\Header\Effect_Boss_ThunderBlue.h" />
-    <ClInclude Include="..\Header\FoxState_bRest.h" />
-    <ClInclude Include="..\Header\FoxState_Rest.h" />
     <ClInclude Include="..\Header\RedStar_Bullet.h" />
     <ClInclude Include="..\Header\Skill_Boss_BlueThunder.h" />
     <ClInclude Include="..\Header\VioletDragonState_BlueThunder.h" />
@@ -612,8 +606,6 @@
     <ClCompile Include="..\Code\Present.cpp" />
     <ClCompile Include="..\Code\TownSanctuary.cpp" />
     <ClCompile Include="..\Code\Effect_Boss_ThunderBlue.cpp" />
-    <ClCompile Include="..\Code\FoxState_bRest.cpp" />
-    <ClCompile Include="..\Code\FoxState_Rest.cpp" />
     <ClCompile Include="..\Code\RedStar_Bullet.cpp" />
     <ClCompile Include="..\Code\Skill_Boss_BlueThunder.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_BlueThunder.cpp" />
