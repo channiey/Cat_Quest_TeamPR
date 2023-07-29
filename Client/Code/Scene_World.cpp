@@ -496,7 +496,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 	m_mapLayer.insert({ OBJ_TYPE::EFFECT, pLayer });
 
 	// Cloud
-	pGameObject = CCloud1::Create(m_pGraphicDev);
+	/*pGameObject = CCloud1::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud1_1", pGameObject), E_FAIL);
 
@@ -506,7 +506,7 @@ HRESULT CScene_World::Ready_Layer_Effect()
 
 	pGameObject = CCloud3::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_1", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Cloud3_1", pGameObject), E_FAIL);*/
 
 
 	/*pGameObject = CCloud1::Create(m_pGraphicDev);
