@@ -96,9 +96,6 @@ void CEffectGenerator::Set_Locate(OBJ_ID _eLocation)
 		break;
 	case OBJ_ID::ISLAND_RANGE_ICE:
 		m_fPollen_AccTime = 0.f;
-		for (auto iter : m_vecPollen)
-			CEventMgr::GetInstance()->Delete_Obj(iter);
-		m_vecPollen.clear();
 		break;
 	case OBJ_ID::ISLAND_RANGE_JUMP:
 		break;
@@ -106,17 +103,11 @@ void CEffectGenerator::Set_Locate(OBJ_ID _eLocation)
 		break;
 	case OBJ_ID::ISLAND_RANGE_DEATH:
 		m_fCloud_AccTime = 0.f;
-		for (auto iter : m_vecCloud)
-			CEventMgr::GetInstance()->Delete_Obj(iter);
-		m_vecCloud.clear();
 		break;
 	case OBJ_ID::TYPEEND:
 		break;
 	default:
 		m_fCloud_AccTime = 0.f;
-		for (auto iter : m_vecCloud)
-			CEventMgr::GetInstance()->Delete_Obj(iter);
-		m_vecCloud.clear();
 		break;
 	}
 }
@@ -130,7 +121,6 @@ void CEffectGenerator::Pollen_Create(const _float& fTimeDelta)
 
 		CGameObject* pPollen = CPollen::Create(m_pGraphicDev, m_vPollen_CreatePos);
 		NULL_CHECK(pPollen);
-		m_vecPollen.push_back(pPollen);
 		CEventMgr::GetInstance()->Add_Obj(L"Effect_Pollen", pPollen);
 
 		m_fPollen_AccTime -= m_fPollen_CreateTime;
@@ -179,7 +169,6 @@ void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 			{
 				CGameObject* pCloud = CCloud1::Create(m_pGraphicDev, m_vCloud_CreatePos);
 				NULL_CHECK(pCloud);
-				m_vecCloud.push_back(pCloud);
 				CEventMgr::GetInstance()->Add_Obj(L"Effect_Cloud1", pCloud);
 			}
 			break;
@@ -187,7 +176,6 @@ void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 			{
 				CGameObject* pCloud = CCloud2::Create(m_pGraphicDev, m_vCloud_CreatePos);
 				NULL_CHECK(pCloud);
-				m_vecCloud.push_back(pCloud);
 				CEventMgr::GetInstance()->Add_Obj(L"Effect_Cloud2", pCloud);
 			}
 			break;
@@ -195,7 +183,6 @@ void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 			{
 				CGameObject* pCloud = CCloud3::Create(m_pGraphicDev, m_vCloud_CreatePos);
 				NULL_CHECK(pCloud);
-				m_vecCloud.push_back(pCloud);
 				CEventMgr::GetInstance()->Add_Obj(L"Effect_Cloud3", pCloud);
 			}
 			break;
