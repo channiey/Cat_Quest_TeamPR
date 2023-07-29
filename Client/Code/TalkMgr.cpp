@@ -222,7 +222,8 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 	
 	if (&iter)
 	{
-		if (CInputDev::GetInstance()->Key_Down('E'))
+		if (CInputDev::GetInstance()->Key_Down('E')
+			&& !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"ShadeUI"))
 		{
 			if (m_iTalkIndex != 0)
 				CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_0, TALK_SOUND);
