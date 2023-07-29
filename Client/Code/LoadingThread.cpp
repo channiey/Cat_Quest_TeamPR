@@ -827,6 +827,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dash_VioletDragon_Back",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dash/Back/%d.png", 6)), E_FAIL);
 
+	// Ready Pattern
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_ReadyPattern_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/ReadyPattern/%d.png", 13)), E_FAIL);
+
+
+
 
 
 	// Projectile ==================================================================

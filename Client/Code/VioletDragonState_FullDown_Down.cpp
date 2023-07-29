@@ -109,7 +109,7 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 
 
 
-    pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x, vOwnerOriginPos.y , vOwnerOriginPos.z });
+    //pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x, vOwnerOriginPos.y , vOwnerOriginPos.z });
 
 	// Time
 	m_fAccTime += fTimeDelta;
@@ -134,7 +134,7 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 	if (m_fAccTime >= 1.1f)
 	{
 		m_fAccTime = 0.f;
-		return STATE_TYPE::BOSS_CONVERGING_CAST;
+		return STATE_TYPE::BOSS_READY_PATTERN;
 	}
 	return STATE_TYPE::BOSS_FULLDOWN_DOWN;
 }

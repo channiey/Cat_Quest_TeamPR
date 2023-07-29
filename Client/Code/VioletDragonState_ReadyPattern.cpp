@@ -2,6 +2,8 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "VioletDragon.h"
+#include "SoundMgr.h"
+#include "Engine_Define.h"
 
 CVioletDragonState_ReadyPattern::CVioletDragonState_ReadyPattern(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -24,7 +26,7 @@ HRESULT CVioletDragonState_ReadyPattern::Ready_State(CStateMachine* pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::BACK_COMEBACK;
+    m_eState = STATE_TYPE::BACK_ATTACK;
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 5.f;  // Patrol 전이
@@ -116,86 +118,27 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
-    // 현재 상태의 기능
-    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vOwnerOriginPos, fTimeDelta, vOwnerSpeed);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+   
+    if (pOwenrCurAnimation->Get_CurFrame() == 7.f)
+    {
 
+        pOwnerTransform->Set_Pos(vOwnerOriginPos);
+    }
     
 
 
 #pragma region State Change
 
-    // BACK_COMBACK 우선순위
-    // comback - Patrol - CHASE - ATTACK
 
-    if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+    //  Cast -> Action
+
+    if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {
-        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+
+        return STATE_TYPE::BOSS_CONVERGING_CAST;
     }
 
-
-
-    // PATROL 전이 조건
-    if (fOriginDistance <= m_fPatrolRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //cout << "patrol 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::PATROL;
-        }
-        else
-        {
-            //cout << "Back patrol 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_PATROL;
-        }
-    }
-
-    // CHASE 전이 조건
-    if (fPlayerDistance <= m_fChaseRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-          //  cout << "Chase 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::CHASE;
-        }
-        else
-        {
-           // cout << "Back Chase 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_CHASE;
-        }
-    }
-    // Attack 전이 조건
-    if (fPlayerDistance <= m_fAttackRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-          //  cout << "attack 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::MONATTACK;
-        }
-        else
-        {
-          //  cout << "back attack 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_MONATTACK;
-        }
-    }
-
-    // COMEBACK 전이 조건
-    if (vOwnerDir.z < 0)
-    {
-        //cout << "comeback 전이" << endl;
-        return STATE_TYPE::COMEBACK;
-    }
-
-
-    // Default
-    return STATE_TYPE::BACK_COMEBACK;
-
+    return STATE_TYPE::BOSS_READY_PATTERN;
 
 }
 

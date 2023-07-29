@@ -294,7 +294,8 @@ namespace Engine
 									BOSS_SPREAD_BULLET,   BOSS_SPREAD_CAST,
 									BOSS_CREATE_WYVERN,   BOSS_CREATE_CAST, 
 									BOSS_DASH_ATTACK,	  BOSS_DASH_BACK_ATTACK,
-									BOSS_FIRE_ATTACK,	  BOSS_FIRE_CAST,     TYPEEND }; // 원하는 상태 있으면 추가
+									BOSS_FIRE_ATTACK,	  BOSS_FIRE_CAST,     
+									BOSS_READY_PATTERN,   TYPEEND }; // 원하는 상태 있으면 추가
 
 
 

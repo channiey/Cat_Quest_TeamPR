@@ -251,7 +251,7 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);		
 				if (this->Get_ID() == OBJ_ID::MONSTER_HEDGEHOG || this->Get_ID() == OBJ_ID::MONSTER_RAM)
 				{
-					CSoundMgr::GetInstance()->PlaySound(L"footstep.wav", CHANNEL_ID::MONSTER_HEDGEHOG, SOUND_VOLUME_MON_FOOT_ATTACK);
+					CSoundMgr::GetInstance()->PlaySound(L"enemy_impact.wav", CHANNEL_ID::MONSTER_HEDGEHOG, SOUND_VOLUME_MON_FOOT_ATTACK);
 				}
 				if (this->Get_ID() == OBJ_ID::MONSTER_BAT || this->Get_ID() == OBJ_ID::MONSTER_WYVERN || this->Get_ID() == OBJ_ID::MONSTER_WYVERNRED)
 				{

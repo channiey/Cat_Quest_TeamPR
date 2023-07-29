@@ -39,6 +39,8 @@ public:
 public:
 	const MOVEINFO&		Get_MoveInfo() const { return m_tMoveInfo; }
 
+
+
 	void				Set_MoveSpeed(const _float& _fMoveSpeed)		{ m_tMoveInfo.fMoveSpeed = _fMoveSpeed; }
 	void				Set_RotSpeed(const _float& _fRotSpeed)			{ m_tMoveInfo.fRotSpeed = _fRotSpeed; }
 

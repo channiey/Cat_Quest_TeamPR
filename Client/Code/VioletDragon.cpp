@@ -37,6 +37,9 @@
 // Dash Attack
 #include "VioletDragonState_Dash_Attack.h"
 #include "VioletDragonState_Dash_Attack_Back.h"
+// Ready Pattern
+#include "VioletDragonState_ReadyPattern.h"
+
 
 // Effect
 #include "Shadow_Monster.h"
@@ -270,6 +273,12 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
+	// Ready Pattern
+	pState = CVioletDragonState_ReadyPattern::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_READY_PATTERN, pState);
+
+
+
 #pragma endregion
 
 
@@ -398,6 +407,11 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_DASH_BACK_ATTACK, pAnimation);
 
 
+	// Ready Pattern
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_READY_PATTERN)], STATE_TYPE::BOSS_READY_PATTERN, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_READY_PATTERN, pAnimation);
+
+
 
 
 
@@ -423,6 +437,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
 		m_pStateMachineCom->Set_State(STATE_TYPE::MONREST);
@@ -704,23 +719,23 @@ HRESULT CVioletDragon::Add_Component()
 	// Converging Fire 
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_FIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
 
 	//Converging Fire Cast
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CONVERGING_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_ConvergingFire_VioletDragon_Cast", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
 
 
 	// Bloody Thunder ===========================
 	// Bloody Thunder
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_THUNDER)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
 	// Bloody Cast
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BLOODY_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
 
 
 
@@ -728,11 +743,11 @@ HRESULT CVioletDragon::Add_Component()
 	// Shooting Star
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 	// Shooting Cast
 	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
 
 
 
@@ -768,6 +783,14 @@ HRESULT CVioletDragon::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_BACK_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dash_VioletDragon_Back", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
+	// Ready Pattern
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_READY_PATTERN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_ReadyPattern_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
+
+
 
 
 
