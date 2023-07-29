@@ -6,7 +6,7 @@
 
 CWorldFlight::CWorldFlight(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem_Object(pGraphicDev, OBJ_ID::ITEM_WORLD_FLIGHT)
-	, m_iLevel(0)
+	, m_iLevel(0), m_bDelete(false)
 {
 }
 
@@ -28,41 +28,47 @@ HRESULT CWorldFlight::Ready_Object()
 	// Transform Setting
 	m_pTransformCom->Set_Scale(_vec3{ 1.4f , 1.4f, 0.5f });
 	m_pTransformCom->Set_Pos(_vec3{
-		_float(START_POS_WORLD_X + 15.f),
+		137.f,
 		m_pTransformCom->Get_Scale().y,
-		_float(START_POS_WORLD_Z) });
+		383.f });
 
 	m_fJumpingSpeed = 0.01;
 
 	m_szName = L"Item_WorldFlight";
+	m_eInterType = INTERACTION_TYPE::INTERACTION_INSPECT;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 	{
 		CEventMgr::GetInstance()->Add_Obj(L"WorldFlight_Shadow", CShadow_Item::Create(m_pGraphicDev, this));
 	}
 
+	Ready_Lerp();
+
+	return S_OK;
+}
+
+void CWorldFlight::Ready_Lerp()
+{
 	m_tSparkle[0].m_pSparkleTransCom->Set_Pos({
-		m_pTransformCom->Get_Info(INFO_POS).x - m_pTransformCom->Get_Scale().x * 0.5f,
-		m_pTransformCom->Get_Info(INFO_POS).y - m_pTransformCom->Get_Scale().y * 0.5f,
-		m_pTransformCom->Get_Info(INFO_POS).z });
+	m_pTransformCom->Get_Info(INFO_POS).x - m_pTransformCom->Get_Scale().x * 0.5f,
+	m_pTransformCom->Get_Info(INFO_POS).y - m_pTransformCom->Get_Scale().y * 0.7f,
+	m_pTransformCom->Get_Info(INFO_POS).z });
 	m_tSparkle[1].m_pSparkleTransCom->Set_Pos({
-	m_pTransformCom->Get_Info(INFO_POS).x + m_pTransformCom->Get_Scale().x * 0.5f,
+	m_pTransformCom->Get_Info(INFO_POS).x + m_pTransformCom->Get_Scale().x * 0.7f,
 	m_pTransformCom->Get_Info(INFO_POS).y,
 	m_pTransformCom->Get_Info(INFO_POS).z });
 	m_tSparkle[2].m_pSparkleTransCom->Set_Pos({
-	m_pTransformCom->Get_Info(INFO_POS).x - m_pTransformCom->Get_Scale().x * 0.5f,
-	m_pTransformCom->Get_Info(INFO_POS).y + m_pTransformCom->Get_Scale().y * 0.5f,
+	m_pTransformCom->Get_Info(INFO_POS).x - m_pTransformCom->Get_Scale().x * 0.7f,
+	m_pTransformCom->Get_Info(INFO_POS).y + m_pTransformCom->Get_Scale().y * 1.f,
 	m_pTransformCom->Get_Info(INFO_POS).z });
 
 	for (_int i = 0; i < SPARKLE_AMOUNT; ++i)
 	{
 		m_tSparkle[i].m_tSizeUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
-		m_tSparkle[i].m_tSizeUpLerp.Set_Lerp(0.2f, 0.f, 0.4f);
+		m_tSparkle[i].m_tSizeUpLerp.Set_Lerp(0.1f, 0.f, 0.8f);
 		m_tSparkle[i].m_tSizeDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
-		m_tSparkle[i].m_tSizeDownLerp.Set_Lerp(0.2f, 0.4f, 0.f);
+		m_tSparkle[i].m_tSizeDownLerp.Set_Lerp(0.1f, 0.8f, 0.f);
 	}
-
-	return S_OK;
 }
 
 _int CWorldFlight::Update_Object(const _float& fTimeDelta)
@@ -80,11 +86,19 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 	}
 	m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
 
+	if (!m_bDelete) Update_Lerp();
+	else            Play_Delete();
+
+	return iExit;
+}
+
+void CWorldFlight::Update_Lerp()
+{
 	// Sparkle
 	switch (m_iLevel)
 	{
 	case 0:
-		m_tSparkle[0].m_tSizeUpLerp.Update_Lerp(fTimeDelta);
+		m_tSparkle[0].m_tSizeUpLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
 		m_tSparkle[0].m_pSparkleTransCom->Set_Scale({
 		m_tSparkle[0].m_tSizeUpLerp.fCurValue,
 		m_tSparkle[0].m_tSizeUpLerp.fCurValue,
@@ -94,7 +108,7 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 
 		break;
 	case 1:
-		m_tSparkle[1].m_tSizeUpLerp.Update_Lerp(fTimeDelta);
+		m_tSparkle[1].m_tSizeUpLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
 		m_tSparkle[1].m_pSparkleTransCom->Set_Scale({
 		m_tSparkle[1].m_tSizeUpLerp.fCurValue,
 		m_tSparkle[1].m_tSizeUpLerp.fCurValue,
@@ -104,7 +118,7 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 
 		break;
 	case 2:
-		m_tSparkle[2].m_tSizeUpLerp.Update_Lerp(fTimeDelta);
+		m_tSparkle[2].m_tSizeUpLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
 		m_tSparkle[2].m_pSparkleTransCom->Set_Scale({
 		m_tSparkle[2].m_tSizeUpLerp.fCurValue,
 		m_tSparkle[2].m_tSizeUpLerp.fCurValue,
@@ -114,7 +128,7 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 
 		break;
 	case 3:
-		m_tSparkle[2].m_tSizeDownLerp.Update_Lerp(fTimeDelta);
+		m_tSparkle[2].m_tSizeDownLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
 		m_tSparkle[2].m_pSparkleTransCom->Set_Scale({
 		m_tSparkle[2].m_tSizeDownLerp.fCurValue,
 		m_tSparkle[2].m_tSizeDownLerp.fCurValue,
@@ -124,7 +138,7 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 
 		break;
 	case 4:
-		m_tSparkle[1].m_tSizeDownLerp.Update_Lerp(fTimeDelta);
+		m_tSparkle[1].m_tSizeDownLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
 		m_tSparkle[1].m_pSparkleTransCom->Set_Scale({
 		m_tSparkle[1].m_tSizeDownLerp.fCurValue,
 		m_tSparkle[1].m_tSizeDownLerp.fCurValue,
@@ -134,7 +148,7 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 
 		break;
 	case 5:
-		m_tSparkle[0].m_tSizeDownLerp.Update_Lerp(fTimeDelta);
+		m_tSparkle[0].m_tSizeDownLerp.Update_Lerp(Engine::Get_TimeDelta(L"Timer_FPS65"));
 		m_tSparkle[0].m_pSparkleTransCom->Set_Scale({
 		m_tSparkle[0].m_tSizeDownLerp.fCurValue,
 		m_tSparkle[0].m_tSizeDownLerp.fCurValue,
@@ -147,15 +161,13 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 		for (_int i = 0; i < SPARKLE_AMOUNT; ++i)
 		{
 			m_tSparkle[i].m_tSizeUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
-			m_tSparkle[i].m_tSizeUpLerp.Set_Lerp(0.2f, 0.f, 0.4f);
+			m_tSparkle[i].m_tSizeUpLerp.Set_Lerp(0.1f, 0.f, 0.8f);
 			m_tSparkle[i].m_tSizeDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
-			m_tSparkle[i].m_tSizeDownLerp.Set_Lerp(0.2f, 0.4f, 0.f);
+			m_tSparkle[i].m_tSizeDownLerp.Set_Lerp(0.1f, 0.8f, 0.f);
 		}
 		m_iLevel = 0;
 		break;
 	}
-
-	return iExit;
 }
 
 void CWorldFlight::LateUpdate_Object()
@@ -184,14 +196,22 @@ void CWorldFlight::Render_Object()
 
 }
 
+void CWorldFlight::Play_Delete()
+{
+	CEventMgr::GetInstance()->Delete_Obj(this);  // 삭제
+}
+
 void CWorldFlight::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CWorldFlight::OnCollision_Stay(CGameObject* _pColObj)
 {
 	switch (_pColObj->Get_Type())
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
 		m_bCol = true;
-		CEventMgr::GetInstance()->Delete_Obj(this);  // 삭제
 	}
 	break;
 	default:

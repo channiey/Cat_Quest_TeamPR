@@ -33,6 +33,7 @@ protected:
 	_bool					m_bTransSwitch2;
 
 	_int					m_iTranslucent;
+	_int					m_iEndTranslucent;
 
 	_bool					m_bReadySound;
 protected:

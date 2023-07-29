@@ -315,7 +315,7 @@ void CSkillGetEffect::Smaller_Skill()
 
 	if (m_iSkillAlpha > 5)
 	{
-		m_iSkillAlpha -= 5;
+		m_iSkillAlpha -= 10;
 	}
 
 	if (!m_tSmallerLerp.bActive && !m_bTimeSet)

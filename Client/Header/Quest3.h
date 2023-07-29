@@ -12,7 +12,7 @@ public:
 	virtual _bool Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble) override;
 
 private:
-	_bool			m_bCreateKey;
-	CGameObject*	m_pKey;
+	_bool			m_bCreateQItem;
+	CGameObject*	m_pWorldFlight;
 };
 

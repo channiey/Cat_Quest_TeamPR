@@ -326,7 +326,7 @@ void CWeaponGetEffect::Smaller_Weapon()
 
 	if (m_iWeaponAlpha > 5)
 	{
-		m_iWeaponAlpha -= 5;
+		m_iWeaponAlpha -= 10;
 	}
 
 	if (!m_tSmallerLerpX.bActive && !m_bTimeSet)

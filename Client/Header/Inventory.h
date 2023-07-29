@@ -201,12 +201,12 @@ public:
 	// Skill
 	HRESULT					Add_Skill(CSkill* _pSKill);
 	// Key
-	void					Set_HaveKey(_bool _isAdd)
+	void					Set_HaveQuestItem(_bool _isAdd)
 	{
-		if (_isAdd) m_iHaveKey += 1;
-		else if (!_isAdd && m_iHaveKey > 0) m_iHaveKey -= 1;
+		if (_isAdd) m_iQuestItem += 1;
+		else if (!_isAdd && m_iQuestItem > 0) m_iQuestItem -= 1;
 	}
-	_int					Get_HaveKey() { return m_iHaveKey; }
+	_int					Get_HaveKey() { return m_iQuestItem; }
 
 protected:
 	virtual HRESULT			Add_Component();
@@ -219,7 +219,7 @@ private:
 
 	CPlayer*				m_pPlayer;	// 계속 참조할 플레이어
 
-	_int					m_iHaveKey; // 열쇠 
+	_int					m_iQuestItem; // 열쇠 
 
 	INVENTYPE				m_eInvenType; // 아이템인지 스킬인지
 	

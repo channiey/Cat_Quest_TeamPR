@@ -58,6 +58,7 @@
 #include "RangeObj.h"
 #include "EventMgr.h"
 
+#include "WorldFlight.h"
 #include "Inventory.h"
 #include "Item.h"
 
@@ -825,8 +826,14 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	break;
 	case Engine::OBJ_TYPE::ITEM:
 	{
-	
-			
+		// 탐색 가능 UI
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
+			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+			m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
+		}
+
 	}
 		break;
 	case Engine::OBJ_TYPE::PROJECTILE:
