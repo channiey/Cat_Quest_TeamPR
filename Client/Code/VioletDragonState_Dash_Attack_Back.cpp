@@ -113,6 +113,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
 
 
 
+
     // x 이동 방향에 따라 스케일 전환 
     if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
     {
@@ -124,7 +125,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
     }
 
 
-    if (m_bAssault == false)
+    if (m_bAssault == false  && pOwenrCurAnimation->Is_End())
     {
        
         if (m_fAccTime >= 0.2f )
@@ -135,7 +136,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
         }
     }
 
-    if (m_bAssault == true && m_fAccTime >= 1.f)
+    if (m_bAssault == true && m_fAccTime >= 1.5f)
     {
         pOwnerTransform->Set_Dir(vec3.zero);
     }
@@ -158,12 +159,13 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
 #pragma region State Change
 
 
-    if (m_fAccTime >= 4.f)
+    if (pOwnerTransform->Get_Dir() == vec3.zero && m_fAccTime >= 1.6f)
     {
         m_fAccTime = 0.f;
         m_bAssault =false;
+        dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(8.f);
 
-        return STATE_TYPE::BOSS_SPREAD_BULLET;
+        return STATE_TYPE::BOSS_READY_PATTERN;
     }
 
     return STATE_TYPE::BOSS_DASH_BACK_ATTACK;

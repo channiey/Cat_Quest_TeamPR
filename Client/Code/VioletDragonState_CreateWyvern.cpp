@@ -76,6 +76,9 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
 
+    STATINFO OwnerStat = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo();
+ 
+
 
     // Player Component ==============================
     // Player
@@ -265,7 +268,10 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
 #pragma region State Change
     // FullDown 상태는 FullDown Down 상태로만 전이 한다
 
-    // State Change 
+    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
+    {
+        return STATE_TYPE::PATROL;
+    }
 
     if (m_fAccTime >= 7.f )
     {
@@ -284,7 +290,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         m_bCreateWyvern10 = false;
 
         m_bInit = false;
-        return STATE_TYPE::BOSS_SPREAD_BULLET;
+        return STATE_TYPE::BOSS_BLUE_CAST;
     }
 
 

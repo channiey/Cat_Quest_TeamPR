@@ -20,8 +20,11 @@ public:
 
 
 private:
-	HRESULT					Add_Component();
+	HRESULT		Add_Component();
 
+
+private:
+	LERP_FLOAT_INFO       m_tAlpha;
 
 public:
 	static				CExpCoin* Create(LPDIRECT3DDEVICE9 pGraphicDev);

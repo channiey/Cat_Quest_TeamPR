@@ -151,7 +151,7 @@ STATE_TYPE CVioletDragonState_Rest::Update_State(const _float& fTimeDelta)
     }
 
 
-    if (m_fAccTime >= 1.5f)  // 몇 초 후 전이 조건
+    if (m_fAccTime >= 1.f)  // 몇 초 후 전이 조건
     {
         m_fAccTime = 0.f;
         // CHASE 전이 조건

@@ -70,6 +70,9 @@ STATE_TYPE CVioletDragonState_CreateWyvern_Cast::Update_State(const _float& fTim
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
+    STATINFO OwnerStat = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo();
+
+
 
     //Monster - Cur HP Condition
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
@@ -251,6 +254,12 @@ STATE_TYPE CVioletDragonState_CreateWyvern_Cast::Update_State(const _float& fTim
     }
 
 #pragma region State Change
+
+    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
+    {
+        return STATE_TYPE::PATROL;
+    }
+
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {

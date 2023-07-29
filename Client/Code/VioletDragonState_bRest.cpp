@@ -148,7 +148,7 @@ STATE_TYPE CVioletDragonState_bRest::Update_State(const _float& fTimeDelta)
     }
 
 
-    if (m_fAccTime >= 1.5f)
+    if (m_fAccTime >= 1.f)
     {
         m_fAccTime = 0.f;
 

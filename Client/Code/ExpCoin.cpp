@@ -52,6 +52,10 @@ HRESULT CExpCoin::Ready_Object()
 
 	m_szName = L"Item_ExpCoin";
 
+
+	m_tAlpha.Init_Lerp();
+	m_tAlpha.Set_Lerp(1.f, 0.f, 255.f);
+
 	return S_OK;
 }
 
@@ -60,6 +64,7 @@ _int CExpCoin::Update_Object(const _float& fTimeDelta)
 	_int iExit = CItem::Update_Object(fTimeDelta);   // 상위 먼저
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);	 //	렌더 그룹 추가
 
+	m_tAlpha.Update_Lerp(fTimeDelta);
 
 	// Jumping 
 
@@ -77,6 +82,27 @@ _int CExpCoin::Update_Object(const _float& fTimeDelta)
 
 
 
+	// Player - Transform Com
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+	NULL_CHECK_RETURN(pPlayerTransform, iExit);
+
+	_vec3 vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
+
+	_vec3	vDir = vOwnerPos - vPlayerPos;
+	_float fDistance = D3DXVec3Length(&vDir);
+
+
+
+	// Magnet
+	if (fDistance <= 5.f)
+	{
+		m_pAICom->Chase_TargetY(&vPlayerPos, fTimeDelta, 30.f);
+		m_pTransformCom->Translate(fTimeDelta * 30.f);
+	}
+
+
+
+
 
 	return iExit;
 }
@@ -90,6 +116,10 @@ void CExpCoin::LateUpdate_Object()
 void CExpCoin::Render_Object()
 {
 
+
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
+
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -99,6 +129,8 @@ void CExpCoin::Render_Object()
 	m_pGraphicDev->SetTexture(0, NULL);
 
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	CGameObject::Render_Object(); // 콜라이더 출력
 
@@ -113,6 +145,13 @@ HRESULT CExpCoin::Add_Component()
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Item_Exp", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	// AI
+	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
+
 
 
 

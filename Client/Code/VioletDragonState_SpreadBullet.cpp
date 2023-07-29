@@ -340,6 +340,12 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
 #pragma region State Change
 
+    if (Owner_bHP80 == true && Owner_bHP50 == true && Owner_bHP20 == false)
+    {
+        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+    }
+
+
     if (m_fAccTime >= 5.f)
     {
         m_fAccTime = 0.f;

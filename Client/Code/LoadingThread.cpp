@@ -807,6 +807,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BloodyThunder_VioletDragon_Cast",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/BloodyThunder/%d.png", 10)), E_FAIL);
 
+	// Blue Thunder Cast
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BlueThunder_VioletDragon_Cast",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/BlueThunder/%d.png", 10)), E_FAIL);
+
+
+
 	// Create Wyvern Cast
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_CreateWyvern_VioletDragon_Cast",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/CreateWyvern/%d.png", 7)), E_FAIL);
@@ -826,6 +832,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Dash - Back
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dash_VioletDragon_Back",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dash/Back/%d.png", 6)), E_FAIL);
+
+	// Ready Pattern
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_ReadyPattern_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/ReadyPattern/%d.png", 13)), E_FAIL);
+
+
 
 
 
@@ -847,6 +859,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Blue_Star_bullet_
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_BlueStar",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Star_Bullet.png")), E_FAIL);
+
+
+	// Red_Star_bullet_
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_RedStar",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/RedStar_Bullet.png")), E_FAIL);
+
 
 
 
@@ -895,8 +913,17 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 	//// Boss Skill =====================================================================
+	// Bloody Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+
+	// Blue Thunder
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 9)), E_FAIL);
+
+
+
+
 
 
 	// Effect Range 

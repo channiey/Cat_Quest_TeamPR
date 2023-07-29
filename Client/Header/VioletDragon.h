@@ -57,7 +57,16 @@ private:
 
 	CSkill*					m_pBloodyThunder;
 	_bool					m_bBloodyTunder;
+	_bool					m_bBloodyLate;
 	_float					m_BloodyTime;
+
+
+	CSkill*					m_pBlueThunder;
+	_bool					m_bBlueTunder;
+	_bool					m_bBlueLate;
+	_float					m_BlueTime;
+
+
 
 	CSkill*					m_pCreateWyvern;
 	_bool					m_bCreatWyvernPlay;

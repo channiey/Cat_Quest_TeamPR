@@ -61,6 +61,7 @@ _int CSkill_Boss_CreateWyvern::Update_Object(const _float& fTimeDelta)
 	if (!m_pOwnerObject->Is_Active())
 	{
 		End();
+
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect1);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect2);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect3);
@@ -71,6 +72,7 @@ _int CSkill_Boss_CreateWyvern::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect8);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect9);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect10);
+
 		CEventMgr::GetInstance()->Delete_Obj(this);
 		return iExit;
 	}

@@ -1,35 +1,40 @@
-#include "VioletDragonState_FullDown_Down.h"
-#include "Export_Function.h"
-#include "Monster.h"
+#include "VioletDragonState_BlueThunder_Cast.h"
 #include "Player.h"
+#include "Export_Function.h"
+#include "EventMgr.h"
+#include "Monster.h"
+#include "Effect_Boss_Thunder.h"
+#include "Skill_Boss_BloodyThunder.h"
 #include "VioletDragon.h"
-#include "SoundMgr.h"
-CVioletDragonState_FullDown_Down::CVioletDragonState_FullDown_Down(LPDIRECT3DDEVICE9 pGraphicDev)
+
+CVioletDragonState_BlueThunder_Cast::CVioletDragonState_BlueThunder_Cast(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
 	, m_fAccTime(0.f)
 {
+	
 }
 
-CVioletDragonState_FullDown_Down::~CVioletDragonState_FullDown_Down()
+CVioletDragonState_BlueThunder_Cast::~CVioletDragonState_BlueThunder_Cast()
 {
 }
 
-
-HRESULT CVioletDragonState_FullDown_Down::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_BlueThunder_Cast::Ready_State(CStateMachine* pOwner)
 {
 
 	if (nullptr != pOwner)
 	{
 		m_pOwner = pOwner;
 	}
-	m_eState = STATE_TYPE::BOSS_FULLDOWN_DOWN;
+	m_eState = STATE_TYPE::BOSS_BLUE_CAST;
 
 	m_fAccTime = 0.f;
+
+    m_bThunder = false;
 
 	return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_BlueThunder_Cast::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -50,11 +55,15 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
+    STATINFO OwnerStat = dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo();
+
+
 
     //Monster - Cur HP Condition
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
 
     // Player Component ==============================
     // Player
@@ -108,70 +117,54 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 
 
 
-
-    //pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x, vOwnerOriginPos.y , vOwnerOriginPos.z });
-
-	// Time
-	m_fAccTime += fTimeDelta;
+    m_fAccTime += fTimeDelta;
 
 
-
-	if (pOwenrCurAnimation->Is_End())
-	{
-		CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);  // 사람들을 위해서 카메라 쉐이킹 주석처리
-      
-
-		if (m_fAccTime >= 1.f)
-		{
-			CCameraMgr::GetInstance()->Stop_Shake();
-		}
-	}
+    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
+    {
+        return STATE_TYPE::PATROL;
+    }
 
 
-	// 임시로 전이 반복 시킴 
-	// State Change 
+    if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
+    {
 
- 
-	if (m_fAccTime >= 1.1f)
-	{
-        m_fAccTime = 0.f;
+        return STATE_TYPE::BOSS_BLUE_THUNDER;
+    }
 
-		return STATE_TYPE::BOSS_READY_PATTERN;
-	}
-	return STATE_TYPE::BOSS_FULLDOWN_DOWN;
+	return STATE_TYPE::BOSS_BLUE_CAST;
 }
 
-void CVioletDragonState_FullDown_Down::LateUpdate_State()
+void CVioletDragonState_BlueThunder_Cast::LateUpdate_State()
+{
+
+}
+
+void CVioletDragonState_BlueThunder_Cast::Render_State()
 {
 }
 
-void CVioletDragonState_FullDown_Down::Render_State()
+STATE_TYPE CVioletDragonState_BlueThunder_Cast::Key_Input(const _float& fTimeDelta)
 {
-}
-
-STATE_TYPE CVioletDragonState_FullDown_Down::Key_Input(const _float& fTimeDelta)
-{
-
 	return m_eState;
 }
 
-CVioletDragonState_FullDown_Down* CVioletDragonState_FullDown_Down::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_BlueThunder_Cast* CVioletDragonState_BlueThunder_Cast::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-	CVioletDragonState_FullDown_Down* pInstance = new CVioletDragonState_FullDown_Down(pGraphicDev);
+	CVioletDragonState_BlueThunder_Cast* pInstance = new CVioletDragonState_BlueThunder_Cast(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_State(pOwner)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("VioletDragonState Down Create Failed");
+		MSG_BOX("VioletDragonState BloodyThunder Create Failed");
 		return nullptr;
 
 	}
-	return pInstance;
 
+	return pInstance;
 }
 
-void CVioletDragonState_FullDown_Down::Free()
+void CVioletDragonState_BlueThunder_Cast::Free()
 {
-
-	__super::Free();
+    __super::Free();
 }
