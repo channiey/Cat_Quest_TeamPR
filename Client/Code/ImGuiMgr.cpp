@@ -164,6 +164,39 @@
 #include "Sweets1.h"
 #include "Sweets2.h"
 
+// New Environment 2
+#include "NoticeBoard.h"
+#include "SignAstropaw.h"
+#include "SignCattrap.h"
+#include "SignFlame.h"
+#include "SignFreeze.h"
+#include "SignHeal.h"
+#include "SignLight.h"
+#include "SignPurrserk.h"
+#include "SignStop.h"
+#include "SignTwinTown.h"
+#include "SignFish.h"
+#include "SignWoodFish.h"
+// Skull
+#include "DragonSkull1.h" 
+#include "DragonSkull2.h" 
+#include "DragonSkull3.h" 
+// Wreck
+#include "WreckShip.h"
+#include "WreckPiece1.h"
+#include "WreckPiece2.h"
+#include "WreckPiece3.h"
+#include "WreckPiece4.h"
+// Wall
+#include "Wall1.h"
+#include "Wall2.h"
+// ±× ¿Ü
+#include "DrakothTable.h"
+#include "WorldPotion.h"
+#include "TownSanctuary.h"
+#include "Paper.h"
+#include "Present.h"
+
 // Generator
 #include "PollenGenerator.h"
 
@@ -928,6 +961,73 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_PIRATE_HIDEOUT:
 		pClone = CPirateHideOut::Create(m_pGraphicDev); break;
 
+	
+	// Environment - Wall
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_WALL1:
+		pClone = CWall1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_BUILDING_WALL2:
+		pClone = CWall2::Create(m_pGraphicDev); break;
+
+
+	// Environment - Sign
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_NOTICE:
+		pClone = CNoticeBoard::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_ASTROPAW:
+		pClone = CSignAstropaw::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_CATTRAP:
+		pClone = CSignCattrap::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_FALME:
+		pClone = CSignFlame::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_FREEZE:
+		pClone = CSignFreeze::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_HEAL:
+		pClone = CSignHeal::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_LIGHT:
+		pClone = CSignLight::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_PURRSERK:
+		pClone = CSignPurrserk::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_STOP:
+		pClone = CSignStop::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_TWINTOWN:
+		pClone = CSignTwinTown::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_FISH:
+		pClone = CSignFish::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SIGN_WOODFISH:
+		pClone = CSignWoodFish::Create(m_pGraphicDev); break;
+
+	// Environment - Skull
+	case Engine::OBJ_ID::ENVIRONMENT_SKULL_DRAGON1:
+		pClone = CDragonSkull1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SKULL_DRAGON2:
+		pClone = CDragonSkull2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_SKULL_DRAGON3:
+		pClone = CDragonSkull3::Create(m_pGraphicDev); break;
+
+	// Environment - Wreak
+	case Engine::OBJ_ID::ENVIRONMENT_WRECK_SHIP:
+		pClone = CWreckShip::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_WRECK_PIECE1:
+		pClone = CWreckPiece1::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_WRECK_PIECE2:
+		pClone = CWreckPiece2::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_WRECK_PIECE3:
+		pClone = CWreckPiece3::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_WRECK_PIECE4:
+		pClone = CWreckPiece4::Create(m_pGraphicDev); break;
+
+	// Environment - Other
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_DRAKOTH_TABLE:
+		pClone = CDrakothTable::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_POTION:
+		pClone = CWorldPotion::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_PRESENT:
+		pClone = CPresent::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_PAPER:
+		pClone = CPaper::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::ENVIRONMENT_OTHER_TOWN_SANCTUARY:
+		pClone = CTownSanctuary::Create(m_pGraphicDev); break;
+
+	
 	/* ========================================= Monster ========================================*/
 
 
