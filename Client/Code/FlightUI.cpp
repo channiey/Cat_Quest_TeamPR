@@ -3,8 +3,8 @@
 
 #include "Player.h"
 
-CFlightUI::CFlightUI(LPDIRECT3DDEVICE9 pGraphicDev)
-     :CUI(pGraphicDev, OBJ_ID::UI_FLIGHT), m_pPlayer(nullptr)
+CFlightUI::CFlightUI(LPDIRECT3DDEVICE9 pGraphicDev, CPlayer* pPlayer)
+     :CUI(pGraphicDev, OBJ_ID::UI_FLIGHT), m_pPlayer(pPlayer)
 {
 }
 
@@ -38,8 +38,6 @@ HRESULT CFlightUI::Ready_Object()
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_bActive = false;
-
 
 	return S_OK;
 }
@@ -47,9 +45,6 @@ HRESULT CFlightUI::Ready_Object()
 _int CFlightUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-
-	if (nullptr == m_pPlayer)
-		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 		
 	return iExit;
 }
@@ -61,11 +56,17 @@ void CFlightUI::LateUpdate_Object()
 
 void CFlightUI::Render_Object()
 {
+	if(!m_pPlayer->Has_Flight())
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 100, 100, 100));
+
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
 
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
+
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	__super::Render_Object();
 }
@@ -87,9 +88,9 @@ HRESULT CFlightUI::Add_Component()
 	return S_OK;
 }
 
-CFlightUI* CFlightUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CFlightUI* CFlightUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CPlayer* pPlayer)
 {
-	CFlightUI* pInstance = new CFlightUI(pGraphicDev);
+	CFlightUI* pInstance = new CFlightUI(pGraphicDev, pPlayer);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

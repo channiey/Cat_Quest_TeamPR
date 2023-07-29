@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 
 #include "MoveDust.h"
+#include "Player.h"
 
 CMoveDust::CMoveDust(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MOVEDUST)
@@ -77,6 +78,11 @@ void CMoveDust::LateUpdate_Object()
 
 void CMoveDust::Render_Object()
 {
+	NULL_CHECK(m_pOwnerobject);
+
+	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_CurGroundType() != GROUND_TYPE::NORMAL)
+		return;
+
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 
 	m_pAnimation->Render_Animation();

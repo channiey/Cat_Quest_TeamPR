@@ -96,10 +96,13 @@ protected:
 	_float					m_fSkillDamage;
 	_uint					m_iSkillUsage;
 
+	_bool					m_bAttackStart;
+
 	// ¼ºÇõ Ãß°¡
 	D3DCOLOR				m_fontColor;
 	wstring					m_contentStr;
 	_int					m_iLv;
+
 
 protected:
 	virtual void			Free();

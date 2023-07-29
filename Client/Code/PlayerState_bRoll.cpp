@@ -1,6 +1,7 @@
 #include "PlayerState_bRoll.h"
 
 #include "Export_Function.h"
+#include "MoveDust.h"
 
 CPlayerState_bRoll::CPlayerState_bRoll(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -25,6 +26,9 @@ STATE_TYPE CPlayerState_bRoll::Update_State(const _float& fTimeDelta)
 {
     if (!m_bEnter)
     {
+        CGameObject* p = CMoveDust::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+        CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
+    
         CSoundMgr::GetInstance()->PlaySoundW(L"roll_2.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_ROLL);
         m_bEnter = true;
     }

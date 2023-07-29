@@ -149,6 +149,14 @@ void CTransform::Set_Scale(const _vec3& _vPos)
 	Cal_WorldMat();
 }
 
+void CTransform::Set_PosY(const _float& _fHeight)
+{
+	m_matWorld.m[3][1] = _fHeight;
+	m_vInfo[INFO_POS].y = _fHeight;
+
+	Cal_WorldMat();
+}
+
 void CTransform::Reverse()
 {
 	m_vScale.x *= -1;

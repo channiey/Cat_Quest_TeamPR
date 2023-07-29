@@ -59,12 +59,34 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		{
 			m_bIsSky = true;
 			static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_Fly(true);
-		}
-			
+			m_fHeight_High = vStart.y + 0.2f;
+			m_fHeight_Low = vStart.y - 0.2f;
+
+			m_tHeight.Init_Lerp();
+			m_tHeight.Set_Lerp(0.3f, vStart.y, m_fHeight_High);
+		}	
 	}
 
 	if (m_bIsSky && !m_bIsLand)
 	{
+		// 둥실효과
+		m_tHeight.Update_Lerp(fTimeDelta);
+		_float fHeight = m_tHeight.fCurValue;
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_PosY(fHeight);
+
+		_vec3 vStart = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
+		if (fHeight == m_fHeight_High)
+		{
+			m_tHeight.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+			m_tHeight.Set_Lerp(0.3f, vStart.y, m_fHeight_Low);
+		}
+		else if (fHeight == m_fHeight_Low)
+		{
+			m_tHeight.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+			m_tHeight.Set_Lerp(0.3f, vStart.y, m_fHeight_High);
+		}
+		
+		// 날기소리
 		m_fAccTime += fTimeDelta;
 
 		if (m_fAccTime > 0.2f)

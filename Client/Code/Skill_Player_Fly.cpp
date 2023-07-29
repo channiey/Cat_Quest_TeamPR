@@ -39,6 +39,7 @@ HRESULT CSkill_Player_Fly::Ready_Object()
     m_fSkillDamage = 30;
     m_iSkillUsage = 0;
 
+
     m_bActive = false;
     m_bIsEffectEnd = false;
     m_bAttack = false;
@@ -54,6 +55,8 @@ HRESULT CSkill_Player_Fly::Ready_Object()
 _int CSkill_Player_Fly::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = __super::Update_Object(fTimeDelta);
+
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
 
     if (!m_pOwnerObject->Is_Active())
     {

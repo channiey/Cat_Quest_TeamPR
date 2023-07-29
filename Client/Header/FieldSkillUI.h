@@ -36,10 +36,14 @@ private:
 
 	void					Set_Skill();
 
+	void					Mouse_Update();
+
+
 private:
 	CPlayer*				m_pPlayer;
 	// UI용 매트릭스
 	_matrix					m_matWorldUI[17];
+	_matrix					m_matMouse;
 	// 링, 작은링
 	_float					m_RingSizeX[2];
 	_float					m_RingSizeY[2];
@@ -67,6 +71,8 @@ private:
 	_bool					m_bPick[4];
 
 	CTexture*				m_pUITextureCom[4];
+	CTexture*				m_pCursorTexCom;
+
 	CTransform*				m_pUITransform[5];
 	// 폰트상자
 	RECT					m_rcFont[4];

@@ -8,7 +8,7 @@ class CFlightUI : public CUI     // 뷰포트 사용 | 화면에 고정된 표시를 위한 UI  
 
 protected:
 
-	explicit CFlightUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CFlightUI(LPDIRECT3DDEVICE9 pGraphicDev, CPlayer* pPlayer);
 	explicit CFlightUI(const CFlightUI& rhs);
 	virtual ~CFlightUI();
 
@@ -26,7 +26,7 @@ private:
 
 public:
 
-	static CFlightUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CFlightUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CPlayer* pPlayer);
 
 
 protected:

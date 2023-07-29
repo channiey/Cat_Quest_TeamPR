@@ -32,6 +32,11 @@ private:
 
 	_float			m_fAccTime;
 
+	_float			m_fHeight_High;
+	_float			m_fHeight_Low;
+
+	LERP_FLOAT_INFO	m_tHeight;
+
 private:
 	virtual void	Free();
 };

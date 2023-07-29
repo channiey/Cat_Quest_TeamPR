@@ -37,6 +37,7 @@ HRESULT CSkill_Player_Fire::Ready_Object()
     m_iSkillUsage = 2;
     m_iLv = 0;
 
+    m_bAttackStart = false;
     m_bActive = false;
     m_bIsEffectEnd = false;
 
@@ -56,6 +57,8 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 {
     _int iExit = CSkill::Update_Object(fTimeDelta);
 
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
     if (!m_pOwnerObject->Is_Active())
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -68,6 +71,13 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
 
     Engine::Add_RenderGroup(RENDER_NONALPHA, this);
 
+    if (!m_bAttackStart && m_pSKillEffect->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 4)
+    {
+        static_cast<CPlayer*>(m_pOwnerObject)->Set_Skill(true);
+        m_bAttackStart = true;
+    }
+
+
     if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
     {
         CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
@@ -78,6 +88,7 @@ _int CSkill_Player_Fire::Update_Object(const _float& fTimeDelta)
     {
         m_bIsEffectEnd = false;
         __super::End();
+        m_bAttackStart = false;
         m_bActive = false;
     }
 
@@ -131,6 +142,11 @@ HRESULT CSkill_Player_Fire::Add_Component()
 
 HRESULT CSkill_Player_Fire::Play()
 {
+    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
+    if (static_cast<CPlayer*>(m_pOwnerObject)->Get_PlayerClass() == CLASS_TYPE::NINJA)
+        static_cast<CPlayer*>(m_pOwnerObject)->Off_Clocking();
+
     _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
    
    
@@ -139,7 +155,7 @@ HRESULT CSkill_Player_Fire::Play()
     m_pRangeEffect->Alphaing(1.f, 255, 128);
     m_pRangeEffect->Set_Size(_vec3{ 7.5f, 7.5f, 7.5f * 0.7 });
     CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);
-    CSoundMgr::GetInstance()->PlaySoundW(L"skill_flamepurr.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
+    CSoundMgr::GetInstance()->PlaySoundW(L"skill_flamepurr.wav", CHANNEL_ID::PLAYER_2, VOLUME_PLAYER_SKILL);
     m_bActive = true;
 
     return S_OK;

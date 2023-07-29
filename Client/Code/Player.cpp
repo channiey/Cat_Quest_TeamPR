@@ -50,6 +50,7 @@
 // UI
 #include "RingUI.h"
 #include "Effect_Font.h"
+#include "FlightUI.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -337,30 +338,6 @@ HRESULT CPlayer::Ready_Object()
 
 #pragma region SKILL
 
-	//m_arrSkill[_uint(SKILL_TYPE::FIRE)] = CSkill_Player_Fire::Create(m_pGraphicDev, this);
-	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::FIRE)], E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fire", m_arrSkill[_uint(SKILL_TYPE::FIRE)]), E_FAIL);
-	//m_arrSkillSlot[0] = m_arrSkill[_uint(SKILL_TYPE::FIRE)];
-	//m_arrSkillSlot[0]->Set_Maintain(TRUE); // 수정시 팀장 보고
-
-	//m_arrSkill[_uint(SKILL_TYPE::THUNDER)] = CSkill_Player_Thunder::Create(m_pGraphicDev, this);
-	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::THUNDER)], E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Thunder", m_arrSkill[_uint(SKILL_TYPE::THUNDER)]), E_FAIL);
-	//m_arrSkillSlot[1] = m_arrSkill[_uint(SKILL_TYPE::THUNDER)];
-	//m_arrSkillSlot[1]->Set_Maintain(TRUE); // 수정시 팀장 보고
-
-	//m_arrSkill[_uint(SKILL_TYPE::ICE)] = CSkill_Player_Ice::Create(m_pGraphicDev, this);
-	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::ICE)], E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Ice", m_arrSkill[_uint(SKILL_TYPE::ICE)]), E_FAIL);
-	//m_arrSkillSlot[2] = m_arrSkill[_uint(SKILL_TYPE::ICE)];
-	//m_arrSkillSlot[2]->Set_Maintain(TRUE); // 수정시 팀장 보고
-
-	//m_arrSkill[_uint(SKILL_TYPE::BEAM)] = CSkill_Player_Beam::Create(m_pGraphicDev, this);
-	//NULL_CHECK_RETURN(m_arrSkill[_uint(SKILL_TYPE::BEAM)], E_FAIL);
-	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Beam", m_arrSkill[_uint(SKILL_TYPE::BEAM)]), E_FAIL);
-	//m_arrSkillSlot[3] = m_arrSkill[_uint(SKILL_TYPE::BEAM)];
-	//m_arrSkillSlot[3]->Set_Maintain(TRUE); // 수정시 팀장 보고
-
 	CSkill* pSkillFly = CSkill_Player_Fly::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pSkillFly, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fly", pSkillFly), E_FAIL);
@@ -372,6 +349,12 @@ HRESULT CPlayer::Ready_Object()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"UI_Ring", pUI), E_FAIL);
 	m_pRingUI = pUI;
 	m_pRingUI->Set_Maintain(TRUE);
+
+	pUI = CFlightUI::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pUI, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"UI_Fly", pUI), E_FAIL);
+	m_pFlyUI = pUI;
+	m_pFlyUI->Set_Maintain(TRUE);
 
 	CEffect* pEffect = CEffect_Ora::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pEffect, E_FAIL);
@@ -408,9 +391,7 @@ HRESULT CPlayer::Ready_Object()
 	}
 	m_bMaintain = true; // 씬 변경시 유지 (사용시 팀장 보고)
 
-	// 테스트용
-	m_iTempMode = 1;
-
+	
 	// << : Test : Range Test
 	CGameObject* pGameObject = nullptr;
 
@@ -434,11 +415,35 @@ HRESULT CPlayer::Ready_Object()
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	//if (!m_pInven)
-	//{
-	//	m_pInven = CManagement::GetInstance()->
-	//		Get_GameObject(OBJ_TYPE::UI, L"UI_Inventory");
-	//}
+	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK)
+	{
+		if (m_pStateMachineCom->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 0 ||
+			m_pStateMachineCom->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 7)
+		{
+			if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"FrontMoveDust"))
+			{
+				CSoundMgr::GetInstance()->PlaySoundW(L"footstep.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
+				CGameObject* pMoveDust = CMoveDust::Create(m_pGraphicDev, this);
+
+				CEventMgr::GetInstance()->Add_Obj(L"FrontMoveDust", pMoveDust);
+			}
+		}
+	}
+	else if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_WALK)
+	{
+		if (m_pStateMachineCom->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 0 ||
+			m_pStateMachineCom->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 8)
+		{
+			if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"BackMoveDust"))
+			{
+				CSoundMgr::GetInstance()->PlaySoundW(L"footstep.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
+				CGameObject* pMoveDust = CMoveDust::Create(m_pGraphicDev, this);
+
+				CEventMgr::GetInstance()->Add_Obj(L"BackMoveDust", pMoveDust);
+			}
+		}
+	}
+
 
 	
 
@@ -447,12 +452,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
-
-	/*for (auto iter : m_arrSkillSlot)
-	{
-		if(iter != nullptr)
-			iter->Update_Object(fTimeDelta);
-	}*/
 
 	Regen_Def(fTimeDelta);
 
@@ -475,6 +474,10 @@ void CPlayer::LateUpdate_Object()
 
 	if (m_bSkill)
 		m_bSkill = false;
+
+	if (m_bIsTalking && m_bClocking)
+		Off_Clocking();
+
 
 	if (m_bhasFlight)
 	{
@@ -529,7 +532,37 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::MONSTER:
 	{
-		
+		CloseTarget_Dis(_pColObj);
+
+		if (Is_Attack())
+		{
+			Regen_Mana();
+			if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
+			{
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + 10, this);
+
+			}
+			else
+			{
+				dynamic_cast<CMonster*>(_pColObj)->Damaged(m_tStatInfo.fAD + (rand() % 10), this);
+				CCameraMgr::GetInstance()->Shake_Camera();
+
+			}
+
+
+
+		}
+		if (Is_Skill())
+		{
+			for (auto iter : m_arrSkillSlot)
+			{
+				if (nullptr != iter && iter->Is_Active())
+				{
+					dynamic_cast<CMonster*>(_pColObj)->Damaged(dynamic_cast<CSkill*>(iter)->Get_SkillDamage(), this);
+				}
+			}
+
+		}
 	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
 		if (vOverlap.x > vOverlap.z)
@@ -716,7 +749,6 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 				if (nullptr != iter && iter->Is_Active())
 				{
 					dynamic_cast<CMonster*>(_pColObj)->Damaged(dynamic_cast<CSkill*>(iter)->Get_SkillDamage(), this);
-					
 				}
 			}
 			
@@ -1241,8 +1273,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		m_arrSkillSlot[0]->Play();
 		Using_Mana(m_arrSkillSlot[0]->Get_SkillUsage());
-		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[0]->Get_ID())
-			m_bSkill = true;
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('2') &&
@@ -1251,8 +1281,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		m_arrSkillSlot[1]->Play();
 		Using_Mana(m_arrSkillSlot[1]->Get_SkillUsage());
-		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[1]->Get_ID())
-			m_bSkill = true;
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('3') &&
@@ -1261,8 +1289,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		m_arrSkillSlot[2]->Play();
 		Using_Mana(m_arrSkillSlot[2]->Get_SkillUsage());
-		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[2]->Get_ID())
-			m_bSkill = true;
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 	else if (CInputDev::GetInstance()->Key_Down('4') &&
@@ -1271,8 +1297,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		m_arrSkillSlot[3]->Play();
 		Using_Mana(m_arrSkillSlot[3]->Get_SkillUsage());
-		if (OBJ_ID::EFFECT_SKILL_HEAL != m_arrSkillSlot[3]->Get_ID())
-			m_bSkill = true;
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
 
@@ -1335,7 +1359,8 @@ void CPlayer::Clocking_Time(const _float& fTimeDelta)
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK1 ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ATTACK2 ||
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_HIT ||
-			true == m_bIsTalking)
+			true == m_bIsTalking ||
+			true == m_bSkill)
 		{
 			m_fClockingAcc = 0.f;
 			m_iClockAlpha = 255;

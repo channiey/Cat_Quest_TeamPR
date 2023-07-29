@@ -247,6 +247,7 @@ private:
 
 	// UI
 	CUI*						m_pRingUI;
+	CUI*						m_pFlyUI;
 
 	// 냥서커 반짝이
 	_float						m_fThornAcc;
