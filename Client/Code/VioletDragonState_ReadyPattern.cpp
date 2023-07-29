@@ -135,7 +135,23 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {
 
-        return STATE_TYPE::BOSS_CONVERGING_CAST;
+        if (Owner_bHP80 == true && Owner_bHP50 == true && Owner_bHP20 == true)
+        {
+            return STATE_TYPE::BOSS_CREATE_CAST;
+        }
+
+
+        if (Owner_bHP80 == true && Owner_bHP50 == true && Owner_bHP20 == false)
+        {
+            return STATE_TYPE::BOSS_BLOODY_CAST;
+
+        }
+
+        if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+        {
+            return STATE_TYPE::BOSS_CONVERGING_CAST;
+        }
+   
     }
 
     return STATE_TYPE::BOSS_READY_PATTERN;

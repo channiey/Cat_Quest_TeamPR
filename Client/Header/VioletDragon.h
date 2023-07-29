@@ -57,6 +57,7 @@ private:
 
 	CSkill*					m_pBloodyThunder;
 	_bool					m_bBloodyTunder;
+	_bool					m_bBloodyLate;
 	_float					m_BloodyTime;
 
 	CSkill*					m_pCreateWyvern;

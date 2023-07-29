@@ -28,6 +28,7 @@
 #include "VioletDragonState_BloodyThunder_Cast.h"
 // ShootingStar
 #include "VioletDragonState_ShootingStar.h"
+#include "VioletDragonState_ShootingStarRed.h"
 // SpreadBullet
 #include "VioletDragonState_SpreadBullet.h"
 #include "VioletDragonState_SpreadBullet_Cast.h"
@@ -70,7 +71,7 @@ HRESULT CVioletDragon::Ready_Object()
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// MoveInfo
-	m_tMoveInfo.fMoveSpeed = 3.f;
+	m_tMoveInfo.fMoveSpeed = 8.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
 	// Stat Info
@@ -117,6 +118,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_bSkill = false;
 	m_bFullDown = false;
 	m_bBloodyTunder = false;
+	m_bBloodyLate = false;
 	m_bCreatWyvernPlay = false;
 	m_bCreatWyvernLate = false;
 
@@ -240,9 +242,9 @@ HRESULT CVioletDragon::Ready_Object()
 	// Shooting Star
 	pState = CVioletDragonState_ShootingStar::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SHOOTING_STAR, pState);
-	// Shooting Cast
-	//pState = CVioletDragonState_::Create(m_pGraphicDev, m_pStateMachineCom);
-	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SHOOTING_CAST, pState);
+	// Shooting Red
+	pState = CVioletDragonState_ShootingStarRed::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_SHOOTING_RED, pState);
 
 
 	// Spread Bullet Pattern =============================
@@ -373,9 +375,9 @@ HRESULT CVioletDragon::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)], STATE_TYPE::BOSS_SHOOTING_STAR, 0.1f, TRUE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SHOOTING_STAR, pAnimation);
 	
-	//// Shooting Cast
-	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_CAST)], STATE_TYPE::BOSS_SHOOTING_CAST, 0.05f, FALSE);
-	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SHOOTING_CAST, pAnimation);
+	// Shooting Red
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_RED)], STATE_TYPE::BOSS_SHOOTING_RED, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_SHOOTING_RED, pAnimation);
 
 
 
@@ -499,37 +501,39 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	}
 
 
-
+	
 
 	// Bloody Thunder Skill Use Condition
-	if (STATE_TYPE::BOSS_BLOODY_THUNDER == CurState && m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+	if ((STATE_TYPE::BOSS_BLOODY_CAST == CurState || STATE_TYPE::BOSS_BLOODY_THUNDER == CurState ))
 	{
 		m_BloodyTime += fTimeDelta;
-
-		if (!m_bBloodyTunder && m_BloodyTime <= 1.f)
+		 
+		if (m_bBloodyTunder == false &&  m_bBloodyLate == false  &&   m_BloodyTime >= 1.f)
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->Play();
 			m_bBloodyTunder = true;
 		}
-		if (m_BloodyTime >= 2.f && m_bBloodyTunder == true )
+		if ( m_bBloodyTunder == true  &&  m_bBloodyLate == false &&  m_BloodyTime >= 2.f)
 		{
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
 	
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LatePlay();
-			//CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
+			CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBloodyTunder = false;
+			m_bBloodyLate = true;
 		}
-		if (m_bBloodyTunder == false && m_BloodyTime >= 4.f)
+		if (m_bBloodyTunder == false  &&  m_bBloodyLate == true  && m_BloodyTime >= 4.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
 			m_BloodyTime = 0.f;
+			m_bBloodyLate = false;
 		}
 		
 	}
 
 	// Create Wyvern Skill Use Condition
-	if (STATE_TYPE::BOSS_CREATE_WYVERN == CurState )
+	if (STATE_TYPE::BOSS_CREATE_CAST == CurState )
 	{
 		m_CreateTime += fTimeDelta;
 
@@ -744,10 +748,10 @@ HRESULT CVioletDragon::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
-	// Shooting Cast
-	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_FullDown_VioletDragon_Down", this));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
+	// Shooting Red
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_RED)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
 
 
 

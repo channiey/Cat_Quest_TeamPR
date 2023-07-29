@@ -329,7 +329,10 @@ STATE_TYPE CVioletDragonState_SpreadBullet_Cast::Update_State(const _float& fTim
 
 #pragma region State Change
 
-    //  Cast -> Action
+    if (Owner_bHP80 == true && Owner_bHP50 == true && Owner_bHP20 == false)
+    {
+        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+    }
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {

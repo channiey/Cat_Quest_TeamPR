@@ -855,6 +855,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Star_Bullet.png")), E_FAIL);
 
 
+	// Red_Star_bullet_
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_RedStar",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/RedStar_Bullet.png")), E_FAIL);
+
+
+
 
 	// Item ========================================================================
 
@@ -903,6 +909,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	//// Boss Skill =====================================================================
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+
+
+
+
 
 
 	// Effect Range 

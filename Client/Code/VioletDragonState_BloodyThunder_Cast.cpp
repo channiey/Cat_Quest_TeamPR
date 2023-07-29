@@ -119,15 +119,11 @@ STATE_TYPE CVioletDragonState_BloodyThunder_Cast::Update_State(const _float& fTi
     m_fAccTime += fTimeDelta;
    
 
-
-
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {
 
         return STATE_TYPE::BOSS_BLOODY_THUNDER;
     }
-
-
 
 	return STATE_TYPE::BOSS_BLOODY_CAST;
 }

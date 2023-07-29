@@ -284,7 +284,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         m_bCreateWyvern10 = false;
 
         m_bInit = false;
-        return STATE_TYPE::BOSS_SPREAD_BULLET;
+        return STATE_TYPE::PATROL;
     }
 
 

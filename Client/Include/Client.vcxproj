@@ -179,6 +179,8 @@
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\FoxState_bRest.h" />
     <ClInclude Include="..\Header\FoxState_Rest.h" />
+    <ClInclude Include="..\Header\RedStar_Bullet.h" />
+    <ClInclude Include="..\Header\VioletDragonState_ShootingStarRed.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\Wall1.h" />
     <ClInclude Include="..\Header\Wall2.h" />
@@ -588,6 +590,8 @@
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
     <ClCompile Include="..\Code\FoxState_bRest.cpp" />
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
+    <ClCompile Include="..\Code\RedStar_Bullet.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_ShootingStarRed.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\Wall1.cpp" />
     <ClCompile Include="..\Code\Wall2.cpp" />
