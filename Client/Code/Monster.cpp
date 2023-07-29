@@ -93,9 +93,6 @@ HRESULT CMonster::Ready_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
 	}
 
-
-
-
 	return S_OK;
 }
 
@@ -124,6 +121,10 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
+
+
+
+
 
 
 	

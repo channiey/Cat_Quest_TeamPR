@@ -1,6 +1,7 @@
 #include "VioletDragon.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "Player.h"
 
 //State-===
 //Front
@@ -82,7 +83,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 100.f;
+	m_tStatInfo.fCurHP = 3000.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
@@ -677,8 +678,19 @@ void CVioletDragon::LateUpdate_Object()
 
 
 
+		// 스킬 삭제
 		dynamic_cast<CSkill_Monster_CircleAttack*>(m_pBaseSkill)->End();
-	
+
+		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
+		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
+
+		dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->End();
+		dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LateEnd();
+
+		dynamic_cast<CSkill_Boss_FullDown*>(m_pFullDown)->End();
+
+		dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->End();
+		
 
 	}
 
@@ -722,11 +734,39 @@ void CVioletDragon::Render_Object()
 void CVioletDragon::OnCollision_Enter(CGameObject* _pColObj)
 {
 	__super::OnCollision_Enter(_pColObj);
+
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+
+
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+
+		if ((STATE_TYPE::BOSS_DASH_ATTACK == CurState || STATE_TYPE::BOSS_DASH_BACK_ATTACK == CurState) &&
+			m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+		{
+			dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);
+		}
+	}
+	break;
+
+	default:
+	{
+	}
+	break;
+	} // Switch end
+
 }
 
 void CVioletDragon::OnCollision_Stay(CGameObject* _pColObj)
 {
 	__super::OnCollision_Stay(_pColObj);
+
+
+
+
+
 }
 
 void CVioletDragon::OnCollision_Exit(CGameObject* _pColObj)
