@@ -186,6 +186,7 @@
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\Wall1.h" />
     <ClInclude Include="..\Header\Wall2.h" />
+    <ClInclude Include="..\Header\WorldFlight.h" />
     <ClInclude Include="..\Header\WorldPotion.h" />
     <ClInclude Include="..\Header\Wreck.h" />
     <ClInclude Include="..\Header\Skull.h" />
@@ -600,6 +601,7 @@
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\Wall1.cpp" />
     <ClCompile Include="..\Code\Wall2.cpp" />
+    <ClCompile Include="..\Code\WorldFlight.cpp" />
     <ClCompile Include="..\Code\WorldPotion.cpp" />
     <ClCompile Include="..\Code\Wreck.cpp" />
     <ClCompile Include="..\Code\Skull.cpp" />

@@ -15,6 +15,8 @@
 #include "Npc_Citizen1.h"
 #include "Npc_Citizen2.h"
 
+#include "EnterUI.h"
+
 #include "MiniGameMgr_Jump.h"
 #include "Player.h"
 

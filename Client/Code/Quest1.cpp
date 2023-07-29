@@ -93,19 +93,19 @@ _bool CQuest1::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					{
 						// test
 						// ¹è°æ °ËÀº»ö
-						// m_pShadeUI = CShadeUI::Create(pGraphicDev);
-						// NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
-						// CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+						//m_pShadeUI = CShadeUI::Create(pGraphicDev);
+						//NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+						//CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
 						//
+						//// ¹«±â È¹µæ ¿¬Ãâ
+						//m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
+						//NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
+						//CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
+
 						//// ½ºÅ³
 						//m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
 						//NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
 						//CEventMgr::GetInstance()->Add_Obj(L"pSkillGetUI", m_pSkillGetUI);
-
-						// ¹«±â È¹µæ ¿¬Ãâ
-						 // m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
-						 // NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
-						 // CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
 
 						Set_ReadyTalk(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);

@@ -46,7 +46,7 @@ HRESULT CSkill_Player_Fire::Ready_Object()
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_fontColor = D3DCOLOR_ARGB(255, 255, 0, 051);
+    m_fontColor = D3DCOLOR_ARGB(255, 102, 0, 0);
     m_contentStr = L"적을 불태워 많은 피해를 입힐 수 있습니다!";
 
 

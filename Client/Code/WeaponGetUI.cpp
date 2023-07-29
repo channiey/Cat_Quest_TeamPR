@@ -251,17 +251,17 @@ void CWeaponGetUI::Render_Object()
 	if (m_pWeapon->Get_Name() == L"닌자냥이 세트")
 	{
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_pWeapon->Get_Name(), -1,
-			&m_rcName, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 102, 204, 0));
+			&m_rcName, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 051, 102, 051));
 	}
 	if (m_pWeapon->Get_Name() == L"매직냥 스태프")
 	{
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_pWeapon->Get_Name(), -1,
-			&m_rcName, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 0, 051, 255));
+			&m_rcName, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 051, 102, 051));
 	}
 	if (m_pWeapon->Get_Name() == L"냥서커의 보물")
 	{
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_pWeapon->Get_Name(), -1,
-			&m_rcName, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 153, 0, 102));
+			&m_rcName, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(m_iTranslucent, 051, 102, 051));
 	}
 
 
@@ -271,7 +271,7 @@ void CWeaponGetUI::Render_Object()
 	// 체력
 	strStat = to_wstring((_int)dynamic_cast<CItem_Weapon*>(m_pWeapon)->Get_StatInfo().fMaxHP);
 	statColor = (stoi(strStat) > 0) ?
-		statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 0, 153, 0)
+		statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 051, 102, 255)
 		: statColor = D3DCOLOR_ARGB(m_iStatTranslucent, 153, 102, 0);
 	
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, strStat.c_str(), -1,

@@ -173,6 +173,7 @@
 #include "GoldCoin.h"
 #include "ExpCoin.h"
 #include "Key.h"
+#include "WorldFlight.h"
 #include "WarriorWeapon.h"
 #include "MageWeapon.h"
 #include "NinjaWeapon.h"
@@ -749,6 +750,11 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	//pGameObject = CNpc_King::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
+	// 퀘스트 아이템 - 월드 플라이
+	pGameObject = CWorldFlight::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
 
 
