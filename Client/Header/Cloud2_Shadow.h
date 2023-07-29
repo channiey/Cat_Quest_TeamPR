@@ -26,6 +26,7 @@ private:
 	const _float				Get_Distance_From_Camera();
 private:
 	CTexture* m_pTextureCom;
+	_uint	  m_iAlpha;
 
 public:
 	static CCloud2_Shadow* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);

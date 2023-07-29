@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Cloud1_Shadow.h"
-
+#include "Cloud1.h"
 #include "Export_Function.h"
 #include "CameraMgr.h"
 CCloud1_Shadow::CCloud1_Shadow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
@@ -42,25 +42,24 @@ _int CCloud1_Shadow::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_pTransformCom->Set_Pos(
-		dynamic_cast<CTransform*>(m_pOwnerobject->
-		Get_Component(COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC))->Get_Info(INFO_POS));
+	if (!m_pOwnerobject->Is_Active())
+		CEventMgr::GetInstance()->Delete_Obj(this);
+
+	m_pTransformCom->Set_Pos(m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS));
 
 	return iExit;
 }
 
 void CCloud1_Shadow::LateUpdate_Object()
 {
+	m_iAlpha = static_cast<CCloud1*>(m_pOwnerobject)->Get_CloudAlpha();
+
 	__super::LateUpdate_Object();
 }
 
 void CCloud1_Shadow::Render_Object()
 {
-	_int iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_SHADOW_MAX_ALPHA_MAG);
-
-	if (OBJ_CLOUD_SHADOW_MAX_ALPHA < iAlpha) iAlpha = OBJ_CLOUD_SHADOW_MAX_ALPHA;
-
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(iAlpha, 255, 255, 255));
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 
 	// 장판 텍스처 출력
 	// 빌보드 해제
