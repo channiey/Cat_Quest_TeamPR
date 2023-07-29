@@ -54,7 +54,7 @@ HRESULT CExpCoin::Ready_Object()
 
 
 	m_tAlpha.Init_Lerp();
-	m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+	m_tAlpha.Set_Lerp(1.f, 0.f, 255.f);
 
 	return S_OK;
 }
@@ -78,6 +78,27 @@ _int CExpCoin::Update_Object(const _float& fTimeDelta)
 		m_fJumpingSpeed *= -1;
 	}
 	m_pTransformCom->Translate(DIR_UP, m_fJumpingSpeed, WORLD);
+
+
+
+
+	// Player - Transform Com
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
+	NULL_CHECK_RETURN(pPlayerTransform, iExit);
+
+	_vec3 vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
+
+	_vec3	vDir = vOwnerPos - vPlayerPos;
+	_float fDistance = D3DXVec3Length(&vDir);
+
+
+
+	// Magnet
+	if (fDistance <= 5.f)
+	{
+		m_pAICom->Chase_TargetY(&vPlayerPos, fTimeDelta, 30.f);
+		m_pTransformCom->Translate(fTimeDelta * 30.f);
+	}
 
 
 
@@ -124,6 +145,13 @@ HRESULT CExpCoin::Add_Component()
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Item_Exp", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	// AI
+	pComponent = m_pAICom = dynamic_cast<CAIComponent*>(Engine::Clone_Proto(COMPONENT_TYPE::AICOM, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENT_TYPE::AICOM, pComponent);
+
 
 
 

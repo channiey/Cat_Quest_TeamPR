@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "AIComponent.h"
 
 BEGIN(Engine)
 
@@ -85,7 +86,7 @@ protected:
 
 	STATINFO				m_tStatInfo;    // Item Info
 	CTexture*				m_pTextureCom;  // Texture com
-
+	CAIComponent*			m_pAICom;
 	_float					m_fJumpingSpeed; // jumping motion use
 	
 	ITEM_TYPE				m_eItemType;     // ItemType
@@ -96,6 +97,8 @@ protected:
 
 	//¡ÿ √ﬂ∞°
 	_uint					m_iItemValue;
+
+
 
 	
 protected:
