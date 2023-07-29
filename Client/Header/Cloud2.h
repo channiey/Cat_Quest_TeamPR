@@ -10,7 +10,7 @@ END
 class CCloud2 : public CEffect
 {
 	// 구름이 생성되는 위치를 위해서라도 주인이 필요할 듯
-	explicit CCloud2(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CCloud2(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 	explicit CCloud2(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 	explicit CCloud2(const CCloud2& rhs);
 	virtual ~CCloud2();
@@ -31,9 +31,13 @@ private:
 
 private:
 	CTexture*  m_pTextureCom;
+	_vec3	   m_vCloudPos;
+
+	_float	  m_fAccTime;
+	_uint	  m_iAlpha;
 
 public:
-	static CCloud2* Create(LPDIRECT3DDEVICE9 pGraphicDev); // 구름이 생성되는 위치를 위해서라도 주인이 필요할 듯
+	static CCloud2* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos = vec3.zero); // 구름이 생성되는 위치를 위해서라도 주인이 필요할 듯
 
 private:
 	virtual void				Free() override;

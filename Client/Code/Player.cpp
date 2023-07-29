@@ -446,9 +446,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
-
-	
-
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -542,9 +539,6 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 				CCameraMgr::GetInstance()->Shake_Camera();
 
 			}
-
-
-
 		}
 		if (Is_Skill())
 		{
@@ -732,9 +726,6 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 				CCameraMgr::GetInstance()->Shake_Camera();
 				
 			}
-				
-
-			
 		}
 		if (Is_Skill())
 		{

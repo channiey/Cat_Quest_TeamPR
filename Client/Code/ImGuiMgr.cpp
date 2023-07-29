@@ -198,7 +198,7 @@
 #include "Present.h"
 
 // Generator
-#include "PollenGenerator.h"
+#include "EffectGenerator.h"
 
 
 TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";

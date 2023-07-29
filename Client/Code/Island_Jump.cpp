@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "RangeObj.h"
+#include "EffectGenerator.h"
 
 CIsland_Jump::CIsland_Jump(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_JUMP)
@@ -141,12 +142,17 @@ void CIsland_Jump::Enter_Player()
 	// 플레이어가 해당 섬에 처음 들어왔을 때
 
 	// Action : 대륙 이름 UI, 플레이어 미끄러짐, 브금 변경, 눈 이펙트 On
-
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(m_eID);
 }
 
 void CIsland_Jump::Exit_Player()
 {
 	// 플레이어가 해당 섬에서 나갔을 때
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(OBJ_ID::TYPEEND);
 }
 
 void CIsland_Jump::Free()

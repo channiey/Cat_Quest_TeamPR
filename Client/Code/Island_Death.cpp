@@ -7,6 +7,7 @@
 #include "DungeonTextUI.h"
 
 #include "SoundMgr.h"
+#include "EffectGenerator.h"
 
 CIsland_Death::CIsland_Death(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CIsland(pGraphicDev, OBJ_ID::ISLAND_RANGE_DEATH)
@@ -89,11 +90,18 @@ void CIsland_Death::Enter_Player()
 
 	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_drakoth_theme_short.wav");
 
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(m_eID);
+
 }
 
 void CIsland_Death::Exit_Player()
 {
 	// 플레이어가 해당 섬에서 나갔을 때
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(OBJ_ID::TYPEEND);
 }
 
 void CIsland_Death::Free()

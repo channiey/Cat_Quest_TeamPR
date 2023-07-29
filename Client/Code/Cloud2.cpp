@@ -6,8 +6,10 @@
 #include "Cloud2_Shadow.h"
 #include "CameraMgr.h"
 
-CCloud2::CCloud2(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CLOUD_2)
+#include "ZoomUI.h"
+
+CCloud2::CCloud2(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_CLOUD_2), m_vCloudPos(vPos)
 {
 }
 
@@ -27,6 +29,8 @@ HRESULT CCloud2::Ready_Object()
 	CGameObject::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_fAccTime = 0.f;
 
 	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.f, 5.f });
 	Set_RandomSize();
@@ -59,11 +63,16 @@ void CCloud2::LateUpdate_Object()
 
 void CCloud2::Render_Object()
 {
-	_int iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
+	/*CZoomUI* pUI = static_cast<CZoomUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Zoom"));
+	NULL_CHECK(pUI);
+	if (pUI->Get_ZoomState() == 1)
+		return;*/
 
-	if (OBJ_CLOUD_MAX_ALPHA < iAlpha) iAlpha = OBJ_CLOUD_MAX_ALPHA;
+	m_iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
 
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(iAlpha, 255, 255, 255));
+	if (OBJ_CLOUD_MAX_ALPHA < m_iAlpha) m_iAlpha = OBJ_CLOUD_MAX_ALPHA;
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
@@ -139,9 +148,9 @@ const _float CCloud2::Set_RandomHeight()
 
 }
 
-CCloud2* CCloud2::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CCloud2* CCloud2::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
 {
-	CCloud2* pInstance = new CCloud2(pGraphicDev);
+	CCloud2* pInstance = new CCloud2(pGraphicDev, vPos);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
