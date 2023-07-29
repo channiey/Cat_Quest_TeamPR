@@ -102,6 +102,14 @@ namespace Engine
 	/*--------------------- ! (점선 안의 내용) 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 
+#define OBJ_CLOUD_MAX_ALPHA 200
+#define OBJ_CLOUD_MAX_ALPHA_MAG 10.f
+
+#define OBJ_CLOUD_SHADOW_MAX_ALPHA 150
+#define OBJ_CLOUD_SHADOW_MAX_ALPHA_MAG 3.f
+
+#define OBJ_CLOUD_MAX_SIZE_MAG 2.f
+
 #define SCREEN_MSG(_message, _rc) CGraphicDev::GetInstance()->Get_Font()->\
 										DrawText(NULL, _message, lstrlen(_message), &_rc,\
 										DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(150, 255, 255, 255));\

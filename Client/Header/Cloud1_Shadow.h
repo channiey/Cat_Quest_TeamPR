@@ -23,6 +23,7 @@ private:
 	HRESULT						Add_Component();
 	virtual void				Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) override;
 
+	const _float				Get_Distance_From_Camera();
 private:
 	CTexture* m_pTextureCom;
 

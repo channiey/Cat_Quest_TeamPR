@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 CWall1::CWall1(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CWall(pGraphicDev, OBJ_ID::ENVIRONMENT_BUILDING_HOUSE_1)
+	: CWall(pGraphicDev, OBJ_ID::ENVIRONMENT_BUILDING_WALL1)
 {
 }
 

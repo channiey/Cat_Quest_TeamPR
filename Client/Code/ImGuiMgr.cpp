@@ -454,11 +454,11 @@ void CImGuiMgr::Show_Header_Object()
 
 	ImGui::SeparatorText("Object Prefab List");
 
-	if (ImGui::BeginListBox("  ", ImVec2(280.f, 280.f)))
+	if (ImGui::BeginListBox("  ", ImVec2(280.f, 480.f)))
 	{
 		for (int i = 0; i < g_vecObjImgPath[iCurIdx_Object_Type].size(); ++i)
 		{
-			if (ImGui::ImageButton(g_vecObjImgPath[iCurIdx_Object_Type][i], ImVec2(50.f, 50.f))) // 이미지 출력
+			if (ImGui::ImageButton(g_vecObjImgPath[iCurIdx_Object_Type][i], ImVec2(45.f, 45.f))) // 이미지 출력
 			{
 				iCurIdx_Object = i;
 

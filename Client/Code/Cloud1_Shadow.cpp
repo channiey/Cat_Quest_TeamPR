@@ -2,7 +2,7 @@
 #include "Cloud1_Shadow.h"
 
 #include "Export_Function.h"
-
+#include "CameraMgr.h"
 CCloud1_Shadow::CCloud1_Shadow(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_CLOUD_1), m_pTextureCom(nullptr)
 {
@@ -28,9 +28,9 @@ HRESULT CCloud1_Shadow::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y - 12.f,
+		0.02f,
 		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
-	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.f, 5.f });
+	m_pTransformCom->Set_Scale(m_pOwnerobject->Get_Transform()->Get_Scale());
 
 	m_bActive = true;
 
@@ -56,7 +56,12 @@ void CCloud1_Shadow::LateUpdate_Object()
 
 void CCloud1_Shadow::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
+	_int iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_SHADOW_MAX_ALPHA_MAG);
+
+	if (OBJ_CLOUD_SHADOW_MAX_ALPHA < iAlpha) iAlpha = OBJ_CLOUD_SHADOW_MAX_ALPHA;
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(iAlpha, 255, 255, 255));
+
 	// 장판 텍스처 출력
 	// 빌보드 해제
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
@@ -105,6 +110,26 @@ void CCloud1_Shadow::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	m_vOffSet = _vPos;
 	m_vSize = _vSize;
 	m_bActive = true;
+}
+
+const _float CCloud1_Shadow::Get_Distance_From_Camera()
+{
+	CGameObject* pCam = nullptr;
+
+	pCam = CCameraMgr::GetInstance()->Get_CurCamera();
+
+	NULL_CHECK_RETURN(pCam, 0.f);
+
+	_vec3 vCamPos = pCam->Get_Transform()->Get_Info(INFO_POS);
+	vCamPos.z += 5.f;
+
+	_vec3 vDist = (vCamPos - m_pTransformCom->Get_Info(INFO_POS));
+
+	// 깊이 차이만 고려한다.
+	vDist.x = 0.f;
+	vDist.y = 0.f;
+
+	return fabs(D3DXVec3Length(&vDist));
 }
 
 CCloud1_Shadow* CCloud1_Shadow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
