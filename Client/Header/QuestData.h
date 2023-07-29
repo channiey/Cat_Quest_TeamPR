@@ -36,6 +36,11 @@ public:
 	virtual void					Set_ReadyNext() { m_bReadyNext = true; }
 
 	virtual void					Set_ReadyTalk(CGameObject* _pNpc, _bool isTalk);
+
+	virtual void					Set_TestLevel(_int _iLevel)
+	{
+		m_iLevel = _iLevel;
+	}
 protected:
 	wstring					m_strQuestName; // 퀘스트 이름
 	vector<tagQuestContent> m_tQuestContent; // 퀘스트 내용

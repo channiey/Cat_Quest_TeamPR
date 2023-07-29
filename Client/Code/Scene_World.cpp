@@ -46,8 +46,9 @@
 // Wall
 #include "Wall1.h"
 #include "Wall2.h"
-
-
+// BigBush
+#include "LargeIceBush.h"
+#include "VLargeIceBush.h"
 
 /////////
 // Environment
@@ -751,11 +752,23 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
+	// 열쇠
+	//pGameObject = CKey::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
 	// 퀘스트 아이템 - 월드 플라이
-	pGameObject = CWorldFlight::Create(m_pGraphicDev);
+	// pGameObject = CWorldFlight::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
+	pGameObject = CLargeIceBush::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
+	pGameObject = CVLargeIceBush::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
 
 	return S_OK;

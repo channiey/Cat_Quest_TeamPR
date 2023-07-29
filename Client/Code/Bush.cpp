@@ -36,6 +36,7 @@ HRESULT CBush::Ready_Object()
 	m_bTransSwitch1 = false;
 	m_bTransSwitch2 = false;
 	m_iTranslucent = 255;
+	m_iEndTranslucent = 150;
 
 	m_pTransformCom->Set_Scale(m_vecInitScale);
 
@@ -127,7 +128,7 @@ void CBush::Alpha_Update()
 {
 	// 알파값 조절
 	if (m_bEnter) {
-		if (m_iTranslucent > 150) {
+		if (m_iTranslucent > m_iEndTranslucent) {
 			m_iTranslucent -= 5;
 		}
 	}

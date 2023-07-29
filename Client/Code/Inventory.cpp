@@ -23,7 +23,7 @@ CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_INVENTORY)
 	, m_bIsOn(false), m_bAlphaSet(false), m_bPickMode(false), m_bTabItemPick(false), m_bTabSkillPick(false)
 	, m_bSizeUp(false)
-	, m_iHaveKey(0), m_iTranslucent(0)
+	, m_iQuestItem(0), m_iTranslucent(0)
 	, m_eMannequinClass(CLASS_TYPE::NORMAL)
 {
 	m_pPlayer = nullptr;

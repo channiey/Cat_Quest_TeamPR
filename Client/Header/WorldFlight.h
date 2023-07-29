@@ -30,15 +30,27 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+	void					Ready_Lerp();
+	void					Update_Lerp();
+
 public:
 	virtual void		OnCollision_Enter(CGameObject* _pColObj);
+	virtual void		OnCollision_Stay(CGameObject* _pColObj);
 	virtual void		OnCollision_Exit(CGameObject* _pColObj);
+
+public:
+	void					Set_IsDelete() { m_bDelete = true; }
+
+private:
+	void					Play_Delete();
 
 private:
 	HRESULT					Add_Component();
 
-	tagFlightSparkle	 m_tSparkle[3];
+	tagFlightSparkle	 m_tSparkle[SPARKLE_AMOUNT];
 	_int				 m_iLevel;
+
+	_bool				 m_bDelete;
 
 public:
 	static				CWorldFlight* Create(LPDIRECT3DDEVICE9 pGraphicDev);

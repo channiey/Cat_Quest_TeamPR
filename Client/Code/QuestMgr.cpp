@@ -31,6 +31,7 @@ HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_mapQuestList.insert(make_pair(40, new CQuest4(L"Á×À½ÀÇ ¼¶À¸·Î", m_pGraphicDev, _pPlayer)));
 
 	m_iQuestID = 10;
+	//m_mapQuestList[m_iQuestID]->Set_TestLevel(3); // test ·¹º§
 
 	m_bInit = true;
 

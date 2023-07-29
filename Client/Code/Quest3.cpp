@@ -20,6 +20,7 @@
 #include "Skill_Player_Beam.h"
 #include "Skill_Player_Fly.h"
 #include "Key.h"
+#include "WorldFlight.h"
 
 #include "MiniGameMgr_Jump.h"
 #include "SkillGetEffect.h"
@@ -34,9 +35,9 @@ CQuest3::CQuest3(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObjec
 
 CQuest3::~CQuest3()
 {
-	if (m_pKey)
+	if (m_pWorldFlight)
 	{
-		Safe_Release(m_pKey);
+		Safe_Release(m_pWorldFlight);
 	}
 }
 
@@ -71,8 +72,8 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 
 	m_tQuestContent.push_back({ L"1.경비냥 만나기.", false });
 
-	m_bCreateKey = false;
-	m_pKey = nullptr;
+	m_bCreateQItem = false;
+	m_pWorldFlight = nullptr;
 }
 
 _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
@@ -83,19 +84,19 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		ePlayerState == STATE_TYPE::FRONT_IDLE) ? true : false;
 
 
-	// 열쇠
+	// 퀘스트 아이템
 	// 퀘스트 단계가 4단계이고 월드에 키가 생성이 안됐을 때 + (중복 생성 방지)
-	if (m_iLevel == 3 && !m_bCreateKey &&
+	if (m_iLevel == 3 && !m_bCreateQItem &&
 		CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 	{
-		m_pKey = CKey::Create(pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_Key", m_pKey);
-		m_bCreateKey = true;
+		m_pWorldFlight = CWorldFlight::Create(pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_WorldFlight", m_pWorldFlight);
+		m_bCreateQItem = true;
 	}
 	// 씬 이동시 m_bCreateKey false로 변경. 차피 알아서 지워줌.
 	if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() != SCENE_TYPE::WORLD)
 	{
-		m_bCreateKey = false;
+		m_bCreateQItem = false;
 	}
 	///////////////////////////////////////
 
@@ -239,11 +240,13 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 3: // 열쇠 찾기
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
-			if (m_bCreateKey)
+			if (m_pWorldFlight)
 			{
-				if (dynamic_cast<CKey*>(m_pKey)->Get_IsCol())
+				if (dynamic_cast<CWorldFlight*>(m_pWorldFlight)->Get_IsCol()
+					&& CInputDev::GetInstance()->Key_Down('E'))
 				{
-					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(true);
+					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveQuestItem(true);
+					dynamic_cast<CWorldFlight*>(m_pWorldFlight)->Set_IsDelete();
 					m_iLevel += 1;
 					break;
 				}
@@ -278,7 +281,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						Set_ReadyTalk(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"), false);
 
-						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveKey(false);
+						dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Set_HaveQuestItem(false);
 						// 배경 검은색
 						m_pShadeUI = CShadeUI::Create(pGraphicDev);
 						NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);

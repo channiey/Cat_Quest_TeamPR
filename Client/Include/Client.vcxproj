@@ -180,6 +180,7 @@
     <ClInclude Include="..\Header\DrakothTable.h" />
     <ClInclude Include="..\Header\FoxState_bRest.h" />
     <ClInclude Include="..\Header\FoxState_Rest.h" />
+    <ClInclude Include="..\Header\LargeIceBush.h" />
     <ClInclude Include="..\Header\Paper.h" />
     <ClInclude Include="..\Header\Present.h" />
     <ClInclude Include="..\Header\TownSanctuary.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="..\Header\VioletDragonState_BlueThunder.h" />
     <ClInclude Include="..\Header\VioletDragonState_BlueThunder_Cast.h" />
     <ClInclude Include="..\Header\VioletDragonState_ShootingStarRed.h" />
+    <ClInclude Include="..\Header\VLargeIceBush.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\Wall1.h" />
     <ClInclude Include="..\Header\Wall2.h" />
@@ -601,6 +603,7 @@
     <ClCompile Include="..\Code\DrakothTable.cpp" />
     <ClCompile Include="..\Code\FoxState_bRest.cpp" />
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
+    <ClCompile Include="..\Code\LargeIceBush.cpp" />
     <ClCompile Include="..\Code\Paper.cpp" />
     <ClCompile Include="..\Code\Present.cpp" />
     <ClCompile Include="..\Code\TownSanctuary.cpp" />
@@ -610,6 +613,7 @@
     <ClCompile Include="..\Code\VioletDragonState_BlueThunder.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_BlueThunder_Cast.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ShootingStarRed.cpp" />
+    <ClCompile Include="..\Code\VLargeIceBush.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\Wall1.cpp" />
     <ClCompile Include="..\Code\Wall2.cpp" />

@@ -171,6 +171,12 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/forest_10.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bush11",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/forest_11.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Large_Ice_Bush",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/Big_Forest2.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_VLarge_Ice_Bush",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/Big_Forest1.png")), E_FAIL);
+
+	
 	// Grass
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Grass1",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Object/Bush/grass_1.png")), E_FAIL);
