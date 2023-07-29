@@ -23,11 +23,13 @@ HRESULT CRock1::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 3.2f, 1.2f, 3.2f });
-	m_pTransformCom->Set_Pos(_vec3{ 380.f, m_pTransformCom->Get_Scale().y, 50.f });
+	m_pTransformCom->Set_Scale(_vec3{ 2.9f, 1.3f, 3.2f });
+	m_pTransformCom->Set_Pos(_vec3{ 340.f, m_pTransformCom->Get_Scale().y, 94.f });
+
+	m_eEnter = ENTER_TYPE::ENTER_NO;
 
 	m_szName = L"Rock1";
-	
+
 	return S_OK;
 }
 
@@ -57,6 +59,11 @@ HRESULT CRock1::Add_Component()
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Rock1", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Rect Collider
+	pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
 
 	return S_OK;
 }

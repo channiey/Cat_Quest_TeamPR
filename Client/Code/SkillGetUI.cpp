@@ -114,6 +114,9 @@ HRESULT CSkillGetUI::Ready_Object()
 
 _int CSkillGetUI::Update_Object(const _float& fTimeDelta)
 {
+	CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(false);
+	CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(false);
+
 	if (!m_bDelete && m_iTranslucent < 255)
 		m_iTranslucent += 5;
 
@@ -134,10 +137,13 @@ _int CSkillGetUI::Update_Object(const _float& fTimeDelta)
 				m_pSkill->Skill_LvUp(1);
 			}
 			// bgm 다시 재생
-			CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.7f);
+			// CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.7f);
 
 			// 퀘스트가 다음 단계로 나아갈 수 있게
 			CQuestMgr::GetInstance()->Set_ReadyNext();
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::PLAYER)->Layer_SetActive(true);
+			CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Layer_SetActive(true);
+
 			// 지금 있는 세이드도 같이 지운다.
 			CEventMgr::GetInstance()->Delete_Obj(
 				CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"ShadeUI"));

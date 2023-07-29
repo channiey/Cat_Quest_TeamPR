@@ -15,6 +15,7 @@ struct tagSparkle
 {
 	CTexture*		m_pSparkleTexCom;
 	_matrix			m_matSparkle;
+	_float			m_fTempSize; // 메트릭스에 바로 사이즈를 정하면 처음 1프레임 원상태로 시작한다.
 	LERP_FLOAT_INFO m_tMoveLerpX;
 	LERP_FLOAT_INFO m_tMoveLerpY;
 	LERP_FLOAT_INFO m_tSizeUpLerp;
@@ -49,12 +50,15 @@ private:
 	virtual HRESULT			Add_Component() override;
 
 private:
-	_bool	  m_bReadySound;
+	_bool			m_bReadySound;
+	// 알파효과 주면서 생성
+	_bool			m_ReadyEffect; // 알파 다 채워지면 시작
+	LERP_FLOAT_INFO	m_tReadyEffectLerp; // 알파 시작 러프
 	// 알파효과 주면서 지우기
 	// _bool	  m_bDelete;
-	_bool	  m_bResultStay;
-	_int      m_iStayCount2;
-	_int	  m_iAllTranslucent;
+	_bool			m_bResultStay;
+	_int			m_iStayCount2;
+	_int			m_iAllTranslucent;
 	
 #pragma region 스킬 및 글로우
 	_float			 m_fCurSkillSize; // 실시간 크기

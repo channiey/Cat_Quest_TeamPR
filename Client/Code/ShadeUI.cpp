@@ -6,6 +6,7 @@
 
 CShadeUI::CShadeUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI(pGraphicDev, OBJ_ID::UI_SHADE_UI)
+	, m_iTranslucent(0)
 {
 }
 
@@ -42,11 +43,17 @@ HRESULT CShadeUI::Ready_Object()
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
 
+	m_tTranslucentLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tTranslucentLerp.Set_Lerp(0.5f, 0.f, 255.f);
+
 	return S_OK;
 }
 
 _int CShadeUI::Update_Object(const _float& fTimeDelta)
 {
+	m_tTranslucentLerp.Update_Lerp(fTimeDelta);
+	m_iTranslucent = (_int)m_tTranslucentLerp.fCurValue;
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -60,7 +67,7 @@ void CShadeUI::LateUpdate_Object()
 void CShadeUI::Render_Object()
 {
 	// 초기 세팅
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 

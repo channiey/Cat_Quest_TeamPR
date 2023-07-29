@@ -23,8 +23,8 @@ HRESULT CRock2::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 1.f, 1.f });
-	m_pTransformCom->Set_Pos(_vec3{ 370.f, m_pTransformCom->Get_Scale().y, 50.f });
+	m_pTransformCom->Set_Scale(_vec3{ 1.5f, 0.86f, 1.5f });
+	m_pTransformCom->Set_Pos(_vec3{ 360.f, m_pTransformCom->Get_Scale().y, 94.f });
 
 	m_szName = L"Rock2";
 
@@ -57,6 +57,8 @@ HRESULT CRock2::Add_Component()
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Rock2", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	m_eEnter = ENTER_TYPE::ENTER;
 
 	return S_OK;
 }

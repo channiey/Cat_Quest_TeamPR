@@ -82,7 +82,7 @@ void CBush::Play_ColLogic(const _float& fTimeDelta)
 	if (m_bEventSwitch) {
 		if (m_bReadySound)
 		{
-			CSoundMgr::GetInstance()->PlaySound(L"leaves_rustle.wav", CHANNEL_ID::UI_3, 1.f);
+			CSoundMgr::GetInstance()->PlaySound(L"leaves_rustle.wav", CHANNEL_ID::ENVIRONMENT_3, ENVIRONMENT_BUSH);
 			m_bReadySound = false;
 		}
 		// 줄어들었다

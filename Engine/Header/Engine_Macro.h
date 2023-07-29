@@ -99,6 +99,18 @@ namespace Engine
 #define VOLUME_PLAYER_GOLDPICK			1.f
 #define VOLUME_PLAYER_EXPPICK			1.f
 
+// 환경
+#define ENVIRONMENT_BUSH 				1.f
+// 인벤토리
+#define INVETORY_BAG					1.f
+#define INVETORY_ARMOR_EQUIP			1.f
+#define INVETORY_SKILL_CLICK			1.f
+#define INVETORY_SKILL_EQUIP			1.f
+#define INVETORY_SKILL_UNEQUIP			1.f
+#define INVETORY_TAB_CLICK				1.f
+// Get
+#define ITEM_SKILL_GET_EFFECT			0.8f
+
 	/*--------------------- ! (점선 안의 내용) 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 
