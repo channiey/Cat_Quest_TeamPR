@@ -35,7 +35,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //#endif
 
      /*------------------ 마우스 커서 숨기기 (TRUE, FALSE) ------------------*/
-
     ShowCursor(FALSE);
 
     UNREFERENCED_PARAMETER(hPrevInstance);

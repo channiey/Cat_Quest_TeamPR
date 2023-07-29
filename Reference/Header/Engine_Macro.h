@@ -87,7 +87,7 @@ namespace Engine
 
 #define VOLUME_PLAYER_SKILL				0.7f
 #define VOLUME_PLAYER_ROLL				0.7f
-#define VOLUME_PLAYER_WALK				0.7f
+#define VOLUME_PLAYER_WALK				1.f
 #define VOLUME_PLAYER_HIT				0.7f
 #define VOLUME_PLAYER_FLY				0.7f
 #define VOLUME_PLAYER_ATTACK			1.f
@@ -101,6 +101,7 @@ namespace Engine
 
 // 환경
 #define ENVIRONMENT_BUSH 				1.f
+
 // 인벤토리
 #define INVETORY_BAG					1.f
 #define INVETORY_ARMOR_EQUIP			1.f
@@ -108,6 +109,7 @@ namespace Engine
 #define INVETORY_SKILL_EQUIP			1.f
 #define INVETORY_SKILL_UNEQUIP			1.f
 #define INVETORY_TAB_CLICK				1.f
+
 // Get
 #define ITEM_SKILL_GET_EFFECT			0.8f
 

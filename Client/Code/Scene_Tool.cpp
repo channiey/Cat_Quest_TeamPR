@@ -171,6 +171,9 @@ HRESULT CScene_Tool::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_Item(), E_FAIL);
 
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetUp(m_pGraphicDev), E_FAIL);
+
+	ShowCursor(TRUE);
+
 	return S_OK;
 }
 

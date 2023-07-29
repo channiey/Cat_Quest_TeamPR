@@ -412,9 +412,11 @@ HRESULT CPlayer::Ready_Object()
 
 	return S_OK;
 }
-
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
+	//cout << ++k << "--------\n";
+	//cout << m_pRigidBodyCom->Get_Velocity().x << "\t" << m_pRigidBodyCom->Get_Velocity().y << "\t" << m_pRigidBodyCom->Get_Velocity().z << "\n";
+	//cout << "Player Update--\n";
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WALK)
 	{
 		if (m_pStateMachineCom->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 0 ||
@@ -478,13 +480,6 @@ void CPlayer::LateUpdate_Object()
 	if (m_bIsTalking && m_bClocking)
 		Off_Clocking();
 
-
-	if (m_bhasFlight)
-	{
-		NULL_CHECK(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight"))
-		CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Flight")->Set_Active(true);
-	}
-
 	if(!m_bFly && m_pSkillFly->Is_Active())
 	{
 		m_pSkillFly->Get_Transform()->Set_Pos(m_pTransformCom->Get_Info(INFO::INFO_POS));
@@ -494,7 +489,6 @@ void CPlayer::LateUpdate_Object()
 	LevelUp();
 
 	__super::LateUpdate_Object();
-
 }
 
 void CPlayer::Render_Object()

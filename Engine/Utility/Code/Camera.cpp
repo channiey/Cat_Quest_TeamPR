@@ -128,7 +128,6 @@ _int CCamera::Update_Component(const _float & fTimeDelta)
 {
 	return 0;
 }
-
 HRESULT CCamera::Set_ViewSpace()
 {
 	// 뷰스페이스에 대한 데이터 m_tVspace는 클라에서 구현한 개별 카메라에서 세팅한다. (컴포넌트의 필드는 퍼블릭이다.)
