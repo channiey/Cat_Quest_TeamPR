@@ -466,6 +466,8 @@ HRESULT CVioletDragon::Ready_Object()
 
 	m_szName = L"Monster_VioletDragon";
 
+	m_bActive = FALSE; // 수정시 팀장 보고
+
     return S_OK;
 }
 

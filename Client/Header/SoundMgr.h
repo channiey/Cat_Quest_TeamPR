@@ -26,6 +26,9 @@ public:
 	void						StopAll();
 	void						SetChannelVolume(CHANNEL_ID eID, float fVolume);
 
+public:
+	void						Lerp_Volume_CurBGM(const LERP_MODE& _eMode, const _float& _fTime, const _float& _fStartVolume, const _float& _fEndVolume);
+
 private:
 	void						StopSound(CHANNEL_ID eID);
 	void						LoadSoundFile(); 
@@ -39,6 +42,7 @@ private:
 	LERP_FLOAT_INFO				m_LerpPrevBgmVolume;
 
 	_bool						m_bPlayingBGM;
+	_bool						m_bChangeBGM;
 
 private:
 	virtual void				Free();

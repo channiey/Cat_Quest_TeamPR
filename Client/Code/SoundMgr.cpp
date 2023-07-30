@@ -10,6 +10,7 @@ CSoundMgr::CSoundMgr()
 	m_pSystem = nullptr; 
 
 	m_bPlayingBGM = FALSE;
+	m_bChangeBGM = FALSE;
 
 	ZeroMemory(&m_LerpCurBgmVolume, sizeof(LERP_FLOAT_INFO));
 	ZeroMemory(&m_LerpPrevBgmVolume, sizeof(LERP_FLOAT_INFO));
@@ -31,14 +32,14 @@ void CSoundMgr::Initialize()
 
 void CSoundMgr::Update(const _float& fTimeDelta)
 {
-
 	if (m_bPlayingBGM && m_LerpPrevBgmVolume.bActive)
 	{
 		m_LerpPrevBgmVolume.Update_Lerp(fTimeDelta);
 
 		FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_PREV], m_LerpPrevBgmVolume.fCurValue);
 
-		if (!m_LerpPrevBgmVolume.bActive && 0.f == m_LerpPrevBgmVolume.fCurValue) StopSound(CHANNEL_ID::BGM_PREV);
+		if (m_bChangeBGM && !m_LerpPrevBgmVolume.bActive && 0.f == m_LerpPrevBgmVolume.fCurValue) 
+			StopSound(CHANNEL_ID::BGM_PREV);
 	}
 
 	if (m_bPlayingBGM && m_LerpCurBgmVolume.bActive)
@@ -47,7 +48,8 @@ void CSoundMgr::Update(const _float& fTimeDelta)
 
 		FMOD_Channel_SetVolume(m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR], m_LerpCurBgmVolume.fCurValue);
 
-		if (!m_LerpCurBgmVolume.bActive && 0.f == m_LerpCurBgmVolume.fCurValue) StopSound(CHANNEL_ID::BGM_CUR);
+		if (m_bChangeBGM && !m_LerpCurBgmVolume.bActive && 0.f == m_LerpCurBgmVolume.fCurValue) 
+			StopSound(CHANNEL_ID::BGM_CUR);
 	}
 }
 void CSoundMgr::Release()
@@ -129,6 +131,7 @@ HRESULT CSoundMgr::ChangeBGM(TCHAR* pSoundKey)
 	m_LerpCurBgmVolume.Set_Lerp(2.f, 0.f, SOUND_VOLUME_BGM);
 	
 	PlayBGM(pSoundKey);
+	m_bChangeBGM = TRUE;
 
 	return S_OK;
 }
@@ -149,6 +152,14 @@ void CSoundMgr::SetChannelVolume(CHANNEL_ID eID, float fVolume)
 	FMOD_Channel_SetVolume(m_pChannelArr[(_uint)eID], fVolume);
 
 	FMOD_System_Update(m_pSystem);
+}
+
+void CSoundMgr::Lerp_Volume_CurBGM(const LERP_MODE& _eMode, const _float& _fTime, const _float& _fStartVolume, const _float& _fEndVolume)
+{
+	m_LerpCurBgmVolume.Init_Lerp(_eMode);
+	m_LerpCurBgmVolume.Set_Lerp(_fTime, _fStartVolume, _fEndVolume);
+
+	m_bChangeBGM = FALSE; 
 }
 
 void CSoundMgr::LoadSoundFile()

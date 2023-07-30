@@ -200,6 +200,9 @@
 #include "MiniGameMgr_Jump.h"
 #include "SoundMgr.h"
 #include "Island_Village.h"
+
+#include "BossSceneMgr.h"
+
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
 {
@@ -228,18 +231,27 @@ HRESULT CScene_World::Ready_Scene()
 	
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL); // 아일랜드 생성
 
-	// 한 번만 초기화
 
-	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
+	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); 
+	if (!CBossSceneMgr::GetInstance()->Is_Ready()) CBossSceneMgr::GetInstance()->Ready_BossSceneMgr(m_pGraphicDev);
 
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
+	// Key Input for Test
+	if (CInputDev::GetInstance()->Key_Down(VK_F1))
+		CBossSceneMgr::GetInstance()->Start_BossScene();
+	else if (CInputDev::GetInstance()->Key_Down(VK_F2))
+		CBossSceneMgr::GetInstance()->Play_Dead_BossScene();
+
+
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
 	CSoundMgr::GetInstance()->Update(fTimeDelta);
+	CBossSceneMgr::GetInstance()->Update_BossSceneMgr(fTimeDelta);
+
 	if (!m_bStartFade)
 	{
 		if (!CManagement::GetInstance()->Is_Enter_InGame())
