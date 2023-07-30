@@ -72,6 +72,17 @@ _int CSkill_Boss_CreateWyvern::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect8);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect9);
 		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect10);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect11);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect12);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect13);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect14);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect15);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect16);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect17);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect18);		
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect19);
+		CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect20);
+
 
 		CEventMgr::GetInstance()->Delete_Obj(this);
 		return iExit;
@@ -159,6 +170,73 @@ HRESULT CSkill_Boss_CreateWyvern::Add_Component()
 	m_pBaseRangeEffect10 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
 	NULL_CHECK_RETURN(m_pBaseRangeEffect10, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base10", m_pBaseRangeEffect10), E_FAIL);
+
+	// Effect Range Quater - Base 11
+	m_pBaseRangeEffect11 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect11, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base11", m_pBaseRangeEffect11), E_FAIL);
+
+
+	// Effect Range Quater - Base 12
+	m_pBaseRangeEffect12 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect12, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base12", m_pBaseRangeEffect12), E_FAIL);
+
+
+
+
+
+	// Other
+	// Effect Range Quater - Base 13
+	m_pBaseRangeEffect13 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect13, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base13", m_pBaseRangeEffect13), E_FAIL);
+
+
+
+	// Effect Range Quater - Base 14
+	m_pBaseRangeEffect14 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect14, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base14", m_pBaseRangeEffect14), E_FAIL);
+
+
+	// Effect Range Quater - Base 15
+	m_pBaseRangeEffect15 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect15, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base15", m_pBaseRangeEffect15), E_FAIL);
+
+
+
+	// Effect Range Quater - Base 16
+	m_pBaseRangeEffect16 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect16, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base16", m_pBaseRangeEffect16), E_FAIL);
+
+
+
+	// Effect Range Quater - Base 17
+	m_pBaseRangeEffect17 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect17, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base17", m_pBaseRangeEffect17), E_FAIL);
+
+	// Effect Range Quater - Base 18
+	m_pBaseRangeEffect18 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect18, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base18", m_pBaseRangeEffect18), E_FAIL);
+
+	// Effect Range Quater - Base 19
+	m_pBaseRangeEffect19 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect19, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base19", m_pBaseRangeEffect19), E_FAIL);
+
+	// Effect Range Quater - Base 20
+	m_pBaseRangeEffect20 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
+	NULL_CHECK_RETURN(m_pBaseRangeEffect20, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Create_Base20", m_pBaseRangeEffect20), E_FAIL);
+
+
+
+
 
 
 
@@ -252,6 +330,71 @@ HRESULT CSkill_Boss_CreateWyvern::Play()
 	m_pBaseRangeEffect10->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect10->Scaling(fCastTime, fStartScale, fEndScale);
 
+
+
+	// Boss Near 5 
+	m_pBaseRangeEffect11->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f ,vOwnerPos.z + 10.f });
+	m_pBaseRangeEffect11->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect11->Scaling(fCastTime, fStartScale, fEndScale);
+
+	// Boss Near 6
+	m_pBaseRangeEffect12->Play_Effect(_vec3{ vOwnerPos.x - 10.f , 0.01f ,vOwnerPos.z + 10.f });
+	m_pBaseRangeEffect12->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect12->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+
+	// Other
+	// Monster
+	m_pBaseRangeEffect13->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z -5.f });
+	m_pBaseRangeEffect13->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect13->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect13->Scaling(fCastTime, fStartScale, fEndScale);
+
+	m_pBaseRangeEffect14->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z +5.f});
+	m_pBaseRangeEffect14->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect14->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect14->Scaling(fCastTime, fStartScale, fEndScale);
+
+	m_pBaseRangeEffect15->Play_Effect(_vec3{ vPlayerPos.x -13.f , 0.01f ,vPlayerPos.z +7.f });
+	m_pBaseRangeEffect15->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect15->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect15->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect16->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z +7.f });
+	m_pBaseRangeEffect16->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect16->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect16->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect17->Play_Effect(_vec3{ vPlayerPos.x -13.f , 0.01f ,vPlayerPos.z  -7.f});
+	m_pBaseRangeEffect17->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect17->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect17->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect18->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z -7.f });
+	m_pBaseRangeEffect18->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect18->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect18->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect19->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z + 13.f});
+	m_pBaseRangeEffect19->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect19->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect19->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect20->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z - 13.f });
+	m_pBaseRangeEffect20->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect20->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect20->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+
+
+
 	return S_OK;
 }
 
@@ -336,6 +479,70 @@ HRESULT CSkill_Boss_CreateWyvern::LatePlay()
 	m_pBaseRangeEffect10->Scaling(fCastTime, fStartScale, fEndScale);
 
 
+	// Boss Near 5 
+	m_pBaseRangeEffect11->Play_Effect(_vec3{ vCreateBossPosition.x + 10.f , 0.01f ,vCreateBossPosition.z + 10.f });
+	m_pBaseRangeEffect11->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect11->Scaling(fCastTime, fStartScale, fEndScale);
+
+	// Boss Near 6
+	m_pBaseRangeEffect12->Play_Effect(_vec3{ vCreateBossPosition.x - 10.f , 0.01f ,vCreateBossPosition.z + 10.f });
+	m_pBaseRangeEffect12->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect12->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+
+
+	// Other
+	// Monster
+	m_pBaseRangeEffect13->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z - 5.f });
+	m_pBaseRangeEffect13->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect13->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect13->Scaling(fCastTime, fStartScale, fEndScale);
+
+	m_pBaseRangeEffect14->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z + 5.f });
+	m_pBaseRangeEffect14->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect14->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect14->Scaling(fCastTime, fStartScale, fEndScale);
+
+	m_pBaseRangeEffect15->Play_Effect(_vec3{ vPlayerPos.x - 13.f , 0.01f ,vPlayerPos.z + 7.f });
+	m_pBaseRangeEffect15->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect15->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect15->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect16->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z + 7.f });
+	m_pBaseRangeEffect16->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect16->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect16->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect17->Play_Effect(_vec3{ vPlayerPos.x - 13.f , 0.01f ,vPlayerPos.z - 7.f });
+	m_pBaseRangeEffect17->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect17->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect17->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect18->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z - 7.f });
+	m_pBaseRangeEffect18->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect18->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect18->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect19->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z + 13.f });
+	m_pBaseRangeEffect19->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect19->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect19->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+	m_pBaseRangeEffect20->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z - 13.f });
+	m_pBaseRangeEffect20->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect20->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
+	m_pBaseRangeEffect20->Scaling(fCastTime, fStartScale, fEndScale);
+
+
+
+
+
 
 	return S_OK;
 }
@@ -352,7 +559,17 @@ HRESULT CSkill_Boss_CreateWyvern::End()
 	m_pBaseRangeEffect8->Set_Active(false);
 	m_pBaseRangeEffect9->Set_Active(false);
 	m_pBaseRangeEffect10->Set_Active(false);
+	m_pBaseRangeEffect11->Set_Active(false);
+	m_pBaseRangeEffect12->Set_Active(false);
 
+	m_pBaseRangeEffect13->Set_Active(false);
+	m_pBaseRangeEffect14->Set_Active(false);
+	m_pBaseRangeEffect15->Set_Active(false);
+	m_pBaseRangeEffect16->Set_Active(false);
+	m_pBaseRangeEffect17->Set_Active(false);
+	m_pBaseRangeEffect18->Set_Active(false);
+	m_pBaseRangeEffect19->Set_Active(false);
+	m_pBaseRangeEffect20->Set_Active(false);
 
 	return S_OK;
 }

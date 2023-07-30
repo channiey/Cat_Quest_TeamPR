@@ -97,7 +97,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 3000.f;
+	m_tStatInfo.fCurHP = 200.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
@@ -685,7 +685,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			m_bBlueTunder = false;
 			m_bBlueLate = true;
 		}
-		if (m_bBlueTunder == false && m_bBlueLate == true && m_BlueTime >= 4.f)
+		if (m_bBlueTunder == false && m_bBlueLate == true && m_BlueTime >= 3.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LateEnd();

@@ -68,7 +68,7 @@ private:
 	_bool   m_bBullet24;
 
 
-
+	_bool	m_BulletSound;
 	
 
 private:

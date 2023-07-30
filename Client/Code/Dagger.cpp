@@ -86,6 +86,8 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
         m_pTransformCom->Set_Dir(vBulletDir);
         //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
         //vBulletDir = m_pTransformCom->Get_Dir();
+
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_HEDGEHOG, 0.5f);
         m_bNonTarget = true;
     }
     if (m_fAccTime >= 4.f)

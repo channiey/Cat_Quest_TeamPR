@@ -3,10 +3,19 @@
 #include "Monster.h"
 #include "Player.h"
 #include "EventMgr.h"
-#include "WyvernRed.h"
-#include "Hedgehog.h"
 #include "FoxFire.h"
 #include "VioletDragon.h"
+
+
+// Create Monster
+#include "Hedgehog.h"
+#include "WyvernRed.h"
+#include "Bat.h"
+#include "Ram.h"
+#include "Wyvern.h"
+#include "Fox.h"
+
+
 
 CVioletDragonState_CreateWyvern::CVioletDragonState_CreateWyvern(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
@@ -43,6 +52,25 @@ HRESULT CVioletDragonState_CreateWyvern::Ready_State(CStateMachine* pOwner)
     m_bCreateWyvern8 = false;
     m_bCreateWyvern9 = false;
     m_bCreateWyvern10 = false; 
+
+    m_bCreateWyvern11 = false;
+    m_bCreateWyvern12 = false;
+
+
+    // Other
+    m_Monster1 = false;
+    m_Monster2 = false;
+
+    m_Monster3 = false;
+    m_Monster4 = false;
+
+    m_Monster5 = false;
+    m_Monster6 = false;
+
+    m_Monster7 = false;
+    m_Monster8 = false;
+
+
 
     vCreatePosition = vec3.zero;
     vCreateBossPosition = vec3.zero;
@@ -263,6 +291,105 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         }
 
 
+        // Boss Near 5
+        if (m_bCreateWyvern11 == false)
+        {
+            CGameObject* m_pCreateWyvern11 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern11->Get_Transform()->Get_Scale();
+            m_pCreateWyvern11->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x + 10.f ,CreateWyvernScale.y ,vCreateBossPosition.z + 10.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern11", m_pCreateWyvern11);
+            m_bCreateWyvern11 = true;
+        }
+
+
+        // Boss Near 4
+        if (m_bCreateWyvern12 == false)
+        {
+            CGameObject* m_pCreateWyvern12 = CWyvernRed::Create(m_pGraphicDev);
+            _vec3 CreateWyvernScale = m_pCreateWyvern12->Get_Transform()->Get_Scale();
+            m_pCreateWyvern12->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x -10.f ,CreateWyvernScale.y ,vCreateBossPosition.z + 10.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateWyvern12);
+            m_bCreateWyvern12 = true;
+        }
+        
+
+
+
+        // Other Monster 
+        if (m_Monster1 == false)      // Hedgehog
+        {
+            CGameObject* m_pCreateMon1 = CHedgehog::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon1->Get_Transform()->Get_Scale();
+            m_pCreateMon1->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z -5.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster1", m_pCreateMon1);
+            m_Monster1 = true;
+        }
+
+        if (m_Monster2 == false)  // Bat
+        {
+            CGameObject* m_pCreateMon2 = CBat::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon2->Get_Transform()->Get_Scale();
+            m_pCreateMon2->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z + 5.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster2", m_pCreateMon2);
+            m_Monster2 = true;
+        }
+
+        if (m_Monster3 == false) // Wyvern
+        {
+            CGameObject* m_pCreateMon3 = CWyvern::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon3->Get_Transform()->Get_Scale();
+            m_pCreateMon3->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 13.f ,CreateMonScale.y ,vCreatePosition.z + 7.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster3", m_pCreateMon3);
+            m_Monster3 = true;
+        }
+
+        if (m_Monster4 == false)
+        {
+            CGameObject* m_pCreateMon4 = CWyvern::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon4->Get_Transform()->Get_Scale();
+            m_pCreateMon4->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +13.f ,CreateMonScale.y ,vCreatePosition.z + 7.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster4", m_pCreateMon4);
+            m_Monster4 = true;
+        }
+
+        if (m_Monster5 == false)
+        {
+            CGameObject* m_pCreateMon5 = CRam::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon5->Get_Transform()->Get_Scale();
+            m_pCreateMon5->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 13.f ,CreateMonScale.y ,vCreatePosition.z -7.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon5);
+            m_Monster5 = true;
+        }
+
+        if (m_Monster6 == false)
+        {
+            CGameObject* m_pCreateMon6 = CRam::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon6->Get_Transform()->Get_Scale();
+            m_pCreateMon6->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +13.f ,CreateMonScale.y ,vCreatePosition.z  -7.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon6);
+            m_Monster6 = true;
+        }
+
+        if (m_Monster7 == false)
+        {
+            CGameObject* m_pCreateMon7 = CFox::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon7->Get_Transform()->Get_Scale();
+            m_pCreateMon7->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z + 13.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon7);
+            m_Monster7 = true;
+        }
+
+        if (m_Monster8 == false)
+        {
+            CGameObject* m_pCreateMon8 = CFox::Create(m_pGraphicDev);
+            _vec3 CreateMonScale = m_pCreateMon8->Get_Transform()->Get_Scale();
+            m_pCreateMon8->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z -13.f });
+            CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon8);
+            m_Monster8 = true;
+        }
+
+
+
     }
 
 #pragma region State Change
@@ -284,6 +411,20 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         m_bCreateWyvern8 = false;
         m_bCreateWyvern9 = false;
         m_bCreateWyvern10 = false;
+
+        m_bCreateWyvern11 = false;
+        m_bCreateWyvern12 = false;
+ 
+
+        //Other
+        m_Monster1 = false;
+        m_Monster2 = false;
+        m_Monster3 = false;
+        m_Monster4 = false;
+        m_Monster5 = false;
+        m_Monster6 = false;
+        m_Monster7 = false;
+        m_Monster8 = false;
 
         m_bInit = false;
 

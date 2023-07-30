@@ -61,6 +61,8 @@ HRESULT CVioletDragonState_SpreadBullet::Ready_State(CStateMachine* pOwner)
    // m_pBullet1 = nullptr;
 
 
+    m_BulletSound = false;
+
     return S_OK;
 }
 
@@ -356,8 +358,13 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
 #pragma endregion
 
+    if (m_fAccTime >= 4.4f && m_BulletSound == false)
+    {
 
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
+        m_BulletSound = true;
 
+    }
 
 
 #pragma region State Change
@@ -370,6 +377,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_fAccTime >= 5.f)
     {
+
         m_fAccTime = 0.f;
 
         m_bBullet1 = false;
@@ -402,6 +410,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
         m_bBullet23 = false;
         m_bBullet24 = false;
 
+        m_BulletSound = false;
 
         //cout << " ÀüÀÌ" << endl;
 
