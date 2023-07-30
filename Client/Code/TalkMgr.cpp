@@ -241,6 +241,8 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 			{
 				m_pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
 				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, _StartPos, _TargetPos, TRUE);
+				CSoundMgr::GetInstance()->PlaySoundW(L"map_transition.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+
 				m_bTargetCam = true;
 			}
 
@@ -297,6 +299,8 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 						{
 							CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, _TargetPos, _StartPos, FALSE);
 							m_pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
+							CSoundMgr::GetInstance()->PlaySoundW(L"map_transition.wav", CHANNEL_ID::UI_3, VOLUME_PLAYER_UI);
+
 							m_bReturnCam = true; 
 						}
 					}

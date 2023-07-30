@@ -84,6 +84,7 @@ HRESULT CBossSceneMgr::Start_BossScene()
 	CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
 	NULL_CHECK_RETURN(pBoss, E_FAIL);
 	pBoss->Set_Active(TRUE);
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_battle_theme.wav");
 
 	return S_OK;
 }

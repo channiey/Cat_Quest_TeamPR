@@ -344,8 +344,6 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 			_vec3 vDest = _vEndPos;
 
 			m_pCurCamera->Get_CameraCom()->Lerp_Vec3(fDistance * fMag, vOrigin, vDest, LERP_MODE::SMOOTHERSTEP);
-
-
 		}
 		break;
 

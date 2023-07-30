@@ -113,8 +113,11 @@ namespace Engine
 #define INVETORY_TAB_CLICK				1.f
 
 // Get
-#define ITEM_SKILL_GET_EFFECT			0.8f
+#define ITEM_SKILL_GET_EFFECT			0.5f
 
+
+
+// Cloud Size Alpha
 #define OBJ_CLOUD_MAX_ALPHA 200
 #define OBJ_CLOUD_MAX_ALPHA_MAG 10.f
 
