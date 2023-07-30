@@ -197,7 +197,7 @@ void CDialogUI::Render_Object()
 	if (m_bDialogType == DIALOG_TYPE::DIALOG_NORMAL)
 	{
 		CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strTyping.c_str(), -1,
-			&m_rcText, DT_LEFT | DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
+			&m_rcText, DT_LEFT, D3DCOLOR_ARGB(200, 0, 0, 0));
 	}
 	
 
@@ -256,7 +256,7 @@ HRESULT CDialogUI::Ready_Dialog(OBJ_ID eNpc, wstring strDialog, DIALOG_TYPE _bDi
 
 	// 들어간 다이얼로그 길이에 따라 텍스트박스크기 변경
 	CGraphicDev::GetInstance()->Get_InGameFont()->DrawTextW(NULL, m_strDialog.c_str(), -1,
-		&m_rcText, DT_LEFT | DT_CALCRECT | DT_WORDBREAK, D3DCOLOR_ARGB(200, 0, 0, 0));
+		&m_rcText, DT_LEFT | DT_CALCRECT, D3DCOLOR_ARGB(200, 0, 0, 0));
 
 	if (m_rcText.bottom >= 512)
 	{

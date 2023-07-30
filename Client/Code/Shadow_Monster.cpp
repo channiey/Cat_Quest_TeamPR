@@ -50,7 +50,7 @@ _int CShadow_Monster::Update_Object(const _float& fTimeDelta)
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_fMobtoShadow = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
+	m_fMonsterCurY = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
 
 	return iExit;
 }
@@ -79,8 +79,8 @@ void CShadow_Monster::Render_Object()
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
-	matWorld._11 = m_fShadowSize - m_fMobtoShadow * 0.5f;
-	matWorld._33 = m_fShadowSize - m_fMobtoShadow * 0.5f;
+	matWorld._11 = m_fShadowSize - m_fMonsterCurY * 0.5f;
+	matWorld._33 = m_fShadowSize - m_fMonsterCurY * 0.5f;
 	
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 

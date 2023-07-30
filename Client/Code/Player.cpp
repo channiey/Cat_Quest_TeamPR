@@ -837,12 +837,12 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 	break;
 	case Engine::OBJ_TYPE::ITEM:
 	{
-		// 탐색 가능 UI
-		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_INSPECT) {
+		// ? UI
+		if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_QUESTION) {
 			CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
-			m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
+			m_pEnterUI->EnterUI_On(UIENTER_TYPE::QUESTION, _pColObj);
 		}
 
 	}
@@ -930,7 +930,8 @@ void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 	// UI 끄기
 	if (_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_ENTER ||
 		_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_INSPECT ||
-		_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT)
+		_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_CHAT ||
+		_pColObj->Get_InterType() == INTERACTION_TYPE::INTERACTION_QUESTION)
 	{
 		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
