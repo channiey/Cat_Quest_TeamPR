@@ -85,8 +85,8 @@ HRESULT CIsland_Ice::Add_RangeObj()
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Island_Ice_RangeObj_03", pGameObject);
-	pGameObject->Set_Radius(45.f);
-	pGameObject->Set_Pos(_vec3{ 290.f, 0.f , 420.f });
+	pGameObject->Set_Radius(48.f);
+	pGameObject->Set_Pos(_vec3{ 290.f, 0.f , 417.f });
 	m_vecRangeObj.push_back(pGameObject);
 
 	return S_OK;
