@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Monster.h"
 
+class CRangeObj;
 BEGIN(Engine)
 
 class CCubeCol;
@@ -76,7 +77,6 @@ private:
 	_bool					m_bHP_80;
 	_bool					m_bHP_50;
 	_bool					m_bHP_20;
-
 
 
 protected:

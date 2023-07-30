@@ -8,7 +8,6 @@
 #include "Player_Camera.h"
 #include "VioletDragon.h"
 #include "Npc_Citizen2.h"
-
 IMPLEMENT_SINGLETON(CBossSceneMgr)
 
 CBossSceneMgr::CBossSceneMgr()

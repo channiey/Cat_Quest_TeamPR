@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 #include "Player.h"
+#include "RangeObj.h"
 
 //State-===
 //Front
@@ -156,6 +157,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
+
 		m_pBaseSkill = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 		NULL_CHECK_RETURN(m_pBaseSkill, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Base", m_pBaseSkill), E_FAIL);
@@ -540,7 +542,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::CHASE);
+	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
 
@@ -558,6 +560,10 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+	if (this->Is_Active())
+	{
+		arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK]->Set_Active(true);
+	}
 
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
