@@ -436,6 +436,7 @@ namespace Engine
 		, SCENE_ENTER_INGAME		// 플레이어 y + 30 -> 플레이어 y (최초 월드 입장)
 		, SCENE_ENTER_FIELD				// 씬 변경시마다 호출
 		, SCENE_LOOK_WORLD		// 드래그시 전체 월드 보이게 
+		, SCENE_EXIT_INGAME		// 게임종료시
 
 		// GameObject
 		, OBJ_CHANGE_TARGET		// NPC 등 퀘스트 안내

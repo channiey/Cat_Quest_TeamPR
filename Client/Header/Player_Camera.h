@@ -24,6 +24,7 @@ public:
 	virtual void			Start_Fade(const FADE_MODE& _eMode) override;
 	const _bool&			Is_Fade() override;
 	const FADE_MODE&		Get_FadeMode() const { return m_eFadeMode; }
+	CFadeUI*				Get_FadeUI() const { return m_pFadeUI; }
 
 	const _bool&			Is_LerpTargetChange() const { return m_pCameraCom->m_tVec3Lerp.bActive; }
 

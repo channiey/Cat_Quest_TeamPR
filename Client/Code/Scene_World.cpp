@@ -234,6 +234,7 @@ HRESULT CScene_World::Ready_Scene()
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); 
 	if (!CBossSceneMgr::GetInstance()->Is_Ready()) CBossSceneMgr::GetInstance()->Ready_BossSceneMgr(m_pGraphicDev);
+	m_bEndingFade = FALSE;
 
 	return S_OK;
 }
@@ -245,6 +246,16 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 		CBossSceneMgr::GetInstance()->Start_BossScene();
 	else if (CInputDev::GetInstance()->Key_Down(VK_F2))
 		CBossSceneMgr::GetInstance()->Play_Dead_BossScene();
+	else if (CInputDev::GetInstance()->Key_Down(VK_F3))
+		Finish_Game();
+
+	if (m_bEndingFade)
+	{
+		if (!CCameraMgr::GetInstance()->Is_Fade())
+		{
+			// 게임 종료 - 페이드 완료
+		}
+	}
 
 
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
@@ -262,6 +273,12 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 		}
 		else
 		{
+			CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
+			if (nullptr != pPlayer)
+			{
+				_vec3 vPos{ WORLD_DUNGEON_ENTERANCE_X, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, WORLD_DUNGEON_ENTERANCE_Z };
+				pPlayer->Get_Transform()->Set_Pos(vPos);
+			}
 			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
 			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_IN);
 		}
@@ -374,6 +391,16 @@ HRESULT CScene_World::Ready_Load()
 	TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->ImGui_SetDevice(m_pGraphicDev), E_FAIL);
 	FAILED_CHECK_RETURN(CImGuiMgr::GetInstance()->Load_Scene(szLoadPath), E_FAIL);
+}
+
+void CScene_World::Finish_Game()
+{
+	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_EXIT_INGAME);
+	CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
+	if (nullptr != pCam)
+		pCam->Get_FadeUI()->Start_Fade(4.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_OUT);
+
+	m_bEndingFade = TRUE;
 }
 
 HRESULT CScene_World::Ready_Layer_Camera()

@@ -17,6 +17,7 @@ CManagement::~CManagement()
 	Free();
 }
 
+
 _int CManagement::Update_Scene(const _float& fTimeDelta)
 {
 	if (nullptr == m_pCurScene)

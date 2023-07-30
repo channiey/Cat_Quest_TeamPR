@@ -14,6 +14,8 @@ public:
 	virtual void		LateUpdate_Scene() override;
 	virtual void		Render_Scene() override;
 
+public:
+	void				Finish_Game();
 private:
 	HRESULT				Ready_Layer_Camera();
 	HRESULT				Ready_Layer_UI(); 
@@ -30,6 +32,9 @@ private:
 
 public:
 	static CScene_World*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
+private:
+	_bool				m_bEndingFade;
 
 private:
 	virtual void		Free() override;

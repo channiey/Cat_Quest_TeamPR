@@ -25,7 +25,7 @@ HRESULT CExpCoin::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_iItemValue = rand() % 11 + 20;
+	m_iItemValue = + int((rand() % 11 + 20) * 0.3f); // 수정시 팀장 보고
 
 
 	// STATEINFO Setting

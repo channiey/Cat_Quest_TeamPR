@@ -57,7 +57,9 @@ namespace Engine
 #define START_POS_WORLD_X				346.f
 #define START_POS_WORLD_Z				120.f
 #define START_POS_DUNGEON_X				53.f
-#define START_POS_DUNGEON_Z				32.f
+#define START_POS_DUNGEON_Z				32.f // 204 168
+#define WORLD_DUNGEON_ENTERANCE_X		204.f
+#define WORLD_DUNGEON_ENTERANCE_Z		168.f
 #define	MINIGAME_JUMP_RESET_POS			_vec3{ 360.f, 3.f , 280.f }
 
 

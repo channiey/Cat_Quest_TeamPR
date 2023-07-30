@@ -167,7 +167,9 @@ void CPlayer_Camera::Set_ViewSpace()
 	NULL_CHECK(m_pCameraCom->m_pFollow);
 
 	// Enter Ingame Lerp (월드 최초 입장)
-	if (m_pCameraCom->m_tHeightLerp.bActive && CAMERA_ACTION::SCENE_ENTER_INGAME == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	if (m_pCameraCom->m_tHeightLerp.bActive 
+		&& CAMERA_ACTION::SCENE_ENTER_INGAME == CCameraMgr::GetInstance()->Get_CurCameraAction()
+		|| CAMERA_ACTION::SCENE_EXIT_INGAME == CCameraMgr::GetInstance()->Get_CurCameraAction())
 	{
 		Lerp_Enter_Scene();
 		return;

@@ -282,16 +282,18 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 
 
 			// 플레이어 시작 포지션 y + 20 위치에 카메라를 위치시킨다.
-			vCamInitEye = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Calculate_Nonelerp_Eye(vLerpStartLookAt).Eye;
 			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Eye(vCamInitEye);
+			vCamInitEye = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Calculate_Nonelerp_Eye(vLerpStartLookAt).Eye;
 
 			// 룩의 y값에 대한 보간을 시작하고, 카메라의 업데이터에서는 해당 y 포지션을 룩으로 하여 포지션을 결정 할 수 있도록 한다.
 			m_pCurCamera->Get_CameraCom()->Lerp_Height(4.5f, fHeight, 0, LERP_MODE::SMOOTHERSTEP);
 		}
 			break;
-		case Engine::CAMERA_ACTION::SCENE_LOOK_WORLD:
+		case Engine::CAMERA_ACTION::SCENE_EXIT_INGAME:
 		{
-		
+			_float fEyeHeight = Get_CurCamera()->Get_CameraCom()->Get_ViewSpace().Eye.y;
+			_float fDeltaHeight = 45.f;
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, 0, fDeltaHeight, LERP_MODE::EASE_IN);
 		}
 			break;
 
