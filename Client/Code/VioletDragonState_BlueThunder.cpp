@@ -129,26 +129,22 @@ STATE_TYPE CVioletDragonState_BlueThunder::Update_State(const _float& fTimeDelta
 
 
 
-
-
-
-
     m_fAccTime += fTimeDelta;
-   
-
-
-    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
-    {
-        return STATE_TYPE::PATROL;
-    }
-
-
+  
     if (m_fAccTime >= 5.f)
     {
         m_fAccTime = 0.f;
         
+        if (vOwnerPos.z > vPlayerPos.z)
+        {
+            return STATE_TYPE::BOSS_CHASE3;
+        }
+        else
+        {
+            return STATE_TYPE::BOSS_BACK_CHASE3;
+        }
 
-        return STATE_TYPE::BOSS_SHOOTING_RED;
+
     }
 
 	return STATE_TYPE::BOSS_BLUE_THUNDER;

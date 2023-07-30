@@ -320,7 +320,6 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
 
 
 
-
 #pragma endregion
 
 

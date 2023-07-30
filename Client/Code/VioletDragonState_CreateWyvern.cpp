@@ -268,10 +268,6 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
 #pragma region State Change
     // FullDown 상태는 FullDown Down 상태로만 전이 한다
 
-    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
-    {
-        return STATE_TYPE::PATROL;
-    }
 
     if (m_fAccTime >= 7.f )
     {
@@ -290,7 +286,15 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         m_bCreateWyvern10 = false;
 
         m_bInit = false;
-        return STATE_TYPE::BOSS_BLUE_CAST;
+
+        if (vOwnerPos.z > vPlayerPos.z)
+        {
+            return STATE_TYPE::BOSS_CHASE3;
+        }
+        else
+        {
+            return STATE_TYPE::BOSS_BACK_CHASE3;
+        }
     }
 
 

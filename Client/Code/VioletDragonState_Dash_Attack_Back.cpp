@@ -136,12 +136,6 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
             m_bAssault = true;
         }
     }
-
-    if (m_bAssault == true && m_fAccTime >= 1.5f)
-    {
-        pOwnerTransform->Set_Dir(vec3.zero);
-    }
-
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
 
@@ -159,8 +153,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
 
 #pragma region State Change
 
-
-    if (pOwnerTransform->Get_Dir() == vec3.zero && m_fAccTime >= 1.6f)
+    if (m_fAccTime >= 1.6f)
     {
         m_fAccTime = 0.f;
         m_bAssault =false;

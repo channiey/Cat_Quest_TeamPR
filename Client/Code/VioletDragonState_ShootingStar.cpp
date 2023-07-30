@@ -279,6 +279,17 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
+    if (fPlayerDistance >= 7.f)
+    {
+        // 현재 상태의 기능
+        dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed / 0.8f);
+    }
+
+
+
+
+
 #pragma endregion
 
 

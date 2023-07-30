@@ -255,10 +255,6 @@ STATE_TYPE CVioletDragonState_CreateWyvern_Cast::Update_State(const _float& fTim
 
 #pragma region State Change
 
-    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
-    {
-        return STATE_TYPE::PATROL;
-    }
 
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
