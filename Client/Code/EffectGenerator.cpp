@@ -5,6 +5,7 @@
 #include "Cloud2.h"
 #include "Cloud3.h"
 #include "Export_Function.h"
+#include "Player.h"
 
 CEffectGenerator::CEffectGenerator(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::GENERATOR, OBJ_ID::GENERATOR_POLLEN)
@@ -30,6 +31,7 @@ HRESULT CEffectGenerator::Ready_Object()
 
 	m_fCloud_AccTime = 0.f;
 	m_fCloud_CreateTime = 0.f;
+	m_iChoice = 0;
 
 	return S_OK;
 }
@@ -154,12 +156,12 @@ void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 	m_fCloud_AccTime += fTimeDelta;
 	if (m_fCloud_AccTime >= m_fCloud_CreateTime)
 	{
-		for (_int i = 0; i < 10; ++i)
+		for (_int i = 0; i < 8; ++i)
 		{
 			Cloud_Caculate_InitPos();
 
-			std::random_device rd;
-			std::mt19937 gen(rd());
+			std::mt19937 gen(m_Random());
+
 			std::uniform_int_distribution<int> xDist1(0, 2);
 			_int randomChoice = xDist1(gen);
 
@@ -198,24 +200,35 @@ void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 
 void CEffectGenerator::Cloud_Caculate_CreateTime()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	NULL_CHECK(m_pPlayer)
 
-	std::uniform_real_distribution<float> xDist1(12.f, 14.f);
-	m_fCloud_CreateTime = xDist1(gen);
+	std::mt19937 gen(m_Random());
+
+	if (static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_WALK ||
+		static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::BACK_WALK)
+	{
+		std::uniform_real_distribution<float> xDist1(2.f, 3.5f);
+		m_fCloud_CreateTime = xDist1(gen);
+	}
+	else
+	{
+		std::uniform_real_distribution<float> xDist1(8.f, 12.f);
+		m_fCloud_CreateTime = xDist1(gen);
+	}
+
+	
 }
 
 void CEffectGenerator::Cloud_Caculate_InitPos()
 {
 	m_vCloud_CreatePos = m_vPlayerPos;
 
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	std::mt19937 gen(m_Random());
 
-	std::uniform_real_distribution<float> xDist1(-90.f, -40.f);
-	std::uniform_real_distribution<float> xDist2(40.f, 90.f);
-	std::uniform_real_distribution<float> xDist3(-50.f, -5.f);
-	std::uniform_real_distribution<float> xDist4(5.f, 50.f);
+	std::uniform_real_distribution<float> xDist1(-50.f, -5.f);
+	std::uniform_real_distribution<float> xDist2(5.f, 50.f);
+	std::uniform_real_distribution<float> xDist3(-30.f, -1.f);
+	std::uniform_real_distribution<float> xDist4(1.f, 30.f);
 	//std::bernoulli_distribution coinFlip(0.5);
 
 	_float randomX1 = xDist1(gen);
@@ -223,10 +236,10 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 	_float randomZ1 = xDist3(gen);
 	_float randomZ2 = xDist4(gen);
 
-	std::uniform_int_distribution<int> xDist5(0, 3);
-	_int randomChoice = xDist5(gen);
+	/*std::uniform_int_distribution<int> xDist5(0, 3);
+	_int randomChoice = xDist5(gen);*/
 
-	switch (randomChoice)
+	switch (m_iChoice)
 	{
 	case 0:
 		m_vCloud_CreatePos.x += randomX1;
@@ -247,6 +260,11 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 	default:
 	break;
 	}
+
+	++m_iChoice;
+	if (m_iChoice > 3)
+		m_iChoice = 0;
+
 }
 
 CEffectGenerator* CEffectGenerator::Create(LPDIRECT3DDEVICE9 pGraphicDev)

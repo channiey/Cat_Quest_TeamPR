@@ -10,6 +10,7 @@
 #include "ExpCoin.h"
 
 #include "MonHpUI.h"
+#include "BossHpUI.h"
 
 #include "Skill.h"
 
@@ -87,10 +88,18 @@ HRESULT CMonster::Ready_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
 		arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 
-
-		pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
+		if (m_eID != OBJ_ID::MONSTER_VIOLETDRAGON)
+		{
+			pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
+		}
+		else
+		{
+			pGameObject = CBossHpUI::Create(m_pGraphicDev, this);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"BossHp_UI", pGameObject);
+		}
 	}
 
 	return S_OK;

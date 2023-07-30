@@ -178,6 +178,7 @@
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\BossSceneMgr.h" />
+    <ClInclude Include="..\Header\BossHpUI.h" />
     <ClInclude Include="..\Header\DrakothTable.h" />
     <ClInclude Include="..\Header\FoxState_bRest.h" />
     <ClInclude Include="..\Header\FoxState_Rest.h" />
@@ -602,6 +603,7 @@
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
     <ClCompile Include="..\Code\BossSceneMgr.cpp" />
+    <ClCompile Include="..\Code\BossHpUI.cpp" />
     <ClCompile Include="..\Code\DrakothTable.cpp" />
     <ClCompile Include="..\Code\FoxState_bRest.cpp" />
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />

@@ -51,6 +51,8 @@ private:
 
 	OBJ_ID		m_ePlayerLocate;
 
+	random_device m_Random;
+
 	// ¸ÕÁö
 	vector<CGameObject*> m_vecPollen;
 	_float		m_fPollen_AccTime;
@@ -62,6 +64,7 @@ private:
 	_float		m_fCloud_AccTime;
 	_float		m_fCloud_CreateTime;
 	_vec3		m_vCloud_CreatePos;
+	_uint		m_iChoice;
 
 	// ´«
 	vector<CGameObject*> m_vecSnow;

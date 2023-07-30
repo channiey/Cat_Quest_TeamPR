@@ -39,6 +39,14 @@ HRESULT CCloud3::Ready_Object()
 
 	m_bDead_Start = false;
 
+	m_iAlpha = 0;
+	m_bStart = true;
+	m_tLerpAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+	m_tLerpAlpha.Set_Lerp(5.f, 0, 200);
+
+	std::uniform_real_distribution<float> xDist2(1.5f, 5.f);
+	m_fSpeed = xDist2(gen);
+
 	m_pTransformCom->Set_Scale(_vec3{ 5.f, 3.f, 5.f });
 	Set_RandomSize();
 	m_pTransformCom->Set_Pos(_vec3{ m_vCloudPos.x, Set_RandomHeight(), m_vCloudPos.z });
@@ -56,10 +64,22 @@ _int CCloud3::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_pTransformCom->Set_Pos(
-		{ this->m_pTransformCom->Get_Info(INFO_POS).x + 0.2f * fTimeDelta * 1.5f ,
+		{ this->m_pTransformCom->Get_Info(INFO_POS).x + 0.2f * fTimeDelta * m_fSpeed ,
 		 this->m_pTransformCom->Get_Info(INFO_POS).y ,
 		 this->m_pTransformCom->Get_Info(INFO_POS).z }
 	);
+
+	if (!m_tLerpAlpha.bActive)
+		m_bStart = false;
+
+
+	if (m_bStart)
+	{
+		m_tLerpAlpha.Update_Lerp(fTimeDelta);
+		m_iAlpha = m_tLerpAlpha.fCurValue;
+
+		return iExit;
+	}
 
 	m_fAccTime += fTimeDelta;
 	if (m_fAccTime >= m_fDeadTime && !m_bDead_Start)
@@ -87,7 +107,7 @@ _int CCloud3::Update_Object(const _float& fTimeDelta)
 
 void CCloud3::LateUpdate_Object()
 {
-	if (!m_bDead_Start)
+	if (!m_bDead_Start && !m_bStart)
 	{
 		m_iAlpha = (_int)(Get_Distance_From_Camera() * OBJ_CLOUD_MAX_ALPHA_MAG);
 

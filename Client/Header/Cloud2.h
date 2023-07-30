@@ -43,6 +43,9 @@ private:
 	LERP_FLOAT_INFO m_tLerpAlpha;
 
 	_bool	  m_bDead_Start;
+	_bool	  m_bStart;
+
+	_float	  m_fSpeed;
 
 public:
 	static CCloud2* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos = vec3.zero); // 구름이 생성되는 위치를 위해서라도 주인이 필요할 듯
