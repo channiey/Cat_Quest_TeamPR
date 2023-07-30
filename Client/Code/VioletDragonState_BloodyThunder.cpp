@@ -127,7 +127,14 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     m_fAccTime += fTimeDelta;
    
 
-    if (m_fAccTime >= 5.f)
+    // 현재 상태의 기능
+    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+
+
+
+
+    if (m_fAccTime >= 3.f)
     {
         m_fAccTime = 0.f;
         

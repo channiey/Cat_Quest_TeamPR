@@ -55,6 +55,14 @@ private:
 private:
 	_float					m_fDamage;
 
+
+	LERP_VEC3_INFO          m_vShake;
+
+
+	_float				  m_fJumpingSpeed;
+	_float					m_fMaxJumpY;
+
+
 protected:
 	virtual void		Free() override;
 

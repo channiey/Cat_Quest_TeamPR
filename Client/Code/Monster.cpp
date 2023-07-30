@@ -260,15 +260,7 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
 			{
 
-				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);		
-				if (this->Get_ID() == OBJ_ID::MONSTER_HEDGEHOG || this->Get_ID() == OBJ_ID::MONSTER_RAM)
-				{
-					CSoundMgr::GetInstance()->PlaySound(L"enemy_impact.wav", CHANNEL_ID::MONSTER_HEDGEHOG, SOUND_VOLUME_MON_FOOT_ATTACK);
-				}
-				if (this->Get_ID() == OBJ_ID::MONSTER_BAT || this->Get_ID() == OBJ_ID::MONSTER_WYVERN || this->Get_ID() == OBJ_ID::MONSTER_WYVERNRED)
-				{
-					CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
-				}
+				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);				
 
 			}
 			

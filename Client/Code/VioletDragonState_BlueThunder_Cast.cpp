@@ -120,11 +120,6 @@ STATE_TYPE CVioletDragonState_BlueThunder_Cast::Update_State(const _float& fTime
     m_fAccTime += fTimeDelta;
 
 
-    if (OwnerStat.fCurHP <= (OwnerStat.fCurHP * 0.1f))
-    {
-        return STATE_TYPE::PATROL;
-    }
-
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {

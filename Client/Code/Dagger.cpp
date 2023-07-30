@@ -1,7 +1,7 @@
 #include "Dagger.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "SoundMgr.h"
 
 CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)
@@ -86,6 +86,8 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
         m_pTransformCom->Set_Dir(vBulletDir);
         //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
         //vBulletDir = m_pTransformCom->Get_Dir();
+
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_HEDGEHOG, 0.5f);
         m_bNonTarget = true;
     }
     if (m_fAccTime >= 4.f)

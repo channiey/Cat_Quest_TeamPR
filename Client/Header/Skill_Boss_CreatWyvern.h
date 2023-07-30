@@ -31,6 +31,7 @@ public:
 
 private:
 
+	// wyvern
 	CEffect_Range_Quater* m_pBaseRangeEffect1;
 	CEffect_Range_Quater* m_pBaseRangeEffect2;
 	CEffect_Range_Quater* m_pBaseRangeEffect3;
@@ -41,6 +42,24 @@ private:
 	CEffect_Range_Quater* m_pBaseRangeEffect8;
 	CEffect_Range_Quater* m_pBaseRangeEffect9;
 	CEffect_Range_Quater* m_pBaseRangeEffect10;
+
+	CEffect_Range_Quater* m_pBaseRangeEffect11;
+	CEffect_Range_Quater* m_pBaseRangeEffect12;
+
+
+
+	// Other
+	CEffect_Range_Quater* m_pBaseRangeEffect13;
+	CEffect_Range_Quater* m_pBaseRangeEffect14;
+	CEffect_Range_Quater* m_pBaseRangeEffect15;
+	CEffect_Range_Quater* m_pBaseRangeEffect16;
+	CEffect_Range_Quater* m_pBaseRangeEffect17;
+	CEffect_Range_Quater* m_pBaseRangeEffect18;
+	CEffect_Range_Quater* m_pBaseRangeEffect19;
+	CEffect_Range_Quater* m_pBaseRangeEffect20;
+
+
+
 
 
 	_vec3 vCreatePosition;

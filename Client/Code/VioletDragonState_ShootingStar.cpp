@@ -5,7 +5,7 @@
 #include "Monster.h"
 #include "BlueStar_Bullet.h"
 #include "VioletDragon.h"
-
+#include "SoundMgr.h"
 
 CVioletDragonState_ShootingStar::CVioletDragonState_ShootingStar(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
@@ -152,6 +152,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
      // First Group
     if (m_bBullet1 == false && m_fAccTime >= 0.1f) //1 
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
        
@@ -183,6 +184,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     // Second Group
     if (m_bBullet5 == false && m_fAccTime >= 1.f) //5
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
 
@@ -215,6 +217,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     // Third Group
     if (m_bBullet9 == false && m_fAccTime >= 2.f) //9
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging9",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
 
@@ -246,6 +249,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     // Fourth Group
     if (m_bBullet13 == false && m_fAccTime >= 3.f) //13
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging13",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
 
@@ -275,6 +279,17 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
+    if (fPlayerDistance >= 7.f)
+    {
+        // 현재 상태의 기능
+        dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed / 0.8f);
+    }
+
+
+
+
+
 #pragma endregion
 
 
@@ -288,7 +303,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     }
 
 
-    if (m_fAccTime >= 5.f)
+    if (m_fAccTime >= 4.f)
     {
         m_fAccTime = 0.f;
 

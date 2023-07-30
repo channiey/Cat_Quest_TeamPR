@@ -142,6 +142,9 @@ protected:
 	CSkill*					m_pSkill;
 	CSkill*					m_pBaseSkill;
 
+	//Sound
+	_bool                    m_bAttackSound;
+
 
 
 protected:

@@ -42,6 +42,26 @@ private:
 	_bool	m_bCreateWyvern8;
 	_bool	m_bCreateWyvern9;
 	_bool	m_bCreateWyvern10;
+	_bool	m_bCreateWyvern11;
+	_bool	m_bCreateWyvern12;
+
+
+
+	// Other
+	_bool	m_Monster1; // Bat
+	_bool	m_Monster2; // Bat
+
+	_bool	m_Monster3; // wyvern
+	_bool	m_Monster4; // Wyvern
+
+	_bool	m_Monster5; // Ram
+	_bool	m_Monster6; // Ram
+
+	_bool	m_Monster7; // Fox
+	_bool	m_Monster8; // Fox
+	
+
+
 
 
 

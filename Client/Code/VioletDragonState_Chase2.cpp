@@ -1,37 +1,43 @@
-#include "VioletDragonState_Dash_Attack.h"
+#include "VioletDragonState_Chase2.h"
 #include "Export_Function.h"
-#include "Monster.h"
 #include "Player.h"
 #include "VioletDragon.h"
-#include "SoundMgr.h"
 
-CVioletDragonState_Dash_Attack::CVioletDragonState_Dash_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CState(pGraphicDev)
-	, m_fAccTime(0.f)
+CVioletDragonState_Chase2::CVioletDragonState_Chase2(LPDIRECT3DDEVICE9 pGraphicDev)
+    : CState(pGraphicDev)
+    , m_fAccTime(0.f)
+    , m_fChaseRange(0.f)
+    , m_fComeBackRange(0.f)
+    , m_fPatrolRange(0.f)
+    , m_fPlayerTargetRange(0.f)
+    , m_fAttackRange(0.f)
 {
 }
 
-CVioletDragonState_Dash_Attack::~CVioletDragonState_Dash_Attack()
+CVioletDragonState_Chase2::~CVioletDragonState_Chase2()
 {
 }
 
-HRESULT CVioletDragonState_Dash_Attack::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_Chase2::Ready_State(CStateMachine* pOwner)
 {
-	if (nullptr != pOwner)
-	{
-		m_pOwner = pOwner;
-	}
-	m_eState = STATE_TYPE::BOSS_DASH_ATTACK;
+    if (nullptr != pOwner)
+    {
+        m_pOwner = pOwner;
+    }
+    m_eState = STATE_TYPE::BOSS_CHASE2;
+    // 상태에 전이 조건 수치
+    m_fPatrolRange = 5.f;  // Patrol 전이
+    m_fChaseRange = 20.f; // Chase 전이
+    m_fComeBackRange = 30.f; // ComeBack 전이 - 현위치 -> 원 위치
+    m_fPlayerTargetRange = 20.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
+    m_fAttackRange = 10.f;  // Attack 전이
 
-	m_fAccTime = 0.f;
-    
-    m_bAssault = false;
-
-	return S_OK;
+    return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Chase2::Update_State(const _float& fTimeDelta)
 {
+  
     STATE_TYPE eState = m_eState;
 
     // Monstre Component ==============================
@@ -55,6 +61,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
 
 
     // Player Component ==============================
@@ -103,99 +110,89 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
-
     // Distance
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
-    // Time
-    m_fAccTime += fTimeDelta;
-
-
-    // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-
-
-
-    if (m_bAssault == false  && pOwenrCurAnimation->Is_End())
-    {
-       
-        if (m_fAccTime >= 0.2f )
-        {
-            dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
-            pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
-            CSoundMgr::GetInstance()->PlaySound(L"DragonDash.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);
-            m_bAssault = true;
-        }
-    }
-
+    // 현재 상태의 기능
+    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
 
 
-
-    //// 현재 상태의 기능
-    //dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-    //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed *2 );
-    //
-
 #pragma region State Change
+    // CHASE 우선순위
+    //  Back Chase - Attack - Comeback - Patrol
 
+    //if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+    //{
+    //    return STATE_TYPE::BOSS_FULLDOWN_FLY;
+    //}
 
-    if ( m_fAccTime >=1.6f)
+    if (vOwnerDir.z > 0)
     {
-        m_fAccTime = 0.f;
-        m_bAssault =false;
-        dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(8.f);
-
-        return STATE_TYPE::BOSS_READY_PATTERN;
+       // cout << "Back_chase  전이" << endl;
+        return STATE_TYPE::BOSS_BACK_CHASE2;
     }
 
-    return STATE_TYPE::BOSS_DASH_ATTACK;
+    // ATTACK 전이 조건
+    if (fPlayerDistance <= m_fAttackRange)
+    {
+        if (vOwnerDir.z < 0)
+        {
+           // cout << "attack 전이" << endl;
+           // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BOSS_ATTACK2;
+        }
+        else
+        {
+           // cout << "back attack 전이" << endl;
+           // pOwnerTransform->Set_Dir(vec3.zero);
+            return STATE_TYPE::BOSS_BACK_ATTACK2;
+        }
+    }
+    // Default 
+    return STATE_TYPE::BOSS_CHASE2;
+
 
 #pragma endregion
 
-
-
+  
 }
 
-void CVioletDragonState_Dash_Attack::LateUpdate_State()
+void CVioletDragonState_Chase2::LateUpdate_State()
 {
+    
 }
 
-void CVioletDragonState_Dash_Attack::Render_State()
+void CVioletDragonState_Chase2::Render_State()
 {
+   
 }
 
-STATE_TYPE CVioletDragonState_Dash_Attack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Chase2::Key_Input(const _float& fTimeDelta)
 {
+ 
     return m_eState;
 }
 
-CVioletDragonState_Dash_Attack* CVioletDragonState_Dash_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_Chase2* CVioletDragonState_Chase2::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CVioletDragonState_Dash_Attack* pInstance = new CVioletDragonState_Dash_Attack(pGraphicDev);
+    CVioletDragonState_Chase2* pInstance = new CVioletDragonState_Chase2(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("VioletDragonState Dash_Attack Create Failed");
+        MSG_BOX("WyvernState Chase Create Failed");
         return nullptr;
 
     }
-    return pInstance;
 
+    return pInstance;
 }
 
-void CVioletDragonState_Dash_Attack::Free()
+void CVioletDragonState_Chase2::Free()
 {
     __super::Free();
 }

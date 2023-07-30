@@ -121,8 +121,36 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
    
     if (pOwenrCurAnimation->Get_CurFrame() == 7.f)
     {
+        _float fPosPMX   = rand() % 2;
+        _float fPosPMZ   = rand() % 2;
+        _float fRandomX = rand()  % 15;
+        _float fRandomZ = rand()  % 15;
 
-        pOwnerTransform->Set_Pos(vOwnerOriginPos);
+        if (fPosPMX == 1)
+        {
+
+            if (fPosPMZ == 1)
+            {
+                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x + fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z + fRandomZ });
+            }
+            else
+            {
+                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x + fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z - fRandomZ });
+            }
+
+        }
+        else
+        {
+            if (fPosPMZ == 1)
+            {
+                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x - fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z + fRandomZ });
+            }
+            else
+            {
+                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x - fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z - fRandomZ });
+            }
+        }
+     
     }
     
 

@@ -118,7 +118,7 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 
 	if (pOwenrCurAnimation->Is_End())
 	{
-		CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);  // 사람들을 위해서 카메라 쉐이킹 주석처리
+		CCameraMgr::GetInstance()->Shake_Camera(0.15, 50);  // 사람들을 위해서 카메라 쉐이킹 주석처리
       
 
 		if (m_fAccTime >= 1.f)

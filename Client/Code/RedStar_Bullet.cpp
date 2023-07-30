@@ -91,7 +91,7 @@ _int CRedStar_Bullet::Update_Object(const _float& fTimeDelta)
 
     if (m_fAccTime >= 1.f && m_bChase == false)
     {
-        m_fSpeed = 50.f;
+        m_fSpeed = 60.f;
         m_pTransformCom->Set_Dir(vBulletDir);
         //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
         m_bChase == true;

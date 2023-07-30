@@ -45,6 +45,18 @@
 // Ready Pattern
 #include "VioletDragonState_ReadyPattern.h"
 
+// 2
+#include "VioletDragonState_Attack2.h"
+#include "VioletDragonState_bAttack2.h"
+#include "VioletDragonState_Chase2.h"
+#include "VioletDragonState_bChase2.h"
+
+// 3
+#include "VioletDragonState_Attack3.h"
+#include "VioletDragonState_bAttack3.h"
+#include "VioletDragonState_bChase3.h"
+#include "VioletDragonState_Chase3.h"
+
 
 // Effect
 #include "Shadow_Monster.h"
@@ -55,6 +67,8 @@
 #include "Skill_Boss_CreatWyvern.h"
 #include "BigCircle_Stemp.h"
 #include "MonstSpirit.h"
+#include "GoldCoin.h"
+#include "ExpCoin.h"
 
 
 
@@ -307,6 +321,35 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
+	// 2
+	pState = CVioletDragonState_Attack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_ATTACK2, pState);
+
+	pState = CVioletDragonState_bAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_ATTACK2, pState);
+
+	pState = CVioletDragonState_Chase2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CHASE2, pState);
+
+	pState = CVioletDragonState_bChase2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_CHASE2, pState);
+
+
+	// 3
+	pState = CVioletDragonState_Attack3::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_ATTACK3, pState);
+
+	pState = CVioletDragonState_bAttack3::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_ATTACK3, pState);
+
+	pState = CVioletDragonState_Chase3::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CHASE3, pState);
+
+	pState = CVioletDragonState_bChase3::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_CHASE3, pState);
+
+
+
 
 #pragma endregion
 
@@ -452,13 +495,52 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
+	// 2
+	// Chase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CHASE2)], STATE_TYPE::BOSS_CHASE2, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CHASE2, pAnimation);
+
+	// Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK2)], STATE_TYPE::BOSS_ATTACK2, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_ATTACK2, pAnimation);
+
+
+	// bChase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE2)], STATE_TYPE::BOSS_BACK_CHASE2, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_CHASE2, pAnimation);
+
+	// bAttack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_ATTACK2)], STATE_TYPE::BOSS_BACK_ATTACK2, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_ATTACK2, pAnimation);
+
+
+
+	// 3
+	// Chase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CHASE3)], STATE_TYPE::BOSS_CHASE3, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CHASE3, pAnimation);
+
+	// Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK3)], STATE_TYPE::BOSS_ATTACK3, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_ATTACK3, pAnimation);
+
+
+	// bChase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE3)], STATE_TYPE::BOSS_BACK_CHASE3, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_CHASE3, pAnimation);
+
+	// bAttack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_ATTACK3)], STATE_TYPE::BOSS_BACK_ATTACK3, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_ATTACK3, pAnimation);
+
+
 
 
 #pragma endregion
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+	m_pStateMachineCom->Set_State(STATE_TYPE::CHASE);
 
 
 
@@ -491,16 +573,23 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 
 	// Base Skill Use Condition
-	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState ||
+		STATE_TYPE::BOSS_ATTACK2 == CurState || STATE_TYPE::BOSS_BACK_ATTACK2 == CurState ||
+		STATE_TYPE::BOSS_ATTACK3 == CurState || STATE_TYPE::BOSS_BACK_ATTACK3 == CurState )
 	{
 		if (!m_bSkill)
 		{
 			m_pBaseSkill->Play();
 			m_bSkill = true;
 		}
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
+		{
+			CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MON_FOOT_ATTACK);
+		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
+			
 			m_pBaseSkill->End();
 			m_bSkill = false;
 		}
@@ -533,6 +622,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 3)
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CBigCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
 		}
 	}
@@ -555,6 +645,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
 	
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LatePlay();
+			CSoundMgr::GetInstance()->PlaySound(L"skill_lightnyan.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
 			CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBloodyTunder = false;
 			m_bBloodyLate = true;
@@ -591,11 +682,12 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->End();
 
 			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LatePlay();
+			CSoundMgr::GetInstance()->PlaySound(L"skill_lightnyan.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
 			CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBlueTunder = false;
 			m_bBlueLate = true;
 		}
-		if (m_bBlueTunder == false && m_bBlueLate == true && m_BlueTime >= 4.f)
+		if (m_bBlueTunder == false && m_bBlueLate == true && m_BlueTime >= 3.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LateEnd();
@@ -620,6 +712,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		{
 			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->Play();
 			m_bCreatWyvernPlay = true;
+			CSoundMgr::GetInstance()->PlaySound(L"dragon_roar.wav", CHANNEL_ID::MONSTER_BOSS_2, 0.5f);
 		}
 	
 		if (m_bCreatWyvernPlay == true  && m_bCreatWyvernLate == false  && m_CreateTime >= 2.f)
@@ -676,6 +769,27 @@ void CVioletDragon::LateUpdate_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 3.f, vOwnerPos.y, vOwnerPos.z -3.f }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 3.f, vOwnerPos.y, vOwnerPos.z + 3.f }));
+
+
+		// Coin
+		CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
+		GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 20.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+
+		CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
+		GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 20.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+
+		CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
+		GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z +20.f });
+
+		CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
+		GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 20.f });
+
+
+
 
 
 
@@ -949,7 +1063,42 @@ HRESULT CVioletDragon::Add_Component()
 
 
 
+	// 2
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CHASE2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+
+	// 3
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_ATTACK3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CHASE3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 
