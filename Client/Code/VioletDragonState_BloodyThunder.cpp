@@ -127,7 +127,7 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
     m_fAccTime += fTimeDelta;
    
 
-    if (m_fAccTime >= 5.f)
+    if (m_fAccTime >= 3.f)
     {
         m_fAccTime = 0.f;
         

@@ -346,7 +346,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet22 == false && m_fAccTime >= 2.4f) //22
     {
-        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging22",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(210)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(210)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.3f));
         m_bBullet22 = true;
@@ -404,7 +404,15 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
 
         //cout << " ÀüÀÌ" << endl;
-        return STATE_TYPE::BOSS_CONVERGING_CAST;
+
+        if (vOwnerPos.z > vPlayerPos.z)
+        {
+            return STATE_TYPE::BOSS_CHASE2;
+        }
+        else
+        {
+            return STATE_TYPE::BOSS_BACK_CHASE2;
+        }
     }
 
     return STATE_TYPE::BOSS_SPREAD_BULLET;

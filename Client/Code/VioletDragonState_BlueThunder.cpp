@@ -127,6 +127,12 @@ STATE_TYPE CVioletDragonState_BlueThunder::Update_State(const _float& fTimeDelta
     }
 
 
+
+
+
+
+
+
     m_fAccTime += fTimeDelta;
    
 
@@ -135,7 +141,6 @@ STATE_TYPE CVioletDragonState_BlueThunder::Update_State(const _float& fTimeDelta
     {
         return STATE_TYPE::PATROL;
     }
-
 
 
     if (m_fAccTime >= 5.f)

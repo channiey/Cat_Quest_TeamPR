@@ -1,11 +1,10 @@
-#include "VioletDragonState_ReadyPattern.h"
+#include "VioletDragonState_Attack2.h"
 #include "Export_Function.h"
 #include "Player.h"
-#include "VioletDragon.h"
-#include "SoundMgr.h"
-#include "Engine_Define.h"
 
-CVioletDragonState_ReadyPattern::CVioletDragonState_ReadyPattern(LPDIRECT3DDEVICE9 pGraphicDev)
+#include "VioletDragon.h"
+
+CVioletDragonState_Attack2::CVioletDragonState_Attack2(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -16,29 +15,29 @@ CVioletDragonState_ReadyPattern::CVioletDragonState_ReadyPattern(LPDIRECT3DDEVIC
 {
 }
 
-CVioletDragonState_ReadyPattern::~CVioletDragonState_ReadyPattern()
+CVioletDragonState_Attack2::~CVioletDragonState_Attack2()
 {
 }
 
-HRESULT CVioletDragonState_ReadyPattern::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_Attack2::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::BACK_ATTACK;
+    m_eState = STATE_TYPE::BOSS_ATTACK2;
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 5.f;  // Patrol 전이
     m_fChaseRange = 20.f; // Chase 전이
-    m_fComeBackRange = 10.f; // ComeBack 전이 - 현위치 -> 원 위치
+    m_fComeBackRange = 30.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 20.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 10.f;  // Attack 전이
 
     return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Attack2::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -64,7 +63,6 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
     _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
-
 
 
     // Player Component ==============================
@@ -118,99 +116,77 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
-   
-    if (pOwenrCurAnimation->Get_CurFrame() == 7.f)
-    {
-        _float fPosPMX   = rand() % 2;
-        _float fPosPMZ   = rand() % 2;
-        _float fRandomX = rand()  % 15;
-        _float fRandomZ = rand()  % 15;
+   // 현재 상태의 기능
+  /*  pOwnerTransform->Set_Dir(vec3.zero);
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
 
-        if (fPosPMX == 1)
-        {
-
-            if (fPosPMZ == 1)
-            {
-                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x + fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z + fRandomZ });
-            }
-            else
-            {
-                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x + fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z - fRandomZ });
-            }
-
-        }
-        else
-        {
-            if (fPosPMZ == 1)
-            {
-                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x - fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z + fRandomZ });
-            }
-            else
-            {
-                pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x - fRandomX, vOwnerOriginPos.y, vOwnerOriginPos.z - fRandomZ });
-            }
-        }
-     
-    }
-    
-
+  
 
 #pragma region State Change
+    // Attack 우선순위
+    // back attack - chase - Comeback
 
 
-    //  Cast -> Action
-
-    if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
 
-        if (Owner_bHP80 == true && Owner_bHP50 == true && Owner_bHP20 == true)
-        {
-            return STATE_TYPE::BOSS_CREATE_CAST;
-        }
 
+        return STATE_TYPE::BOSS_READY_PATTERN;
 
-        if (Owner_bHP80 == true && Owner_bHP50 == true && Owner_bHP20 == false)
-        {
-            return STATE_TYPE::BOSS_BLOODY_CAST;
-
-        }
-
-        if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
-        {
-            return STATE_TYPE::BOSS_CONVERGING_CAST;
-        }
-   
+       //if (vOwnerPos.z < vPlayerPos.z)
+       // {
+       //   return STATE_TYPE::BOSS_BACK_ATTACK2;
+       // }
+       //// CHASE 전이 조건
+       // if (fPlayerDistance <= m_fChaseRange)
+       // {
+       //     if (vOwnerDir.z < 0)
+       //     {
+       //         // cout << "Chase 전이" << endl;
+       //         // pOwnerTransform->Set_Dir(vec3.zero);
+       //         return STATE_TYPE::BOSS_CHASE2;
+       //     }
+       //     else
+       //     {
+       //         // cout << "Back Chase 전이" << endl;
+       //        //  pOwnerTransform->Set_Dir(vec3.zero);
+       //         return STATE_TYPE::BOSS_BACK_CHASE2;
+       //     }
+       // }
+       
     }
+    return STATE_TYPE::BOSS_ATTACK2;
 
-    return STATE_TYPE::BOSS_READY_PATTERN;
+
+
+#pragma endregion
+  
+}
+
+void CVioletDragonState_Attack2::LateUpdate_State()
+{
 
 }
 
-void CVioletDragonState_ReadyPattern::LateUpdate_State()
+void CVioletDragonState_Attack2::Render_State()
 {
     
 }
 
-void CVioletDragonState_ReadyPattern::Render_State()
-{
-   
-
-}
-
-STATE_TYPE CVioletDragonState_ReadyPattern::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Attack2::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CVioletDragonState_ReadyPattern* CVioletDragonState_ReadyPattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_Attack2* CVioletDragonState_Attack2::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CVioletDragonState_ReadyPattern* pInstance = new CVioletDragonState_ReadyPattern(pGraphicDev);
+    CVioletDragonState_Attack2* pInstance = new CVioletDragonState_Attack2(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("WyvernState ComeBack Create Failed");
+        MSG_BOX("WyvernState Attack Create Failed");
         return nullptr;
 
     }
@@ -218,7 +194,7 @@ CVioletDragonState_ReadyPattern* CVioletDragonState_ReadyPattern::Create(LPDIREC
     return pInstance;
 }
 
-void CVioletDragonState_ReadyPattern::Free()
+void CVioletDragonState_Attack2::Free()
 {
     __super::Free();
 }

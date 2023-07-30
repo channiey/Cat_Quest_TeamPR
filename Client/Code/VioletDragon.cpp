@@ -45,6 +45,14 @@
 // Ready Pattern
 #include "VioletDragonState_ReadyPattern.h"
 
+// 2
+#include "VioletDragonState_Attack2.h"
+#include "VioletDragonState_bAttack2.h"
+#include "VioletDragonState_Chase2.h"
+#include "VioletDragonState_bChase2.h"
+
+
+
 
 // Effect
 #include "Shadow_Monster.h"
@@ -118,8 +126,8 @@ HRESULT CVioletDragon::Ready_Object()
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 
-	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-		CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+	//if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+	//	CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
 
 	m_bSkill = false;
@@ -307,6 +315,21 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
+	// 2
+	pState = CVioletDragonState_Attack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_ATTACK2, pState);
+
+	pState = CVioletDragonState_bAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_ATTACK2, pState);
+
+	pState = CVioletDragonState_Chase2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_CHASE2, pState);
+
+	pState = CVioletDragonState_bChase2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_CHASE2, pState);
+
+
+
 
 #pragma endregion
 
@@ -452,13 +475,31 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
+	// 2
+	// Chase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_CHASE2)], STATE_TYPE::BOSS_CHASE2, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_CHASE2, pAnimation);
+
+	// Attack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK2)], STATE_TYPE::BOSS_ATTACK2, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_ATTACK2, pAnimation);
+
+
+	// bChase
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE2)], STATE_TYPE::BOSS_BACK_CHASE2, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_CHASE2, pAnimation);
+
+	// bAttack
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_ATTACK2)], STATE_TYPE::BOSS_BACK_ATTACK2, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_ATTACK2, pAnimation);
+
 
 
 #pragma endregion
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
+	m_pStateMachineCom->Set_State(STATE_TYPE::CHASE);
 
 
 
@@ -489,7 +530,8 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 
 	// Base Skill Use Condition
-	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState)
+	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState ||
+		STATE_TYPE::BOSS_ATTACK2 == CurState || STATE_TYPE::BOSS_BACK_ATTACK2 == CurState)
 	{
 		if (!m_bSkill)
 		{
@@ -954,8 +996,23 @@ HRESULT CVioletDragon::Add_Component()
 
 
 
+	// 2
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CHASE2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 #pragma endregion

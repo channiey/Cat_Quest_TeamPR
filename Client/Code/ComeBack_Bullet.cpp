@@ -12,8 +12,6 @@ CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGa
 	m_pTarget = pTarget;
 	m_pOwner = pOwner;
 
-
-
     m_fChaseTime = fCombackTime;
 
     ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
@@ -52,6 +50,12 @@ HRESULT CComBack_Bullet::Ready_Object()
 
     m_bInit = false;
 
+
+
+    m_fJumpingSpeed = 0.05f;
+    m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
+
+
 	return S_OK;
 }
 
@@ -63,12 +67,18 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_tAlpha.Init_Lerp();
         m_tAlpha.eMode = LERP_MODE::EXPONENTIAL;
         m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f );
+
+        m_vShake.Init_Lerp();
+        _vec3 vCurPos = m_pTransformCom->Get_Info(INFO_POS);
+        m_vShake.Set_Lerp(0.2, { vCurPos.x, vCurPos.y, vCurPos.z }, { vCurPos.x, vCurPos.y + 5.f, vCurPos.z });
+
     }
 
     if (m_pOwner->Is_Active() == false)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
+
 
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
@@ -89,6 +99,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
 
 
     m_tAlpha.Update_Lerp(fTimeDelta);
+   
 
     m_fAccTime += fTimeDelta;
 
@@ -102,12 +113,16 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_fSpeed = 40.f;
         m_pTransformCom->Set_Dir(vOwnerDir);
         m_bStop = true;
+        m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
     }
     if (m_bComeBack == false && m_bStop == true && m_fAccTime >= 2.f)
     {
         m_fSpeed = 0.f;
+        m_vShake.Update_Lerp(fTimeDelta);
+ 
         m_bComeBack = true;
+       // m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
     } 
     
     if (m_bComeBack == true && m_bStop == true && m_fAccTime >= m_fChaseTime)
@@ -124,10 +139,9 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_fAccTime = 0.f;
         CEventMgr::GetInstance()->Delete_Obj(this);
+        m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
     }
     
-    
-
     m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
 

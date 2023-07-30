@@ -292,7 +292,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     }
 
 
-    if (m_fAccTime >= 5.f)
+    if (m_fAccTime >= 4.f)
     {
         m_fAccTime = 0.f;
 
