@@ -3,8 +3,11 @@
 
 #include "Export_Function.h"
 
-#include "Player.h"
 #include "TalkMgr.h"
+#include "BossSceneMgr.h"
+#include "Scene_World.h"
+
+#include "Player.h"
 #include "Management.h"
 #include "GraphicDev.h"
 #include "IndicatorUI.h"
@@ -12,12 +15,15 @@
 #include "Npc_BlackSmith.h"
 #include "Npc_Citizen1.h"
 
+#include "Skill_Player_Beam.h"
 #include "WarriorWeapon.h"
 
 #include "WeaponGetEffect.h"
 
 CQuest4::CQuest4(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
-	: m_iMonsterCount(0), m_bBossKill(false)
+	: m_bBossKill(false), m_bBossIntroScene(false)
+	, m_bBossOutScene(false), m_bEndingScene(false)
+	, m_iStayEndingTime(0), m_iMonsterCount(0)
 {
 	m_strQuestName = _QuestName;
 	Init(m_pGraphicDev, _pPlayer);
@@ -36,6 +42,12 @@ void CQuest4::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	CEventMgr::GetInstance()->Add_Obj(L"냥서커의 보물", pGameObject);
 	m_vItemList.push_back(pGameObject);
 	pGameObject->Set_Maintain(true);
+
+	// Beam Skill
+	CSkill* pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
+	CEventMgr::GetInstance()->Add_Obj(L"우주펀치", pSkill);
+	m_vSkillList.push_back(pSkill);
+	pSkill->Set_Maintain(true);
 
 	m_tQuestContent.push_back({ L"1.바다 위 모든 몬스터 소탕", false });
 
@@ -92,6 +104,8 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 								m_iMonsterCount += 1;
 						}
 
+						m_iMonsterCount -= 6; // 임의로 빼줌. 6마리 제외
+
 						m_iLevel += 1;
 						*_IsAble = false;
 						m_bShowQuestView = true;
@@ -120,7 +134,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			if (m_iMonsterCount <= 0)
 			{
 				m_tQuestContent[0].m_bClear = true;
-				m_tQuestContent.push_back({ L"2. 죽음의 섬에 있는 정찰냥 만나기", false });
+				m_tQuestContent.push_back({ L"2. 죽음의 섬에 있는\n 정찰냥 만나기", false });
 				m_tQuestContent[0].m_strQuestContent = L"1.바다 위 모든 몬스터 소탕\n완료";
 				m_iLevel += 1;
 				*_IsAble = false;
@@ -190,7 +204,37 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 			}
 		}
 		break;
-	case 3: // 보스전
+	case 3:
+		if (m_bStartQuest)
+		{
+			// 배경 검은색
+			m_pShadeUI = CShadeUI::Create(pGraphicDev);
+			NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
+
+			// 스킬 획득
+			m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
+			NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"SkillGetUI", m_pSkillGetUI);
+
+			m_bStartQuest = false;
+		}
+
+		if (m_bReadyNext)
+		{
+			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
+				m_vSkillList[0]);
+			m_iLevel += 1;
+			m_bStartQuest = true;
+			m_bReadyNext = false;
+		}
+		break;
+	case 4: // 보스전
+		if (!m_bBossIntroScene)
+		{
+			CBossSceneMgr::GetInstance()->Start_BossScene();
+			m_bBossIntroScene = true;
+		}
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
 			// 보스를 처치했다면
@@ -211,10 +255,95 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 
 		break;
-	case 4: 
-		m_iLevel = 99;
-		*_IsAble = false;
+	case 5: 
+		if (!m_bBossOutScene)
+		{
+			CBossSceneMgr::GetInstance()->Play_Dead_BossScene();
+			m_bBossOutScene = true;
+		}
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith") != nullptr))
+			{
+				if (!*_IsAble)
+				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), true);
+
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
+					*_IsAble = true;
+				}
+
+				// 대화 후 다음 단계
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"))->Get_IsCol()
+					&& m_bReadyTalk)
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 500, OBJ_ID::NPC_BLACKSMITH))
+					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), false);
+
+						m_tQuestContent.clear();
+						m_tQuestContent.push_back({ L"엔딩\n 사자왕에게 가보자.", false });
+
+						m_iLevel += 1;
+						*_IsAble = false;
+						m_bShowQuestView = true;
+						break;
+					}
+				}
+			}
+		}
+
+		// m_iLevel = 99;
+		// *_IsAble = false;
 		// return true;
+		break;
+	case 6: // 엔딩
+		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
+		{
+			// Npc가 존재 한다면
+			if ((CManagement::GetInstance()->
+				Get_GameObject(OBJ_TYPE::NPC, L"Npc_King") != nullptr))
+			{
+				if (!*_IsAble)
+				{
+					Set_ReadyTalk(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"), true);
+
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
+						dynamic_cast<CNpc*>(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_King")));
+					*_IsAble = true;
+				}
+
+				// 대화 후 다음 단계
+				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
+					Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"))->Get_IsCol()
+					&& m_bReadyTalk)
+				{
+					if (CTalkMgr::GetInstance()->Get_Talk(pGraphicDev, 510, OBJ_ID::NPC_KING))
+					{
+						Set_ReadyTalk(CManagement::GetInstance()->
+							Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"), false);
+
+						m_iLevel += 1;
+						*_IsAble = false;
+						m_bShowQuestView = true;
+
+						dynamic_cast<CScene_World*>
+							(CManagement::GetInstance()->Get_CurScene())->Finish_Game();
+
+						break;
+					}
+				}				
+			}
+		}
 		break;
 	}
 

@@ -182,6 +182,7 @@
     <ClInclude Include="..\Header\DrakothTable.h" />
     <ClInclude Include="..\Header\FoxState_bRest.h" />
     <ClInclude Include="..\Header\FoxState_Rest.h" />
+    <ClInclude Include="..\Header\GetWorldEffect.h" />
     <ClInclude Include="..\Header\LargeIceBush.h" />
     <ClInclude Include="..\Header\Paper.h" />
     <ClInclude Include="..\Header\Present.h" />
@@ -615,6 +616,7 @@
     <ClCompile Include="..\Code\DrakothTable.cpp" />
     <ClCompile Include="..\Code\FoxState_bRest.cpp" />
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
+    <ClCompile Include="..\Code\GetWorldEffect.cpp" />
     <ClCompile Include="..\Code\LargeIceBush.cpp" />
     <ClCompile Include="..\Code\Paper.cpp" />
     <ClCompile Include="..\Code\Present.cpp" />

@@ -17,7 +17,6 @@
 
 #include "MageWeapon.h"
 #include "Skill_Player_Ice.h"
-#include "Skill_Player_Beam.h"
 #include "Skill_Player_Fly.h"
 #include "Key.h"
 #include "WorldFlight.h"
@@ -56,13 +55,6 @@ void CQuest3::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	CEventMgr::GetInstance()->Add_Obj(L"≤«≤« ≤⁄≤⁄¿Ã", pSkill);
 	m_vSkillList.push_back(pSkill);
 	pSkill->Set_Maintain(true);
-
-	// Beam Skill
-	pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
-	CEventMgr::GetInstance()->Add_Obj(L"øÏ¡÷∆›ƒ°", pSkill);
-	m_vSkillList.push_back(pSkill);
-	pSkill->Set_Maintain(true);
-
 
 	// Item Mage
 	CGameObject* pGameObject = CMageWeapon::Create(m_pGraphicDev);
@@ -359,32 +351,8 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 
 		break;
-	case 6: // Ω∫≈≥ 2 »πµÊ
-		if (m_bStartQuest)
-		{
-			// πË∞Ê ∞À¿∫ªˆ
-			m_pShadeUI = CShadeUI::Create(pGraphicDev);
-			NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
-			CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
 
-			// Ω∫≈≥ »πµÊ
-			m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[2]);
-			NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
-			CEventMgr::GetInstance()->Add_Obj(L"SkillGetUI", m_pSkillGetUI);
-
-			m_bStartQuest = false;
-		}
-
-		if (m_bReadyNext)
-		{
-			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
-				m_vSkillList[2]);
-			m_iLevel += 1;
-			m_bStartQuest = true;
-			m_bReadyNext = false;
-		}
-		break;
-	case 7:// æ∆¿Ã≈€ 1 »πµÊ
+	case 6:// æ∆¿Ã≈€ 1 »πµÊ
 		if (m_bStartQuest)
 		{
 			// πË∞Ê ∞À¿∫ªˆ
@@ -410,7 +378,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 		break;
 
-	case 8:
+	case 7:
 		m_iLevel = 99;
 		*_IsAble = false;
 		m_bShowQuestView = false;

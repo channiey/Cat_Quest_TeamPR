@@ -1,7 +1,9 @@
 #include "WorldFlight.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
 
+#include "GetWorldEffect.h"
 #include "Shadow_Item.h"
 
 CWorldFlight::CWorldFlight(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -39,7 +41,8 @@ HRESULT CWorldFlight::Ready_Object()
 	m_fJumpingSpeed = 0.01;
 
 	m_szName = L"Item_WorldFlight";
-	m_eInterType = INTERACTION_TYPE::INTERACTION_INSPECT;
+	m_eEnter = ENTER_TYPE::ENTER_NO;
+	m_eInterType = INTERACTION_TYPE::INTERACTION_QUESTION;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 	{
@@ -114,8 +117,6 @@ _int CWorldFlight::Update_Object(const _float& fTimeDelta)
 
 void CWorldFlight::Update_Lerp(const _float& fTimeDelta)
 {
-	// m_pOraTransCom->Set_Rot({ 0.f, 0.f, 1.f });
-	
 	// Ora
 	if (m_iOraMode == ORA_SIZE_UP)
 	{
@@ -127,10 +128,6 @@ void CWorldFlight::Update_Lerp(const _float& fTimeDelta)
 		m_tOraSizeUpLerp.fCurValue,
 		m_tOraSizeUpLerp.fCurValue });
 
-		//m_pTransformCom->Set_Pos(_vec3{
-		//	_float(START_POS_WORLD_X + 5.f),
-		//	m_tUpPosY.fCurValue,
-		//	_float(START_POS_WORLD_Z) });
 		m_pTransformCom->Set_Pos(_vec3{ 137.f, m_tUpPosY.fCurValue, 383.f });
 
 		if (!m_tOraSizeUpLerp.bActive)
@@ -153,10 +150,6 @@ void CWorldFlight::Update_Lerp(const _float& fTimeDelta)
 		m_tOraSizeDownLerp.fCurValue,
 		m_tOraSizeDownLerp.fCurValue });
 
-		// m_pTransformCom->Set_Pos(_vec3{
-		// 	_float(START_POS_WORLD_X + 5.f),
-		// 	m_tDownPosY.fCurValue,
-		// 	_float(START_POS_WORLD_Z) });
 		m_pTransformCom->Set_Pos(_vec3{ 137.f, m_tDownPosY.fCurValue, 383.f });
 
 
@@ -281,6 +274,10 @@ void CWorldFlight::Render_Object()
 
 void CWorldFlight::Play_Delete()
 {
+	CGetWorldEffect* m_pEffect = CGetWorldEffect::Create(m_pGraphicDev, 
+		m_pTransformCom->Get_Info(INFO_POS));
+	CEventMgr::GetInstance()->Add_Obj(L"GetWorldEffect", m_pEffect);
+	CSoundMgr::GetInstance()->PlaySound(L"catnap.wav", CHANNEL_ID::EFFECT_3, 1.f);
 	CEventMgr::GetInstance()->Delete_Obj(this);  // ªË¡¶
 }
 

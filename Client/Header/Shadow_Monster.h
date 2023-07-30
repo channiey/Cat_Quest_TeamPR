@@ -28,8 +28,9 @@ private:
 	CTexture* m_pTextureCom;
 
 	_float    m_InitY;
-	_float    m_fMobtoShadow; // 몬스터와 그림자의 거리
-	_float    m_fDistanceY;   // 몬스터와 땅과의 거리
+	_float    m_fMonsterCurY; // 몬스터의 현재 높이 ( 그림자 크기에서 빼준다.)
+	_float    m_fDistanceY;   // 각 몬스터의 사이즈에 맞게 매개로 받는다. 
+							  // 이에 따라 그림자의 크기가 정해진다.)
 	_float    m_fShadowSize;  // 그림자의 크기 
 
 public:
