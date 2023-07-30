@@ -94,6 +94,7 @@ namespace Engine
 #define VOLUME_PLAYER_FLY				0.7f
 #define VOLUME_PLAYER_ATTACK			1.f
 #define VOLUME_PLAYER_MAGICATTACK		0.7f
+#define VOLUME_PLAYER_WATER				0.8f
 
 #define VOLUME_PLAYER_UI				0.7f
 #define VOLUME_PLAYER_LEVEL				0.7f

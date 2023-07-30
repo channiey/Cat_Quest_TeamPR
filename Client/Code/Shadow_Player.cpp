@@ -64,6 +64,11 @@ void CShadow_Player::Render_Object()
 		vPos.y = 0.02f;
 		vPos.z += 0.8f;
 	}
+	else if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
+	{
+		vPos.y -= 0.02f;
+		vPos.z += 1.35f;
+	}
 		
 
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());

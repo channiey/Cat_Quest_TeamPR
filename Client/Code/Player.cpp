@@ -1269,7 +1269,8 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
 
-	if (CInputDev::GetInstance()->Key_Down(VK_LSHIFT))// Jump Test
+	if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() &&
+		CInputDev::GetInstance()->Key_Down(VK_LSHIFT))// Jump Test
 	{
 		CSoundMgr::GetInstance()->PlaySoundW(L"cat_jump.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
 		m_pRigidBodyCom->Jump();
