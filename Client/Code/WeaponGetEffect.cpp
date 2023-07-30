@@ -331,7 +331,7 @@ void CWeaponGetEffect::Smaller_Weapon()
 
 	if (!m_tSmallerLerpX.bActive && !m_bTimeSet)
 	{
-		m_iStayCount = GetTickCount64() + 10;
+		m_iStayCount = GetTickCount64() + 50;
 		m_bTimeSet = true;
 	}
 
@@ -350,7 +350,7 @@ void CWeaponGetEffect::Sudden_Weapon()
 	{
 		if (!m_bResultStay)
 		{
-			m_iStayCount2 = GetTickCount64() + 300;
+			m_iStayCount2 = GetTickCount64() + 900;
 			m_bResultStay = true;
 		}
 		// ½ºÆÄÅ¬

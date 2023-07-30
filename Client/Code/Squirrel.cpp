@@ -67,7 +67,8 @@ HRESULT CSquirrel::Ready_Object()
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-		CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Squirrel_Shadow",
+			CShadow_Monster::Create(m_pGraphicDev, this , m_pTransformCom->Get_Scale().y * 0.4f, 1.5f));
 
 #pragma region State Add
 

@@ -145,7 +145,7 @@ _int CQuestUI::Update_Object(const _float& fTimeDelta)
 	if (CQuestMgr::GetInstance()->Get_Quest()->Get_ShowQuestView())
 	{
 		m_matQuestUI._41 = m_tLeftDownPosLerpX.fCurValue;
-		m_matQuestUI._42 = m_tLeftDownPosLerpY.fCurValue;
+		m_matQuestUI._42 = m_tLeftDownPosLerpY.fCurValue - 5.f;
 		m_matQuestUI._11 = m_tSizeUpLerpX.fCurValue;
 		m_matQuestUI._22 = m_tSizeUpLerpY.fCurValue;
 	}

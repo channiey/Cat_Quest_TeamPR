@@ -30,8 +30,8 @@ HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_mapQuestList.insert(make_pair(30, new CQuest3(L"드래곤을 잡기 위해", m_pGraphicDev, _pPlayer)));
 	m_mapQuestList.insert(make_pair(40, new CQuest4(L"죽음의 섬으로", m_pGraphicDev, _pPlayer)));
 
-	m_iQuestID = 10;
-	//m_mapQuestList[m_iQuestID]->Set_TestLevel(3); // test 레벨
+	m_iQuestID = 30;
+	m_mapQuestList[m_iQuestID]->Set_TestLevel(3); // test 레벨
 
 	m_bInit = true;
 

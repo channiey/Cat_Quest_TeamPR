@@ -9,7 +9,8 @@ END
 
 class CShadow_Monster : public CEffect
 {
-	explicit CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	explicit CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev,
+		CGameObject* _pOwnerObject, _float _fDistanceY, _float _fSize);
 	explicit CShadow_Monster(const CShadow_Monster& rhs);
 	virtual ~CShadow_Monster();
 
@@ -27,10 +28,13 @@ private:
 	CTexture* m_pTextureCom;
 
 	_float    m_InitY;
-	_float    m_fSize;
+	_float    m_fMobtoShadow; // 몬스터와 그림자의 거리
+	_float    m_fDistanceY;   // 몬스터와 땅과의 거리
+	_float    m_fShadowSize;  // 그림자의 크기 
 
 public:
-	static CShadow_Monster* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
+	static CShadow_Monster* Create(LPDIRECT3DDEVICE9 pGraphicDev,
+		CGameObject* _pOwnerObject, _float _fDistanceY, _float _fSize);
 
 private:
 	virtual void				Free() override;
