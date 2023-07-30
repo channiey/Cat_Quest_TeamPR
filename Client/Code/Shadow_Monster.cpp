@@ -5,10 +5,12 @@
 
 #include "Monster.h"
 
-CShadow_Monster::CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CShadow_Monster::CShadow_Monster(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, _float _fDistanceY, _float _fSize)
 	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_MONSTER_SHADOW), m_pTextureCom(nullptr)
 {
 	m_pOwnerobject = _pOwnerObject;
+	m_fDistanceY = _fDistanceY;
+	m_fShadowSize = _fSize;
 }
 
 CShadow_Monster::CShadow_Monster(const CShadow_Monster& rhs)
@@ -46,10 +48,9 @@ _int CShadow_Monster::Update_Object(const _float& fTimeDelta)
 		return iExit;
 	}
 
-
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_fSize = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
+	m_fMobtoShadow = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
 
 	return iExit;
 }
@@ -71,14 +72,15 @@ void CShadow_Monster::Render_Object()
 	_vec3 vPos;
 
 	memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
-	vPos.y -= matWorld._22 + 0.02f;
-	vPos.z -= matWorld._22 * 0.75f;
+	// vPos.y = matWorld._42;
+	vPos.y -= m_fDistanceY + 0.02f;
+	vPos.z -= m_fDistanceY * 0.75f;
 
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
-	matWorld._11 = 0.5f + m_fSize * 0.5f;
-	matWorld._33 = 0.5f + m_fSize * 0.5f;
+	matWorld._11 = m_fShadowSize - m_fMobtoShadow * 0.5f;
+	matWorld._33 = m_fShadowSize - m_fMobtoShadow * 0.5f;
 	
 	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -110,9 +112,9 @@ void CShadow_Monster::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 	m_bActive = true;
 }
 
-CShadow_Monster* CShadow_Monster::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
+CShadow_Monster* CShadow_Monster::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject, _float _fDistanceY, _float _fSize)
 {
-	CShadow_Monster* pInstance = new CShadow_Monster(pGraphicDev, _pOwnerObject);
+	CShadow_Monster* pInstance = new CShadow_Monster(pGraphicDev, _pOwnerObject, _fDistanceY, _fSize);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

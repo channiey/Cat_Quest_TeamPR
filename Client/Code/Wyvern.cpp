@@ -75,7 +75,8 @@ HRESULT CWyvern::Ready_Object()
 
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-		CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Wyvern_Shadow",
+			CShadow_Monster::Create(m_pGraphicDev, this, m_pTransformCom->Get_Scale().y * 0.9f, 1.f));
 
 
 	m_bSkill = false;

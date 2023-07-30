@@ -82,7 +82,8 @@ HRESULT CFox::Ready_Object()
 	m_fAccTime = 0.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow",
+			CShadow_Monster::Create(m_pGraphicDev, this, m_pTransformCom->Get_Scale().y * 0.8f, 1.5f));
 
 	m_bSkill = false;
 

@@ -891,6 +891,9 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Item - WorldFlight
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_WorldFlight",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/QuestItem/World_flight.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_WorldFlight_Ora",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Item/QuestItem/World_Flight_Ora.png")), E_FAIL);
+	
 
 	// Item - Warrior Weapon
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Item_WarriorWeapon",

@@ -8,6 +8,8 @@ class CCollider;
 END
 
 #define SPARKLE_AMOUNT 3
+#define ORA_SIZE_UP    1
+#define ORA_SIZE_DOWN  2
 
 struct tagFlightSparkle
 {
@@ -31,7 +33,7 @@ public:
 	virtual void			Render_Object() override;
 
 	void					Ready_Lerp();
-	void					Update_Lerp();
+	void					Update_Lerp(const _float& fTimeDelta);
 
 public:
 	virtual void		OnCollision_Enter(CGameObject* _pColObj);
@@ -47,6 +49,18 @@ private:
 private:
 	HRESULT					Add_Component();
 
+	// º»Ã¼ µÕµÕ È¿°ú
+	LERP_FLOAT_INFO		 m_tUpPosY;
+	LERP_FLOAT_INFO		 m_tDownPosY;
+
+	// ¿À·¯
+	CTexture*			 m_pOraTexCom;
+	CTransform*			 m_pOraTransCom;
+	LERP_FLOAT_INFO		 m_tOraSizeUpLerp;
+	LERP_FLOAT_INFO		 m_tOraSizeDownLerp;
+	_int				 m_iOraMode;
+
+	// 
 	tagFlightSparkle	 m_tSparkle[SPARKLE_AMOUNT];
 	_int				 m_iLevel;
 

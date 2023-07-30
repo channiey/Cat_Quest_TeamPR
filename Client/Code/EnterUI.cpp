@@ -142,7 +142,7 @@ void CEnterUI::EnterUI_On(UIENTER_TYPE eUIEnter, CGameObject* pObj)
 
 	_vec3 vObjWorldPos = pObj->Get_Transform()->Get_Info(INFO::INFO_POS);
 
-	vObjWorldPos.y += 4.f;
+	vObjWorldPos.y += 5.75f;
 
 	m_pTransformCom->Set_Pos(vObjWorldPos);
 
