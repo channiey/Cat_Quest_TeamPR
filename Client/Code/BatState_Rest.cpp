@@ -1,6 +1,7 @@
 #include "BatState_Rest.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "SoundMgr.h"
 
 CBatState_Rest::CBatState_Rest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -145,6 +146,8 @@ STATE_TYPE CBatState_Rest::Update_State(const _float& fTimeDelta)
             m_bAssault = true;
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
             pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
+            CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
+
         }
     }
 

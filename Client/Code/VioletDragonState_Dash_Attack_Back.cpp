@@ -132,6 +132,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
         {
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
             pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
+            CSoundMgr::GetInstance()->PlaySound(L"DragonDash.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);
             m_bAssault = true;
         }
     }

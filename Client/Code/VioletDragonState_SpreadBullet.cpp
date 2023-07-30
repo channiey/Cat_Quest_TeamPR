@@ -5,6 +5,7 @@
 #include "ComeBack_Bullet.h"
 #include "VioletDragon.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
 
 CVioletDragonState_SpreadBullet::CVioletDragonState_SpreadBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
@@ -165,7 +166,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet1 == false && m_fAccTime >= 0.3f) //1 
     {
-
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1",
             CComBack_Bullet::Create(m_pGraphicDev, { (vOwnerPos.x + _float(m_fRadius * cos(0))) , (vPlayerPos.y * fYPosMul) , (vOwnerPos.z + _float(m_fRadius * sin(0))) }, pPlayer, m_pOwner->Get_OwnerObject(), 4.4f ));
         m_bBullet1 = true; 
@@ -174,6 +175,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
   
     if (m_bBullet2 == false && m_fAccTime >= 0.4f) //2
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging2",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(10)) , vPlayerPos.y * fYPosMul, vOwnerPos.z + _float(m_fRadius * sin(10)) }, pPlayer, m_pOwner->Get_OwnerObject(), 4.3f));
         m_bBullet2 = true;
@@ -182,6 +184,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet3 == false && m_fAccTime >= 0.5f) //3
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging3",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(20)) , vPlayerPos.y * fYPosMul, vOwnerPos.z + _float(m_fRadius * sin(20)) }, pPlayer, m_pOwner->Get_OwnerObject(), 4.2f));
         m_bBullet3 = true;
@@ -189,6 +192,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet4 == false && m_fAccTime >= 0.6f) //4
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging4",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(30)) , vPlayerPos.y * fYPosMul,  vOwnerPos.z + _float(m_fRadius * sin(30)) }, pPlayer, m_pOwner->Get_OwnerObject(), 4.1f));
         m_bBullet4 = true;
@@ -197,6 +201,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet5 == false && m_fAccTime >= 0.7f) //5
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius *cos(40)) , vPlayerPos.y * fYPosMul,vOwnerPos.z + _float(m_fRadius* sin(40)) }, pPlayer, m_pOwner->Get_OwnerObject(), 4.0f));
         m_bBullet5 = true;
@@ -205,6 +210,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet6 == false && m_fAccTime >= 0.8f) //6
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging6",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(50)) , vPlayerPos.y * fYPosMul,vOwnerPos.z + _float(m_fRadius * sin(50)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.9f));
         m_bBullet6 = true;
@@ -212,6 +218,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet7 == false && m_fAccTime >= 0.9f) //7
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging7",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(60)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(60)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.8f));
         m_bBullet7 = true;
@@ -220,6 +227,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet8 == false && m_fAccTime >= 1.0f) //8
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging8",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(70)) , vPlayerPos.y * fYPosMul,vOwnerPos.z + _float(m_fRadius * sin(70)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.7f));
         m_bBullet8 = true;
@@ -228,6 +236,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet9 == false && m_fAccTime >= 1.1f) //9
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging9",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(80)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(80)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.6f));
         m_bBullet9 = true;
@@ -235,6 +244,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet10 == false && m_fAccTime >= 1.2f) //10
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging10",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(90)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(90)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.5f));
         m_bBullet10 = true;
@@ -243,6 +253,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet11 == false && m_fAccTime >= 1.3f) //11
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging11",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(100)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(100)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.4f));
         m_bBullet11 = true;
@@ -251,6 +262,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet12 == false && m_fAccTime >= 1.4f) //12
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging12",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(110)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(110)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.3f));
         m_bBullet12 = true;
@@ -258,6 +270,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet13 == false && m_fAccTime >= 1.5f) //13
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging13",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(120)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(120)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.2f));
         m_bBullet13 = true;
@@ -266,6 +279,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet14 == false && m_fAccTime >= 1.6f) //14
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging14",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(130)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(130)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.1f));
         m_bBullet14 = true;
@@ -274,6 +288,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet15 == false && m_fAccTime >= 1.7f) //15
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging15",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(140)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(140)) }, pPlayer, m_pOwner->Get_OwnerObject(), 3.0f));
         m_bBullet15 = true;
@@ -282,6 +297,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet16 == false && m_fAccTime >= 1.8f) //16
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging16",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(150)) , vPlayerPos.y * fYPosMul,vOwnerPos.z + _float(m_fRadius * sin(150)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.9f));
         m_bBullet16 = true;
@@ -290,6 +306,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet17 == false && m_fAccTime >= 1.9f) //17
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging17",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(160)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(160)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.8f));
         m_bBullet17 = true;
@@ -297,6 +314,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet18 == false && m_fAccTime >= 2.0f) //18
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging18",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(170)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(170)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.7f));
         m_bBullet18 = true;
@@ -304,6 +322,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet19 == false && m_fAccTime >= 2.1f) //19
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging19",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(180)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(180)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.6f));
         m_bBullet19 = true;
@@ -311,6 +330,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet20 == false && m_fAccTime >= 2.2f) //20
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging20",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(190)) , vPlayerPos.y * fYPosMul,vOwnerPos.z + _float(m_fRadius * sin(190)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.5f));
         m_bBullet20 = true;
@@ -318,6 +338,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet21 == false && m_fAccTime >= 2.3f) //21
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging21",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(200)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(200)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.4f));
         m_bBullet21 = true;
@@ -325,6 +346,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
 
     if (m_bBullet22 == false && m_fAccTime >= 2.4f) //22
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging22",
             CComBack_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + _float(m_fRadius * cos(210)) , vPlayerPos.y * fYPosMul ,vOwnerPos.z + _float(m_fRadius * sin(210)) }, pPlayer, m_pOwner->Get_OwnerObject(), 2.3f));
         m_bBullet22 = true;

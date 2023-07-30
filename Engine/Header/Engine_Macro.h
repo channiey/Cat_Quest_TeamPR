@@ -71,7 +71,7 @@ namespace Engine
 #define	TERRAIN_SIZE_DUNGEON			165.f // 74 Tile * 74 Tile
 
 //Sound (수정시 보고 필수)
-#define SOUND_VOLUME_BGM				0.3f
+#define SOUND_VOLUME_BGM				0.f//0.3f
 
 #define SOUND_VOLUME_MON_HIT			1.f
 #define SOUND_VOLUME_MON_ATTACK			0.5f

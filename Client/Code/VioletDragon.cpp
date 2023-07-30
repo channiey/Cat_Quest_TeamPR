@@ -83,7 +83,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 3000.f;
+	m_tStatInfo.fCurHP = 100.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
@@ -496,9 +496,14 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			m_pBaseSkill->Play();
 			m_bSkill = true;
 		}
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
+		{
+			CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MON_FOOT_ATTACK);
+		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
+			
 			m_pBaseSkill->End();
 			m_bSkill = false;
 		}
@@ -531,6 +536,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 3)
 		{
+			CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CBigCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
 		}
 	}
@@ -553,6 +559,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
 	
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LatePlay();
+			CSoundMgr::GetInstance()->PlaySound(L"skill_lightnyan.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
 			CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBloodyTunder = false;
 			m_bBloodyLate = true;
@@ -589,6 +596,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->End();
 
 			dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LatePlay();
+			CSoundMgr::GetInstance()->PlaySound(L"skill_lightnyan.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
 			CCameraMgr::GetInstance()->Shake_Camera(0.15, 40);
 			m_bBlueTunder = false;
 			m_bBlueLate = true;
@@ -618,6 +626,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		{
 			dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->Play();
 			m_bCreatWyvernPlay = true;
+			CSoundMgr::GetInstance()->PlaySound(L"dragon_roar.wav", CHANNEL_ID::MONSTER_BOSS_2, 0.5f);
 		}
 	
 		if (m_bCreatWyvernPlay == true  && m_bCreatWyvernLate == false  && m_CreateTime >= 2.f)
@@ -674,8 +683,6 @@ void CVioletDragon::LateUpdate_Object()
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 3.f, vOwnerPos.y, vOwnerPos.z -3.f }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 3.f, vOwnerPos.y, vOwnerPos.z + 3.f }));
-
-
 
 
 		// 스킬 삭제

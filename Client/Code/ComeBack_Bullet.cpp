@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "EventMgr.h"
 #include "Player.h"
-
+#include "SoundMgr.h"
 
 CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime)
 	: CBossProjectile(pGraphicDev, OBJ_ID::PROJECTILE_BOSS_CONVERGING)
@@ -99,7 +99,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
  
     if ( m_bComeBack == false && m_bStop == false && m_fAccTime >= 1.f)
     {
-        m_fSpeed = 30.f;
+        m_fSpeed = 40.f;
         m_pTransformCom->Set_Dir(vOwnerDir);
         m_bStop = true;
 
@@ -112,7 +112,9 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     
     if (m_bComeBack == true && m_bStop == true && m_fAccTime >= m_fChaseTime)
     {
+        
         m_fSpeed = 40.f;
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         //m_pTransformCom->Set_Dir(vec3.zero);
         this->m_pAICom->Chase_TargetY(&m_vOriginPos, fTimeDelta, m_fSpeed);
        

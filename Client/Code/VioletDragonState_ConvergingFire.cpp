@@ -5,7 +5,7 @@
 #include "Dagger.h"
 #include "EventMgr.h"
 #include "VioletDragon.h"
-
+#include "SoundMgr.h"
 
 CVioletDragonState_ConvergingFire::CVioletDragonState_ConvergingFire(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
@@ -150,6 +150,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet1 == false && m_fAccTime >= 0.5f) //1 
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 10.f , vOwnerPos.y  , vOwnerPos.z }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet1 = true;
@@ -158,6 +160,9 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet2 == false && m_fAccTime >= 0.6f) //2
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
+
+      
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging2",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 10.f , vOwnerPos.y , vOwnerPos.z  }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet2 = true;
@@ -166,6 +171,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet3 == false && m_fAccTime >= 0.7f) //3
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging3",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet3 = true;
@@ -173,6 +180,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet4 == false && m_fAccTime >= 0.8f) //4
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging4",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet4 = true;
@@ -181,6 +190,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet5 == false && m_fAccTime >= 0.9f) //5
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x -6.f , vOwnerPos.y , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet5 = true;
@@ -188,6 +199,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet6 == false && m_fAccTime >= 1.f) //6
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging6",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 6.f , vOwnerPos.y , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet6 = true;
@@ -195,6 +208,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet7 == false && m_fAccTime >= 1.1f) //7
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging7",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x -4.f , vOwnerPos.y , vOwnerPos.z -6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet7 = true;
@@ -203,6 +218,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet8 == false && m_fAccTime >= 1.2f) //8
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging8",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y , vOwnerPos.z - 6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet8 = true;
@@ -213,6 +230,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet9 == false && m_fAccTime >= 1.3f) //9
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging9",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 2.f , vOwnerPos.y -2.f , vOwnerPos.z - 6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet9 = true;
@@ -220,6 +239,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet10 == false && m_fAccTime >= 1.4f) //10
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging10",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 2.f , vOwnerPos.y - 2.f , vOwnerPos.z - 6.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet10 = true;
@@ -228,6 +249,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet11 == false && m_fAccTime >= 1.5f) //11
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging11",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y - 2.f  , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet11 = true;
@@ -236,6 +259,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet12 == false && m_fAccTime >= 1.6f) //12
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging12",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y - 2.f  , vOwnerPos.z - 4.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet12 = true;
@@ -243,6 +268,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet13 == false && m_fAccTime >= 1.7f) //13
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging13",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 6.f , vOwnerPos.y - 2.f  , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet13 = true;
@@ -251,6 +278,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet14 == false && m_fAccTime >= 1.8f) //14
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging14",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 6.f , vOwnerPos.y - 2.f , vOwnerPos.z - 2.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet14 = true;
@@ -259,6 +288,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet15 == false && m_fAccTime >= 1.9f) //15
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging15",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y - 2.f , vOwnerPos.z }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet15 = true;
@@ -267,6 +298,8 @@ STATE_TYPE CVioletDragonState_ConvergingFire::Update_State(const _float& fTimeDe
 
     if (m_bBullet16 == false && m_fAccTime >= 2.f) //16
     {
+        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging16",
             CDagger::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y - 2.f  , vOwnerPos.z }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet16 = true;

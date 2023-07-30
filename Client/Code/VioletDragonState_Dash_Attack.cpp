@@ -3,6 +3,7 @@
 #include "Monster.h"
 #include "Player.h"
 #include "VioletDragon.h"
+#include "SoundMgr.h"
 
 CVioletDragonState_Dash_Attack::CVioletDragonState_Dash_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CState(pGraphicDev)
@@ -131,6 +132,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
         {
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
             pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
+            CSoundMgr::GetInstance()->PlaySound(L"DragonDash.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);
             m_bAssault = true;
         }
     }

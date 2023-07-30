@@ -1,7 +1,7 @@
 #include "Dagger.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "SoundMgr.h"
 
 CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)

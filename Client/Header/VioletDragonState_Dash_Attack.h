@@ -30,7 +30,7 @@ private:
 	_float			m_fAccTime;
 	_bool			m_bAssault;
 
-	
+
 private:
 	virtual void Free();
 
