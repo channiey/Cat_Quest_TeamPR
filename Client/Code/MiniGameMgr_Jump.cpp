@@ -110,7 +110,7 @@ HRESULT CMiniGameMgr_Jump::Die_Player()
 {
 	bTestDie = true;
 
-	CSoundMgr::GetInstance()->PlaySoundW(L"water_splash.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
+	CSoundMgr::GetInstance()->PlaySoundW(L"water_splash.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WATER);
 
 	/*
 	

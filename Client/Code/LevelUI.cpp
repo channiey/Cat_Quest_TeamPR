@@ -26,11 +26,11 @@ HRESULT CLevelUI::Ready_Object()
 	
 	D3DXMatrixIdentity(&m_UImatWorld);
 
-	m_fPosX = 64;
+	m_fPosX = 68;
 	m_fPosY = 72;
 
-	m_fSizeX =  48;
-	m_fSizeY =  64;
+	m_fSizeX =  48 * 0.8;
+	m_fSizeY =  64 * 0.8;
 
 	m_UImatWorld._41 = m_fPosX;
 	m_UImatWorld._42 = WINCY - m_fPosY;
@@ -38,10 +38,10 @@ HRESULT CLevelUI::Ready_Object()
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;
 
-	m_rcLevel.left = m_fPosX - m_fSizeX + 3;
-	m_rcLevel.right = m_fPosX + m_fSizeX + 3;
-	m_rcLevel.top = m_fPosY - m_fSizeY + 10;
-	m_rcLevel.bottom = m_fPosY + m_fSizeY + 10;
+	m_rcLevel.left = m_fPosX - m_fSizeX + 1;
+	m_rcLevel.right = m_fPosX + m_fSizeX + 1;
+	m_rcLevel.top = m_fPosY - m_fSizeY - 2;
+	m_rcLevel.bottom = m_fPosY + m_fSizeY - 2;
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

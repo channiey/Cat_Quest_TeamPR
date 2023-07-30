@@ -24,11 +24,11 @@ HRESULT CFlightUI::Ready_Object()
 	
 	D3DXMatrixIdentity(&m_UImatWorld);
 
-	m_fPosX = 100;
-	m_fPosY = 150;
+	m_fPosX = 98;
+	m_fPosY = 140;
 
-	m_fSizeX = 32.76;
-	m_fSizeY = 39.69;
+	m_fSizeX = 32.76 * 0.9;
+	m_fSizeY = 39.69 * 0.9;
 
 	m_UImatWorld._41 = m_fPosX;
 	m_UImatWorld._42 = WINCY - m_fPosY;
