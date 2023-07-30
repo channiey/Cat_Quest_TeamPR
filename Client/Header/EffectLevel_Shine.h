@@ -51,6 +51,7 @@ private:
 	// »þÀÎ02
 	_float				m_fShineAlpha2;
 	LERP_FLOAT_INFO		m_tAlpha_Shine2;
+	LERP_VEC3_INFO		m_tSize_Shine2;
 
 public:
 	static CEffectLevel_Shine* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);

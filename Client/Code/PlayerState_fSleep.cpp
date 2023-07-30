@@ -25,16 +25,18 @@ STATE_TYPE CPlayerState_fSleep::Update_State(const _float& fTimeDelta)
 {
     if (!m_bEnter)
     {
+        m_fAccTime = 0.f;
         m_bEnter = true;
     }
 
-    //if (//전이조건설정)
-    //{
-    //    m_bEnter = false;
-    //    return STATE_TYPE::FRONT_WAKE;
-    //} 
-    //else
-    //    return m_eState;
+    m_fAccTime += fTimeDelta;
+    if (m_fAccTime >= 4.8f)
+    {
+        m_bEnter = false;
+        return STATE_TYPE::FRONT_WAKE;
+    } 
+    else
+        return m_eState;
 
     return m_eState;
         

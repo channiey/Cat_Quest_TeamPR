@@ -97,7 +97,7 @@ HRESULT CPlayer::Ready_Object()
 
 
 	m_tMoveInfo.fMoveSpeed = 20.f;
-	Set_AD(10);
+	Set_AD(5);
 
 	m_fBallTargetLenght = 18.f;
 	m_pBallTarget = nullptr;
@@ -380,7 +380,7 @@ HRESULT CPlayer::Ready_Object()
 	// 처음 시작상태 설정
 	m_eClass = CLASS_TYPE::NORMAL;
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_WAKE);
+	m_pStateMachineCom->Set_State(STATE_TYPE::FRONT_SLEEP);
 
 	// Camera Setting
 	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
@@ -425,10 +425,15 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 		{
 			if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"FrontMoveDust"))
 			{
-				CSoundMgr::GetInstance()->PlaySoundW(L"footstep.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
-				CGameObject* pMoveDust = CMoveDust::Create(m_pGraphicDev, this);
+				if (!m_pRigidBodyCom->Is_Jump())
+				{
+					CSoundMgr::GetInstance()->PlaySoundW(L"footstep.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
+					CGameObject* pMoveDust = CMoveDust::Create(m_pGraphicDev, this);
 
-				CEventMgr::GetInstance()->Add_Obj(L"FrontMoveDust", pMoveDust);
+
+					CEventMgr::GetInstance()->Add_Obj(L"FrontMoveDust", pMoveDust);
+				}
+				
 			}
 		}
 	}
@@ -439,10 +444,16 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 		{
 			if (!CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::EFFECT, L"BackMoveDust"))
 			{
-				CSoundMgr::GetInstance()->PlaySoundW(L"footstep.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
-				CGameObject* pMoveDust = CMoveDust::Create(m_pGraphicDev, this);
+				if (!m_pRigidBodyCom->Is_Jump())
+				{
+					CSoundMgr::GetInstance()->PlaySoundW(L"footstep.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
 
-				CEventMgr::GetInstance()->Add_Obj(L"BackMoveDust", pMoveDust);
+					CGameObject* pMoveDust = CMoveDust::Create(m_pGraphicDev, this);
+
+
+					CEventMgr::GetInstance()->Add_Obj(L"BackMoveDust", pMoveDust);
+				}
+				
 			}
 		}
 	}
@@ -1258,8 +1269,12 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
 
-	if (CInputDev::GetInstance()->Key_Down(VK_LSHIFT)) // Jump Test
+	if (CInputDev::GetInstance()->Key_Down(VK_LSHIFT))// Jump Test
+	{
+		CSoundMgr::GetInstance()->PlaySoundW(L"cat_jump.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
 		m_pRigidBodyCom->Jump();
+	}
+		
 
 	if (CInputDev::GetInstance()->Key_Down('1') &&
 		m_arrSkillSlot[0] != nullptr && !m_arrSkillSlot[0]->Is_Active() &&

@@ -110,6 +110,8 @@ HRESULT CMiniGameMgr_Jump::Die_Player()
 {
 	bTestDie = true;
 
+	CSoundMgr::GetInstance()->PlaySoundW(L"water_splash.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_WALK);
+
 	/*
 	
 		* 1. 플레이어 흩어지는 셰이더 효과?

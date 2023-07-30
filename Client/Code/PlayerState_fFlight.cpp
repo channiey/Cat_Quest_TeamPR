@@ -91,10 +91,10 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		// 날기소리
 		m_fAccTime += fTimeDelta;
 
-		if (m_fAccTime > 0.2f)
+		if (m_fAccTime > 0.3f)
 		{
 			CSoundMgr::GetInstance()->PlaySoundW(L"flying_swish.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_FLY);
-			m_fAccTime -= 0.2f;
+			m_fAccTime -= 0.3f;
 		}
 		
 		eState = Key_Input(fTimeDelta);

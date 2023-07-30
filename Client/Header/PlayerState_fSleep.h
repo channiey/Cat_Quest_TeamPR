@@ -24,5 +24,8 @@ public:
 	static CPlayerState_fSleep* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
+	_float			m_fAccTime;
+
+private:
 	virtual void	Free();
 };

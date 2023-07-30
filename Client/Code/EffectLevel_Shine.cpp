@@ -33,8 +33,8 @@ HRESULT CEffectLevel_Shine::Ready_Object()
 		D3DXMatrixIdentity(&m_matEffect[i]);
 	}
 
-	m_matEffect[2]._11 = 125.f * 2;
-	m_matEffect[2]._22 = 125.f * 2;
+	m_matEffect[2]._11 = 125.f * 2.5;
+	m_matEffect[2]._22 = 125.f * 2.5;
 	
 
 	return S_OK;
@@ -82,7 +82,7 @@ void CEffectLevel_Shine::LateUpdate_Object()
 		m_tSize_Shine.Init_Lerp(LERP_MODE::EASE_IN);
 		m_tAlpha_Shine.Init_Lerp(LERP_MODE::SMOOTHSTEP);
 
-		m_tSize_Shine.Set_Lerp(0.5f, _vec3{ 100.f * 2, 100.f * 2, 0.f }, _vec3{ 100.f * 5, 100.f * 5, 0.f });
+		m_tSize_Shine.Set_Lerp(0.5f, _vec3{ 100.f * 2.5, 100.f * 2.5, 0.f }, _vec3{ 100.f * 7, 100.f * 7, 0.f });
 		m_tAlpha_Shine.Set_Lerp(0.5f, m_fShineAlpha, 0.f);
 		m_tAlpha_Shine.fCurValue = m_tAlpha_Shine.fStartValue;
 
@@ -206,7 +206,7 @@ void CEffectLevel_Shine::Follow_Owner()
 	vOwnerPosShine.x += 5.f;
 
 	_matrix matRot;
-	D3DXMatrixRotationZ(&matRot, D3DXToRadian(0.8f));
+	D3DXMatrixRotationZ(&matRot, D3DXToRadian(1.5f));
 	m_matEffect[2] *= matRot;
 
 
