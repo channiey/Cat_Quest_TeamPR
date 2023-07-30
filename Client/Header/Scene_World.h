@@ -15,7 +15,7 @@ public:
 	virtual void		Render_Scene() override;
 
 public:
-	void				Finish_Game();
+	void				Finish_Game(); 
 private:
 	HRESULT				Ready_Layer_Camera();
 	HRESULT				Ready_Layer_UI(); 
@@ -35,6 +35,8 @@ public:
 
 private:
 	_bool				m_bEndingFade;
+	_bool				m_bFinish;
+	_float				m_fAcc;
 
 private:
 	virtual void		Free() override;

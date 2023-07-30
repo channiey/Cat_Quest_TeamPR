@@ -123,6 +123,8 @@ _int CSkillGetUI::Update_Object(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('E'))
 	{
 		CSoundMgr::GetInstance()->PlaySound(L"button_press.wav", CHANNEL_ID::UI_1, 1.f);
+		CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::SMOOTHERSTEP, 1.f, CSoundMgr::GetInstance()->Get_CurBGMVolume(), SOUND_VOLUME_BGM);
+
 		m_bDelete = true;
 	}
 	if (m_bDelete)

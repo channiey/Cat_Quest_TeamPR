@@ -153,10 +153,12 @@ void CEffectGenerator::Pollen_Caculate_InitPos()
 
 void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 {
+	const _int iCreateNum = 2;
+
 	m_fCloud_AccTime += fTimeDelta;
 	if (m_fCloud_AccTime >= m_fCloud_CreateTime)
 	{
-		for (_int i = 0; i < 8; ++i)
+		for (_int i = 0; i < iCreateNum; ++i)
 		{
 			Cloud_Caculate_InitPos();
 

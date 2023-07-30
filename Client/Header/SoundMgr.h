@@ -29,6 +29,8 @@ public:
 public:
 	void						Lerp_Volume_CurBGM(const LERP_MODE& _eMode, const _float& _fTime, const _float& _fStartVolume, const _float& _fEndVolume);
 
+	const _float& Get_CurBGMVolume() const { return m_LerpCurBgmVolume.fCurValue; }
+
 private:
 	void						StopSound(CHANNEL_ID eID);
 	void						LoadSoundFile(); 

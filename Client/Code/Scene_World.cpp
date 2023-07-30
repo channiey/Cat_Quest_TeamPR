@@ -234,21 +234,32 @@ HRESULT CScene_World::Ready_Scene()
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); 
 	if (!CBossSceneMgr::GetInstance()->Is_Ready()) CBossSceneMgr::GetInstance()->Ready_BossSceneMgr(m_pGraphicDev);
+	
 	m_bEndingFade = FALSE;
+	m_bFinish = FALSE;
+	m_fAcc = 0.f;
 
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
-	// Key Input for Test
-	if (CInputDev::GetInstance()->Key_Down(VK_F1))
-		CBossSceneMgr::GetInstance()->Start_BossScene();
-	else if (CInputDev::GetInstance()->Key_Down(VK_F2))
-		CBossSceneMgr::GetInstance()->Play_Dead_BossScene();
-	else if (CInputDev::GetInstance()->Key_Down(VK_F3))
-		Finish_Game();
+	// Ending
+	if (m_bFinish)
+	{
+		m_fAcc += fTimeDelta;
 
+		if (3.f <= m_fAcc)
+		{
+			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_EXIT_INGAME);
+			CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
+			if (nullptr != pCam)
+				pCam->Get_FadeUI()->Start_Fade(4.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_OUT);
+
+			m_bFinish = FALSE;
+			m_bEndingFade = TRUE;
+		}
+	}
 	if (m_bEndingFade)
 	{
 		if (!CCameraMgr::GetInstance()->Is_Fade())
@@ -395,12 +406,7 @@ HRESULT CScene_World::Ready_Load()
 
 void CScene_World::Finish_Game()
 {
-	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_EXIT_INGAME);
-	CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
-	if (nullptr != pCam)
-		pCam->Get_FadeUI()->Start_Fade(4.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_OUT);
-
-	m_bEndingFade = TRUE;
+	m_bFinish = TRUE;
 }
 
 HRESULT CScene_World::Ready_Layer_Camera()

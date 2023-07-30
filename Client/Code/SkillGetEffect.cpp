@@ -269,6 +269,8 @@ _int CSkillGetEffect::Update_Object(const _float& fTimeDelta)
 			{
 				// CSoundMgr::GetInstance()->SetChannelVolume(CHANNEL_ID::BGM_CUR, 0.f);
 				CSoundMgr::GetInstance()->PlaySound(L"Open Chest.wav", CHANNEL_ID::EFFECT_0, ITEM_SKILL_GET_EFFECT);
+				CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::SMOOTHERSTEP, 1.f, SOUND_VOLUME_BGM, 0.1f);
+
 				m_bReadySound = false;
 			}
 
