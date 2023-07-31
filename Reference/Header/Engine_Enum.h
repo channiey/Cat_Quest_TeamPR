@@ -6,7 +6,7 @@ namespace Engine
 	// 추가 및 편집시 팀장 보고
 	enum class SCENE_TYPE			{ INTRO, LOBBY, WORLD, DUNGEON_TEMPLE, DUNGEON_SWAMP, ENDING, LOADING, TOOL, TYPEEND }; // 씬 종류
 	
-	// 추가 및 편집시 팀장 보고																			
+	// 추가 및 편집시 팀장 보고		// 추가시 Scene의 Ready_Layer_Other() 함수에 해당 레이어 생성 추가 필수											       					
 	enum class OBJ_TYPE				{ PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE, 
 									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, ISLAND, BACKGROUND, FLAG, EFFECT, UI, TYPEEND }; // 오브젝트 타입
 
