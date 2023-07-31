@@ -39,10 +39,10 @@ HRESULT CCloud1::Ready_Object()
 	m_fAccTime = 0.f;
 	m_bDead_Start = false;
 
-	m_iAlpha = 0;
+	m_iAlpha = OBJ_CLOUD_MAX_ALPHA;
 	m_bStart = true;
-	m_tLerpAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
-	m_tLerpAlpha.Set_Lerp(5.f, 0, 200);
+	/*m_tLerpAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+	m_tLerpAlpha.Set_Lerp(5.f, 0, 200);*/
 	
 
 	std::uniform_real_distribution<float> xDist2(1.5f, 5.f);
