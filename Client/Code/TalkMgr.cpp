@@ -191,6 +191,8 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 			if (m_iTalkIndex >= iter->second.size())
 			{
 				m_bTalkEnd = true;
+				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_NPC_TALK);
+
 			}
 			if(m_iTalkIndex < iter->second.size())
 			{
@@ -205,6 +207,8 @@ _bool CTalkMgr::Get_Talk(LPDIRECT3DDEVICE9 pGraphicDev, _int _iTalkID, OBJ_ID _e
 				{
 					CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
 						_eObjID, iter->second[m_iTalkIndex], DIALOG_TYPE::DIALOG_START));
+
+					CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_NPC_TALK);
 				}
 				else
 				{
@@ -271,6 +275,7 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 			if (m_iTalkIndex >= iter->second.size())
 			{
 				m_bTalkEnd = true;
+				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_NPC_TALK);
 			}
 			if (m_iTalkIndex < iter->second.size())
 			{
@@ -286,6 +291,8 @@ _bool CTalkMgr::Get_CamTalk(LPDIRECT3DDEVICE9 pGraphicDev,
 					{
 						CEventMgr::GetInstance()->Add_Obj(L"DialogUI", CDialogUI::Create(pGraphicDev,
 							_eObjID, iter->second[m_iTalkIndex], DIALOG_TYPE::DIALOG_START));
+
+						CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_NPC_TALK);
 					}
 					else
 					{

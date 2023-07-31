@@ -350,9 +350,20 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 #pragma endregion
 
 		
+		case Engine::CAMERA_ACTION::START_NPC_TALK:
+		{ 
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+			0.8f, fCurFOV, CAM_FOV_QUEST_TAKL, LERP_MODE::SMOOTHERSTEP); break;
+		}
+		break;
 		
-		
-		
+		case Engine::CAMERA_ACTION::END_NPC_TALK:
+		{
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+			0.5f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+		}
+		break;
+
 		
 		
 		

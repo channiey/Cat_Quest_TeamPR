@@ -446,6 +446,10 @@ namespace Engine
 		// GameObject
 		, OBJ_CHANGE_TARGET		// NPC 등 퀘스트 안내
 
+		// NPC 대화
+		, START_NPC_TALK
+		, END_NPC_TALK
+
 		, TYPEEND };
 	
 

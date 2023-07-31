@@ -20,9 +20,10 @@ CRigidBody::CRigidBody(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_fMass		= 8.f;
 	m_fMaxSpeed = DF_RB_MAXSPEED;
 	m_fFriction = 0.05f;
-	m_vGravity = vec3.down;
-	m_bJump = false;
-	m_fStartY = 0.f;
+	m_vGravity	= vec3.down;
+	m_bJump		= FALSE;
+	m_fStartY	= 0.f;
+	m_bKnockUp	= FALSE;
 }
 
 CRigidBody::CRigidBody(const CRigidBody& rhs, CGameObject* _pOwnerObject)
@@ -36,6 +37,7 @@ CRigidBody::CRigidBody(const CRigidBody& rhs, CGameObject* _pOwnerObject)
 	, m_fFriction(rhs.m_fFriction)
 	, m_bJump(rhs.m_bJump)
 	, m_fStartY(rhs.m_fStartY)
+	, m_bKnockUp(rhs.m_bKnockUp)
 
 {
 	Ready_RigidBody();
@@ -58,7 +60,7 @@ void CRigidBody::LateUpdate_Component()
 	// 현재 속도 계산
 	NULL_CHECK(m_pOwnerObject);
 
-	if (m_bJump)
+	if (m_bJump || m_bKnockUp)
 	{
 		const _vec3 vGrabity{ 0.f, -4.f, 0.f };
 		m_vForce += (vGrabity * m_fMass);
@@ -88,11 +90,12 @@ void CRigidBody::LateUpdate_Component()
 
 	vPos += m_vVelocity;
 
-	if (m_bJump)
+	if (m_bJump || m_bKnockUp)
 	{
 		if (vPos.y < m_fStartY)
 		{
 			m_bJump = FALSE;
+			m_bKnockUp = FALSE;
 			vPos.y = m_fStartY;
 		}
 	}
@@ -125,6 +128,33 @@ void CRigidBody::Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse)
 	D3DXVec3Normalize(&vDir, &vDir);
 
 	Add_Impulse(vDir * _fImpulse);
+}
+
+void CRigidBody::Knock_Up(const _float& _fImpulse)
+{
+	if (m_bKnockUp) return;
+
+	Set_MaxSpeed(DF_RB_MAXSPEED);
+	m_bKnockUp = TRUE;
+	Add_Impulse(vec3.up * _fImpulse);
+	m_fStartY = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS).y;
+}
+
+void CRigidBody::Knock_Up(const _vec3& _vDir, const _float& _fImpulse)
+{
+	if (m_bKnockUp) return;
+
+	_vec3 vDir;
+
+	if (1.3f < D3DXVec3Length(&_vDir))
+		D3DXVec3Normalize(&vDir, &_vDir);
+	else
+		vDir = _vDir;
+
+	Set_MaxSpeed(DF_RB_MAXSPEED);
+	m_bKnockUp = TRUE;
+	Add_Impulse(vDir * _fImpulse);
+	m_fStartY = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS).y;
 }
 
 void CRigidBody::Jump()

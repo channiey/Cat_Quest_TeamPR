@@ -27,7 +27,15 @@ public:						// 직접 지정한 방향으로 넉백 (방향 계산 수동)
 	void					Knock_Back(const _vec3& _vDir, const _float& _fImpulse = DF_RB_KNOCKBACK);		    
 							
 							// 공격자의 방향으로부터 넉백 (방향 계산 자동)
-	void					Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse = DF_RB_KNOCKBACK);		
+	void					Knock_Back(CGameObject* _pAttacker, const _float& _fImpulse = JUMP_POWER);
+
+							// 위로 뜨기만 한다.
+	void					Knock_Up(const _float& _fImpulse = JUMP_POWER);
+							
+							// 직접 지정한 방향으로 날라간다.
+	void					Knock_Up(const _vec3& _vDir, const _float& _fImpulse = DF_RB_KNOCKBACK);
+
+	const					bool& Is_KnockUp() const { return m_bKnockUp; }
 
 	const _bool				Is_Vel_Zero() { if (0.1f > D3DXVec3Length(&m_vVelocity)) return TRUE; else return FALSE; }
 	void					Zero_KnockBack() { m_vForce = vec3.zero; m_vVelocity = vec3.zero; m_vAcc = vec3.zero; }
@@ -57,6 +65,8 @@ private:
 
 	_bool					m_bJump;
 	_float					m_fStartY;
+
+	_bool					m_bKnockUp;
 
 public:
 	static CRigidBody*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

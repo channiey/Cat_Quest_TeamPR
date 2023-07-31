@@ -8,6 +8,7 @@
 CFadeUI::CFadeUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI(pGraphicDev, OBJ_ID::UI_BACKGROUND)
 	, m_eFadeColor(FADE_COLOR::WHITE)
+	, m_bDelete(TRUE)
 {
 	ZeroMemory(&m_tLerpAlpha, sizeof(LERP_FLOAT_INFO));
 }
@@ -74,7 +75,7 @@ void CFadeUI::Render_Object()
 
 	m_pBufferCom->Render_Buffer();
 
-	if (!m_tLerpAlpha.bActive)
+	if (!m_tLerpAlpha.bActive && !m_bDelete)
 	{
 		CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
 		
@@ -87,9 +88,12 @@ void CFadeUI::Render_Object()
 	}
 }
 
-void CFadeUI::Start_Fade(const _float _fTime, const _float& _fStartvalue, const _float _fEndValue, const _bool& _bWhite, const LERP_MODE& _eMode)
+void CFadeUI::Start_Fade(const _float _fTime, const _float& _fStartvalue, const _float _fEndValue, const _bool& _bWhite, const LERP_MODE& _eMode, const _bool _bDelete)
 {
 	Set_Active(TRUE);
+
+	if (!_bDelete)
+		m_bDelete = TRUE;
 
 	m_tLerpAlpha.Init_Lerp(_eMode);
 	m_tLerpAlpha.Set_Lerp(_fTime, _fStartvalue, _fEndValue);

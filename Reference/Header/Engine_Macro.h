@@ -43,6 +43,7 @@ namespace Engine
 #define CAM_FOV_PLAYER_FLIGHT		D3DXToRadian(80.f)
 #define CAM_FOV_PLAYER_ATTACK		D3DXToRadian(57.f) // 근거리 공격
 #define	CAM_FOV_DRAG_MAX			D3DXToRadian(90.f) // 드래그시 FOV
+#define	CAM_FOV_QUEST_TAKL			D3DXToRadian(50.f)	
 
 // Cam Height
 #define CAM_HEIGHT_MAG					1.5f

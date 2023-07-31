@@ -254,17 +254,19 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_EXIT_INGAME);
 			CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
 			if (nullptr != pCam)
-				pCam->Get_FadeUI()->Start_Fade(4.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_OUT);
-
+				pCam->Get_FadeUI()->Start_Fade(4.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_OUT, FALSE);
+			//CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_IN, 6.5f, SOUND_VOLUME_BGM, 0.f);
 			m_bFinish = FALSE;
 			m_bEndingFade = TRUE;
 		}
 	}
-	if (m_bEndingFade)
+	if (m_bEndingFade) 
 	{
 		if (!CCameraMgr::GetInstance()->Is_Fade())
 		{
 			// 게임 종료 - 페이드 완료
+
+			// title.png 움직이게 띄우기 
 		}
 	}
 
