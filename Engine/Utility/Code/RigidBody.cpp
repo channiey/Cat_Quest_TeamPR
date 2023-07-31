@@ -90,6 +90,7 @@ void CRigidBody::LateUpdate_Component()
 
 	vPos += m_vVelocity;
 
+
 	if (m_bJump || m_bKnockUp)
 	{
 		if (vPos.y < m_fStartY)
