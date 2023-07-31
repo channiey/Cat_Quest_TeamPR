@@ -5,8 +5,6 @@
 
 #include "Transform.h"
 
-
-
 // 1차 추가 환경
 #include "TwinPeaks.h"
 #include "DeathTree.h"
@@ -201,6 +199,10 @@
 #include "SoundMgr.h"
 #include "Island_Village.h"
 
+
+// 국기
+#include "FlagOwner.h"
+
 #include "BossSceneMgr.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -325,6 +327,7 @@ void CScene_World::LateUpdate_Scene()
 
 	// Position vs Sphere 
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::FLAG, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::PLAYER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 
@@ -673,6 +676,10 @@ HRESULT CScene_World::Ready_Layer_Other()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::GENERATOR,	pLayer });
 
+	pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ OBJ_TYPE::FLAG,	pLayer });
+
 	return S_OK;
 }
 
@@ -814,6 +821,25 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	pGameObject = CVLargeIceBush::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
+	// 국기
+	// pGameObject = CFlagChina::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+	// 
+	// pGameObject = CFlagUSA::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+	// 
+	// pGameObject = CFlagFrance::Create(m_pGraphicDev);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
+	// 국기
+	// pGameObject = CFlagOwner::Create(m_pGraphicDev, OBJ_ID::FLAG_OWNER);
+	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
 
 
 	return S_OK;

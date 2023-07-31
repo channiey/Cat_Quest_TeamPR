@@ -82,6 +82,14 @@ public:
 #pragma endregion
 	// 성혁 추가
 	_bool				Get_IsCol() { return m_bCol; }
+	virtual void		Set_InvenTrans(_float _fPosX, _float _fPosY)
+	{
+		m_ItemMatWorld._11 = 193.f * 0.5f;
+		m_ItemMatWorld._22 = 128.f * 0.5f;
+		m_ItemMatWorld._41 = _fPosX;
+		m_ItemMatWorld._42 = _fPosY;
+	}
+
 protected:
 
 	STATINFO				m_tStatInfo;    // Item Info
@@ -94,6 +102,7 @@ protected:
 
 	//성혁 추가
 	_bool					m_bCol;
+	_matrix					m_ItemMatWorld;
 
 	//준 추가
 	_uint					m_iItemValue;

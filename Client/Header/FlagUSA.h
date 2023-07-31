@@ -1,17 +1,16 @@
 #pragma once
-#include "Item_Weapon.h"
+#include "Flag.h"
 
 BEGIN(Engine)
 
-
 END
 
-class CWarriorWeapon : public CItem_Weapon
+class CFlagUSA : public CFlag
 {
 protected:
-	explicit CWarriorWeapon(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CWarriorWeapon(const CItem& rhs);
-	virtual ~CWarriorWeapon();
+	explicit CFlagUSA(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);
+	explicit CFlagUSA(const CFlag& rhs);
+	virtual ~CFlagUSA();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -21,15 +20,17 @@ public:
 
 
 private:
-	HRESULT					Add_Component();
+	HRESULT		Add_Component();
 
 
+private:
 
 public:
-	static				CWarriorWeapon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static				CFlagUSA* Create(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);
 
 protected:
 	virtual void		Free() override;
+
 
 };
 
