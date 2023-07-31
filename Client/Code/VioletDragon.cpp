@@ -72,6 +72,8 @@
 #include "ExpCoin.h"
 
 
+#include "Management.h"
+
 
 CVioletDragon::CVioletDragon(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_VIOLETDRAGON)
@@ -98,7 +100,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 300.f;
+	m_tStatInfo.fCurHP = 100.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
@@ -148,7 +150,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_bBlueTunder = false;
 	m_bBlueLate = false;
 	
-
+	m_DeadCreatTime = 0.f;
 
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
@@ -560,6 +562,87 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+	// Position Value
+	_vec3 vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+
+	if (true == m_tStatInfo.bDead)
+	{
+	
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 10.f, vOwnerPos.y, vOwnerPos.z - 5.f }));
+		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 10.f, vOwnerPos.y, vOwnerPos.z + 5.f }));
+
+
+		// Coin
+
+		// Near
+		CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
+		GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 10.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+
+		CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
+		GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 10.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+
+		CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
+		GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 10.f });
+
+		CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
+		GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 10.f });
+
+
+		// Far
+		CGameObject* GoldCoin5 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin5);
+		GoldCoin5->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 15.f, GoldCoin5->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
+
+		CGameObject* GoldCoin6 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin6);
+		GoldCoin6->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x +15.f, GoldCoin6->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+
+		CGameObject* GoldCoin7 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin7);
+		GoldCoin7->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin7->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
+
+		CGameObject* GoldCoin8 = CGoldCoin::Create(m_pGraphicDev);
+		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin8);
+		GoldCoin8->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin8->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+
+
+
+
+
+
+		// 스킬 삭제
+		dynamic_cast<CSkill_Monster_CircleAttack*>(m_pBaseSkill)->End();
+
+		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
+		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
+
+		dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->End();
+		dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LateEnd();
+
+		dynamic_cast<CSkill_Boss_FullDown*>(m_pFullDown)->End();
+
+		dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->End();
+
+
+
+		// 모든 몬스터 삭제
+		multimap<const _tchar*, CGameObject*> pMapMon = CManagement::GetInstance()->Get_Layer(OBJ_TYPE::MONSTER)->Get_ObjectMap();
+
+
+		for (auto iter : pMapMon)
+		{
+			dynamic_cast<CMonster*>(iter.second)->Set_Dead();
+		}
+
+	}
+
+
 	if (this->Is_Active())
 	{
 		arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK]->Set_Active(true);
@@ -573,7 +656,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
+	//_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
 
 
@@ -770,56 +853,6 @@ void CVioletDragon::LateUpdate_Object()
 	}
 
 
-	// Position Value
-	_vec3 vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
-
-	if (true == m_tStatInfo.bDead)
-	{
-
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 3.f, vOwnerPos.y, vOwnerPos.z -3.f }));
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 3.f, vOwnerPos.y, vOwnerPos.z + 3.f }));
-
-
-		// Coin
-		CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
-		GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 20.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
-
-		CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
-		GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 20.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
-
-		CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
-		GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z +20.f });
-
-		CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
-		GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 20.f });
-
-
-
-
-
-
-
-		// 스킬 삭제
-		dynamic_cast<CSkill_Monster_CircleAttack*>(m_pBaseSkill)->End();
-
-		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
-		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
-
-		dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->End();
-		dynamic_cast<CSkill_Boss_BlueThunder*>(m_pBlueThunder)->LateEnd();
-
-		dynamic_cast<CSkill_Boss_FullDown*>(m_pFullDown)->End();
-
-		dynamic_cast<CSkill_Boss_CreateWyvern*>(m_pCreateWyvern)->End();
-		
-
-	}
 
 
 

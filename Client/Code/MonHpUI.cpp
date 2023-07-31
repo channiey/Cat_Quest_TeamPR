@@ -72,15 +72,26 @@ HRESULT CMonHpUI::Ready_Object()
 _int CMonHpUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+	
+	if (nullptr == m_pMonster)
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);  // 삭제
+		return	iExit;
+	}
+
+
+	if (nullptr != m_pMonster)
+		m_fCurRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
+
+
+
+
 
 	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().bDead)
 	{
 		CEventMgr::GetInstance()->Delete_Obj(this);  // 삭제
 		return iExit;
 	}
-
-	if (nullptr != m_pMonster)
-		m_fCurRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
 
 	if (1.f < m_fCurRatio)
 	{

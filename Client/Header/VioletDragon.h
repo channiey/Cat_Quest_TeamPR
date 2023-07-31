@@ -79,6 +79,10 @@ private:
 	_bool					m_bHP_20;
 
 
+	_float					m_DeadCreatTime;
+
+
+
 protected:
 	virtual void		Free() override;
 
