@@ -25,7 +25,7 @@ HRESULT CFlagFrance::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 85.f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 85.f, 0.02f, 30.f });
 
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);

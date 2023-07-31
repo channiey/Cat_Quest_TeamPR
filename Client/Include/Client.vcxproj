@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -182,6 +182,7 @@
     <ClInclude Include="..\Header\DrakothTable.h" />
     <ClInclude Include="..\Header\Flag.h" />
     <ClInclude Include="..\Header\FlagOwner.h" />
+    <ClInclude Include="..\Header\FlagStart.h" />
     <ClInclude Include="..\Header\FlagUSA.h" />
     <ClInclude Include="..\Header\FlagFrance.h" />
     <ClInclude Include="..\Header\FlagGermany.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="..\Header\FoxState_Rest.h" />
     <ClInclude Include="..\Header\GetWorldEffect.h" />
     <ClInclude Include="..\Header\LargeIceBush.h" />
+    <ClInclude Include="..\Header\MiniGameMgr_Bingo.h" />
     <ClInclude Include="..\Header\Paper.h" />
     <ClInclude Include="..\Header\Player_AfterImg.h" />
     <ClInclude Include="..\Header\Present.h" />
@@ -631,6 +633,7 @@
     <ClCompile Include="..\Code\DrakothTable.cpp" />
     <ClCompile Include="..\Code\Flag.cpp" />
     <ClCompile Include="..\Code\FlagOwner.cpp" />
+    <ClCompile Include="..\Code\FlagStart.cpp" />
     <ClCompile Include="..\Code\FlagUSA.cpp" />
     <ClCompile Include="..\Code\FlagFrance.cpp" />
     <ClCompile Include="..\Code\FlagGermany.cpp" />
@@ -644,6 +647,7 @@
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
     <ClCompile Include="..\Code\GetWorldEffect.cpp" />
     <ClCompile Include="..\Code\LargeIceBush.cpp" />
+    <ClCompile Include="..\Code\MiniGameMgr_Bingo.cpp" />
     <ClCompile Include="..\Code\Paper.cpp" />
     <ClCompile Include="..\Code\Player_AfterImg.cpp" />
     <ClCompile Include="..\Code\Present.cpp" />

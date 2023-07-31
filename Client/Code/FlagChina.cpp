@@ -25,7 +25,7 @@ HRESULT CFlagChina::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 100.f, m_pTransformCom->Get_Scale().y, 30.f });
+	m_pTransformCom->Set_Pos(_vec3{ 100.f, 0.02f, 30.f });
 	FAILED_CHECK_RETURN(Add_RangeObj(), E_FAIL);
 
 

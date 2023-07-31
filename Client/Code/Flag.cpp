@@ -30,7 +30,9 @@ HRESULT CFlag::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	FAILED_CHECK_RETURN(Add_RangeObj(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
+	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 2.f });
+
+	m_bActive = false;
 
 	return S_OK;
 }
@@ -63,12 +65,9 @@ void CFlag::Render_Object()
 
 	_matrix matWorld = m_pTransformCom->Get_WorldMat();
 	_matrix matBill;
-	//_vec3 vPos;
-	//
-	//memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
 	
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
-	//memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
+	m_pTransformCom->Set_Rot({-10.f, 0.f, 0.f});
 }
 
 void CFlag::OnCollision_Enter(CGameObject* _pColObj)
@@ -133,10 +132,12 @@ void CFlag::Check_Player_Collision()
 
 void CFlag::Enter_Player()
 {
+
 }
 
 void CFlag::Exit_Player()
 {
+
 }
 
 

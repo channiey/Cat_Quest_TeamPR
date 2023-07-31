@@ -202,6 +202,7 @@
 
 // 국기
 #include "FlagOwner.h"
+#include "MiniGameMgr_Bingo.h"
 
 #include "BossSceneMgr.h"
 
@@ -230,9 +231,9 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
 
 	if (!CMiniGameMgr_Jump::GetInstance()->Is_Init()) CMiniGameMgr_Jump::GetInstance()->Init(m_pGraphicDev);
-	
-	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL); // 아일랜드 생성
+	if (!CMiniGameMgr_Bingo::GetInstance()->Get_IsInit()) CMiniGameMgr_Bingo::GetInstance()->Init(m_pGraphicDev);
 
+	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL); // 아일랜드 생성
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); 
 	if (!CBossSceneMgr::GetInstance()->Is_Ready()) CBossSceneMgr::GetInstance()->Ready_BossSceneMgr(m_pGraphicDev);
@@ -305,6 +306,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	CMiniGameMgr_Jump::GetInstance()->Update(fTimeDelta);
+	CMiniGameMgr_Bingo::GetInstance()->Update(fTimeDelta);
 
 	return 0;
 }
@@ -825,24 +827,9 @@ HRESULT CScene_World::Ready_Layer_KSH()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
 	// 국기
-	// pGameObject = CFlagChina::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-	// 
-	// pGameObject = CFlagUSA::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-	// 
-	// pGameObject = CFlagFrance::Create(m_pGraphicDev);
-	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-	// 국기
 	// pGameObject = CFlagOwner::Create(m_pGraphicDev, OBJ_ID::FLAG_OWNER);
 	// NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	// FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-
-
 
 	return S_OK;
 }

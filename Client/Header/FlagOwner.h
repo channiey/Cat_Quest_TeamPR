@@ -19,6 +19,7 @@ public:
 
 public:
 	void				Check_Player_Collision(const OBJ_ID& _eID);
+	vector<CFlag*>		Get_FlagVector() { return m_vecFlag; }
 
 private:
 	vector<CFlag*>		m_vecFlag;
