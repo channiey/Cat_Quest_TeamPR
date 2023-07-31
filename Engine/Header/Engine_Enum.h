@@ -282,7 +282,10 @@ namespace Engine
 		FLAG_JAPEN, FLAG_RUSSIA, FLAG_THAI, FLAG_OWNER,
 
 		// Jun 3차 이후 추가 ID
-		PLAYER_AFTERIMG, EFFECT_SNOW,
+		PLAYER_AFTERIMG, EFFECT_SNOW, 
+
+		// 나라 국기(스타트)
+		FLAG_START,
 
 		TYPEEND
 };

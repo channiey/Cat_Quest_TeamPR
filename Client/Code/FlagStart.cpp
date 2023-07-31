@@ -1,44 +1,46 @@
-#include "FlagGermany.h"
+#include "FlagStart.h"
 #include "Export_Function.h"
 #include "EventMgr.h"
 
 #include "RangeObj.h"
 
-CFlagGermany::CFlagGermany(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner)
-	: CFlag(pGraphicDev, OBJ_ID::FLAG_GERMANY)
+CFlagStart::CFlagStart(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner)
+	: CFlag(pGraphicDev, OBJ_ID::FLAG_START)
 {
 	m_pFlagOwner = _owner;
 }
 
-CFlagGermany::CFlagGermany(const CFlag& rhs)
+CFlagStart::CFlagStart(const CFlag& rhs)
 	: CFlag(rhs)
 {
 }
 
-CFlagGermany::~CFlagGermany()
+CFlagStart::~CFlagStart()
 {
 
 }
 
-HRESULT CFlagGermany::Ready_Object()
+HRESULT CFlagStart::Ready_Object()
 {
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 85.f, 0.02f, 15.f });
+	m_pTransformCom->Set_Pos(_vec3{ 100.f, 0.02f, 15.f });
 
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
-	CEventMgr::GetInstance()->Add_Obj(L"FlagGermany_RangeObj", pRangeObj);
+	CEventMgr::GetInstance()->Add_Obj(L"FlagStart_RangeObj", pRangeObj);
 	pRangeObj->Set_Radius(2.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
-	m_szName = L"Flag_Germany";
+	m_szName = L"Flag_Start";
+
+	m_bActive = true;
 
 	return S_OK;
 }
 
-_int CFlagGermany::Update_Object(const _float& fTimeDelta)
+_int CFlagStart::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CFlag::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -46,13 +48,13 @@ _int CFlagGermany::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CFlagGermany::LateUpdate_Object()
+void CFlagStart::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 
 }
 
-void CFlagGermany::Render_Object()
+void CFlagStart::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
@@ -67,33 +69,33 @@ void CFlagGermany::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-HRESULT CFlagGermany::Add_Component()
+HRESULT CFlagStart::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
 	// Texture
-	pComponent = m_pFlagTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Flag_Germany", this));
+	pComponent = m_pFlagTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 	return S_OK;
 }
 
-CFlagGermany* CFlagGermany::Create(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner)
+CFlagStart* CFlagStart::Create(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner)
 {
-	CFlagGermany* pInstance = new CFlagGermany(pGraphicDev, _owner);
+	CFlagStart* pInstance = new CFlagStart(pGraphicDev, _owner);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("FlagGermany Create Failed");
+		MSG_BOX("FlagStart Create Failed");
 		return nullptr;
 	}
 	return pInstance;
 }
 
-void CFlagGermany::Free()
+void CFlagStart::Free()
 {
 
 	__super::Free();

@@ -5,12 +5,12 @@ BEGIN(Engine)
 
 END
 
-class CFlagGermany : public CFlag
+class CFlagStart : public CFlag
 {
 protected:
-	explicit CFlagGermany(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);
-	explicit CFlagGermany(const CFlag& rhs);
-	virtual ~CFlagGermany();
+	explicit CFlagStart(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);
+	explicit CFlagStart(const CFlag& rhs);
+	virtual ~CFlagStart();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -26,7 +26,7 @@ private:
 private:
 
 public:
-	static				CFlagGermany* Create(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);
+	static				CFlagStart* Create(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);
 
 protected:
 	virtual void		Free() override;
