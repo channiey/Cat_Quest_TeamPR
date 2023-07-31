@@ -281,6 +281,9 @@ namespace Engine
 		FLAG_CHINA, FLAG_USA, FLAG_FRANCE, FLAG_GERMANY, FLAG_ITALY,
 		FLAG_JAPEN, FLAG_RUSSIA, FLAG_THAI, FLAG_OWNER,
 
+		// Jun 3차 이후 추가 ID
+		PLAYER_AFTERIMG, EFFECT_SNOW,
+
 		TYPEEND
 };
 
@@ -414,7 +417,7 @@ namespace Engine
 	};
 
 
-	enum class FONT_TYPE			{DAMAGE, HIT, GOLD, EXP, TYPEEND};
+	enum class FONT_TYPE			{DAMAGE, HIT, GOLD, EXP, HEAL, TYPEEND};
 
 	enum ARG_TAG { ARG_TERRAIN, ARG_OBJ, ARG_END }; // IMGUI 레이아웃 탭 분류
 

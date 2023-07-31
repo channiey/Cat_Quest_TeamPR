@@ -16,6 +16,7 @@ END
 class CSkill;
 class CEffect;
 class CUI;
+class CPlayer_AfterImg;
 
 class CPlayer : public Engine::CGameObject
 {
@@ -117,7 +118,7 @@ public:
 	CLASS_TYPE&			Get_PlayerClass() { return m_eClass; }
 
 
-	void				Damaged(const _float& fDamage);
+	void				Damaged(const _float& fDamage, CGameObject* pObj);
 	void				Regen_HP(const _float& fHeal);
 	void				Regen_Mana();
 	void				Using_Mana(const _uint& iUsage);
@@ -174,6 +175,8 @@ public:
 	// 점프
 	const _bool			Is_Jump() const;
 
+	const _uint&		Get_ClockAlpha() const { return m_iClockAlpha; }
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
@@ -216,7 +219,10 @@ private:
 	_bool						m_bSkill;
 	CSkill*						m_arrSkillSlot[4];
 	CSkill*						m_arrSkill[(UINT)SKILL_TYPE::TYPEEND];
+	CSkill*						m_pSkillHeal;
 
+
+	// 추적공격
 	_bool						m_bIsMonster;
 	_float						m_fMonTargetLength;
 	_vec3						m_vMonTargetDir;
@@ -244,13 +250,17 @@ private:
 	CEffect*				    m_pEffectOra;
 	CEffect*					m_pEffectBanner;
 	CEffect*					m_pEffectShine;
+	// 냥서커 반짝이
+	_float						m_fThornAcc;
 
 	// UI
 	CUI*						m_pRingUI;
 	CUI*						m_pFlyUI;
 
-	// 냥서커 반짝이
-	_float						m_fThornAcc;
+	//잔상용 리스트
+	list<CGameObject*>			m_listAfterImg;
+	_uint						m_iCreateAfterImg;
+	
 
 	/////////////////////////////////
 	// << : Test : Range Test

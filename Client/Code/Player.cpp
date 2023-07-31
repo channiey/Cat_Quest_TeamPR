@@ -37,6 +37,7 @@
 #include "MoveDust.h"
 #include "MoveWater.h"
 // Skill Effect
+#include "Skill_Player_Heal.h"
 #include "Skill_Player_Fire.h"
 #include "Skill_Player_Ice.h"
 #include "Skill_Player_Thunder.h"
@@ -61,8 +62,10 @@
 #include "WorldFlight.h"
 #include "Inventory.h"
 #include "Item.h"
-#include "BossSceneMgr.h"
+
 #include "SoundMgr.h"
+#include "BossSceneMgr.h"
+#include "Player_AfterImg.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -95,6 +98,7 @@ HRESULT CPlayer::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_iCreateAfterImg = 0;
 
 	m_tMoveInfo.fMoveSpeed = 20.f;
 	Set_AD(5);
@@ -339,11 +343,17 @@ HRESULT CPlayer::Ready_Object()
 
 #pragma region SKILL
 
-	CSkill* pSkillFly = CSkill_Player_Fly::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(pSkillFly, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fly", pSkillFly), E_FAIL);
-	m_pSkillFly = pSkillFly;
+	CSkill* pSkill = CSkill_Player_Fly::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Fly", pSkill), E_FAIL);
+	m_pSkillFly = pSkill;
 	m_pSkillFly->Set_Maintain(TRUE);
+
+	pSkill = CSkill_Player_Heal::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Heal", pSkill), E_FAIL);
+	m_pSkillHeal = pSkill;
+	m_pSkillHeal->Set_Maintain(TRUE);
 
 	CUI* pUI = CRingUI::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
@@ -473,6 +483,17 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	
 	Create_ThornSparkle(fTimeDelta);
 
+	if (!m_listAfterImg.empty() && m_eClass == CLASS_TYPE::NINJA)
+	{
+		if (m_listAfterImg.front() != nullptr)
+		{
+			m_listAfterImg.front()->Set_Active(true);
+			CEventMgr::GetInstance()->Add_Obj(L"Player_AfterImg", m_listAfterImg.front());
+			m_listAfterImg.pop_front();
+		}
+	
+	}
+		
 	return iExit;
 }
 
@@ -496,6 +517,38 @@ void CPlayer::LateUpdate_Object()
 	}
 
 	LevelUp();
+
+	// 잔상 만들기 널체크는 나중에 안정되면 넣을거임
+	if (m_eClass == CLASS_TYPE::NINJA)
+	{
+		if (m_iCreateAfterImg % 4 == 0 && m_listAfterImg.size() <= 5)
+		{
+			if (m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_IDLE &&
+				m_pStateMachineCom->Get_CurState() != STATE_TYPE::BACK_IDLE &&
+				m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_FLIGHT)
+			{
+				CGameObject* pAfterImg = CPlayer_AfterImg::Create(m_pGraphicDev, this);
+				m_listAfterImg.push_back(pAfterImg);
+			}
+		}
+		
+		++m_iCreateAfterImg;
+		if (m_iCreateAfterImg >= 100)
+			m_iCreateAfterImg = 0;
+	}
+	else
+	{
+		if (!m_listAfterImg.empty())
+		{
+			for (auto iter : m_listAfterImg)
+			{
+				CEventMgr::GetInstance()->Delete_Obj(iter);
+			}
+			m_listAfterImg.clear();
+		}
+		m_iCreateAfterImg = 0;
+	}
+	
 
 	__super::LateUpdate_Object();
 }
@@ -563,30 +616,35 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 			}
 
 		}
-	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (vOverlap.x > vOverlap.z)
+		/*if (_pColObj->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
 		{
-			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z - vOverlap.z });
+			_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
 			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z + vOverlap.z });
-		}
-		else
-		{
-			if (vMyPos.x < vColPos.x)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
 		}*/
+		
 	}
 	break;
 	case Engine::OBJ_TYPE::LINE:
@@ -751,29 +809,32 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 			
 		}
 		
-	/*	_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
+		/*if (_pColObj->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
+		{
+			_vec3 vOverlap = static_cast<CRectCollider*>(m_pColliderCom)->Get_Overlap_Rect();
 
-		if (vOverlap.x > vOverlap.z)
-		{
-			if (vMyPos.z < vColPos.z)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z - vOverlap.z });
+			if (vOverlap.x > vOverlap.z)
+			{
+				if (vMyPos.z < vColPos.z)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z - vOverlap.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
+													vMyPos.y,
+													vMyPos.z + vOverlap.z });
+			}
 			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x,
-												vMyPos.y,
-												vMyPos.z + vOverlap.z });
-		}
-		else
-		{
-			if (vMyPos.x < vColPos.x)
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
-			else
-				m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
-												vMyPos.y,
-												vMyPos.z });
+			{
+				if (vMyPos.x < vColPos.x)
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x - vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+				else
+					m_pTransformCom->Set_Pos(_vec3{ vMyPos.x + vOverlap.x,
+													vMyPos.y,
+													vMyPos.z });
+			}
 		}*/
 	}
 	break;
@@ -1267,6 +1328,10 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
+	/*if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	{
+		CBossSceneMgr::GetInstance()->Start_BossScene();
+	}*/
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
@@ -1278,6 +1343,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pRigidBodyCom->Jump();
 	}
 		
+	if (CInputDev::GetInstance()->Key_Down('R'))
+	{
+		m_pSkillHeal->Play();
+	}
+
 
 	if (CInputDev::GetInstance()->Key_Down('1') &&
 		m_arrSkillSlot[0] != nullptr && !m_arrSkillSlot[0]->Is_Active() &&
@@ -1567,13 +1637,20 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 
 void CPlayer::Regen_HP(const _float& fHeal)
 {
-	if (m_tStatInfo.fCurHP > 0)
+	if (m_tStatInfo.fCurHP > 0 && m_tStatInfo.fCurHP < m_tStatInfo.fMaxHP)
 	{
 		_float fRegenHeal = m_tStatInfo.fCurHP + fHeal;
 		if (fRegenHeal > m_tStatInfo.fMaxHP)
 			fRegenHeal = m_tStatInfo.fMaxHP;
 
 		Set_CurHP(fRegenHeal);
+		Set_CurMP(m_tStatInfo.fMaxMP);
+
+		CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, fHeal, FONT_TYPE::HEAL);
+		NULL_CHECK(pEffect);
+		CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
+
+		CSoundMgr::GetInstance()->PlaySoundW(L"skill_healingpaw.wav", CHANNEL_ID::PLAYER_2, VOLUME_PLAYER_SKILL);
 	}
 
 }
@@ -1637,14 +1714,60 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 	}
 }
 
-void CPlayer::Damaged(const _float& fDamage)
+void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 {
+	NULL_CHECK(pObj);
+
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_DIE ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WAKE || 
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL || 
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
 		return;
+
+	if (pObj->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
+	{
+		if (static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_ATTACK2 ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_ATTACK3 ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONATTACK ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK2 ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK3)
+		{
+			if (!m_pRigidBodyCom->Is_Vel_Zero())
+			{
+				m_pRigidBodyCom->Zero_KnockBack();
+			}
+			else
+			{
+				_vec3 vDir = m_pTransformCom->Get_Dir();
+				vDir *= -1;
+
+				if (pObj != nullptr)
+					m_pRigidBodyCom->Knock_Back(vDir, 220);
+			}
+
+		}
+		else if (static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_DASH_ATTACK ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_DASH_BACK_ATTACK)
+		{
+			if (!m_pRigidBodyCom->Is_Vel_Zero())
+			{
+				m_pRigidBodyCom->Zero_KnockBack();
+			}
+			else
+			{
+				_vec3 vDir = m_pTransformCom->Get_Dir();
+				vDir *= -1;
+
+				if (pObj != nullptr)
+					m_pRigidBodyCom->Knock_Back(vDir, 220);
+			}
+
+		}
+	}
+		
+
 
 	CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, fDamage, FONT_TYPE::HIT);
 	NULL_CHECK(pEffect);

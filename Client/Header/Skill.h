@@ -3,6 +3,8 @@
 #include "Engine_Define.h"
 #include "GameObject.h"
 #include "SoundMgr.h"
+#include "Effect_Range_Quater.h"
+#include "SkillEffect.h"
 
 /*
 

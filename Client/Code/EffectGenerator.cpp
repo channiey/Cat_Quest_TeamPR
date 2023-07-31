@@ -33,6 +33,9 @@ HRESULT CEffectGenerator::Ready_Object()
 	m_fCloud_CreateTime = 0.f;
 	m_iChoice = 0;
 
+	m_fSnow_AccTime = 0.f;
+	Snow_Caculate_CreateTime();
+
 	return S_OK;
 }
 
@@ -55,6 +58,7 @@ _int CEffectGenerator::Update_Object(const _float& fTimeDelta)
 		Cloud_Create(fTimeDelta);
 		break;
 	case OBJ_ID::ISLAND_RANGE_ICE:
+		//Snow_Create(fTimeDelta);
 		Cloud_Create(fTimeDelta);
 		break;
 	case OBJ_ID::ISLAND_RANGE_JUMP:
@@ -66,6 +70,7 @@ _int CEffectGenerator::Update_Object(const _float& fTimeDelta)
 		Cloud_Create(fTimeDelta);
 		break;
 	case OBJ_ID::ISLAND_RANGE_DEATH:
+		Rain_Create(fTimeDelta);
 		break;
 	case OBJ_ID::TYPEEND:
 		Pollen_Create(fTimeDelta);
@@ -95,25 +100,39 @@ void CEffectGenerator::Set_Locate(OBJ_ID _eLocation)
 	switch (m_ePlayerLocate)
 	{
 	case OBJ_ID::ISLAND_RANGE_VILLAGE:
+		m_fSnow_AccTime = 0.f;
+		m_fRain_AccTime = 0.f;
 		break;
 	case OBJ_ID::ISLAND_RANGE_ICE:
 		m_fPollen_AccTime = 0.f;
+		m_fRain_AccTime = 0.f;
 		break;
 	case OBJ_ID::ISLAND_RANGE_JUMP:
+		m_fSnow_AccTime = 0.f;
+		m_fRain_AccTime = 0.f;
 		break;
 	case OBJ_ID::ISLAND_RANGE_KING:
+		m_fSnow_AccTime = 0.f;
+		m_fRain_AccTime = 0.f;
 		break;
 	case OBJ_ID::ISLAND_RANGE_DEATH:
 		m_fCloud_AccTime = 0.f;
+		m_fPollen_AccTime = 0.f;
+		m_fSnow_AccTime = 0.f;
 		break;
 	case OBJ_ID::TYPEEND:
+		m_fSnow_AccTime = 0.f;
+		m_fRain_AccTime = 0.f;
 		break;
 	default:
+		m_fSnow_AccTime = 0.f;
+		m_fRain_AccTime = 0.f;
 		m_fCloud_AccTime = 0.f;
 		break;
 	}
 }
 
+#pragma region Pollen
 void CEffectGenerator::Pollen_Create(const _float& fTimeDelta)
 {
 	m_fPollen_AccTime += fTimeDelta;
@@ -129,6 +148,8 @@ void CEffectGenerator::Pollen_Create(const _float& fTimeDelta)
 		Pollen_Caculate_CreateTime();
 	}
 }
+
+
 
 void CEffectGenerator::Pollen_Caculate_CreateTime()
 {
@@ -151,6 +172,10 @@ void CEffectGenerator::Pollen_Caculate_InitPos()
 	m_vPollen_CreatePos = vInitPos;
 }
 
+
+#pragma endregion
+
+#pragma region Cloud
 void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 {
 	const _int iCreateNum = 2;
@@ -194,7 +219,7 @@ void CEffectGenerator::Cloud_Create(const _float& fTimeDelta)
 				break;
 			}
 		}
-		
+
 		m_fCloud_AccTime -= m_fCloud_CreateTime;
 		Cloud_Caculate_CreateTime();
 	}
@@ -204,7 +229,7 @@ void CEffectGenerator::Cloud_Caculate_CreateTime()
 {
 	NULL_CHECK(m_pPlayer)
 
-	std::mt19937 gen(m_Random());
+		std::mt19937 gen(m_Random());
 
 	if (static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_WALK ||
 		static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::BACK_WALK)
@@ -218,7 +243,7 @@ void CEffectGenerator::Cloud_Caculate_CreateTime()
 		m_fCloud_CreateTime = xDist1(gen);
 	}
 
-	
+
 }
 
 void CEffectGenerator::Cloud_Caculate_InitPos()
@@ -238,29 +263,29 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 	_float randomZ1 = xDist3(gen);
 	_float randomZ2 = xDist4(gen);
 
-	/*std::uniform_int_distribution<int> xDist5(0, 3);
-	_int randomChoice = xDist5(gen);*/
+	std::uniform_int_distribution<int> xDist5(0, 3);
+	_int randomChoice = xDist5(gen);
 
-	switch (m_iChoice)
+	switch (randomChoice)
 	{
 	case 0:
 		m_vCloud_CreatePos.x += randomX1;
 		m_vCloud_CreatePos.z += randomZ1;
-	break;
+		break;
 	case 1:
 		m_vCloud_CreatePos.x += randomX1;
 		m_vCloud_CreatePos.z += randomZ2;
-	break;
+		break;
 	case 2:
 		m_vCloud_CreatePos.x += randomX2;
 		m_vCloud_CreatePos.z += randomZ1;
-	break;
+		break;
 	case 3:
 		m_vCloud_CreatePos.x += randomX2;
 		m_vCloud_CreatePos.z += randomZ2;
-	break;
+		break;
 	default:
-	break;
+		break;
 	}
 
 	++m_iChoice;
@@ -268,6 +293,62 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 		m_iChoice = 0;
 
 }
+#pragma endregion
+
+#pragma region Snow
+void CEffectGenerator::Snow_Create(const _float& fTimeDelta)
+{
+	m_fSnow_AccTime += fTimeDelta;
+	if (m_fSnow_AccTime >= m_fSnow_CreateTime)
+	{
+		Snow_Caculate_InitPos();
+
+		CGameObject* pSnow = CPollen::Create(m_pGraphicDev, m_vSnow_CreatePos);
+		NULL_CHECK(pSnow);
+		CEventMgr::GetInstance()->Add_Obj(L"Effect_Snow", pSnow);
+
+		m_fPollen_AccTime -= m_fPollen_CreateTime;
+		Snow_Caculate_CreateTime();
+	}
+}
+
+void CEffectGenerator::Snow_Caculate_CreateTime()
+{
+	_float fMin = 1.f;
+	_float fMax = 2.f;
+	_float fGenerTime = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
+	m_fSnow_CreateTime = floor(fGenerTime * 10) / 10;
+}
+
+void CEffectGenerator::Snow_Caculate_InitPos()
+{
+	_vec3 vInitPos = m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
+
+
+	_float fMin = -30.f;
+	_float fMax = 30.f;
+	_float vInitX = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
+	vInitPos.x += floor(vInitX * 10) / 10;
+
+	fMin = 10.f;
+	fMax = 20.f;
+	_float vInitY = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
+	vInitPos.y += floor(vInitY * 10) / 10;
+
+
+	fMin = 20.f;
+	fMax = 40.f;
+	_float vInitZ = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
+	vInitPos.z += floor(vInitZ * 10) / 10;
+	m_vSnow_CreatePos = vInitPos;
+}
+#pragma endregion
+
+#pragma region Rain
+
+
+#pragma endregion
+
 
 CEffectGenerator* CEffectGenerator::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

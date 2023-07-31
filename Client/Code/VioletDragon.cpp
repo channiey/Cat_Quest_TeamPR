@@ -912,7 +912,7 @@ void CVioletDragon::OnCollision_Enter(CGameObject* _pColObj)
 		if ((STATE_TYPE::BOSS_DASH_ATTACK == CurState || STATE_TYPE::BOSS_DASH_BACK_ATTACK == CurState) &&
 			m_pAnimatorCom->Get_CurAniamtion()->Is_End())
 		{
-			dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);
+			dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 		}
 	}
 	break;
