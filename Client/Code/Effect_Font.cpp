@@ -44,6 +44,10 @@ HRESULT CEffect_Font::Ready_Object()
 		m_strFont = L"+" + to_wstring(m_iNumb);
 		m_vColor = { 58, 254, 253 };
 		break;
+	case Engine::FONT_TYPE::HEAL:
+		m_strFont = to_wstring(m_iNumb);
+		m_vColor = { 255, 112, 212 };
+		break;
 	default:
 		break;
 	}

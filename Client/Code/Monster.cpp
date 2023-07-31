@@ -260,7 +260,7 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
 			{
 
-				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD);				
+				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);				
 
 			}
 			

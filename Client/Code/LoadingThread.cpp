@@ -1280,6 +1280,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/LevelUp/shine.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Shine02"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/LevelUp/shine_02.png")), E_FAIL);
+
+	// ´« ÀÌÆåÆ®
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Snow"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Snow/Snow.png")), E_FAIL);
 #pragma endregion
 	 
 #pragma region YUN

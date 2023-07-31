@@ -28,7 +28,7 @@ HRESULT CExpUI::Ready_Object()
 	}
 	
 
-	m_fPosX = 189;
+	m_fPosX = 184;
 	m_fPosY = 70;
 
 	m_fSizeX = 78;

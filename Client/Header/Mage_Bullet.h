@@ -33,6 +33,7 @@ private:
 
 private:
 	_float					m_fDamage;
+	_float					m_fAccTime;
 
 public:
 
