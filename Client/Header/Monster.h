@@ -142,6 +142,11 @@ protected:
 	CSkill*					m_pSkill;
 	CSkill*					m_pBaseSkill;
 
+
+	// Alpha lerp
+	LERP_FLOAT_INFO         m_tAlpha;
+
+
 	//Sound
 	_bool                    m_bAttackSound;
 

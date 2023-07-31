@@ -277,7 +277,7 @@ _int CHedgehog::Update_Object(const _float& fTimeDelta)
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z } ));
 			if (m_bAttackSound == false)
 			{
-				CSoundMgr::GetInstance()->PlaySound(L"enemy_impact.wav", CHANNEL_ID::MONSTER_HEDGEHOG, SOUND_VOLUME_MON_FOOT_ATTACK); // ??? ????? ?????? ???????? ????????
+				CSoundMgr::GetInstance()->PlaySound(L"enemy_impact2.wav", CHANNEL_ID::MONSTER_HEDGEHOG, SOUND_VOLUME_MON_FOOT_ATTACK); // ??? ????? ?????? ???????? ????????
 				m_bAttackSound = true;
 			}
 		}
@@ -335,6 +335,7 @@ void CHedgehog::Render_Object()
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 

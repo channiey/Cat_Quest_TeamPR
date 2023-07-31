@@ -272,73 +272,77 @@ HRESULT CSkill_Boss_CreateWyvern::Play()
 	_float fEndScale	= 0.5f;
 
 	// Very Near 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vPlayerPos.x +5.f , 0.01f ,vPlayerPos.z });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vPlayerPos.x +10.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect1->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect1->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect1->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 	// Very Near 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vPlayerPos.x - 5.f , 0.01f ,vPlayerPos.z });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vPlayerPos.x - 10.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect2->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect2->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect2->Scaling(fCastTime, fStartScale, fEndScale);
 
+	/////////////////////////
+	
 
 	// Near 1
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vPlayerPos.x - 10.f , 0.01f ,vPlayerPos.z + 10.f });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vPlayerPos.x - 15.f , 0.01f ,vPlayerPos.z + 15.f });
 	m_pBaseRangeEffect3->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect3->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 	// Near 2
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vPlayerPos.x + 10.f , 0.01f ,vPlayerPos.z + 10.f });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vPlayerPos.x + 15.f , 0.01f ,vPlayerPos.z + 15.f });
 	m_pBaseRangeEffect4->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect4->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 	// Near 3
-	m_pBaseRangeEffect5->Play_Effect(_vec3{ vPlayerPos.x - 10.f , 0.01f ,vPlayerPos.z - 10.f });
+	m_pBaseRangeEffect5->Play_Effect(_vec3{ vPlayerPos.x - 15.f , 0.01f ,vPlayerPos.z - 15.f });
 	m_pBaseRangeEffect5->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect5->Scaling(fCastTime, fStartScale, fEndScale);
 
 	// Near 4
-	m_pBaseRangeEffect6->Play_Effect(_vec3{ vPlayerPos.x + 10.f , 0.01f ,vPlayerPos.z - 10.f });
+	m_pBaseRangeEffect6->Play_Effect(_vec3{ vPlayerPos.x + 15.f , 0.01f ,vPlayerPos.z - 15.f });
 	m_pBaseRangeEffect6->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect6->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	// Boss Near 1
-	m_pBaseRangeEffect7->Play_Effect(_vec3{ vOwnerPos.x - 5.f , 0.01f ,vOwnerPos.z - 5.f });
+	//////////////////////////////
+
+	// Normal 1
+	m_pBaseRangeEffect7->Play_Effect(_vec3{ vPlayerPos.x - 20.f , 0.01f ,vPlayerPos.z - 20.f });
 	m_pBaseRangeEffect7->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect7->Scaling(fCastTime, fStartScale, fEndScale);
 
-	// Boss Near 2
-	m_pBaseRangeEffect8->Play_Effect(_vec3{ vOwnerPos.x - 5.f , 0.01f ,vOwnerPos.z + 5.f });
+	// Normal 2
+	m_pBaseRangeEffect8->Play_Effect(_vec3{ vPlayerPos.x - 20.f , 0.01f ,vPlayerPos.z + 20.f });
 	m_pBaseRangeEffect8->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect8->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	// Boss Near 3
-	m_pBaseRangeEffect9->Play_Effect(_vec3{ vOwnerPos.x + 5.f , 0.01f ,vOwnerPos.z - 5.f });
+	// Normal 3
+	m_pBaseRangeEffect9->Play_Effect(_vec3{ vPlayerPos.x + 20.f , 0.01f ,vPlayerPos.z - 20.f });
 	m_pBaseRangeEffect9->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect9->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	// Boss Near 4
-	m_pBaseRangeEffect10->Play_Effect(_vec3{ vOwnerPos.x + 5.f , 0.01f ,vOwnerPos.z + 5.f });
+	// Normal 4
+	m_pBaseRangeEffect10->Play_Effect(_vec3{ vPlayerPos.x + 20.f , 0.01f ,vPlayerPos.z + 20.f });
 	m_pBaseRangeEffect10->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect10->Scaling(fCastTime, fStartScale, fEndScale);
 
+	////////////////////////////////////
 
-
-	// Boss Near 5 
-	m_pBaseRangeEffect11->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f ,vOwnerPos.z + 10.f });
+	// far 1  
+	m_pBaseRangeEffect11->Play_Effect(_vec3{ vPlayerPos.x -25.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect11->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect11->Scaling(fCastTime, fStartScale, fEndScale);
 
-	// Boss Near 6
-	m_pBaseRangeEffect12->Play_Effect(_vec3{ vOwnerPos.x - 10.f , 0.01f ,vOwnerPos.z + 10.f });
+	// far 2
+	m_pBaseRangeEffect12->Play_Effect(_vec3{ vPlayerPos.x +25.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect12->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect12->Scaling(fCastTime, fStartScale, fEndScale);
 
@@ -346,47 +350,47 @@ HRESULT CSkill_Boss_CreateWyvern::Play()
 
 	// Other
 	// Monster
-	m_pBaseRangeEffect13->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z -5.f });
+	m_pBaseRangeEffect13->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z -10.f });
 	m_pBaseRangeEffect13->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect13->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect13->Scaling(fCastTime, fStartScale, fEndScale);
 
-	m_pBaseRangeEffect14->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z +5.f});
+	m_pBaseRangeEffect14->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z +10.f});
 	m_pBaseRangeEffect14->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect14->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect14->Scaling(fCastTime, fStartScale, fEndScale);
 
-	m_pBaseRangeEffect15->Play_Effect(_vec3{ vPlayerPos.x -13.f , 0.01f ,vPlayerPos.z +7.f });
+	m_pBaseRangeEffect15->Play_Effect(_vec3{ vPlayerPos.x -18.f , 0.01f ,vPlayerPos.z +10.f });
 	m_pBaseRangeEffect15->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect15->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect15->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect16->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z +7.f });
+	m_pBaseRangeEffect16->Play_Effect(_vec3{ vPlayerPos.x + 18.f , 0.01f ,vPlayerPos.z +10.f });
 	m_pBaseRangeEffect16->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect16->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect16->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect17->Play_Effect(_vec3{ vPlayerPos.x -13.f , 0.01f ,vPlayerPos.z  -7.f});
+	m_pBaseRangeEffect17->Play_Effect(_vec3{ vPlayerPos.x -18.f , 0.01f ,vPlayerPos.z  -10.f});
 	m_pBaseRangeEffect17->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect17->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect17->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect18->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z -7.f });
+	m_pBaseRangeEffect18->Play_Effect(_vec3{ vPlayerPos.x + 18.f , 0.01f ,vPlayerPos.z -10.f });
 	m_pBaseRangeEffect18->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect18->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect18->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect19->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z + 13.f});
+	m_pBaseRangeEffect19->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z + 25.f});
 	m_pBaseRangeEffect19->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect19->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect19->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect20->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z - 13.f });
+	m_pBaseRangeEffect20->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z - 25.f });
 	m_pBaseRangeEffect20->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect20->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect20->Scaling(fCastTime, fStartScale, fEndScale);
@@ -421,124 +425,131 @@ HRESULT CSkill_Boss_CreateWyvern::LatePlay()
 	_float fStartScale	= 0.5f;
 	_float fEndScale	= 0.5f;
 
+
+
 	// Very Near 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vCreatePosition.x + 5.f , 0.01f ,vCreatePosition.z });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vPlayerPos.x + 10.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect1->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect1->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect1->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 	// Very Near 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vCreatePosition.x - 5.f , 0.01f ,vCreatePosition.z });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vPlayerPos.x - 10.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect2->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
+	m_pBaseRangeEffect2->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect2->Scaling(fCastTime, fStartScale, fEndScale);
+
+	/////////////////////////
 
 
 	// Near 1
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vCreatePosition.x - 10.f , 0.01f ,vCreatePosition.z + 10.f });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vPlayerPos.x - 15.f , 0.01f ,vPlayerPos.z + 15.f });
 	m_pBaseRangeEffect3->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect3->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 	// Near 2
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vCreatePosition.x + 10.f , 0.01f ,vCreatePosition.z + 10.f });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vPlayerPos.x + 15.f , 0.01f ,vPlayerPos.z + 15.f });
 	m_pBaseRangeEffect4->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect4->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 	// Near 3
-	m_pBaseRangeEffect5->Play_Effect(_vec3{ vCreatePosition.x - 10.f , 0.01f ,vCreatePosition.z - 10.f });
+	m_pBaseRangeEffect5->Play_Effect(_vec3{ vPlayerPos.x - 15.f , 0.01f ,vPlayerPos.z - 15.f });
 	m_pBaseRangeEffect5->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect5->Scaling(fCastTime, fStartScale, fEndScale);
 
 	// Near 4
-	m_pBaseRangeEffect6->Play_Effect(_vec3{ vCreatePosition.x + 10.f , 0.01f ,vCreatePosition.z - 10.f });
+	m_pBaseRangeEffect6->Play_Effect(_vec3{ vPlayerPos.x + 15.f , 0.01f ,vPlayerPos.z - 15.f });
 	m_pBaseRangeEffect6->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect6->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	// Boss Near 1
-	m_pBaseRangeEffect7->Play_Effect(_vec3{ vCreateBossPosition.x - 5.f , 0.01f ,vCreateBossPosition.z - 5.f });
+	//////////////////////////////
+
+	// Normal 1
+	m_pBaseRangeEffect7->Play_Effect(_vec3{ vPlayerPos.x - 20.f , 0.01f ,vPlayerPos.z - 20.f });
 	m_pBaseRangeEffect7->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect7->Scaling(fCastTime, fStartScale, fEndScale);
 
-	// Boss Near 2
-	m_pBaseRangeEffect8->Play_Effect(_vec3{ vCreateBossPosition.x - 5.f , 0.01f ,vCreateBossPosition.z + 5.f });
+	// Normal 2
+	m_pBaseRangeEffect8->Play_Effect(_vec3{ vPlayerPos.x - 20.f , 0.01f ,vPlayerPos.z + 20.f });
 	m_pBaseRangeEffect8->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect8->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	// Boss Near 3
-	m_pBaseRangeEffect9->Play_Effect(_vec3{ vCreateBossPosition.x + 5.f , 0.01f ,vCreateBossPosition.z - 5.f });
+	// Normal 3
+	m_pBaseRangeEffect9->Play_Effect(_vec3{ vPlayerPos.x + 20.f , 0.01f ,vPlayerPos.z - 20.f });
 	m_pBaseRangeEffect9->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect9->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	// Boss Near 4
-	m_pBaseRangeEffect10->Play_Effect(_vec3{ vCreateBossPosition.x + 5.f , 0.01f ,vCreateBossPosition.z + 5.f });
+	// Normal 4
+	m_pBaseRangeEffect10->Play_Effect(_vec3{ vPlayerPos.x + 20.f , 0.01f ,vPlayerPos.z + 20.f });
 	m_pBaseRangeEffect10->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect10->Scaling(fCastTime, fStartScale, fEndScale);
 
+	////////////////////////////////////
 
-	// Boss Near 5 
-	m_pBaseRangeEffect11->Play_Effect(_vec3{ vCreateBossPosition.x + 10.f , 0.01f ,vCreateBossPosition.z + 10.f });
+	// far 1  
+	m_pBaseRangeEffect11->Play_Effect(_vec3{ vPlayerPos.x - 25.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect11->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect11->Scaling(fCastTime, fStartScale, fEndScale);
 
-	// Boss Near 6
-	m_pBaseRangeEffect12->Play_Effect(_vec3{ vCreateBossPosition.x - 10.f , 0.01f ,vCreateBossPosition.z + 10.f });
+	// far 2
+	m_pBaseRangeEffect12->Play_Effect(_vec3{ vPlayerPos.x + 25.f , 0.01f ,vPlayerPos.z });
 	m_pBaseRangeEffect12->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect12->Scaling(fCastTime, fStartScale, fEndScale);
 
 
 
-
 	// Other
 	// Monster
-	m_pBaseRangeEffect13->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z - 5.f });
+	m_pBaseRangeEffect13->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z - 10.f });
 	m_pBaseRangeEffect13->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect13->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect13->Scaling(fCastTime, fStartScale, fEndScale);
 
-	m_pBaseRangeEffect14->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z + 5.f });
+	m_pBaseRangeEffect14->Play_Effect(_vec3{ vPlayerPos.x  , 0.01f ,vPlayerPos.z + 10.f });
 	m_pBaseRangeEffect14->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect14->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect14->Scaling(fCastTime, fStartScale, fEndScale);
 
-	m_pBaseRangeEffect15->Play_Effect(_vec3{ vPlayerPos.x - 13.f , 0.01f ,vPlayerPos.z + 7.f });
+	m_pBaseRangeEffect15->Play_Effect(_vec3{ vPlayerPos.x - 18.f , 0.01f ,vPlayerPos.z + 10.f });
 	m_pBaseRangeEffect15->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect15->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect15->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect16->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z + 7.f });
+	m_pBaseRangeEffect16->Play_Effect(_vec3{ vPlayerPos.x + 18.f , 0.01f ,vPlayerPos.z + 10.f });
 	m_pBaseRangeEffect16->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect16->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect16->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect17->Play_Effect(_vec3{ vPlayerPos.x - 13.f , 0.01f ,vPlayerPos.z - 7.f });
+	m_pBaseRangeEffect17->Play_Effect(_vec3{ vPlayerPos.x - 18.f , 0.01f ,vPlayerPos.z - 10.f });
 	m_pBaseRangeEffect17->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect17->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect17->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect18->Play_Effect(_vec3{ vPlayerPos.x + 13.f , 0.01f ,vPlayerPos.z - 7.f });
+	m_pBaseRangeEffect18->Play_Effect(_vec3{ vPlayerPos.x + 18.f , 0.01f ,vPlayerPos.z - 10.f });
 	m_pBaseRangeEffect18->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect18->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect18->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect19->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z + 13.f });
+	m_pBaseRangeEffect19->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z + 25.f });
 	m_pBaseRangeEffect19->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect19->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect19->Scaling(fCastTime, fStartScale, fEndScale);
 
 
-	m_pBaseRangeEffect20->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z - 13.f });
+	m_pBaseRangeEffect20->Play_Effect(_vec3{ vPlayerPos.x , 0.01f ,vPlayerPos.z - 25.f });
 	m_pBaseRangeEffect20->Alphaing(fCastTime, fStartAlpha, fEndAlpha);
 	m_pBaseRangeEffect20->Get_Transform()->Set_Scale(_vec3{ 0.1f, 0.1f, 0.1f });
 	m_pBaseRangeEffect20->Scaling(fCastTime, fStartScale, fEndScale);
-
 
 
 

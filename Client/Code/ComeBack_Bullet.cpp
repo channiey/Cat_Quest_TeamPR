@@ -99,7 +99,8 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
 
 
     m_tAlpha.Update_Lerp(fTimeDelta);
-   
+    m_vShake.Update_Lerp(fTimeDelta);
+
 
     m_fAccTime += fTimeDelta;
 
@@ -119,8 +120,6 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     if (m_bComeBack == false && m_bStop == true && m_fAccTime >= 2.f)
     {
         m_fSpeed = 0.f;
-        m_vShake.Update_Lerp(fTimeDelta);
- 
         m_bComeBack = true;
        // m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
     } 

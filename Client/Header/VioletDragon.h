@@ -41,11 +41,11 @@ public:
 
 public:
 	
-	_bool			Get_HP80() { return m_bHP_80; }
+	_bool			Get_HP90() { return m_bHP_90; }
 	_bool			Get_HP50() { return m_bHP_50; }
 	_bool			Get_HP20() { return m_bHP_20; }
 
-	void			Set_HP80(_bool _bHP80) { m_bHP_80 = _bHP80; }
+	void			Set_HP90(_bool _bHP80) { m_bHP_90 = _bHP80; }
 	void			Set_HP50(_bool _bHP50) { m_bHP_50 = _bHP50; }
 	void			Set_HP30(_bool _bHP20) { m_bHP_20 = _bHP20; }
 
@@ -74,7 +74,7 @@ private:
 	_bool					m_bCreatWyvernLate;
 	_float					m_CreateTime;
 
-	_bool					m_bHP_80;
+	_bool					m_bHP_90;
 	_bool					m_bHP_50;
 	_bool					m_bHP_20;
 

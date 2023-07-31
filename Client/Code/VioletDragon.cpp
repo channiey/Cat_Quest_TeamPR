@@ -98,12 +98,12 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 3000.f;
+	m_tStatInfo.fCurHP = 300.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
 
-	m_bHP_80 = false;
+	m_bHP_90 = false;
 	m_bHP_50 = false;
 	m_bHP_20 = false;
 
@@ -588,9 +588,14 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			m_pBaseSkill->Play();
 			m_bSkill = true;
 		}
-		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() ==12 )
 		{
 			CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MON_FOOT_ATTACK);
+		}
+
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
+		{
+
 		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
@@ -749,9 +754,9 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 void CVioletDragon::LateUpdate_Object()
 {
 
-	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.8f   ))
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.9f   ))
 	{
-		m_bHP_80 = true;
+		m_bHP_90 = true;
 	}
 
 	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.5f)
@@ -835,6 +840,8 @@ void CVioletDragon::Render_Object()
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 
