@@ -25,6 +25,7 @@ public:
 
 public:
 	const _bool&			Is_Ready() const { return m_arrPage[(_uint)PAGE::INIT]; }
+	const _bool				Is_Start() const { return m_arrPage[(_uint)PAGE::START]; }
 
 
 public:
@@ -53,6 +54,7 @@ private:
 
 	_bool					m_bFadeIn_End;
 	_bool					m_bFadeOut_End;
+	
 
 
 private:

@@ -104,7 +104,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 2000.f;
+	m_tStatInfo.fCurHP = 500.f; // 2000.f
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
@@ -578,42 +578,42 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 10.f, vOwnerPos.y, vOwnerPos.z + 5.f }));
 
 
-		// Coin
+		// Coin -> »ý¼º X
 
 		// Near
-		CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
-		GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 10.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+		//CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
+		//GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 10.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 
-		CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
-		GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 10.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+		//CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
+		//GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 10.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 
-		CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
-		GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 10.f });
+		//CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
+		//GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 10.f });
 
-		CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
-		GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 10.f });
+		//CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
+		//GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 10.f });
 
 
-		// Far
-		CGameObject* GoldCoin5 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin5);
-		GoldCoin5->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 15.f, GoldCoin5->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
+		//// Far
+		//CGameObject* GoldCoin5 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin5);
+		//GoldCoin5->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 15.f, GoldCoin5->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
 
-		CGameObject* GoldCoin6 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin6);
-		GoldCoin6->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x +15.f, GoldCoin6->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+		//CGameObject* GoldCoin6 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin6);
+		//GoldCoin6->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x +15.f, GoldCoin6->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
 
-		CGameObject* GoldCoin7 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin7);
-		GoldCoin7->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin7->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
+		//CGameObject* GoldCoin7 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin7);
+		//GoldCoin7->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin7->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
 
-		CGameObject* GoldCoin8 = CGoldCoin::Create(m_pGraphicDev);
-		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin8);
-		GoldCoin8->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin8->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+		//CGameObject* GoldCoin8 = CGoldCoin::Create(m_pGraphicDev);
+		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin8);
+		//GoldCoin8->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin8->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
 
 
 
