@@ -154,9 +154,9 @@
 #include "VioletDragon.h"
 
 // Effect
-#include "Cloud1.h"
-#include "Cloud2.h"
-#include "Cloud3.h"
+//#include "Cloud1.h"
+//#include "Cloud2.h"
+//#include "Cloud3.h"
 
 #include "Effect_Cast_Blue.h"
 #include "Effect_Cast_Yellow.h"

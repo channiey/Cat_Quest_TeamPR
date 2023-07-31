@@ -153,7 +153,7 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 
 			m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 			m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_MAX);
-
+			
 			m_bDrag = FALSE;
 		}
 	}
