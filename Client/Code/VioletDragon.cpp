@@ -59,8 +59,12 @@
 #include "VioletDragonState_Chase3.h"
 
 // Intro
-#include "VioletDragonState_Intro.h"
+#include "VioletDragonState_Intro_Down.h"
+#include "VioletDragonState_Intro_Wing.h"
+#include "VioletDragonState_Intro_Sword.h"
 
+//Dead
+#include "VioletDragonState_Dead.h"
 
 
 // Effect
@@ -329,7 +333,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 
 
-	// 2
+	// 2 Pattern
 	pState = CVioletDragonState_Attack2::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_ATTACK2, pState);
 
@@ -343,7 +347,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_CHASE2, pState);
 
 
-	// 3
+	// 3 Pattern
 	pState = CVioletDragonState_Attack3::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_ATTACK3, pState);
 
@@ -357,6 +361,21 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_CHASE3, pState);
 
 
+	// Intro  ==========
+	// Down
+	pState = CVioletDragonState_Intro_Down::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_INTRO_DOWN, pState);
+	// Wing
+	pState = CVioletDragonState_Intro_Wing::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_INTRO_WING, pState);
+	// Sword
+	pState = CVioletDragonState_Intro_Sword::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_INTRO_SWORD, pState);
+
+
+	// Dead
+	pState = CVioletDragonState_Dead::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSSDEAD, pState);
 
 
 #pragma endregion
@@ -542,16 +561,30 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_ATTACK3, pAnimation);
 
 
+	// Intro
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_INTRO_DOWN)], STATE_TYPE::BOSS_INTRO_DOWN, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_INTRO_DOWN, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_INTRO_WING)], STATE_TYPE::BOSS_INTRO_WING, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_INTRO_WING, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_INTRO_SWORD)], STATE_TYPE::BOSS_INTRO_SWORD, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_INTRO_SWORD, pAnimation);
+
+	// Dead
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)], STATE_TYPE::BOSSDEAD, 0.1f, FALSE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSSDEAD, pAnimation);
+
+
+
+
 
 
 #pragma endregion
 
 	// 애니메이션, 상태 세팅
 	m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
-	m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
-
-
-
+	m_pStateMachineCom->Set_State(STATE_TYPE::BOSS_INTRO_DOWN);
 
 
 	m_szName = L"Monster_VioletDragon";
@@ -614,9 +647,6 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		CGameObject* GoldCoin8 = CGoldCoin::Create(m_pGraphicDev);
 		CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin8);
 		GoldCoin8->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin8->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
-
-
-
 
 
 
@@ -856,13 +886,6 @@ void CVioletDragon::LateUpdate_Object()
 		m_bHP_20 = true;
 	}
 
-
-
-
-
-
-
-
 	__super::LateUpdate_Object();
 }
 
@@ -928,10 +951,6 @@ void CVioletDragon::OnCollision_Enter(CGameObject* _pColObj)
 void CVioletDragon::OnCollision_Stay(CGameObject* _pColObj)
 {
 	__super::OnCollision_Stay(_pColObj);
-
-
-
-
 
 }
 
@@ -1057,9 +1076,6 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-
-
-
 	// Shooting Star ============================
 	// Shooting Star
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_STAR)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
@@ -1069,7 +1085,6 @@ HRESULT CVioletDragon::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_SHOOTING_RED)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); 
-
 
 
 	// Spread Bullet ============================
@@ -1083,7 +1098,6 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
 
-
 	// Create Wyvern ===========================
 	// Create Wyvern 
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_CREATE_WYVERN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
@@ -1095,7 +1109,6 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
 
-
 	// Dash Attack - Front ==============================
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_DASH_ATTACK)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dash_VioletDragon_Front", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -1105,12 +1118,10 @@ HRESULT CVioletDragon::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
 
-
 	// Ready Pattern
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_READY_PATTERN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_ReadyPattern_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent); // 텍스처 수정 필요
-
 
 
 	// 2
@@ -1131,7 +1142,6 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-
 	// 3
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_ATTACK3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon_Attack", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -1149,6 +1159,27 @@ HRESULT CVioletDragon::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_CHASE3)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	// Intro
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_INTRO_DOWN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Intro_Down_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_INTRO_WING)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Intro_Wing_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_INTRO_SWORD)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Intro_Sword_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	// Dead
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dead_VioletDragon", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 
 
 

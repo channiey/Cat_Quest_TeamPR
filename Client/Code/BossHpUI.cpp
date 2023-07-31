@@ -130,10 +130,14 @@ void CBossHpUI::LateUpdate_Object()
 
 void CBossHpUI::Render_Object()
 {
-	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::PATROL &&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BACK_PATROL &&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::COMEBACK &&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BACK_COMEBACK)
+	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::PATROL			&&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BACK_PATROL		&&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::COMEBACK			&&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BACK_COMEBACK	&&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSS_INTRO_DOWN	&&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSS_INTRO_SWORD &&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSS_INTRO_WING	&&
+		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSSDEAD)
 	{
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 

@@ -269,7 +269,7 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 		m_fAccTime += fTimeDelta;
 		m_fAttackTime += fTimeDelta;
 
-		if (m_fAttackTime >= 1.5f)
+		if (m_fAttackTime >= 2.f)
 		{
 			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vDir, this));
 			m_fAttackTime = 0.f;
