@@ -25,9 +25,13 @@ HRESULT CFlagChina::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 100.f, 0.02f, 30.f });
-	FAILED_CHECK_RETURN(Add_RangeObj(), E_FAIL);
+	m_pTransformCom->Set_Pos(_vec3{ 100.f, 1.02f, 30.f });
 
+	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
+	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"FlagChina_RangeObj", pRangeObj);
+	pRangeObj->Set_Radius(2.f);
+	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
 	m_szName = L"Flag_China";
 
@@ -50,6 +54,7 @@ void CFlagChina::LateUpdate_Object()
 void CFlagChina::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object();
 
@@ -59,17 +64,10 @@ void CFlagChina::Render_Object()
 
 	m_pGraphicDev->SetTexture(0, NULL);
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 HRESULT CFlagChina::Add_RangeObj()
 {
-	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
-	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
-	CEventMgr::GetInstance()->Add_Obj(L"FlagChina_RangeObj", pRangeObj);
-	pRangeObj->Set_Radius(2.f);
-	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
-
 	return S_OK;
 }
 

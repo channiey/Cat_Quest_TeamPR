@@ -56,12 +56,19 @@ void CFlagOwner::Check_Player_Collision(const OBJ_ID& _eID)
 {
 	if (OBJ_ID::FLAG_START == _eID)
 	{
-		if(!CMiniGameMgr_Bingo::GetInstance()->Get_Start())
-			CMiniGameMgr_Bingo::GetInstance()->Set_Start(true);
+		if (CInputDev::GetInstance()->Key_Down('E'))
+		{
+			if (!CMiniGameMgr_Bingo::GetInstance()->Get_Start())
+				CMiniGameMgr_Bingo::GetInstance()->Set_Start(true);
+		}
 	}
 	else
 	{
-
+		if (CInputDev::GetInstance()->Key_Down('E'))
+		{
+			if (CMiniGameMgr_Bingo::GetInstance()->Get_Start())
+				CMiniGameMgr_Bingo::GetInstance()->Flag_Check(_eID);
+		}
 	}
 }
 

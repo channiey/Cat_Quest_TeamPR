@@ -25,7 +25,7 @@ HRESULT CFlagJapen::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 85.f, 0.02f, 0.f });
+	m_pTransformCom->Set_Pos(_vec3{ 85.f, 1.02f, 0.f });
 
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
@@ -55,6 +55,7 @@ void CFlagJapen::LateUpdate_Object()
 void CFlagJapen::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object();
 
@@ -64,7 +65,6 @@ void CFlagJapen::Render_Object()
 
 	m_pGraphicDev->SetTexture(0, NULL);
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 HRESULT CFlagJapen::Add_Component()

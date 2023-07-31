@@ -4,12 +4,14 @@
 #include "Export_Function.h"
 #include "FlagOwner.h"
 #include "SoundMgr.h"
+#include "EnterUI.h"
 
 CFlag::CFlag(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::FLAG, _eID)
 	, m_iCurIn(0)
 	, m_iPrevIn(0)
 	, m_eCurCollison(PLAYER_COLLISION2::NONE)
+	, m_bCol(false)
 {
 
 }
@@ -31,6 +33,9 @@ HRESULT CFlag::Ready_Object()
 	FAILED_CHECK_RETURN(Add_RangeObj(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 2.f });
+
+	m_eEnter = ENTER_TYPE::ENTER_NO;
+	m_eInterType = INTERACTION_TYPE::INTERACTION_CHECK;
 
 	m_bActive = false;
 
@@ -61,13 +66,17 @@ void CFlag::LateUpdate_Object()
 
 void CFlag::Render_Object()
 {
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
 	_matrix matWorld = m_pTransformCom->Get_WorldMat();
 	_matrix matBill;
 	
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
-	m_pTransformCom->Set_Rot({-10.f, 0.f, 0.f});
+	m_pTransformCom->Set_Rot({ D3DXToRadian(-50.f), 0.f, 0.f});
+
+	m_pFlagTexCom->Render_Texture();
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+	m_pBufferCom->Render_Buffer();
+
+	__super::Render_Object();
 }
 
 void CFlag::OnCollision_Enter(CGameObject* _pColObj)
@@ -79,12 +88,22 @@ void CFlag::OnCollision_Enter(CGameObject* _pColObj)
 
 void CFlag::OnCollision_Stay(CGameObject* _pColObj)
 {
+	m_pFlagOwner->Check_Player_Collision(m_eID);
 
+	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+	m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHECK, _pColObj);
 }
 
 void CFlag::OnCollision_Exit(CGameObject* _pColObj)
 {
 	--m_iCurIn;
+	// üũ UI Off
+	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+
+	m_pEnterUI->EnterUI_Off();
+
 }
 
 HRESULT CFlag::Add_Component()
@@ -95,6 +114,12 @@ HRESULT CFlag::Add_Component()
 	pComponent = m_pBufferCom = dynamic_cast<CTerrainRcTex*>(Engine::Clone_Proto(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::BUFFER_TERRAIN_RC_TEX, pComponent);
+
+	// Rc Collider
+	pComponent = m_pColliderCom = dynamic_cast<CRectCollider*>(Engine::Clone_Proto(COMPONENT_TYPE::COL_RECT, this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::COL_RECT, pComponent);
+
 
 	return S_OK;
 }
