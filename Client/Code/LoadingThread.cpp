@@ -617,6 +617,18 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma endregion
 
+#pragma region FLAG
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_China",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Flag/0.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_USA",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Flag/1.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_France",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Flag/2.png")), E_FAIL);
+
+
+
+#pragma endregion
 
 #pragma endregion
 

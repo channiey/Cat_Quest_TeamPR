@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -180,6 +180,16 @@
     <ClInclude Include="..\Header\BossSceneMgr.h" />
     <ClInclude Include="..\Header\BossHpUI.h" />
     <ClInclude Include="..\Header\DrakothTable.h" />
+    <ClInclude Include="..\Header\Flag.h" />
+    <ClInclude Include="..\Header\FlagOwner.h" />
+    <ClInclude Include="..\Header\FlagUSA.h" />
+    <ClInclude Include="..\Header\FlagFrance.h" />
+    <ClInclude Include="..\Header\FlagGermany.h" />
+    <ClInclude Include="..\Header\FlagItaly.h" />
+    <ClInclude Include="..\Header\FlagJapen.h" />
+    <ClInclude Include="..\Header\FlagRussia.h" />
+    <ClInclude Include="..\Header\FlagThai.h" />
+    <ClInclude Include="..\Header\FlagChina.h" />
     <ClInclude Include="..\Header\FoxState_bRest.h" />
     <ClInclude Include="..\Header\FoxState_Rest.h" />
     <ClInclude Include="..\Header\GetWorldEffect.h" />
@@ -190,6 +200,7 @@
     <ClInclude Include="..\Header\Effect_Boss_ThunderBlue.h" />
     <ClInclude Include="..\Header\RedStar_Bullet.h" />
     <ClInclude Include="..\Header\Skill_Boss_BlueThunder.h" />
+    <ClInclude Include="..\Header\UsePotion.h" />
     <ClInclude Include="..\Header\VioletDragonState_Attack2.h" />
     <ClInclude Include="..\Header\VioletDragonState_Attack3.h" />
     <ClInclude Include="..\Header\VioletDragonState_bAttack2.h" />
@@ -614,6 +625,16 @@
     <ClCompile Include="..\Code\BossSceneMgr.cpp" />
     <ClCompile Include="..\Code\BossHpUI.cpp" />
     <ClCompile Include="..\Code\DrakothTable.cpp" />
+    <ClCompile Include="..\Code\Flag.cpp" />
+    <ClCompile Include="..\Code\FlagOwner.cpp" />
+    <ClCompile Include="..\Code\FlagUSA.cpp" />
+    <ClCompile Include="..\Code\FlagFrance.cpp" />
+    <ClCompile Include="..\Code\FlagGermany.cpp" />
+    <ClCompile Include="..\Code\FlagItaly.cpp" />
+    <ClCompile Include="..\Code\FlagJapen.cpp" />
+    <ClCompile Include="..\Code\FlagRussia.cpp" />
+    <ClCompile Include="..\Code\FlagThai.cpp" />
+    <ClCompile Include="..\Code\FlagChina.cpp" />
     <ClCompile Include="..\Code\FoxState_bRest.cpp" />
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
     <ClCompile Include="..\Code\GetWorldEffect.cpp" />
@@ -624,6 +645,7 @@
     <ClCompile Include="..\Code\Effect_Boss_ThunderBlue.cpp" />
     <ClCompile Include="..\Code\RedStar_Bullet.cpp" />
     <ClCompile Include="..\Code\Skill_Boss_BlueThunder.cpp" />
+    <ClCompile Include="..\Code\UsePotion.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Attack2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Attack3.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_bAttack2.cpp" />
