@@ -146,7 +146,7 @@ STATE_TYPE CBatState_Rest::Update_State(const _float& fTimeDelta)
             m_bAssault = true;
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
             pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
-            CSoundMgr::GetInstance()->PlaySound(L"flying_swish.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
+            CSoundMgr::GetInstance()->PlaySound(L"flying_swish_Big.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
 
         }
     }
