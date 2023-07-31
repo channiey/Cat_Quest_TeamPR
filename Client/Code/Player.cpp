@@ -1637,7 +1637,8 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 
 void CPlayer::Regen_HP(const _float& fHeal)
 {
-	if (m_tStatInfo.fCurHP > 0 && m_tStatInfo.fCurHP < m_tStatInfo.fMaxHP)
+	if (m_tStatInfo.fCurHP > 0 && m_tStatInfo.fCurHP < m_tStatInfo.fMaxHP ||
+		m_tStatInfo.fCurMP >= 0 && m_tStatInfo.fCurMP < m_tStatInfo.fMaxMP)
 	{
 		_float fRegenHeal = m_tStatInfo.fCurHP + fHeal;
 		if (fRegenHeal > m_tStatInfo.fMaxHP)

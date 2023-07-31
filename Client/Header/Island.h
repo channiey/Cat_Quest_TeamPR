@@ -47,6 +47,7 @@ protected:
 public:
 	void				Check_Player_Collision();
 	virtual void		Enter_Player() PURE;
+	virtual void		Stay_Player() PURE;
 	virtual void		Exit_Player() PURE;
 	const _bool			Is_In_Player() const { return 0 < m_iCurIn; }
 

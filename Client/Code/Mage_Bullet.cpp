@@ -39,6 +39,8 @@ HRESULT CMage_Bullet::Ready_Object()
 
     m_szName = L"Projectile_MageBullet";
 
+    m_fAccTime = 0.f;
+
     return S_OK;
 }
 

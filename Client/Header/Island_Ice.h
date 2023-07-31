@@ -23,6 +23,7 @@ protected:
 
 public:
 	virtual void		Enter_Player() override;
+	virtual void		Stay_Player() override;
 	virtual void		Exit_Player() override;
 
 protected:

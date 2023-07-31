@@ -1,26 +1,26 @@
 #include "stdafx.h"
 
-#include "Effect_Snow.h"
+#include "Effect_Rain.h"
 
 #include "Export_Function.h"
 
 
-CEffect_Snow::CEffect_Snow(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos)
-	: CEffect(pGraphicDev, OBJ_ID::EFFECT_SNOW)
+CEffect_Rain::CEffect_Rain(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_POLLEN)
 {
 	m_InitPos = pPos;
 }
 
-CEffect_Snow::CEffect_Snow(const CEffect_Snow& rhs)
+CEffect_Rain::CEffect_Rain(const CEffect_Rain& rhs)
 	: CEffect(rhs), m_pTextureCom(rhs.m_pTextureCom)
 {
 }
 
-CEffect_Snow::~CEffect_Snow()
+CEffect_Rain::~CEffect_Rain()
 {
 }
 
-HRESULT CEffect_Snow::Ready_Object()
+HRESULT CEffect_Rain::Ready_Object()
 {
 	CGameObject::Ready_Object();
 
@@ -48,7 +48,7 @@ HRESULT CEffect_Snow::Ready_Object()
 	return S_OK;
 }
 
-_int CEffect_Snow::Update_Object(const _float& fTimeDelta)
+_int CEffect_Rain::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
@@ -56,25 +56,25 @@ _int CEffect_Snow::Update_Object(const _float& fTimeDelta)
 
 	m_vWindVelo.x += (double)rand() / RAND_MAX * WINDFORCE - WINDFORCE / 2.0;
 	m_vWindVelo.y -= (double)rand() / RAND_MAX * WINDFORCE * 1;
-	m_vWindVelo.z += (double)rand() / RAND_MAX * WINDFORCE - WINDFORCE / 2.0;
+	//m_vWindVelo.z += (double)rand() / RAND_MAX * WINDFORCE - WINDFORCE / 2.0;
 
 	m_pTransformCom->Set_Dir(m_vWindVelo);
 	m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
-	_vec3 vSnowPos = m_pTransformCom->Get_Info(INFO::INFO_POS);
+	_vec3 vRainPos = m_pTransformCom->Get_Info(INFO::INFO_POS);
 
-	if (vSnowPos.y <= 0.05f)
+	if (vRainPos.y <= 0.05f)
 		CEventMgr::GetInstance()->Delete_Obj(this);
 
 	return iExit;
 }
 
-void CEffect_Snow::LateUpdate_Object()
+void CEffect_Rain::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 }
 
-void CEffect_Snow::Render_Object()
+void CEffect_Rain::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(200, 255, 255, 255));
 
@@ -93,11 +93,11 @@ void CEffect_Snow::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-HRESULT CEffect_Snow::Add_Component()
+HRESULT CEffect_Rain::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Snow", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Rain", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
@@ -108,26 +108,26 @@ HRESULT CEffect_Snow::Add_Component()
 	return S_OK;
 }
 
-void CEffect_Snow::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
+void CEffect_Rain::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 {
 }
 
-CEffect_Snow* CEffect_Snow::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos)
+CEffect_Rain* CEffect_Rain::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos)
 {
-	CEffect_Snow* pInstance = new CEffect_Snow(pGraphicDev, pPos);
+	CEffect_Rain* pInstance = new CEffect_Rain(pGraphicDev, pPos);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("Effect_Snow Create Failed");
+		MSG_BOX("Effect_Rain Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CEffect_Snow::Free()
+void CEffect_Rain::Free()
 {
 	__super::Free();
 }

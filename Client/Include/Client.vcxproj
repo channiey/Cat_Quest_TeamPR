@@ -180,6 +180,8 @@
     <ClInclude Include="..\Header\BossSceneMgr.h" />
     <ClInclude Include="..\Header\BossHpUI.h" />
     <ClInclude Include="..\Header\DrakothTable.h" />
+    <ClInclude Include="..\Header\Effect_Rain.h" />
+    <ClInclude Include="..\Header\Effect_RainRipple.h" />
     <ClInclude Include="..\Header\Flag.h" />
     <ClInclude Include="..\Header\FlagOwner.h" />
     <ClInclude Include="..\Header\FlagStart.h" />
@@ -631,6 +633,8 @@
     <ClCompile Include="..\Code\BossSceneMgr.cpp" />
     <ClCompile Include="..\Code\BossHpUI.cpp" />
     <ClCompile Include="..\Code\DrakothTable.cpp" />
+    <ClCompile Include="..\Code\Effect_Rain.cpp" />
+    <ClCompile Include="..\Code\Effect_RainRipple.cpp" />
     <ClCompile Include="..\Code\Flag.cpp" />
     <ClCompile Include="..\Code\FlagOwner.cpp" />
     <ClCompile Include="..\Code\FlagStart.cpp" />
