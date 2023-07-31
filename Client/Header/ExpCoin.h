@@ -25,6 +25,7 @@ private:
 
 private:
 	LERP_FLOAT_INFO       m_tAlpha;
+	LERP_VEC3_INFO		 m_tLerpPos;
 
 public:
 	static				CExpCoin* Create(LPDIRECT3DDEVICE9 pGraphicDev);

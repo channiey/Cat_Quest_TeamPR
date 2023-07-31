@@ -32,7 +32,7 @@ private:
 
 	LERP_FLOAT_INFO       m_tAlpha;
 
-
+	LERP_VEC3_INFO		 m_tLerpPos;
 protected:
 	virtual void		Free() override;
 

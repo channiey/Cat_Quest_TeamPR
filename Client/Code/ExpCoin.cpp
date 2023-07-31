@@ -27,6 +27,7 @@ HRESULT CExpCoin::Ready_Object()
 
 	m_iItemValue = + int((rand() % 11 + 20) * 0.3f); // 수정시 팀장 보고
 
+	ZeroMemory(&m_tLerpPos, sizeof(LERP_VEC3_INFO));
 
 	// STATEINFO Setting
 	m_tStatInfo.fCurExp = 100.f;
@@ -94,12 +95,21 @@ _int CExpCoin::Update_Object(const _float& fTimeDelta)
 
 
 	// Magnet
-	if (fDistance <= 5.f)
+	if (m_tLerpPos.bActive)
 	{
-		m_pAICom->Chase_TargetY(&vPlayerPos, fTimeDelta, 30.f);
-		m_pTransformCom->Translate(fTimeDelta * 30.f);
+		m_tLerpPos.Update_Lerp(fTimeDelta);
+		m_pTransformCom->Set_Pos(m_tLerpPos.vCurVec);
+		m_tLerpPos.vEndVec = vPlayerPos;
+
 	}
 
+	if (fDistance <= 7.f && !m_tLerpPos.bActive)
+	{
+		//m_pAICom->Chase_TargetY(&vPlayerPos, fTimeDelta, 30.f);
+		//m_pTransformCom->Translate(fTimeDelta * 30.f);
+		m_tLerpPos.Init_Lerp(LERP_MODE::EASE_IN);
+		m_tLerpPos.Set_Lerp(0.3f, m_pTransformCom->Get_Info(INFO_POS), vPlayerPos);
+	}
 
 
 

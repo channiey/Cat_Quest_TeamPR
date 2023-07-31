@@ -104,7 +104,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 500.f; // 2000.f
+	m_tStatInfo.fCurHP = 2000.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 

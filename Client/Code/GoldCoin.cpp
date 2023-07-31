@@ -31,7 +31,7 @@ HRESULT CGoldCoin::Ready_Object()
 	// STATEINFO Setting
 	m_tStatInfo.fGold = 100.f;
 
-
+	ZeroMemory(&m_tLerpPos, sizeof(LERP_VEC3_INFO));
 
 	// 원래 이미지 크기
 	m_vImageSize.x = 0.69f;  // 100px = 1.f
@@ -100,10 +100,20 @@ _int CGoldCoin::Update_Object(const _float& fTimeDelta)
 	
 
 	// Magnet
-	if (fDistance <= 5.f)
+	if (m_tLerpPos.bActive)
 	{
-		m_pAICom->Chase_TargetY(&vPlayerPos, fTimeDelta, 30.f);
-		m_pTransformCom->Translate(fTimeDelta * 30.f);
+		m_tLerpPos.Update_Lerp(fTimeDelta);
+		m_pTransformCom->Set_Pos(m_tLerpPos.vCurVec);
+		m_tLerpPos.vEndVec = vPlayerPos;
+
+	}
+
+	if (fDistance <= 7.f && !m_tLerpPos.bActive)
+	{
+		//m_pAICom->Chase_TargetY(&vPlayerPos, fTimeDelta, 30.f);
+		//m_pTransformCom->Translate(fTimeDelta * 30.f);
+		m_tLerpPos.Init_Lerp(LERP_MODE::EASE_IN);
+		m_tLerpPos.Set_Lerp(0.3f, m_pTransformCom->Get_Info(INFO_POS), vPlayerPos);
 	}
 
 
