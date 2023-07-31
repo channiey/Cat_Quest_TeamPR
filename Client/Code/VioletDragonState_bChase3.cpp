@@ -122,6 +122,10 @@ STATE_TYPE CVioletDragonState_bChase3::Update_State(const _float& fTimeDelta)
     dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
 
 #pragma region State Change
     // BACK_CHASE 우선순위

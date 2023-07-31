@@ -572,8 +572,8 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_INTRO_SWORD, pAnimation);
 
 	// Dead
-	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)], STATE_TYPE::BOSSDEAD, 0.1f, FALSE);
-	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSSDEAD, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)], STATE_TYPE::BOSSDEAD, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSSDEAD, pAnimation);
 
 
 
@@ -605,11 +605,11 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	if (true == m_tStatInfo.bDead)
 	{
 	
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
+	/*	CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 10.f, vOwnerPos.y, vOwnerPos.z - 5.f }));
 		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 10.f, vOwnerPos.y, vOwnerPos.z + 5.f }));
-
+*/
 
 		// Coin -> »ý¼º X
 
@@ -1176,9 +1176,9 @@ HRESULT CVioletDragon::Add_Component()
 
 
 	// Dead
-	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dead_VioletDragon", this));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dead_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 

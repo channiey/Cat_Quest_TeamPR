@@ -115,14 +115,13 @@ STATE_TYPE CVioletDragonState_Intro_Down::Update_State(const _float& fTimeDelta)
     if (pOwenrCurAnimation->Is_End())
     {
     
-        CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
+         CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
         CCameraMgr::GetInstance()->Shake_Camera(0.15, 70);
 
-       
-       
+     
     }
 
-    if ( m_fAccTime >= 1.1f)
+    if ( m_fAccTime >= 1.2f)
     {
         m_fAccTime = 0.f;
         return STATE_TYPE::BOSS_INTRO_WING;

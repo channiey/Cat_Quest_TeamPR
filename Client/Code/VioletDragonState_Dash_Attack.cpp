@@ -142,6 +142,13 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
 
 
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
+
+
+
     //// 현재 상태의 기능
     //dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
     //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed *2 );

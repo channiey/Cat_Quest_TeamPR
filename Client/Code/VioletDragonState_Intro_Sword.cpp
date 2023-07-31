@@ -23,7 +23,7 @@ HRESULT CVioletDragonState_Intro_Sword::Ready_State(CStateMachine* pOwner)
     }
     m_eState = STATE_TYPE::BOSS_INTRO_SWORD;
 
-
+    m_fAccTime = 0.f;
 
     return S_OK;
 }
@@ -111,9 +111,9 @@ STATE_TYPE CVioletDragonState_Intro_Sword::Update_State(const _float& fTimeDelta
 
 
 
-    if (pOwenrCurAnimation->Is_End())
+    if (pOwenrCurAnimation->Is_End() && m_fAccTime >= 1.f)
     {
-
+        m_fAccTime = 0.f;
         return STATE_TYPE::PATROL;
     }
 

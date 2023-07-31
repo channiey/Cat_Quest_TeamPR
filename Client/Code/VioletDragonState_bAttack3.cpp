@@ -123,6 +123,10 @@ STATE_TYPE CVioletDragonState_bAttack3::Update_State(const _float& fTimeDelta)
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
 
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
 
 
 #pragma region State Change

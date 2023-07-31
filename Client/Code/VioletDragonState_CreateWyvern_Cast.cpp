@@ -261,6 +261,13 @@ STATE_TYPE CVioletDragonState_CreateWyvern_Cast::Update_State(const _float& fTim
 #pragma region State Change
 
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
+
+
+
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {

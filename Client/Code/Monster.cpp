@@ -149,10 +149,6 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	if (true == m_tStatInfo.bDead)
 	{
 		
-
-		CEventMgr::GetInstance()->Add_Obj(L"Monster_Spirit", CMonstSpirit::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
-		// CEventMgr::GetInstance()->Add_Obj(L"Test", CHedgehog_Stemp::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
-
 		// 플레이어가 나는 상태에서는 코인을 생성하지 않는다 (수정시 팀장 보고)  보스전에서는 아이템을 생성하지 않는다.
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 		if((nullptr != pPlayer && !pPlayer->Is_Fly()) && !CBossSceneMgr::GetInstance()->Is_Start())
@@ -162,8 +158,15 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 			GoldCoin->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 		}
 	
-		CEventMgr::GetInstance()->Delete_Obj(this);
-		CSoundMgr::GetInstance()->PlaySound(L"enemy_death.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MON_DEATH);
+		if (this->Get_ID() != OBJ_ID::MONSTER_VIOLETDRAGON)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Monster_Spirit", CMonstSpirit::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+			// CEventMgr::GetInstance()->Add_Obj(L"Test", CHedgehog_Stemp::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+
+			CEventMgr::GetInstance()->Delete_Obj(this);
+			CSoundMgr::GetInstance()->PlaySound(L"enemy_death.wav", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MON_DEATH);
+		}
+		
 	}
 
 	// Hit state return 

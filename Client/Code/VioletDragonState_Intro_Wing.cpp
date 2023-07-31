@@ -23,6 +23,7 @@ HRESULT CVioletDragonState_Intro_Wing::Ready_State(CStateMachine* pOwner)
     m_eState = STATE_TYPE::BOSS_INTRO_WING;
 
 
+    m_fAccTime = 0.f;
 
     return S_OK;
 }
@@ -113,8 +114,9 @@ STATE_TYPE CVioletDragonState_Intro_Wing::Update_State(const _float& fTimeDelta)
 
 
 
-    if (pOwenrCurAnimation->Is_End())
+    if (pOwenrCurAnimation->Is_End() && m_fAccTime >= 1.f )
     {
+        m_fAccTime = 0.f;
         CSoundMgr::GetInstance()->PlaySound(L"dragon_roar.wav", CHANNEL_ID::MONSTER_BOSS_2, 0.5f);
         return STATE_TYPE::BOSS_INTRO_SWORD;
     }

@@ -119,6 +119,10 @@ STATE_TYPE CVioletDragonState_BlueThunder_Cast::Update_State(const _float& fTime
 
     m_fAccTime += fTimeDelta;
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
 
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())

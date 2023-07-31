@@ -154,6 +154,13 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
 
     m_fAccTime += fTimeDelta;
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
+
+
+
      // First Group
     if (m_bBullet1 == false && m_fAccTime >= 0.1f) //1 
     {
