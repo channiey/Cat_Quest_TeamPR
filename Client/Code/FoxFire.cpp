@@ -52,7 +52,7 @@ _int CFoxFire::Update_Object(const _float& fTimeDelta)
     {
         m_tAlpha.Init_Lerp();
         m_tAlpha.eMode = LERP_MODE::EXPONENTIAL;
-        m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+        m_tAlpha.Set_Lerp(0.3f, 80.f, 255.f);
         m_bInit = true;
     }
     if (true == m_bEnd)

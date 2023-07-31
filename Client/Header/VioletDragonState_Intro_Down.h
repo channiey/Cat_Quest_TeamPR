@@ -7,11 +7,11 @@ BEGIN(Engine)
 END
 
 
-class CVioletDragonState_Intro :public CState
+class CVioletDragonState_Intro_Down :public CState
 {
 public:
-	explicit			CVioletDragonState_Intro(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual				~CVioletDragonState_Intro();
+	explicit			CVioletDragonState_Intro_Down(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual				~CVioletDragonState_Intro_Down();
 
 
 public:
@@ -27,7 +27,7 @@ public:
 
 
 public:
-	static CVioletDragonState_Intro* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CVioletDragonState_Intro_Down* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 
 private:

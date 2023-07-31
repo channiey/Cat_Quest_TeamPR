@@ -865,6 +865,23 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_ReadyPattern_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/ReadyPattern/%d.png", 13)), E_FAIL);
 
+	// Intro_Down
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Intro_Down_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Intro_Down/%d.png", 9)), E_FAIL);
+
+	//Intro_Wing
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Intro_Wing_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Intro_Wing/%d.png", 18)), E_FAIL);
+
+	//Intro_Sword
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Intro_Sword_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Intro_Sword/%d.png", 15)), E_FAIL);
+
+	// Dead
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dead_VioletDragon",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Intro_Sword/%d.png", 15)), E_FAIL);
+
+
 
 
 

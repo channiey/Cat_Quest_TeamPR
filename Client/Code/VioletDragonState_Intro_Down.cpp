@@ -1,35 +1,33 @@
-#include "VioletDragonState_FullDown_Down.h"
+#include "VioletDragonState_Intro_Down.h"
 #include "Export_Function.h"
-#include "Monster.h"
 #include "Player.h"
 #include "VioletDragon.h"
 #include "SoundMgr.h"
-CVioletDragonState_FullDown_Down::CVioletDragonState_FullDown_Down(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CState(pGraphicDev)
-	, m_fAccTime(0.f)
+#include "CameraMgr.h"
+CVioletDragonState_Intro_Down::CVioletDragonState_Intro_Down(LPDIRECT3DDEVICE9 pGraphicDev)
+    :CState(pGraphicDev)
 {
 }
 
-CVioletDragonState_FullDown_Down::~CVioletDragonState_FullDown_Down()
+CVioletDragonState_Intro_Down::~CVioletDragonState_Intro_Down()
 {
 }
 
-
-HRESULT CVioletDragonState_FullDown_Down::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_Intro_Down::Ready_State(CStateMachine* pOwner)
 {
 
-	if (nullptr != pOwner)
-	{
-		m_pOwner = pOwner;
-	}
-	m_eState = STATE_TYPE::BOSS_FULLDOWN_DOWN;
+    if (nullptr != pOwner)
+    {
+        m_pOwner = pOwner;
+    }
+    m_eState = STATE_TYPE::BOSS_INTRO_DOWN;
 
-	m_fAccTime = 0.f;
+    m_fAccTime = 0.f;
 
-	return S_OK;
+    return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Intro_Down::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -50,11 +48,12 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
-
     //Monster - Cur HP Condition
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
+
 
     // Player Component ==============================
     // Player
@@ -109,69 +108,60 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 
 
 
-    //pOwnerTransform->Set_Pos(_vec3{ vOwnerOriginPos.x, vOwnerOriginPos.y , vOwnerOriginPos.z });
-
-	// Time
-	m_fAccTime += fTimeDelta;
+    m_fAccTime += fTimeDelta;
 
 
 
-	if (pOwenrCurAnimation->Is_End())
-	{
-		CCameraMgr::GetInstance()->Shake_Camera(0.15, 60);  // 사람들을 위해서 카메라 쉐이킹 주석처리
-      
+    if (pOwenrCurAnimation->Is_End())
+    {
+    
+        CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
+        CCameraMgr::GetInstance()->Shake_Camera(0.15, 70);
 
-		if (m_fAccTime >= 1.f)
-		{
-			CCameraMgr::GetInstance()->Stop_Shake();
-		}
-	}
+       
+       
+    }
 
-
-	// 임시로 전이 반복 시킴 
-	// State Change 
-
- 
-	if (m_fAccTime >= 1.1f)
-	{
+    if ( m_fAccTime >= 1.1f)
+    {
         m_fAccTime = 0.f;
+        return STATE_TYPE::BOSS_INTRO_WING;
+    }
 
-		return STATE_TYPE::BOSS_READY_PATTERN;
-	}
-	return STATE_TYPE::BOSS_FULLDOWN_DOWN;
-}
-
-void CVioletDragonState_FullDown_Down::LateUpdate_State()
-{
-}
-
-void CVioletDragonState_FullDown_Down::Render_State()
-{
-}
-
-STATE_TYPE CVioletDragonState_FullDown_Down::Key_Input(const _float& fTimeDelta)
-{
-
-	return m_eState;
-}
-
-CVioletDragonState_FullDown_Down* CVioletDragonState_FullDown_Down::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
-{
-	CVioletDragonState_FullDown_Down* pInstance = new CVioletDragonState_FullDown_Down(pGraphicDev);
-
-	if (FAILED(pInstance->Ready_State(pOwner)))
-	{
-		Safe_Release(pInstance);
-		MSG_BOX("VioletDragonState Down Create Failed");
-		return nullptr;
-
-	}
-	return pInstance;
+    return STATE_TYPE::BOSS_INTRO_DOWN;
 
 }
 
-void CVioletDragonState_FullDown_Down::Free()
-{
 
-	__super::Free();
+void CVioletDragonState_Intro_Down::LateUpdate_State()
+{
+}
+
+void CVioletDragonState_Intro_Down::Render_State()
+{
+}
+
+STATE_TYPE CVioletDragonState_Intro_Down::Key_Input(const _float& fTimeDelta)
+{
+    return m_eState;
+}
+
+CVioletDragonState_Intro_Down* CVioletDragonState_Intro_Down::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+{
+    CVioletDragonState_Intro_Down* pInstance = new CVioletDragonState_Intro_Down(pGraphicDev);
+
+    if (FAILED(pInstance->Ready_State(pOwner)))
+    {
+        Safe_Release(pInstance);
+        MSG_BOX("violet Dragon intro Down Create Failed");
+        return nullptr;
+
+    }
+
+    return pInstance;
+}
+
+void CVioletDragonState_Intro_Down::Free()
+{
+    __super::Free();
 }
