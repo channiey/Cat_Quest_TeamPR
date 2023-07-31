@@ -61,7 +61,7 @@ STATE_TYPE CVioletDragonState_ComeBack::Update_State(const _float& fTimeDelta)
 
 
     //Monster - Cur HP Condition
-    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
 
@@ -127,7 +127,7 @@ STATE_TYPE CVioletDragonState_ComeBack::Update_State(const _float& fTimeDelta)
     // COMBACK 우선순위
     // back comback - Patrol - CHASE - ATTACK
 
-    if (Owner_bHP80 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+    if (Owner_bHP90 == true && Owner_bHP50 == false && Owner_bHP20 == false)
     {
         return STATE_TYPE::BOSS_FULLDOWN_FLY;
     }

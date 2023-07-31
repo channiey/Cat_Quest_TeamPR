@@ -75,9 +75,9 @@ HRESULT CWyvernRed::Ready_Object()
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
 
-	// Lerp
-	m_tAlpha.Init_Lerp();
-	m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
+	//// Lerp
+	//m_tAlpha.Init_Lerp();
+	//m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
 
 
 
@@ -235,6 +235,7 @@ _int CWyvernRed::Update_Object(const _float& fTimeDelta)
 	//Lerp
 	m_tAlpha.Update_Lerp(fTimeDelta);
 
+
 	// Jumping 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	float Y = m_pTransformCom->Get_Scale().y;
@@ -370,6 +371,7 @@ void CWyvernRed::Render_Object()
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 	
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 

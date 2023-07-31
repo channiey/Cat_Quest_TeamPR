@@ -100,7 +100,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
     //Monster - Cur HP Condition
-    _bool Owner_bHP80 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP80();
+    _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
 
@@ -182,14 +182,14 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     // Time 
     m_fAccTime += fTimeDelta;
     
-    if(fPlayerDistance <= 100.f && m_fAccTime >= 2.f)
+    if( m_fAccTime >= 1.5f)
     { 
         // Very Near 1
         if (m_bCreateWyvern1 == false )
         {
             CGameObject* m_pCreateWyvern1 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern1->Get_Transform()->Get_Scale();
-            m_pCreateWyvern1->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +5.f ,CreateWyvernScale.y ,vCreatePosition.z });
+            m_pCreateWyvern1->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +10.f ,CreateWyvernScale.y ,vCreatePosition.z });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern1", m_pCreateWyvern1);
             m_bCreateWyvern1 = true;   
         }
@@ -199,18 +199,19 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateWyvern2 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern2->Get_Transform()->Get_Scale();
-            m_pCreateWyvern2->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 5.f ,CreateWyvernScale.y ,vCreatePosition.z });
+            m_pCreateWyvern2->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 10.f ,CreateWyvernScale.y ,vCreatePosition.z });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern2", m_pCreateWyvern2);
             m_bCreateWyvern2 = true;
         }
 
-
+        ///////////////////////
+        
         // Near 1
         if (m_bCreateWyvern3 == false)
         {
             CGameObject* m_pCreateWyvern3 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern3->Get_Transform()->Get_Scale();
-            m_pCreateWyvern3->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 10.f ,CreateWyvernScale.y ,vCreatePosition.z + 10.f });
+            m_pCreateWyvern3->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 15.f ,CreateWyvernScale.y ,vCreatePosition.z + 15.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern3", m_pCreateWyvern3);
             m_bCreateWyvern3 = true;
         }
@@ -220,7 +221,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateWyvern4= CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern4->Get_Transform()->Get_Scale();
-            m_pCreateWyvern4->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +10.f ,CreateWyvernScale.y ,vCreatePosition.z  +10.f});
+            m_pCreateWyvern4->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +15.f ,CreateWyvernScale.y ,vCreatePosition.z  +15.f});
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern4", m_pCreateWyvern4);
             m_bCreateWyvern4 = true;
         }
@@ -231,7 +232,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateWyvern5 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern5->Get_Transform()->Get_Scale();
-            m_pCreateWyvern5->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 10.f ,CreateWyvernScale.y ,vCreatePosition.z -10.f });
+            m_pCreateWyvern5->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 15.f ,CreateWyvernScale.y ,vCreatePosition.z -15.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern5", m_pCreateWyvern5);
             m_bCreateWyvern5 = true;
         }
@@ -242,72 +243,75 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateWyvern6 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern6->Get_Transform()->Get_Scale();
-            m_pCreateWyvern6->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +10.f ,CreateWyvernScale.y ,vCreatePosition.z  -10.f});
+            m_pCreateWyvern6->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +15.f ,CreateWyvernScale.y ,vCreatePosition.z  -15.f});
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern6", m_pCreateWyvern6);
             m_bCreateWyvern6 = true;
         }
 
 
-        // Boss Near 1
+        //  Normal 1
         if (m_bCreateWyvern7 == false)
         {
             CGameObject* m_pCreateWyvern7 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern7->Get_Transform()->Get_Scale();
-            m_pCreateWyvern7->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x - 5.f ,CreateWyvernScale.y ,vCreateBossPosition.z -5.f });
+            m_pCreateWyvern7->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 20.f ,CreateWyvernScale.y ,vCreatePosition.z -20.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern7", m_pCreateWyvern7);
             m_bCreateWyvern7 = true;
         }
 
-        //  Boss Near 2
+        //   Normal 2
         if (m_bCreateWyvern8 == false)
         {
             CGameObject* m_pCreateWyvern8 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern8->Get_Transform()->Get_Scale();
-            m_pCreateWyvern8->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x - 5.f ,CreateWyvernScale.y ,vCreateBossPosition.z +5.f});
+            m_pCreateWyvern8->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 20.f ,CreateWyvernScale.y ,vCreatePosition.z +20.f});
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern8", m_pCreateWyvern8);
             m_bCreateWyvern8 = true;
         }
 
 
-        // Boss Near 3
+        // Normal 3
         if (m_bCreateWyvern9 == false)
         {
             CGameObject* m_pCreateWyvern9 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern9->Get_Transform()->Get_Scale();
-            m_pCreateWyvern9->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x +5.f ,CreateWyvernScale.y ,vCreateBossPosition.z  - 5.f});
+            m_pCreateWyvern9->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +20.f ,CreateWyvernScale.y ,vCreatePosition.z  - 20.f});
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern9", m_pCreateWyvern9);
             m_bCreateWyvern9 = true;
         }
 
 
-        // Boss Near 4
+        //  Normal 4
         if (m_bCreateWyvern10 == false)
         {
             CGameObject* m_pCreateWyvern10 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern10->Get_Transform()->Get_Scale();
-            m_pCreateWyvern10->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x + 5.f ,CreateWyvernScale.y ,vCreateBossPosition.z +5.f});
+            m_pCreateWyvern10->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x + 20.f ,CreateWyvernScale.y ,vCreatePosition.z +20.f});
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern10", m_pCreateWyvern10);
             m_bCreateWyvern10 = true;
         }
 
 
-        // Boss Near 5
+        /////////////////
+
+
+        // far 1
         if (m_bCreateWyvern11 == false)
         {
             CGameObject* m_pCreateWyvern11 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern11->Get_Transform()->Get_Scale();
-            m_pCreateWyvern11->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x + 10.f ,CreateWyvernScale.y ,vCreateBossPosition.z + 10.f });
+            m_pCreateWyvern11->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x -25.f ,CreateWyvernScale.y ,vCreatePosition.z });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern11", m_pCreateWyvern11);
             m_bCreateWyvern11 = true;
         }
 
 
-        // Boss Near 4
+        // far 2
         if (m_bCreateWyvern12 == false)
         {
             CGameObject* m_pCreateWyvern12 = CWyvernRed::Create(m_pGraphicDev);
             _vec3 CreateWyvernScale = m_pCreateWyvern12->Get_Transform()->Get_Scale();
-            m_pCreateWyvern12->Get_Transform()->Set_Pos(_vec3{ vCreateBossPosition.x -10.f ,CreateWyvernScale.y ,vCreateBossPosition.z + 10.f });
+            m_pCreateWyvern12->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x + 25.f ,CreateWyvernScale.y ,vCreatePosition.z });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateWyvern12);
             m_bCreateWyvern12 = true;
         }
@@ -320,7 +324,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon1 = CHedgehog::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon1->Get_Transform()->Get_Scale();
-            m_pCreateMon1->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z -5.f });
+            m_pCreateMon1->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z -10.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster1", m_pCreateMon1);
             m_Monster1 = true;
         }
@@ -329,7 +333,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon2 = CBat::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon2->Get_Transform()->Get_Scale();
-            m_pCreateMon2->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z + 5.f });
+            m_pCreateMon2->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z + 10.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster2", m_pCreateMon2);
             m_Monster2 = true;
         }
@@ -338,7 +342,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon3 = CWyvern::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon3->Get_Transform()->Get_Scale();
-            m_pCreateMon3->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 13.f ,CreateMonScale.y ,vCreatePosition.z + 7.f });
+            m_pCreateMon3->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 18.f ,CreateMonScale.y ,vCreatePosition.z + 10.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster3", m_pCreateMon3);
             m_Monster3 = true;
         }
@@ -347,7 +351,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon4 = CWyvern::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon4->Get_Transform()->Get_Scale();
-            m_pCreateMon4->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +13.f ,CreateMonScale.y ,vCreatePosition.z + 7.f });
+            m_pCreateMon4->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +18.f ,CreateMonScale.y ,vCreatePosition.z + 10.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Monster4", m_pCreateMon4);
             m_Monster4 = true;
         }
@@ -356,7 +360,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon5 = CRam::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon5->Get_Transform()->Get_Scale();
-            m_pCreateMon5->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 13.f ,CreateMonScale.y ,vCreatePosition.z -7.f });
+            m_pCreateMon5->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x - 18.f ,CreateMonScale.y ,vCreatePosition.z -10.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon5);
             m_Monster5 = true;
         }
@@ -365,7 +369,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon6 = CRam::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon6->Get_Transform()->Get_Scale();
-            m_pCreateMon6->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +13.f ,CreateMonScale.y ,vCreatePosition.z  -7.f });
+            m_pCreateMon6->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x +18.f ,CreateMonScale.y ,vCreatePosition.z  -10.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon6);
             m_Monster6 = true;
         }
@@ -374,7 +378,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon7 = CFox::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon7->Get_Transform()->Get_Scale();
-            m_pCreateMon7->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z + 13.f });
+            m_pCreateMon7->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z + 25.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon7);
             m_Monster7 = true;
         }
@@ -383,7 +387,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         {
             CGameObject* m_pCreateMon8 = CFox::Create(m_pGraphicDev);
             _vec3 CreateMonScale = m_pCreateMon8->Get_Transform()->Get_Scale();
-            m_pCreateMon8->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z -13.f });
+            m_pCreateMon8->Get_Transform()->Set_Pos(_vec3{ vCreatePosition.x ,CreateMonScale.y ,vCreatePosition.z -25.f });
             CEventMgr::GetInstance()->Add_Obj(L"Boss_Create_Wyvern12", m_pCreateMon8);
             m_Monster8 = true;
         }

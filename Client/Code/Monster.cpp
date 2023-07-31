@@ -77,7 +77,6 @@ HRESULT CMonster::Ready_Object()
 	//m_pStateMachineCom->Set_State(STATE_TYPE::PATROL);
 
 
-
 	// << : Test : Range Test
 	CGameObject* pGameObject = nullptr;
 
@@ -101,6 +100,13 @@ HRESULT CMonster::Ready_Object()
 			CEventMgr::GetInstance()->Add_Obj(L"BossHp_UI", pGameObject);
 		}
 	}
+
+
+	// Lerp
+	m_tAlpha.Init_Lerp();
+	m_tAlpha.Set_Lerp(1.f, 0.f, 255.f);
+
+
 
 	return S_OK;
 }
@@ -134,7 +140,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 
 
-
+	m_tAlpha.Update_Lerp(fTimeDelta);
 
 	
 
