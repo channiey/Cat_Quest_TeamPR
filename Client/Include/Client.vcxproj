@@ -202,6 +202,7 @@
     <ClInclude Include="..\Header\VioletDragonState_Chase.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase2.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase3.h" />
+    <ClInclude Include="..\Header\VioletDragonState_Intro.h" />
     <ClInclude Include="..\Header\VioletDragonState_ShootingStarRed.h" />
     <ClInclude Include="..\Header\VLargeIceBush.h" />
     <ClInclude Include="..\Header\Wall.h" />
@@ -634,6 +635,7 @@
     <ClCompile Include="..\Code\VioletDragonState_BlueThunder_Cast.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase3.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_Intro.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ShootingStarRed.cpp" />
     <ClCompile Include="..\Code\VLargeIceBush.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />

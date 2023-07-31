@@ -1267,11 +1267,6 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	{
-		CBossSceneMgr::GetInstance()->Start_BossScene();
-	}
-
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;

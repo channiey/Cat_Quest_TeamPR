@@ -46,17 +46,21 @@
 // Ready Pattern
 #include "VioletDragonState_ReadyPattern.h"
 
-// 2
+// 2 Attack
 #include "VioletDragonState_Attack2.h"
 #include "VioletDragonState_bAttack2.h"
 #include "VioletDragonState_Chase2.h"
 #include "VioletDragonState_bChase2.h"
 
-// 3
+// 3 Attack
 #include "VioletDragonState_Attack3.h"
 #include "VioletDragonState_bAttack3.h"
 #include "VioletDragonState_bChase3.h"
 #include "VioletDragonState_Chase3.h"
+
+// Intro
+#include "VioletDragonState_Intro.h"
+
 
 
 // Effect
@@ -100,7 +104,7 @@ HRESULT CVioletDragon::Ready_Object()
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 100.f;
+	m_tStatInfo.fCurHP = 2000.f;
 	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
 	m_tStatInfo.fAD = 10.f;
 
