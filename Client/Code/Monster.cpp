@@ -117,6 +117,8 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+	m_tAlpha.Update_Lerp(fTimeDelta);
+
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())
 	{
 		//m_pStateMachineCom->Get_Animator()->Set_Animation(STATE_TYPE::FRONT_IDLE);
@@ -142,7 +144,6 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 
 
 
-	m_tAlpha.Update_Lerp(fTimeDelta);
 
 	
 
