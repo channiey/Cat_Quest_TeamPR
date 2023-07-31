@@ -43,7 +43,7 @@ public:
 
 private:
 
-
+	_float				m_fAttackTime;
 
 protected:
 	virtual void		Free() override;

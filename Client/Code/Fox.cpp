@@ -25,6 +25,8 @@
 #include "GoldCoin.h"
 #include "MonstSpirit.h"
 #include "Chase_Bullet.h"
+#include "FoxFire.h"
+
 
 CFox::CFox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev, OBJ_ID::MONSTER_FOX)
@@ -80,6 +82,7 @@ HRESULT CFox::Ready_Object()
 
 	
 	m_fAccTime = 0.f;
+	m_fAttackTime = 0.f;
 
 	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Fox_Shadow",
@@ -232,13 +235,14 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 
 	// Player - Transform Com
 	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	NULL_CHECK_MSG(pPlayerTransform, L"PlayerTransform nullptr");
-
+	NULL_CHECK_RETURN(pPlayerTransform, iExit);
 	_vec3 vPlayerPos =   pPlayerTransform->Get_Info(INFO_POS);
+
 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	_vec3		vOwnerDir = m_pTransformCom->Get_Dir();
 	_float		Y = m_pTransformCom->Get_Scale().y;
+	_vec3       vDir = vPlayerPos - vOwnerPos;
 	STATE_TYPE	eCurType = m_pStateMachineCom->Get_CurState();
 
 	// Jumping 
@@ -263,6 +267,15 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 	{
 		m_bSkill = true;
 		m_fAccTime += fTimeDelta;
+		m_fAttackTime += fTimeDelta;
+
+		if (m_fAttackTime >= 1.5f)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vDir, this));
+			m_fAttackTime = 0.f;
+
+		}
+
 	}
 
 	if (m_bSkill == true)
@@ -279,6 +292,10 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 			}
 		}
 	}
+
+
+
+
 
 
 
