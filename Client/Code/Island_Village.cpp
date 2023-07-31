@@ -100,6 +100,13 @@ void CIsland_Village::Enter_Player()
 	pGenerator->Set_Locate(m_eID);
 }
 
+void CIsland_Village::Stay_Player()
+{
+	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
+	NULL_CHECK(pGenerator);
+	pGenerator->Set_Locate(m_eID);
+}
+
 void CIsland_Village::Exit_Player()
 {
 	// 플레이어가 해당 섬에서 나갔을 때

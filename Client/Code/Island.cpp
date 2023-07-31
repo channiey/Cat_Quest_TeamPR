@@ -42,6 +42,8 @@ Engine::_int CIsland::Update_Object(const _float& fTimeDelta)
 		Enter_Player();
 	else if (PLAYER_COLLISION::EXIT == m_eCurCollison)
 		Exit_Player();
+	else if (PLAYER_COLLISION::STAY == m_eCurCollison)
+		Stay_Player();
 
 	return iExit;
 }

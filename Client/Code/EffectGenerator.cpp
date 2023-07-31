@@ -4,6 +4,7 @@
 #include "Cloud1.h"
 #include "Cloud2.h"
 #include "Cloud3.h"
+#include "Effect_Snow.h"
 #include "Export_Function.h"
 #include "Player.h"
 
@@ -58,7 +59,7 @@ _int CEffectGenerator::Update_Object(const _float& fTimeDelta)
 		Cloud_Create(fTimeDelta);
 		break;
 	case OBJ_ID::ISLAND_RANGE_ICE:
-		//Snow_Create(fTimeDelta);
+		Snow_Create(fTimeDelta);
 		Cloud_Create(fTimeDelta);
 		break;
 	case OBJ_ID::ISLAND_RANGE_JUMP:
@@ -80,6 +81,7 @@ _int CEffectGenerator::Update_Object(const _float& fTimeDelta)
 		Pollen_Create(fTimeDelta);
 		break;
 	}
+
 
 	return iExit;
 }
@@ -252,44 +254,47 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 
 	std::mt19937 gen(m_Random());
 
-	std::uniform_real_distribution<float> xDist1(-50.f, -5.f);
-	std::uniform_real_distribution<float> xDist2(5.f, 50.f);
-	std::uniform_real_distribution<float> xDist3(-30.f, -1.f);
-	std::uniform_real_distribution<float> xDist4(1.f, 30.f);
-	//std::bernoulli_distribution coinFlip(0.5);
+	std::uniform_real_distribution<float> xDist1(-50.f, -30.f);
+	std::uniform_real_distribution<float> xDist2(30.f, 50.f);
+	std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
+	std::uniform_real_distribution<float> xDist4(5.f, 30.f);
+	std::bernoulli_distribution coinFlip(0.5);
+	std::bernoulli_distribution coinFlip2(0.5);
 
-	_float randomX1 = xDist1(gen);
-	_float randomX2 = xDist2(gen);
-	_float randomZ1 = xDist3(gen);
-	_float randomZ2 = xDist4(gen);
+	_float randomxM = xDist1(gen);
+	_float randomxP = xDist2(gen);
+	_float randomzM = xDist3(gen);
+	_float randomzP = xDist4(gen);
 
-	std::uniform_int_distribution<int> xDist5(0, 3);
-	_int randomChoice = xDist5(gen);
-
-	switch (randomChoice)
+	if (0 == m_iChoice)
 	{
-	case 0:
-		m_vCloud_CreatePos.x += randomX1;
-		m_vCloud_CreatePos.z += randomZ1;
-		break;
-	case 1:
-		m_vCloud_CreatePos.x += randomX1;
-		m_vCloud_CreatePos.z += randomZ2;
-		break;
-	case 2:
-		m_vCloud_CreatePos.x += randomX2;
-		m_vCloud_CreatePos.z += randomZ1;
-		break;
-	case 3:
-		m_vCloud_CreatePos.x += randomX2;
-		m_vCloud_CreatePos.z += randomZ2;
-		break;
-	default:
-		break;
+		if (coinFlip(gen))
+		{
+			m_vCloud_CreatePos.x += randomxM;
+			m_vCloud_CreatePos.z += randomzM;
+		}
+		else
+		{
+			m_vCloud_CreatePos.x += randomxM;
+			m_vCloud_CreatePos.z += randomzP;
+		}
+	}
+	else if (1 == m_iChoice)
+	{
+		if (coinFlip2(gen))
+		{
+			m_vCloud_CreatePos.x += randomxP;
+			m_vCloud_CreatePos.z += randomzM;
+		}
+		else
+		{
+			m_vCloud_CreatePos.x += randomxP;
+			m_vCloud_CreatePos.z += randomzP;
+		}
 	}
 
 	++m_iChoice;
-	if (m_iChoice > 3)
+	if (m_iChoice > 1)
 		m_iChoice = 0;
 
 }
@@ -303,44 +308,49 @@ void CEffectGenerator::Snow_Create(const _float& fTimeDelta)
 	{
 		Snow_Caculate_InitPos();
 
-		CGameObject* pSnow = CPollen::Create(m_pGraphicDev, m_vSnow_CreatePos);
+		CGameObject* pSnow = CEffect_Snow::Create(m_pGraphicDev, m_vSnow_CreatePos);
 		NULL_CHECK(pSnow);
 		CEventMgr::GetInstance()->Add_Obj(L"Effect_Snow", pSnow);
 
-		m_fPollen_AccTime -= m_fPollen_CreateTime;
+		//m_fPollen_AccTime -= m_fPollen_CreateTime;
 		Snow_Caculate_CreateTime();
 	}
 }
 
 void CEffectGenerator::Snow_Caculate_CreateTime()
 {
-	_float fMin = 1.f;
-	_float fMax = 2.f;
-	_float fGenerTime = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
-	m_fSnow_CreateTime = floor(fGenerTime * 10) / 10;
+	std::mt19937 gen(m_Random());
+
+	_float fMin = 0.f;
+	_float fMax = 0.2f;
+	std::uniform_real_distribution<float> xTime(fMin, fMax);
+	m_fSnow_CreateTime = xTime(gen);
 }
 
 void CEffectGenerator::Snow_Caculate_InitPos()
 {
 	_vec3 vInitPos = m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
 
-
-	_float fMin = -30.f;
-	_float fMax = 30.f;
-	_float vInitX = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
-	vInitPos.x += floor(vInitX * 10) / 10;
-
-	fMin = 10.f;
-	fMax = 20.f;
-	_float vInitY = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
-	vInitPos.y += floor(vInitY * 10) / 10;
+	std::mt19937 gen(m_Random());
 
 
-	fMin = 20.f;
-	fMax = 40.f;
-	_float vInitZ = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
-	vInitPos.z += floor(vInitZ * 10) / 10;
+	_int iMin = -30.f;
+	_int iMax = 30.f;
+	std::uniform_int_distribution<int> xDistX(iMin, iMax);
+	vInitPos.x += xDistX(gen);
+
+	iMin = 10.f;
+	iMax = 20.f;
+	std::uniform_int_distribution<int> xDistY(iMin, iMax);
+	vInitPos.y += xDistY(gen);
+
+	iMin = -20.f;
+	iMax = 40.f;
+	std::uniform_int_distribution<int> xDistZ(iMin, iMax);
+	vInitPos.z += xDistZ(gen);
+
 	m_vSnow_CreatePos = vInitPos;
+
 }
 #pragma endregion
 
