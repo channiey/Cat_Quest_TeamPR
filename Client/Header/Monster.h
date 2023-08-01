@@ -152,6 +152,11 @@ protected:
 	//Sound
 	_bool                    m_bAttackSound;
 
+
+
+	// Attack
+	_bool					m_bAttackCheck;
+
 protected:
 	
 	CTexture*				m_pTextureCom[_uint(STATE_TYPE::TYPEEND)];

@@ -357,6 +357,7 @@ void CHedgehog::Render_Object()
 
 void CHedgehog::OnCollision_Enter(CGameObject* _pColObj)
 {
+
 	__super::OnCollision_Enter(_pColObj);
 }
 

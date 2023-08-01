@@ -1,5 +1,15 @@
 #pragma once
 #include "Skill.h"
+
+BEGIN(Engine)
+
+class CTexture;
+class CAIComponent;
+class CVIBudffer;
+
+END
+
+
 class CSkill_Boss_FullDown : public CSkill
 {
 protected:
@@ -13,6 +23,12 @@ public:
 	virtual _int			Update_Object(const _float& fTimeDelta) override;
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
+
+
+public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
 
 
 private:
@@ -32,6 +48,10 @@ public:
 private:
 
 	CEffect_Range_Quater*				m_pBaseRangeEffect;
+
+	_float								m_AttackDamage;
+	_bool								m_bAttack;
+
 
 protected:
 	virtual void			Free();

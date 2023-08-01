@@ -113,6 +113,8 @@ HRESULT CVioletDragon::Ready_Object()
 	m_tStatInfo.fAD = 10.f;
 
 
+	m_fFullDownDamage = 50.f;
+
 	m_bHP_90 = false;
 	m_bHP_50 = false;
 	m_bHP_20 = false;
@@ -752,6 +754,9 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		{
 			CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CBigCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
+			
+
+
 		}
 	}
 

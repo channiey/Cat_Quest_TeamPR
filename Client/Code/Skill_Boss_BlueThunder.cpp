@@ -99,6 +99,18 @@ void CSkill_Boss_BlueThunder::Render_Object()
 	__super::Render_Object();
 }
 
+void CSkill_Boss_BlueThunder::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Boss_BlueThunder::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Boss_BlueThunder::OnCollision_Exit(CGameObject* _pColObj)
+{
+}
+
 HRESULT CSkill_Boss_BlueThunder::Add_Component()
 {
 

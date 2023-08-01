@@ -198,6 +198,7 @@
     <ClInclude Include="..\Header\FoxState_bRest.h" />
     <ClInclude Include="..\Header\FoxState_Rest.h" />
     <ClInclude Include="..\Header\GetWorldEffect.h" />
+    <ClInclude Include="..\Header\GreenBullet.h" />
     <ClInclude Include="..\Header\LargeIceBush.h" />
     <ClInclude Include="..\Header\MiniGameMgr_Bingo.h" />
     <ClInclude Include="..\Header\Paper.h" />
@@ -655,6 +656,7 @@
     <ClCompile Include="..\Code\FoxState_bRest.cpp" />
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
     <ClCompile Include="..\Code\GetWorldEffect.cpp" />
+    <ClCompile Include="..\Code\GreenBullet.cpp" />
     <ClCompile Include="..\Code\LargeIceBush.cpp" />
     <ClCompile Include="..\Code\MiniGameMgr_Bingo.cpp" />
     <ClCompile Include="..\Code\Paper.cpp" />

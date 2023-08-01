@@ -1,10 +1,10 @@
-#include "FoxFire.h"
+#include "GreenBullet.h"
 #include "Export_Function.h"
 #include "Player.h"
 
 
-CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner)
-    : CBasicProjectile(pGraphicDev , OBJ_ID::PROJECTILE_BASIC_BULLET)
+CGreenBullet::CGreenBullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner)
+    : CBasicProjectile(pGraphicDev , OBJ_ID::PROJECTILE_GREEN_BULLET)
 {
     m_vPos = _vPos;
     m_vDir = _vDir;
@@ -14,16 +14,16 @@ CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGam
     ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
-CFoxFire::CFoxFire(const CProjectile& rhs)
+CGreenBullet::CGreenBullet(const CProjectile& rhs)
     : CBasicProjectile(rhs)
 {
 }
 
-CFoxFire::~CFoxFire()
+CGreenBullet::~CGreenBullet()
 {
 }
 
-HRESULT CFoxFire::Ready_Object()
+HRESULT CGreenBullet::Ready_Object()
 {
     __super::Ready_Object();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -48,7 +48,7 @@ HRESULT CFoxFire::Ready_Object()
     return S_OK;
 }
 
-_int CFoxFire::Update_Object(const _float& fTimeDelta)
+_int CGreenBullet::Update_Object(const _float& fTimeDelta)
 {
     if (false == m_bInit)
     {
@@ -106,13 +106,13 @@ _int CFoxFire::Update_Object(const _float& fTimeDelta)
 }
 
 
-void CFoxFire::LateUpdate_Object()
+void CGreenBullet::LateUpdate_Object()
 {
     __super::LateUpdate_Object();
 }
 
 
-void CFoxFire::Render_Object()
+void CGreenBullet::Render_Object()
 {
     m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(_int(m_tAlpha.fCurValue), 255, 255, 255));
 
@@ -128,7 +128,7 @@ void CFoxFire::Render_Object()
     __super::Render_Object();
 }
 
-void CFoxFire::OnCollision_Enter(CGameObject* _pColObj)
+void CGreenBullet::OnCollision_Enter(CGameObject* _pColObj)
 {
     CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
   
@@ -147,15 +147,15 @@ void CFoxFire::OnCollision_Enter(CGameObject* _pColObj)
 
 }
 
-void CFoxFire::OnCollision_Stay(CGameObject* _pColObj)
+void CGreenBullet::OnCollision_Stay(CGameObject* _pColObj)
 {
 }
 
-void CFoxFire::OnCollision_Exit(CGameObject* _pColObj)
+void CGreenBullet::OnCollision_Exit(CGameObject* _pColObj)
 {
 }
 
-HRESULT CFoxFire::Add_Component()
+HRESULT CGreenBullet::Add_Component()
 {
     CComponent* pComponent;
 
@@ -167,22 +167,22 @@ HRESULT CFoxFire::Add_Component()
     return S_OK;
 }
 
-CFoxFire* CFoxFire::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos , _vec3 _vDir, CGameObject* pOwner)
+CGreenBullet* CGreenBullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos , _vec3 _vDir, CGameObject* pOwner)
 {
-    CFoxFire* pInstance = new CFoxFire(pGraphicDev,_vPos, _vDir, pOwner);
+    CGreenBullet* pInstance = new CGreenBullet(pGraphicDev,_vPos, _vDir, pOwner);
 
     if (FAILED(pInstance->Ready_Object()))
     {
         Safe_Release(pInstance);
 
-        MSG_BOX("FoxFire Create Failed");
+        MSG_BOX("Green Bullet Create Failed");
         return nullptr;
     }
 
     return pInstance;
 }
 
-void CFoxFire::Free()
+void CGreenBullet::Free()
 {
     __super::Free();
 }

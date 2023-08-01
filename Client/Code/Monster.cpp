@@ -109,6 +109,7 @@ HRESULT CMonster::Ready_Object()
 	m_tAlpha.Set_Lerp(1.f, 0.f, 255.f);
 
 
+	m_bAttackCheck = false;
 
 	return S_OK;
 }
@@ -266,16 +267,27 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 	case Engine::OBJ_TYPE::PLAYER:
 	{
 		if ((m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK) &&
-			_pColObj->Get_ID() != OBJ_ID::MONSTER_FOX )
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK) )
 		{
-			if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
+
+			if (m_eID == OBJ_ID::MONSTER_HEDGEHOG  || m_eID == OBJ_ID::MONSTER_RAM)
+			{
+				if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15 && m_bAttackCheck == false)
+				{
+					dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+					m_bAttackCheck = true;
+				}
+			}
+			else if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
 			{
 
 				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);				
-
 			}
 			
+		}
+		else
+		{
+			m_bAttackCheck = false;
 		}
 	}
 	break;

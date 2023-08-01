@@ -89,6 +89,18 @@ void CSkill_Monster_Ice::Render_Object()
     __super::Render_Object();
 }
 
+void CSkill_Monster_Ice::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_Ice::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_Ice::OnCollision_Exit(CGameObject* _pColObj)
+{
+}
+
 HRESULT CSkill_Monster_Ice::Add_Component()
 {
     // Skill Effect
