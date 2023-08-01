@@ -35,6 +35,13 @@ private:
 	_float					m_fDamage;
 	_float					m_fAccTime;
 
+	_bool					m_bDeleteTime;
+
+	_uint					m_iAlpha;
+	LERP_FLOAT_INFO			m_tAlpha;
+
+	LERP_FLOAT_INFO			m_tSpeed;
+
 public:
 
 	static					CMage_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);

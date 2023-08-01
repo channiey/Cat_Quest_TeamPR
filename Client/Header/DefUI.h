@@ -29,6 +29,11 @@ private:
 	CPlayer*				m_pPlayer;
 	_float					m_fDefRatio;
 
+	LERP_FLOAT_INFO			m_tAlpha;
+	_uint					m_iAlpha;
+	_bool					m_bStart;
+	_bool					m_bWork;
+
 public:
 	static CDefUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

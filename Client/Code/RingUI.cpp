@@ -29,10 +29,12 @@ HRESULT CRingUI::Ready_Object()
 
 	m_pTransformCom->Set_Scale(_vec3{ 4.f, 4.f, 4.f });
 
-	m_iTranslucent = 100;
-	m_bIsReach = false;
+	m_iTranslucent = 225;
+	m_bIsReach = true;
 	m_fAcc = 0;
 
+	m_bStart = false;
+	m_bWork = false;
 
 	return S_OK;
 }
@@ -41,25 +43,50 @@ _int CRingUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	m_fAcc += fTimeDelta;
 
-	if (0.01f < m_fAcc)
+	if (!m_bStart && static_cast<CPlayer*>(m_pOwner)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_IDLE)
 	{
-		if (m_bIsReach)
-		{
-			m_iTranslucent--;
-			if (100 >= m_iTranslucent)
-				m_bIsReach = false;
-		}
-		else if (!m_bIsReach)
-		{
-			m_iTranslucent++;
-			if (225 <= m_iTranslucent)
-				m_bIsReach = true;
-		}
+		m_tAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+		m_tAlpha.Set_Lerp(1.4f, 0.f, m_iTranslucent);
 
-		m_fAcc = m_fAcc - 0.01f;
+		m_bStart = true;
 	}
+
+	if (m_tAlpha.bActive)
+	{
+		m_tAlpha.Update_Lerp(fTimeDelta);
+		m_iAlpha = m_tAlpha.fCurValue;
+	}
+	if (m_bStart && !m_tAlpha.bActive)
+	{
+		m_bWork = true;
+	}
+
+
+
+	if (m_bWork)
+	{
+		m_fAcc += fTimeDelta;
+
+		if (0.01f < m_fAcc)
+		{
+			if (m_bIsReach)
+			{
+				m_iTranslucent--;
+				if (100 >= m_iTranslucent)
+					m_bIsReach = false;
+			}
+			else if (!m_bIsReach)
+			{
+				m_iTranslucent++;
+				if (225 <= m_iTranslucent)
+					m_bIsReach = true;
+			}
+
+			m_fAcc = m_fAcc - 0.01f;
+		}
+	}
+	
 
 	return iExit;
 }
@@ -77,20 +104,38 @@ void CRingUI::Render_Object()
 	if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
 		return;
 
-	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
-	
-	if (static_cast<CPlayer*>(m_pOwner)->Get_PlayerClass() == CLASS_TYPE::THORN)
+
+	if (m_bWork)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 215, 0));
+		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+
+		if (static_cast<CPlayer*>(m_pOwner)->Get_PlayerClass() == CLASS_TYPE::THORN)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 215, 0));
+		}
+		else
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+
+		m_pTextureCom->Render_Texture();
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 	else
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
+	{
+		if (m_bStart)
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 
-	m_pTextureCom->Render_Texture();
-	m_pBufferCom->Render_Buffer();
+			m_pTextureCom->Render_Texture();
+			m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+		}
+	}
+	
 
 	__super::Render_Object();
 }

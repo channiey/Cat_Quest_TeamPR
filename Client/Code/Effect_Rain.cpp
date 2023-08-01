@@ -1,12 +1,13 @@
 #include "stdafx.h"
 
 #include "Effect_Rain.h"
+#include "Effect_RainRipple.h"
 
 #include "Export_Function.h"
 
 
 CEffect_Rain::CEffect_Rain(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos)
-	: CEffect(pGraphicDev, OBJ_ID::EFFECT_POLLEN)
+	: CEffect(pGraphicDev, OBJ_ID::EFFECT_RAIN)
 {
 	m_InitPos = pPos;
 }
@@ -26,10 +27,10 @@ HRESULT CEffect_Rain::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fSpeed = 5 + rand() % 5;
+	m_fSpeed = 25 + rand() % 5;
 
-	_float fMin = 0.1;
-	_float fMax = 0.25;
+	_float fMin = 0.5f;
+	_float fMax = 1.2f;
 	_float	fScale = fMin + (float)(rand()) / ((float)(RAND_MAX / (fMax - fMin)));
 	fScale = floor(fScale * 100) / 100;
 	m_pTransformCom->Set_Scale(_vec3{ fScale, fScale, fScale });
@@ -39,9 +40,17 @@ HRESULT CEffect_Rain::Ready_Object()
 
 	m_fAccTime = 0.f;
 
-	m_vWindVelo.x = (double)rand() / RAND_MAX - 0.5;
-	m_vWindVelo.y = (double)rand() / RAND_MAX - 0.5;
-	m_vWindVelo.z = (double)rand() / RAND_MAX - 0.5;
+	m_vWindVelo.x = 0;
+	m_vWindVelo.y = -1;
+	m_vWindVelo.z = -1;
+
+
+	std::mt19937 gen(m_Random());
+	_int iMin = 0;
+	_int iMax = 6;
+	std::uniform_int_distribution<int> xDistX(iMin, iMax);
+	m_iTexChoice = xDistX(gen);
+
 
 	m_bActive = true;
 
@@ -54,9 +63,9 @@ _int CEffect_Rain::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 
-	m_vWindVelo.x += (double)rand() / RAND_MAX * WINDFORCE - WINDFORCE / 2.0;
-	m_vWindVelo.y -= (double)rand() / RAND_MAX * WINDFORCE * 1;
-	//m_vWindVelo.z += (double)rand() / RAND_MAX * WINDFORCE - WINDFORCE / 2.0;
+	/*m_vWindVelo.x += (double)rand() / RAND_MAX * WINDFORCE * 1;
+	m_vWindVelo.y -= 1;
+	m_vWindVelo.z -= (double)rand() / RAND_MAX * WINDFORCE * 1;*/
 
 	m_pTransformCom->Set_Dir(m_vWindVelo);
 	m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
@@ -64,7 +73,17 @@ _int CEffect_Rain::Update_Object(const _float& fTimeDelta)
 	_vec3 vRainPos = m_pTransformCom->Get_Info(INFO::INFO_POS);
 
 	if (vRainPos.y <= 0.05f)
+	{
+		_vec3 vCreatPos = m_pTransformCom->Get_Info(INFO::INFO_POS);
+		vCreatPos.y = 0.02f;
+
+		CGameObject* pRainRipple = CEffect_RainRipple::Create(m_pGraphicDev, vCreatPos);
+		NULL_CHECK_RETURN(pRainRipple, E_FAIL);
+		CEventMgr::GetInstance()->Add_Obj(L"Effect_RainRipple", pRainRipple);
+
 		CEventMgr::GetInstance()->Delete_Obj(this);
+	}
+		
 
 	return iExit;
 }
@@ -78,7 +97,7 @@ void CEffect_Rain::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(200, 255, 255, 255));
 
-	m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
+	m_pTextureCom->Render_Texture(m_iTexChoice); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 

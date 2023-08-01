@@ -41,9 +41,9 @@ private:
 	void	Snow_Caculate_CreateTime();
 	void	Snow_Caculate_InitPos();
 
-	void	Rain_Create(const _float& fTimeDelta) {}
-	void	Rain_Caculate_CreateTime() {}
-	void	Rain_Caculate_InitPos() {}
+	void	Rain_Create(const _float& fTimeDelta);
+	void	Rain_Caculate_CreateTime();
+	void	Rain_Caculate_InitPos();
 
 private:
 	CGameObject* m_pPlayer;

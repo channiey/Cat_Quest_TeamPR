@@ -5,6 +5,7 @@
 #include "Cloud2.h"
 #include "Cloud3.h"
 #include "Effect_Snow.h"
+#include "Effect_Rain.h"
 #include "Export_Function.h"
 #include "Player.h"
 
@@ -36,6 +37,9 @@ HRESULT CEffectGenerator::Ready_Object()
 
 	m_fSnow_AccTime = 0.f;
 	Snow_Caculate_CreateTime();
+
+	m_fRain_AccTime = 0.f;
+	Rain_Caculate_CreateTime();
 
 	return S_OK;
 }
@@ -261,8 +265,8 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 
 	if (static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
 	{
-		std::uniform_real_distribution<float> xDist1(-80.f, -50.f);
-		std::uniform_real_distribution<float> xDist2(50.f, 80.f);
+		std::uniform_real_distribution<float> xDist1(-80.f, -65.f);
+		std::uniform_real_distribution<float> xDist2(65.f, 80.f);
 		std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
 		std::uniform_real_distribution<float> xDist4(5.f, 30.f);
 
@@ -273,8 +277,8 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 	}
 	else
 	{
-		std::uniform_real_distribution<float> xDist1(-50.f, -30.f);
-		std::uniform_real_distribution<float> xDist2(30.f, 50.f);
+		std::uniform_real_distribution<float> xDist1(-60.f, -40.f);
+		std::uniform_real_distribution<float> xDist2(40.f, 60.f);
 		std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
 		std::uniform_real_distribution<float> xDist4(5.f, 30.f);
 
@@ -336,7 +340,7 @@ void CEffectGenerator::Snow_Create(const _float& fTimeDelta)
 		NULL_CHECK(pSnow);
 		CEventMgr::GetInstance()->Add_Obj(L"Effect_Snow", pSnow);
 
-		//m_fPollen_AccTime -= m_fPollen_CreateTime;
+		m_fSnow_AccTime -= m_fSnow_CreateTime;
 		Snow_Caculate_CreateTime();
 	}
 }
@@ -345,8 +349,8 @@ void CEffectGenerator::Snow_Caculate_CreateTime()
 {
 	std::mt19937 gen(m_Random());
 
-	_float fMin = 0.f;
-	_float fMax = 0.2f;
+	_float fMin = 0.03f;
+	_float fMax = 0.08f;
 	std::uniform_real_distribution<float> xTime(fMin, fMax);
 	m_fSnow_CreateTime = xTime(gen);
 }
@@ -363,8 +367,8 @@ void CEffectGenerator::Snow_Caculate_InitPos()
 	std::uniform_int_distribution<int> xDistX(iMin, iMax);
 	vInitPos.x += xDistX(gen);
 
-	iMin = 10.f;
-	iMax = 20.f;
+	iMin = 15.f;
+	iMax = 25.f;
 	std::uniform_int_distribution<int> xDistY(iMin, iMax);
 	vInitPos.y += xDistY(gen);
 
@@ -376,11 +380,69 @@ void CEffectGenerator::Snow_Caculate_InitPos()
 	m_vSnow_CreatePos = vInitPos;
 
 }
+
 #pragma endregion
 
 #pragma region Rain
+void CEffectGenerator::Rain_Create(const _float& fTimeDelta)
+{
+	m_fRain_AccTime += fTimeDelta;
+	if (m_fRain_AccTime >= m_fRain_CreateTime)
+	{
+		Rain_Caculate_InitPos();
+
+		CGameObject* pRain = CEffect_Rain::Create(m_pGraphicDev, m_vRain_CreatePos);
+		NULL_CHECK(pRain);
+		CEventMgr::GetInstance()->Add_Obj(L"Effect_Rain", pRain);
+
+		//m_fRain_AccTime -= m_fRain_CreateTime;
+		Rain_Caculate_CreateTime();
+	}
+}
+void CEffectGenerator::Rain_Caculate_CreateTime()
+{
+	std::mt19937 gen(m_Random());
+
+	_float fMin = 0.f;
+	_float fMax = 0.05f;
+	std::uniform_real_distribution<float> xTime(fMin, fMax);
+	m_fRain_CreateTime = xTime(gen);
+}
+void CEffectGenerator::Rain_Caculate_InitPos()
+{
+	_vec3 vInitPos = m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
+
+	std::mt19937 gen(m_Random());
 
 
+	_int iMin = -30.f;
+	_int iMax = 30.f;
+	std::uniform_int_distribution<int> xDistX(iMin, iMax);
+	vInitPos.x += xDistX(gen);
+
+	if (static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
+	{
+		iMin = 25.f;
+		iMax = 35.f;
+		std::uniform_int_distribution<int> xDistY(iMin, iMax);
+		vInitPos.y += xDistY(gen);
+	}
+	else
+	{
+		iMin = 10.f;
+		iMax = 20.f;
+		std::uniform_int_distribution<int> xDistY(iMin, iMax);
+		vInitPos.y += xDistY(gen);
+	}
+	
+
+	iMin = -20.f;
+	iMax = 40.f;
+	std::uniform_int_distribution<int> xDistZ(iMin, iMax);
+	vInitPos.z += xDistZ(gen);
+
+	m_vRain_CreatePos = vInitPos;
+}
 #pragma endregion
 
 
