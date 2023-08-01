@@ -126,17 +126,6 @@ HRESULT CSkill_Boss_BloodyThunder::Add_Component()
 	_vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS); // Boss Pos 
 	NULL_CHECK_RETURN(vOwnerPos, E_FAIL);
 
-	//// Player - Transform Com
-	//CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(OBJ_TYPE::PLAYER, L"Player", COMPONENT_TYPE::TRANSFORM, COMPONENTID::ID_DYNAMIC));
-	//NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
-
-	//// Player - Pos
-	//_vec3       vPlayerPos;
-	//vPlayerPos = pPlayerTransform->Get_Info(INFO_POS);
-	//NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
-
-
-
 	// Skill Effect
 	CSkillEffect* pThunderEffect1 = CEffect_Boss_Thunder::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pThunderEffect1, E_FAIL);

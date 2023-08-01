@@ -26,6 +26,7 @@ HRESULT CVioletDragonState_Dash_Attack::Ready_State(CStateMachine* pOwner)
 	m_fAccTime = 0.f;
     
     m_bAssault = false;
+    m_bDirSelect = false;
 
 	return S_OK;
 }
@@ -112,18 +113,20 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
     // Time
     m_fAccTime += fTimeDelta;
 
-
-    // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    if (m_bDirSelect == false)
     {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+        // x 이동 방향에 따라 스케일 전환 
+        if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+        {
+            pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+        }
+        else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+        {
+            pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+        }
+        m_bDirSelect == true;
     }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-
-
+  
 
     if (m_bAssault == false  && pOwenrCurAnimation->Is_End())
     {
@@ -157,7 +160,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
 #pragma region State Change
 
 
-    if ( m_fAccTime >=1.6f)
+    if ( m_fAccTime >=1.f)
     {
         m_fAccTime = 0.f;
         m_bAssault =false;

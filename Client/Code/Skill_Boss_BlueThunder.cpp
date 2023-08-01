@@ -5,6 +5,7 @@
 #include "EventMgr.h"
 #include "Effect_Range_Quater.h"
 #include "Player.h"
+#include "RangeObj.h"
 
 CSkill_Boss_BlueThunder::CSkill_Boss_BlueThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CSkill(pGraphicDev, OBJ_ID::SKILL_BOSS_BLUETHUNDER)
@@ -128,6 +129,9 @@ void CSkill_Boss_BlueThunder::OnCollision_Exit(CGameObject* _pColObj)
 
 HRESULT CSkill_Boss_BlueThunder::Add_Component()
 {
+	_vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS); // Boss Pos 
+	NULL_CHECK_RETURN(vOwnerPos, E_FAIL);
+
 
 	// Skill Effect
 	CSkillEffect* pThunderEffect1 = CEffect_Boss_Thunder_Blue::Create(m_pGraphicDev, this);
@@ -207,6 +211,91 @@ HRESULT CSkill_Boss_BlueThunder::Add_Component()
 	m_pBaseRangeEffect8 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
 	NULL_CHECK_RETURN(m_pBaseRangeEffect8, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_BloodyThunder_Base8", m_pBaseRangeEffect8), E_FAIL);
+
+
+
+	// RangeObj
+	// 1
+	CRangeObj* pGameObject1 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere1 = dynamic_cast<CSphereCollider*>(pGameObject1->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere1->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject1, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere1", pGameObject1);
+	m_pRangeObj1 = pGameObject1;
+	dynamic_cast<CRangeObj*>(m_pRangeObj1)->Set_Pos(_vec3{ vOwnerPos.x - 20, 0.01f, vOwnerPos.z + 20 });
+	m_pRangeObj1->Set_Active(false);
+
+
+	// 2
+	CRangeObj* pGameObject2 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere2 = dynamic_cast<CSphereCollider*>(pGameObject2->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere2->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject2, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere2", pGameObject2);
+	m_pRangeObj2 = pGameObject2;
+	dynamic_cast<CRangeObj*>(m_pRangeObj2)->Set_Pos(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z + 20 });
+	m_pRangeObj2->Set_Active(false);
+
+	// 3
+	CRangeObj* pGameObject3 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere3 = dynamic_cast<CSphereCollider*>(pGameObject3->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere3->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject3, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere3", pGameObject3);
+	m_pRangeObj3 = pGameObject3;
+	dynamic_cast<CRangeObj*>(m_pRangeObj3)->Set_Pos(_vec3{ vOwnerPos.x - 20 , 0.01f, vOwnerPos.z - 20 });
+
+	// 4
+	CRangeObj* pGameObject4 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere4 = dynamic_cast<CSphereCollider*>(pGameObject4->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere4->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject4, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere4", pGameObject4);
+	m_pRangeObj4 = pGameObject4;
+	dynamic_cast<CRangeObj*>(m_pRangeObj4)->Set_Pos(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z - 20 });
+
+
+	// 5
+	CRangeObj* pGameObject5 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere5 = dynamic_cast<CSphereCollider*>(pGameObject5->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere5->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject5, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere5", pGameObject5);
+	m_pRangeObj5 = pGameObject5;
+	dynamic_cast<CRangeObj*>(m_pRangeObj5)->Set_Pos(_vec3{ vOwnerPos.x + 10 , 0.01f, vOwnerPos.z });
+
+
+	// 6
+	CRangeObj* pGameObject6 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere6 = dynamic_cast<CSphereCollider*>(pGameObject6->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere6->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject6, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere6", pGameObject6);
+	m_pRangeObj6 = pGameObject6;
+	dynamic_cast<CRangeObj*>(m_pRangeObj6)->Set_Pos(_vec3{ vOwnerPos.x - 10 , 0.01f, vOwnerPos.z });
+
+
+	// 7
+	CRangeObj* pGameObject7 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere7 = dynamic_cast<CSphereCollider*>(pGameObject7->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere7->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject7, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere7", pGameObject7);
+	m_pRangeObj7 = pGameObject7;
+	dynamic_cast<CRangeObj*>(m_pRangeObj7)->Set_Pos(_vec3{ vOwnerPos.x  , 0.01f, vOwnerPos.z + 10 });
+
+
+	// 8
+	CRangeObj* pGameObject8 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere8 = dynamic_cast<CSphereCollider*>(pGameObject8->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere8->Set_Radius(7.f);
+	NULL_CHECK_RETURN(pGameObject8, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere8", pGameObject8);
+	m_pRangeObj8 = pGameObject8;
+	dynamic_cast<CRangeObj*>(m_pRangeObj8)->Set_Pos(_vec3{ vOwnerPos.x  , 0.01f, vOwnerPos.z - 10 });
+
+
+
 
 
 

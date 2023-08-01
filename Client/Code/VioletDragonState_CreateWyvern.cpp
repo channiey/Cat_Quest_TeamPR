@@ -404,7 +404,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     }
 
 
-    if (m_fAccTime >= 7.f )
+    if (m_fAccTime >= 2.f )
     {
         m_fAccTime = 0.f;
         m_bCreateWyvern1 = false;
@@ -436,14 +436,18 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
 
         m_bInit = false;
 
-        if (vOwnerPos.z > vPlayerPos.z)
+
+        return STATE_TYPE::BOSS_BLUE_CAST
+
+
+    /*    if (vOwnerPos.z > vPlayerPos.z)
         {
             return STATE_TYPE::BOSS_CHASE3;
         }
         else
         {
             return STATE_TYPE::BOSS_BACK_CHASE3;
-        }
+        }*/
     }
 
 
