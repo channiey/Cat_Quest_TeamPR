@@ -118,6 +118,12 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
+
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
+
    
     if (pOwenrCurAnimation->Get_CurFrame() == 7.f)
     {

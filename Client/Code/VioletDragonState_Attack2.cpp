@@ -120,7 +120,11 @@ STATE_TYPE CVioletDragonState_Attack2::Update_State(const _float& fTimeDelta)
   /*  pOwnerTransform->Set_Dir(vec3.zero);
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
 
-  
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
+
 
 #pragma region State Change
     // Attack 우선순위

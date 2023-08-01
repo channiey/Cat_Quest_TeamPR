@@ -126,6 +126,12 @@ STATE_TYPE CVioletDragonState_Attack3::Update_State(const _float& fTimeDelta)
     // Attack 우선순위
     // back attack - chase - Comeback
 
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
+
+
 
     if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {

@@ -397,7 +397,11 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     }
 
 #pragma region State Change
-    // FullDown 상태는 FullDown Down 상태로만 전이 한다
+   
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
+    {
+        return STATE_TYPE::BOSSDEAD;
+    }
 
 
     if (m_fAccTime >= 7.f )
