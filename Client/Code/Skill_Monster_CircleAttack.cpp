@@ -81,6 +81,18 @@ void CSkill_Monster_CircleAttack::Render_Object()
     __super::Render_Object();
 }
 
+void CSkill_Monster_CircleAttack::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_CircleAttack::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_CircleAttack::OnCollision_Exit(CGameObject* _pColObj)
+{
+}
+
 HRESULT CSkill_Monster_CircleAttack::Add_Component()
 {
     CEffect_Range_Quater* pRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_ATTACK);

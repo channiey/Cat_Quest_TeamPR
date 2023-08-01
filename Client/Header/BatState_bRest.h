@@ -44,5 +44,12 @@ private:
 	_float  m_fPlayerTargetRange;
 
 	_bool  m_bAssault;
+
+	_bool  m_bAfterImg;
+
+	//잔상용 리스트
+	list<CGameObject*>			m_listAfterImg;
+	_uint						m_iCreateAfterImg;
+
 };
 

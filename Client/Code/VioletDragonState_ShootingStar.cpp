@@ -136,6 +136,11 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
+
+
+
+
+
       // x 이동 방향에 따라 스케일 전환 
     if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
     {

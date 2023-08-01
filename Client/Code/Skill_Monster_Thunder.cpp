@@ -97,6 +97,18 @@ void CSkill_Monster_Thunder::Render_Object()
     __super::Render_Object();
 }
 
+void CSkill_Monster_Thunder::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_Thunder::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_Thunder::OnCollision_Exit(CGameObject* _pColObj)
+{
+}
+
 HRESULT CSkill_Monster_Thunder::Add_Component()
 {
     // Skill Effect

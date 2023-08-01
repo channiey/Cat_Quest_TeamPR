@@ -148,6 +148,18 @@ HRESULT CSkill_Monster_Beam::End()
     return S_OK;
 }
 
+void CSkill_Monster_Beam::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_Beam::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Monster_Beam::OnCollision_Exit(CGameObject* _pColObj)
+{
+}
+
 CSkill_Monster_Beam* CSkill_Monster_Beam::Create(LPDIRECT3DDEVICE9 pGraphicDev , CGameObject* _pOwnerObject)
 {
     CSkill_Monster_Beam* pInstance = new CSkill_Monster_Beam(pGraphicDev, _pOwnerObject);

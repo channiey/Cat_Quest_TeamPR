@@ -2,7 +2,7 @@
 #include "EventMgr.h"
 #include "Effect_Range_Quater.h"
 #include"Export_Function.h"
-
+#include "Player.h"
 #include "RangeObj.h"
 
 CSkill_Boss_FullDown::CSkill_Boss_FullDown(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -31,12 +31,16 @@ HRESULT CSkill_Boss_FullDown::Ready_Object()
 	__super::Ready_Object();
 
 	m_bActive = false;
-	m_fSkillDamage = 40;
+
+	m_fSkillDamage = 50;
 
 	m_pBaseRangeEffect = nullptr;
 
+	m_bAttack = false;
+
 	// Naming
 	m_szName = L"Skill_Monster_FullDown";
+	
 
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -52,6 +56,8 @@ _int CSkill_Boss_FullDown::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
 
+	
+
 	// Dead condition
 	if (!m_pOwnerObject->Is_Active())
 	{
@@ -62,9 +68,34 @@ _int CSkill_Boss_FullDown::Update_Object(const _float& fTimeDelta)
 		return iExit;
 	}
 
+	//if (this->Is_Active())
+	//{
+	//	m_pRangeObj->Set_Active(true);
+	//}
+
+
 	// Pos Setting
 	_vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 	m_pTransformCom->Set_Pos(vPos);
+
+
+
+	//Monster - Animator
+	CComponent* pOwnerAnimator = dynamic_cast<CAnimator*>(m_pOwnerObject->Get_Component(COMPONENT_TYPE::ANIMATOR, COMPONENTID::ID_STATIC));
+	
+
+	// Monster - Cur Animation
+	CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
+	
+
+	
+
+	if (pOwenrCurAnimation->Get_CurFrame() == 3 && m_bAttack == false)
+	{
+		m_pRangeObj->Set_Active(true);
+		m_bActive = true;
+	}
+
 
 
 
@@ -76,12 +107,35 @@ _int CSkill_Boss_FullDown::Update_Object(const _float& fTimeDelta)
 
 void CSkill_Boss_FullDown::LateUpdate_Object()
 {
+	
 	__super::LateUpdate_Object();
 }
 
 void CSkill_Boss_FullDown::Render_Object()
 {
 	__super::Render_Object();
+}
+
+void CSkill_Boss_FullDown::OnCollision_Enter(CGameObject* _pColObj)
+{
+	//// Player
+	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+	dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+
+
+}
+
+void CSkill_Boss_FullDown::OnCollision_Stay(CGameObject* _pColObj)
+{
+
+	
+
+}
+
+void CSkill_Boss_FullDown::OnCollision_Exit(CGameObject* _pColObj)
+{
+
+	
 }
 
 HRESULT CSkill_Boss_FullDown::Add_Component()
@@ -103,6 +157,17 @@ HRESULT CSkill_Boss_FullDown::Add_Component()
 	m_pBaseRangeEffect = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED);
 	NULL_CHECK_RETURN(m_pBaseRangeEffect, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_FullDown_Base", m_pBaseRangeEffect), E_FAIL);
+
+
+
+	CRangeObj* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+	CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+	pShpere->Set_Radius(22.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"Boss_FullDown_Sphere", pGameObject);
+	m_pRangeObj = pGameObject;
+
+
 
 
 	return S_OK;
@@ -135,9 +200,10 @@ HRESULT CSkill_Boss_FullDown::LatePlay()
 
 HRESULT CSkill_Boss_FullDown::End()
 {
+	m_pRangeObj->Set_Active(false);
 	m_pBaseRangeEffect->Set_Active(FALSE);
-
-
+	m_bAttack = false;
+	m_bActive = false;
 	return S_OK;
 }
 

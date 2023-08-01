@@ -1,6 +1,7 @@
 #include "BatState_bRest.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "Bat_AfterImg.h"
 
 CBatState_bRest::CBatState_bRest(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -34,9 +35,10 @@ HRESULT CBatState_bRest::Ready_State(CStateMachine* pOwner)
 
     m_fAccTime = 0.f;
 
+    m_iCreateAfterImg = 0.f;
 
     m_bAssault = false;
-
+    m_bAfterImg = false;
 
     return S_OK;
 }
@@ -126,8 +128,19 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
         pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
     }
 
+    // ¸®½ºÆ® 
+    if (!m_listAfterImg.empty())
+    {
+        if (m_listAfterImg.front() != nullptr)
+        {
+            m_listAfterImg.front()->Set_Active(true);
+            CEventMgr::GetInstance()->Add_Obj(L"Bat_AfterImg", m_listAfterImg.front());
+            m_listAfterImg.pop_front();
+        }
+    }
 
 
+    // µ¹Áø
     if (m_bAssault == false)
     {
 
@@ -137,13 +150,45 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(30.f);
             pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
             CSoundMgr::GetInstance()->PlaySound(L"flying_swish_Big.wav", CHANNEL_ID::MONSTER_BAT, SOUND_VOLUME_MON_FLY_ATTACK);
+            m_bAfterImg = true;
         }
     }
 
- 
+    // ÀÜ»ó
+    if (m_bAfterImg == true)
+    {
+        if (m_iCreateAfterImg % 1 == 0 && m_listAfterImg.size() <= 5)
+        {
+            CGameObject* pAfterImg = CBat_AfterImg::Create(m_pGraphicDev, m_pOwner->Get_OwnerObject());
+            m_listAfterImg.push_back(pAfterImg);
+
+            ++m_iCreateAfterImg;
+
+            if (m_iCreateAfterImg >= 100)
+            {
+                m_iCreateAfterImg = 0;
+            }
+        }
+    }
+
     if (fPlayerDistance <= 5.f && m_fAccTime >= 0.7f)
     {
         pOwnerTransform->Set_Dir(vec3.zero);
+
+        m_bAfterImg = false;
+
+        // ¸ØÃß¸é ÀÜ»ó Á¦°Å 
+        if (!m_listAfterImg.empty())
+        {
+            for (auto iter : m_listAfterImg)
+            {
+                CEventMgr::GetInstance()->Delete_Obj(iter);
+            }
+            m_listAfterImg.clear();
+        }
+        m_iCreateAfterImg = 0;
+
+
     }
 
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
@@ -169,6 +214,7 @@ STATE_TYPE CBatState_bRest::Update_State(const _float& fTimeDelta)
 
     if (m_fAccTime >= 2.f)
     {
+        m_bAssault = false;
         dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(3.f);
         m_fAccTime = 0.f;
 

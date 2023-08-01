@@ -28,6 +28,12 @@ public:
 
 
 public:
+	virtual void			OnCollision_Enter(CGameObject* _pColObj);
+	virtual void			OnCollision_Stay(CGameObject* _pColObj);
+	virtual void			OnCollision_Exit(CGameObject* _pColObj);
+
+
+public:
 
 	static CSkill_Monster_Beam* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 

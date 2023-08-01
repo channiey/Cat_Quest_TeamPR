@@ -81,7 +81,7 @@ private:
 
 	_float					m_DeadCreatTime;
 
-
+	_float					m_fFullDownDamage;
 
 protected:
 	virtual void		Free() override;

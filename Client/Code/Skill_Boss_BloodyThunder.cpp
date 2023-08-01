@@ -3,6 +3,7 @@
 #include "Effect_Boss_Thunder.h"
 #include "EventMgr.h"
 #include "Effect_Range_Quater.h"
+#include "RangeObj.h"
 
 CSkill_Boss_BloodyThunder::CSkill_Boss_BloodyThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CSkill(pGraphicDev, OBJ_ID::SKILL_BOSS_BLOODYTHUNDER)
@@ -29,6 +30,7 @@ HRESULT CSkill_Boss_BloodyThunder::Ready_Object()
 	__super::Ready_Object();
 
 	m_bActive = false;
+
 	m_fSkillDamage = 40;
 
 	m_bBaseEffectEnd = false;
@@ -75,6 +77,8 @@ _int CSkill_Boss_BloodyThunder::Update_Object(const _float& fTimeDelta)
 	//m_pTransformCom->Set_Pos(vPos);
 
 
+	
+
 
 
 	return iExit;
@@ -88,6 +92,18 @@ void CSkill_Boss_BloodyThunder::LateUpdate_Object()
 void CSkill_Boss_BloodyThunder::Render_Object()
 {
 	__super::Render_Object();
+}
+
+void CSkill_Boss_BloodyThunder::OnCollision_Enter(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Boss_BloodyThunder::OnCollision_Stay(CGameObject* _pColObj)
+{
+}
+
+void CSkill_Boss_BloodyThunder::OnCollision_Exit(CGameObject* _pColObj)
+{
 }
 
 HRESULT CSkill_Boss_BloodyThunder::Add_Component()

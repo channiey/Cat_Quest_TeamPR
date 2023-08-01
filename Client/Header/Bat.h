@@ -34,6 +34,13 @@ private:
 	HRESULT				Add_Component();
 
 
+private:
+
+	//잔상용 리스트
+	list<CGameObject*>			m_listAfterImg;
+	_uint						m_iCreateAfterImg;
+
+
 
 public:
 	static				CBat* Create(LPDIRECT3DDEVICE9 pGraphicDev);

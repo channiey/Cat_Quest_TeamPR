@@ -128,8 +128,11 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
    
 
     // 현재 상태의 기능
-    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+    if (fPlayerDistance >= 5.f)
+    {
+        dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+    }
 
 
 

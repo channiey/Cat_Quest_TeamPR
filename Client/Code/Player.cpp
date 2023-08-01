@@ -647,6 +647,16 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 		
 	}
 	break;
+	case Engine::OBJ_TYPE::RANGE_OBJ:
+	{
+		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::SKILL_BOSS_FULLDOWN)
+		{
+			m_pRigidBodyCom->Knock_Up(500);
+		}
+
+
+	}
+	break;
 	case Engine::OBJ_TYPE::LINE:
 	{
 		_vec3 vNewPos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();

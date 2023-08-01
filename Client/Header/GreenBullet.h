@@ -8,12 +8,12 @@ class CCollider;
 
 END
 
-class CFoxFire : public CBasicProjectile    // 정해진 방향으로 이동 하는 Bullet
+class CGreenBullet : public CBasicProjectile    // 정해진 방향으로 이동 하는 Bullet
 {
 protected:
-	explicit CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
-	explicit CFoxFire(const CProjectile& rhs);
-	virtual ~CFoxFire();
+	explicit CGreenBullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
+	explicit CGreenBullet(const CProjectile& rhs);
+	virtual ~CGreenBullet();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -41,7 +41,7 @@ private:
 
 public:
 
-	static					CFoxFire* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
+	static					CGreenBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGameObject* pOwner);
 
 private:
 
