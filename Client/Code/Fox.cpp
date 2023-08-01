@@ -277,13 +277,12 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 		}
 
 	}
-
 	if (m_bSkill == true)
 	{
-		if (m_fAccTime >= 2.f)
+		if (m_fAccTime >= 3.f)
 		{
 			m_pSkill->Play();
-			if (m_fAccTime >= 3.f)
+			if (m_fAccTime >= 5.f)
 			{
 				dynamic_cast<CSkill_Monster_Fire*>(m_pSkill)->LatePlay();
 				CSoundMgr::GetInstance()->PlaySound(L"skill_flamepurr.wav", CHANNEL_ID::MONSTER_FOX, SOUND_VOLUME_MONSKILL_FIRE);
@@ -292,7 +291,10 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 			}
 		}
 	}
-
+	else
+	{
+		dynamic_cast<CSkill_Monster_Fire*>(m_pSkill)->End();
+	}
 
 
 

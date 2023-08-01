@@ -66,6 +66,12 @@
 //Dead
 #include "VioletDragonState_Dead.h"
 
+// Watch 
+#include "VioletDragonState_Watch_In_Sky.h"
+#include "VioletDragonState_Watch_Up.h"
+#include "VioletDragonState_Watch_Down.h"
+
+
 
 // Effect
 #include "Shadow_Monster.h"
@@ -380,6 +386,18 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSSDEAD, pState);
 
 
+	// Watch  ==============
+	pState = CVioletDragonState_Watch_Up::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_UP, pState);
+
+	pState = CVioletDragonState_Watch_Down::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_DOWN, pState);
+
+	pState = CVioletDragonState_Watch_In_Sky::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_IN_SKY, pState);
+
+
+
 #pragma endregion
 
 
@@ -576,6 +594,17 @@ HRESULT CVioletDragon::Ready_Object()
 	// Dead
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)], STATE_TYPE::BOSSDEAD, 0.1f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSSDEAD, pAnimation);
+
+
+	// Watch
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_UP)], STATE_TYPE::BOSS_WATCH_UP, 0.1f, FALSE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_WATCH_UP, pAnimation);
+
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_IN_SKY)], STATE_TYPE::BOSS_WATCH_IN_SKY, 0.1f, FALSE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_WATCH_IN_SKY, pAnimation);
+
+	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_DOWN)], STATE_TYPE::BOSS_WATCH_DOWN, 0.1f, FALSE);
+	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_WATCH_DOWN, pAnimation);
 
 
 
@@ -1181,6 +1210,21 @@ HRESULT CVioletDragon::Add_Component()
 
 	// Dead
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dead_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	// Watch
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_UP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchUp_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_IN_SKY)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchInSky_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_DOWN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchDown_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
