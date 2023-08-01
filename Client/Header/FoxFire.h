@@ -49,6 +49,8 @@ private:
 
 	_bool				m_bInit;
 	_bool				m_bEnd;
+
+	_bool				m_Check;
 protected:
 	virtual void		Free() override;
 

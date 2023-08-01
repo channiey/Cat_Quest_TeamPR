@@ -10,6 +10,7 @@ CFoxFire::CFoxFire(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, _vec3 _vDir, CGam
     m_vDir = _vDir;
     m_pOwner = pOwner;
      
+
     ZeroMemory(&m_tAlpha, sizeof(LERP_FLOAT_INFO));
 }
 
@@ -36,6 +37,7 @@ HRESULT CFoxFire::Ready_Object()
     m_bInit = false;
     m_bEnd = false;
 
+    m_Check = false;
 
     m_fDamage = 5.f;
 
@@ -84,9 +86,11 @@ _int CFoxFire::Update_Object(const _float& fTimeDelta)
     {
         m_vDir = _vec3{ 0.f, 0.f, -1.f };
     }
-    if (false == m_bEnd && m_fAccTime >= 2.f)
+
+    if (false == m_bEnd && m_fAccTime >= 2.f && m_Check == false)
     {
         m_bEnd = true;
+        m_Check = true;
     }
 
     if (m_fAccTime >= 3.f)
