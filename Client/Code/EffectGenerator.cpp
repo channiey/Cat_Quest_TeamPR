@@ -254,17 +254,41 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 
 	std::mt19937 gen(m_Random());
 
-	std::uniform_real_distribution<float> xDist1(-50.f, -30.f);
-	std::uniform_real_distribution<float> xDist2(30.f, 50.f);
-	std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
-	std::uniform_real_distribution<float> xDist4(5.f, 30.f);
+	_float randomxM;
+	_float randomxP;
+	_float randomzM;
+	_float randomzP;
+
+	if (static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
+	{
+		std::uniform_real_distribution<float> xDist1(-80.f, -50.f);
+		std::uniform_real_distribution<float> xDist2(50.f, 80.f);
+		std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
+		std::uniform_real_distribution<float> xDist4(5.f, 30.f);
+
+		randomxM = xDist1(gen);
+		randomxP = xDist2(gen);
+		randomzM = xDist3(gen);
+		randomzP = xDist4(gen);
+	}
+	else
+	{
+		std::uniform_real_distribution<float> xDist1(-50.f, -30.f);
+		std::uniform_real_distribution<float> xDist2(30.f, 50.f);
+		std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
+		std::uniform_real_distribution<float> xDist4(5.f, 30.f);
+
+		randomxM = xDist1(gen);
+		randomxP = xDist2(gen);
+		randomzM = xDist3(gen);
+		randomzP = xDist4(gen);
+	}
+
+	
 	std::bernoulli_distribution coinFlip(0.5);
 	std::bernoulli_distribution coinFlip2(0.5);
 
-	_float randomxM = xDist1(gen);
-	_float randomxP = xDist2(gen);
-	_float randomzM = xDist3(gen);
-	_float randomzP = xDist4(gen);
+	
 
 	if (0 == m_iChoice)
 	{
