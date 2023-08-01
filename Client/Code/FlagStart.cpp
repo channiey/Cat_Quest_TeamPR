@@ -33,6 +33,8 @@ HRESULT CFlagStart::Ready_Object()
 	pRangeObj->Set_Radius(2.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
+	m_eFlagTag = FLAG_TAG::FLAG_START;
+
 	m_szName = L"Flag_Start";
 
 	m_bActive = true;
@@ -51,7 +53,6 @@ _int CFlagStart::Update_Object(const _float& fTimeDelta)
 void CFlagStart::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
-
 }
 
 void CFlagStart::Render_Object()
@@ -61,7 +62,7 @@ void CFlagStart::Render_Object()
 
 	__super::Render_Object();
 
-	m_pFlagTexCom->Render_Texture();
+	m_pFlagTexCom->Render_Texture(m_eFlagTag);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	m_pBufferCom->Render_Buffer();
 
@@ -70,12 +71,17 @@ void CFlagStart::Render_Object()
 
 }
 
+void CFlagStart::Set_Texture(const FLAG_TAG& _eID)
+{
+	m_eFlagTag = _eID;
+}
+
 HRESULT CFlagStart::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
 	// Texture
-	pComponent = m_pFlagTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Inventory_Button", this));
+	pComponent = m_pFlagTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Flag_List", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

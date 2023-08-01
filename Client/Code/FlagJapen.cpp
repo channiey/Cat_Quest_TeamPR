@@ -33,6 +33,8 @@ HRESULT CFlagJapen::Ready_Object()
 	pRangeObj->Set_Radius(2.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
+	m_eFlagTag = FLAG_TAG::FLAG_JAPEN;
+
 	m_szName = L"Flag_Japen";
 
 	return S_OK;

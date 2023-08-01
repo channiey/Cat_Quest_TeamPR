@@ -619,6 +619,11 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma region FLAG
 
+	// 리스트
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_List",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Flag/%d.png", 9)), E_FAIL);
+
+	// 한개씩
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_China",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Flag/0.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_USA",
@@ -638,6 +643,14 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// 정답 체크
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_Check",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_checkbox_tick.png")), E_FAIL);
+
+	// 빙고 UI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Succes",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_checkbox_tick.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Fail",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_no.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Clear",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_yes.png")), E_FAIL);
 
 
 #pragma endregion

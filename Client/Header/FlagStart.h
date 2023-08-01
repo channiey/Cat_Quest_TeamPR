@@ -18,6 +18,8 @@ public:
 	virtual void			LateUpdate_Object() override;
 	virtual void			Render_Object() override;
 
+public:
+	void					Set_Texture(const FLAG_TAG& _eID);
 
 private:
 	HRESULT		Add_Component();
