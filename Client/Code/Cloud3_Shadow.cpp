@@ -53,6 +53,8 @@ _int CCloud3_Shadow::Update_Object(const _float& fTimeDelta)
 
 void CCloud3_Shadow::LateUpdate_Object()
 {
+	if (!m_pOwnerobject->Is_Active())
+		CEventMgr::GetInstance()->Delete_Obj(this);
 	m_iAlpha = static_cast<CCloud3*>(m_pOwnerobject)->Get_CloudAlpha();
 
 	__super::LateUpdate_Object();
@@ -60,7 +62,8 @@ void CCloud3_Shadow::LateUpdate_Object()
 
 void CCloud3_Shadow::Render_Object()
 {
-
+	if (!m_pOwnerobject->Is_Active())
+		CEventMgr::GetInstance()->Delete_Obj(this);
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 	// 장판 텍스처 출력
