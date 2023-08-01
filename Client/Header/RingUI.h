@@ -30,6 +30,11 @@ private:
 	_float					m_fAcc;
 	_bool					m_bIsReach;
 
+	LERP_FLOAT_INFO			m_tAlpha;
+	_uint					m_iAlpha;
+	_bool					m_bStart;
+	_bool					m_bWork;
+
 public:
 	static CRingUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pOwner);
 

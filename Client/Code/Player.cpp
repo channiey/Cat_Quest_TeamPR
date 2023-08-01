@@ -1338,10 +1338,10 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	//if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	//{
-	//	CBossSceneMgr::GetInstance()->Start_BossScene();
-	//}
+	/*if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	{
+		CBossSceneMgr::GetInstance()->Start_BossScene();
+	}*/
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
@@ -1755,12 +1755,11 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 				vDir *= -1;
 
 				if (pObj != nullptr)
-					m_pRigidBodyCom->Knock_Back(vDir, 220);
+					m_pRigidBodyCom->Knock_Back(vDir, 320);
 			}
 
 		}
-		else if (static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_DASH_ATTACK ||
-			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_DASH_BACK_ATTACK)
+		else
 		{
 			if (!m_pRigidBodyCom->Is_Vel_Zero())
 			{
@@ -1768,13 +1767,9 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 			}
 			else
 			{
-				_vec3 vDir = m_pTransformCom->Get_Dir();
-				vDir *= -1;
-
 				if (pObj != nullptr)
-					m_pRigidBodyCom->Knock_Back(vDir, 220);
+					m_pRigidBodyCom->Knock_Back(pObj, 320);
 			}
-
 		}
 	}
 		

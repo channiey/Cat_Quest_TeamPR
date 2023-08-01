@@ -25,6 +25,8 @@ private:
 
 private:
 	CTexture*		m_pTextureCom;
+	random_device	m_Random;
+
 	_float			m_fSpeed;
 	_vec3			m_InitPos;
 
@@ -34,6 +36,8 @@ private:
 	_float			m_fdriftAngle;
 
 	_float			m_fAccTime;
+
+	_uint			m_iTexChoice;
 
 public:
 	static CEffect_Rain* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 pPos);

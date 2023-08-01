@@ -59,7 +59,7 @@ void CShadow_Player::Render_Object()
 
 	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT ||
 		static_cast<CPlayer*>(m_pOwnerobject)->Is_Fly() ||
-		m_pOwnerobject->Get_RigidBody()->Is_Jump())
+		m_pOwnerobject->Get_RigidBody()->Is_Jump() || m_pOwnerobject->Get_RigidBody()->Is_KnockUp())
 	{
 		vPos.y = 0.02f;
 		vPos.z += 0.8f;

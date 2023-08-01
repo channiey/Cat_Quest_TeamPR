@@ -30,6 +30,9 @@ HRESULT CDefUI::Ready_Object()
 	m_pUITransformCom[1]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
 	m_pUITransformCom[2]->Set_Scale(_vec3{ 0.9f, 0.9f, 1.f });
 
+	m_bStart = false;
+	m_bWork = false;
+	m_iAlpha = 0;
 
 	return S_OK;
 }
@@ -42,7 +45,27 @@ _int CDefUI::Update_Object(const _float& fTimeDelta)
 		m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 	if (nullptr != m_pPlayer)
+	{
 		m_fDefRatio = m_pPlayer->Get_StatInfo().fCurDef / m_pPlayer->Get_StatInfo().fMaxDef;
+
+		if (!m_bStart && static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_IDLE)
+		{
+			m_tAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+			m_tAlpha.Set_Lerp(1.5f, 0.f, 255.f);
+
+			m_bStart = true;
+		}
+		if (m_tAlpha.bActive)
+		{
+			m_tAlpha.Update_Lerp(fTimeDelta);
+			m_iAlpha = m_tAlpha.fCurValue;
+		}
+		if (m_bStart && !m_tAlpha.bActive)
+		{
+			m_bWork = true;
+		}
+	}
+		
 
 	if (1.f < m_fDefRatio)
 		m_fDefRatio = 1.f;
@@ -71,22 +94,53 @@ void CDefUI::Render_Object()
 	if (CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView())
 		return;
 
-	if (0 < m_pPlayer->Get_StatInfo().fCurDef)
+	if (m_bWork)
 	{
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+		if (0 < m_pPlayer->Get_StatInfo().fCurDef)
+		{
+			m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(5);
-		m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
+			m_pTextureCom->Render_Texture(5);
+			m_pBufferCom->Render_Buffer();
 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(4);
-		m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
+			m_pTextureCom->Render_Texture(4);
+			m_pBufferCom->Render_Buffer();
 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(6);
-		m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
+			m_pTextureCom->Render_Texture(6);
+			m_pBufferCom->Render_Buffer();
+		}
 	}
+	else
+	{
+		if (m_bStart)
+		{
+			if (0 < m_pPlayer->Get_StatInfo().fCurDef)
+			{
+				m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
+
+				m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
+				m_pTextureCom->Render_Texture(5);
+				m_pBufferCom->Render_Buffer();
+
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
+				m_pTextureCom->Render_Texture(4);
+				m_pBufferCom->Render_Buffer();
+
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
+				m_pTextureCom->Render_Texture(6);
+				m_pBufferCom->Render_Buffer();
+
+				m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+			}
+		}
+		
+	}
+	
 }
 
 HRESULT CDefUI::Add_Component()

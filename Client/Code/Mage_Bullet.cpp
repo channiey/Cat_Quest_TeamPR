@@ -41,6 +41,10 @@ HRESULT CMage_Bullet::Ready_Object()
 
     m_fAccTime = 0.f;
 
+    m_iAlpha = 255;
+
+    m_bDeleteTime = false;
+
     return S_OK;
 }
 
@@ -51,19 +55,26 @@ _int CMage_Bullet::Update_Object(const _float& fTimeDelta)
 
     m_fAccTime += fTimeDelta;
 
-    if (m_fAccTime > 0.5f)
+    if (m_fAccTime > 0.5f && !m_bDeleteTime)
     {
-        m_fSpeed -= 0.5f;
-        if (m_fSpeed <= 0)
-            m_fSpeed = 0;
+        m_tSpeed.Init_Lerp(LERP_MODE::EASE_OUT);
+        m_tSpeed.Set_Lerp(0.5f, m_fSpeed, 0);
+
+        m_tAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+        m_tAlpha.Set_Lerp(0.5f, m_iAlpha, 0);
+
+        m_bDeleteTime = true;
     }
-    if (m_fAccTime >= 1.f || m_fSpeed <= 0)
+    if (m_iAlpha <= 0)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
 
     if (m_pTarget == nullptr)
     {
+        m_tSpeed.Update_Lerp(fTimeDelta);
+        m_tAlpha.Update_Lerp(fTimeDelta);
+
         m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
         return iExit;
     }
@@ -89,12 +100,19 @@ _int CMage_Bullet::Update_Object(const _float& fTimeDelta)
 
 void CMage_Bullet::LateUpdate_Object()
 {
+    if (m_tAlpha.bActive)
+    {
+        m_iAlpha = m_tAlpha.fCurValue;
+        m_fSpeed = m_tSpeed.fCurValue;
+    }
+
     __super::LateUpdate_Object();
 }
 
 
 void CMage_Bullet::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -104,6 +122,7 @@ void CMage_Bullet::Render_Object()
 
     m_pGraphicDev->SetTexture(0, NULL);
 
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
     __super::Render_Object();
 }

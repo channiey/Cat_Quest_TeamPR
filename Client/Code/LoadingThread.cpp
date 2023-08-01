@@ -1325,6 +1325,13 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// ¥´ ¿Ã∆Â∆Æ
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Snow"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Snow/Snow.png")), E_FAIL);
+	// ∫Ò ¿Ã∆Â∆Æ
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Rain"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Rain/RainDrop/%d.png", 7)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_RainRipple"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Rain/RainRipple/%d.png", 5)), E_FAIL);
+
 #pragma endregion
 	 
 #pragma region YUN
