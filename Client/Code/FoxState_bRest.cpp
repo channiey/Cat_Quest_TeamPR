@@ -151,16 +151,6 @@ STATE_TYPE CFoxState_bRest::Update_State(const _float& fTimeDelta)
 
 
 
-    if (m_fAttackTime >= 1.5f)
-    {
-        CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vDir, m_pOwner->Get_OwnerObject()));
-        m_fAttackTime = 0.f;
-
-    }
-
-
-
-
 
 
  

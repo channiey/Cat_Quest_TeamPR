@@ -649,6 +649,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	break;
 	case Engine::OBJ_TYPE::RANGE_OBJ:
 	{
+	
 		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::SKILL_BOSS_FULLDOWN)
 		{
 			m_pRigidBodyCom->Knock_Up(); // 매개변수 넣을 시 팀장 보고해주세요
@@ -1338,10 +1339,10 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	/*if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	{
-		CBossSceneMgr::GetInstance()->Start_BossScene();
-	}*/
+	//if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	//{
+	//	CBossSceneMgr::GetInstance()->Start_BossScene();
+	//}
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;

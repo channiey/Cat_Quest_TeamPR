@@ -140,6 +140,8 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
 #pragma region Cur state Function
 
 
+    CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_IN);
+
 
       // x 이동 방향에 따라 스케일 전환 
     if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
@@ -368,6 +370,9 @@ STATE_TYPE CVioletDragonState_ShootingStarRed::Update_State(const _float& fTimeD
         m_bBullet18 = false;
         m_bBullet19 = false;
         m_bBullet20 = false;
+
+
+        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_OUT);
 
         if (vOwnerPos.z <= vPlayerPos.z)
         {

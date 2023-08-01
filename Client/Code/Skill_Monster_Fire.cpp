@@ -6,7 +6,7 @@
 #include "Effect_Range_Quater.h"
 
 #include "RangeObj.h"
-
+#include "Player.h"
 
 CSkill_Monster_Fire::CSkill_Monster_Fire(LPDIRECT3DDEVICE9 pGraphicDev)
     :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_FIRE)
@@ -34,7 +34,7 @@ HRESULT CSkill_Monster_Fire::Ready_Object()
 
    
     m_bActive = false;
-    m_fSkillDamage = 20;
+    m_fSkillDamage = 10;
 
     m_pBaseRangeEffect = nullptr;
 
@@ -80,6 +80,8 @@ _int CSkill_Monster_Fire::Update_Object(const _float& fTimeDelta)
         m_bActive = false;
     }
 
+
+ 
     return iExit;
 }
 
@@ -95,6 +97,11 @@ void CSkill_Monster_Fire::Render_Object()
 
 void CSkill_Monster_Fire::OnCollision_Enter(CGameObject* _pColObj)
 {
+    //// Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+    dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+
+
 }
 
 void CSkill_Monster_Fire::OnCollision_Stay(CGameObject* _pColObj)
@@ -125,6 +132,16 @@ HRESULT CSkill_Monster_Fire::Add_Component()
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Fire_Base", m_pBaseRangeEffect), E_FAIL);
 
 
+    // Ranget Obj
+    CRangeObj* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+    CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+    pShpere->Set_Radius(10.f);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    CEventMgr::GetInstance()->Add_Obj(L"Monster_Fire_Sphere", pGameObject);
+    m_pRangeObj = pGameObject;
+
+
+
     return S_OK;
 }
 
@@ -138,7 +155,7 @@ HRESULT CSkill_Monster_Fire::Play()
     m_pBaseRangeEffect->Scaling(0.01f, 1.f, 1.f);
 
 
-    m_bActive = true;
+    m_bActive = false;
 
     return S_OK;
 }
@@ -152,6 +169,10 @@ HRESULT CSkill_Monster_Fire::LatePlay()
     m_pBaseRangeEffect->Set_Active(false);
 
     m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
+    m_bActive = true;
+
+    m_pRangeObj->Set_Active(true);
+
 
     m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
     m_pRangeEffect->Alphaing(1.f, 255, 128);
@@ -169,7 +190,7 @@ HRESULT CSkill_Monster_Fire::End()
    
     m_pSKillEffect->Set_Active(false);
     m_pRangeEffect->Set_Active(false);
-
+    m_bActive = false;
 
     return S_OK;
 }

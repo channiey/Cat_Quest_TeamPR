@@ -61,7 +61,15 @@ void CRangeObj::LateUpdate_Object()
 	else
 		vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 
-	m_pTransformCom->Set_Pos(_vec3{ vOwnerPos.x, 0.f, vOwnerPos.z }); // 레인지의 y 포지션은 계산을 위해 0으로 잡는다.
+
+	if (m_pOwnerObject->Get_ID() != OBJ_ID::SKILL_BOSS_BLOODYTHUNDER || m_pOwnerObject->Get_ID() != OBJ_ID::SKILL_BOSS_BLUETHUNDER)
+	{
+
+		m_pTransformCom->Set_Pos(_vec3{ vOwnerPos.x, 0.f, vOwnerPos.z }); // 레인지의 y 포지션은 계산을 위해 0으로 잡는다.
+	}
+
+
+
 }
 
 void CRangeObj::Render_Object()

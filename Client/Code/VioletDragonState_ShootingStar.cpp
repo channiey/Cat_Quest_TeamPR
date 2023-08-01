@@ -135,6 +135,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 #pragma region Cur state Function
 
 
+    CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_IN);
 
 
 
@@ -332,7 +333,9 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
         m_bBullet15 = false;
         m_bBullet16 = false;
 
-        //return STATE_TYPE::BOSS_FULLDOWN_FLY;
+        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_OUT);
+
+     
         return STATE_TYPE::BOSS_SPREAD_CAST;
     }
 

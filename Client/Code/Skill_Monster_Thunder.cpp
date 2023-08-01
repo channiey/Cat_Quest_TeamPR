@@ -6,7 +6,7 @@
 #include "Effect_Range_Quater.h"
 
 #include "RangeObj.h"
-
+#include "Player.h"
 
 CSkill_Monster_Thunder::CSkill_Monster_Thunder(LPDIRECT3DDEVICE9 pGraphicDev)
     :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_THUNDER)
@@ -32,12 +32,9 @@ HRESULT CSkill_Monster_Thunder::Ready_Object()
     __super::Ready_Object();
 
 
-
-
-
     m_bActive = false;
 
-    m_fSkillDamage = 10;
+    m_fSkillDamage = 10.f;
 
 
     m_pBaseRangeEffect = nullptr;
@@ -60,9 +57,11 @@ _int CSkill_Monster_Thunder::Update_Object(const _float& fTimeDelta)
     // Dead condition
     if (!m_pOwnerObject->Is_Active())
     {
+    
         m_pRangeEffect->Set_Active(false);
         End();
         
+        CEventMgr::GetInstance()->Delete_Obj(m_pBaseRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pRangeEffect);
         CEventMgr::GetInstance()->Delete_Obj(m_pSKillEffect);
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -99,6 +98,11 @@ void CSkill_Monster_Thunder::Render_Object()
 
 void CSkill_Monster_Thunder::OnCollision_Enter(CGameObject* _pColObj)
 {
+    //// Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+    dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+
+
 }
 
 void CSkill_Monster_Thunder::OnCollision_Stay(CGameObject* _pColObj)
@@ -123,7 +127,30 @@ HRESULT CSkill_Monster_Thunder::Add_Component()
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_ThunderSkill_Arrow", pRangeEffect), E_FAIL);
     m_pRangeEffect = pRangeEffect;
 
- 
+    // Effect Range Quater
+    CEffect_Range_Quater* pRangeEffect2 = CEffect_Range_Quater::Create(m_pGraphicDev, this, EFFECT_RANGE_QUATER_TYPE::ARROW_BLUE);
+    NULL_CHECK_RETURN(pRangeEffect2, E_FAIL);
+    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_ThunderSkill_Arrow", pRangeEffect2), E_FAIL);
+    m_pBaseRangeEffect = pRangeEffect2;
+
+
+
+
+
+
+    //  Sklil range Obj
+    CRangeObj* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+    CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+    pShpere->Set_Radius(15.f);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    CEventMgr::GetInstance()->Add_Obj(L"Monster_Thunder_Sphere", pGameObject);
+    m_pRangeObj = pGameObject;
+
+
+
+
+
+
     return S_OK;
 }
 
@@ -137,7 +164,7 @@ HRESULT CSkill_Monster_Thunder::Play()
     m_pRangeEffect->Alphaing(1.f, 240.f, 0.f);
     m_pRangeEffect->Scaling(0.01f, 1.f, 1.f);
 
-    m_bActive = true;
+    m_bActive = false;
 
     return S_OK;
 }
@@ -151,6 +178,12 @@ HRESULT CSkill_Monster_Thunder::LatePlay()
 
     m_pRangeEffect->Set_Active(false);
 
+    m_bActive = true;
+    m_pRangeObj->Set_Active(true);
+
+    m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x , 0.01f, vOwnerPos.z });
+    m_pBaseRangeEffect->Alphaing(0.5f, 240.f, 0.f);
+
     m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z });
 
 
@@ -159,8 +192,14 @@ HRESULT CSkill_Monster_Thunder::LatePlay()
 
 HRESULT CSkill_Monster_Thunder::End()
 {   
-    //m_pRangeEffect->Set_Active(false);
+
+    m_pRangeEffect->Set_Active(false);
     m_pSKillEffect->Set_Active(false);
+    m_pRangeObj->Set_Active(false);
+    m_bActive = false;
+    m_bAttack = false;
+     
+
     return S_OK;
 }
 
