@@ -167,56 +167,63 @@ STATE_TYPE CPlayerState_fFlight::Key_Input(const _float& fTimeDelta)
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.back);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.left + vec3.back) * FLIGHT_SPEED);
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right + vec3.back);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.right + vec3.back) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left + vec3.forward);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.left + vec3.forward) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right + vec3.forward);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.right + vec3.forward) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.left);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.left) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.right);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.right) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.back);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.back) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_W))
 	{
 		m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Dir(vec3.forward);
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
-		m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MoveInfo().fMoveSpeed);
+		m_pOwner->Get_OwnerObject()->Get_RigidBody()->Add_Impulse((vec3.forward) * FLIGHT_SPEED);
+
 		return m_eState;
 	}
 #pragma endregion
