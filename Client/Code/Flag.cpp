@@ -12,6 +12,7 @@ CFlag::CFlag(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_iPrevIn(0)
 	, m_eCurCollison(PLAYER_COLLISION2::NONE)
 	, m_bCol(false)
+	, m_eFlagTag(FLAG_TAG::FLAG_START)
 {
 
 }
@@ -90,19 +91,25 @@ void CFlag::OnCollision_Stay(CGameObject* _pColObj)
 {
 	m_pFlagOwner->Check_Player_Collision(m_eID);
 
-	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-	m_pEnterUI->EnterUI_On(UIENTER_TYPE::CHECK, _pColObj);
+	if (m_eFlagTag != FLAG_TAG::FLAG_START)
+	{
+		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+		m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
+	}
 }
 
 void CFlag::OnCollision_Exit(CGameObject* _pColObj)
 {
 	--m_iCurIn;
-	// üũ UI Off
-	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+	if (m_eFlagTag != FLAG_TAG::FLAG_START)
+	{
+		// UI Off
+		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 
-	m_pEnterUI->EnterUI_Off();
+		m_pEnterUI->EnterUI_Off();
+	}
 
 }
 

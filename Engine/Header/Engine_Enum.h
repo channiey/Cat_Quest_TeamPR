@@ -286,6 +286,8 @@ namespace Engine
 
 		// 나라 국기(스타트)
 		FLAG_START,
+		// 미니게임(빙고) 관련
+		UI_BINGO_SUCCES, UI_BINGO_FAIL, UI_BINGO_CLEAR, BINGO_LAUNCHER,
 
 		TYPEEND
 };
@@ -428,6 +430,10 @@ namespace Engine
 
 	enum OBJ_TAG { OBJ_BUILDING, OBJ_CHEST, OBJ_ENVIRONMENT, 
 		OBJ_MAGESHOP, OBJ_SMITHHOUSE, OBJ_TOWER, OBJ_OTHER }; // IMGUI 오브젝트 폴더 경로 불러오기 위한 타일 종류 분류
+
+	enum FLAG_TAG {  
+		FLAG_CHINA, FLAG_USA, FLAG_FRANCE, FLAG_GERMANY, FLAG_ITALY,
+		FLAG_JAPEN, FLAG_RUSSIA, FLAG_THAI, FLAG_START, FLAG_END }; // 국기
 
 	enum class CAMERA_ACTION 
 	{ 

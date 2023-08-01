@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -176,9 +176,12 @@
     <ClInclude Include="..\FMOD\inc\fmod_output.h" />
     <ClInclude Include="..\Header\BackgroundShade.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
+    <ClInclude Include="..\Header\Bingo_FailUI.h" />
+    <ClInclude Include="..\Header\Bingo_ClearUI.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\BossSceneMgr.h" />
     <ClInclude Include="..\Header\BossHpUI.h" />
+    <ClInclude Include="..\Header\Bingo_Launcher.h" />
     <ClInclude Include="..\Header\DrakothTable.h" />
     <ClInclude Include="..\Header\Effect_Rain.h" />
     <ClInclude Include="..\Header\Effect_RainRipple.h" />
@@ -632,9 +635,12 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackgroundShade.cpp" />
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
+    <ClCompile Include="..\Code\Bingo_FailUI.cpp" />
+    <ClCompile Include="..\Code\Bingo_ClearUI.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
     <ClCompile Include="..\Code\BossSceneMgr.cpp" />
     <ClCompile Include="..\Code\BossHpUI.cpp" />
+    <ClCompile Include="..\Code\Bingo_Launcher.cpp" />
     <ClCompile Include="..\Code\DrakothTable.cpp" />
     <ClCompile Include="..\Code\Effect_Rain.cpp" />
     <ClCompile Include="..\Code\Effect_RainRipple.cpp" />

@@ -44,6 +44,8 @@ public:
 	virtual void		Exit_Player();
 	const _bool			Is_In_Player() const { return 0 < m_iCurIn; }
 
+public:
+	virtual FLAG_TAG    Get_FlagTag() { return m_eFlagTag; }
 
 protected:
 	_int				m_iCurIn;
@@ -53,7 +55,7 @@ protected:
 	CRangeObj*			m_pRangeObj;
 
 	_bool				m_bCol;
-
+	FLAG_TAG			m_eFlagTag; // 국기 타입
 protected:
 	CTexture*	m_pFlagTexCom;
 
