@@ -48,7 +48,7 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 			if (m_fDeadFadeStayTime <= m_fAcc)
 			{
 				// 03. 카메라, BGM 페이드 인
-
+				CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = CAM_DISTANCE_DEFAULT;
 				CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_IN);
 				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_BOSS);
 				CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EXPONENTIAL, 2.5f, 0.f, SOUND_VOLUME_BGM);
@@ -120,6 +120,7 @@ HRESULT CBossSceneMgr::Start_BossScene()
 void CBossSceneMgr::Play_Dead_BossScene()
 {	
 	// 02. 카메라, BGM 페이드 아웃
+
 
 	CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_OUT);
 	m_arrPage[(_uint)PAGE::DEAD] = TRUE;

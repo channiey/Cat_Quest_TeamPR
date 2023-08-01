@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 
 #include "FadeUI.h"
+#include"BossSceneMgr.h"	
 
 CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCameraObject(pGraphicDev)
@@ -191,16 +192,44 @@ void CPlayer_Camera::Set_ViewSpace()
 		return;
 	}
 
-	_vec3 vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
-	_vec3 vLookPos = m_pCameraCom->m_tVspace.LookAt;
-	_vec3 vLerpPos{};
 
-	const _float fLerpValue = 8.f;
-	
+
+	_vec3 vFollowPos, vLookPos, vLerpPos{};
+
+	if (CBossSceneMgr::GetInstance()->Is_Active_Boss())
+	{
+		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
+		vLookPos = m_pCameraCom->m_tVspace.LookAt;
+
+		CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
+
+		if (nullptr != pBoss)
+		{
+			// 팔로우 포지션 결정
+			_vec3 vBossPos = pBoss->Get_Transform()->Get_Info(INFO_POS);
+			vFollowPos += (_vec3{ (vBossPos.x - vFollowPos.x), 0.f, (vBossPos.z - vFollowPos.z) } * 0.5f);
+
+
+			// 디스턴스 결정
+			_float fDist = D3DXVec3Length(&(vBossPos - CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS)));
+			if (7.f <= fDist)
+			{
+				_float fCamDist = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance;
+				CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = CAM_DISTANCE_DEFAULT + fDist * 0.2f;
+			}
+		}
+	}
+	else
+	{
+		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
+	}
+
+	_float fLerpValue = 8.f;
 	D3DXVec3Lerp(&vLerpPos, &vLookPos, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * fLerpValue);
-	vLerpPos.y = vFollowPos.y; // 플레이어 추적시 y 값 흔들림 보정
-	
+	vLerpPos.y = vFollowPos.y; // 플레이어 추적시 y 값 흔들림 보정 wwsa 
+
 	vLerpPos.y = m_pCameraCom->m_fInitLookY; // 이거 예외처리 필요
+	
 
 	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
 	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - vLerpPos;
