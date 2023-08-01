@@ -52,12 +52,10 @@ protected:
 	PLAYER_COLLISION2	m_eCurCollison;
 	CRangeObj*			m_pRangeObj;
 
+	_bool				m_bCol;
+
 protected:
 	CTexture*	m_pFlagTexCom;
-
-	// 체크 표시
-	CTexture*	m_pCheckTexCom;
-	CTransform* m_pCheckTransCom;
 
 	CFlagOwner* m_pFlagOwner;
 
