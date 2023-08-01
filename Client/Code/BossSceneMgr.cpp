@@ -16,6 +16,8 @@ CBossSceneMgr::CBossSceneMgr()
 	, m_fDeadFadeStayTime(1.5f)
 	, m_bFadeIn_End(FALSE)
 	, m_bFadeOut_End(FALSE)
+	, m_fIntroDelayTime(2.f)
+	, m_fOuttroDelayTime(1.5f)
 {
 	for (int i = 0; i < (_uint)PAGE::TYPEEND; ++i)
 		m_arrPage[i] = FALSE;
@@ -33,16 +35,41 @@ HRESULT CBossSceneMgr::Ready_BossSceneMgr(LPDIRECT3DDEVICE9 _pGraphicDev)
 
 	m_pGraphicDev = _pGraphicDev;
 
-
-
-	
-
 	return S_OK;
 }
 
 void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 {
-	if (!m_arrPage[(_uint)PAGE::START] || m_arrPage[(_uint)PAGE::FINISH]) return;
+	if (!m_arrPage[(_uint)PAGE::INTRO] || m_arrPage[(_uint)PAGE::FINISH]) return;
+
+	if (m_arrPage[(_uint)PAGE::INTRO] && !m_arrPage[(_uint)PAGE::START])
+	{
+		m_fAcc += fTimeDelta;
+		
+		if (m_fIntroDelayTime <= m_fAcc)
+		{
+			m_arrPage[(_uint)PAGE::START] = TRUE;
+			CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
+			NULL_CHECK(pBoss, E_FAIL);
+			pBoss->Set_Active(TRUE);
+			m_fAcc = 0.f;
+		}
+	}
+
+	if (m_arrPage[(_uint)PAGE::OUTTRO] && !m_arrPage[(_uint)PAGE::DEAD])
+	{
+		m_fAcc += fTimeDelta;
+
+		if (m_fIntroDelayTime <= m_fAcc)
+		{
+			m_arrPage[(_uint)PAGE::DEAD] = TRUE;
+
+			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_OUT);
+			CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_OUT, 3.5f, SOUND_VOLUME_BGM, 0.f);
+
+			m_fAcc = 0.f;
+		}
+	}
 
 	if (m_arrPage[(_uint)PAGE::DEAD] && !m_bFadeOut_End && !m_bFadeIn_End)
 	{
@@ -52,13 +79,13 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 
 			if (m_fDeadFadeStayTime <= m_fAcc)
 			{
-				// 03. 카메라, BGM 페이드 인
+				// 03. 카메라, BGM 페이드 인 (다 하얘진 상황)
 				CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = CAM_DISTANCE_DEFAULT;
 				CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_IN);
 				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_BOSS);
 				CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EXPONENTIAL, 2.5f, 0.f, SOUND_VOLUME_BGM);
 				CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_02_theme.wav");
-
+				m_arrPage[(_uint)PAGE::FADE_OUT] = TRUE;
 				m_bFadeOut_End = TRUE;
 				Set_Npc();
 			}
@@ -96,16 +123,16 @@ HRESULT CBossSceneMgr::Start_BossScene()
 {
 	// 01. 보스 활성화 -> 등장 애니메이션 
 
-	if (!m_arrPage[(_uint)PAGE::INIT] || m_arrPage[(_uint)PAGE::START]) return E_FAIL;
+	if (!m_arrPage[(_uint)PAGE::INIT] || m_arrPage[(_uint)PAGE::INTRO]) return E_FAIL;
 
-	m_arrPage[(_uint)PAGE::START] = TRUE;
+	m_arrPage[(_uint)PAGE::INTRO] = TRUE;
 
 	CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
 	NULL_CHECK_RETURN(pPlayer, E_FAIL);
 
 	CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
 	NULL_CHECK_RETURN(pBoss, E_FAIL);
-	pBoss->Set_Active(TRUE);
+	//pBoss->Set_Active(TRUE);
 	pBoss->Get_Transform()->Set_Pos(_vec3{ BOSS_POS_X, pBoss->Get_Transform()->Get_Info(INFO_POS).y, BOSS_POS_Z });
 
 	// 브금 변경
@@ -117,7 +144,7 @@ HRESULT CBossSceneMgr::Start_BossScene()
 	// 카메라 액션 2
 	_vec3 vBossPos{ pBoss->Get_Transform()->Get_Info(INFO_POS).x, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, pBoss->Get_Transform()->Get_Info(INFO_POS).z };
 
-	//CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, pPlayer->Get_Transform()->Get_Info(INFO_POS), vBossPos, FALSE);
+	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, pPlayer->Get_Transform()->Get_Info(INFO_POS), vBossPos, TRUE);
 
 	return S_OK;
 }
@@ -126,11 +153,10 @@ void CBossSceneMgr::Play_Dead_BossScene()
 {	
 	// 02. 카메라, BGM 페이드 아웃
 
+	m_arrPage[(_uint)PAGE::OUTTRO] = TRUE;
 
-	CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_OUT);
-	m_arrPage[(_uint)PAGE::DEAD] = TRUE;
-
-	CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_OUT, 3.5f, SOUND_VOLUME_BGM, 0.f);
+	/*CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_OUT);
+	CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_OUT, 3.5f, SOUND_VOLUME_BGM, 0.f);*/
 }
 
 void CBossSceneMgr::Set_Npc()

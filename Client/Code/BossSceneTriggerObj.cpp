@@ -28,7 +28,7 @@ HRESULT CBossSceneTriggerObj::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ BOSS_POS_X, 0.f , BOSS_POS_Z - 20.f });
+	m_pTransformCom->Set_Pos(_vec3{ BOSS_POS_X, 0.f , BOSS_POS_Z - 30.f }); 
 
 
 	FAILED_CHECK_RETURN(Add_RangeObj(), E_FAIL);
@@ -91,7 +91,7 @@ HRESULT CBossSceneTriggerObj::Add_RangeObj()
 	NULL_CHECK_RETURN(m_pRangeObj, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"BossSceneTriggerObj_RangeObj", m_pRangeObj);
 
-	m_pRangeObj->Set_Radius(20.f);
+	m_pRangeObj->Set_Radius(10.f);
 	m_pRangeObj->Set_Pos(_vec3{ m_pTransformCom->Get_Info(INFO_POS).x, 0.f , m_pTransformCom->Get_Info(INFO_POS).z });
 
 	return S_OK;

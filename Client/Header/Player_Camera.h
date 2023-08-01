@@ -61,6 +61,13 @@ private:
 	LERP_FLOAT_INFO			m_fJumpDelta;
 	LERP_FLOAT_INFO			m_fFlightDelta;
 
+	_vec3					m_vBossScenePrevPos;
+	_float					m_fBossScenePrevDist;
+
+
+	_bool					m_bBossDistLerp;
+	_bool					m_bBossVec3Lerp;
+
 private:
 	virtual void			Free() override;
 

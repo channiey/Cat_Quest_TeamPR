@@ -5,6 +5,7 @@
 
 #include "FadeUI.h"
 #include"BossSceneMgr.h"	
+#include "Engine_Define.h"
 
 CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCameraObject(pGraphicDev)
@@ -13,6 +14,8 @@ CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_bDrag(TRUE)
 	, m_bBackView(FALSE)
 	, m_bFlightView(FALSE)
+	, m_bBossDistLerp(FALSE)
+	, m_bBossVec3Lerp(FALSE)
 {
 
 }
@@ -74,6 +77,7 @@ Engine::_int CPlayer_Camera::Update_Object(const _float& fTimeDelta)
 	if (m_pCameraCom->m_tVec3Lerp.bActive)
 	{
 		m_pCameraCom->m_tVec3Lerp.Update_Lerp(fTimeDelta);
+
 	}
 
 	if (m_pCameraCom->m_tDistanceLerp.bActive)
@@ -192,11 +196,10 @@ void CPlayer_Camera::Set_ViewSpace()
 		return;
 	}
 
-
-
 	_vec3 vFollowPos, vLookPos, vLerpPos{};
 
-	if (CBossSceneMgr::GetInstance()->Is_Active_Boss())
+	// INTRO
+	if (CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::START) && !CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::FADE_OUT))
 	{
 		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 
@@ -206,16 +209,60 @@ void CPlayer_Camera::Set_ViewSpace()
 		{
 			// 팔로우 포지션 결정
 			_vec3 vBossPos = pBoss->Get_Transform()->Get_Info(INFO_POS);
-			vFollowPos += (_vec3{ (vBossPos.x - vFollowPos.x), 0.f, (vBossPos.z - vFollowPos.z) } * 0.5f);
+			/*if (!m_bBossVec3Lerp)
+			{
+				_vec3 vLerp; _vec3 vTarget;
+				vTarget =  vFollowPos + (_vec3{ (vBossPos.x - vFollowPos.x), 0.f, (vBossPos.z - vFollowPos.z) } *0.5f);
+				D3DXVec3Lerp(&vLerp, &vBossPos, &vTarget, Engine::Get_TimeDelta(L"Timer_FPS65"));
+				vFollowPos = vLerp;
 
+				if (0.05f > D3DXVec3Length(&(vFollowPos - vTarget)))
+				{
+					m_bBossVec3Lerp = TRUE;
+				}
+			}
+			else
+			{*/
+				vFollowPos += (_vec3{ (vBossPos.x - vFollowPos.x), 0.f, (vBossPos.z - vFollowPos.z) } *0.5f);
+				m_vBossScenePrevPos = vFollowPos;
+
+			//}
 
 			// 디스턴스 결정
 			_float fDist = D3DXVec3Length(&(vBossPos - CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS)));
-			if (7.f <= fDist)
+			/*if (!m_bBossDistLerp)
 			{
 				_float fCamDist = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance;
-				CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = CAM_DISTANCE_DEFAULT + fDist * 0.2f;
+				if (fCamDist < fDist)
+				{
+					CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance += Engine::Get_TimeDelta(L"Timer_FPS65");
+
+					if (CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance >= fDist)
+						m_bBossDistLerp = TRUE;
+				}
+				else
+				{
+					CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance -= Engine::Get_TimeDelta(L"Timer_FPS65");
+
+					if (CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance <= fDist)
+						m_bBossDistLerp = TRUE;
+				}
 			}
+			else
+			{*/
+				if (7.f <= fDist)
+				{
+					_float fCamDist = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance;
+					CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = CAM_DISTANCE_DEFAULT + fDist * 0.2f;
+				}
+
+			//}
+			m_fBossScenePrevDist = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance;
+		}
+		else
+		{
+			vFollowPos = m_vBossScenePrevPos;
+			CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = m_fBossScenePrevDist;
 		}
 	}
 	else

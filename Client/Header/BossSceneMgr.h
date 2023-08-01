@@ -3,7 +3,7 @@
 #include "Base.h"
 #include "Engine_Define.h"
 
-enum class PAGE { INIT, START, DEAD, FADE_OUT, FADE_END, FINISH, TYPEEND };
+//enum class PAGE { INIT, INTRO, START, OUTTRO, DEAD, FADE_OUT, FADE_END, FINISH, TYPEEND };
 
 BEGIN(Engine)
 
@@ -26,6 +26,7 @@ public:
 public:
 	const _bool&			Is_Ready() const { return m_arrPage[(_uint)PAGE::INIT]; }
 	const _bool				Is_Start() const { return m_arrPage[(_uint)PAGE::START]; }
+	const _bool&			Get_CurPage(const PAGE& _ePage) const {return m_arrPage[(_uint)_ePage];}
 	const _bool				Is_Active_Boss(); 
 
 public:
@@ -44,7 +45,10 @@ private:
 
 	_bool					m_bFadeIn_End;
 	_bool					m_bFadeOut_End;
-	
+
+	_float					m_fIntroDelayTime;
+	_float					m_fOuttroDelayTime;
+
 
 
 private:

@@ -365,7 +365,8 @@ namespace Engine
 	enum class SPIRITEMO_TYPE		{ HAPPY, ANGRY, SAD, SLY, STUN, TYPEEND};
 
 	enum class SKILL_TYPE			{ FIRE, THUNDER, ICE, BEAM, HEAL, PURSERKER, TYPEEND};
-	
+	enum class PAGE { INIT, INTRO, START, OUTTRO, DEAD, FADE_OUT, FADE_END, FINISH, TYPEEND };
+
 	enum class CHANNEL_ID			
 	{ 		
 		// bgm

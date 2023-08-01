@@ -322,7 +322,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		{
 			_float fEyeHeight = Get_CurCamera()->Get_CameraCom()->Get_ViewSpace().Eye.y;
 			_float fDeltaHeight = 45.f;
-			m_pCurCamera->Get_CameraCom()->Lerp_Height(5.f, 0, fDeltaHeight, LERP_MODE::EASE_IN);
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(3.f, 0, fDeltaHeight, LERP_MODE::EASE_IN);
 		}
 			break;
 
@@ -364,13 +364,17 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 
 			// 두 지점 사이의 거리에 비례하여 보간 시간을 정하도록 한다.
 			_float fDistance = D3DXVec3Length(&(_vStartPos - _vEndPos));
+
 			_float fMag = 0.015f;
 
 			// y에 대한 보간은 빼도록 한다.
 			_vec3 vOrigin = _vStartPos;
 			_vec3 vDest = _vEndPos;
 
-			m_pCurCamera->Get_CameraCom()->Lerp_Vec3(fDistance * fMag, vOrigin, vDest, LERP_MODE::SMOOTHERSTEP);
+			if(m_bBoss)
+				m_pCurCamera->Get_CameraCom()->Lerp_Vec3(2.f, vOrigin, vDest, LERP_MODE::EASE_OUT);
+			else
+				m_pCurCamera->Get_CameraCom()->Lerp_Vec3(fDistance * fMag, vOrigin, vDest, LERP_MODE::SMOOTHERSTEP);		
 		}
 		break;
 
@@ -379,13 +383,13 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		case Engine::CAMERA_ACTION::START_NPC_TALK:
 		{ 
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-			0.8f, fCurFOV, CAM_FOV_QUEST_TAKL, LERP_MODE::SMOOTHERSTEP); break;
+			0.8f, fCurFOV, CAM_FOV_QUEST_TAKL, LERP_MODE::SMOOTHERSTEP); 
 		}
 		break;
 		case Engine::CAMERA_ACTION::END_NPC_TALK:
 		{
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-			0.5f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+			0.5f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
 		}
 		break;
 
@@ -399,7 +403,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		
 
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.8f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP); break;
+				0.8f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
 		}
 		break;
 
@@ -410,7 +414,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 			fTargetFOV = CAM_FOV_DEFAULT;
 
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.5f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP); break;
+				0.5f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
 		}
 		break;
 		
