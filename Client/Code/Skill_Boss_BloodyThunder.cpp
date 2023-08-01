@@ -332,7 +332,7 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 HRESULT CSkill_Boss_BloodyThunder::End()
 {
 	m_bActive = true;
-
+;
 
 	 m_pBaseRangeEffect1->Set_Active(false);
 	 m_pBaseRangeEffect2->Set_Active(false);
@@ -357,9 +357,9 @@ HRESULT CSkill_Boss_BloodyThunder::LateEnd()
 	m_pSKillEffect2->Set_Active(false);
 	m_pSKillEffect3->Set_Active(false);
 	m_pSKillEffect4->Set_Active(false);
-	//m_pSKillEffect5->Set_Active(false);
+	
 
-	//m_bActive = false;
+	m_bActive = false;
 
 	return S_OK;
 }

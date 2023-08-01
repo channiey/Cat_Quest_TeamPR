@@ -360,6 +360,8 @@ HRESULT CSkill_Boss_BlueThunder::Play()
 	m_pBaseRangeEffect8->Scaling(2.f, 0.3f, 1.f);
 
 
+	m_bActive = false;
+
 	return S_OK;
 
 
@@ -383,22 +385,22 @@ HRESULT CSkill_Boss_BlueThunder::LatePlay()
 
 
 	// 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 20, 0.01f, vOwnerPos.z + 20 });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 20.f, 0.01f, vOwnerPos.z + 20.f });
 	m_pBaseRangeEffect1->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect1->Scaling(2.f, 0.3f, 1.f);
 
 	// 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z + 20 });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 20.f , 0.01f, vOwnerPos.z + 20.f });
 	m_pBaseRangeEffect2->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect2->Scaling(2.f, 0.3f, 1.f);
 
 	// 3
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 20 , 0.01f, vOwnerPos.z - 20 });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 20.f , 0.01f, vOwnerPos.z - 20.f });
 	m_pBaseRangeEffect3->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect3->Scaling(2.f, 0.3f, 1.f);
 
 	// 4
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 20 , 0.01f, vOwnerPos.z - 20 });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 20.f , 0.01f, vOwnerPos.z - 20.f });
 	m_pBaseRangeEffect4->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect4->Scaling(2.f, 0.3f, 1.f);
 
@@ -422,6 +424,36 @@ HRESULT CSkill_Boss_BlueThunder::LatePlay()
 	m_pBaseRangeEffect8->Play_Effect(_vec3{ vOwnerPos.x , 0.01f, vOwnerPos.z -10.f });
 	m_pBaseRangeEffect8->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect8->Scaling(2.f, 0.3f, 1.f);
+
+
+
+
+	m_bActive = true;
+
+
+	m_pRangeObj1->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj1)->Set_Pos(_vec3{ vOwnerPos.x - 20.f, 0.01f, vOwnerPos.z + 20.f });
+
+	m_pRangeObj2->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj2)->Set_Pos(_vec3{ vOwnerPos.x + 20.f , 0.01f, vOwnerPos.z + 20.f });
+
+	m_pRangeObj3->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj3)->Set_Pos(_vec3{ vOwnerPos.x - 20.f , 0.01f, vOwnerPos.z - 20.f });
+
+	m_pRangeObj4->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj4)->Set_Pos(_vec3{ vOwnerPos.x + 20.f , 0.01f, vOwnerPos.z - 20.f });
+
+	m_pRangeObj5->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj5)->Set_Pos(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z });
+
+	m_pRangeObj6->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj6)->Set_Pos(_vec3{ vOwnerPos.x - 10.f , 0.01f, vOwnerPos.z });
+
+	m_pRangeObj7->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj7)->Set_Pos(_vec3{ vOwnerPos.x  , 0.01f, vOwnerPos.z + 10.f });
+
+	m_pRangeObj8->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj8)->Set_Pos(_vec3{ vOwnerPos.x , 0.01f, vOwnerPos.z - 10.f });
 
 
 
@@ -472,6 +504,21 @@ HRESULT CSkill_Boss_BlueThunder::End()
 
 HRESULT CSkill_Boss_BlueThunder::LateEnd()
 {
+	
+
+	m_pRangeObj1->Set_Active(false);
+	m_pRangeObj2->Set_Active(false);
+	m_pRangeObj3->Set_Active(false);
+	m_pRangeObj4->Set_Active(false);
+
+	m_pRangeObj5->Set_Active(false);
+	m_pRangeObj6->Set_Active(false);
+	m_pRangeObj7->Set_Active(false);
+	m_pRangeObj8->Set_Active(false);
+
+
+
+
 
 
 	m_pSKillEffect1->Set_Active(false);
@@ -486,6 +533,8 @@ HRESULT CSkill_Boss_BlueThunder::LateEnd()
 	m_pSKillEffect7->Set_Active(false);
 	m_pSKillEffect8->Set_Active(false);
 
+
+	m_bActive = false;
 
 	return E_NOTIMPL;
 }

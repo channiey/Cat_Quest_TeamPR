@@ -437,7 +437,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
         m_bInit = false;
 
 
-        return STATE_TYPE::BOSS_BLUE_CAST
+        return STATE_TYPE::BOSS_BLUE_CAST;
 
 
     /*    if (vOwnerPos.z > vPlayerPos.z)

@@ -143,7 +143,7 @@ STATE_TYPE CVioletDragonState_Chase3::Update_State(const _float& fTimeDelta)
     if (vOwnerDir.z > 0)
     {
        // cout << "Back_chase  전이" << endl;
-        return STATE_TYPE::BOSS_BACK_CHASE2;
+        return STATE_TYPE::BOSS_BACK_CHASE3;
     }
 
     // ATTACK 전이 조건

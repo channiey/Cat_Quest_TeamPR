@@ -25,6 +25,7 @@ HRESULT CVioletDragonState_Dash_Attack_Back::Ready_State(CStateMachine* pOwner)
 	m_fAccTime = 0.f;
     
     m_bAssault = false;
+    m_bDirSelect = false;
 
 	return S_OK;
 }
@@ -161,7 +162,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
 
 #pragma region State Change
 
-    if (m_fAccTime >= 1.f)
+    if (m_fAccTime >= 1.2f)
     {
         m_fAccTime = 0.f;
         m_bAssault =false;
