@@ -21,7 +21,7 @@ CQuestMgr::CQuestMgr()
 
 CQuestMgr::~CQuestMgr()
 {
-	Free();
+	Free(); 
 }
 
 HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
