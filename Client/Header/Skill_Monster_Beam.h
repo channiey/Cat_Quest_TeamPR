@@ -41,7 +41,7 @@ public:
 private:
 
 	CEffect_Range_Quater* m_pBaseRangeEffect;
-
+	_bool								m_bAttack;
 
 protected:
 	virtual void			Free();

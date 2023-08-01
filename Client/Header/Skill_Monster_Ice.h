@@ -39,6 +39,8 @@ public:
 	
 private:	
 	CEffect_Range_Quater* m_pBaseRangeEffect;
+	CEffect_Range_Quater* m_pBaseRangeEffect1;
+	_bool								m_bAttack;
 
 
 protected:

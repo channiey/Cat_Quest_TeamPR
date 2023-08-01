@@ -119,7 +119,7 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 	if (pOwenrCurAnimation->Is_End())
 	{
 		CCameraMgr::GetInstance()->Shake_Camera(0.15, 60);  // 사람들을 위해서 카메라 쉐이킹 주석처리
-      
+        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_OUT);
 
 		if (m_fAccTime >= 1.f)
 		{
@@ -136,10 +136,12 @@ STATE_TYPE CVioletDragonState_FullDown_Down::Update_State(const _float& fTimeDel
 	{
         m_fAccTime = 0.f;
 
+
 		return STATE_TYPE::BOSS_READY_PATTERN;
 	}
 	return STATE_TYPE::BOSS_FULLDOWN_DOWN;
 }
+
 
 void CVioletDragonState_FullDown_Down::LateUpdate_State()
 {

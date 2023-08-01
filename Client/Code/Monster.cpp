@@ -190,7 +190,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 void CMonster::LateUpdate_Object()
 {
 	// Dead Condition
-	if (m_tStatInfo.fCurHP <= 0.f)
+	if (m_tStatInfo.fCurHP < 0.f)
 	{
 		m_tStatInfo.bDead = true;
 		
@@ -274,14 +274,14 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 			{
 				if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15 && m_bAttackCheck == false)
 				{
-					dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+					//dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
 					m_bAttackCheck = true;
 				}
 			}
 			else if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
 			{
 
-				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);				
+				//dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);				
 			}
 			
 		}

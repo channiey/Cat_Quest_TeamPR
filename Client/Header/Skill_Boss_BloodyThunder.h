@@ -62,6 +62,13 @@ private:
 	_bool								m_bAttack;
 
 
+	// 충돌 범위 
+	CGameObject* m_pRangeObj1;
+	CGameObject* m_pRangeObj2;
+	CGameObject* m_pRangeObj3;
+	CGameObject* m_pRangeObj4;
+
+
 protected:
 	virtual void			Free();
 

@@ -6,6 +6,8 @@
 #include "Effect_Range_Quater.h"
 #include "RangeObj.h"
 #include "Monster.h"    
+#include "Player.h"
+
 CSkill_Monster_Beam::CSkill_Monster_Beam(LPDIRECT3DDEVICE9 pGraphicDev)
     :CSkill(pGraphicDev, OBJ_ID::SKILL_MONSTER_BEAM)
 {
@@ -106,6 +108,18 @@ HRESULT CSkill_Monster_Beam::Add_Component()
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Beam_Base", m_pBaseRangeEffect), E_FAIL);
 
 
+    //  Sklil range Obj
+    CRangeObj* pGameObject = CRangeObj::Create(m_pGraphicDev, this, 5.f);
+    CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+    pShpere->Set_Radius(10.f);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    CEventMgr::GetInstance()->Add_Obj(L"Monster_Beam_Sphere", pGameObject);
+    m_pRangeObj = pGameObject;
+
+
+
+
+
     return S_OK;
 }
 
@@ -119,7 +133,7 @@ HRESULT CSkill_Monster_Beam::Play()
     m_pBaseRangeEffect->Alphaing(0.01f, 180.f, 180.f);
     m_pBaseRangeEffect->Scaling(0.01f, 0.8f, 0.8f);
 
-    m_bActive = true;
+    m_bActive = false;
 
     return S_OK;
 }
@@ -131,6 +145,10 @@ HRESULT CSkill_Monster_Beam::LatePlay()
 
 
     m_pBaseRangeEffect->Set_Active(false);
+
+    m_bActive = true;
+
+    m_pRangeObj->Set_Active(true);
 
     m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z });
     m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z +4});
@@ -145,11 +163,23 @@ HRESULT CSkill_Monster_Beam::End()
 {
     m_pSKillEffect->Set_Active(false);
     m_pRangeEffect->Set_Active(false);
+
+    m_pRangeObj->Set_Active(false);
+
+    m_bActive = false;
+    m_bAttack = false;
+
+
     return S_OK;
 }
 
 void CSkill_Monster_Beam::OnCollision_Enter(CGameObject* _pColObj)
 {
+
+    //// Player
+    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+    dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+
 }
 
 void CSkill_Monster_Beam::OnCollision_Stay(CGameObject* _pColObj)
