@@ -199,7 +199,6 @@ void CPlayer_Camera::Set_ViewSpace()
 	if (CBossSceneMgr::GetInstance()->Is_Active_Boss())
 	{
 		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
-		vLookPos = m_pCameraCom->m_tVspace.LookAt;
 
 		CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
 
@@ -224,6 +223,7 @@ void CPlayer_Camera::Set_ViewSpace()
 		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 	}
 
+	vLookPos = m_pCameraCom->m_tVspace.LookAt;
 	_float fLerpValue = 8.f;
 	D3DXVec3Lerp(&vLerpPos, &vLookPos, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * fLerpValue);
 	vLerpPos.y = vFollowPos.y; // 플레이어 추적시 y 값 흔들림 보정 wwsa 

@@ -201,8 +201,8 @@
 #include "EffectGenerator.h"
 
 
-TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat";
-TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Level_World.dat"; 
+TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat";
+TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat"; 
 
 #pragma region Global
 
