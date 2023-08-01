@@ -97,10 +97,19 @@ void CSkill_Boss_BloodyThunder::Render_Object()
 
 void CSkill_Boss_BloodyThunder::OnCollision_Enter(CGameObject* _pColObj)
 {
-	//// Player
-	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-	dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
-
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+		dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+	}
+	break;
+	default:
+	{
+	}
+	break;
+	}
 
 }
 
@@ -172,40 +181,41 @@ HRESULT CSkill_Boss_BloodyThunder::Add_Component()
 	// 1
 	CRangeObj* pGameObject1 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
 	CSphereCollider* pShpere1 = dynamic_cast<CSphereCollider*>(pGameObject1->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
-	pShpere1->Set_Radius(10.f);
+	pShpere1->Set_Radius(7.f);
 	NULL_CHECK_RETURN(pGameObject1, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere1", pGameObject1);
 	m_pRangeObj1 = pGameObject1;
-	dynamic_cast<CRangeObj*>(m_pRangeObj1)->Set_Pos( _vec3{ vOwnerPos.x - 15.f, 0.01f, vOwnerPos.z + 15.f } );
-
+	dynamic_cast<CRangeObj*>(m_pRangeObj1)->Set_Pos( _vec3{ vOwnerPos.x - 10.f, 0.01f, vOwnerPos.z + 10.f } );
+	m_pRangeObj1->Set_Active(false);
 
 
 	// 2
 	CRangeObj* pGameObject2 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
 	CSphereCollider* pShpere2 = dynamic_cast<CSphereCollider*>(pGameObject2->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
-	pShpere2->Set_Radius(10.f);
+	pShpere2->Set_Radius(7.f);
 	NULL_CHECK_RETURN(pGameObject2, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere2", pGameObject2);
 	m_pRangeObj2 = pGameObject2;
-	m_pRangeObj2->Get_Transform()->Set_Pos(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z + 15.f });
+	dynamic_cast<CRangeObj*>(m_pRangeObj2)->Set_Pos(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z + 10.f });
+	m_pRangeObj2->Set_Active(false);
 
 	// 3
 	CRangeObj* pGameObject3 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
 	CSphereCollider* pShpere3 = dynamic_cast<CSphereCollider*>(pGameObject3->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
-	pShpere3->Set_Radius(10.f);
+	pShpere3->Set_Radius(7.f);
 	NULL_CHECK_RETURN(pGameObject3, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere3", pGameObject3);
 	m_pRangeObj3 = pGameObject3;
-	m_pRangeObj3->Get_Transform()->Set_Pos(_vec3{ vOwnerPos.x - 15.f , 0.01f, vOwnerPos.z - 15.f });
+	dynamic_cast<CRangeObj*>(m_pRangeObj3)->Set_Pos(_vec3{ vOwnerPos.x - 10.f , 0.01f, vOwnerPos.z - 10.f });
 
 	// 4
 	CRangeObj* pGameObject4 = CRangeObj::Create(m_pGraphicDev, this, 5.f);
 	CSphereCollider* pShpere4 = dynamic_cast<CSphereCollider*>(pGameObject4->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
-	pShpere4->Set_Radius(10.f);
+	pShpere4->Set_Radius(7.f);
 	NULL_CHECK_RETURN(pGameObject4, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Boss_BloodyThunder_Sphere4", pGameObject4);
 	m_pRangeObj4 = pGameObject4;
-	m_pRangeObj4->Get_Transform()->Set_Pos(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z - 15.f } );
+	dynamic_cast<CRangeObj*>(m_pRangeObj4)->Set_Pos(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z - 10.f } );
 
 
 
@@ -229,22 +239,22 @@ HRESULT CSkill_Boss_BloodyThunder::Play()
 	NULL_CHECK_RETURN(pPlayerTransform, E_FAIL);
 
 	// 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 15.f, 0.01f, vOwnerPos.z + 15.f });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 10.f, 0.01f, vOwnerPos.z + 10.f });
 	m_pBaseRangeEffect1->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect1->Scaling(2.f, 0.3f, 1.f);
 
 	// 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z +15.f });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z + 10.f });
 	m_pBaseRangeEffect2->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect2->Scaling(2.f, 0.3f, 1.f);
 
 	// 3
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x -15.f , 0.01f, vOwnerPos.z -15.f });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 10.f , 0.01f, vOwnerPos.z - 10.f });
 	m_pBaseRangeEffect3->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect3->Scaling(2.f, 0.3f, 1.f);
 
 	// 4
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x +15.f , 0.01f, vOwnerPos.z -15.f });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z - 10.f });
 	m_pBaseRangeEffect4->Alphaing(2.f, 80.f, 255.f);
 	m_pBaseRangeEffect4->Scaling(2.f, 0.3f, 1.f);
 
@@ -282,30 +292,36 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 
 
 	m_pRangeObj1->Set_Active(true);
-	m_pRangeObj2->Set_Active(true);
-	m_pRangeObj3->Set_Active(true);
-	m_pRangeObj4->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj1)->Set_Pos(_vec3{ vOwnerPos.x - 10.f, 0.01f, vOwnerPos.z + 10.f });
 
+	m_pRangeObj2->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj2)->Set_Pos(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z + 10.f });
+
+	m_pRangeObj3->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj3)->Set_Pos(_vec3{ vOwnerPos.x - 10.f , 0.01f, vOwnerPos.z - 10.f });
+
+	m_pRangeObj4->Set_Active(true);
+	dynamic_cast<CRangeObj*>(m_pRangeObj4)->Set_Pos(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z - 10.f });
 
 
 
 	// 1
-	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 15.f, 0.01f, vOwnerPos.z + 15.f });
+	m_pBaseRangeEffect1->Play_Effect(_vec3{ vOwnerPos.x - 10.f, 0.01f, vOwnerPos.z + 10.f });
 	m_pBaseRangeEffect1->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect1->Scaling(2.f, 0.3f, 1.f);
 
 	// 2
-	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z + 15.f });
+	m_pBaseRangeEffect2->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z + 10.f });
 	m_pBaseRangeEffect2->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect2->Scaling(2.f, 0.3f, 1.f);
 
 	// 3
-	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 15.f , 0.01f, vOwnerPos.z - 15.f });
+	m_pBaseRangeEffect3->Play_Effect(_vec3{ vOwnerPos.x - 10.f , 0.01f, vOwnerPos.z - 10.f });
 	m_pBaseRangeEffect3->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect3->Scaling(2.f, 0.3f, 1.f);
 
 	// 4
-	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f, vOwnerPos.z - 15.f });
+	m_pBaseRangeEffect4->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f, vOwnerPos.z - 10.f });
 	m_pBaseRangeEffect4->Alphaing(0.2f, 255.f, 0.f);
 	m_pBaseRangeEffect4->Scaling(2.f, 0.3f, 1.f);
 
@@ -313,10 +329,10 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 
 	_float fSkillEffectScaleY = m_pSKillEffect1->Get_Transform()->Get_Scale().y;
 
-	m_pSKillEffect1->Play_Effect(_vec3{ vOwnerPos.x - 15.f , 0.01f  , vOwnerPos.z + 15.f });
-	m_pSKillEffect2->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f  , vOwnerPos.z + 15.f });
-	m_pSKillEffect3->Play_Effect(_vec3{ vOwnerPos.x - 15.f , 0.01f  , vOwnerPos.z - 15.f });
-	m_pSKillEffect4->Play_Effect(_vec3{ vOwnerPos.x + 15.f , 0.01f  , vOwnerPos.z - 15.f });
+	m_pSKillEffect1->Play_Effect(_vec3{ vOwnerPos.x - 10.f , 0.01f  , vOwnerPos.z + 10.f });
+	m_pSKillEffect2->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f  , vOwnerPos.z + 10.f });
+	m_pSKillEffect3->Play_Effect(_vec3{ vOwnerPos.x - 10.f , 0.01f  , vOwnerPos.z - 10.f });
+	m_pSKillEffect4->Play_Effect(_vec3{ vOwnerPos.x + 10.f , 0.01f  , vOwnerPos.z - 10.f });
 
 	
 
@@ -326,7 +342,7 @@ HRESULT CSkill_Boss_BloodyThunder::LatePlay()
 
 HRESULT CSkill_Boss_BloodyThunder::End()
 {
-	m_bActive = false;
+	m_bActive = true;
 
 
 	 m_pBaseRangeEffect1->Set_Active(false);
@@ -340,7 +356,13 @@ HRESULT CSkill_Boss_BloodyThunder::End()
 
 HRESULT CSkill_Boss_BloodyThunder::LateEnd()
 {
+	
 
+
+	m_pRangeObj1->Set_Active(false);
+	m_pRangeObj2->Set_Active(false);
+	m_pRangeObj3->Set_Active(false);
+	m_pRangeObj4->Set_Active(false);
 
 	m_pSKillEffect1->Set_Active(false);
 	m_pSKillEffect2->Set_Active(false);
@@ -348,7 +370,9 @@ HRESULT CSkill_Boss_BloodyThunder::LateEnd()
 	m_pSKillEffect4->Set_Active(false);
 	//m_pSKillEffect5->Set_Active(false);
 
-	return E_NOTIMPL;
+	//m_bActive = false;
+
+	return S_OK;
 }
 
 CSkill_Boss_BloodyThunder* CSkill_Boss_BloodyThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)

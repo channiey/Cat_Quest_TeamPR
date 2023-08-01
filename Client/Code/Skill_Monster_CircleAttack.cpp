@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 
 #include "Effect_Range_Quater.h"
-
+#include "Player.h"
 
 
 CSkill_Monster_CircleAttack::CSkill_Monster_CircleAttack(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
@@ -83,6 +83,7 @@ void CSkill_Monster_CircleAttack::Render_Object()
 
 void CSkill_Monster_CircleAttack::OnCollision_Enter(CGameObject* _pColObj)
 {
+
 }
 
 void CSkill_Monster_CircleAttack::OnCollision_Stay(CGameObject* _pColObj)

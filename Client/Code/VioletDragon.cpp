@@ -783,12 +783,11 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 			m_bBloodyTunder = false;
 			m_bBloodyLate = true;
 		}
-		if (m_bBloodyTunder == false  &&  m_bBloodyLate == true  && m_BloodyTime >= 4.f)
+		if (m_bBloodyTunder == false  &&  m_bBloodyLate == true  && m_BloodyTime >= 3.f)
 		{
 			CCameraMgr::GetInstance()->Stop_Shake();
 			dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->LateEnd();
 			m_BloodyTime = 0.f;
-			
 		}
 		
 	}

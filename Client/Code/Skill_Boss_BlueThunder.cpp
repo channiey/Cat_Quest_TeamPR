@@ -4,6 +4,7 @@
 #include "Effect_Boss_ThunderBlue.h"
 #include "EventMgr.h"
 #include "Effect_Range_Quater.h"
+#include "Player.h"
 
 CSkill_Boss_BlueThunder::CSkill_Boss_BlueThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CSkill(pGraphicDev, OBJ_ID::SKILL_BOSS_BLUETHUNDER)
@@ -101,6 +102,20 @@ void CSkill_Boss_BlueThunder::Render_Object()
 
 void CSkill_Boss_BlueThunder::OnCollision_Enter(CGameObject* _pColObj)
 {
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+		dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+	}
+	break;
+	default:
+	{
+	}
+	break;
+	}
+
 }
 
 void CSkill_Boss_BlueThunder::OnCollision_Stay(CGameObject* _pColObj)

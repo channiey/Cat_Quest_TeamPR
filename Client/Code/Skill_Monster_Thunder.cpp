@@ -98,10 +98,19 @@ void CSkill_Monster_Thunder::Render_Object()
 
 void CSkill_Monster_Thunder::OnCollision_Enter(CGameObject* _pColObj)
 {
-    //// Player
-    CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-    dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
-
+    switch (_pColObj->Get_Type())
+    {
+    case Engine::OBJ_TYPE::PLAYER:
+    {
+        CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+    }
+    break;
+    default:
+    {
+    }
+    break;
+    }
 
 }
 
@@ -132,8 +141,6 @@ HRESULT CSkill_Monster_Thunder::Add_Component()
     NULL_CHECK_RETURN(pRangeEffect2, E_FAIL);
     FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Monster_ThunderSkill_Arrow", pRangeEffect2), E_FAIL);
     m_pBaseRangeEffect = pRangeEffect2;
-
-
 
 
 
@@ -179,6 +186,8 @@ HRESULT CSkill_Monster_Thunder::LatePlay()
     m_pRangeEffect->Set_Active(false);
 
     m_bActive = true;
+
+
     m_pRangeObj->Set_Active(true);
 
     m_pBaseRangeEffect->Play_Effect(_vec3{ vOwnerPos.x , 0.01f, vOwnerPos.z });
