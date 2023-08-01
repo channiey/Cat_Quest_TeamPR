@@ -115,9 +115,12 @@ STATE_TYPE CVioletDragonState_Chase2::Update_State(const _float& fTimeDelta)
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
-    // 현재 상태의 기능
-    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+   // 현재 상태의 기능
+    if (fPlayerDistance >= 5.f)
+    {
+        dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+    }
 
 
 

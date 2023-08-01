@@ -118,9 +118,13 @@ STATE_TYPE CVioletDragonState_bChase2::Update_State(const _float& fTimeDelta)
 
 
 
-    // 현재 상태의 기능
-    dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+      // 현재 상태의 기능
+    if (fPlayerDistance >= 5.f)
+    {
+        dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
+    }
+
 
 
     if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
