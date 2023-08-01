@@ -20,6 +20,8 @@
 //Skill 
 #include "Skill_Monster_CircleAttack.h"
 
+#include "Bat_AfterImg.h"
+
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
     : CMonster(pGraphicDev, OBJ_ID::MONSTER_BAT)
@@ -72,6 +74,8 @@ HRESULT CBat::Ready_Object()
 			CShadow_Monster::Create(m_pGraphicDev, this, m_pTransformCom->Get_Scale().y * 0.9f, 1.f));
 
 
+
+	m_iCreateAfterImg = 0;
 
 	m_bSkill = false;
 	m_bBaseSkill = false;
@@ -208,8 +212,8 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 		return iExit;
 	}
 
-	// Jumping 
 
+	// Jumping 
 	_vec3		vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 	_float		Y		  = m_pTransformCom->Get_Scale().y;
 	STATE_TYPE	eCurType  = m_pStateMachineCom->Get_CurState();
@@ -243,12 +247,59 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 		}	
 	}
 
+	
+	// State ·Î ¿Å±è
+	//if (!m_listAfterImg.empty())
+	//{
+	//	if (m_listAfterImg.front() != nullptr)
+	//	{
+	//		m_listAfterImg.front()->Set_Active(true);
+	//		CEventMgr::GetInstance()->Add_Obj(L"Bat_AfterImg", m_listAfterImg.front());
+	//		m_listAfterImg.pop_front();
+	//	}
+
+	//}
+
+
 
 	return iExit;
 }
 
 void CBat::LateUpdate_Object()
 {
+	//STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+
+	// State·Î ¿Å±è
+	//if (m_iCreateAfterImg % 4 == 0 && m_listAfterImg.size() <= 5)
+	//{
+	//	if (CurState == STATE_TYPE::BACK_MONREST || CurState == STATE_TYPE::MONREST)
+	//	{
+
+	//		CGameObject* pAfterImg = CBat_AfterImg::Create(m_pGraphicDev, this);
+	//		m_listAfterImg.push_back(pAfterImg);
+	//		
+	//		
+	//		++m_iCreateAfterImg;
+
+	//		if (m_iCreateAfterImg >= 100)
+	//		{
+	//			m_iCreateAfterImg = 0;
+	//		}
+	//	}
+	//	else 
+	//	{ 
+	//		if (!m_listAfterImg.empty())
+	//		{
+	//			for (auto iter : m_listAfterImg)
+	//			{
+	//				CEventMgr::GetInstance()->Delete_Obj(iter);
+	//			}
+	//			m_listAfterImg.clear();
+	//		}
+	//		m_iCreateAfterImg = 0;
+	//	}
+	//}
+
 	__super::LateUpdate_Object();
 }
 

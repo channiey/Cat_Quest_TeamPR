@@ -47,6 +47,8 @@ public:
 	void				Add_MoveSpeed(const _float& _fMoveSpeed)		{ m_tMoveInfo.fMoveSpeed += _fMoveSpeed; }
 	void				Add_RotSpeed(const _float& _fRotSpeed)			{ m_tMoveInfo.fRotSpeed += _fRotSpeed; }
 
+
+
 #pragma endregion
 
 #pragma region STATINFO
@@ -98,7 +100,7 @@ public:
 	void			Set_MaxJumpY(_float MaxJumpY) { m_fMaxJumpY = MaxJumpY; }
 	void			Set_AccTime(_float AccTime) { m_fAccTime = AccTime; }
 
-
+	CStateMachine*  Get_StateM() { return m_pStateMachineCom; }
 
 #pragma endregion
 
@@ -149,8 +151,6 @@ protected:
 
 	//Sound
 	_bool                    m_bAttackSound;
-
-
 
 protected:
 	
