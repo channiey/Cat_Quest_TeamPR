@@ -183,8 +183,10 @@ void CPlayer_Camera::Set_ViewSpace()
 	}
 
 	// Change Target Lerp
-	else if (CAMERA_ACTION::OBJ_CHANGE_TARGET == CCameraMgr::GetInstance()->Get_CurCameraAction())
+	else if (CAMERA_ACTION::OBJ_CHANGE_TARGET == CCameraMgr::GetInstance()->Get_CurCameraAction())// || CAMERA_ACTION::START_BOSS == CCameraMgr::GetInstance()->Get_CurCameraAction())
 	{
+		//if (!m_pCameraCom->m_tVec3Lerp.bActive) return;
+
 		Lerp_Change_Target();
 		return;
 	}
@@ -263,7 +265,6 @@ void CPlayer_Camera::Lerp_Change_Target()
 	if (0 == D3DXVec3Length(&vFollowPos))	return;
 		
 	_vec3 vLookPos = vFollowPos;
-
 
 	// 02. 타겟까지의 디스턴스에 따른 카메라의 높이값을 구한다.
 	_vec3 vDir1 = m_pTransformCom->Get_Info(INFO_POS) - vLookPos;

@@ -114,6 +114,18 @@ STATE_TYPE CVioletDragonState_Intro_Sword::Update_State(const _float& fTimeDelta
     if (pOwenrCurAnimation->Is_End() && m_fAccTime >= 1.f)
     {
         m_fAccTime = 0.f;
+
+        // 카메라 액션 추가
+       /* CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
+        CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
+        if (nullptr != pBoss && nullptr != pPlayer)
+        {
+            _vec3 vBossPos{ pBoss->Get_Transform()->Get_Info(INFO_POS).x, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, pBoss->Get_Transform()->Get_Info(INFO_POS).z };
+
+            CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vBossPos, pPlayer->Get_Transform()->Get_Info(INFO_POS));
+        }*/
+
+
         return STATE_TYPE::PATROL;
     }
 

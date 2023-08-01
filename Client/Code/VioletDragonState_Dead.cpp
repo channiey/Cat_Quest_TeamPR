@@ -4,6 +4,8 @@
 #include "VioletDragon.h"
 #include "SoundMgr.h"
 #include "CameraMgr.h"
+#include "BossSceneMgr.h"
+
 CVioletDragonState_Dead::CVioletDragonState_Dead(LPDIRECT3DDEVICE9 pGraphicDev)
     :CState(pGraphicDev)
 {
@@ -116,6 +118,7 @@ STATE_TYPE CVioletDragonState_Dead::Update_State(const _float& fTimeDelta)
     if (pOwenrCurAnimation->Is_End())
     {
        CEventMgr::GetInstance()->Delete_Obj( m_pOwner->Get_OwnerObject());
+       CBossSceneMgr::GetInstance()->Play_Dead_BossScene();
     }
 
 

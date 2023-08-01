@@ -188,7 +188,7 @@ HRESULT CCamera::Set_Projection()
 			D3DXMatrixPerspectiveFovLH(&matProj, m_tProj.FOV, m_tProj.Aspect, m_tProj.Near, m_tProj.Far));*/
 	}
 
-	cout << m_tProj.FOV << endl;
+	//cout << m_tProj.FOV << endl;
 	return S_OK;
 }
 

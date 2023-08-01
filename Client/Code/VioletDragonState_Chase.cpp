@@ -127,6 +127,8 @@ STATE_TYPE CVioletDragonState_Chase::Update_State(const _float& fTimeDelta)
 
     if (Owner_bHP90 == true && Owner_bHP50 == false && Owner_bHP20 == false)
     {
+        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_IN);
+
         return STATE_TYPE::BOSS_FULLDOWN_FLY;
     }
 

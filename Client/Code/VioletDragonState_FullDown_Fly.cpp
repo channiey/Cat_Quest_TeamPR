@@ -129,7 +129,7 @@ STATE_TYPE CVioletDragonState_FullDown_Fly::Update_State(const _float& fTimeDelt
 
     if (m_fAccTime >= 4.f)
     {
-
+        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_OUT);
         m_fAccTime = 0.f;
         return STATE_TYPE::BOSS_FULLDOWN_DOWN;
     }

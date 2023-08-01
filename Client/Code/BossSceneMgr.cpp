@@ -95,12 +95,25 @@ HRESULT CBossSceneMgr::Start_BossScene()
 
 	m_arrPage[(_uint)PAGE::START] = TRUE;
 
+	CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
+	NULL_CHECK_RETURN(pPlayer, E_FAIL);
+
 	CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
 	NULL_CHECK_RETURN(pBoss, E_FAIL);
 	pBoss->Set_Active(TRUE);
+	pBoss->Get_Transform()->Set_Pos(_vec3{ BOSS_POS_X, pBoss->Get_Transform()->Get_Info(INFO_POS).y, BOSS_POS_Z });
 
+	// 브금 변경
 	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_battle_theme.wav");
+	
+	// 카메라 액션 1
 	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_BOSS);
+
+	// 카메라 액션 2
+	_vec3 vBossPos{ pBoss->Get_Transform()->Get_Info(INFO_POS).x, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, pBoss->Get_Transform()->Get_Info(INFO_POS).z };
+
+	//CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, pPlayer->Get_Transform()->Get_Info(INFO_POS), vBossPos, FALSE);
+
 	return S_OK;
 }
 

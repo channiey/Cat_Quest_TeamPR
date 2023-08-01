@@ -199,8 +199,26 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		_float fCurFOV = m_pCurCamera->Get_CameraCom()->Get_Projection().FOV;
 		_float fTargetFOV = 0.f;
 
+		// 현재 보스 스킬 보간중(In ~ End)이라면 리턴
+		if ((m_eCurAction == CAMERA_ACTION::BOSS_SKILL_IN && _eMode != CAMERA_ACTION::BOSS_SKILL_OUT ) 
+			|| (m_eCurAction == CAMERA_ACTION::BOSS_SKILL_OUT && m_pCurCamera->Get_CameraCom()->m_tFOVLerp.bActive))
+			return S_OK;
+
 		switch (_eMode)
 		{
+		// BOSS
+		case Engine::CAMERA_ACTION::BOSS_SKILL_IN :
+		{
+			fTargetFOV = CAM_FOV_BOSS_SKILL;
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(0.3f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
+		}
+		break;
+		case Engine::CAMERA_ACTION::BOSS_SKILL_OUT:
+		{
+			fTargetFOV = CAM_FOV_DEFAULT + CAM_FOV_BOSS_DELTA;
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(0.7f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
+		}
+		break;
 
 		// IDLE -> OTHER
 		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_ATK : 

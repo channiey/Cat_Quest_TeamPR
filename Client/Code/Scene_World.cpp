@@ -247,11 +247,11 @@ HRESULT CScene_World::Ready_Scene()
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	{
-		CBossSceneMgr::GetInstance()->Start_BossScene();
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_BOSS);
-	}
+	//if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	//{
+	//	CBossSceneMgr::GetInstance()->Start_BossScene();
+	//	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_BOSS);
+	//}
 
 	// Ending
 	if (m_bFinish)

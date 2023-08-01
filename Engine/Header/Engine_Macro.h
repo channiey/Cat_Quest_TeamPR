@@ -47,6 +47,8 @@ namespace Engine
 #define	CAM_FOV_QUEST_TAKL			D3DXToRadian(50.f)	
 
 #define CAM_FOV_BOSS_DELTA			D3DXToRadian(10.f)
+#define CAM_FOV_BOSS_SKILL			D3DXToRadian(85.f)
+
 //#define CAM_FOV_BOSS_DEFAULT		(CAM_FOV_DEFAULT + D3DXToRadian(CAM_FOV_BOSS_DELTA))
 
 // Cam Height
@@ -59,13 +61,16 @@ namespace Engine
 #define VTXITV							3
 
 // Player Pos
-#define START_POS_WORLD_X				346.f
-#define START_POS_WORLD_Z				120.f
+#define START_POS_WORLD_X				346.f //BOSS_POS_X //346.f
+#define START_POS_WORLD_Z				120.f //BOSS_POS_Z //120.f
 #define START_POS_DUNGEON_X				53.f
 #define START_POS_DUNGEON_Z				32.f // 204 168
 #define WORLD_DUNGEON_ENTERANCE_X		204.f
 #define WORLD_DUNGEON_ENTERANCE_Z		168.f
 #define	MINIGAME_JUMP_RESET_POS			_vec3{ 360.f, 3.f , 280.f }
+
+#define BOSS_POS_X						552.f
+#define BOSS_POS_Z						530.f
 
 
 #define	JUMP_POWER						600.f

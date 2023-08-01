@@ -463,6 +463,8 @@ namespace Engine
 		// Boss
 		, START_BOSS
 		, END_BOSS
+		, BOSS_SKILL_IN
+		, BOSS_SKILL_OUT
 
 		, TYPEEND };
 	

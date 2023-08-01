@@ -258,7 +258,6 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 5: 
 		if (!m_bBossOutScene)
 		{
-			CBossSceneMgr::GetInstance()->Play_Dead_BossScene();
 			m_bBossOutScene = true;
 		}
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)

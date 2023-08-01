@@ -28,7 +28,10 @@ public:
 	const _matrix&							Get_Billboard_X();
 	const _matrix&							Get_Billboard_Y();
 	const _matrix&							Get_WorldMat();
-	const CAMERA_ACTION&					Get_CurCameraAction() const { return m_eCurAction; }
+	const CAMERA_ACTION&					Get_CurCameraAction() const 
+	{ 
+		return m_eCurAction; 
+	}
 
 
 public:
