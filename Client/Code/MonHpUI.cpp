@@ -23,6 +23,8 @@ HRESULT CMonHpUI::Ready_Object()
 
 	m_eUIType = UI_TYPE::VIEW;
 
+	m_bShow = false;
+	m_iAlpha = 0;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -83,10 +85,6 @@ _int CMonHpUI::Update_Object(const _float& fTimeDelta)
 	if (nullptr != m_pMonster)
 		m_fCurRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
 
-
-
-
-
 	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().bDead)
 	{
 		CEventMgr::GetInstance()->Delete_Obj(this);  // »èÁ¦
@@ -99,12 +97,28 @@ _int CMonHpUI::Update_Object(const _float& fTimeDelta)
 		m_fHpRatio = m_fCurRatio;
 	}
 
+	if (m_bShow && !m_tAlpha.bActive)
+	{
+		m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+		m_tAlpha.Set_Lerp(0.2f, m_iAlpha, 255);
+		m_tAlpha.fCurValue = m_tAlpha.fStartValue;
+	}
+	else if (!m_bShow && !m_tAlpha.bActive)
+	{
+		m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+		m_tAlpha.Set_Lerp(0.2f, m_iAlpha, 0);
+		m_tAlpha.fCurValue = m_tAlpha.fStartValue;
+	}
+
+	m_tAlpha.Update_Lerp(fTimeDelta);
 
 	return iExit;
 }
 
 void CMonHpUI::LateUpdate_Object()
 {
+	m_iAlpha = m_tAlpha.fCurValue;
+
 	Follow_Owner();
 
 	_vec3 vInitPosition = m_matUI[1].m[3];
@@ -167,12 +181,6 @@ void CMonHpUI::LateUpdate_Object()
 		m_pUITransformCom[4]->Reset_Lerp();
 	}
 
-	__super::LateUpdate_Object();
-
-}
-
-void CMonHpUI::Render_Object()
-{
 	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::CHASE ||
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_CHASE ||
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK ||
@@ -181,49 +189,64 @@ void CMonHpUI::Render_Object()
 		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONREST ||
 		dynamic_cast<CMonster*>(m_pMonster)->IsHit())
 	{
-		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
-		/*m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(7);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[4]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(10);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(1);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(9);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[3]->Get_WorldMat());
-		m_pTextureCom->Render_Texture(6);
-		m_pBufferCom->Render_Buffer();*/
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
-		m_pTextureCom->Render_Texture(7);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[4]);
-		m_pTextureCom->Render_Texture(10);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
-		m_pTextureCom->Render_Texture(1);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[2]);
-		m_pTextureCom->Render_Texture(9);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[3]);
-		m_pTextureCom->Render_Texture(6);
-		m_pBufferCom->Render_Buffer();
+		m_bShow = true;
+	}
+	else
+	{
+		m_bShow = false;
 	}
 
+	__super::LateUpdate_Object();
 
+}
+
+void CMonHpUI::Render_Object()
+{
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
+
+	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[0]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(7);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[4]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(10);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[1]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(1);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[2]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(9);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pUITransformCom[3]->Get_WorldMat());
+	m_pTextureCom->Render_Texture(6);
+	m_pBufferCom->Render_Buffer();*/
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
+	m_pTextureCom->Render_Texture(7);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[4]);
+	m_pTextureCom->Render_Texture(10);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
+	m_pTextureCom->Render_Texture(1);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[2]);
+	m_pTextureCom->Render_Texture(9);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[3]);
+	m_pTextureCom->Render_Texture(6);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 }
 

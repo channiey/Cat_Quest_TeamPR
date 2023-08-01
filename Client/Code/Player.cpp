@@ -1328,10 +1328,10 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	/*if (CInputDev::GetInstance()->Key_Down(VK_F1))
 	{
 		CBossSceneMgr::GetInstance()->Start_BossScene();
-	}
+	}*/
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
@@ -1728,17 +1728,38 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 
 	if (pObj->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
 	{
-		if (!m_pRigidBodyCom->Is_Vel_Zero())
+		if (static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_ATTACK2 ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_ATTACK3 ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONATTACK ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK2 ||
+			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK3)
 		{
-			m_pRigidBodyCom->Zero_KnockBack();
+			if (!m_pRigidBodyCom->Is_Vel_Zero())
+			{
+				m_pRigidBodyCom->Zero_KnockBack();
+			}
+			else
+			{
+				_vec3 vDir = m_pTransformCom->Get_Dir();
+				vDir *= -1;
+
+				if (pObj != nullptr)
+					m_pRigidBodyCom->Knock_Back(vDir, 320);
+			}
+
 		}
 		else
 		{
-			_vec3 vDir = m_pTransformCom->Get_Dir();
-			vDir *= -1;
-
-			if (pObj != nullptr)
-				m_pRigidBodyCom->Knock_Back(vDir, 220);
+			if (!m_pRigidBodyCom->Is_Vel_Zero())
+			{
+				m_pRigidBodyCom->Zero_KnockBack();
+			}
+			else
+			{
+				if (pObj != nullptr)
+					m_pRigidBodyCom->Knock_Back(pObj, 320);
+			}
 		}
 	}
 		

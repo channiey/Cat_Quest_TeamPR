@@ -49,7 +49,7 @@ HRESULT CEffect_RainRipple::Ready_Object()
 	std::uniform_int_distribution<int> xDistX(iMin, iMax);
 	m_iTexChoice = xDistX(gen);
 	
-	m_iAlpha = 200;
+	m_iAlpha = 150;
 	m_tAlpha.Init_Lerp(LERP_MODE::SMOOTHSTEP);
 	m_tAlpha.Set_Lerp(1.f, m_iAlpha, 0);
 	m_tAlpha.fCurValue = m_tAlpha.fStartValue;

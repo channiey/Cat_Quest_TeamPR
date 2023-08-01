@@ -27,7 +27,7 @@ HRESULT CEffect_Rain::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fSpeed = 25 + rand() % 5;
+	m_fSpeed = 28 + rand() % 5;
 
 	_float fMin = 0.5f;
 	_float fMax = 1.2f;
@@ -95,7 +95,7 @@ void CEffect_Rain::LateUpdate_Object()
 
 void CEffect_Rain::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(200, 255, 255, 255));
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(150, 255, 255, 255));
 
 	m_pTextureCom->Render_Texture(m_iTexChoice); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 

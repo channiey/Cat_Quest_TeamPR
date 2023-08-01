@@ -47,6 +47,10 @@ private:
 
 	_matrix					m_matUI[5];
 
+	LERP_FLOAT_INFO			m_tAlpha;
+	_uint					m_iAlpha;
+	_bool					m_bShow;
+
 
 public:
 	static CMonHpUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pMonster);
