@@ -27,8 +27,8 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 {
 	if (!m_bEnter)
 	{
-		if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() ||
-			!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_RigidBody()->Is_KnockUp())
+		if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() && 
+			!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_RigidBody()->Is_KnockUp()) 
 		{
 			_vec3 vPpos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS);
 			m_pOwner->Get_OwnerObject()->Get_Transform()->Set_Pos(_vec3{ vPpos.x,  m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Scale().y, vPpos.z });

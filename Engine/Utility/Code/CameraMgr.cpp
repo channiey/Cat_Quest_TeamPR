@@ -210,7 +210,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		case Engine::CAMERA_ACTION::BOSS_SKILL_IN :
 		{
 			fTargetFOV = CAM_FOV_BOSS_SKILL;
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(0.3f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(0.5f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
 		}
 		break;
 		case Engine::CAMERA_ACTION::BOSS_SKILL_OUT:

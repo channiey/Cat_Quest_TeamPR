@@ -71,7 +71,7 @@ void CRigidBody::LateUpdate_Component()
 		m_vForce.y = 0;
 	}
 
-	if (D3DXVec3Length(&m_vForce) > 0.f && !m_bJump) // 임시 마찰 
+	if (D3DXVec3Length(&m_vForce) > 0.f && (!m_bJump && !m_bKnockUp)) // 임시 마찰 
 		m_vForce -= m_vForce * m_fFriction;
 
 		m_vAcc = m_vForce / m_fMass;
@@ -83,13 +83,10 @@ void CRigidBody::LateUpdate_Component()
 		D3DXVec3Normalize(&m_vVelocity, &m_vVelocity);
 		m_vVelocity *= m_fMaxSpeed;
 	}
-
-	// 포지션 적용
-
+	
 	_vec3 vPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO_POS);
 
 	vPos += m_vVelocity;
-
 
 	if (m_bJump || m_bKnockUp)
 	{

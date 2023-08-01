@@ -27,7 +27,7 @@ namespace Engine
 #define	DF_CAMERA_SHAKE_TIME		0.13f
 
 #define	DF_RB_KNOCKBACK				10000.f
-#define DF_RB_KNOCKUP				100.f
+#define DF_RB_KNOCKUP				700.f
 
 #define	WINCX						1280
 #define	WINCY						720
@@ -61,9 +61,9 @@ namespace Engine
 #define VTXITV							3
 
 // Player Pos
-#define START_POS_WORLD_X				346.f //BOSS_POS_X //346.f
-#define START_POS_WORLD_Z				120.f //BOSS_POS_Z //120.f
-#define START_POS_DUNGEON_X				53.f
+#define START_POS_WORLD_X				BOSS_POS_X //346.f
+#define START_POS_WORLD_Z				BOSS_POS_Z //120.f
+#define START_POS_DUNGEON_X				53.f 
 #define START_POS_DUNGEON_Z				32.f // 204 168
 #define WORLD_DUNGEON_ENTERANCE_X		204.f
 #define WORLD_DUNGEON_ENTERANCE_Z		168.f

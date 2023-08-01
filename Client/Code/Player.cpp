@@ -651,7 +651,7 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	{
 		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::SKILL_BOSS_FULLDOWN)
 		{
-			m_pRigidBodyCom->Knock_Up(500);
+			m_pRigidBodyCom->Knock_Up(); // 매개변수 넣을 시 팀장 보고해주세요
 		}
 
 
