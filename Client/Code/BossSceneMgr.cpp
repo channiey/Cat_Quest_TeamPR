@@ -44,12 +44,13 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 		if (!CCameraMgr::GetInstance()->Is_Fade())
 		{
 			m_fAcc += fTimeDelta;
-			//cout << m_fAcc << endl;
+
 			if (m_fDeadFadeStayTime <= m_fAcc)
 			{
-				//cout << "03. START FADE IN\n";
+				// 03. 카메라, BGM 페이드 인
 
 				CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_IN);
+				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_BOSS);
 				CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EXPONENTIAL, 2.5f, 0.f, SOUND_VOLUME_BGM);
 				CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_02_theme.wav");
 
@@ -63,7 +64,8 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 	{
 		if (!CCameraMgr::GetInstance()->Is_Fade())
 		{
-			//cout << "04. FINISH\n";
+			// 04. 카메라, BGM 페이드인 완료 = 보스 연출 종료 
+
 			m_bFadeIn_End = TRUE;
 			m_arrPage[(_uint)PAGE::FINISH] = TRUE;
 		}
@@ -71,34 +73,45 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 
 }
 
+const _bool CBossSceneMgr::Is_Active_Boss()
+{
+	CGameObject* pBoss = nullptr;
+	
+	pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
+
+	if (nullptr == pBoss)
+		return FALSE;
+	else if (pBoss->Is_Active())
+		return TRUE;
+	else
+		return FALSE;
+}
+
 HRESULT CBossSceneMgr::Start_BossScene()
 {
+	// 01. 보스 활성화 -> 등장 애니메이션 
+
 	if (!m_arrPage[(_uint)PAGE::INIT] || m_arrPage[(_uint)PAGE::START]) return E_FAIL;
 
 	m_arrPage[(_uint)PAGE::START] = TRUE;
 
-	// 보스 활성화
-	//cout << "01. ACTIVATE BOSS \n";
-
 	CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
 	NULL_CHECK_RETURN(pBoss, E_FAIL);
 	pBoss->Set_Active(TRUE);
-	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_battle_theme.wav");
 
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_battle_theme.wav");
+	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_BOSS);
 	return S_OK;
 }
 
 void CBossSceneMgr::Play_Dead_BossScene()
-{
-	//cout << "02. START FADE OUT\n";
-	
-	// 카메라 페이드 아웃
+{	
+	// 02. 카메라, BGM 페이드 아웃
+
 	CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_OUT);
 	m_arrPage[(_uint)PAGE::DEAD] = TRUE;
 
-	// 브금 사운드 페이드 아웃
 	CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_OUT, 3.5f, SOUND_VOLUME_BGM, 0.f);
-
 }
 
 void CBossSceneMgr::Set_Npc()
@@ -114,14 +127,14 @@ void CBossSceneMgr::Set_Npc()
 	pNpc = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1");
 	NULL_CHECK(pNpc);
 	vNpcPos = pNpc->Get_Transform()->Get_Info(INFO_POS);
-	vNewPos = _vec3{ vPlayerPos.x - 7.f, vNpcPos.y, vPlayerPos.z + 6.f };
+	vNewPos = _vec3{ vPlayerPos.x - 6.f, vNpcPos.y, vPlayerPos.z + 9.f };
 	pNpc->Get_Transform()->Set_Pos(vNewPos);
 
 	// 02. Npc_Soldier
 	pNpc = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::NPC, L"Npc_Soldier");
 	NULL_CHECK(pNpc);
 	vNpcPos = pNpc->Get_Transform()->Get_Info(INFO_POS);
-	vNewPos = _vec3{ vPlayerPos.x + 7.f, vNpcPos.y, vPlayerPos.z + 6.f };
+	vNewPos = _vec3{ vPlayerPos.x + 5.f, vNpcPos.y, vPlayerPos.z + 7.f };
 	pNpc->Get_Transform()->Set_Pos(vNewPos);
 
 	vNpcScale = pNpc->Get_Transform()->Get_Scale();

@@ -26,28 +26,18 @@ public:
 public:
 	const _bool&			Is_Ready() const { return m_arrPage[(_uint)PAGE::INIT]; }
 	const _bool				Is_Start() const { return m_arrPage[(_uint)PAGE::START]; }
-
+	const _bool				Is_Active_Boss(); 
 
 public:
-	HRESULT					Start_BossScene(); // 보스전 시작하면 호출
-	void					Play_Dead_BossScene(); // 보스 죽으면 호출 
-
-	
-	
-
+	HRESULT					Start_BossScene(); // 보스 연출 시작시 호출 (보스 활성화)
+	void					Play_Dead_BossScene(); // 보스 데드 애니메이션 종료시 호출
 
 private:
-	
 	void					Set_Npc(); 
-
-
 
 private:
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
-
-
 	_bool					m_arrPage[(_uint)PAGE::TYPEEND];
-
 
 	_float					m_fAcc;
 	_float					m_fDeadFadeStayTime;

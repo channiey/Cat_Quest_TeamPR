@@ -460,6 +460,10 @@ namespace Engine
 		, START_NPC_TALK
 		, END_NPC_TALK
 
+		// Boss
+		, START_BOSS
+		, END_BOSS
+
 		, TYPEEND };
 	
 

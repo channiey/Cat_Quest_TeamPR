@@ -13,6 +13,7 @@ CCameraMgr::CCameraMgr()
 	, m_bBlending(false)
 	, m_eCurAction(CAMERA_ACTION::NONE)
 	, m_bFix(FALSE)
+	, m_bBoss(FALSE)
 {
 }
 
@@ -196,63 +197,73 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 	if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
 	{
 		_float fCurFOV = m_pCurCamera->Get_CameraCom()->Get_Projection().FOV;
+		_float fTargetFOV = 0.f;
 
 		switch (_eMode)
 		{
 
-#pragma region PLAYER
-
 		// IDLE -> OTHER
-		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_ATK : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.15f, fCurFOV, CAM_FOV_PLAYER_ATTACK, LERP_MODE::SMOOTHERSTEP); break;
+		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_ATK : 
+		{
+			if (m_bBoss)
+				fTargetFOV = CAM_FOV_PLAYER_ATTACK + CAM_FOV_BOSS_DELTA;
+			else
+				fTargetFOV = CAM_FOV_PLAYER_ATTACK;
 
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(0.15f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
+		}
+		break;
 		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_FLY : 
 		{
-			m_pCurCamera->Set_FlightView(TRUE);
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				1.f, fCurFOV, CAM_FOV_PLAYER_FLIGHT, LERP_MODE::SMOOTHERSTEP); break;
-		}
+			if (m_bBoss)
+				fTargetFOV = CAM_FOV_PLAYER_FLIGHT + CAM_FOV_BOSS_DELTA;
+			else
+				fTargetFOV = CAM_FOV_PLAYER_FLIGHT;
 
-		case Engine::CAMERA_ACTION::PLAYER_IDL_TO_RANATK : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.15f, fCurFOV, CAM_FOV_PLAYER_RANGE, LERP_MODE::SMOOTHERSTEP); break;
+			m_pCurCamera->Set_FlightView(TRUE);
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(1.f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP); 
+		}
+		break;
 
 		// OTHER -> OTHER
-		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.15f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_IDL : 
+		{
+			if (m_bBoss)
+				fTargetFOV = CAM_FOV_DEFAULT + CAM_FOV_BOSS_DELTA;
+			else
+				fTargetFOV = CAM_FOV_DEFAULT;
 
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV( 0.15f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP);
+		}
+		break;
 		case Engine::CAMERA_ACTION::PLAYER_FLY_TO_IDL : 
 		{
+			if (m_bBoss)
+				fTargetFOV = CAM_FOV_DEFAULT + CAM_FOV_BOSS_DELTA;
+			else
+				fTargetFOV = CAM_FOV_DEFAULT;
+
 			m_pCurCamera->Set_FlightView(FALSE);
-			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				1.f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break;
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(1.f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP); break;
 		}
 
-		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_IDL : m_pCurCamera->Get_CameraCom()->Lerp_FOV(
-				0.2f, fCurFOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP); break; 
-		
-		// OTHER -> IDLE
-		case Engine::CAMERA_ACTION::PLAYER_ATK_TO_RANATK :
-			break;
 
-		case Engine::CAMERA_ACTION::PLAYER_RANATK_TO_ATK :
-			break;
-
-		// TOP -> BACK
+		// TOP & BACK
 		case Engine::CAMERA_ACTION::PLAYER_TOP_TO_BACK:
+		{
 			if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
 				m_pCurCamera->Set_BackView(TRUE);
-			break;
+		}
+		break;
 
-		// BACK -> TOP
 		case Engine::CAMERA_ACTION::PLAYER_BACK_TO_TOP:
+		{
 			if (CAMERA_TYPE::PLAYER_CAMERA == m_pCurCamera->Get_CameraCom()->Get_CameraType())
 				m_pCurCamera->Set_BackView(FALSE);
-			break;
+		}
+		break;
 
 
-#pragma endregion
-
-#pragma region SCENE
 
 		case Engine::CAMERA_ACTION::SCENE_ENTER_INGAME:
 		{
@@ -321,9 +332,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		}
 		break;
 
-#pragma endregion
 
-#pragma region OBJECT
 
 		case Engine::CAMERA_ACTION::OBJ_CHANGE_TARGET:
 		{
@@ -347,16 +356,14 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		}
 		break;
 
-#pragma endregion
 
-		
+		// NPC
 		case Engine::CAMERA_ACTION::START_NPC_TALK:
 		{ 
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
 			0.8f, fCurFOV, CAM_FOV_QUEST_TAKL, LERP_MODE::SMOOTHERSTEP); break;
 		}
 		break;
-		
 		case Engine::CAMERA_ACTION::END_NPC_TALK:
 		{
 			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
@@ -364,6 +371,30 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		}
 		break;
 
+
+		// Boss
+		case Engine::CAMERA_ACTION::START_BOSS:
+		{
+			m_bBoss = TRUE;
+
+			fTargetFOV = CAM_FOV_DEFAULT + CAM_FOV_BOSS_DELTA;
+		
+
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.8f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP); break;
+		}
+		break;
+
+		case Engine::CAMERA_ACTION::END_BOSS:
+		{
+			m_bBoss = FALSE;
+
+			fTargetFOV = CAM_FOV_DEFAULT;
+
+			m_pCurCamera->Get_CameraCom()->Lerp_FOV(
+				0.5f, fCurFOV, fTargetFOV, LERP_MODE::SMOOTHERSTEP); break;
+		}
+		break;
 		
 		
 		

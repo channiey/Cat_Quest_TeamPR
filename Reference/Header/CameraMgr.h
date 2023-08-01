@@ -65,6 +65,7 @@ private:
 	CAMERA_ACTION							m_eCurAction;
 
 	_bool									m_bFix;
+	_bool									m_bBoss; // 현재 보스 씬인지 아닌지
 
 public:
 	virtual void Free();
