@@ -8,7 +8,7 @@ namespace Engine
 	
 	// 추가 및 편집시 팀장 보고		// 추가시 Scene의 Ready_Layer_Other() 함수에 해당 레이어 생성 추가 필수											       					
 	enum class OBJ_TYPE				{ PLAYER, MONSTER, NPC, ITEM, PROJECTILE, CAMERA, LINE, 
-									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, ISLAND, BACKGROUND, FLAG, EFFECT, UI, TYPEEND }; // 오브젝트 타입
+									  ENVIRONMENT, TERRAIN, GENERATOR, RANGE_OBJ, SKILL, ISLAND, BACKGROUND, FLAG, TRIGGER, EFFECT, UI, TYPEEND }; // 오브젝트 타입
 
 	enum class OBJ_ID			
 	{
@@ -296,6 +296,10 @@ namespace Engine
 
 	// 미니게임(빙고) 관련
 	UI_BINGO_SUCCES, UI_BINGO_FAIL, UI_BINGO_CLEAR, BINGO_LAUNCHER,
+
+
+	// Boss Scene Trigger
+	BOSS_SCENE_TRIGGER,
 
 	TYPEEND
 };

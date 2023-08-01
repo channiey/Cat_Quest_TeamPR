@@ -8,6 +8,7 @@
 #include "Player_Camera.h"
 #include "VioletDragon.h"
 #include "Npc_Citizen2.h"
+
 IMPLEMENT_SINGLETON(CBossSceneMgr)
 
 CBossSceneMgr::CBossSceneMgr()
@@ -31,6 +32,10 @@ HRESULT CBossSceneMgr::Ready_BossSceneMgr(LPDIRECT3DDEVICE9 _pGraphicDev)
 	m_arrPage[(_uint)PAGE::INIT] = TRUE;
 
 	m_pGraphicDev = _pGraphicDev;
+
+
+
+	
 
 	return S_OK;
 }

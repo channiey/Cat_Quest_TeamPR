@@ -232,7 +232,6 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 	case 4: // º¸½ºÀü
 		if (!m_bBossIntroScene)
 		{
-			CBossSceneMgr::GetInstance()->Start_BossScene();
 			m_bBossIntroScene = true;
 		}
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
