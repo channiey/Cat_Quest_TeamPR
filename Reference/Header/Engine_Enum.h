@@ -296,6 +296,7 @@ namespace Engine
 
 	// 미니게임(빙고) 관련
 	UI_BINGO_SUCCES, UI_BINGO_FAIL, UI_BINGO_CLEAR, BINGO_LAUNCHER,
+	EFFECT_BINGO_SUCCES,
 
 
 	// Boss Scene Trigger
