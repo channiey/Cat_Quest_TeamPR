@@ -51,6 +51,8 @@ private:
 	_bool   m_bBullet16;
 
 
+	_bool	m_bSound;
+
 private:
 	virtual void Free();
 

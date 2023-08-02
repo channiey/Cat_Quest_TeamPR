@@ -272,6 +272,7 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 		if (m_fAttackTime >= 2.f)
 		{
 			CEventMgr::GetInstance()->Add_Obj(L"Projectile_FoxFire", CFoxFire::Create(m_pGraphicDev, vOwnerPos, vDir, this));
+			CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2 , 0.5f );
 			m_fAttackTime = 0.f;
 
 		}
@@ -282,6 +283,7 @@ _int CFox::Update_Object(const _float& fTimeDelta)
 		if (m_fAccTime >= 3.f)
 		{
 			m_pSkill->Play();
+
 			if (m_fAccTime >= 5.f)
 			{
 				dynamic_cast<CSkill_Monster_Fire*>(m_pSkill)->LatePlay();

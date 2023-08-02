@@ -52,10 +52,6 @@ HRESULT CComBack_Bullet::Ready_Object()
 
 
 
-    m_fJumpingSpeed = 0.05f;
-    m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
-
-
 	return S_OK;
 }
 
@@ -68,9 +64,6 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_tAlpha.eMode = LERP_MODE::EXPONENTIAL;
         m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f );
 
-        m_vShake.Init_Lerp();
-        _vec3 vCurPos = m_pTransformCom->Get_Info(INFO_POS);
-        m_vShake.Set_Lerp(0.2, { vCurPos.x, vCurPos.y, vCurPos.z }, { vCurPos.x, vCurPos.y + 5.f, vCurPos.z });
 
     }
 
@@ -99,8 +92,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
 
 
     m_tAlpha.Update_Lerp(fTimeDelta);
-    m_vShake.Update_Lerp(fTimeDelta);
-
+ 
 
     m_fAccTime += fTimeDelta;
 
@@ -119,6 +111,8 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     }
     if (m_bComeBack == false && m_bStop == true && m_fAccTime >= 2.f)
     {
+
+        
         m_fSpeed = 0.f;
         m_bComeBack = true;
        // m_pTransformCom->Translate(fTimeDelta * m_fSpeed);

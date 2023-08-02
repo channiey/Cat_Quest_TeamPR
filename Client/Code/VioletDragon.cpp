@@ -86,8 +86,10 @@
 #include "ExpCoin.h"
 
 #include "BossHpUI.h"
-
 #include "Management.h"
+
+
+//#include "Shadow_Boss.h"    // 병합 후 주석 풀기
 
 
 CVioletDragon::CVioletDragon(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -157,9 +159,6 @@ HRESULT CVioletDragon::Ready_Object()
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
 
-
-	//if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-	//	CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Monster::Create(m_pGraphicDev, this));
 
 
 	m_bSkill = false;
@@ -723,6 +722,15 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		m_pBossHpUI->Set_Active(true);
 		Set_CurHP(m_tStatInfo.fMaxHP);
 		m_bStart = true;
+
+
+		// 병합 후 주석 풀기 
+		//if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		//{
+		//	CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Boss::Create(m_pGraphicDev, this));
+		//}
+
+
 	}
 
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
@@ -793,7 +801,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 3)
 		{
-			CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
+			CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown2.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_Hedgehog_Stemp", CBigCircle_Stemp::Create(m_pGraphicDev, _vec3{ vOwnerPos.x, 0.5f, vOwnerPos.z }));
 			
 

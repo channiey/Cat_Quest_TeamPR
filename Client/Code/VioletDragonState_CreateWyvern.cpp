@@ -169,7 +169,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
  
 
     // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
     {
         pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
     }
@@ -177,7 +177,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     {
         pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
     }
-
+    
 
     // Time 
     m_fAccTime += fTimeDelta;
@@ -404,7 +404,7 @@ STATE_TYPE CVioletDragonState_CreateWyvern::Update_State(const _float& fTimeDelt
     }
 
 
-    if (m_fAccTime >= 2.f )
+    if (m_fAccTime >= 3.f )
     {
         m_fAccTime = 0.f;
         m_bCreateWyvern1 = false;

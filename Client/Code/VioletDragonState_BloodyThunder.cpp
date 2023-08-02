@@ -114,7 +114,7 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
 
 
       // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+    if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
     {
         pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
     }
@@ -128,7 +128,7 @@ STATE_TYPE CVioletDragonState_BloodyThunder::Update_State(const _float& fTimeDel
    
 
     // 현재 상태의 기능
-    if (fPlayerDistance >= 5.f)
+    if (fPlayerDistance >= 7.f)
     {
         dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
         pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);

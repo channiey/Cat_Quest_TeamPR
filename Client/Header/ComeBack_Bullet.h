@@ -44,21 +44,25 @@ private:
 	_bool			m_bStop;
 
 
-	_bool			m_bInit;
-
-	LERP_FLOAT_INFO m_tAlpha;
+	
 
 	_float			m_fChaseTime;
 
 
-
-private:
-	_float					m_fDamage;
+	LERP_VEC3_INFO			m_tPosValue;
 
 
-	LERP_VEC3_INFO          m_vShake;
-	_float				  m_fJumpingSpeed;
-	_float					m_fMaxJumpY;
+
+
+	_float					m_fDamage;  // Projectile Damage
+
+
+
+
+	// Lerp Alpha
+	_bool			m_bInit;
+	LERP_FLOAT_INFO m_tAlpha;
+
 
 
 protected:
