@@ -142,15 +142,15 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
-      // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
+    //  // x 이동 방향에 따라 스케일 전환 
+    //if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
+    //{
+    //    pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //}
+    //else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    //{
+    //    pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //}
 
 
     m_fAccTime += fTimeDelta;
@@ -285,14 +285,16 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
-    if (fPlayerDistance >= 7.f)
+    // 현재 상태의 기능
+    if (fPlayerDistance >= 8.f)
     {
-        // 현재 상태의 기능
         dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed / 0.8f);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
     }
-
-
+    else
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
 
 
 
