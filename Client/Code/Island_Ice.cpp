@@ -137,7 +137,8 @@ void CIsland_Ice::Exit_Player()
 	NULL_CHECK(pPlayer);
 
 	pPlayer->Set_CurGroudType(GROUND_TYPE::NORMAL);
-
+	
+	//pPlayer->Get_RigidBody()->Set_MaxSpeed_By_Df();
 	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
 	NULL_CHECK(pGenerator);
 	pGenerator->Set_Locate(OBJ_ID::TYPEEND);

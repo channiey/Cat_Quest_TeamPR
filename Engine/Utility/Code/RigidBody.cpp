@@ -71,10 +71,10 @@ void CRigidBody::LateUpdate_Component()
 		m_vForce.y = 0;
 	}
 
-	if (D3DXVec3Length(&m_vForce) > 0.f && (!m_bJump && !m_bKnockUp)) // ÀÓ½Ã ¸¶Âû 
+	if (D3DXVec3Length(&m_vForce) > 0.f && (!m_bJump && !m_bKnockUp)) // ÀÓ½Ã ¸¶Âû  // && !m_bKnockUp
 		m_vForce -= m_vForce * m_fFriction;
 
-		m_vAcc = m_vForce / m_fMass;
+	m_vAcc = m_vForce / m_fMass;
 	                 
 	m_vVelocity = m_vAcc * Engine::Get_TimeDelta(L"Timer_FPS65");
 
@@ -88,7 +88,7 @@ void CRigidBody::LateUpdate_Component()
 
 	vPos += m_vVelocity;
 
-	if (m_bJump || m_bKnockUp)
+	if (m_bJump || m_bKnockUp) // m_bKnockUp
 	{
 		if (vPos.y < m_fStartY)
 		{
