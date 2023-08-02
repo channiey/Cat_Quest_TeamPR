@@ -231,7 +231,6 @@ HRESULT CScene_World::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_LHJ(),	E_FAIL);
 
 	if (!CMiniGameMgr_Jump::GetInstance()->Is_Init()) CMiniGameMgr_Jump::GetInstance()->Init(m_pGraphicDev);
-	// if (!CMiniGameMgr_Bingo::GetInstance()->Get_IsInit()) CMiniGameMgr_Bingo::GetInstance()->Init(m_pGraphicDev);
 
 	FAILED_CHECK_RETURN(Ready_Layer_YC(),	E_FAIL); // 아일랜드 생성
 
@@ -318,7 +317,6 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	CQuestMgr::GetInstance()->Update(m_pGraphicDev); // 퀘스트 매니저 업데이트
 
 	CMiniGameMgr_Jump::GetInstance()->Update(fTimeDelta);
-	// CMiniGameMgr_Bingo::GetInstance()->Update(fTimeDelta);
 
 	return 0;
 }

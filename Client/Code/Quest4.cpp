@@ -15,9 +15,6 @@
 #include "Npc_BlackSmith.h"
 #include "Npc_Citizen1.h"
 
-#include "Skill_Player_Beam.h"
-#include "WarriorWeapon.h"
-
 #include "WeaponGetEffect.h"
 
 CQuest4::CQuest4(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
@@ -37,20 +34,7 @@ void CQuest4::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
 	m_pPlayer = _pPlayer;
 
-	// Item Warrior
-	CGameObject* pGameObject = CWarriorWeapon::Create(m_pGraphicDev);
-	CEventMgr::GetInstance()->Add_Obj(L"냥서커의 보물", pGameObject);
-	m_vItemList.push_back(pGameObject);
-	pGameObject->Set_Maintain(true);
-
-	// Beam Skill
-	CSkill* pSkill = CSkill_Player_Beam::Create(m_pGraphicDev, m_pPlayer);
-	CEventMgr::GetInstance()->Add_Obj(L"우주펀치", pSkill);
-	m_vSkillList.push_back(pSkill);
-	pSkill->Set_Maintain(true);
-
 	m_tQuestContent.push_back({ L"1.바다 위 모든 몬스터 소탕", false });
-
 }
 
 _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)
@@ -179,57 +163,17 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 
 						m_tQuestContent[1].m_bClear = true;
 						m_tQuestContent.push_back({ L"3.드래곤 처치", false });
-
-						// 배경 검은색
-						m_pShadeUI = CShadeUI::Create(pGraphicDev);
-						NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
-						CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
-
-						// 무기 획득
-						m_pWeaponGetUI = CWeaponGetEffect::Create(pGraphicDev, m_vItemList[0]);
-						NULL_CHECK_RETURN(m_pWeaponGetUI, E_FAIL);
-						CEventMgr::GetInstance()->Add_Obj(L"pWeaponGetUI", m_pWeaponGetUI);
+					
+						m_iLevel += 1;
+						*_IsAble = false;
+						m_bReadyNext = false;
+						break;
 					}
 				}
-				if (m_bReadyNext)
-				{
-					dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Item(
-						m_vItemList[0]);
-					m_iLevel += 1;
-					*_IsAble = false;
-					m_bStartQuest = true;
-					m_bReadyNext = false;
-				}
-				break;
 			}
 		}
 		break;
-	case 3:
-		if (m_bStartQuest)
-		{
-			// 배경 검은색
-			m_pShadeUI = CShadeUI::Create(pGraphicDev);
-			NULL_CHECK_RETURN(m_pShadeUI, E_FAIL);
-			CEventMgr::GetInstance()->Add_Obj(L"ShadeUI", m_pShadeUI);
-
-			// 스킬 획득
-			m_pSkillGetUI = CSkillGetEffect::Create(pGraphicDev, m_vSkillList[0]);
-			NULL_CHECK_RETURN(m_pSkillGetUI, E_FAIL);
-			CEventMgr::GetInstance()->Add_Obj(L"SkillGetUI", m_pSkillGetUI);
-
-			m_bStartQuest = false;
-		}
-
-		if (m_bReadyNext)
-		{
-			dynamic_cast<CInventory*>(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Inventory())->Add_Skill(
-				m_vSkillList[0]);
-			m_iLevel += 1;
-			m_bStartQuest = true;
-			m_bReadyNext = false;
-		}
-		break;
-	case 4: // 보스전
+	case 3: // 보스전
 		if (!m_bBossIntroScene)
 		{
 			m_bBossIntroScene = true;
@@ -254,7 +198,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 		}
 
 		break;
-	case 5: 
+	case 4: 
 		if (!m_bBossOutScene)
 		{
 			m_bBossOutScene = true;
@@ -297,12 +241,8 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				}
 			}
 		}
-
-		// m_iLevel = 99;
-		// *_IsAble = false;
-		// return true;
 		break;
-	case 6: // 엔딩
+	case 5: // 엔딩
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::WORLD)
 		{
 			// Npc가 존재 한다면

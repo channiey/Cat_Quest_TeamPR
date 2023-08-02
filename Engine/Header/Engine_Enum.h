@@ -305,7 +305,10 @@ namespace Engine
 
 
 	TERRAIN_TEMPLE,
+	// 보스 그림자
 	EFFECT_BOSS_SHADOW,
+	// 템플 비석, 보상 상자 , 비석 먼지
+	NPC_ZEOLITE, ENVIRONMENT_BINGO_CHEST, EFFECT_ZEOLITE_DUST,
 
 	TYPEEND
 };

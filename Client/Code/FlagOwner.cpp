@@ -60,7 +60,9 @@ void CFlagOwner::Check_Player_Collision(const OBJ_ID& _eID)
 	{
 		// 최초 상호작용 시 게임 세팅
 		if (!CMiniGameMgr_Bingo::GetInstance()->Get_Active() &&
-			!CMiniGameMgr_Bingo::GetInstance()->Get_GameOver())
+			!CMiniGameMgr_Bingo::GetInstance()->Get_GameOver() &&
+			CMiniGameMgr_Bingo::GetInstance()->Get_GameReady())
+
 		{
 			// UI 보여주기
 			//CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
@@ -72,7 +74,6 @@ void CFlagOwner::Check_Player_Collision(const OBJ_ID& _eID)
 				//CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
 				//	(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
 				//m_pEnterUI->EnterUI_Off();
-
 				CMiniGameMgr_Bingo::GetInstance()->Set_Active(true);
 			}
 		}

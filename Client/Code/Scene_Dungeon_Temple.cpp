@@ -19,6 +19,10 @@
 #include "QuestMgr.h"
 #include "DungeonTextUI.h"
 #include "EffectGenerator.h"
+
+#include "Zeolite.h"
+#include "BingoChest.h"
+
 CScene_Dungeon_Temple::CScene_Dungeon_Temple(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON_TEMPLE)
 {
@@ -86,12 +90,22 @@ void CScene_Dungeon_Temple::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::PROJECTILE);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PROJECTILE, OBJ_TYPE::PLAYER);
 
+
 	// Rect vs Line
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
 	// Position vs Sphere 
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::FLAG, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::PLAYER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::TRIGGER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
+
+	// Player vs Island
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::ISLAND, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
 
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리
@@ -99,6 +113,7 @@ void CScene_Dungeon_Temple::LateUpdate_Scene()
 
 	// 02. 카메라 포지션 결정
 	CCameraMgr::GetInstance()->Set_ViewSpace();
+
 }
 void CScene_Dungeon_Temple::Render_Scene()
 {
@@ -325,6 +340,16 @@ HRESULT CScene_Dungeon_Temple::Ready_Load()
 
 HRESULT CScene_Dungeon_Temple::Ready_Layer_KSH()
 {
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CZeolite::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
+	pGameObject = CBingoChest::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+	
 	return S_OK;
 }
 
