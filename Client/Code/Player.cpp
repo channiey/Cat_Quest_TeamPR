@@ -30,6 +30,7 @@
 #include "FieldSkillUI.h"
 
 #include "Monster.h"
+#include "Projectile.h"
 
 #include "SphereCollider.h"
 
@@ -102,6 +103,7 @@ HRESULT CPlayer::Ready_Object()
 
 	m_tMoveInfo.fMoveSpeed = 20.f;
 	Set_AD(5);
+	m_bIsBoss = false;
 
 	m_fBallTargetLenght = 18.f;
 	m_pBallTarget = nullptr;
@@ -649,12 +651,20 @@ void CPlayer::OnCollision_Enter(CGameObject* _pColObj)
 	break;
 	case Engine::OBJ_TYPE::RANGE_OBJ:
 	{
-	
 		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::SKILL_BOSS_FULLDOWN)
 		{
-			m_pRigidBodyCom->Knock_Up(); // 매개변수 넣을 시 팀장 보고해주세요
+			m_pRigidBodyCom->Knock_Up(500);
 		}
+		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_Type() == OBJ_TYPE::MONSTER)
+		{
+			CloseTarget_Dis(dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj());
 
+			if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
+				m_bIsBoss = true;
+			else
+				m_bIsBoss = false;
+		}
+	
 
 	}
 	break;
@@ -849,6 +859,26 @@ void CPlayer::OnCollision_Stay(CGameObject* _pColObj)
 		}*/
 	}
 	break;
+	case Engine::OBJ_TYPE::RANGE_OBJ:
+	{
+		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::SKILL_BOSS_FULLDOWN)
+		{
+			m_pRigidBodyCom->Knock_Up(500);
+		}
+		if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_Type() == OBJ_TYPE::MONSTER)
+		{
+			CloseTarget_Dis(dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj());
+
+			if (dynamic_cast<CRangeObj*>(_pColObj)->Get_OwnerObj()->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
+				m_bIsBoss = true;
+			else
+				m_bIsBoss = false;
+		}
+		
+
+
+	}
+	break;
 	case Engine::OBJ_TYPE::LINE:
 	{
 		_vec3 vNewPos = static_cast<CLineCollider*>(_pColObj->Get_Collider())->Get_Overlap_Line();
@@ -983,7 +1013,7 @@ void CPlayer::OnCollision_Exit(CGameObject* _pColObj)
 
 	switch (_pColObj->Get_Type())
 	{
-	case Engine::OBJ_TYPE::MONSTER:
+	case Engine::OBJ_TYPE::RANGE_OBJ:
 		m_bIsMonster = false;
 		m_fMonTargetLength = 99.f;
 		m_pMonTarget = nullptr;
@@ -1339,10 +1369,10 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	//if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	//{
-	//	CBossSceneMgr::GetInstance()->Start_BossScene();
-	//}
+	if (CInputDev::GetInstance()->Key_Down(VK_F9))
+	{
+		CBossSceneMgr::GetInstance()->Start_BossScene();
+	}
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
@@ -1357,6 +1387,23 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (CInputDev::GetInstance()->Key_Down('R'))
 	{
 		m_pSkillHeal->Play();
+	}
+
+	if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	{
+		Class_Change(CLASS_TYPE::NINJA);
+	}
+	else if (CInputDev::GetInstance()->Key_Down(VK_F2))
+	{
+		Class_Change(CLASS_TYPE::MAGE);
+	}
+	else if (CInputDev::GetInstance()->Key_Down(VK_F3))
+	{
+		Class_Change(CLASS_TYPE::THORN);
+	}
+	else if (CInputDev::GetInstance()->Key_Down(VK_F4))
+	{
+		Class_Change(CLASS_TYPE::NORMAL);
 	}
 
 
@@ -1392,6 +1439,8 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Using_Mana(m_arrSkillSlot[3]->Get_SkillUsage());
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_ATK);
 	}
+
+
 
 	if (m_eClass == CLASS_TYPE::MAGE && m_bFly)
 	{
@@ -1525,7 +1574,6 @@ void CPlayer::CloseTarget_Dis(CGameObject* pTarget)
 		m_pMonTarget = pTarget;
 		m_bIsMonster = true;
 	}
-	
 }
 
 CGameObject* CPlayer::MageBall_Target()
@@ -1552,12 +1600,12 @@ CGameObject* CPlayer::MageBall_Target()
 
 	if (m_pBallTarget != nullptr)
 	{
-		m_fBallTargetLenght = 18.f;
+		m_fBallTargetLenght = 22.f;
 		return m_pBallTarget;
 	}
 	else
 	{
-		m_fBallTargetLenght = 18.f;
+		m_fBallTargetLenght = 22.f;
 		return nullptr;
 	}
 }
@@ -1731,8 +1779,8 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 	NULL_CHECK(pObj);
 
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_DIE ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WAKE || 
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL || 
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WAKE ||
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
 		return;
@@ -1746,7 +1794,7 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK2 ||
 			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK3)
 		{
-			if (!m_pRigidBodyCom->Is_Vel_Zero())
+			if (!m_pRigidBodyCom->Is_Vel_Zero() || m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
 			{
 				m_pRigidBodyCom->Zero_KnockBack();
 			}
@@ -1760,7 +1808,11 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 			}
 
 		}
-		else
+	}
+
+	if (pObj->Get_Type() == OBJ_TYPE::PROJECTILE)
+	{
+		if (static_cast<CProjectile*>(pObj)->Get_Owner()->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
 		{
 			if (!m_pRigidBodyCom->Is_Vel_Zero())
 			{
@@ -1773,7 +1825,7 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 			}
 		}
 	}
-		
+
 
 
 	CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, fDamage, FONT_TYPE::HIT);

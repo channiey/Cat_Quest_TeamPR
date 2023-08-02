@@ -33,18 +33,18 @@ private:
 	_float					m_fHpRatio;
 	_float					m_fCurRatio;
 
-	//_float					m_fCapSizeX;
-	//_float					m_fCapSizeY;
+	_float					m_fCapSizeX;
+	_float					m_fCapSizeY;
 
 	_float					m_fBarMultiX;
 	_float					m_fBarMultiY;
-	//_float					m_fCapMultiX;
-	//_float					m_fCapMultiY;
+	_float					m_fCapMultiX;
+	_float					m_fCapMultiY;
 
 	_float					m_fBarRealX;
 	_float					m_fBarRealY;
-	//_float					m_fCapRealX;
-	//_float					m_fCapRealY;
+	_float					m_fCapRealX;
+	_float					m_fCapRealY;
 
 
 	_matrix					m_matUI[5];
@@ -52,6 +52,15 @@ private:
 
 	_bool					m_bPurpleEnd;
 	_bool					m_bRedEnd;
+
+	LERP_FLOAT_INFO			m_tAlphaBlack;
+	_uint					m_fAlphaBlack;
+	_bool					m_bStart;
+	_bool					m_bWork;
+	_bool					m_bCheck;
+
+	_bool					m_bDead;
+
 
 public:
 	static CBossHpUI* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pMonster);

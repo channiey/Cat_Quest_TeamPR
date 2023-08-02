@@ -66,7 +66,6 @@ _int CDefUI::Update_Object(const _float& fTimeDelta)
 		}
 	}
 		
-
 	if (1.f < m_fDefRatio)
 		m_fDefRatio = 1.f;
 

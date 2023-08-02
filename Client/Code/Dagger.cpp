@@ -137,7 +137,7 @@ void CDagger::OnCollision_Enter(CGameObject* _pColObj)
     {
     case OBJ_TYPE::PLAYER:
 
-        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, m_pOwner);
+        dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

@@ -29,7 +29,7 @@ HRESULT CBossHpUI::Ready_Object()
 	for (_uint i = 0; i < 5; ++i)
 		D3DXMatrixIdentity(&m_matUI[i]);
 
-	m_fPosX = WINCX >> 1;
+	m_fPosX = (WINCX >> 1) + 30;
 	m_fPosY = 100;
 
 	m_fSizeX = 15.f;
@@ -37,15 +37,15 @@ HRESULT CBossHpUI::Ready_Object()
 	m_fBarMultiX = 20.f;
 	m_fBarMultiY = 1.2f;
 
-	//m_fCapSizeX = 24.f;
-	//m_fCapSizeY = 23.5f;
-	//m_fCapMultiX = 0.5f;
-	//m_fCapMultiY = 0.5f;
+	m_fCapSizeX = 33.f;
+	m_fCapSizeY = 32.f;
+	m_fCapMultiX = 1.f;
+	m_fCapMultiY = 1.f;
 
 	m_fBarRealX = m_fSizeX * m_fBarMultiX;
 	m_fBarRealY = m_fSizeY * m_fBarMultiY;
-	//m_fCapRealX = m_fCapSizeX * m_fCapMultiX;
-	//m_fCapRealY = m_fCapSizeY * m_fCapMultiY;
+	m_fCapRealX = m_fCapSizeX * m_fCapMultiX;
+	m_fCapRealY = m_fCapSizeY * m_fCapMultiY;
 
 
 	m_matUI[0]._11 = m_fBarRealX;
@@ -58,17 +58,31 @@ HRESULT CBossHpUI::Ready_Object()
 	m_matUI[1]._41 = m_fPosX;
 	m_matUI[1]._42 = m_fPosY;
 
-	//m_matUI[2]._11 = m_fBarRealX;
-	//m_matUI[2]._22 = m_fBarRealY;
+	m_matUI[2]._11 = m_fBarRealX;
+	m_matUI[2]._22 = m_fBarRealY;
+	m_matUI[2]._41 = m_fPosX;
+	m_matUI[2]._42 = m_fPosY;
 
-	/*m_matUI[3]._11 = m_fCapRealX;
+	m_matUI[3]._11 = m_fCapRealX;
 	m_matUI[3]._22 = m_fCapRealY;
+	m_matUI[3]._41 = m_fPosX + 321;
+	m_matUI[3]._42 = m_fPosY;
 
-	m_matUI[4]._11 = m_fCapRealX;
-	m_matUI[4]._22 = m_fCapRealY;*/
+	m_matUI[4]._11 = 87.5 * 0.5;
+	m_matUI[4]._22 = 87.5 * 0.5;
+	m_matUI[4]._41 = m_fPosX - 344;
+	m_matUI[4]._42 = m_fPosY;
 
 	m_bPurpleEnd = false;
 	m_bRedEnd = false;
+
+	m_bActive = false;
+
+	m_bStart = false;
+	m_bWork = false;
+	m_bCheck = false;
+
+	m_bDead = false;
 
 	return S_OK;
 }
@@ -79,50 +93,128 @@ _int CBossHpUI::Update_Object(const _float& fTimeDelta)
 
 	NULL_CHECK_RETURN(m_pMonster, E_FAIL);
 
-	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().bDead)
+	if (m_bDead && !m_tAlphaBlack.bActive)
 	{
-		CEventMgr::GetInstance()->Delete_Obj(this);  // »èÁ¦
-		return iExit;
+		CEventMgr::GetInstance()->Delete_Obj(this);
 	}
 
-	_float fHpRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
-
-	if (1.f <= fHpRatio)
+	if (!m_bDead)
 	{
-		m_fCurRatio = 1.f;
-		fHpRatio = 1.f;
-	}
-		
+		if (!m_bCheck)
+		{
+			m_tAlphaBlack.Init_Lerp(LERP_MODE::SMOOTHSTEP);
+			m_tAlphaBlack.Set_Lerp(2.f, 0.f, 255.f);
 
-	if (m_fCurRatio != fHpRatio)
+			m_matUI[1]._11 = 0;
+			m_matUI[2]._11 = 0;
+
+			m_fCurRatio = 0.f;
+
+			m_bStart = true;
+			m_bCheck = true;
+		}
+		if (m_tAlphaBlack.bActive)
+		{
+			m_tAlphaBlack.Update_Lerp(fTimeDelta);
+			m_fAlphaBlack = m_tAlphaBlack.fCurValue;
+		}
+		if (m_bStart && !m_tAlphaBlack.bActive)
+		{
+			m_bWork = true;
+		}
+
+
+		if (m_bWork)
+		{
+			_float fHpRatio = dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fCurHP / dynamic_cast<CMonster*>(m_pMonster)->Get_StatInfo().fMaxHP;
+
+			if (m_fCurRatio != fHpRatio)
+			{
+				if (m_bStart)
+				{
+					m_tSize.Init_Lerp(LERP_MODE::EASE_IN);
+					m_tSize.Set_Lerp(2.5f, m_fCurRatio, fHpRatio);
+				}
+				else
+				{
+					m_tSize.Init_Lerp(LERP_MODE::EASE_IN);
+					m_tSize.Set_Lerp(0.5f, m_fCurRatio, fHpRatio);
+				}
+
+				m_fCurRatio = fHpRatio;
+			}
+		}
+
+
+		m_tSize.Update_Lerp(fTimeDelta);
+	}
+	else
 	{
-		m_tSize.Init_Lerp();
-		m_tSize.Set_Lerp(0.5f, m_fCurRatio, fHpRatio);
-
-		m_fCurRatio = fHpRatio;
+		m_tAlphaBlack.Update_Lerp(fTimeDelta);
+		m_fAlphaBlack = m_tAlphaBlack.fCurValue;
 	}
 
-	m_tSize.Update_Lerp(fTimeDelta);
+	
 
 	return iExit;
 }
 
 void CBossHpUI::LateUpdate_Object()
 {
-	if (m_tSize.bActive)
+	if (!m_bDead)
 	{
-		float fMoveX = (1.f - m_tSize.fCurValue) * m_fBarRealX;
+		if (m_tSize.fCurValue < 0.5)
+		{
+			float fNewSize = (m_tSize.fCurValue * 2) * m_fBarRealX;
+			float fMoveX = (1.f - (m_tSize.fCurValue * 2)) * m_fBarRealX;
 
-		m_matUI[1]._11 = m_tSize.fCurValue * m_fBarRealX;
-		m_matUI[1]._41 = m_fPosX - fMoveX;
+			m_matUI[1]._11 = fNewSize;
+			m_matUI[1]._41 = m_fPosX - fMoveX; 
+
+			m_matUI[2]._11 = 0;
+			m_matUI[2]._41 = m_fPosX;
+		}
+		else
+		{
+			_float fPurpleValue = m_tSize.fCurValue - 0.5;
+			float fNewSize = (fPurpleValue * 2) * m_fBarRealX;
+			float fMoveX = (1.f - (fPurpleValue * 2)) * m_fBarRealX;
+
+			m_matUI[1]._11 = m_fBarRealX;
+			m_matUI[1]._41 = m_fPosX;
+
+			m_matUI[2]._11 = fNewSize;
+			m_matUI[2]._41 = m_fPosX - fMoveX; 
+		}
+
+		if (m_fCurRatio <= 0 && !m_tSize.bActive)
+		{
+			m_matUI[1]._11 = 0;
+			m_matUI[1]._41 = m_fPosX;
+
+			m_matUI[2]._11 = 0;
+			m_matUI[2]._41 = m_fPosX;
+		}
+		if (m_fCurRatio >= 1 && !m_tSize.bActive && m_bStart)
+		{
+			m_matUI[1]._11 = m_fBarRealX;
+			m_matUI[1]._41 = m_fPosX;
+
+			m_matUI[2]._11 = m_fBarRealX;
+			m_matUI[2]._41 = m_fPosX;
+
+			m_bStart = false;
+		}
 	}
-	if (m_fCurRatio <= 0 && !m_tSize.bActive)
+	
+	if (true == static_cast<CMonster*>(m_pMonster)->Get_StatInfo().bDead && !m_bDead)
 	{
-		float fMoveX = (1.f - m_fCurRatio) * m_fBarRealX;
+		m_bDead = true;
 
-		m_matUI[1]._11 = m_fCurRatio * m_fBarRealX;
-		m_matUI[1]._41 = m_fPosX - fMoveX;
+		m_tAlphaBlack.Init_Lerp(LERP_MODE::EASE_OUT);
+		m_tAlphaBlack.Set_Lerp(2.f, 225.f, 0.f);
 	}
+	
 
 	__super::LateUpdate_Object();
 
@@ -130,38 +222,78 @@ void CBossHpUI::LateUpdate_Object()
 
 void CBossHpUI::Render_Object()
 {
-	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::PATROL			&&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BACK_PATROL		&&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::COMEBACK			&&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BACK_COMEBACK	&&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSS_INTRO_DOWN	&&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSS_INTRO_SWORD &&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSS_INTRO_WING	&&
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() != STATE_TYPE::BOSSDEAD)
+	if (!m_bDead)
 	{
+		if (m_bWork)
+		{
+			m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
+			m_pTextureCom->Render_Texture(7);
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
+			m_pTextureCom->Render_Texture(1);
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[2]);
+			m_pTextureCom->Render_Texture(3);
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[3]);
+			m_pTextureCom->Render_Texture(14);
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[4]);
+			m_pTextureCom->Render_Texture(15);
+			m_pBufferCom->Render_Buffer();
+
+		}
+		else
+		{
+			if (m_bStart)
+			{
+				m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_fAlphaBlack, 255, 255, 255));
+
+				m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
+				m_pTextureCom->Render_Texture(7);
+				m_pBufferCom->Render_Buffer();
+
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[3]);
+				m_pTextureCom->Render_Texture(14);
+				m_pBufferCom->Render_Buffer();
+
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[4]);
+				m_pTextureCom->Render_Texture(15);
+				m_pBufferCom->Render_Buffer();
+
+				m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+			}
+		}
+	}
+	else
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_fAlphaBlack, 255, 255, 255));
+
 		m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[0]);
 		m_pTextureCom->Render_Texture(7);
 		m_pBufferCom->Render_Buffer();
 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[1]);
-		m_pTextureCom->Render_Texture(1);
-		m_pBufferCom->Render_Buffer();
-
-		/*m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[2]);
-		m_pTextureCom->Render_Texture(9);
-		m_pBufferCom->Render_Buffer();
-
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[3]);
-		m_pTextureCom->Render_Texture(6);
-		m_pBufferCom->Render_Buffer();*/
+		m_pTextureCom->Render_Texture(14);
+		m_pBufferCom->Render_Buffer();
 
-		/*m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[4]);
-		m_pTextureCom->Render_Texture(10);
-		m_pBufferCom->Render_Buffer();*/
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matUI[4]);
+		m_pTextureCom->Render_Texture(15);
+		m_pBufferCom->Render_Buffer();
 
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
+	
 		
 }
 
