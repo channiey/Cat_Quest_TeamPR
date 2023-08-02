@@ -126,13 +126,13 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
     // PATROL 우선순위
     // Back Patrol - Chase - Comeback - Attack
 
-
-   // BACK Patrol 전이 조건
+     // BACK Patrol 전이 조건
     if (vOwnerDir.z > 0)
     {
         //cout << "Back patrol 전이" << endl;
         return STATE_TYPE::BACK_PATROL;
     }
+ 
 
     if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
     {
@@ -188,6 +188,9 @@ STATE_TYPE CFoxState_Patrol::Update_State(const _float& fTimeDelta)
             return STATE_TYPE::BACK_COMEBACK;
         }
     }
+
+
+
 
     // Default
     return STATE_TYPE::PATROL;

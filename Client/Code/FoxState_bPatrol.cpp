@@ -125,12 +125,7 @@ STATE_TYPE CFoxState_bPatrol::Update_State(const _float& fTimeDelta)
     // Patrol - Chase - Comeback - Attack
 
 
-   // Patrol 전이 조건
-    if (vOwnerDir.z < 0)
-    {
-       // cout << "patrol 전이" << endl;
-        return STATE_TYPE::PATROL;
-    }
+ 
 
     if (dynamic_cast<CPlayer*>(pPlayer)->Get_Clocking() != true)
     {
@@ -188,7 +183,12 @@ STATE_TYPE CFoxState_bPatrol::Update_State(const _float& fTimeDelta)
         }
     }
 
-   
+    //// Patrol 전이 조건
+    //if (vOwnerDir.z < 0)
+    //{
+    //    // cout << "patrol 전이" << endl;
+    //    return STATE_TYPE::PATROL;
+    //}
 
     // Default
     return STATE_TYPE::BACK_PATROL;

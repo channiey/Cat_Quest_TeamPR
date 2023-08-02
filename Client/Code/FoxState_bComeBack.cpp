@@ -109,6 +109,8 @@ STATE_TYPE CFoxState_bComeBack::Update_State(const _float& fTimeDelta)
 
 
 
+
+
     // 현재 상태의 기능
     dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vOwnerOriginPos, fTimeDelta, vOwnerSpeed);
     NULL_CHECK_RETURN(pOwnerAI, eState);
@@ -177,12 +179,12 @@ STATE_TYPE CFoxState_bComeBack::Update_State(const _float& fTimeDelta)
             }
         }
     }
-    // COMEBACK 전이 조건
-    if (vOwnerDir.z < 0)
-    {
-        //cout << "comeback 전이" << endl;
-        return STATE_TYPE::COMEBACK;
-    }
+    //// COMEBACK 전이 조건
+    //if (vOwnerDir.z < 0)
+    //{
+    //    //cout << "comeback 전이" << endl;
+    //    return STATE_TYPE::COMEBACK;
+    //}
 
     // Default
     return STATE_TYPE::BACK_COMEBACK;
