@@ -20,7 +20,7 @@ CMiniGameMgr_Bingo::CMiniGameMgr_Bingo()
 	: m_bActive(false), m_bInit(false), m_bStart(false), m_bShuffle(false)
 	, m_bShowFlag(false), m_bShowAgain(false), m_bFirstSound(false)
 	, m_bPushVec(false), m_bGameClear(false), m_bGameOver(false)
-	, m_iIndex(0), m_iLevel(1), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(0)
+	, m_iIndex(0), m_iLevel(5), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(0)
 {
 }
 
@@ -149,7 +149,7 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 				m_iBingoCount = 5;
 				break;
 			case 5:
-				m_iBingoCount = 7;
+				m_iBingoCount = 1;
 				break;
 			case 6:
 				break;

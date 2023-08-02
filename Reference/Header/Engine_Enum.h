@@ -305,6 +305,7 @@ namespace Engine
 
 
 	TERRAIN_TEMPLE,
+	EFFECT_BOSS_SHADOW,
 
 	TYPEEND
 };
