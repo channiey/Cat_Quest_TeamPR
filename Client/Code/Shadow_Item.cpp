@@ -45,23 +45,15 @@ _int CShadow_Item::Update_Object(const _float& fTimeDelta)
 		return iExit;
 	}
 
-	if (m_pOwnerobject->Is_Active())
-	{
+	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
-		Engine::Add_RenderGroup(RENDER_ALPHA, this);
-
-		m_fSize = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
-	}
+	m_fSize = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
 
 	return iExit;
 }
 
 void CShadow_Item::LateUpdate_Object()
 {
-	if (!m_pOwnerobject->Is_Active())
-	{
-		CEventMgr::GetInstance()->Delete_Obj(this);
-	}
 	__super::LateUpdate_Object();
 }
 

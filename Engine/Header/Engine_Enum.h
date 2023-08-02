@@ -302,6 +302,8 @@ namespace Engine
 	// Boss Scene Trigger
 	BOSS_SCENE_TRIGGER,
 
+	EFFECT_BOSS_SHADOW,
+
 	TYPEEND
 };
 

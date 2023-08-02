@@ -29,6 +29,10 @@ private:
 	LERP_FLOAT_INFO			m_tDelSizeUpLerp;
 	LERP_FLOAT_INFO			m_tDelSizeDownLerp;
 
+	// 부유 러프
+	LERP_FLOAT_INFO			m_tPosUpLerp;
+	LERP_FLOAT_INFO			m_tPosDownLerp;
+
 	// 삭제 러프
 	LERP_FLOAT_INFO			m_tDeleteLerp;
 
@@ -37,6 +41,8 @@ private:
 
 	// 러프 레벨
 	_int					m_iLerpLevel;
+
+	_bool					m_bUp;
 public:
 
 	static CBingo_ClearUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);

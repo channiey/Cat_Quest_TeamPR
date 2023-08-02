@@ -4,7 +4,7 @@
 
 CBingo_ClearUI::CBingo_ClearUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CUI(pGraphicDev, OBJ_ID::UI_BINGO_CLEAR)
-	, m_iLerpLevel(0), m_fCurSize(0.f)
+	, m_iLerpLevel(0), m_fCurSize(0.f) , m_bUp(false)
 {
 }
 
@@ -57,6 +57,12 @@ void CBingo_ClearUI::Ready_Lerp()
 	m_tDeleteLerp.Init_Lerp(LERP_MODE::EASE_IN);
 	m_tDeleteLerp.Set_Lerp(6.f, 1.f, 0.f);
 
+	// 부유 러프
+	m_tPosUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tPosUpLerp.Set_Lerp(0.5f, m_fPosY - 10.f, m_fPosY + 10.f);
+	m_tPosDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tPosDownLerp.Set_Lerp(0.5f, m_fPosY + 10.f, m_fPosY - 10.f);
+
 	// 소멸 러프 세팅
 	m_tDelSizeUpLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 	m_tDelSizeUpLerp.Set_Lerp(0.25f, m_fSizeX, m_fSizeX * 1.5f);
@@ -108,6 +114,29 @@ _int CBingo_ClearUI::Update_Object(const _float& fTimeDelta)
 	case 5:
 		CEventMgr::GetInstance()->Delete_Obj(this);
 		break;
+	}
+
+	if (!m_bUp)
+	{
+		m_tPosDownLerp.Update_Lerp(fTimeDelta);
+		m_UImatWorld._42 = m_tPosDownLerp.fCurValue;
+		if (!m_tPosDownLerp.bActive)
+		{
+			m_tPosUpLerp.Init_Lerp(LERP_MODE::EXPONENTIAL);
+			m_tPosUpLerp.Set_Lerp(0.75f, m_fPosY - 10.f, m_fPosY + 10.f);
+			m_bUp = true;
+		}
+	}
+	if (m_bUp)
+	{
+		m_tPosUpLerp.Update_Lerp(fTimeDelta);
+		m_UImatWorld._42 = m_tPosUpLerp.fCurValue;
+		if (!m_tPosUpLerp.bActive)
+		{
+			m_tPosDownLerp.Init_Lerp(LERP_MODE::EXPONENTIAL);
+			m_tPosDownLerp.Set_Lerp(0.75f, m_fPosY + 10.f, m_fPosY - 10.f);
+			m_bUp = false;
+		}
 	}
 
 	m_UImatWorld._11 = m_fCurSize;
