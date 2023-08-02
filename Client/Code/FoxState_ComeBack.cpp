@@ -176,12 +176,12 @@ STATE_TYPE CFoxState_ComeBack::Update_State(const _float& fTimeDelta)
             }
         }
     }
-    // BACK_COMEBACK 전이 조건
-    if (vOwnerDir.z > 0)
-    {
-        //cout << "Back comeback 전이" << endl;
-        return STATE_TYPE::BACK_COMEBACK;
-    }
+    //// BACK_COMEBACK 전이 조건
+    //if (vOwnerDir.z > 0)
+    //{
+    //    //cout << "Back comeback 전이" << endl;
+    //    return STATE_TYPE::BACK_COMEBACK;
+    //}
 
 
     // Default

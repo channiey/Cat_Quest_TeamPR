@@ -23,6 +23,7 @@ HRESULT CVioletDragonState_Intro_Down::Ready_State(CStateMachine* pOwner)
     m_eState = STATE_TYPE::BOSS_INTRO_DOWN;
 
     m_fAccTime = 0.f;
+    m_bSound = false;
 
     return S_OK;
 }
@@ -52,7 +53,6 @@ STATE_TYPE CVioletDragonState_Intro_Down::Update_State(const _float& fTimeDelta)
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
-
 
 
     // Player Component ==============================
@@ -111,19 +111,21 @@ STATE_TYPE CVioletDragonState_Intro_Down::Update_State(const _float& fTimeDelta)
     m_fAccTime += fTimeDelta;
 
 
-
     if (pOwenrCurAnimation->Is_End())
     {
-    
-         CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);  // fulldown Sound
+        if (m_bSound == false)
+        {
+            CSoundMgr::GetInstance()->PlaySound(L"DragonFullDown2.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f); 
+            m_bSound = true;
+        }
         CCameraMgr::GetInstance()->Shake_Camera(0.15, 70);
 
-     
     }
 
     if ( m_fAccTime >= 1.2f)
     {
         m_fAccTime = 0.f;
+        m_bSound = false;
         return STATE_TYPE::BOSS_INTRO_WING;
     }
 

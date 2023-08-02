@@ -142,15 +142,15 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
-      // x 이동 방향에 따라 스케일 전환 
-    if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
-    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-    {
-        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-    }
+    //  // x 이동 방향에 따라 스케일 전환 
+    //if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
+    //{
+    //    pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //}
+    //else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    //{
+    //    pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //}
 
 
     m_fAccTime += fTimeDelta;
@@ -158,7 +158,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
      // First Group
     if (m_bBullet1 == false && m_fAccTime >= 0.1f) //1 
     {
-        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging1",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
        
@@ -190,7 +190,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     // Second Group
     if (m_bBullet5 == false && m_fAccTime >= 1.f) //5
     {
-        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
 
@@ -223,7 +223,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     // Third Group
     if (m_bBullet9 == false && m_fAccTime >= 2.f) //9
     {
-        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging9",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
 
@@ -255,7 +255,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
     // Fourth Group
     if (m_bBullet13 == false && m_fAccTime >= 3.f) //13
     {
-        CSoundMgr::GetInstance()->PlaySound(L"BulletSound1.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging13",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
 
@@ -285,14 +285,16 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
 
-    if (fPlayerDistance >= 7.f)
+    // 현재 상태의 기능
+    if (fPlayerDistance >= 8.f)
     {
-        // 현재 상태의 기능
         dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed / 0.8f);
+        pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
     }
-
-
+    else
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
 
 
 

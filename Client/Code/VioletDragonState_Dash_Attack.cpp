@@ -115,8 +115,9 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
 
     if (m_bDirSelect == false)
     {
+        m_bDirSelect == true;
         // x 이동 방향에 따라 스케일 전환 
-        if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+        if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
         {
             pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
         }
@@ -124,7 +125,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
         {
             pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
         }
-        m_bDirSelect == true;
+     
     }
   
 
@@ -136,12 +137,18 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
             dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
             pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
             CSoundMgr::GetInstance()->PlaySound(L"DragonDash.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);
+           
             m_bAssault = true;
         }
     }
+  
+    if (fOriginDistance >= 40.f)
+    {
+        pOwnerTransform->Set_Dir(vec3.zero);
+    }
+
 
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-
 
 
 
@@ -160,7 +167,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
 #pragma region State Change
 
 
-    if ( m_fAccTime >=1.f)
+    if ( m_fAccTime >=1.5f)
     {
         m_fAccTime = 0.f;
         m_bAssault =false;

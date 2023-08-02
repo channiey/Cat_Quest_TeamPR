@@ -39,7 +39,7 @@ HRESULT CFoxFire::Ready_Object()
 
     m_Check = false;
 
-    m_fDamage = 5.f;
+    m_fDamage = 6.f;
 
     m_fSpeed = 20.f;
 

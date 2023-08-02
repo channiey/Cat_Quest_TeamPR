@@ -114,7 +114,7 @@ STATE_TYPE CVioletDragonState_Intro_Sword::Update_State(const _float& fTimeDelta
     if (pOwenrCurAnimation->Is_End() && m_fAccTime >= 1.f)
     {
         m_fAccTime = 0.f;
-
+        CSoundMgr::GetInstance()->PlaySound(L"dragon_roar.wav", CHANNEL_ID::MONSTER_BOSS_2, 0.5f);
         // 카메라 액션 추가
        /* CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
         CGameObject* pBoss = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::MONSTER, L"Monster_VioletDragon");
@@ -125,8 +125,8 @@ STATE_TYPE CVioletDragonState_Intro_Sword::Update_State(const _float& fTimeDelta
             CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vBossPos, pPlayer->Get_Transform()->Get_Info(INFO_POS));
         }*/
 
-        CBossSceneMgr::GetInstance()->Set_BossIntroAnimation_End();
-        return STATE_TYPE::PATROL;
+        CBossSceneMgr::GetInstance()->Set_BossIntroAnimation_End(); // 수정시 보고
+        return STATE_TYPE::CHASE;
     }
 
 

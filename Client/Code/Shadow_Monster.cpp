@@ -52,6 +52,9 @@ _int CShadow_Monster::Update_Object(const _float& fTimeDelta)
 
 	m_fMonsterCurY = fabs(m_InitY - m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y);
 
+
+	
+
 	return iExit;
 }
 

@@ -51,6 +51,9 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
 
+
+
+
     //Monster - Cur HP Condition
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
@@ -117,8 +120,9 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
 
     if (m_bDirSelect == false)
     {
+        m_bDirSelect == true;
         // x 이동 방향에 따라 스케일 전환 
-        if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
+        if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
         {
             pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
         }
@@ -126,7 +130,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
         {
             pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
         }
-        m_bDirSelect == true;
+  
     }
 
 
@@ -162,7 +166,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack_Back::Update_State(const _float& fTime
 
 #pragma region State Change
 
-    if (m_fAccTime >= 1.2f)
+    if (m_fAccTime >= 1.5f)
     {
         m_fAccTime = 0.f;
         m_bAssault =false;

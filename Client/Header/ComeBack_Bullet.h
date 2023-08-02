@@ -39,26 +39,29 @@ public:
 
 
 private:
+	_float			m_fDamage;  // Projectile Damage
 	_vec3			m_vOriginPos;
 	_bool			m_bComeBack;
 	_bool			m_bStop;
 
-
-	_bool			m_bInit;
-
-	LERP_FLOAT_INFO m_tAlpha;
-
 	_float			m_fChaseTime;
 
 
+	// Lerp Alpha
+	_bool			m_bInit;
+	LERP_FLOAT_INFO m_tAlpha;
 
-private:
-	_float					m_fDamage;
+	// Lerp Pos
+	LERP_VEC3_INFO  m_tPos;
+	_bool			m_check1;
+	_bool			m_check2;
+	_bool			m_check3;
+	_bool			m_check4;
 
-
-	LERP_VEC3_INFO          m_vShake;
-	_float				  m_fJumpingSpeed;
-	_float					m_fMaxJumpY;
+	_bool			m_bFirstStop;
+	_bool			m_bSecondStop;
+	_bool			m_bSpread;
+	_bool			m_bCollect;
 
 
 protected:

@@ -159,12 +159,12 @@ STATE_TYPE CFoxState_bRest::Update_State(const _float& fTimeDelta)
 
   
    
-    //// BACK_ MONREST 전이
-    //if (vOwnerDir.z < vPlayerPos.z)
-    //{
-    //    // cout <<  "back monattack 전이" << endl;
-    //    return STATE_TYPE::MONREST;
-    //}
+    // BACK_ MONREST 전이
+    if (vOwnerDir.z < vPlayerPos.z)
+    {
+        // cout <<  "back monattack 전이" << endl;
+        return STATE_TYPE::MONREST;
+    }
      
      
 
