@@ -1526,11 +1526,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		}
 	}
 
-	if (CInputDev::GetInstance()->Key_Down('T'))
+	/*if (CInputDev::GetInstance()->Key_Down('T'))
 	{
 		CGameObject* pGameObject = CQuest_DialogUI::Create(m_pGraphicDev, L"다메 다메 다메요 다메 다메요.\n아나따와 스끼데 스끼 스끼데.");
 		CEventMgr::GetInstance()->Add_Obj(L"UI_QuestDialog", pGameObject);
-	}
+	}*/
 
 	if (CInputDev::GetInstance()->Key_Down('L'))
 		Set_CurHP(m_tStatInfo.fMaxHP);
