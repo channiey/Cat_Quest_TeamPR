@@ -27,7 +27,7 @@ namespace Engine
 #define	DF_CAMERA_SHAKE_TIME		0.13f
 
 #define	DF_RB_KNOCKBACK				10000.f
-#define DF_RB_KNOCKUP				700.f
+#define DF_RB_KNOCKUP				800.f
 
 #define	WINCX						1280
 #define	WINCY						720
@@ -75,7 +75,7 @@ namespace Engine
 
 #define	JUMP_POWER						600.f // 600
 #define	SLIP_SPEED						25.f // 25.f
-#define FLIGHT_SPEED					17.f
+#define FLIGHT_SPEED					15.f
 	
 #define	DF_RB_MAXSPEED					40.f
 #define DF_SLEEP_MAXDPEED				0.3f
