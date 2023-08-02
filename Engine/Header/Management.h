@@ -40,6 +40,7 @@ public:
 
 	const PLAY_MODE&	Get_PlayMode	() const { return m_ePlayMode; }
 	const GAME_STATUS&	Get_GameStatus	() const { return m_eGameStatus; }
+	const SCENE_TYPE& Get_PrevSceneType() const { return m_ePrevSceneType; }
 
 
 
@@ -64,6 +65,7 @@ public:
 
 private:
 	CScene*				m_pCurScene;
+	SCENE_TYPE			m_ePrevSceneType;
 	PLAY_MODE			m_ePlayMode;
 	GAME_STATUS			m_eGameStatus;
 	_bool				m_bDebug;

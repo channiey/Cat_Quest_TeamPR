@@ -302,6 +302,10 @@ namespace Engine
 	// Boss Scene Trigger
 	BOSS_SCENE_TRIGGER,
 
+
+
+	TERRAIN_TEMPLE,
+
 	TYPEEND
 };
 

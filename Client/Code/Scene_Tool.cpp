@@ -7,6 +7,7 @@
 #include "TerrainWorld.h"
 #include "TerrainTool.h"
 #include "Terrain_Dungeon.h"
+#include "Terrain_Temple.h"
 
 // ºôµù(Áý)
 #include "House1.h"
@@ -244,9 +245,13 @@ HRESULT CScene_Tool::Ready_Layer_Terrain()
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain_World", pGameObject), E_FAIL);
 
-	pGameObject = CTerrainDungeon::Create(m_pGraphicDev);
+	 pGameObject = CTerrainDungeon::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain_Dungeon", pGameObject), E_FAIL);
+
+	 pGameObject = CTerrainTemple::Create(m_pGraphicDev);
+	 NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	 FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain_Temple", pGameObject), E_FAIL);
 
 	 /* pGameObject = CTerrainIceDungeon::Create(m_pGraphicDev);
 	 NULL_CHECK_RETURN(pGameObject, E_FAIL);

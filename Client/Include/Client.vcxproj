@@ -212,6 +212,7 @@
     <ClInclude Include="..\Header\Player_AfterImg.h" />
     <ClInclude Include="..\Header\Present.h" />
     <ClInclude Include="..\Header\Skill_Player_Heal.h" />
+    <ClInclude Include="..\Header\Terrain_Temple.h" />
     <ClInclude Include="..\Header\TownSanctuary.h" />
     <ClInclude Include="..\Header\Effect_Boss_ThunderBlue.h" />
     <ClInclude Include="..\Header\RedStar_Bullet.h" />
@@ -680,6 +681,7 @@
     <ClCompile Include="..\Code\Player_AfterImg.cpp" />
     <ClCompile Include="..\Code\Present.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Heal.cpp" />
+    <ClCompile Include="..\Code\Terrain_Temple.cpp" />
     <ClCompile Include="..\Code\TownSanctuary.cpp" />
     <ClCompile Include="..\Code\Effect_Boss_ThunderBlue.cpp" />
     <ClCompile Include="..\Code\RedStar_Bullet.cpp" />

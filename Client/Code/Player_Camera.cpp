@@ -145,19 +145,27 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 
 		if (!m_bDrag && 0 < dwMouse)
 		{
-			m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
-
 			m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
+
+			m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
 			m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_DEFAULT);
 
 			m_bDrag = TRUE;
 		}
 		else if (m_bDrag && 0 > dwMouse)
 		{
-			m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DRAG_MAX, LERP_MODE::SMOOTHERSTEP);
-
 			m_pCameraCom->m_tDistanceLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-			m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_MAX);
+			
+			if (SCENE_TYPE::DUNGEON_TEMPLE == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+			{
+				m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_BINGO, LERP_MODE::SMOOTHERSTEP);
+				m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_BINGO);
+			}
+			else
+			{
+				m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_DRAG_MAX, LERP_MODE::SMOOTHERSTEP);
+				m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_MAX);
+			}
 			
 			m_bDrag = FALSE;
 		}

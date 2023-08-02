@@ -33,6 +33,11 @@ inline CGameObject* Get_Player()
 	return CManagement::GetInstance()->Get_Player();
 }
 
+inline const SCENE_TYPE& Get_PrevSceneType()
+{
+	return CManagement::GetInstance()->Get_PrevSceneType();
+}
+
 HRESULT		Set_Scene(CScene* pScene)
 {
 	return CManagement::GetInstance()->Set_Scene(pScene);

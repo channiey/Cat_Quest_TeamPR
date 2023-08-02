@@ -5,10 +5,11 @@ IMPLEMENT_SINGLETON(CManagement)
 
 CManagement::CManagement() 
 			: m_pCurScene(nullptr)
-			, m_ePlayMode(PLAY_MODE::GAME)
+			, m_ePlayMode(PLAY_MODE::TOOL)
 			, m_eGameStatus(GAME_STATUS::PLAYING)
 			, m_bDebug(FALSE)
 			, m_bEnterInGame(FALSE)
+			, m_ePrevSceneType(SCENE_TYPE::WORLD)
 {
 }
 
@@ -84,6 +85,7 @@ HRESULT	CManagement::Change_Scene(CScene* _pScene)
 	for (int i = 0; i < vecMaintain.size(); ++i)
 		CEventMgr::GetInstance()->Add_Obj(vecMaintain[i]->Get_Name(), vecMaintain[i]);
 
+	m_ePrevSceneType = m_pCurScene->Get_SceneType();
 	// 1. 이전 씬을 해제한다
 	Safe_Release(m_pCurScene);
 

@@ -90,6 +90,12 @@ void CMainApp::Render_MainApp()
 		g = 41.f;
 		b = 37.f;
 	}
+	else if (SCENE_TYPE::DUNGEON_TEMPLE == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		r = 0.f;
+		g = 0.f;
+		b = 0.f;
+	}
 	else if (SCENE_TYPE::TOOL == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
 	{
 		r = 125.f;

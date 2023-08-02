@@ -108,6 +108,9 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_Dungeon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_Dungeon.png")), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Terrain_Temple",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Terrain_Temple.png")), E_FAIL);
+
 #pragma region Building
 
 	// House

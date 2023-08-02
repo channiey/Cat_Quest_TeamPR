@@ -17,8 +17,18 @@ public:
 	virtual void		Render_Scene() override;
 
 private:
-	HRESULT				Ready_Prototype();
-	//HRESULT				Ready_Layer_Environment();
+	HRESULT				Ready_Layer_Camera();
+	HRESULT				Ready_Layer_UI();
+	HRESULT				Ready_Layer_Player();
+	HRESULT				Ready_Layer_Effect();
+	HRESULT				Ready_Layer_Other();
+
+	HRESULT				Ready_Load();
+
+	HRESULT				Ready_Layer_KSH();
+	HRESULT				Ready_Layer_KJM();
+	HRESULT				Ready_Layer_LHJ();
+	HRESULT				Ready_Layer_YC();
 
 private:
 

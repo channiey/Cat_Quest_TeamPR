@@ -34,8 +34,9 @@ namespace Engine
 
 // Cam Diatance
 #define CAM_DISTANCE_DEFAULT		23.f
+#define CAM_DISTANCE_BINGO			40.f
 #define	CAM_DISTANCE_MAX			70.f
-#define	CAM_DISTANCE_JUMP			15.f
+#define	CAM_DISTANCE_JUMP			17.f
 
 // Cam FOV
 
@@ -45,6 +46,8 @@ namespace Engine
 #define CAM_FOV_PLAYER_ATTACK		D3DXToRadian(57.f) // 근거리 공격
 #define	CAM_FOV_DRAG_MAX			D3DXToRadian(90.f) // 드래그시 FOV
 #define	CAM_FOV_QUEST_TAKL			D3DXToRadian(50.f)	
+#define CAM_FOV_BINGO				D3DXToRadian(70.f)
+
 
 #define CAM_FOV_BOSS_DELTA			D3DXToRadian(10.f)
 #define CAM_FOV_BOSS_SKILL			D3DXToRadian(85.f)
@@ -65,8 +68,13 @@ namespace Engine
 #define START_POS_WORLD_Z				120.f // (BOSS_POS_Z - 50)	//120.f
 #define START_POS_DUNGEON_X				53.f 
 #define START_POS_DUNGEON_Z				32.f // 204 168
+#define START_POS_TEMPLE_X				156.f 
+#define START_POS_TEMPLE_Z				311.f // 204 168
 #define WORLD_DUNGEON_ENTERANCE_X		204.f
 #define WORLD_DUNGEON_ENTERANCE_Z		168.f
+#define WORLD_TEMPLE_ENTERANCE_X		630.f
+#define WORLD_TEMPLE_ENTERANCE_Z		137.f
+
 #define	MINIGAME_JUMP_RESET_POS			_vec3{ 360.f, 3.f , 280.f }
 
 #define BOSS_POS_X						552.f

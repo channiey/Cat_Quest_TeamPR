@@ -30,6 +30,7 @@
 #include "Terrain.h"
 #include "TerrainWorld.h"
 #include "Terrain_Dungeon.h"
+#include "Terrain_Temple.h"
 
 #include "Bush.h"
 #include "Mountain.h"
@@ -201,8 +202,8 @@
 #include "EffectGenerator.h"
 
 
-TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat";
-TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Level_Dungeon.dat"; 
+TCHAR szLoadPath[MAX_STR] = L"../Bin/Data/Level/Level_Temple.dat";
+TCHAR szSavePath[MAX_STR] = L"../Bin/Data/Level/Level_Temple.dat"; 
 
 #pragma region Global
 
@@ -834,8 +835,9 @@ CGameObject* CImGuiMgr::Clone(const OBJ_ID& _eID)
 		pClone = CTerrainWorld::Create(m_pGraphicDev); break;
 	case Engine::OBJ_ID::TERRAIN_DUNGEON:
 		pClone = CTerrainDungeon::Create(m_pGraphicDev); break;
-	//case Engine::OBJ_ID::TERRAIN_ICEWORLD:
-	//	pClone = CTerrainIceWorld::Create(m_pGraphicDev); break;
+	case Engine::OBJ_ID::TERRAIN_TEMPLE:
+		pClone = CTerrainTemple::Create(m_pGraphicDev); break;
+
 
 
 

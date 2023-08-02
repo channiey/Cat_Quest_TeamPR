@@ -109,10 +109,13 @@ HRESULT CVioletDragon::Ready_Object()
     __super::Ready_Object();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	CGameObject* pGameObject = CBossHpUI::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	CEventMgr::GetInstance()->Add_Obj(L"BossHp_UI", pGameObject);
-	m_pBossHpUI = pGameObject;
+	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
+	{
+		CGameObject* pGameObject = CBossHpUI::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		CEventMgr::GetInstance()->Add_Obj(L"BossHp_UI", pGameObject);
+		m_pBossHpUI = pGameObject;
+	}
 	m_bStart = false;
 
 	// MoveInfo

@@ -298,7 +298,13 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 			CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
 			if (nullptr != pPlayer)
 			{
-				_vec3 vPos{ WORLD_DUNGEON_ENTERANCE_X, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, WORLD_DUNGEON_ENTERANCE_Z };
+				_vec3 vPos{};
+				
+				if (SCENE_TYPE::DUNGEON_SWAMP == CManagement::GetInstance()->Get_PrevSceneType())
+					vPos = { WORLD_DUNGEON_ENTERANCE_X, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, WORLD_DUNGEON_ENTERANCE_Z };
+				else if (SCENE_TYPE::DUNGEON_TEMPLE == CManagement::GetInstance()->Get_PrevSceneType())
+					vPos = { WORLD_TEMPLE_ENTERANCE_X, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, WORLD_TEMPLE_ENTERANCE_Z };
+
 				pPlayer->Get_Transform()->Set_Pos(vPos);
 			}
 			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
@@ -695,6 +701,7 @@ HRESULT CScene_World::Ready_Layer_Other()
 	pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	m_mapLayer.insert({ OBJ_TYPE::TRIGGER,	pLayer });
+
 	return S_OK;
 }
 
