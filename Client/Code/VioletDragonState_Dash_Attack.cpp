@@ -113,20 +113,20 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
     // Time
     m_fAccTime += fTimeDelta;
 
-    if (m_bDirSelect == false)
-    {
-        m_bDirSelect == true;
-        // x 이동 방향에 따라 스케일 전환 
-        if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
-        {
-            pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-        }
-        else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-        {
-            pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-        }
-     
-    }
+    //if (m_bDirSelect == false)
+    //{
+    //    m_bDirSelect == true;
+    //    // x 이동 방향에 따라 스케일 전환 
+    //    if (vOwnerPos.x <= (vPlayerPos).x && vOwnerScale.x <= 0)
+    //    {
+    //        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //    }
+    //    else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
+    //    {
+    //        pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
+    //    }
+    // 
+    //}
   
 
     if (m_bAssault == false  && pOwenrCurAnimation->Is_End())
@@ -142,10 +142,6 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
         }
     }
   
-    if (fOriginDistance >= 40.f)
-    {
-        pOwnerTransform->Set_Dir(vec3.zero);
-    }
 
 
     pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
@@ -166,9 +162,22 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
 
 #pragma region State Change
 
+    if (fOriginDistance >= 40.f)
+    {
+        m_bDirSelect = false;
+        m_fAccTime = 0.f;
+        m_bAssault = false;
+        dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(8.f);
+
+        return STATE_TYPE::BOSS_READY_PATTERN;
+    }
+
+
+
 
     if ( m_fAccTime >=1.5f)
     {
+        m_bDirSelect = false;
         m_fAccTime = 0.f;
         m_bAssault =false;
         dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(8.f);

@@ -375,7 +375,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
     }
 
 
-    if (m_fAccTime >= 5.f)
+    if (m_fAccTime >= 5.5f)
     {
 
         m_fAccTime = 0.f;

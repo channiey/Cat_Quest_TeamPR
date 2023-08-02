@@ -55,6 +55,17 @@ private:
 	_bool   m_bBullet19;
 	_bool   m_bBullet20;
 
+	_bool   m_bBullet21;
+	_bool   m_bBullet22;
+	_bool   m_bBullet23;
+	_bool   m_bBullet24;
+
+	_bool   m_bBullet25;
+	_bool   m_bBullet26;
+	_bool   m_bBullet27;
+	_bool   m_bBullet28;
+
+
 
 
 private:

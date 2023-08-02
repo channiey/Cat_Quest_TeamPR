@@ -89,7 +89,7 @@ _int CRedStar_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_bTargetChase = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(0.8f, m_pTransformCom->Get_Info(INFO_POS), vTargetPos);
+        m_tPos.Set_Lerp(0.7f, m_pTransformCom->Get_Info(INFO_POS), vTargetPos);
     }
 
 

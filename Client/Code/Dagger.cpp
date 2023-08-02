@@ -45,10 +45,11 @@ HRESULT CDagger::Ready_Object()
 
     m_bStop = false;
     m_bShoot = false;
-    
+    m_bWide = false;
+
     m_check1 = false;
     m_check2 = false;
-    
+    m_check3 = false;
 
 
     return S_OK;
@@ -75,6 +76,13 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
         m_tPos.Set_Lerp(0.1f, m_vPos, m_vPos);
 
     }
+    if (true == m_bWide)
+    {
+        m_bWide = false;
+        m_tPos.Init_Lerp();
+        m_tPos.Set_Lerp(0.2f, m_vPos, _vec3{ m_vPos.x, m_vPos.y + 3.f, m_vPos.z });
+    }
+
     if (true == m_bShoot)
     {
         m_bShoot = false;
@@ -99,15 +107,22 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
     m_fAccTime += fTimeDelta;
 
  
-    if (m_bStop == false && m_check1 == false &&  m_fAccTime <= 3.f)
+    if (m_bStop == false && m_check1 == false &&  m_fAccTime <= 2.5f)
     {
         m_bStop = true;
         m_check1 = true;
     }
 
-    if ( m_bShoot == false  && m_check2 == false && m_fAccTime > 3.f)
+    if (m_bWide == false && m_check2 == false && m_fAccTime > 2.5f)
     {
         m_check2 = true;
+        m_bWide = true;
+    }
+
+
+    if ( m_bShoot == false  && m_check3 == false && m_fAccTime > 3.f)
+    {
+        m_check3 = true;
         m_bShoot = true;
     }
 
