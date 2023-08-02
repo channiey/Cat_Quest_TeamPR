@@ -15,6 +15,8 @@
 
 #include "Npc_BlackSmith.h"
 
+#include "FlagStart.h"
+
 #include "Skill.h"
 #include "Skill_Player_Beam.h"
 
@@ -150,7 +152,7 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 						CMiniGameMgr_Bingo::GetInstance()->Set_GameReady();
 
 						m_tQuestContent[1].m_bClear = true;
-						m_tQuestContent.push_back({ L"3.시련을 통과하기", false });
+						m_tQuestContent.push_back({ L"3.시련을 통과하고\n보물을 획득하기", false });
 
 						m_iLevel += 1;
 						*_IsAble = false;
@@ -165,6 +167,26 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 	case 2: // 빙고 진행
 		if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::DUNGEON_TEMPLE)
 		{
+			if (!*_IsAble)
+			{
+				// 한 번 초기화.
+				m_pFlagStart = dynamic_cast<CFlagStart*>
+					(CManagement::GetInstance()
+						->Get_GameObject(OBJ_TYPE::FLAG, L"Flag_Start"));
+
+				m_pFlagStart->Ready_Object();
+
+				if (!m_pFlagStart->Is_Active())
+				{
+					m_pFlagStart->Set_Active(true);
+				}
+				// Start Flag 활성.
+				if (!dynamic_cast<CFlagStart*>(m_pFlagStart)->Get_IsShow())
+					dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_IsShow(true);
+
+				*_IsAble = true;
+			}
+
 			CMiniGameMgr_Bingo::GetInstance()->Update(Engine::Get_TimeDelta(L"Timer_FPS65"));
 			
 			if (m_bReadyNext)
@@ -172,6 +194,7 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 				m_iLevel += 1;
 				*_IsAble = false;
 				m_bReadyNext = false;
+				dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_IsShow(false);
 				break;
 			}
 		}
@@ -209,6 +232,7 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 				*_IsAble = false;
 				m_bStartQuest = true;
 				m_bReadyNext = false;
+				m_tQuestContent[2].m_bClear = true;
 			}
 			break;
 		}

@@ -13,7 +13,6 @@ CFlag::CFlag(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	, m_fTranslucent(0.f)
 	, m_eCurCollison(PLAYER_COLLISION2::NONE)
 	, m_bCol(false) , m_bCreate(false), m_bDelete(false)
-	, m_eFlagTag(FLAG_TAG::FLAG_START)
 {
 
 }

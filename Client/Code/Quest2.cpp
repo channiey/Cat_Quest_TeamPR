@@ -49,7 +49,7 @@ void CQuest2::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	pGameObject->Set_Maintain(true);
 
 	m_tQuestContent.push_back({ L"1.던전 내 모든 몬스터 소탕", false });
-	m_tQuestContent.push_back({ L"2.모두 소탕 후 던전 내 \n마을냥이 찾기", false });
+	m_tQuestContent.push_back({ L"2.모두 소탕 후 던전 내 \n조사냥이 찾기", false });
 }
 
 _bool CQuest2::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble)

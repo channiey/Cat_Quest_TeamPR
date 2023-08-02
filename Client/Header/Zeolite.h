@@ -34,7 +34,8 @@ public:
 	void				Set_IsDelete() { m_bDelete = true; }
 
 private:
-	LERP_FLOAT_INFO		m_tPosDownLerp;
+	LERP_FLOAT_INFO		m_tPosDownLerpY;
+	LERP_FLOAT_INFO		m_tPosDownLerpZ;
 	LERP_FLOAT_INFO		m_tDustCreateLerp;
 	_bool				m_bDelete;
 

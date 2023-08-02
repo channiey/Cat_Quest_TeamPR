@@ -26,7 +26,7 @@ HRESULT CBingo_SuccesUI::Ready_Object()
 	m_fSizeX = 90.f;
 	m_fSizeY = 90.f;
 	m_fPosX = WINCX / 2;
-	m_fPosY = WINCY / 2;
+	m_fPosY = WINCY - 150;
 
 	m_UImatWorld._11 = m_fSizeX;
 	m_UImatWorld._22 = m_fSizeY;

@@ -30,7 +30,7 @@ HRESULT CFlagItaly::Ready_Object()
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"FlagItaly_RangeObj", pRangeObj);
-	pRangeObj->Set_Radius(3.f);
+	pRangeObj->Set_Radius(6.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
 	m_eFlagTag = FLAG_TAG::FLAG_ITALY;

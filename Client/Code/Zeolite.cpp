@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 
-#include "Shadow_Npc.h"
+#include "Shadow_Zeolite.h"
 #include "TalkMgr.h"
 #include "QuestMgr.h"
 
@@ -31,16 +31,23 @@ HRESULT CZeolite::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 156.f, m_pTransformCom->Get_Scale().y + 5.4f, 102.f });
+	m_pTransformCom->Set_Pos(_vec3{ 156.f, 6.4f , 102.f });
 	m_pTransformCom->Set_Scale(_vec3{ 5.f, 8.75f, 5.f });
 
+	if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		CEventMgr::GetInstance()->Add_Obj(L"Npc_Zeolite_Shadow", CShadow_Zeolite::Create(m_pGraphicDev, this));
+
 	// 가라앉기
-	m_tPosDownLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tPosDownLerp.Set_Lerp(5.f, m_pTransformCom->Get_Info(INFO_POS).y, 5.4f);
+	m_tPosDownLerpY.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tPosDownLerpY.Set_Lerp(5.f, m_pTransformCom->Get_Info(INFO_POS).y, -6.0f);
+
+	m_tPosDownLerpZ.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tPosDownLerpZ.Set_Lerp(5.f, m_pTransformCom->Get_Info(INFO_POS).z, m_pTransformCom->Get_Info(INFO_POS).z - 8.5f);
+
 
 	// 먼지 생성
 	m_tDustCreateLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tDustCreateLerp.Set_Lerp(0.25f, 1.f, 0.f);
+	m_tDustCreateLerp.Set_Lerp(0.1f, 1.f, 0.f);
 
 	m_szName = L"Npc_Zeolite";
 
@@ -54,8 +61,14 @@ _int CZeolite::Update_Object(const _float& fTimeDelta)
 
 	if (m_bDelete)
 	{
-		m_tPosDownLerp.Update_Lerp(fTimeDelta);
-		if (!m_tPosDownLerp.bActive)
+		m_tPosDownLerpY.Update_Lerp(fTimeDelta);
+		m_tPosDownLerpZ.Update_Lerp(fTimeDelta);
+		m_pTransformCom->Set_Pos({
+			m_pTransformCom->Get_Info(INFO_POS).x,
+			m_tPosDownLerpY.fCurValue,
+			m_tPosDownLerpZ.fCurValue });
+
+		if (!m_tPosDownLerpY.bActive)
 		{
 			CEventMgr::GetInstance()->Delete_Obj(this);
 			// 그럴 일은 없겠지만 혹시라도 다음 프레임에 못들어오게
@@ -66,6 +79,9 @@ _int CZeolite::Update_Object(const _float& fTimeDelta)
 		if (!m_tDustCreateLerp.bActive)
 		{
 			CGameObject* pDust = CZeoliteDust::Create(m_pGraphicDev, this);
+			NULL_CHECK_RETURN(pDust, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"ZeoliteDust", pDust);
+
 			m_tDustCreateLerp.Init_Lerp(LERP_MODE::EASE_IN);
 			m_tDustCreateLerp.Set_Lerp(0.25f, 1.f, 0.f);
 		}

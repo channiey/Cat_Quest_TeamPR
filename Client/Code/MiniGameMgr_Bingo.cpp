@@ -199,9 +199,11 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 
 					m_bStart = false;
 					m_bActive = false;
+					// Start Flag 비표시
+					m_pStartFlag->Set_IsShow(false);
+
 					// 막고 있는 장애물 지우기
-					
-					if (dynamic_cast<CZeolite*>(CManagement::GetInstance()->
+					if (!dynamic_cast<CZeolite*>(CManagement::GetInstance()->
 						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Zeolite"))->
 						Get_IsDelete())
 					{

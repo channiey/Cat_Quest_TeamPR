@@ -88,7 +88,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 								m_iMonsterCount += 1;
 						}
 
-						m_iMonsterCount -= 6; // ¿”¿«∑Œ ª©¡‹. 6∏∂∏Æ ¡¶ø‹
+						m_iMonsterCount -= 5; // ¿”¿«∑Œ ª©¡‹. 5∏∂∏Æ ¡¶ø‹
 
 						m_iLevel += 1;
 						*_IsAble = false;

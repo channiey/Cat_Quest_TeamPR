@@ -6,6 +6,7 @@
 
 CFlagStart::CFlagStart(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner)
 	: CFlag(pGraphicDev, OBJ_ID::FLAG_START)
+	, m_fTranslucent(0.f), m_bShow(false)
 {
 	m_pFlagOwner = _owner;
 }
@@ -30,14 +31,17 @@ HRESULT CFlagStart::Ready_Object()
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"FlagStart_RangeObj", pRangeObj);
-	pRangeObj->Set_Radius(3.f);
+	pRangeObj->Set_Radius(6.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
 	m_eFlagTag = FLAG_TAG::FLAG_START;
 
 	m_szName = L"Flag_Start";
 
-	m_bActive = true;
+	m_bActive = false;
+
+	m_tAlphaLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tAlphaLerp.Set_Lerp(0.5f, 0.f, 255.f);
 
 	return S_OK;
 }
@@ -46,6 +50,32 @@ _int CFlagStart::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CFlag::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (m_bShow)
+	{
+		m_tAlphaLerp.Update_Lerp(fTimeDelta);
+		m_fTranslucent = m_tAlphaLerp.fCurValue;
+
+		if (!m_bShow)
+		{
+			m_tDeAlphaLerp.Init_Lerp(LERP_MODE::EASE_IN);
+			m_tDeAlphaLerp.Set_Lerp(0.5f, 255.f, 0.f);
+			m_fTranslucent = m_tDeAlphaLerp.fCurValue;
+		}
+	}
+	if (!m_bShow)
+	{
+		m_tDeAlphaLerp.Update_Lerp(fTimeDelta);
+		if (m_tDeAlphaLerp.bActive)
+		{
+			m_fTranslucent = m_tDeAlphaLerp.fCurValue;
+
+			if (!m_tDeAlphaLerp.bActive)
+			{
+				m_bActive = false;
+			}
+		}
+	}
 
 	return iExit;
 }
@@ -57,7 +87,7 @@ void CFlagStart::LateUpdate_Object()
 
 void CFlagStart::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_fTranslucent, 255, 255, 255));
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object();
@@ -68,7 +98,7 @@ void CFlagStart::Render_Object()
 
 	m_pGraphicDev->SetTexture(0, NULL);
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 void CFlagStart::Set_Texture(const FLAG_TAG& _eID)

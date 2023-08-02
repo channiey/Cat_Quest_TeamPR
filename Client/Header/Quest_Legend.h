@@ -1,5 +1,6 @@
 #pragma once
 #include "QuestData.h"
+#include "FlagStart.h"
 
 class CQuest_Legend : public CQuestData
 {
@@ -12,5 +13,6 @@ public:
 	virtual _bool Update(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble) override;
 
 private:
+	CGameObject* m_pFlagStart;
 };
 
