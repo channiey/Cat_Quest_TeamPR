@@ -46,7 +46,7 @@ HRESULT CSkill_Player_Arrow::Ready_Object()
     m_bIsEffectEnd = false;
     m_bAttack = false;
 
-    m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 2.f });
+    m_pTransformCom->Set_Scale(_vec3{ 2.f, 2.f, 1.5f });
 
     return S_OK;
 }
@@ -65,45 +65,28 @@ _int CSkill_Player_Arrow::Update_Object(const _float& fTimeDelta)
   
     Engine::Add_RenderGroup(RENDER_WDUI, this);
 
-   // Picking_Terrain();
+    Picking_Terrain();
 
-
-    if (static_cast<CPlayer*>(m_pOwnerObject)->Is_BallTarget())
+    if (static_cast<CPlayer*>(m_pOwnerObject)->Is_Fly())
     {
-        _vec3 vDir = static_cast<CPlayer*>(m_pOwnerObject)->Get_BallDir();
-        D3DXVec3Normalize(&vDir, &vDir);
-        _vec3 vArrowPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS) + (vDir * 5.2);
-        m_pTransformCom->Set_Dir(vDir);
-
-        _vec3		vAxis = *D3DXVec3Cross(&vAxis, &vec3.right, &vDir);
-        _float		fDot = D3DXVec3Dot(&vec3.right, &vDir);
-        _float		fAngle = acosf(fDot);
-
-        if (vDir.z > 0)
-            fAngle *= -1;
-
-        m_pTransformCom->Set_Rot(_vec3{ 0.f, fAngle, 0.f });
-
-        m_pTransformCom->Set_Pos(vArrowPos);
+        m_vMousePos.y = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS).y;
     }
-    else
-    {
-        _vec3 vDir = m_pOwnerObject->Get_Transform()->Get_Dir();
-        D3DXVec3Normalize(&vDir, &vDir);
-        _vec3 vArrowPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS) + (vDir * 5.2);
-        m_pTransformCom->Set_Dir(vDir);
 
-        _vec3		vAxis = *D3DXVec3Cross(&vAxis, &vec3.right, &vDir);
-        _float		fDot = D3DXVec3Dot(&vec3.right, &vDir);
-        _float		fAngle = acosf(fDot);
+    _vec3 vDir = m_vMousePos - m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
+    D3DXVec3Normalize(&vDir, &vDir);
+    _vec3 vArrowPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS) + (vDir * 5.2);
+    m_pTransformCom->Set_Dir(vDir);
 
-        if (vDir.z > 0)
-            fAngle *= -1;
+    _vec3		vAxis = *D3DXVec3Cross(&vAxis, &vec3.right, &vDir);
+    _float		fDot = D3DXVec3Dot(&vec3.right, &vDir);
+    _float		fAngle = acosf(fDot);
 
-        m_pTransformCom->Set_Rot(_vec3{ 0.f, fAngle, 0.f });
+    if (vDir.z > 0)
+        fAngle *= -1;
 
-        m_pTransformCom->Set_Pos(vArrowPos);
-    }
+    m_pTransformCom->Set_Rot(_vec3{ 0.f, fAngle, 0.f });
+
+    m_pTransformCom->Set_Pos(vArrowPos);
 
     
     return iExit;
@@ -120,14 +103,13 @@ void CSkill_Player_Arrow::LateUpdate_Object()
 void CSkill_Player_Arrow::Render_Object()
 {
     // ºôº¸µå ÇØÁ¦
-    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(200, 255, 255, 255));
 
     _matrix matWorld = m_pTransformCom->Get_WorldMat();
     _matrix matBill;
     _vec3 vPos;
 
     memcpy(&vPos, &matWorld.m[3], sizeof(_vec3));
-    vPos.y = 3.f;
 
     matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
     memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
@@ -145,7 +127,6 @@ void CSkill_Player_Arrow::Render_Object()
 
 void CSkill_Player_Arrow::OnCollision_Enter(CGameObject* _pColObj)
 {
-
 }
 
 void CSkill_Player_Arrow::OnCollision_Stay(CGameObject* _pColObj)
@@ -158,7 +139,6 @@ void CSkill_Player_Arrow::OnCollision_Exit(CGameObject* _pColObj)
 
 HRESULT CSkill_Player_Arrow::Add_Component()
 {
-
     CComponent* pComponent = nullptr;
 
     pComponent = m_pTargetTexCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_UI_Arrow", this));
@@ -200,6 +180,9 @@ void CSkill_Player_Arrow::Picking_Terrain()
     case Engine::SCENE_TYPE::WORLD:
         pCurTerrain = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::TERRAIN, L"Terrain_Tool");
         break;
+    case Engine::SCENE_TYPE::DUNGEON_SWAMP:
+        pCurTerrain = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::TERRAIN, L"Terrain_Tool");
+        break;
     default:
         break;
     }
@@ -216,6 +199,7 @@ void CSkill_Player_Arrow::Picking_Terrain()
 
     vecMouse.y = 3.f;
     m_vMousePos = vecMouse;
+    m_vMousePos.y = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS).y;
 }
 
 CSkill_Player_Arrow* CSkill_Player_Arrow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)

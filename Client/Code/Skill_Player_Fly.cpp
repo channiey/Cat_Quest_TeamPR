@@ -206,6 +206,9 @@ void CSkill_Player_Fly::Picking_Terrain()
     case Engine::SCENE_TYPE::WORLD:
         pCurTerrain = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::TERRAIN, L"Terrain_Tool");
         break;
+    case Engine::SCENE_TYPE::DUNGEON_SWAMP:
+        pCurTerrain = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::TERRAIN, L"Terrain_Tool");
+        break;
     default:
         break;
     }

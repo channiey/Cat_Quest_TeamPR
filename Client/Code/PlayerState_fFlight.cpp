@@ -36,6 +36,7 @@ STATE_TYPE CPlayerState_fFlight::Update_State(const _float& fTimeDelta)
 		m_bIsLand = false;
 		m_bEnter = true;
 		
+
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(40.f);
 
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_IDL_TO_FLY); // << Test
@@ -157,10 +158,18 @@ STATE_TYPE CPlayerState_fFlight::Key_Input(const _float& fTimeDelta)
 		return m_eState;
 	}
 
-	if (!m_bIsLand && m_bIsSky &&  CInputDev::GetInstance()->Key_Down(VK_LBUTTON) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE)
+	if (!m_bIsLand && m_bIsSky &&  CInputDev::GetInstance()->Key_Down(VK_LBUTTON) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_FlySkill()->Is_Active())
 	{
 		CSoundMgr::GetInstance()->PlaySoundW(L"skill_lightnyan.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
 		return STATE_TYPE::FRONT_ATTACK1;
+	}
+	else if (!m_bIsLand && m_bIsSky && CInputDev::GetInstance()->Get_DIMouseState(DIM_LB) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE)
+	{
+		if (m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z > 0)
+			return STATE_TYPE::BACK_ATTACK;
+		else
+			return STATE_TYPE::FRONT_ATTACK;
 	}
 		
 	if (CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))

@@ -48,9 +48,9 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		}
 		else
 		{
-			if (!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
+			if (!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_FlySkill()->Is_Active())
 			{
-				CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->MageBall_Target();
+				CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget();
 				_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
 				CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
 				CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
@@ -123,10 +123,24 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_HIT;
 	}
 
-	if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
+	if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly() &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_FlySkill()->Is_Active())
 	{
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_FLIGHT;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly() && !m_bAttackContinue)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_FLIGHT;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly() && m_bAttackContinue)
+	{
+		m_bEnter = false;
+		if (m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z > 0)
+			return STATE_TYPE::BACK_ATTACK2;
+		else
+			return STATE_TYPE::FRONT_ATTACK2;
 	}
 	else if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
 	{
@@ -137,6 +151,13 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && !m_bIsTarget &&
 		nullptr != static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget() &&
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir().z > 0.5f)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::BACK_ATTACK2;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && !m_bIsTarget &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_LockOn() &&
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z > 0)
 	{
 		m_bEnter = false;
 		return STATE_TYPE::BACK_ATTACK2;

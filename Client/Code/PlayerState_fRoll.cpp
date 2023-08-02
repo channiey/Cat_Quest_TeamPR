@@ -31,10 +31,41 @@ STATE_TYPE CPlayerState_fRoll::Update_State(const _float& fTimeDelta)
         CEventMgr::GetInstance()->Add_Obj(L"MoveDust", p);
 
         CSoundMgr::GetInstance()->PlaySoundW(L"roll_2.wav", CHANNEL_ID::PLAYER_0, VOLUME_PLAYER_ROLL);
+
+        if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
+        {
+            m_vDir = vec3.left + vec3.back;
+        }
+        else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
+        {
+            m_vDir = vec3.right + vec3.back;
+        }
+        else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_A))
+        {
+            m_vDir = vec3.left;
+        }
+        else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_D))
+        {
+            m_vDir = vec3.right;
+        }
+        else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE) && CInputDev::GetInstance()->Get_DIKeyState(DIKEYBOARD_S))
+        {
+            m_vDir = vec3.back;
+        }
+
         m_bEnter = true;
     }
 
-    m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 30.f);
+    if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_LockOn())
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(m_vDir, fTimeDelta * 30.f);
+        static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_vDir);
+    }
+    else
+    {
+        m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 30.f);
+    }
+   
 
     if (m_pOwner->Is_AnimationEnd())
     {

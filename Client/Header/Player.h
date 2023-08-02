@@ -179,7 +179,9 @@ public:
 
 	const _uint&		Get_ClockAlpha() const { return m_iClockAlpha; }
 
-
+	// 락온
+	_bool&				Is_LockOn() { return m_bLockOn; }
+	CSkill*				Get_SkillArrow() { return m_pSkillArrow; }
 
 private:
 	HRESULT				Add_Component();
@@ -223,6 +225,7 @@ private:
 	_bool						m_bSkill;
 	CSkill*						m_arrSkillSlot[4];
 	CSkill*						m_arrSkill[(UINT)SKILL_TYPE::TYPEEND];
+
 	CSkill*						m_pSkillHeal;
 
 
@@ -243,6 +246,7 @@ private:
 	
 	// 마법사화살
 	CSkill*						m_pSkillArrow;
+	_bool						m_bLockOn;
 
 	// 미사일발사
 	_float						m_fBallTargetLenght;

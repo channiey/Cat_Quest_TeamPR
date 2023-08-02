@@ -109,6 +109,7 @@ HRESULT CPlayer::Ready_Object()
 
 	m_fBallTargetLenght = 18.f;
 	m_pBallTarget = nullptr;
+	m_bLockOn = false;
 
 	m_bFly = false;
 	m_pSkillFly = nullptr;
@@ -524,16 +525,35 @@ void CPlayer::LateUpdate_Object()
 	if (m_bIsTalking && m_bClocking)
 		Off_Clocking();
 
+
 	if(!m_bFly && m_pSkillFly->Is_Active())
 	{
 		m_pSkillFly->Get_Transform()->Set_Pos(m_pTransformCom->Get_Info(INFO::INFO_POS));
 		m_pSkillFly->Set_Active(false);
 	}
 
-	if (!m_bFly && m_eClass == CLASS_TYPE::MAGE)
+	if (m_eClass == CLASS_TYPE::MAGE)
 	{
-		MageBall_Target();
+		if (m_pSkillArrow->Is_Active())
+		{
+			_vec3 vDir = m_pSkillArrow->Get_Transform()->Get_Dir();
+			m_pTransformCom->Set_Dir(vDir);
+
+			if(m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_ROLL &&
+				m_pStateMachineCom->Get_CurState() != STATE_TYPE::BACK_ROLL)
+					Set_PlayerLook(vDir);
+
+			m_pBallTarget = nullptr;
+		}
+		else
+		{
+			MageBall_Target();
+		}
 	}
+
+
+
+
 
 	LevelUp();
 
@@ -1484,10 +1504,12 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			if (!m_pSkillArrow->Is_Active())
 			{
 				m_pSkillArrow->Set_Active(true);
+				m_bLockOn = true;
 			}
 			else
 			{
 				m_pSkillArrow->Set_Active(false);
+				m_bLockOn = false;
 			}
 		}
 	}
@@ -1783,6 +1805,7 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 		m_tMoveInfo.fMoveSpeed = 20.f;
 		m_bClocking = false;
 		m_pSkillFly->Set_Active(false);
+		m_pSkillArrow->Set_Active(false);
 		m_pEffectOra->Set_Active(false);
 		m_pStateMachineCom->Set_Animator(m_pAnimatorCom);
 		break;
@@ -1791,6 +1814,7 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 		m_bClocking = true;
 		m_iClockAlpha = 128.f;
 		m_pSkillFly->Set_Active(false);
+		m_pSkillArrow->Set_Active(false);
 		m_pEffectOra->Set_Active(false);
 		m_tMoveInfo.fMoveSpeed = 25.f;
 
@@ -1808,6 +1832,7 @@ void CPlayer::Class_Change(const CLASS_TYPE& _eType)
 		m_tMoveInfo.fMoveSpeed = 20.f;
 		m_bClocking = false;
 		m_pSkillFly->Set_Active(false);
+		m_pSkillArrow->Set_Active(false);
 		m_pEffectOra->Set_Active(true);
 		m_pStateMachineCom->Set_Animator(m_pClassAnimator[_uint(CLASS_TYPE::THORN)]);
 		break;
@@ -1836,7 +1861,7 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK2 ||
 			static_cast<CMonster*>(pObj)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK3)
 		{
-			if (!m_pRigidBodyCom->Is_Vel_Zero() || m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3)
+			if (!m_pRigidBodyCom->Is_Vel_Zero() || m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ATTACK3 || m_bFly)
 			{
 				m_pRigidBodyCom->Zero_KnockBack();
 			}

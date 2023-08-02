@@ -36,10 +36,12 @@ STATE_TYPE CPlayerState_bIdle::Update_State(const _float& fTimeDelta)
 		STATE_TYPE eState = Key_Input(fTimeDelta);
 
 		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
-			eState = STATE_TYPE::FRONT_HIT;
+			return STATE_TYPE::FRONT_HIT;
 
 		if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead)
-			eState = STATE_TYPE::FRONT_DIE;
+			return STATE_TYPE::FRONT_DIE;
+
+		
 
 		if (eState != m_eState)
 			m_bEnter = false;
@@ -140,9 +142,17 @@ STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_WALK;
 
 
+	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_LockOn())
+	{
+		if (m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z < 0)
+			return STATE_TYPE::FRONT_IDLE;
+	}
+	else
+	{
+		return m_eState;
+	}
 
-
-	return m_eState;
+	
 }
 
 CPlayerState_bIdle* CPlayerState_bIdle::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
