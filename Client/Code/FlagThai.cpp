@@ -30,7 +30,7 @@ HRESULT CFlagThai::Ready_Object()
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"FlagThai_RangeObj", pRangeObj);
-	pRangeObj->Set_Radius(2.f);
+	pRangeObj->Set_Radius(3.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
 	m_eFlagTag = FLAG_TAG::FLAG_THAI;
@@ -56,7 +56,7 @@ void CFlagThai::LateUpdate_Object()
 
 void CFlagThai::Render_Object()
 {
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_fTranslucent, 255, 255, 255));
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
 
 	__super::Render_Object();
@@ -67,8 +67,7 @@ void CFlagThai::Render_Object()
 
 	m_pGraphicDev->SetTexture(0, NULL);
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
-
-
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 HRESULT CFlagThai::Add_Component()

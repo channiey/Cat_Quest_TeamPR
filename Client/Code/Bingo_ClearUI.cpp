@@ -23,8 +23,8 @@ HRESULT CBingo_ClearUI::Ready_Object()
 
 	m_eUIType = UI_TYPE::VIEW;
 
-	m_fSizeX = 90.f;
-	m_fSizeY = 90.f;
+	m_fSizeX = 180.f;
+	m_fSizeY = 180.f;
 	m_fPosX = WINCX / 2;
 	m_fPosY = WINCY / 2;
 
@@ -36,6 +36,8 @@ HRESULT CBingo_ClearUI::Ready_Object()
 	Ready_Lerp();
 
 	m_bActive = true;
+
+	m_szName = L"Bingo_ClearUI";
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -53,7 +55,7 @@ void CBingo_ClearUI::Ready_Lerp()
 
 	// 딜리트 러프 세팅(이 러프가 끝나면 UI 사라지게)
 	m_tDeleteLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tDeleteLerp.Set_Lerp(1.f, 1.f, 0.f);
+	m_tDeleteLerp.Set_Lerp(6.f, 1.f, 0.f);
 
 	// 소멸 러프 세팅
 	m_tDelSizeUpLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
@@ -127,7 +129,7 @@ void CBingo_ClearUI::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_UImatWorld);
 	m_pTextureCom->Render_Texture();
 	m_pBufferCom->Render_Buffer();
-	
+
 	//m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	__super::Render_Object();
@@ -137,7 +139,7 @@ HRESULT CBingo_ClearUI::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Bingo_Clear", this));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Bingo_Succes", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

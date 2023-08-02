@@ -645,12 +645,14 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_checkbox_tick.png")), E_FAIL);
 
 	// ºù°í UI
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Succes",
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Clear",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_checkbox_tick.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Fail",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_no.png")), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Clear",
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Succes",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_yes.png")), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Bingo",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_Bingo.png")), E_FAIL);
 
 
 #pragma endregion
@@ -1272,6 +1274,8 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Èú ÀÌÆåÆ®
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_Heal",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Heal/EffectHeal/%d.png", 12)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_HealDrop",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Heal/HealDrop.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_HealPaw",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Heal/PawPink.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Skill_HealSpark",

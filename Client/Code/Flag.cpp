@@ -10,8 +10,9 @@ CFlag::CFlag(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::FLAG, _eID)
 	, m_iCurIn(0)
 	, m_iPrevIn(0)
+	, m_fTranslucent(0.f)
 	, m_eCurCollison(PLAYER_COLLISION2::NONE)
-	, m_bCol(false)
+	, m_bCol(false) , m_bCreate(false), m_bDelete(false)
 	, m_eFlagTag(FLAG_TAG::FLAG_START)
 {
 
@@ -38,6 +39,12 @@ HRESULT CFlag::Ready_Object()
 	m_eEnter = ENTER_TYPE::ENTER_NO;
 	m_eInterType = INTERACTION_TYPE::INTERACTION_CHECK;
 
+	// 투명도 러프 (생성, 소멸)
+	m_tCreateLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tCreateLerp.Set_Lerp(0.5f, 0.f, 255.f);
+	m_tDeleteLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tDeleteLerp.Set_Lerp(0.5f, 255.f, 0.f);
+
 	m_bActive = false;
 
 	return S_OK;
@@ -54,6 +61,21 @@ _int CFlag::Update_Object(const _float& fTimeDelta)
 		Enter_Player();
 	else if (PLAYER_COLLISION2::EXIT == m_eCurCollison)
 		Exit_Player();
+
+	if (m_bCreate)
+	{
+		m_tCreateLerp.Update_Lerp(fTimeDelta);
+		m_fTranslucent = m_tCreateLerp.fCurValue;
+	}
+	if (m_bDelete)
+	{
+		m_tDeleteLerp.Update_Lerp(fTimeDelta);
+		m_fTranslucent = m_tDeleteLerp.fCurValue;
+		if (!m_tDeleteLerp.bActive)
+		{
+			m_bActive = false;
+		}
+	}
 
 
 
@@ -91,25 +113,25 @@ void CFlag::OnCollision_Stay(CGameObject* _pColObj)
 {
 	m_pFlagOwner->Check_Player_Collision(m_eID);
 
-	if (m_eFlagTag != FLAG_TAG::FLAG_START)
-	{
-		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-		m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
-	}
+	//if (m_eFlagTag != FLAG_TAG::FLAG_START)
+	//{
+	//	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+	//		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+	//	m_pEnterUI->EnterUI_On(UIENTER_TYPE::INSPECT, _pColObj);
+	//}
 }
 
 void CFlag::OnCollision_Exit(CGameObject* _pColObj)
 {
 	--m_iCurIn;
-	if (m_eFlagTag != FLAG_TAG::FLAG_START)
-	{
-		// UI Off
-		CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
-			(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
-
-		m_pEnterUI->EnterUI_Off();
-	}
+	//if (m_eFlagTag != FLAG_TAG::FLAG_START)
+	//{
+	//	// UI Off
+	//	CEnterUI* m_pEnterUI = static_cast<CEnterUI*>
+	//		(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Enter"));
+	//
+	//	m_pEnterUI->EnterUI_Off();
+	//}
 
 }
 
@@ -171,7 +193,6 @@ void CFlag::Exit_Player()
 {
 
 }
-
 
 void CFlag::Free()
 {

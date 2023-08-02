@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;E:\SR_CAT\Client\FMOD\lib\fmodex64_vc.lib;E:\SR_CAT\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -177,8 +177,10 @@
     <ClInclude Include="..\Header\BackgroundShade.h" />
     <ClInclude Include="..\Header\Bat_AfterImg.h" />
     <ClInclude Include="..\Header\BigCircle_Stemp.h" />
-    <ClInclude Include="..\Header\Bingo_FailUI.h" />
     <ClInclude Include="..\Header\Bingo_ClearUI.h" />
+    <ClInclude Include="..\Header\Bingo_FailUI.h" />
+    <ClInclude Include="..\Header\Bingo_Succes.h" />
+    <ClInclude Include="..\Header\Bingo_SuccesUI.h" />
     <ClInclude Include="..\Header\BlueStar_Bullet.h" />
     <ClInclude Include="..\Header\BossSceneMgr.h" />
     <ClInclude Include="..\Header\BossHpUI.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="..\Header\FoxState_Rest.h" />
     <ClInclude Include="..\Header\GetWorldEffect.h" />
     <ClInclude Include="..\Header\GreenBullet.h" />
+    <ClInclude Include="..\Header\HealEffect.h" />
     <ClInclude Include="..\Header\LargeIceBush.h" />
     <ClInclude Include="..\Header\MiniGameMgr_Bingo.h" />
     <ClInclude Include="..\Header\Paper.h" />
@@ -638,8 +641,10 @@
     <ClCompile Include="..\Code\BackgroundShade.cpp" />
     <ClCompile Include="..\Code\Bat_AfterImg.cpp" />
     <ClCompile Include="..\Code\BigCircle_Stemp.cpp" />
-    <ClCompile Include="..\Code\Bingo_FailUI.cpp" />
     <ClCompile Include="..\Code\Bingo_ClearUI.cpp" />
+    <ClCompile Include="..\Code\Bingo_FailUI.cpp" />
+    <ClCompile Include="..\Code\Bingo_Succes.cpp" />
+    <ClCompile Include="..\Code\Bingo_SuccesUI.cpp" />
     <ClCompile Include="..\Code\BlueStar_Bullet.cpp" />
     <ClCompile Include="..\Code\BossSceneMgr.cpp" />
     <ClCompile Include="..\Code\BossHpUI.cpp" />
@@ -663,6 +668,7 @@
     <ClCompile Include="..\Code\FoxState_Rest.cpp" />
     <ClCompile Include="..\Code\GetWorldEffect.cpp" />
     <ClCompile Include="..\Code\GreenBullet.cpp" />
+    <ClCompile Include="..\Code\HealEffect.cpp" />
     <ClCompile Include="..\Code\LargeIceBush.cpp" />
     <ClCompile Include="..\Code\MiniGameMgr_Bingo.cpp" />
     <ClCompile Include="..\Code\Paper.cpp" />

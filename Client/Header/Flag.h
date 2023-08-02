@@ -46,21 +46,32 @@ public:
 
 public:
 	virtual FLAG_TAG    Get_FlagTag() { return m_eFlagTag; }
-
+	virtual _float		Get_Translucent() { return m_fTranslucent; }
+	
+	virtual _bool		Get_Create() { return m_bCreate; }
+	virtual void		Set_Create() { m_bCreate = true; }
+	virtual _bool		Get_Delete() { return m_bDelete; }
+	virtual void		Set_Delete() { m_bDelete = true; }
 protected:
 	_int				m_iCurIn;
 	_int				m_iPrevIn;
 
 	PLAYER_COLLISION2	m_eCurCollison;
-	CRangeObj*			m_pRangeObj;
+	CRangeObj*			m_pRangeObj; 
 
-	_bool				m_bCol;
-	FLAG_TAG			m_eFlagTag; // 국기 타입
+	_bool				m_bCol; // 충돌 여부(안씀)
+
 protected:
 	CTexture*	m_pFlagTexCom;
-
 	CFlagOwner* m_pFlagOwner;
 
+	_float				m_fTranslucent; // 투명도
+	LERP_FLOAT_INFO		m_tCreateLerp; // 투명도 생성 러프
+	LERP_FLOAT_INFO		m_tDeleteLerp; // 투명도 소멸 러프
+	_bool				m_bCreate; // 생성 러프 시작
+	_bool				m_bDelete; // 소멸 러프 시작.
+
+	FLAG_TAG			m_eFlagTag; // 국기 타입
 protected:
 	virtual void			Free() override;
 };

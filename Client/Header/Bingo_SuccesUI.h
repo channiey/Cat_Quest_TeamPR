@@ -1,14 +1,14 @@
 #pragma once
 #include "UI.h"
 
-class CBingo_FailUI : public CUI
+class CBingo_SuccesUI : public CUI
 {
 
 protected:
 
-	explicit CBingo_FailUI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CBingo_FailUI(const CBingo_FailUI& rhs);
-	virtual ~CBingo_FailUI();
+	explicit CBingo_SuccesUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CBingo_SuccesUI(const CBingo_SuccesUI& rhs);
+	virtual ~CBingo_SuccesUI();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -39,7 +39,7 @@ private:
 	_int					m_iLerpLevel;
 public:
 
-	static CBingo_FailUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CBingo_SuccesUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
 protected:
