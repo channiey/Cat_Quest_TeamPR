@@ -236,6 +236,9 @@ STATE_TYPE CVioletDragonState_SpreadBullet::Update_State(const _float& fTimeDelt
     }
 
 
+
+
+
     if (m_bBullet9 == false && m_fAccTime >= 1.1f) //9
     {
         CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_FISH, SOUND_VOLUME_MONSKILL_THUNDER);

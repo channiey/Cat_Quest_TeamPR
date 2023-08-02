@@ -58,7 +58,7 @@ HRESULT CDagger::Ready_Object()
 
 _int CDagger::Update_Object(const _float& fTimeDelta)
 {
-
+    _vec3 vOwnerPos = m_pOwner->Get_Transform()->Get_Info(INFO_POS);
     _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
     _vec3 vBulletDir = vTargetPos - m_vPos;
 
@@ -80,7 +80,9 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
     {
         m_bWide = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(0.2f, m_vPos, _vec3{ m_vPos.x, m_vPos.y + 3.f, m_vPos.z });
+        m_tPos.Set_Lerp(0.3f, m_vPos, _vec3{ m_vPos.x , m_vPos.y -2.f, m_vPos.z });
+     
+      
     }
 
     if (true == m_bShoot)
