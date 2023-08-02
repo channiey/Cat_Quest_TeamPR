@@ -51,6 +51,8 @@ public:
 
 
 private:
+	CGameObject*			m_pBossHpUI;
+	_bool					m_bStart;
 
 	CSkill*					m_pFullDown;
 	_bool					m_bFullDown;

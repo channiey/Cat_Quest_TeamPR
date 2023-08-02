@@ -84,22 +84,27 @@ HRESULT CMonster::Ready_Object()
 
 	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
 	{
-		pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		CEventMgr::GetInstance()->Add_Obj(L"Player_Range_Basic_Attack", pGameObject);
-		arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
+		
 
 		if (m_eID != OBJ_ID::MONSTER_VIOLETDRAGON)
 		{
+			pGameObject = CRangeObj::Create(m_pGraphicDev, this, 10.f);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			CEventMgr::GetInstance()->Add_Obj(L"Monster_Range_Basic_Attack", pGameObject);
+			arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
+
 			pGameObject = CMonHpUI::Create(m_pGraphicDev, this);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			CEventMgr::GetInstance()->Add_Obj(L"MonHp_UI", pGameObject);
 		}
 		else
 		{
-			pGameObject = CBossHpUI::Create(m_pGraphicDev, this);
+			pGameObject = CRangeObj::Create(m_pGraphicDev, this, 7.f);
+			CSphereCollider* pShpere = dynamic_cast<CSphereCollider*>(pGameObject->Get_Component(COMPONENT_TYPE::COL_SPHERE, ID_STATIC));
+			pShpere->Set_Radius(12.f);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			CEventMgr::GetInstance()->Add_Obj(L"BossHp_UI", pGameObject);
+			CEventMgr::GetInstance()->Add_Obj(L"Boss_Range_Basic_Attack", pGameObject);
+			arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK] = dynamic_cast<CRangeObj*>(pGameObject);
 		}
 	}
 
@@ -190,7 +195,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 void CMonster::LateUpdate_Object()
 {
 	// Dead Condition
-	if (m_tStatInfo.fCurHP <= 0.f)
+	if (m_tStatInfo.fCurHP < 0.f)
 	{
 		m_tStatInfo.bDead = true;
 		

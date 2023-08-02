@@ -35,7 +35,7 @@ HRESULT CMage_Bullet::Ready_Object()
 
     m_fDamage = static_cast<CPlayer*>(m_pOwner)->Get_StatInfo().fAD;
 
-    m_fSpeed = 25.f;
+    m_fSpeed = 30.f;
 
     m_szName = L"Projectile_MageBullet";
 
@@ -55,7 +55,7 @@ _int CMage_Bullet::Update_Object(const _float& fTimeDelta)
 
     m_fAccTime += fTimeDelta;
 
-    if (m_fAccTime > 0.5f && !m_bDeleteTime)
+    if (m_fAccTime > 0.8f && !m_bDeleteTime)
     {
         m_tSpeed.Init_Lerp(LERP_MODE::EASE_OUT);
         m_tSpeed.Set_Lerp(0.5f, m_fSpeed, 0);

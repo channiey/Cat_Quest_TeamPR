@@ -79,6 +79,7 @@
 #include "GoldCoin.h"
 #include "ExpCoin.h"
 
+#include "BossHpUI.h"
 
 #include "Management.h"
 
@@ -102,14 +103,20 @@ HRESULT CVioletDragon::Ready_Object()
     __super::Ready_Object();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	CGameObject* pGameObject = CBossHpUI::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	CEventMgr::GetInstance()->Add_Obj(L"BossHp_UI", pGameObject);
+	m_pBossHpUI = pGameObject;
+	m_bStart = false;
+
 	// MoveInfo
 	m_tMoveInfo.fMoveSpeed = 8.f;
 	m_tMoveInfo.fRotSpeed = 1.f;
 
 	// Stat Info
 	m_tStatInfo.bDead = false;
-	m_tStatInfo.fCurHP = 2000.f;
-	m_tStatInfo.fMaxHP = m_tStatInfo.fCurHP;
+	m_tStatInfo.fCurHP = 0.f;
+	m_tStatInfo.fMaxHP = 2000.f;
 	m_tStatInfo.fAD = 10.f;
 
 
@@ -601,6 +608,8 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	
+
+
 	// Position Value
 	_vec3 vOwnerPos = m_pTransformCom->Get_Info(INFO_POS);
 
@@ -679,9 +688,12 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	if (this->Is_Active())
+	if (!m_bStart && this->Is_Active())
 	{
 		arrRangeObj[(UINT)RANGE_TYPE::BASIC_ATTACK]->Set_Active(true);
+		m_pBossHpUI->Set_Active(true);
+		Set_CurHP(m_tStatInfo.fMaxHP);
+		m_bStart = true;
 	}
 
 	if (PLAY_MODE::TOOL == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고

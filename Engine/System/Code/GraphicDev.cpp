@@ -80,7 +80,7 @@ HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,
 		return E_FAIL;
 	}
 	// 레벨UI 폰트
-	if (FAILED(D3DXCreateFont(m_pGraphicDev, 100, 30, 500, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pLevelFont)))
+	if (FAILED(D3DXCreateFont(m_pGraphicDev, 80, 30, FW_LIGHT, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, 0, L"Chela One", &m_pLevelFont)))
 	{
 		MSG_BOX("Create LevelFont Failed");
 		return E_FAIL;

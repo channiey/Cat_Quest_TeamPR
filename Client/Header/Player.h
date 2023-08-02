@@ -159,6 +159,7 @@ public:
 	CGameObject*		Get_Inventory() { return m_pInven; }
 
 	void				CloseTarget_Dis(CGameObject* pTarget);
+	_bool&				Is_Boss() { return m_bIsBoss; }
 
 	CGameObject*		MageBall_Target();
 	_vec3&				Get_BallDir()		  { return m_vBallDir; }
@@ -224,6 +225,7 @@ private:
 
 	// 추적공격
 	_bool						m_bIsMonster;
+	_bool						m_bIsBoss;
 	_float						m_fMonTargetLength;
 	_vec3						m_vMonTargetDir;
 	CGameObject*				m_pMonTarget;

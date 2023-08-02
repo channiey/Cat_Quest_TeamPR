@@ -40,8 +40,8 @@ HRESULT CLevelUI::Ready_Object()
 
 	m_rcLevel.left = m_fPosX - m_fSizeX + 1;
 	m_rcLevel.right = m_fPosX + m_fSizeX + 1;
-	m_rcLevel.top = m_fPosY - m_fSizeY - 2;
-	m_rcLevel.bottom = m_fPosY + m_fSizeY - 2;
+	m_rcLevel.top = m_fPosY - m_fSizeY + 8;
+	m_rcLevel.bottom = m_fPosY + m_fSizeY + 8;
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

@@ -27,7 +27,7 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 {
 	if (!m_bEnter)
 	{
-		if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() ||
+		if (!CCameraMgr::GetInstance()->Get_CurCamera()->Is_BackView() &&
 			!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_RigidBody()->Is_KnockUp())
 		{
 			_vec3 vPpos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO_POS);
@@ -37,6 +37,8 @@ STATE_TYPE CPlayerState_fIdle::Update_State(const _float& fTimeDelta)
 			CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Def")->Set_Active(true);
 			CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Mana")->Set_Active(true);
 		}
+		
+
 		m_bEnter = true;
 	}
 
