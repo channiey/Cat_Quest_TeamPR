@@ -39,13 +39,14 @@ _int CShadow_Item::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+	if (!m_pOwnerobject->Is_Active())
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);
+		return iExit;
+	}
+
 	if (m_pOwnerobject->Is_Active())
 	{
-		if (!m_pOwnerobject->Is_Active())
-		{
-			CEventMgr::GetInstance()->Delete_Obj(this);
-			return iExit;
-		}
 
 		Engine::Add_RenderGroup(RENDER_ALPHA, this);
 

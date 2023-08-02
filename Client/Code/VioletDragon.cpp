@@ -1226,19 +1226,19 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	// Watch
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_UP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchUp_VioletDragon", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	//// Watch
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_UP)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchUp_VioletDragon", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_IN_SKY)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchInSky_VioletDragon", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_IN_SKY)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchInSky_VioletDragon", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_DOWN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchDown_VioletDragon", this));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	//pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_DOWN)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_WatchDown_VioletDragon", this));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
 
