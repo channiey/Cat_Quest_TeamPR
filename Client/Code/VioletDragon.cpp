@@ -89,7 +89,7 @@
 #include "Management.h"
 
 
-//#include "Shadow_Boss.h"    // 병합 후 주석 풀기
+#include "Shadow_Boss.h"    // 병합 후 주석 풀기
 
 
 CVioletDragon::CVioletDragon(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -728,10 +728,10 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 
 		// 병합 후 주석 풀기 
-		//if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
-		//{
-		//	CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Boss::Create(m_pGraphicDev, this));
-		//}
+		if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
+		{
+			CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Boss::Create(m_pGraphicDev, this));
+		}
 
 
 	}

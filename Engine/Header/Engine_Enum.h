@@ -283,7 +283,6 @@ namespace Engine
 
 	// Jun 3차 이후 추가 ID
 	PLAYER_AFTERIMG, EFFECT_SNOW, EFFECT_RAIN, EFFECT_RAIN_RIPPLE,
-	SKILL_PLAYER_ARROW,
 
 	// 나라 국기(스타트)
 	FLAG_START,
@@ -303,7 +302,7 @@ namespace Engine
 	// Boss Scene Trigger
 	BOSS_SCENE_TRIGGER,
 
-
+		 
 
 	TERRAIN_TEMPLE,
 	// 보스 그림자
@@ -311,6 +310,7 @@ namespace Engine
 	// 템플 비석, 보상 상자 , 비석 먼지
 	NPC_ZEOLITE, ENVIRONMENT_BINGO_CHEST, EFFECT_ZEOLITE_DUST,
 
+	SKILL_PLAYER_ARROW,
 	TYPEEND
 };
 
