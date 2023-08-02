@@ -50,7 +50,7 @@ HRESULT CComBack_Bullet::Ready_Object()
 
     m_bInit = false;
 
-
+    m_bStopPos = false;
 
 	return S_OK;
 }
@@ -63,9 +63,14 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_tAlpha.Init_Lerp();
         m_tAlpha.eMode = LERP_MODE::EXPONENTIAL;
         m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f );
-
-
     }
+    if (true == m_bStopPos)
+    {
+        m_bStopPos = false;
+ 
+     }
+
+
 
     if (m_pOwner->Is_Active() == false)
     {

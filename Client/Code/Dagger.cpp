@@ -43,18 +43,44 @@ HRESULT CDagger::Ready_Object()
 
     m_szName = L"Projectile_Dagger";
 
+    m_bStop = false;
+    m_bShoot = false;
+    
+    m_check1 = false;
+    m_check2 = false;
+    
+
+
     return S_OK;
  
 }
 
 _int CDagger::Update_Object(const _float& fTimeDelta)
 {
+
+    _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
+    _vec3 vBulletDir = vTargetPos - m_vPos;
+
     if (false == m_bInit)
     {
       
         m_tAlpha.Init_Lerp();
         m_tAlpha.Set_Lerp(0.5f, 0.f, 255.f);
         m_bInit = true;
+    }
+    if (true == m_bStop)
+    {
+        m_bStop = false;
+        m_tPos.Init_Lerp();
+        m_tPos.Set_Lerp(0.1f, m_vPos, m_vPos);
+
+    }
+    if (true == m_bShoot)
+    {
+        m_bShoot = false;
+        m_tPos.Init_Lerp();
+        m_tPos.Set_Lerp(1.f, m_vPos, vTargetPos );
+
     }
 
     if (m_pOwner->Is_Active() == false)
@@ -67,39 +93,56 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
 
 
     m_tAlpha.Update_Lerp(fTimeDelta);
+    m_tPos.Update_Lerp(fTimeDelta);
+    m_pTransformCom->Set_Pos(m_tPos.vCurVec);
 
     m_fAccTime += fTimeDelta;
 
-    _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
-
-
-    _vec3 vBulletDir = vTargetPos - m_vPos;
-
-
-    if (m_fAccTime <= 3.f)
+ 
+    if (m_bStop == false && m_check1 == false &&  m_fAccTime <= 3.f)
     {
-        m_pTransformCom->Set_Dir(vec3.zero);
-
-    }
-    if (m_fAccTime > 3.f && m_bNonTarget == false)
-    {
-        m_pTransformCom->Set_Dir(vBulletDir);
-        //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
-        //vBulletDir = m_pTransformCom->Get_Dir();
-        m_bNonTarget = true;
-    }
-    if (m_fAccTime >= 4.f)
-    {
-        // m_pTransformCom->Set_Dir(vBulletDir);
-       // m_fSpeed = 40.f;
+        m_bStop = true;
+        m_check1 = true;
     }
 
-    if (m_fAccTime >= 5.f)
+    if ( m_bShoot == false  && m_check2 == false && m_fAccTime > 3.f)
+    {
+        m_check2 = true;
+        m_bShoot = true;
+    }
+
+
+    if (m_fAccTime > 4.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
+    
 
-    m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
+    // Lerp before
+    //if (m_fAccTime <= 3.f)
+    //{
+    //    m_pTransformCom->Set_Dir(vec3.zero);
+
+    //}
+    //if (m_fAccTime > 3.f && m_bNonTarget == false)
+    //{
+    //    m_pTransformCom->Set_Dir(vBulletDir);
+    //    //this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
+    //    //vBulletDir = m_pTransformCom->Get_Dir();
+    //    m_bNonTarget = true;
+    //}
+    //if (m_fAccTime >= 4.f)
+    //{
+    //    // m_pTransformCom->Set_Dir(vBulletDir);
+    //   // m_fSpeed = 40.f;
+    //}
+
+    //if (m_fAccTime >= 5.f)
+    //{
+    //    CEventMgr::GetInstance()->Delete_Obj(this);
+    //}
+
+    //m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
     return iExit;
 }

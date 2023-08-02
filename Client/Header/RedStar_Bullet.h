@@ -34,6 +34,15 @@ private:
 	_bool			m_bInit;
 
 	LERP_FLOAT_INFO m_tAlpha;
+	LERP_VEC3_INFO  m_tPos;
+
+
+	_bool				m_check1;
+	_bool				m_check2;
+
+	_bool				m_bBack;
+	_bool				m_bTargetChase;
+
 
 
 private:

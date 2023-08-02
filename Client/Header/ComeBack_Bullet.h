@@ -64,6 +64,8 @@ private:
 	LERP_FLOAT_INFO m_tAlpha;
 
 
+	LERP_VEC3_INFO  m_shakePos;
+	_bool			m_bStopPos;
 
 protected:
 	virtual void		Free() override;

@@ -34,7 +34,18 @@ private:
 	_bool				m_bNonTarget;
 
 	_bool				m_bInit;
+
+
+	_bool				m_bStop;
+	_bool				m_bShoot;
+
+
+	_bool				m_check1;
+	_bool				m_check2;
+
 	LERP_FLOAT_INFO		m_tAlpha;
+	LERP_VEC3_INFO      m_tPos;
+
 
 private:
 	_float					m_fDamage;
