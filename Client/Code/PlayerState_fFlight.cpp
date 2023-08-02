@@ -164,7 +164,8 @@ STATE_TYPE CPlayerState_fFlight::Key_Input(const _float& fTimeDelta)
 		CSoundMgr::GetInstance()->PlaySoundW(L"skill_lightnyan.wav", CHANNEL_ID::PLAYER_1, VOLUME_PLAYER_SKILL);
 		return STATE_TYPE::FRONT_ATTACK1;
 	}
-	else if (!m_bIsLand && m_bIsSky && CInputDev::GetInstance()->Get_DIMouseState(DIM_LB) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE)
+	else if (!m_bIsLand && m_bIsSky && CInputDev::GetInstance()->Get_DIMouseState(DIM_LB) && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::MAGE &&
+		!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_FlySkill()->Is_Active())
 	{
 		if (m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z > 0)
 			return STATE_TYPE::BACK_ATTACK;

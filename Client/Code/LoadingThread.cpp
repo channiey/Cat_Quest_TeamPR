@@ -1366,9 +1366,13 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_RainRipple"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Environment/Rain/RainRipple/%d.png", 5)), E_FAIL);
-
+	// 마법사 겨냥 스킬
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Arrow"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Arrow.png")), E_FAIL);
+
+	// 퀘스트용 멋들어진 UI
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_QuestBox"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest_Box.png")), E_FAIL);
 
 #pragma endregion
 	 

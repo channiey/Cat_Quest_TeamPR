@@ -54,6 +54,7 @@
 #include "RingUI.h"
 #include "Effect_Font.h"
 #include "FlightUI.h"
+#include "Quest_DialogUI.h"
 
 // Shadow
 #include "Shadow_Player.h"
@@ -545,9 +546,16 @@ void CPlayer::LateUpdate_Object()
 		if (m_pSkillArrow->Is_Active())
 		{
 			_vec3 vDir = m_pSkillArrow->Get_Transform()->Get_Dir();
-			m_pTransformCom->Set_Dir(vDir);
 
-			if(m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_ROLL &&
+			if (m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_WALK &&
+				m_pStateMachineCom->Get_CurState() != STATE_TYPE::BACK_WALK)
+			{
+				m_pTransformCom->Set_Dir(vDir);
+			}
+			
+			if (m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_WALK &&
+				m_pStateMachineCom->Get_CurState() != STATE_TYPE::BACK_WALK &&
+			    m_pStateMachineCom->Get_CurState() != STATE_TYPE::FRONT_ROLL &&
 				m_pStateMachineCom->Get_CurState() != STATE_TYPE::BACK_ROLL)
 					Set_PlayerLook(vDir);
 
@@ -558,10 +566,6 @@ void CPlayer::LateUpdate_Object()
 			MageBall_Target();
 		}
 	}
-
-
-
-
 
 	LevelUp();
 
@@ -1522,6 +1526,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		}
 	}
 
+	if (CInputDev::GetInstance()->Key_Down('T'))
+	{
+		CGameObject* pGameObject = CQuest_DialogUI::Create(m_pGraphicDev, L"다메 다메 다메요 다메 다메요.\n아나따와 스끼데 스끼 스끼데.");
+		CEventMgr::GetInstance()->Add_Obj(L"UI_QuestDialog", pGameObject);
+	}
 
 	if (CInputDev::GetInstance()->Key_Down('L'))
 		Set_CurHP(m_tStatInfo.fMaxHP);
