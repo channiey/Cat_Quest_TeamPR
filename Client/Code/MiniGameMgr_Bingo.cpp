@@ -16,6 +16,7 @@
 
 #include "QuestMgr.h"
 #include "Zeolite.h"
+#include "CameraMgr.h"
 
 IMPLEMENT_SINGLETON(CMiniGameMgr_Bingo)
 
@@ -127,6 +128,23 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 				m_iSetIndex = 7;
 
 				m_bStart = true;
+
+				// Camera Action Bingo Start
+				{
+					_vec3 vPlayerPos = CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Info(INFO_POS);
+					_vec3 vBingoCenterPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::FLAG, L"Flag_Start")->Get_Transform()->Get_Info(INFO_POS);
+					vBingoCenterPos.z -= 10.f;
+
+					//CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vPlayerPos, vBingoCenterPos, TRUE);
+					
+					CCameraMgr::GetInstance()->Get_CurCamera()->Set_FlightView(TRUE);
+
+					CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
+						0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_tProj.FOV, CAM_FOV_BINGO, LERP_MODE::SMOOTHERSTEP);
+
+					CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_tDistanceLerp.Set_Lerp(
+						0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance, CAM_DISTANCE_BINGO);
+				}
 			}
 		}
 	}
@@ -208,6 +226,24 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 						dynamic_cast<CZeolite*>(CManagement::GetInstance()->
 						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Zeolite"))->
 						Set_IsDelete();
+					}
+
+					// Camera Action  Bingo End
+					{
+						
+						_vec3 vPlayerPos = CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Info(INFO_POS);
+						_vec3 vBingoCenterPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::FLAG, L"Flag_Start")->Get_Transform()->Get_Info(INFO_POS);
+						vBingoCenterPos.z -= 10.f;
+						
+						//CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vBingoCenterPos, vPlayerPos, FALSE);
+
+						CCameraMgr::GetInstance()->Get_CurCamera()->Set_FlightView(FALSE);
+
+						CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
+							0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_tProj.FOV, CAM_FOV_DEFAULT, LERP_MODE::SMOOTHERSTEP);
+
+						CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_tDistanceLerp.Set_Lerp(
+							0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance, CAM_DISTANCE_DEFAULT);
 					}
 
 					CQuestMgr::GetInstance()->Set_ReadyNext();

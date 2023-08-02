@@ -6,6 +6,7 @@
 #include "FadeUI.h"
 #include"BossSceneMgr.h"	
 #include "Engine_Define.h"
+#include "MiniGameMgr_Bingo.h"
 
 CPlayer_Camera::CPlayer_Camera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCameraObject(pGraphicDev)
@@ -158,8 +159,8 @@ void CPlayer_Camera::Set_Zoom(const _float& fTimeDelta)
 			
 			if (SCENE_TYPE::DUNGEON_TEMPLE == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
 			{
-				m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_BINGO, LERP_MODE::SMOOTHERSTEP);
-				m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_BINGO);
+				/*m_pCameraCom->Lerp_FOV(fLerpTime, m_pCameraCom->m_tProj.FOV, CAM_FOV_BINGO, LERP_MODE::SMOOTHERSTEP);
+				m_pCameraCom->m_tDistanceLerp.Set_Lerp(fLerpTime, m_pCameraCom->m_fDistance, CAM_DISTANCE_BINGO);*/
 			}
 			else
 			{
@@ -207,7 +208,7 @@ void CPlayer_Camera::Set_ViewSpace()
 	_vec3 vFollowPos, vLookPos, vLerpPos{};
 
 	// INTRO
-	if (CBossSceneMgr::GetInstance()->Is_BossIntroAnimation_End())// && !CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::FADE_OUT))
+	if (CBossSceneMgr::GetInstance()->Is_BossIntroAnimation_End() && !CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::FADE_OUT))
 	{
 		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 

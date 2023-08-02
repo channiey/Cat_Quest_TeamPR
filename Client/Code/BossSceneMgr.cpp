@@ -81,11 +81,13 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 			if (m_fDeadFadeStayTime <= m_fAcc)
 			{
 				// 03. 카메라, BGM 페이드 인 (다 하얘진 상황)
+				if (CAMERA_ACTION::BOSS_SKILL_IN == CCameraMgr::GetInstance()->Get_CurCameraAction() || CAMERA_ACTION::BOSS_SKILL_OUT == CCameraMgr::GetInstance()->Get_CurCameraAction())
+					CCameraMgr::GetInstance()->Set_CurCameraAction(CAMERA_ACTION::NONE);
 				CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance = CAM_DISTANCE_DEFAULT;
 				CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_IN);
 				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_BOSS);
 				CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EXPONENTIAL, 2.5f, 0.f, SOUND_VOLUME_BGM);
-				CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_02_theme.wav");
+				CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_02_theme.wav", BGM_TYPE::ENDING);
 				m_arrPage[(_uint)PAGE::FADE_OUT] = TRUE;
 				m_bFadeOut_End = TRUE;
 				Set_Npc();
@@ -147,7 +149,7 @@ HRESULT CBossSceneMgr::Start_BossScene()
 	pBoss->Get_Transform()->Set_Pos(_vec3{ BOSS_POS_X, pBoss->Get_Transform()->Get_Info(INFO_POS).y, BOSS_POS_Z });
 
 	// 브금 변경
-	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_battle_theme.wav");
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_battle_theme.wav", BGM_TYPE::BOSS);
 	
 	// 카메라 액션 1
 	CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_BOSS);

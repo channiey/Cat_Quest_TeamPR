@@ -91,7 +91,7 @@ void CIsland_Village::Enter_Player()
 		pGameObject = CDungeonTextUI::Create(m_pGraphicDev);
 		NULL_CHECK(pGameObject);
 		CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
-		CSoundMgr::GetInstance()->ChangeBGM(L"catquest_overworld_theme.wav");
+		CSoundMgr::GetInstance()->ChangeBGM(L"catquest_overworld_theme.wav", BGM_TYPE::ISLAND_VILLAGE);
 	}
 
 

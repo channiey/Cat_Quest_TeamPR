@@ -21,15 +21,17 @@ public:
 
 public:
 	void						PlaySound(TCHAR* pSoundKey, CHANNEL_ID eID, float fVolume);
-	HRESULT						PlayBGM(TCHAR* pSoundKey);
-	HRESULT						ChangeBGM(TCHAR* pSoundKey);
+	HRESULT						ChangeBGM(TCHAR* pSoundKey, const BGM_TYPE& _eType);
 	void						StopAll();
 	void						SetChannelVolume(CHANNEL_ID eID, float fVolume);
+	HRESULT						PlayBGM(TCHAR* pSoundKey, const BGM_TYPE& _eType); 
+
+	const BGM_TYPE&				Get_CurBgm_Type() const { return m_eCurBgmType; }
 
 public:
 	void						Lerp_Volume_CurBGM(const LERP_MODE& _eMode, const _float& _fTime, const _float& _fStartVolume, const _float& _fEndVolume);
 
-	const _float& Get_CurBGMVolume() const { return m_LerpCurBgmVolume.fCurValue; }
+	const _float&				Get_CurBGMVolume() const { return m_LerpCurBgmVolume.fCurValue; }
 
 private:
 	void						StopSound(CHANNEL_ID eID);
@@ -45,6 +47,8 @@ private:
 
 	_bool						m_bPlayingBGM;
 	_bool						m_bChangeBGM;
+
+	BGM_TYPE					m_eCurBgmType;
 
 private:
 	virtual void				Free();

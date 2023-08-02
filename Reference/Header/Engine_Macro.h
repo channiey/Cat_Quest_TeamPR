@@ -34,7 +34,7 @@ namespace Engine
 
 // Cam Diatance
 #define CAM_DISTANCE_DEFAULT		23.f
-#define CAM_DISTANCE_BINGO			40.f
+#define CAM_DISTANCE_BINGO			60.f
 #define	CAM_DISTANCE_MAX			70.f
 #define	CAM_DISTANCE_JUMP			17.f
 
@@ -46,7 +46,7 @@ namespace Engine
 #define CAM_FOV_PLAYER_ATTACK		D3DXToRadian(57.f) // 근거리 공격
 #define	CAM_FOV_DRAG_MAX			D3DXToRadian(90.f) // 드래그시 FOV
 #define	CAM_FOV_QUEST_TAKL			D3DXToRadian(50.f)	
-#define CAM_FOV_BINGO				D3DXToRadian(70.f)
+#define CAM_FOV_BINGO				D3DXToRadian(80.f)
 
 
 #define CAM_FOV_BOSS_DELTA			D3DXToRadian(10.f)
@@ -81,9 +81,9 @@ namespace Engine
 #define BOSS_POS_Z						530.f
 
 
-#define	JUMP_POWER						600.f // 600
-#define	SLIP_SPEED						25.f // 25.f
-#define FLIGHT_SPEED					15.f
+#define	JUMP_POWER						600.f
+#define	SLIP_SPEED						25.f 
+#define FLIGHT_SPEED					15.f // 15.f
 	
 #define	DF_RB_MAXSPEED					40.f
 #define DF_SLEEP_MAXDPEED				0.3f

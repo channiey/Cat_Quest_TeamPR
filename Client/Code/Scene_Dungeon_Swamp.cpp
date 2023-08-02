@@ -77,7 +77,7 @@ HRESULT CScene_Dungeon_Swamp::Ready_Scene()
 
 	// CTalkMgr::GetInstance()->Init(); // 토크 매니저 초기화
 
-	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_dungeon_theme.wav");
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_dungeon_theme.wav", BGM_TYPE::ISLAND_DUNGEON);
 
 	return S_OK;
 }

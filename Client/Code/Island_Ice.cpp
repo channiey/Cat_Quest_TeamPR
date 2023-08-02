@@ -113,7 +113,7 @@ void CIsland_Ice::Enter_Player()
 	NULL_CHECK(pGameObject);
 	CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
 
-	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_calm_theme.wav");
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_calm_theme.wav", BGM_TYPE::ISLAND_ICE);
 
 
 	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));

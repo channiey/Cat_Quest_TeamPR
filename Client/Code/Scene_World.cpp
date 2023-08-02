@@ -241,7 +241,7 @@ HRESULT CScene_World::Ready_Scene()
 	m_bFinish = FALSE;
 	m_fAcc = 0.f;
 
-	//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+	SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
 
 	return S_OK;
 }
@@ -296,9 +296,18 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 				_vec3 vPos{};
 				
 				if (SCENE_TYPE::DUNGEON_SWAMP == CManagement::GetInstance()->Get_PrevSceneType())
+				{
 					vPos = { WORLD_DUNGEON_ENTERANCE_X, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, WORLD_DUNGEON_ENTERANCE_Z };
+				}
 				else if (SCENE_TYPE::DUNGEON_TEMPLE == CManagement::GetInstance()->Get_PrevSceneType())
+				{
 					vPos = { WORLD_TEMPLE_ENTERANCE_X, pPlayer->Get_Transform()->Get_Info(INFO_POS).y, WORLD_TEMPLE_ENTERANCE_Z };
+				/*	CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_FOV(CAM_FOV_DEFAULT);
+					CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Set_Distance(CAM_DISTANCE_DEFAULT);
+					CCameraMgr::GetInstance()->Set_Projection();*/
+					CSoundMgr::GetInstance()->ChangeBGM(L"catquest_overworld_theme.wav", BGM_TYPE::ISLAND_VILLAGE);
+
+				}
 
 				pPlayer->Get_Transform()->Set_Pos(vPos);
 			}
@@ -920,9 +929,9 @@ HRESULT CScene_World::Ready_Layer_YC()
 
 void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density)
 {
-
-	float Start = 50.f;   // Linear fog distances
-	float End = 130.f;
+	return;
+	float Start = 0.5f; // 50.f;   // Linear fog distances
+	float End = 0.8f; //  130.f;
 
 	// Enable fog blending. d w ddda
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
@@ -933,14 +942,15 @@ void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT 
 	// Set fog parameters.
 	if (D3DFOG_LINEAR == Mode)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, Mode);
+		m_pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, Mode); // D3DRS_FOGVERTEXMODE
 		m_pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
 		m_pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
 	}
 	else
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
-		m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+		m_pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, Mode); // D3DRS_FOGVERTEXMODE
+		//m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+		m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, 0.66f);
 	}
 
 	// Enable range-based fog if desired (only supported for
@@ -949,6 +959,6 @@ void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT 
 	//   D3DPRASTERCAPS_FOGRANGE capability.
 	// Note: This is slightly more performance intensive
 	//   than non-range-based fog.
-	if (UseRange)
-		m_pGraphicDev->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+	/*if (UseRange)
+		m_pGraphicDev->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);*/
 }

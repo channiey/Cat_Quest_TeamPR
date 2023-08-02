@@ -43,7 +43,7 @@ HRESULT CMiniGameMgr_Jump::Start_MiniGame()
 {
 	m_bActive = TRUE;
 
-	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_kitcat_theme.wav");
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_kitcat_theme.wav", BGM_TYPE::ISLAND_JUMP);
 
 
 	return S_OK;

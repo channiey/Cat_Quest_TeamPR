@@ -29,6 +29,8 @@ public:
 	HRESULT					Set_Viewport(const D3DVIEWPORT9& _tViewport);
 	HRESULT					Set_InitLook_Y(const _float& _fY) { m_fInitLookY = _fY;	return S_OK; }
 	void					Set_CameraType(const CAMERA_TYPE& _eType) { m_eCameraType = _eType; }
+	void					Set_FOV(const _float& _fFOV) { m_tProj.FOV = _fFOV; }
+	void					Set_Distance(const _float& _fDist) { m_fDistance = _fDist; }
 
 public:
 	void					Set_LookAt(CGameObject* _pLookAt)	{ m_pLookAt = _pLookAt; }

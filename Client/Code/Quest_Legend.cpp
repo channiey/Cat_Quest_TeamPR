@@ -25,6 +25,8 @@
 
 #include "MiniGameMgr_Bingo.h"
 
+#include "CameraMgr.h"
+
 CQuest_Legend::CQuest_Legend(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
 	m_strQuestName = _QuestName;
@@ -156,6 +158,21 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 						*_IsAble = false;
 						m_bReadyNext = false;
 
+						// Camera Action Bingo Start
+						{
+							/*cout << 1 << endl;
+							_vec3 vPlayerPos = CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Info(INFO_POS);
+							_vec3 vBingoCenterPos = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::FLAG, L"Flag_Start")->Get_Transform()->Get_Info(INFO_POS);
+							vBingoCenterPos.z -= 10.f;
+
+							CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vPlayerPos, vBingoCenterPos, TRUE);*/
+
+							/*CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Lerp_FOV(
+								0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_tProj.FOV, CAM_FOV_BINGO, LERP_MODE::SMOOTHERSTEP);
+
+							CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_tDistanceLerp.Set_Lerp(
+								0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance, CAM_DISTANCE_BINGO);*/
+						}
 						break;
 					}
 				}

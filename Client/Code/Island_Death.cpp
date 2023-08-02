@@ -88,7 +88,7 @@ void CIsland_Death::Enter_Player()
 	NULL_CHECK(pGameObject);
 	CEventMgr::GetInstance()->Add_Obj(L"Text_UI", pGameObject);
 
-	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_drakoth_theme_short.wav");
+	CSoundMgr::GetInstance()->ChangeBGM(L"catquest_drakoth_theme_short.wav", BGM_TYPE::ISLAND_DEATH);
 
 	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
 	NULL_CHECK(pGenerator);

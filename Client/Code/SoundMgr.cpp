@@ -12,6 +12,8 @@ CSoundMgr::CSoundMgr()
 	m_bPlayingBGM = FALSE;
 	m_bChangeBGM = FALSE;
 
+	m_eCurBgmType = BGM_TYPE::NONE;
+
 	ZeroMemory(&m_LerpCurBgmVolume, sizeof(LERP_FLOAT_INFO));
 	ZeroMemory(&m_LerpPrevBgmVolume, sizeof(LERP_FLOAT_INFO));
 }
@@ -92,8 +94,10 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNEL_ID eID, float fVolume)
 	FMOD_System_Update(m_pSystem);
 }
 
-HRESULT CSoundMgr::PlayBGM(TCHAR * pSoundKey)
+HRESULT CSoundMgr::PlayBGM(TCHAR * pSoundKey, const BGM_TYPE& _eType)
 {
+	m_eCurBgmType = _eType;
+
 	if (!m_bPlayingBGM) // 최초 브금 (월드 입장)
 	{
 		m_bPlayingBGM = TRUE;
@@ -119,8 +123,12 @@ HRESULT CSoundMgr::PlayBGM(TCHAR * pSoundKey)
 	return S_OK;
 }
 
-HRESULT CSoundMgr::ChangeBGM(TCHAR* pSoundKey)
+HRESULT CSoundMgr::ChangeBGM(TCHAR* pSoundKey, const BGM_TYPE& _eType)
 {
+	if (_eType == m_eCurBgmType) return E_FAIL;
+
+	m_eCurBgmType = _eType;
+
 	m_LerpPrevBgmVolume = m_LerpCurBgmVolume;
 	m_pChannelArr[(_uint)CHANNEL_ID::BGM_PREV] = m_pChannelArr[(_uint)CHANNEL_ID::BGM_CUR];
 
@@ -130,7 +138,8 @@ HRESULT CSoundMgr::ChangeBGM(TCHAR* pSoundKey)
 	m_LerpCurBgmVolume.Init_Lerp(LERP_MODE::EASE_OUT);
 	m_LerpCurBgmVolume.Set_Lerp(2.f, 0.f, SOUND_VOLUME_BGM);
 	
-	PlayBGM(pSoundKey);
+	PlayBGM(pSoundKey, _eType);
+
 	m_bChangeBGM = TRUE;
 
 	return S_OK;
