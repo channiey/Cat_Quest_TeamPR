@@ -118,10 +118,20 @@ void CSkill_Boss_FullDown::Render_Object()
 
 void CSkill_Boss_FullDown::OnCollision_Enter(CGameObject* _pColObj)
 {
-	//// Player
-	CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
-	dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
 
+	switch (_pColObj->Get_Type())
+	{
+	case Engine::OBJ_TYPE::PLAYER:
+	{
+		CGameObject* pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
+		dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fSkillDamage, this);
+	}
+	break;
+	default:
+	{
+	}
+	break;
+	}
 
 }
 

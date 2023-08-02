@@ -29,7 +29,7 @@ private:
 
 	_float			m_fAccTime;
 	_bool			m_bAssault;
-
+	_bool			m_bDirSelect;
 	
 private:
 	virtual void Free();

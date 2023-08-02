@@ -896,6 +896,18 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dead_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dead/%d.png", 17)), E_FAIL);
 
+	// Watch in sky
+	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_WatchInSky_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/WatchInSky/%d.png", 17)), E_FAIL);*/
+
+	// Watch Up
+	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_WatchUp_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/WatchUp/%d.png", 17)), E_FAIL);*/
+
+
+	// Watch Down
+	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_WatchDown_VioletDragon",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/WatchDown/%d.png", 17)), E_FAIL);*/
 
 
 

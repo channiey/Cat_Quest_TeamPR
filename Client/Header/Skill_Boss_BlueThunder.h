@@ -63,6 +63,18 @@ private:
 	CSkillEffect*		  m_pSKillEffect8;
 
 
+	// 충돌 범위
+	CGameObject* m_pRangeObj1;
+	CGameObject* m_pRangeObj2;
+	CGameObject* m_pRangeObj3;
+	CGameObject* m_pRangeObj4;
+
+	CGameObject* m_pRangeObj5;
+	CGameObject* m_pRangeObj6;
+	CGameObject* m_pRangeObj7;
+	CGameObject* m_pRangeObj8;
+
+
 	
 	_bool		m_bBaseEffectEnd;
 	_bool	    m_bSkillEffectEnd;

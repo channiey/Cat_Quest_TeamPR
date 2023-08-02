@@ -1,37 +1,34 @@
-#include "VioletDragonState_Dash_Attack.h"
+#include "VioletDragonState_Watch_In_Sky.h"
 #include "Export_Function.h"
-#include "Monster.h"
 #include "Player.h"
 #include "VioletDragon.h"
 #include "SoundMgr.h"
+#include "CameraMgr.h"
 
-CVioletDragonState_Dash_Attack::CVioletDragonState_Dash_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CState(pGraphicDev)
-	, m_fAccTime(0.f)
+CVioletDragonState_Watch_In_Sky::CVioletDragonState_Watch_In_Sky(LPDIRECT3DDEVICE9 pGraphicDev)
+    : CState(pGraphicDev)
 {
 }
 
-CVioletDragonState_Dash_Attack::~CVioletDragonState_Dash_Attack()
+CVioletDragonState_Watch_In_Sky::~CVioletDragonState_Watch_In_Sky()
 {
 }
 
-HRESULT CVioletDragonState_Dash_Attack::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_Watch_In_Sky::Ready_State(CStateMachine* pOwner)
 {
-	if (nullptr != pOwner)
-	{
-		m_pOwner = pOwner;
-	}
-	m_eState = STATE_TYPE::BOSS_DASH_ATTACK;
 
-	m_fAccTime = 0.f;
-    
-    m_bAssault = false;
-    m_bDirSelect = false;
+    if (nullptr != pOwner)
+    {
+        m_pOwner = pOwner;
+    }
+    m_eState = STATE_TYPE::BOSS_WATCH_IN_SKY;
 
-	return S_OK;
+    m_fAccTime = 0.f;
+
+    return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Watch_In_Sky::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -56,6 +53,7 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
     _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
     _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+
 
 
     // Player Component ==============================
@@ -104,108 +102,64 @@ STATE_TYPE CVioletDragonState_Dash_Attack::Update_State(const _float& fTimeDelta
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
-
     // Distance
     _float      fPlayerDistance = (D3DXVec3Length(&vDir));       // 플레이어와의 거리
     _float      fOriginDistance = (D3DXVec3Length(&vOriginDir)); // 원 위치와의 거리
 
 
-    // Time
+
+
     m_fAccTime += fTimeDelta;
 
-    if (m_bDirSelect == false)
-    {
-        // x 이동 방향에 따라 스케일 전환 
-        if (vOwnerPos.x < (vPlayerPos).x && vOwnerScale.x < 0)
-        {
-            pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-        }
-        else if (vOwnerPos.x > (vPlayerPos).x && vOwnerScale.x > 0)
-        {
-            pOwnerTransform->Set_Scale({ -vOwnerScale.x , vOwnerScale.y, vOwnerScale.z });
-        }
-        m_bDirSelect == true;
-    }
-  
 
-    if (m_bAssault == false  && pOwenrCurAnimation->Is_End())
+
+    if (pOwenrCurAnimation->Is_End())
     {
-       
-        if (m_fAccTime >= 0.2f )
-        {
-            dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(60.f);
-            pOwnerTransform->Set_Dir({ vDir.x, 0.f, vDir.z });
-            CSoundMgr::GetInstance()->PlaySound(L"DragonDash.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.7f);
-            m_bAssault = true;
-        }
+    
+      
+     
     }
 
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-
-
-
-
-    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
-    {
-        return STATE_TYPE::BOSSDEAD;
-    }
-
-
-
-    //// 현재 상태의 기능
-    //dynamic_cast<CAIComponent*>(pOwnerAI)->Chase_Target(&vPlayerPos, fTimeDelta, vOwnerSpeed);
-    //pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed *2 );
-    //
-
-#pragma region State Change
-
-
-    if ( m_fAccTime >=1.f)
+    if ( m_fAccTime >= 5.f)
     {
         m_fAccTime = 0.f;
-        m_bAssault =false;
-        dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Set_MoveSpeed(8.f);
-
-        return STATE_TYPE::BOSS_READY_PATTERN;
+        return STATE_TYPE::BOSS_WATCH_DOWN;
     }
 
-    return STATE_TYPE::BOSS_DASH_ATTACK;
-
-#pragma endregion
-
-
+    return STATE_TYPE::BOSS_WATCH_IN_SKY;
 
 }
 
-void CVioletDragonState_Dash_Attack::LateUpdate_State()
+
+void CVioletDragonState_Watch_In_Sky::LateUpdate_State()
 {
 }
 
-void CVioletDragonState_Dash_Attack::Render_State()
+void CVioletDragonState_Watch_In_Sky::Render_State()
 {
 }
 
-STATE_TYPE CVioletDragonState_Dash_Attack::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_Watch_In_Sky::Key_Input(const _float& fTimeDelta)
 {
     return m_eState;
 }
 
-CVioletDragonState_Dash_Attack* CVioletDragonState_Dash_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+CVioletDragonState_Watch_In_Sky* CVioletDragonState_Watch_In_Sky::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
 {
-    CVioletDragonState_Dash_Attack* pInstance = new CVioletDragonState_Dash_Attack(pGraphicDev);
+    CVioletDragonState_Watch_In_Sky* pInstance = new CVioletDragonState_Watch_In_Sky(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("VioletDragonState Dash_Attack Create Failed");
+        MSG_BOX("violet Dragon intro Down Create Failed");
         return nullptr;
 
     }
-    return pInstance;
 
+    return pInstance;
 }
 
-void CVioletDragonState_Dash_Attack::Free()
+void CVioletDragonState_Watch_In_Sky::Free()
 {
     __super::Free();
 }

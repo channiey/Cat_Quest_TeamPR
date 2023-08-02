@@ -231,6 +231,9 @@
     <ClInclude Include="..\Header\VioletDragonState_Intro_Sword.h" />
     <ClInclude Include="..\Header\VioletDragonState_Intro_Wing.h" />
     <ClInclude Include="..\Header\VioletDragonState_ShootingStarRed.h" />
+    <ClInclude Include="..\Header\VioletDragonState_Watch_Down.h" />
+    <ClInclude Include="..\Header\VioletDragonState_Watch_In_Sky.h" />
+    <ClInclude Include="..\Header\VioletDragonState_Watch_Up.h" />
     <ClInclude Include="..\Header\VLargeIceBush.h" />
     <ClInclude Include="..\Header\Wall.h" />
     <ClInclude Include="..\Header\Wall1.h" />
@@ -691,6 +694,9 @@
     <ClCompile Include="..\Code\VioletDragonState_Intro_Sword.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Wing.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ShootingStarRed.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_Watch_Down.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_Watch_In_Sky.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_Watch_Up.cpp" />
     <ClCompile Include="..\Code\VLargeIceBush.cpp" />
     <ClCompile Include="..\Code\Wall.cpp" />
     <ClCompile Include="..\Code\Wall1.cpp" />
