@@ -114,7 +114,6 @@ STATE_TYPE CPlayerState_bIdle::Key_Input(const _float& fTimeDelta)
 	}
 	else if (CInputDev::GetInstance()->Get_DIKeyState(DIK_SPACE))
 	{
-		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Set_PlayerLook(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir());
 		return STATE_TYPE::BACK_ROLL;
 	}
 

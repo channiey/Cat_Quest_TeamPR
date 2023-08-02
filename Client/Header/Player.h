@@ -164,6 +164,7 @@ public:
 	CGameObject*		MageBall_Target();
 	_vec3&				Get_BallDir()		  { return m_vBallDir; }
 	CGameObject*		Get_BallTarget()	  { return m_pBallTarget; }
+	_bool				Is_BallTarget();
 
 	_bool&				Get_Clocking() { return m_bClocking; }
 	void				Off_Clocking() { m_bClocking = false; m_iClockAlpha = 255; }
@@ -177,6 +178,8 @@ public:
 	const _bool			Is_Jump() const;
 
 	const _uint&		Get_ClockAlpha() const { return m_iClockAlpha; }
+
+
 
 private:
 	HRESULT				Add_Component();
@@ -237,6 +240,9 @@ private:
 	_bool						m_bhasFlight;
 	_bool						m_bFly;
 	CSkill*						m_pSkillFly;
+	
+	// 마법사화살
+	CSkill*						m_pSkillArrow;
 
 	// 미사일발사
 	_float						m_fBallTargetLenght;

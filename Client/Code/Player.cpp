@@ -37,18 +37,19 @@
 // Move Effect
 #include "MoveDust.h"
 #include "MoveWater.h"
-// Skill Effect
+// Skill
 #include "Skill_Player_Heal.h"
 #include "Skill_Player_Fire.h"
 #include "Skill_Player_Ice.h"
 #include "Skill_Player_Thunder.h"
 #include "Skill_Player_Beam.h"
 #include "Skill_Player_Fly.h"
+#include "Skill_Player_Arrow.h"
+//Effect
 #include "Effect_Ora.h"
 #include "Effect_ThornSparkle.h"
 #include "EffectLevel_Banner.h"
 #include "EffectLevel_Shine.h"
-#include "Pollen.h"
 // UI
 #include "RingUI.h"
 #include "Effect_Font.h"
@@ -67,6 +68,7 @@
 #include "SoundMgr.h"
 #include "BossSceneMgr.h"
 #include "Player_AfterImg.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -357,6 +359,12 @@ HRESULT CPlayer::Ready_Object()
 	m_pSkillHeal = pSkill;
 	m_pSkillHeal->Set_Maintain(TRUE);
 
+	pSkill = CSkill_Player_Arrow::Create(m_pGraphicDev, this);
+	NULL_CHECK_RETURN(pSkill, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Player_Arrow", pSkill), E_FAIL);
+	m_pSkillArrow = pSkill;
+	m_pSkillArrow->Set_Maintain(TRUE);
+
 	CUI* pUI = CRingUI::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(pUI, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"UI_Ring", pUI), E_FAIL);
@@ -423,10 +431,14 @@ HRESULT CPlayer::Ready_Object()
 	CEventMgr::GetInstance()->Add_Obj(L"Inventory", m_pInven);
 	m_pInven->Set_Maintain(true);
 
+	
+
 	return S_OK;
 }
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
+	
+
 	//cout << ++k << "--------\n";
 	//cout << m_pRigidBodyCom->Get_Velocity().x << "\t" << m_pRigidBodyCom->Get_Velocity().y << "\t" << m_pRigidBodyCom->Get_Velocity().z << "\n";
 	//cout << "Player Update--\n";
@@ -518,6 +530,11 @@ void CPlayer::LateUpdate_Object()
 		m_pSkillFly->Set_Active(false);
 	}
 
+	if (!m_bFly && m_eClass == CLASS_TYPE::MAGE)
+	{
+		MageBall_Target();
+	}
+
 	LevelUp();
 
 	// 잔상 만들기 널체크는 나중에 안정되면 넣을거임
@@ -552,6 +569,7 @@ void CPlayer::LateUpdate_Object()
 	}
 	
 
+	
 	__super::LateUpdate_Object();
 }
 
@@ -1386,7 +1404,9 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		
 	if (CInputDev::GetInstance()->Key_Down('R'))
 	{
-		m_pSkillHeal->Play();
+		if(m_tStatInfo.fCurHP < m_tStatInfo.fMaxHP ||
+			m_tStatInfo.fCurMP < m_tStatInfo.fMaxMP)
+				m_pSkillHeal->Play();
 	}
 
 	if (CInputDev::GetInstance()->Key_Down(VK_F1))
@@ -1454,6 +1474,20 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			{
 				m_pSkillFly->Get_Transform()->Set_Pos(m_pTransformCom->Get_Info(INFO::INFO_POS));
 				m_pSkillFly->Set_Active(false);
+			}
+		}
+	}
+	if (m_eClass == CLASS_TYPE::MAGE)
+	{
+		if (CInputDev::GetInstance()->Key_Down('X'))
+		{
+			if (!m_pSkillArrow->Is_Active())
+			{
+				m_pSkillArrow->Set_Active(true);
+			}
+			else
+			{
+				m_pSkillArrow->Set_Active(false);
 			}
 		}
 	}
@@ -1591,13 +1625,15 @@ CGameObject* CPlayer::MageBall_Target()
 
 		if (m_fBallTargetLenght > fLength)
 		{
-			m_fBallTargetLenght = fLength;
-			m_pBallTarget = iter.second;
-			D3DXVec3Normalize(&m_vBallDir, &TargetDir);
-			m_vBallDir.y = 0;
+			if (m_fBallTargetLenght - fLength > 1)
+			{
+				m_fBallTargetLenght = fLength;
+				m_pBallTarget = iter.second;
+				D3DXVec3Normalize(&m_vBallDir, &TargetDir);
+				m_vBallDir.y = 0;
+			}
 		}
 	}
-
 	if (m_pBallTarget != nullptr)
 	{
 		m_fBallTargetLenght = 22.f;
@@ -1608,6 +1644,14 @@ CGameObject* CPlayer::MageBall_Target()
 		m_fBallTargetLenght = 22.f;
 		return nullptr;
 	}
+}
+
+_bool CPlayer::Is_BallTarget()
+{
+	if (m_pBallTarget != nullptr) 
+		return true; 
+	else 
+		return false;
 }
 
 CGameObject* CPlayer::Get_MonTarget()
@@ -1691,7 +1735,7 @@ void CPlayer::Set_PlayerDirNormal(const _vec3& vDir)
 	vDirA.z /= length;
 
 	m_pTransformCom->Set_Dir(vDirA);
-	Set_PlayerLook(vDirA);
+	//Set_PlayerLook(vDirA);
 }
 
 void CPlayer::Regen_HP(const _float& fHeal)
@@ -1709,8 +1753,6 @@ void CPlayer::Regen_HP(const _float& fHeal)
 		CGameObject* pEffect = CEffect_Font::Create(m_pGraphicDev, this, fHeal, FONT_TYPE::HEAL);
 		NULL_CHECK(pEffect);
 		CEventMgr::GetInstance()->Add_Obj(L"Effect_Font", pEffect);
-
-		CSoundMgr::GetInstance()->PlaySoundW(L"skill_healingpaw.wav", CHANNEL_ID::PLAYER_2, VOLUME_PLAYER_SKILL);
 	}
 
 }

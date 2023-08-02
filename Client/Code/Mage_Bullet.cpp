@@ -3,6 +3,7 @@
 #include "EventMgr.h"
 #include "Player.h"
 #include "Monster.h"
+#include "BossSceneMgr.h"
 
 
 
@@ -33,7 +34,7 @@ HRESULT CMage_Bullet::Ready_Object()
     m_pTransformCom->Set_Pos(m_vPos);
     m_pTransformCom->Set_Dir(m_pOwner->Get_Transform()->Get_Dir());
 
-    m_fDamage = static_cast<CPlayer*>(m_pOwner)->Get_StatInfo().fAD;
+    m_fDamage = static_cast<CPlayer*>(m_pOwner)->Get_StatInfo().fAD + (rand() % 6);
 
     m_fSpeed = 30.f;
 
@@ -52,6 +53,11 @@ _int CMage_Bullet::Update_Object(const _float& fTimeDelta)
 {
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
+
+    if (CBossSceneMgr::GetInstance()->Is_Start())
+    {
+        m_fSpeed = 35.f;
+    }
 
     m_fAccTime += fTimeDelta;
 

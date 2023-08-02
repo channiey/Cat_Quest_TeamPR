@@ -29,7 +29,8 @@ public:
 	virtual HRESULT			End();
 
 private:
-	_bool	m_bIsEffectEnd;
+	CGameObject*			m_pHeal;
+	_bool					m_bIsHeal;
 
 public:
 	static CSkill_Player_Heal* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);

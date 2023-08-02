@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;../FMODE/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex64_vc.lib;C:\Users\ChanYoon\Desktop\Programming\Projects\Cat_Quest_TeamPR\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex64_vc.lib;C:\Project\SR Team Project\Client\FMOD\lib\fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -211,6 +211,7 @@
     <ClInclude Include="..\Header\Paper.h" />
     <ClInclude Include="..\Header\Player_AfterImg.h" />
     <ClInclude Include="..\Header\Present.h" />
+    <ClInclude Include="..\Header\Skill_Player_Arrow.h" />
     <ClInclude Include="..\Header\Skill_Player_Heal.h" />
     <ClInclude Include="..\Header\TownSanctuary.h" />
     <ClInclude Include="..\Header\Effect_Boss_ThunderBlue.h" />
@@ -679,6 +680,7 @@
     <ClCompile Include="..\Code\Paper.cpp" />
     <ClCompile Include="..\Code\Player_AfterImg.cpp" />
     <ClCompile Include="..\Code\Present.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Arrow.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Heal.cpp" />
     <ClCompile Include="..\Code\TownSanctuary.cpp" />
     <ClCompile Include="..\Code\Effect_Boss_ThunderBlue.cpp" />

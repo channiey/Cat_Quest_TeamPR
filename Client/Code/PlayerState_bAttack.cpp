@@ -133,7 +133,7 @@ STATE_TYPE CPlayerState_bAttack::Update_State(const _float& fTimeDelta)
 			else
 			{
 				if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTarget() != nullptr &&
-					static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetLength() > 2.5f)
+					static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetLength() > 2.f)
 				{
 					if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_PlayerClass() == CLASS_TYPE::NINJA)
 					{

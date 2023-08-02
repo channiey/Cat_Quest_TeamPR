@@ -7,6 +7,7 @@
 #include "RangeObj.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "HealEffect.h"
 
 CSkill_Player_Heal::CSkill_Player_Heal(LPDIRECT3DDEVICE9 pGraphicDev, const OBJ_ID& _eID)
     : CSkill(pGraphicDev, _eID)
@@ -36,13 +37,11 @@ HRESULT CSkill_Player_Heal::Ready_Object()
 
     m_bAttackStart = false;
     m_bActive = false;
-    m_bIsEffectEnd = false;
+    m_bIsHeal = false;
 
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-  /*  m_fontColor = D3DCOLOR_ARGB(255, 102, 0, 0);
-    m_contentStr = L"적을 불태워 많은 피해를 입힐 수 있습니다!";*/
-
+    m_pHeal = nullptr;
 
     return S_OK;
 }
@@ -61,29 +60,14 @@ _int CSkill_Player_Heal::Update_Object(const _float& fTimeDelta)
     m_pTransformCom->Set_Pos(m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS));
 
 
-    //m_pRangeObj->Update_Object(fTimeDelta);
-
-    //Engine::Add_RenderGroup(RENDER_ALPHA, this);
-
-    //if (!m_bAttackStart && m_pSKillEffect->Get_Animator()->Get_CurAniamtion()->Get_CurFrame() == 4)
-    //{
-    //    //static_cast<CPlayer*>(m_pOwnerObject)->Set_Skill(true);
-    //    m_bAttackStart = true;
-    //}
-
-
-   /* if (!m_pSKillEffect->Is_Active() && !m_bIsEffectEnd)
+    if (!m_bIsHeal && m_pHeal != nullptr && static_cast<CHealEffect*>(m_pHeal)->Is_Heal())
     {
-        m_pRangeEffect->Alphaing(0.3f, 127, 0);
-        m_bIsEffectEnd = true;
+        NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+
+        _float fHeal = 50.f;
+        static_cast<CPlayer*>(m_pOwnerObject)->Regen_HP(fHeal + rand() % 10);
+        m_bIsHeal = true;
     }
-    else if (!m_pRangeEffect->Get_AlphaInfo().bActive && m_bIsEffectEnd)
-    {
-        m_bIsEffectEnd = false;
-        __super::End();
-        m_bAttackStart = false;
-        m_bActive = false;
-    }*/
 
 
     return iExit;
@@ -91,10 +75,11 @@ _int CSkill_Player_Heal::Update_Object(const _float& fTimeDelta)
 
 void CSkill_Player_Heal::LateUpdate_Object()
 {
-    // 나중에 꼭수정 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    m_bActive = false;
-
-
+    if (m_pHeal->Is_Active() == false)
+    {
+        m_bActive = false;
+    }
+  
     CSkill::LateUpdate_Object();
 }
 
@@ -110,19 +95,14 @@ HRESULT CSkill_Player_Heal::Add_Component()
 
 HRESULT CSkill_Player_Heal::Play()
 {
-    NULL_CHECK_RETURN(m_pOwnerObject, E_FAIL);
+    m_pHeal = nullptr;
+    m_bIsHeal = false;
 
-    _vec3 vOwnerPos = m_pOwnerObject->Get_Transform()->Get_Info(INFO::INFO_POS);
+    CGameObject* pHeal = CHealEffect::Create(m_pGraphicDev, this);
+    NULL_CHECK_RETURN(pHeal, E_FAIL);
+    FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Heal", pHeal), E_FAIL);
+    m_pHeal = pHeal;
 
-    _float fHeal = 50.f;
-    static_cast<CPlayer*>(m_pOwnerObject)->Regen_HP(fHeal + rand() % 10);
-
-   /* m_pSKillEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 1 });
-    m_pRangeEffect->Play_Effect(_vec3{ vOwnerPos.x, 0.01f, vOwnerPos.z + 4 });
-    m_pRangeEffect->Alphaing(1.f, 255, 128);
-    m_pRangeEffect->Set_Size(_vec3{ 7.5f, 7.5f, 7.5f * 0.7 });
-    CCameraMgr::GetInstance()->Shake_Camera(0.15, 30);*/
-   
     m_bActive = true;
 
     return S_OK;

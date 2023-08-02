@@ -78,7 +78,7 @@ STATE_TYPE CPlayerState_fAttack3::Update_State(const _float& fTimeDelta)
 		else
 		{
 			if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTarget() != nullptr &&
-				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetLength() > 2.f)
+				static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTargetLength() > 1.5f)
 			{
 				_vec3 vOut = m_pOwner->Get_OwnerObject()->Get_Transform()->Lerp(m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS),
 					static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_MonTarget()->Get_Transform()->Get_Info(INFO::INFO_POS), 0.3f, fTimeDelta, LERP_MODE::EASE_IN);
@@ -89,10 +89,11 @@ STATE_TYPE CPlayerState_fAttack3::Update_State(const _float& fTimeDelta)
 				}
 			}
 			else
+			{
 				m_pOwner->Get_OwnerObject()->Get_Transform()->Reset_Lerp();
+				m_pOwner->Get_OwnerObject()->Get_Transform()->Translate(fTimeDelta * 6.f);
+			}	
 		}
-
-		
 	}
 		
 

@@ -32,6 +32,7 @@ HRESULT CFieldSkillUI::Ready_Object()
 	
 	m_eUIType = UI_TYPE::VIEW;
 	m_eUILayer = UI_LAYER::LV1;
+
 	m_bPlaySound = false;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -58,8 +59,6 @@ HRESULT CFieldSkillUI::Ready_Object()
 	m_UImatWorld._22 = m_fSizeY;
 	
 	D3DXMatrixIdentity(&m_matMouse);
-	m_UImatWorld._11 = m_fSizeX;
-	m_UImatWorld._22 = m_fSizeY;
 
 	for (_uint i = 0; i < 17; ++i)
 	{

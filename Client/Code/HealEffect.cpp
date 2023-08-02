@@ -45,6 +45,8 @@ HRESULT CHealEffect::Ready_Object()
 
 	m_szName = L"HealEffect";
 
+	m_bHeal = false;
+
 	return S_OK;
 }
 
@@ -56,7 +58,7 @@ void CHealEffect::Ready_Lerp()
 
 	// Paw
 	m_tPawSizeLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
-	m_tPawSizeLerp.Set_Lerp(0.2f, 0.f, 4.f);
+	m_tPawSizeLerp.Set_Lerp(0.2f, 0.f, 3.f);
 	m_tPawTlLerp.Init_Lerp(LERP_MODE::SMOOTHERSTEP);
 	m_tPawTlLerp.Set_Lerp(0.4f, 255.f, 0.f);
 
@@ -144,6 +146,8 @@ _int CHealEffect::Update_Object(const _float& fTimeDelta)
 			CSoundMgr::GetInstance()->PlaySound(L"skill_healingpaw.wav", CHANNEL_ID::EFFECT_0, VOLUME_PLAYER_SKILL);
 			m_iEffectLevel += 1;
 			m_bActiveDrop = false;
+			m_bHeal = true;
+
 		}
 		break;
 	case 1:
@@ -247,7 +251,7 @@ void CHealEffect::Sparkle2_Update(const _float& fTimeDelta)
 
 		m_vecSparkle2[0].m_pSparkle2_TransCom->Set_Pos({
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x
-			+ m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.5f,
+			+ 3 * 0.5f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z
 			});
@@ -278,9 +282,9 @@ void CHealEffect::Sparkle2_Update(const _float& fTimeDelta)
 
 		m_vecSparkle2[1].m_pSparkle2_TransCom->Set_Pos({
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x
-			- m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.6f,
+			- 3 * 0.6f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y
-			- m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
+			- 3 * 0.5f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z
 			});
 
@@ -310,9 +314,9 @@ void CHealEffect::Sparkle2_Update(const _float& fTimeDelta)
 
 		m_vecSparkle2[2].m_pSparkle2_TransCom->Set_Pos({
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x
-			- m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.7f,
+			- 3 * 0.7f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y
-			+ m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
+			+ 3 * 0.5f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z
 			});
 
@@ -342,9 +346,9 @@ void CHealEffect::Sparkle2_Update(const _float& fTimeDelta)
 
 		m_vecSparkle2[3].m_pSparkle2_TransCom->Set_Pos({
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x
-			+ m_pOwnerobject->Get_Transform()->Get_Scale().x * 0.7f,
+			+ 3 * 0.7f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y
-			+ m_pOwnerobject->Get_Transform()->Get_Scale().y * 0.5f,
+			+ 3 * 0.5f,
 			m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z
 			});
 

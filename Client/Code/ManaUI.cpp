@@ -69,7 +69,7 @@ _int CManaUI::Update_Object(const _float& fTimeDelta)
 	}
 		
 
-	if (1.f < m_fCurRatio)
+	if (1.f <= m_fCurRatio)
 	{
 		m_fCurRatio = 1.f;
 		m_fMpRatio = m_fCurRatio;
@@ -125,6 +125,12 @@ void CManaUI::LateUpdate_Object()
 	if (m_fCurRatio == m_fMpRatio)
 	{
 		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f * m_fCurRatio, 0.4f, 1.0f });
+		m_pUITransformCom[4]->Set_Pos(vNewPosition);
+		m_pUITransformCom[4]->Reset_Lerp();
+	}
+	if (m_fCurRatio >= 1.f)
+	{
+		m_pUITransformCom[4]->Set_Scale(_vec3{ 1.6f, 0.4f, 1.f });
 		m_pUITransformCom[4]->Set_Pos(vNewPosition);
 		m_pUITransformCom[4]->Reset_Lerp();
 	}
