@@ -14,13 +14,17 @@
 #include "Bingo_FailUI.h"
 #include "Bingo_ClearUI.h"
 
+#include "QuestMgr.h"
+#include "Zeolite.h"
+
 IMPLEMENT_SINGLETON(CMiniGameMgr_Bingo)
 
 CMiniGameMgr_Bingo::CMiniGameMgr_Bingo()
 	: m_bActive(false), m_bInit(false), m_bStart(false), m_bShuffle(false)
 	, m_bShowFlag(false), m_bShowAgain(false), m_bFirstSound(false)
 	, m_bPushVec(false), m_bGameClear(false), m_bGameOver(false)
-	, m_iIndex(0), m_iLevel(5), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(0)
+	, m_bGameReady(false)
+	, m_iIndex(0), m_iLevel(1), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(0)
 {
 }
 
@@ -149,7 +153,7 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 				m_iBingoCount = 5;
 				break;
 			case 5:
-				m_iBingoCount = 1;
+				m_iBingoCount = 7;
 				break;
 			case 6:
 				break;
@@ -195,7 +199,18 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 
 					m_bStart = false;
 					m_bActive = false;
-					return;
+					// 막고 있는 장애물 지우기
+					
+					if (dynamic_cast<CZeolite*>(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Zeolite"))->
+						Get_IsDelete())
+					{
+						dynamic_cast<CZeolite*>(CManagement::GetInstance()->
+						Get_GameObject(OBJ_TYPE::NPC, L"Npc_Zeolite"))->
+						Set_IsDelete();
+					}
+
+					CQuestMgr::GetInstance()->Set_ReadyNext();
 				}
 			}
 		}

@@ -34,6 +34,9 @@ public:
 public:
 	HRESULT	Flag_Check(const OBJ_ID& _eID);
 
+	_bool	Get_GameReady() { return m_bGameReady; }
+	void	Set_GameReady() { m_bGameReady = true; }
+
 private:
 	LPDIRECT3DDEVICE9		m_pGraphicDev; // 디바이스
 	CFlagOwner*				m_pFlagOwner;  // 오너 정보
@@ -63,6 +66,8 @@ private:
 	LERP_FLOAT_INFO m_tGameOverLerp; // 국기 제거 전 텀
 	_bool			m_bGameClear; // 게임 끝
 	_bool			m_bGameOver; // 게임 끝
+
+	_bool			m_bGameReady; // 퀘스트 진행을 위한 게임 레디 변수
 private:
 	virtual void			Free();
 };

@@ -191,7 +191,6 @@ void CMainApp::Free()
 	CQuestMgr::DestroyInstance(); // 임시로 여기서 지움.
 	CImGuiMgr::GetInstance()->DestroyInstance();
 	CMiniGameMgr_Jump::GetInstance()->DestroyInstance();
-	// CMiniGameMgr_Bingo::GetInstance()->DestroyInstance();
 	CSoundMgr::GetInstance()->DestroyInstance();
 
 	Safe_Release(m_pGraphicDev);

@@ -620,8 +620,11 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 #pragma endregion
 
-#pragma region FLAG
+#pragma region BINGO
 
+	// npc 비석
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Npc_Zeolite",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Temple_Tablet.png")), E_FAIL);
 	// 리스트
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Flag_List",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Flag/%d.png", 9)), E_FAIL);
@@ -655,7 +658,7 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Succes",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_yes.png")), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Bingo",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_Bingo.png")), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_checkbox_tick.png")), E_FAIL);
 
 
 #pragma endregion

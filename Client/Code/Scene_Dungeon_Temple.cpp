@@ -19,6 +19,10 @@
 #include "QuestMgr.h"
 #include "DungeonTextUI.h"
 #include "EffectGenerator.h"
+
+#include "Zeolite.h"
+#include "BingoChest.h"
+
 CScene_Dungeon_Temple::CScene_Dungeon_Temple(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON_TEMPLE)
 {
@@ -107,6 +111,7 @@ void CScene_Dungeon_Temple::LateUpdate_Scene()
 
 	// 02. 카메라 포지션 결정
 	CCameraMgr::GetInstance()->Set_ViewSpace();
+
 }
 void CScene_Dungeon_Temple::Render_Scene()
 {
@@ -333,6 +338,16 @@ HRESULT CScene_Dungeon_Temple::Ready_Load()
 
 HRESULT CScene_Dungeon_Temple::Ready_Layer_KSH()
 {
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CZeolite::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+
+	pGameObject = CBingoChest::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
+	
 	return S_OK;
 }
 
