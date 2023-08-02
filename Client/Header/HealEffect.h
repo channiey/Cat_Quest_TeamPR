@@ -43,6 +43,9 @@ public:
 	void						Ready_Lerp();
 	void						Sparkle2_Update(const _float& fTimeDelta);
 
+public:
+	_bool&						Is_Heal() { return m_bHeal; }
+
 private:
 	HRESULT						Add_Component();
 	virtual void				Play_Effect(const _vec3& _vPos, const _vec3& _vSize = vec3.one) override;
@@ -69,6 +72,9 @@ private:
 	_int		m_iEffectLevel;
 	_int		m_iSparkleCount; // 다음 단계로 넘어가기 위함.
 	_int		m_iSparkle2Level; // 스파클2만을 위한 레벨
+
+	_bool		m_bHeal;
+
 public:
 	static CHealEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);
 

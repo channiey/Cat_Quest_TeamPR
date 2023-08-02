@@ -48,7 +48,7 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 		}
 		else
 		{	
-			CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->MageBall_Target();
+			CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget();
 			_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
 			CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
 			CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
@@ -109,8 +109,21 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_HIT;
 	}
 
-	
-	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
+	if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly() && !m_bAttackContinue)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_FLIGHT;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly() && m_bAttackContinue)
+	{
+		m_bEnter = false;
+		m_bEnter = false;
+		if (m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z > 0)
+			return STATE_TYPE::BACK_ATTACK1;
+		else
+			return STATE_TYPE::FRONT_ATTACK1;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
 	{
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
 		m_bEnter = false;
@@ -119,6 +132,13 @@ STATE_TYPE CPlayerState_bAttack1::Update_State(const _float& fTimeDelta)
 	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && !m_bIsTarget &&
 		nullptr != static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget() &&
 		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallDir().z < 0.5f)
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_ATTACK2;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && m_bAttackContinue && !m_bIsTarget &&
+		static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_LockOn() &&
+		m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Dir().z < 0)
 	{
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_ATTACK2;

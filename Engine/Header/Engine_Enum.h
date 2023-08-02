@@ -283,6 +283,7 @@ namespace Engine
 
 	// Jun 3차 이후 추가 ID
 	PLAYER_AFTERIMG, EFFECT_SNOW, EFFECT_RAIN, EFFECT_RAIN_RIPPLE,
+	SKILL_PLAYER_ARROW,
 
 	// 나라 국기(스타트)
 	FLAG_START,
@@ -355,7 +356,7 @@ namespace Engine
 
 	enum class UI_TYPE				{ VIEW , WORLD , TYPEEND }; // UI 종류 (뷰포트 사용, 월드 사용)
 
-	enum class UI_LAYER				{ LV0, LV1, LV2, Lv3, TYPEEND };
+	enum class UI_LAYER				{ LV0, LV1, LV2, LV3, TYPEEND };
 
 	enum class LINE_TYPE			{ LAND, SEA, ICE, TYPEEND }; // 라인 종류
 	

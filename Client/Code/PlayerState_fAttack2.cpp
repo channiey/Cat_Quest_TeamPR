@@ -48,7 +48,7 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 		}
 		else
 		{
-			CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->MageBall_Target();
+			CGameObject* pMon = static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Get_BallTarget();
 			_vec3 vPlayerPos = m_pOwner->Get_OwnerObject()->Get_Transform()->Get_Info(INFO::INFO_POS);
 			CProjectile* pBullet = CMage_Bullet::Create(m_pGraphicDev, vPlayerPos, pMon, m_pOwner->Get_OwnerObject());
 			CEventMgr::GetInstance()->Add_Obj(L"Projectile_Mage_Bullet", pBullet);
@@ -109,7 +109,12 @@ STATE_TYPE CPlayerState_fAttack2::Update_State(const _float& fTimeDelta)
 		return STATE_TYPE::FRONT_HIT;
 	}
 
-	if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
+	if (m_pOwner->Is_AnimationEnd() && static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
+	{
+		m_bEnter = false;
+		return STATE_TYPE::FRONT_FLIGHT;
+	}
+	else if (m_pOwner->Is_AnimationEnd() && !m_bAttackContinue)
 	{
 		m_bEnter = false;
 		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);

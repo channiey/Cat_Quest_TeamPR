@@ -38,6 +38,8 @@
 
 #include "Scene_World.h"
 
+#include "TerrainTool.h"
+
 CScene_Dungeon_Swamp::CScene_Dungeon_Swamp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON_SWAMP)
 {
@@ -391,6 +393,10 @@ HRESULT CScene_Dungeon_Swamp::Ready_Layer_LHJ()
 	pGameObject = CEffectGenerator::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Generator", pGameObject), E_FAIL);
+
+	pGameObject = CTerrainTool::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Terrain_Tool", pGameObject), E_FAIL);
 
 	return S_OK;
 }

@@ -149,9 +149,6 @@ void CIsland_Jump::Enter_Player()
 
 void CIsland_Jump::Stay_Player()
 {
-	CEffectGenerator* pGenerator = dynamic_cast<CEffectGenerator*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::GENERATOR, L"Effect_Generator"));
-	NULL_CHECK(pGenerator);
-	pGenerator->Set_Locate(m_eID);
 }
 
 void CIsland_Jump::Exit_Player()

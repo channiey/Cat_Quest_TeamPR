@@ -214,6 +214,7 @@
     <ClInclude Include="..\Header\Present.h" />
     <ClInclude Include="..\Header\Quest_Legend.h" />
     <ClInclude Include="..\Header\Shadow_Boss.h" />
+    <ClInclude Include="..\Header\Skill_Player_Arrow.h" />
     <ClInclude Include="..\Header\Skill_Player_Heal.h" />
     <ClInclude Include="..\Header\Terrain_Temple.h" />
     <ClInclude Include="..\Header\TownSanctuary.h" />
@@ -688,6 +689,7 @@
     <ClCompile Include="..\Code\Present.cpp" />
     <ClCompile Include="..\Code\Quest_Legend.cpp" />
     <ClCompile Include="..\Code\Shadow_Boss.cpp" />
+    <ClCompile Include="..\Code\Skill_Player_Arrow.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Heal.cpp" />
     <ClCompile Include="..\Code\Terrain_Temple.cpp" />
     <ClCompile Include="..\Code\TownSanctuary.cpp" />

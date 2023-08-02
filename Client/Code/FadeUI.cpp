@@ -86,6 +86,8 @@ void CFadeUI::Render_Object()
 
 		Set_Active(FALSE);
 	}
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 void CFadeUI::Start_Fade(const _float _fTime, const _float& _fStartvalue, const _float _fEndValue, const _bool& _bWhite, const LERP_MODE& _eMode, const _bool _bDelete)

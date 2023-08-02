@@ -164,6 +164,7 @@ public:
 	CGameObject*		MageBall_Target();
 	_vec3&				Get_BallDir()		  { return m_vBallDir; }
 	CGameObject*		Get_BallTarget()	  { return m_pBallTarget; }
+	_bool				Is_BallTarget();
 
 	_bool&				Get_Clocking() { return m_bClocking; }
 	void				Off_Clocking() { m_bClocking = false; m_iClockAlpha = 255; }
@@ -181,6 +182,10 @@ public:
 	// 인풋 막기
 	void				Block_Input(const _bool& _eBlock) { m_bBlockInput = _eBlock; }
 	const _bool&		Is_Block() const { return m_bBlockInput; }
+
+	// 락온
+	_bool&				Is_LockOn() { return m_bLockOn; }
+	CSkill*				Get_SkillArrow() { return m_pSkillArrow; }
 
 private:
 	HRESULT				Add_Component();
@@ -224,6 +229,7 @@ private:
 	_bool						m_bSkill;
 	CSkill*						m_arrSkillSlot[4];
 	CSkill*						m_arrSkill[(UINT)SKILL_TYPE::TYPEEND];
+
 	CSkill*						m_pSkillHeal;
 
 
@@ -241,6 +247,10 @@ private:
 	_bool						m_bhasFlight;
 	_bool						m_bFly;
 	CSkill*						m_pSkillFly;
+	
+	// 마법사화살
+	CSkill*						m_pSkillArrow;
+	_bool						m_bLockOn;
 
 	// 미사일발사
 	_float						m_fBallTargetLenght;

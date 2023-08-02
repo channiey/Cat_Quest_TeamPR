@@ -24,5 +24,8 @@ public:
 	static CPlayerState_fRoll* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
+	_vec3			m_vDir;
+
+private:
 	virtual void	Free();
 };
