@@ -18,6 +18,7 @@ CBossSceneMgr::CBossSceneMgr()
 	, m_bFadeOut_End(FALSE)
 	, m_fIntroDelayTime(2.f)
 	, m_fOuttroDelayTime(1.5f)
+	, m_bIntroAniEnd(FALSE)
 {
 	for (int i = 0; i < (_uint)PAGE::TYPEEND; ++i)
 		m_arrPage[i] = FALSE;
@@ -117,6 +118,16 @@ const _bool CBossSceneMgr::Is_Active_Boss()
 		return TRUE;
 	else
 		return FALSE;
+}
+
+void CBossSceneMgr::Set_BossIntroAnimation_End()
+{
+	m_bIntroAniEnd = TRUE;
+	
+	CPlayer* pPlayer = static_cast<CPlayer*>(CManagement::GetInstance()->Get_Player());
+	pPlayer->Block_Input(FALSE);
+
+	CCameraMgr::GetInstance()->Set_CurCameraAction(CAMERA_ACTION::NONE);
 }
 
 HRESULT CBossSceneMgr::Start_BossScene()

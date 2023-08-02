@@ -30,6 +30,8 @@ private:
 	HRESULT				Ready_Layer_LHJ();
 	HRESULT				Ready_Layer_YC(); 
 
+	void SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density);
+
 public:
 	static CScene_World*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

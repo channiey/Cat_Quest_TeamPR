@@ -242,17 +242,13 @@ HRESULT CScene_World::Ready_Scene()
 	m_bFinish = FALSE;
 	m_fAcc = 0.f;
 
+	//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
-	/*if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	{
-		CBossSceneMgr::GetInstance()->Start_BossScene();
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::START_BOSS);
-	}*/
-
 	// Ending
 	if (m_bFinish)
 	{
@@ -922,4 +918,39 @@ HRESULT CScene_World::Ready_Layer_YC()
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
 
 	return S_OK;
+}
+
+void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density)
+{
+
+	float Start = 50.f;   // Linear fog distances
+	float End = 130.f;
+
+	// Enable fog blending. d w ddda
+	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+	// Set the fog color.
+	m_pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, Color);
+
+	// Set fog parameters.
+	if (D3DFOG_LINEAR == Mode)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, Mode);
+		m_pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
+		m_pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
+	}
+	else
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+	}
+
+	// Enable range-based fog if desired (only supported for
+	//   vertex fog).  For this example, it is assumed that UseRange
+	//   is set to a nonzero value only if the driver exposes the 
+	//   D3DPRASTERCAPS_FOGRANGE capability.
+	// Note: This is slightly more performance intensive
+	//   than non-range-based fog.
+	if (UseRange)
+		m_pGraphicDev->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 }

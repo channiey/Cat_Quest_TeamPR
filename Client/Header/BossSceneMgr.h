@@ -13,7 +13,7 @@ END
 
 class CBossSceneMgr : public CBase
 {
-	DECLARE_SINGLETON(CBossSceneMgr)
+	DECLARE_SINGLETON(CBossSceneMgr)		
 
 private:
 	explicit CBossSceneMgr();
@@ -28,6 +28,9 @@ public:
 	const _bool				Is_Start() const { return m_arrPage[(_uint)PAGE::START]; }
 	const _bool&			Get_CurPage(const PAGE& _ePage) const {return m_arrPage[(_uint)_ePage];}
 	const _bool				Is_Active_Boss(); 
+	
+	void					Set_BossIntroAnimation_End();
+	const _bool&			Is_BossIntroAnimation_End() const { return m_bIntroAniEnd; }
 
 public:
 	HRESULT					Start_BossScene(); // 보스 연출 시작시 호출 (보스 활성화)
@@ -48,6 +51,8 @@ private:
 
 	_float					m_fIntroDelayTime;
 	_float					m_fOuttroDelayTime;
+
+	_bool					m_bIntroAniEnd;
 
 
 

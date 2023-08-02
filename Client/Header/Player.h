@@ -178,6 +178,10 @@ public:
 
 	const _uint&		Get_ClockAlpha() const { return m_iClockAlpha; }
 
+	// 인풋 막기
+	void				Block_Input(const _bool& _eBlock) { m_bBlockInput = _eBlock; }
+	const _bool&		Is_Block() const { return m_bBlockInput; }
+
 private:
 	HRESULT				Add_Component();
 	void				Key_Input(const _float& fTimeDelta);
@@ -272,6 +276,9 @@ private:
 
 	// 인벤토리
 	CGameObject* m_pInven;
+
+	// 인풋 막기
+	_bool		m_bBlockInput;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

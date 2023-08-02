@@ -98,7 +98,7 @@ HRESULT CPlayer::Ready_Object()
 	CGameObject::Ready_Object();
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
+	m_bBlockInput = FALSE;
 	m_iCreateAfterImg = 0;
 
 	m_tMoveInfo.fMoveSpeed = 20.f;
@@ -474,6 +474,8 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 
+	if (m_bBlockInput) return iExit; // 인풋 막기 추가
+
 	m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
 	Regen_Def(fTimeDelta);
@@ -501,6 +503,12 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 void CPlayer::LateUpdate_Object()
 {
+	if (m_bBlockInput)
+	{
+		__super::LateUpdate_Object();
+		return;
+	}
+
 	m_pStateMachineCom->LateUpdate_StateMachine();
 
 	if(m_bAttack)

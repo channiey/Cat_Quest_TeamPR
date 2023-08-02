@@ -75,8 +75,6 @@ Engine::_int CScene_Dungeon_Temple::Update_Scene(const _float& fTimeDelta)
 
 void CScene_Dungeon_Temple::LateUpdate_Scene()
 {
-	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-
 	// 00. 1차 충돌 처리
 
 	// Rect vs Rect
@@ -86,12 +84,22 @@ void CScene_Dungeon_Temple::LateUpdate_Scene()
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::PROJECTILE);
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PROJECTILE, OBJ_TYPE::PLAYER);
 
+
 	// Rect vs Line
 	CCollisionMgr::GetInstance()->Check_Line_Collision(OBJ_TYPE::PLAYER);
 
 	// Position vs Sphere 
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::MONSTER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::FLAG, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
 	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::PLAYER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::MONSTER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::SKILL, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::TRIGGER, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
+
+	// Player vs Island
+	CCollisionMgr::GetInstance()->Check_Collision(OBJ_TYPE::PLAYER, OBJ_TYPE::RANGE_OBJ, OBJ_TYPE::ISLAND, COL_TYPE::RECT, COL_TYPE::SPHERE); // TODO::최적화 가능
+
 
 
 	// 01. 레이트 업데이트 -> 2차 충돌 처리

@@ -69,8 +69,8 @@ HRESULT CIsland_Death::Add_RangeObj()
 	pGameObject = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"Island_Death_RangeObj_01", pGameObject);
-	pGameObject->Set_Radius(100.f);
-	pGameObject->Set_Pos(_vec3{ 500.f, 0.f , 520.f });
+	pGameObject->Set_Radius(110.f);
+	pGameObject->Set_Pos(_vec3{ 520.f, 0.f , 520.f });
 	m_vecRangeObj.push_back(pGameObject);
 
 	return S_OK;

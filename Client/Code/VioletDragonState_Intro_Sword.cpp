@@ -4,7 +4,7 @@
 #include "VioletDragon.h"
 #include "SoundMgr.h"
 #include "CameraMgr.h"
-
+#include "BossSceneMgr.h"
 CVioletDragonState_Intro_Sword::CVioletDragonState_Intro_Sword(LPDIRECT3DDEVICE9 pGraphicDev)
     :CState(pGraphicDev)
 {
@@ -125,7 +125,7 @@ STATE_TYPE CVioletDragonState_Intro_Sword::Update_State(const _float& fTimeDelta
             CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::OBJ_CHANGE_TARGET, vBossPos, pPlayer->Get_Transform()->Get_Info(INFO_POS));
         }*/
 
-
+        CBossSceneMgr::GetInstance()->Set_BossIntroAnimation_End();
         return STATE_TYPE::PATROL;
     }
 

@@ -6,6 +6,7 @@
 #include "Management.h"
 #include "RangeObj.h"
 #include "BossSceneMgr.h"
+#include "Player.h"
 
 CBossSceneTriggerObj::CBossSceneTriggerObj(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev, OBJ_TYPE::TRIGGER, OBJ_ID::BOSS_SCENE_TRIGGER)
@@ -30,7 +31,6 @@ HRESULT CBossSceneTriggerObj::Ready_Object(void)
 
 	m_pTransformCom->Set_Pos(_vec3{ BOSS_POS_X, 0.f , BOSS_POS_Z - 30.f }); 
 
-
 	FAILED_CHECK_RETURN(Add_RangeObj(), E_FAIL);
 
 	m_szName = L"BossSceneTriggerObj";
@@ -54,6 +54,9 @@ void CBossSceneTriggerObj::LateUpdate_Object(void)
 	if (m_bInPlayer)
 	{
 		CBossSceneMgr::GetInstance()->Start_BossScene();
+
+		CPlayer* pPlayer = static_cast<CPlayer*>(CManagement::GetInstance()->Get_Player());
+		pPlayer->Block_Input(TRUE);
 
 		CEventMgr::GetInstance()->Delete_Obj(this);
 	}

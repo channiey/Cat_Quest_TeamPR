@@ -207,7 +207,7 @@ void CPlayer_Camera::Set_ViewSpace()
 	_vec3 vFollowPos, vLookPos, vLerpPos{};
 
 	// INTRO
-	if (CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::START) && !CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::FADE_OUT))
+	if (CBossSceneMgr::GetInstance()->Is_BossIntroAnimation_End())// && !CBossSceneMgr::GetInstance()->Get_CurPage(PAGE::FADE_OUT))
 	{
 		vFollowPos = m_pCameraCom->m_pFollow->Get_Transform()->Get_Info(INFO_POS);
 
@@ -217,13 +217,14 @@ void CPlayer_Camera::Set_ViewSpace()
 		{
 			// 팔로우 포지션 결정
 			_vec3 vBossPos = pBoss->Get_Transform()->Get_Info(INFO_POS);
-			/*if (!m_bBossVec3Lerp)
+		/*	if (!m_bBossVec3Lerp)
 			{
 				_vec3 vLerp; _vec3 vTarget;
 				vTarget =  vFollowPos + (_vec3{ (vBossPos.x - vFollowPos.x), 0.f, (vBossPos.z - vFollowPos.z) } *0.5f);
-				D3DXVec3Lerp(&vLerp, &vBossPos, &vTarget, Engine::Get_TimeDelta(L"Timer_FPS65"));
+				D3DXVec3Lerp(&vLerp, &vBossPos, &vTarget, Engine::Get_TimeDelta(L"Timer_FPS65") * 0.01f);
 				vFollowPos = vLerp;
 
+				cout << D3DXVec3Length(&(vFollowPos - vTarget)) << endl;
 				if (0.05f > D3DXVec3Length(&(vFollowPos - vTarget)))
 				{
 					m_bBossVec3Lerp = TRUE;
@@ -238,7 +239,7 @@ void CPlayer_Camera::Set_ViewSpace()
 
 			// 디스턴스 결정
 			_float fDist = D3DXVec3Length(&(vBossPos - CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player")->Get_Transform()->Get_Info(INFO_POS)));
-			/*if (!m_bBossDistLerp)
+		/*	if (!m_bBossDistLerp)
 			{
 				_float fCamDist = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance;
 				if (fCamDist < fDist)
@@ -255,6 +256,7 @@ void CPlayer_Camera::Set_ViewSpace()
 					if (CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance <= fDist)
 						m_bBossDistLerp = TRUE;
 				}
+
 			}
 			else
 			{*/
@@ -280,7 +282,7 @@ void CPlayer_Camera::Set_ViewSpace()
 
 	vLookPos = m_pCameraCom->m_tVspace.LookAt;
 	_float fLerpValue = 8.f;
-	D3DXVec3Lerp(&vLerpPos, &vLookPos, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * fLerpValue);
+	D3DXVec3Lerp(&vLerpPos, &vLookPos, &vFollowPos, Engine::Get_TimeDelta(L"Timer_FPS65") * fLerpValue); 
 	vLerpPos.y = vFollowPos.y; // 플레이어 추적시 y 값 흔들림 보정 wwsa 
 
 	vLerpPos.y = m_pCameraCom->m_fInitLookY; // 이거 예외처리 필요
