@@ -24,8 +24,18 @@ public:
 private:
 	HRESULT		Add_Component();
 
+public:
+	_bool		Get_IsShow() { return m_bShow; }
+	void		Set_IsShow(_bool _isShow) { m_bShow = _isShow; }
+
+
 
 private:
+	_bool			m_bShow;
+	_float			m_fTranslucent;
+
+	LERP_FLOAT_INFO m_tAlphaLerp;
+	LERP_FLOAT_INFO m_tDeAlphaLerp;
 
 public:
 	static				CFlagStart* Create(LPDIRECT3DDEVICE9 pGraphicDev, CFlagOwner* _owner);

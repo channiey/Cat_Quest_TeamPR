@@ -4,6 +4,7 @@
 
 #include "ZeoliteDust.h"
 #include "Player.h"
+#include "SoundMgr.h"
 
 CZeoliteDust::CZeoliteDust(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_ZEOLITE_DUST)
@@ -30,16 +31,18 @@ HRESULT CZeoliteDust::Ready_Object()
 
 	m_pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom, STATE_TYPE::FRONT_IDLE, 0.1f, true);
 
-	_int iRand = rand() % 5 - 5;
+	_int iRand = rand() % 10 - 5;
 
 	m_pTransformCom->Set_Pos(_vec3{ m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).x + iRand,
-		1.f,
-		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z });
+		 0.2f,
+		m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).z - 4.5f});
 	m_pTransformCom->Set_Scale(_vec3{ 3.6f, 3.6f, 3.6f });
 
 	m_bActive = true;
-	m_iTranslucent = 200;
-	m_iDeAlpha = 2;
+	m_iTranslucent = 250;
+	m_iDeAlpha = 10;
+
+	CSoundMgr::GetInstance()->PlaySound(L"Stone_Door.mp3", CHANNEL_ID::EFFECT_0, 1.f);
 
 	return S_OK;
 }
@@ -47,12 +50,12 @@ HRESULT CZeoliteDust::Ready_Object()
 _int CZeoliteDust::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	Engine::Add_RenderGroup(RENDER_ALPHA, this);
+	Engine::Add_RenderGroup(RENDER_WDUI, this);
 
 	m_pTransformCom->Set_Pos({
 		m_pTransformCom->Get_Info(INFO_POS).x,
-		m_pTransformCom->Get_Info(INFO_POS).y + 0.05f,
-		m_pTransformCom->Get_Info(INFO_POS).z
+		4.f,
+		98.f
 		});
 
 	m_pAnimation->Update_Animation(fTimeDelta);
@@ -81,9 +84,6 @@ void CZeoliteDust::LateUpdate_Object()
 void CZeoliteDust::Render_Object()
 {
 	NULL_CHECK(m_pOwnerobject);
-
-	if (static_cast<CPlayer*>(m_pOwnerobject)->Get_CurGroundType() != GROUND_TYPE::NORMAL)
-		return;
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iTranslucent, 255, 255, 255));
 

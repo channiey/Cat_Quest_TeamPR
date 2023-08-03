@@ -25,12 +25,12 @@ HRESULT CFlagChina::Ready_Object()
 	__super::Ready_Object();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Pos(_vec3{ 125.f, 1.02f, 160.f });
+	m_pTransformCom->Set_Pos(_vec3{ 125.f, 0.82f, 160.f });
 
 	CRangeObj* pRangeObj = CRangeObj::Create(m_pGraphicDev, this, 100.f);
 	NULL_CHECK_RETURN(pRangeObj, E_FAIL);
 	CEventMgr::GetInstance()->Add_Obj(L"FlagChina_RangeObj", pRangeObj);
-	pRangeObj->Set_Radius(3.f);
+	pRangeObj->Set_Radius(6.f);
 	pRangeObj->Set_Pos(m_pTransformCom->Get_Info(INFO_POS));
 
 	m_eFlagTag = FLAG_TAG::FLAG_CHINA;

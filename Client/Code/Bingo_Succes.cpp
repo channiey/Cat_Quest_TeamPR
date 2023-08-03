@@ -39,15 +39,15 @@ void CBingoSucces::Ready_Lerp()
 	m_tPosUpLerp.Init_Lerp(LERP_MODE::SMOOTHSTEP);
 	m_tPosUpLerp.Set_Lerp(0.5f,
 		m_pPlayer->Get_Transform()->Get_Info(INFO_POS).y,
-		m_pPlayer->Get_Transform()->Get_Info(INFO_POS).y + 4.f);
+		m_pPlayer->Get_Transform()->Get_Info(INFO_POS).y + 11.f);
 
 	// 사이즈
 	m_tSizeUpLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tSizeUpLerp.Set_Lerp(0.5f, 0.f, 1.f);
+	m_tSizeUpLerp.Set_Lerp(0.5f, 0.f, 3.5f);
 
 	// 삭제
 	m_tDeleteLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tDeleteLerp.Set_Lerp(0.5f, 1.f, 0.f);
+	m_tDeleteLerp.Set_Lerp(0.5f, 3.5f, 0.f);
 
 	// 투명도
 	m_tTranslucentLerp.Init_Lerp(LERP_MODE::EASE_IN);
