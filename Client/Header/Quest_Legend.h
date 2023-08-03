@@ -1,6 +1,7 @@
 #pragma once
 #include "QuestData.h"
 #include "FlagStart.h"
+#include "TrapBigFist.h"
 
 class CQuest_Legend : public CQuestData
 {
@@ -11,8 +12,9 @@ public:
 public:
 	virtual void  Init(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pPlayer)   override;
 	virtual _bool Update(LPDIRECT3DDEVICE9 _pGraphicDev, CGameObject* _pIndicator, _bool* _IsAble) override;
-
 private:
-	CGameObject* m_pFlagStart;
+	CGameObject*		  m_pFlagStart;
+
+	_int		 m_iFistLevel;
 };
 

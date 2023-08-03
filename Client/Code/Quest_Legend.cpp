@@ -16,6 +16,8 @@
 #include "Npc_BlackSmith.h"
 
 #include "FlagStart.h"
+#include "TrapBigFist.h"
+#include "TrapBigFistDust.h"
 
 #include "Skill.h"
 #include "Skill_Player_Beam.h"
@@ -28,6 +30,8 @@
 #include "MiniGameMgr_Bingo.h"
 
 #include "CameraMgr.h"
+
+#define	 BIGFIST_AMOUNT 4
 
 CQuest_Legend::CQuest_Legend(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 {
@@ -141,6 +145,7 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 					
 					*_IsAble = true;
 				}
+
 				// ¥Î»≠
 				if (dynamic_cast<CNpc*>(CManagement::GetInstance()->
 					Get_GameObject(OBJ_TYPE::NPC, L"Npc_Zeolite"))->Get_IsCol()

@@ -273,7 +273,6 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						
 						m_iLevel += 1;
 						*_IsAble = false;
-						m_bShowQuestView = true;
 
 						break;
 					}

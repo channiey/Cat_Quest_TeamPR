@@ -142,6 +142,9 @@ namespace Engine
 #define BINGO_CLEAR_SOUND				1.f
 #define BINGO_ALLCLEAR_SOUND			0.5f
 #define BINGO_SHOW_SOUND				1.f
+#define BINGO_DROP_FIST					1.f
+#define BINGO_DROP_BIGFIST				1.f
+#define BINGO_COL_FIST					1.f
 
 // Cloud Size Alpha
 #define OBJ_CLOUD_MAX_ALPHA 200

@@ -220,7 +220,7 @@ _bool CQuest3::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Mage"), false);
 
 						m_tQuestContent[1].m_bClear = true;
-						m_tQuestContent.push_back({ L"3.마법냥의 열쇠 찾아주기.", false });
+						m_tQuestContent.push_back({ L"\n3.마법냥의 열쇠 찾아주기.", false });
 						m_iLevel += 1;
 						*_IsAble = false;
 						break;
