@@ -72,6 +72,12 @@ void CMainApp::Render_MainApp()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
 
+	if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::INTRO ||
+		CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::ENDING)
+	{
+		CEventMgr::GetInstance()->Update_Event();
+		return;
+	}
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);	
 
 	D3DXCOLOR tBackColor;
@@ -107,7 +113,7 @@ void CMainApp::Render_MainApp()
 	Engine::Render_Begin(tBackColor);
 
 	NULL_CHECK(m_pManagementClass);
-
+	
 	m_pManagementClass->Render_Scene(m_pGraphicDev);
 
 	Engine::Render_End();

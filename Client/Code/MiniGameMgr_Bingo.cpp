@@ -25,7 +25,7 @@ CMiniGameMgr_Bingo::CMiniGameMgr_Bingo()
 	, m_bShowFlag(false), m_bShowAgain(false), m_bFirstSound(false)
 	, m_bPushVec(false), m_bGameClear(false), m_bGameOver(false)
 	, m_bGameReady(false)
-	, m_iIndex(0), m_iLevel(1), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(0)
+	, m_iIndex(0), m_iLevel(1), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(7)
 {
 }
 
@@ -117,15 +117,15 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 		}
 		if (m_FlagVector[m_iSetIndex]->Get_Translucent() >= 255.f)
 		{
-			m_iSetIndex += 1;
-			if (m_iSetIndex >= m_FlagVector.size())
+			m_iSetIndex -= 1;
+			if (m_iSetIndex < 0)
 			{
 				// 최초 시작
 				m_tShowAgainLerp.Init_Lerp(LERP_MODE::EASE_IN);
 				m_tShowAgainLerp.Set_Lerp(3.5f, 1.f, 0.f);
 				m_bShowAgain = true;
 				m_bFirstSound = true;
-				m_iSetIndex = 7;
+				m_iSetIndex = 0;
 
 				m_bStart = true;
 
@@ -205,8 +205,8 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 
 			if (m_FlagVector[m_iSetIndex]->Get_Translucent() <= 0.f)
 			{
-				m_iSetIndex -= 1;
-				if (m_iSetIndex < 0)
+				m_iSetIndex += 1;
+				if (m_iSetIndex >= m_FlagVector.size())
 				{
 					// 게임 종료
 					for (_int i = 0; i < m_FlagVector.size(); ++i)
@@ -248,7 +248,7 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 							0.8f, CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->m_fDistance, CAM_DISTANCE_DEFAULT);
 					}
 
-					CQuestMgr::GetInstance()->Set_ReadyNext();
+					// CQuestMgr::GetInstance()->Set_ReadyNext();
 				}
 			}
 		}

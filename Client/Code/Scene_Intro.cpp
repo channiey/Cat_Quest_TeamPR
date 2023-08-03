@@ -27,10 +27,25 @@ HRESULT CScene_Intro::Ready_Scene()
 
 	// 컴포넌트 및 텍스처 로딩 쓰레드 생성
 	m_pLoading = CLoadingThread::Create(m_pGraphicDev, LOADING_THREAD_TYPE::COMPONENT_AND_TEXTURE);
-	
+
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
-	
+
 	CSoundMgr::GetInstance()->Initialize();
+
+	// 동영상 
+	m_hVideo = MCIWndCreate(g_hWnd,			// 부모 윈도우 핸들
+		nullptr,		// mci 윈도우를 사용하는 인스턴스 핸들
+		WS_CHILD | WS_VISIBLE | MCIWNDF_NOPLAYBAR, // WS_CHILD : 자식 창, WS_VISIBLE : 그 즉시 화면에 시연, MCIWNDF_NOPLAYBAR : 플레이 바를 생성하지 않음
+		L"../Bin/Resource/Video/intro.wmv");	// 재생할 파일의 경로
+
+									//MoveWindow : 동영상을 재생할 크기를 설정
+	MoveWindow(m_hVideo, 0, 0, WINCX, WINCY, FALSE);
+
+	MCIWndPlay(m_hVideo);
+
+	// 백버퍼 생성
+	if (FAILED(m_pGraphicDev->CreateRenderTarget(WINCX, WINCY, D3DFMT_X8R8G8B8, D3DMULTISAMPLE_NONE, 0, TRUE, &m_pBackBuffer, nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -39,9 +54,9 @@ Engine::_int CScene_Intro::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Scene(fTimeDelta);
 
-	if (CInputDev::GetInstance()->Key_Down(VK_SPACE) && TRUE == m_pLoading->Get_Finish()) 
+	if (TRUE == m_pLoading->Get_Finish())
 	{
-		CScene* pScene = nullptr; 
+		CScene* pScene = nullptr;
 
 		if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())
 		{
@@ -71,7 +86,7 @@ void CScene_Intro::Render_Scene()
 
 	RECT	rc{};
 	_vec3	vPos{};
-	CGameObject*	pObj = nullptr;
+	CGameObject* pObj = nullptr;
 	TCHAR	szBuf[MAX_STR] = L"";
 	GetClientRect(g_hWnd, &rc);
 
@@ -88,13 +103,14 @@ void CScene_Intro::Render_Scene()
 void CScene_Intro::Free()
 {
 	Safe_Release(m_pLoading);
-
+	MCIWndClose(m_hVideo);
+	Safe_Release(m_pBackBuffer); // 백버퍼 해제
 	__super::Free();
 }
 
 CScene_Intro* CScene_Intro::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CScene_Intro*	pInstance = new CScene_Intro(pGraphicDev);
+	CScene_Intro* pInstance = new CScene_Intro(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Scene()))
 	{
@@ -111,24 +127,11 @@ HRESULT CScene_Intro::Ready_Prototype()
 {
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(COMPONENT_TYPE::BUFFER_RC_TEX, CRcTex::Create(m_pGraphicDev)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/gentlebros_logo.png")), E_FAIL);
-	
 	return S_OK;
 }
 
 HRESULT CScene_Intro::Ready_Layer_Environment()
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create();
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	Engine::CGameObject*		pGameObject = nullptr;
-
-	pGameObject = CBackGround::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
-
-	m_mapLayer.insert({ OBJ_TYPE::BACKGROUND, pLayer });
-
 	return S_OK;
 }
 

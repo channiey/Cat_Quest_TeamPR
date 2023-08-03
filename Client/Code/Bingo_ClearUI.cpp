@@ -23,8 +23,8 @@ HRESULT CBingo_ClearUI::Ready_Object()
 
 	m_eUIType = UI_TYPE::VIEW;
 
-	m_fSizeX = 180.f;
-	m_fSizeY = 180.f;
+	m_fSizeX = 115.f;
+	m_fSizeY = 115.f;
 	m_fPosX = WINCX / 2;
 	m_fPosY = WINCY / 2;
 

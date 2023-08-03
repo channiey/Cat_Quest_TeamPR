@@ -17,6 +17,9 @@
 #include <memory.h>
 #include <tchar.h>
 
+// 동영상 관련 2줄(api에서 동영상은 wmv만 사용 가능.)
+#include <Vfw.h>
+#pragma comment(lib, "vfw32.lib")
 // << : fmode
 #include "../FMOD/inc/fmod.h"
 //#include "../FMOD/inc/fmod.hpp"

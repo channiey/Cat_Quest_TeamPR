@@ -78,6 +78,7 @@ _int CZeolite::Update_Object(const _float& fTimeDelta)
 
 		if (!m_tPosDownLerpY.bActive)
 		{
+			CQuestMgr::GetInstance()->Set_ReadyNext();
 			CEventMgr::GetInstance()->Delete_Obj(this);
 			// 그럴 일은 없겠지만 혹시라도 다음 프레임에 못들어오게
 			m_bDelete = true; 

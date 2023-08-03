@@ -208,6 +208,8 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 			
 			if (m_bReadyNext)
 			{
+				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_BACK_TO_TOP);
+
 				dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_IsShow(false);
 				dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_Active(false);
 
