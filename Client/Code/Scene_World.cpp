@@ -932,9 +932,9 @@ HRESULT CScene_World::Ready_Layer_YC()
 
 void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density)
 {
-	return;
-	float Start = 0.5f; // 50.f;   // Linear fog distances
-	float End = 0.8f; //  130.f;
+	//return;
+	float Start = 40; // 50.f;   // Linear fog distances
+	float End = 130; //  130.f;
 
 	// Enable fog blending. d w ddda
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
@@ -952,8 +952,8 @@ void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT 
 	else
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, Mode); // D3DRS_FOGVERTEXMODE
-		//m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
-		m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, 0.66f);
+		m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+		//m_pGraphicDev->SetRenderState(D3DRS_FOGDENSITY, 0.66f);
 	}
 
 	// Enable range-based fog if desired (only supported for
@@ -962,6 +962,6 @@ void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT 
 	//   D3DPRASTERCAPS_FOGRANGE capability.
 	// Note: This is slightly more performance intensive
 	//   than non-range-based fog.
-	/*if (UseRange)
-		m_pGraphicDev->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);*/
+	if (UseRange)
+		m_pGraphicDev->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 }
