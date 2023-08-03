@@ -8,12 +8,12 @@ class CCollider;
 
 END
 
-class CChase_Bullet : public CBasicProjectile    // 타겟을 따라다니며 이동 하는 Bullet
+class CPile_Bullet : public CBasicProjectile    // 타겟을 따라다니며 이동 하는 Bullet
 {
 protected:
-	explicit CChase_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
-	explicit CChase_Bullet(const CProjectile& rhs);
-	virtual ~CChase_Bullet();
+	explicit CPile_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
+	explicit CPile_Bullet(const CProjectile& rhs);
+	virtual ~CPile_Bullet();
 
 public:
 	virtual HRESULT			Ready_Object() override;
@@ -33,12 +33,15 @@ private:
 
 public:
 
-	static					CChase_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
+	static					CPile_Bullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner);
 
 private:
+	CVIBuffer*				m_pCrossBuffer;
+
 	_bool					m_bDelete;
 
 	_float					m_fDamage;
+	_float					m_fLength;
 
 	LERP_FLOAT_INFO			m_tAlpha;
 	LERP_FLOAT_INFO			m_tSpeed;
@@ -51,4 +54,3 @@ protected:
 
 
 };
-

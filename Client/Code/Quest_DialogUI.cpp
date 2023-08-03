@@ -246,7 +246,6 @@ HRESULT CQuest_DialogUI::Ready_Dialog(wstring strDialog, DIALOG_TYPE _bDialogTyp
 	m_tAlphaFont.Set_Lerp(2.f, 0, 200);
 
 
-
 	return S_OK;
 }
 

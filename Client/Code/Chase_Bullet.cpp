@@ -28,11 +28,18 @@ HRESULT CChase_Bullet::Ready_Object()
     
     m_pTransformCom->Set_Pos(m_vPos);
     m_pTransformCom->Set_Dir(m_vDir);
+   
+    m_pTransformCom->Set_Scale(_vec3{ 0.8f, 0.8f, 0.8f });
 
-
-    m_fSpeed = 10.f;
+    m_fSpeed = 20.f;
 
     m_szName = L"Projectile_ChaseBullet";
+
+    m_fDamage = 6.f + rand() % 3;
+
+    m_iAlpha = 255;
+
+    m_bDelete = false;
 
     return S_OK;
 }
@@ -48,18 +55,34 @@ _int CChase_Bullet::Update_Object(const _float& fTimeDelta)
     {
         _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
 
-        this->m_pAICom->Chase_Target(&vTargetPos, fTimeDelta, m_fSpeed);
+        this->m_pAICom->Chase_TargetY(&vTargetPos, fTimeDelta, m_fSpeed);
     }
-    else if(m_fAccTime >2.f)
+    else if(m_fAccTime >2.f && !m_bDelete)
     {
-        m_fSpeed = 5.f;
+        m_tAlpha.Init_Lerp(LERP_MODE::EASE_IN);
+        m_tAlpha.Set_Lerp(0.8f, m_iAlpha, 0);
+
+        m_tSpeed.Init_Lerp(LERP_MODE::EASE_IN);
+        m_tSpeed.Set_Lerp(0.8f, m_fSpeed, 0);
+
+        m_bDelete = true;
     }
-    if (m_fAccTime >= 3.f)
+
+    m_tAlpha.Update_Lerp(fTimeDelta);
+    m_tSpeed.Update_Lerp(fTimeDelta);
+
+    if (m_bDelete)
+    {
+        m_iAlpha = m_tAlpha.fCurValue;
+        m_fSpeed = m_tSpeed.fCurValue;
+    }
+    if (m_iAlpha <= 0)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
     }
- 
 
+   
+   
     m_pTransformCom->Translate(fTimeDelta * m_fSpeed);
 
     
@@ -75,6 +98,7 @@ void CChase_Bullet::LateUpdate_Object()
 
 void CChase_Bullet::Render_Object()
 {
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 
     m_pTextureCom->Render_Texture(); // 텍스처 세팅 -> 버퍼 세팅 순서 꼭!
 
@@ -84,6 +108,7 @@ void CChase_Bullet::Render_Object()
 
     m_pGraphicDev->SetTexture(0, NULL);
 
+    m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
     __super::Render_Object();
 }
@@ -119,7 +144,7 @@ HRESULT CChase_Bullet::Add_Component()
     CComponent* pComponent;
 
     // Texture
-    pComponent = m_pTextureCom  = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Projectile_PupleBullet", this));
+    pComponent = m_pTextureCom  = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Projectile_RedBullet_Another", this));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 

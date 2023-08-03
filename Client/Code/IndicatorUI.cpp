@@ -36,6 +36,8 @@ HRESULT CIndicatorUI::Ready_Object()
 	m_fSizeX = 51.f;
 	m_fSizeY = 42.f;
 
+	m_bOut = false;
+
 	return S_OK;
 }
 
@@ -49,6 +51,7 @@ _int CIndicatorUI::Update_Object(const _float& fTimeDelta)
 			m_pPlayer = dynamic_cast<CPlayer*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::PLAYER, L"Player"));
 
 		Get_ViewPos_Target();
+
 
 		_float fScale = 0.7f;
 		if (m_bShrink)
@@ -89,6 +92,14 @@ void CIndicatorUI::LateUpdate_Object()
 {
 	if (m_pTarget)
 	{
+		CGameObject* pUIZoom = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Zoom");
+		NULL_CHECK(pUIZoom);
+
+		if (static_cast<CZoomUI*>(pUIZoom)->Get_ZoomState() == 1)
+			m_bOut = true;
+		else
+			m_bOut = false;
+
 		__super::LateUpdate_Object();
 	}
 }
@@ -114,6 +125,7 @@ void CIndicatorUI::Get_ViewPos_Target()
 {
 	if (CQuestMgr::GetInstance()->Get_IsAble())
 	{
+		D3DXMatrixIdentity(&m_UImatWorld);
 		_vec3 vTargetWorldPos = m_pTarget->Get_Transform()->Get_Info(INFO::INFO_POS);
 		_vec3 vPlayerWorldPos = m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
 
@@ -121,9 +133,8 @@ void CIndicatorUI::Get_ViewPos_Target()
 		m_fTargetLength = D3DXVec3Length(&vTargetDir);
 		D3DXVec3Normalize(&vTargetDir, &vTargetDir);
 
-		CGameObject* pUIZoom = CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"UI_Zoom");
-		NULL_CHECK(pUIZoom);
-		if (static_cast<CZoomUI*>(pUIZoom)->Get_ZoomState() == 1 || 30.f > m_fTargetLength)
+		
+		if (m_bOut)
 		{
 			_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
 			_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
@@ -137,19 +148,14 @@ void CIndicatorUI::Get_ViewPos_Target()
 
 			m_UImatWorld._11 = m_fSizeX;
 			m_UImatWorld._22 = m_fSizeY;
-			m_UImatWorld._12 = 0;
-			m_UImatWorld._21 = 0;
 
 			m_UImatWorld._41 = ScreenX;
-			if (static_cast<CZoomUI*>(pUIZoom)->Get_ZoomState() == 1)
-				m_UImatWorld._42 = ScreenY + 50;
-			else
-				m_UImatWorld._42 = ScreenY + 80;
-
+			m_UImatWorld._42 = ScreenY + 50;
+			
 			if (ScreenX < 0 || ScreenX > WINCX ||
 				ScreenY < 0 || ScreenY > WINCY)
 			{
-				_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 70);
+				_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 80);
 
 				_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
 				_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
@@ -161,30 +167,26 @@ void CIndicatorUI::Get_ViewPos_Target()
 				_float ScreenX = vIndicPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
 				_float ScreenY = WINCY - (-vIndicPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
 
-				if (ScreenX > WINCX - 200)
+				if (ScreenX >= WINCX - 200)
 					ScreenX = WINCX - 200;
-				if (ScreenX < 200)
+				else if (ScreenX <= 200)
 					ScreenX = 200;
-				if (ScreenY > WINCY - 100)
+				if (ScreenY >= WINCY - 100)
 					ScreenY = WINCY - 100;
-				if (ScreenY < 100)
+				else if (ScreenY <= 100)
 					ScreenY = 100;
 
-				if (vPlayerWorldPos.z > vTargetWorldPos.z)
+				if (vTargetDir.z < 0)
 				{
 					m_UImatWorld._11 = m_fSizeX;
 					m_UImatWorld._22 = m_fSizeY;
 
-					m_UImatWorld._12 = 0;
-					m_UImatWorld._21 = 0;
 				}
-				else if (vPlayerWorldPos.z < vTargetWorldPos.z)
+				else
 				{
 					m_UImatWorld._11 = m_fSizeX;
 					m_UImatWorld._22 = -m_fSizeY;
 
-					m_UImatWorld._12 = 0;
-					m_UImatWorld._21 = 0;
 				}
 
 
@@ -193,9 +195,28 @@ void CIndicatorUI::Get_ViewPos_Target()
 			}
 
 		}
+		else if (25.f >= m_fTargetLength)
+		{
+			_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
+			_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+			D3DVIEWPORT9 pViewport = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+
+			D3DXVec3TransformCoord(&vTargetWorldPos, &vTargetWorldPos, &matView);
+			D3DXVec3TransformCoord(&vTargetWorldPos, &vTargetWorldPos, &matProj);
+
+			_float ScreenX = vTargetWorldPos.x * (pViewport.Width / 2) + pViewport.X + (pViewport.Width / 2);
+			_float ScreenY = WINCY - (-vTargetWorldPos.y * (pViewport.Height / 2) + pViewport.Y + (pViewport.Height / 2));
+
+			m_UImatWorld._11 = m_fSizeX;
+			m_UImatWorld._22 = m_fSizeY;
+
+			m_UImatWorld._41 = ScreenX;
+			m_UImatWorld._42 = ScreenY + 80;
+
+		}
 		else
 		{
-			_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 26);
+			_vec3 vIndicPos = vPlayerWorldPos + (vTargetDir * 26.5f);
 
 			_matrix matView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
 			_matrix matProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
@@ -209,28 +230,25 @@ void CIndicatorUI::Get_ViewPos_Target()
 
 			if (ScreenX > WINCX - 200)
 				ScreenX = WINCX - 200;
-			if (ScreenX < 200)
+			else if (ScreenX < 200)
 				ScreenX = 200;
 			if (ScreenY > WINCY - 100)
 				ScreenY = WINCY - 100;
-			if (ScreenY < 100)
+			else if (ScreenY < 100)
 				ScreenY = 100;
 
-			if (vPlayerWorldPos.z > vTargetWorldPos.z)
+			if (vTargetDir.z < 0)
 			{
 				m_UImatWorld._11 = m_fSizeX;
 				m_UImatWorld._22 = m_fSizeY;
 
-				m_UImatWorld._12 = 0;
-				m_UImatWorld._21 = 0;
+				
 			}
-			else if (vPlayerWorldPos.z < vTargetWorldPos.z)
+			else
 			{
 				m_UImatWorld._11 = m_fSizeX;
 				m_UImatWorld._22 = -m_fSizeY;
 
-				m_UImatWorld._12 = 0;
-				m_UImatWorld._21 = 0;
 			}
 
 

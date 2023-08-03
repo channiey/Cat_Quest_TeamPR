@@ -118,7 +118,8 @@ STATE_TYPE CPlayerState_fAttack1::Update_State(const _float& fTimeDelta)
 
 	if (static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Hit())
 	{
-		CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
+		if(!static_cast<CPlayer*>(m_pOwner->Get_OwnerObject())->Is_Fly())
+			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::PLAYER_ATK_TO_IDL);
 		m_bEnter = false;
 		return STATE_TYPE::FRONT_HIT;
 	}

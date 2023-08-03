@@ -70,6 +70,8 @@
 #include "BossSceneMgr.h"
 #include "Player_AfterImg.h"
 
+#include "TurretSkull.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev, OBJ_TYPE::PLAYER, OBJ_ID::PLAYER)
@@ -1424,6 +1426,13 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		CBossSceneMgr::GetInstance()->Start_BossScene();
 	}
 
+	if (CInputDev::GetInstance()->Key_Down(VK_F8))
+	{
+		CGameObject* pMon = CTurretSkull::Create(m_pGraphicDev);
+		NULL_CHECK(pMon);
+		CEventMgr::GetInstance()->Add_Obj(L"Monster_Skull", pMon);
+	}
+
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;
 
@@ -1865,8 +1874,7 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 	if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_DIE ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_WAKE ||
 		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_ROLL ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL ||
-		m_pStateMachineCom->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
+		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_ROLL)
 		return;
 
 	if (pObj->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
@@ -1896,7 +1904,9 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 
 	if (pObj->Get_Type() == OBJ_TYPE::PROJECTILE)
 	{
-		if (static_cast<CProjectile*>(pObj)->Get_Owner()->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
+
+		if (static_cast<CProjectile*>(pObj)->Get_Owner() != nullptr &&
+			static_cast<CProjectile*>(pObj)->Get_Owner()->Get_ID() == OBJ_ID::MONSTER_VIOLETDRAGON)
 		{
 			if (!m_pRigidBodyCom->Is_Vel_Zero())
 			{
@@ -1905,7 +1915,7 @@ void CPlayer::Damaged(const _float& fDamage, CGameObject* pObj)
 			else
 			{
 				if (pObj != nullptr)
-					m_pRigidBodyCom->Knock_Back(pObj, 320);
+					m_pRigidBodyCom->Knock_Back(pObj, 220);
 			}
 		}
 	}

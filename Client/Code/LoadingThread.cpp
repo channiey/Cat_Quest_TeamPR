@@ -931,6 +931,18 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_RedBullet",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Red_Bullet.png")), E_FAIL);
 
+	// Green_Bullet
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_GreenBullet",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Green_Bullet.png")), E_FAIL);
+
+	// Red_Bullet_Another
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_RedBullet_Another",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Red_Bullet_Another.png")), E_FAIL);
+
+	// Star_Bullet_Another
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_StarBullet_Another",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Star_Bullet_Another2.png")), E_FAIL);
+
 	// Green_Dragger
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_GreenDager",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Projectile/Green_Dagger.png")), E_FAIL);
@@ -1380,9 +1392,17 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_Arrow"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Arrow.png")), E_FAIL);
 
-	// Äù½ºÆ®¿ë ¸Úµé¾îÁø UI
+	// Äù½ºÆ®¿ë ¸Úµé¾îÁø Box UI
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_UI_QuestBox"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/UI/Quest_Box.png")), E_FAIL);
+
+	// ¿ë°¡¸® ÅÍ·¿
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Monster_Skull"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/DragonSkull/Skull/%d.png", 2)), E_FAIL);
+
+	// ¿ë°¡¸® ÅÍ·¿ ¹ß»çÃ¼
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Projectile_Pile"
+		, CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/DragonSkull/Pile_Purple.png")), E_FAIL);
 
 #pragma endregion
 	 
