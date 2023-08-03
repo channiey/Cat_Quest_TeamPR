@@ -43,7 +43,7 @@ HRESULT CMoveDust::Ready_Object()
 }
 
 _int CMoveDust::Update_Object(const _float& fTimeDelta)
-{
+{ 
 	_int iExit = __super::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 

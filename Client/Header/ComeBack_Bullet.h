@@ -57,9 +57,13 @@ private:
 	_bool			m_check2;
 	_bool			m_check3;
 	_bool			m_check4;
+	_bool			m_check5;
 
 	_bool			m_bFirstStop;
 	_bool			m_bSecondStop;
+	_bool			m_bDown;
+	_bool			m_bUp;
+
 	_bool			m_bSpread;
 	_bool			m_bCollect;
 

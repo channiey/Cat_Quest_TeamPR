@@ -3,6 +3,7 @@
 #include "EventMgr.h"
 #include "Player.h"
 #include "SoundMgr.h"
+#include "HitEffect_Purple.h"
 
 CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime)
 	: CBossProjectile(pGraphicDev, OBJ_ID::PROJECTILE_BOSS_CONVERGING)
@@ -52,12 +53,17 @@ HRESULT CComBack_Bullet::Ready_Object()
     m_check2 = false;
     m_check3 = false;
     m_check4 = false;
+    m_check5 = false;
 
     m_bFirstStop = false;
     m_bSecondStop = false;
     m_bSpread = false;
     m_bCollect = false;
  
+
+    m_bDown = false;
+    m_bUp = false;
+
 
 	return S_OK;
 }
@@ -91,21 +97,43 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_bSpread = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(0.5f, m_vPos, _vec3{ m_vPos.x + 2*(vOwnerDir.x)  , m_vPos.y , m_vPos.z + 2*(vOwnerDir.z) });
+        m_tPos.Set_Lerp(0.3f, m_vPos, _vec3{ m_vPos.x + 2*(vOwnerDir.x)  , m_vPos.y , m_vPos.z + 2*(vOwnerDir.z) });
     }
     if (true == m_bSecondStop)
     {
         m_bSecondStop = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp( 0.2f, m_pTransformCom->Get_Info(INFO_POS), _vec3{ m_pTransformCom->Get_Info(INFO_POS).x ,
-                                                                           m_pTransformCom->Get_Info(INFO_POS).y + 0.5f , 
+        m_tPos.Set_Lerp( 0.1f, m_pTransformCom->Get_Info(INFO_POS), _vec3{ m_pTransformCom->Get_Info(INFO_POS).x ,
+                                                                           m_pTransformCom->Get_Info(INFO_POS).y + 1.f , 
                                                                            m_pTransformCom->Get_Info(INFO_POS).z });                 
+   
     }
+
+    if (true == m_bDown)
+    {
+        m_bDown = false;
+        m_tPos.Init_Lerp();
+        m_tPos.Set_Lerp(0.1f, m_pTransformCom->Get_Info(INFO_POS), _vec3{ m_pTransformCom->Get_Info(INFO_POS).x ,
+                                                                           m_pTransformCom->Get_Info(INFO_POS).y - 1.f ,
+                                                                           m_pTransformCom->Get_Info(INFO_POS).z });
+
+    }
+    if (true == m_bUp)
+    {
+        m_bUp = false;
+        m_tPos.Init_Lerp();
+        m_tPos.Set_Lerp(0.1f, m_pTransformCom->Get_Info(INFO_POS), _vec3{ m_pTransformCom->Get_Info(INFO_POS).x ,
+                                                                           m_pTransformCom->Get_Info(INFO_POS).y + 1.f ,
+                                                                           m_pTransformCom->Get_Info(INFO_POS).z });
+
+
+    }
+
     if (true == m_bCollect)
     {
         m_bCollect = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(1.f, m_pTransformCom->Get_Info(INFO_POS), m_vOriginPos);
+        m_tPos.Set_Lerp(0.3f, m_pTransformCom->Get_Info(INFO_POS), m_vOriginPos);
     }
 
 
@@ -134,17 +162,29 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_bSpread = true;
         m_check1 = true;
     }
-    if (m_bSecondStop == false && m_check2 == false && m_fAccTime >= 2.f)
+    if (m_bSecondStop == false && m_check2 == false && m_fAccTime >= 1.3f)
     {
         m_bSecondStop = true;
         m_check2 = true;
     }
-    if (m_bCollect == false && m_check3 == false && m_fAccTime >= m_fChaseTime)
+    if (m_bDown == false && m_check3 == false && m_fAccTime >= 1.6f)
+    {
+        m_bDown = true;
+        m_check3 = true;
+
+    }
+    if (m_bUp == false && m_check4 == false && m_fAccTime >= 1.9f)
+    {
+        m_bUp = true;
+        m_check4 = true;
+    }
+
+    if (m_bCollect == false && m_check5 == false && m_fAccTime >= m_fChaseTime)
     {
         m_bCollect = true;
-        m_check3 = true;
+        m_check5 = true;
     }
-    if ( m_check3 == true  &&  fDistanceOrigin <= 0.5f)
+    if (( m_check5 == true  &&  fDistanceOrigin <= 1.f ) ||  m_fAccTime >= 5.f)
     {
         m_fAccTime = 0.f;
         CEventMgr::GetInstance()->Delete_Obj(this);
@@ -236,6 +276,8 @@ void CComBack_Bullet::OnCollision_Enter(CGameObject* _pColObj)
     case OBJ_TYPE::PLAYER:
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
+        CEventMgr::GetInstance()->Add_Obj(L"Hit_ComeBackBullet_Effect", CHitEffect_Purple::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        
         //CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

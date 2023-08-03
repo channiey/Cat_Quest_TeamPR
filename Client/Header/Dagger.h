@@ -37,11 +37,13 @@ private:
 
 
 	_bool				m_bStop;
+	_bool				m_bWide;
 	_bool				m_bShoot;
 
 
 	_bool				m_check1;
 	_bool				m_check2;
+	_bool				m_check3;
 
 	LERP_FLOAT_INFO		m_tAlpha;
 	LERP_VEC3_INFO      m_tPos;

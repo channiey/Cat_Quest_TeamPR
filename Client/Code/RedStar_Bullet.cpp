@@ -1,7 +1,7 @@
 #include "RedStar_Bullet.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "HitEffect_Red.h"
 
 CRedStar_Bullet::CRedStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_REDSTAR_BULLET)
@@ -89,7 +89,7 @@ _int CRedStar_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_bTargetChase = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(0.8f, m_pTransformCom->Get_Info(INFO_POS), vTargetPos);
+        m_tPos.Set_Lerp(0.7f, m_pTransformCom->Get_Info(INFO_POS), vTargetPos);
     }
 
 
@@ -187,6 +187,7 @@ void CRedStar_Bullet::OnCollision_Enter(CGameObject* _pColObj)
     case OBJ_TYPE::PLAYER:
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
+        CEventMgr::GetInstance()->Add_Obj(L"Hit_RedStar_Effect", CHitEffect_Red::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

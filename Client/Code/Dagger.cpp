@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "SoundMgr.h"
+#include "HitEffect_Green.h"
 
 CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)
@@ -45,10 +46,11 @@ HRESULT CDagger::Ready_Object()
 
     m_bStop = false;
     m_bShoot = false;
-    
+    m_bWide = false;
+
     m_check1 = false;
     m_check2 = false;
-    
+    m_check3 = false;
 
 
     return S_OK;
@@ -57,7 +59,7 @@ HRESULT CDagger::Ready_Object()
 
 _int CDagger::Update_Object(const _float& fTimeDelta)
 {
-
+    _vec3 vOwnerPos = m_pOwner->Get_Transform()->Get_Info(INFO_POS);
     _vec3 vTargetPos = m_pTarget->Get_Transform()->Get_Info(INFO_POS);
     _vec3 vBulletDir = vTargetPos - m_vPos;
 
@@ -75,6 +77,15 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
         m_tPos.Set_Lerp(0.1f, m_vPos, m_vPos);
 
     }
+    if (true == m_bWide)
+    {
+        m_bWide = false;
+        m_tPos.Init_Lerp();
+        m_tPos.Set_Lerp(0.3f, m_vPos, _vec3{ m_vPos.x , m_vPos.y -2.f, m_vPos.z });
+     
+      
+    }
+
     if (true == m_bShoot)
     {
         m_bShoot = false;
@@ -99,15 +110,22 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
     m_fAccTime += fTimeDelta;
 
  
-    if (m_bStop == false && m_check1 == false &&  m_fAccTime <= 3.f)
+    if (m_bStop == false && m_check1 == false &&  m_fAccTime <= 2.5f)
     {
         m_bStop = true;
         m_check1 = true;
     }
 
-    if ( m_bShoot == false  && m_check2 == false && m_fAccTime > 3.f)
+    if (m_bWide == false && m_check2 == false && m_fAccTime > 2.5f)
     {
         m_check2 = true;
+        m_bWide = true;
+    }
+
+
+    if ( m_bShoot == false  && m_check3 == false && m_fAccTime > 3.f)
+    {
+        m_check3 = true;
         m_bShoot = true;
     }
 
@@ -179,6 +197,7 @@ void CDagger::OnCollision_Enter(CGameObject* _pColObj)
     case OBJ_TYPE::PLAYER:
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
+        CEventMgr::GetInstance()->Add_Obj(L"Hit_DaggerBullet_Effect", CHitEffect_Green::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

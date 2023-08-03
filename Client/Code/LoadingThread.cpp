@@ -1009,17 +1009,27 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 9)), E_FAIL);
 
 
-
-
-
-
 	// Effect Range 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Range_Skill_Small_Red",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Small_Red.png")), E_FAIL);
 
 
+	//Effect Projectile Hit Purple
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Hit_Purple",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Hit_Purple/%d.png", 3)), E_FAIL);
+
+	//Effect Projectile Hit Green
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Hit_Green",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Hit_Green/%d.png", 3)), E_FAIL);
 
 
+	//Effect Projectile Hit Red
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Hit_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Hit_Red/%d.png", 3)), E_FAIL);
+
+	//Effect Projectile Hit Blue
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Hit_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Hit_Blue/%d.png", 3)), E_FAIL);
 
 
 
