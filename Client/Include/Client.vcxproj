@@ -192,6 +192,7 @@
     <ClInclude Include="..\Header\Bingo_Launcher.h" />
     <ClInclude Include="..\Header\BossSceneTriggerObj.h" />
     <ClInclude Include="..\Header\DrakothTable.h" />
+    <ClInclude Include="..\Header\Effect_Boss_HellFire.h" />
     <ClInclude Include="..\Header\Effect_Rain.h" />
     <ClInclude Include="..\Header\Effect_RainRipple.h" />
     <ClInclude Include="..\Header\Flag.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="..\Header\Quest_Legend.h" />
     <ClInclude Include="..\Header\Shadow_Boss.h" />
     <ClInclude Include="..\Header\Shadow_Zeolite.h" />
+    <ClInclude Include="..\Header\Skill_Boss_HellFire.h" />
     <ClInclude Include="..\Header\Skill_Player_Arrow.h" />
     <ClInclude Include="..\Header\Skill_Player_Heal.h" />
     <ClInclude Include="..\Header\Terrain_Temple.h" />
@@ -247,6 +249,8 @@
     <ClInclude Include="..\Header\VioletDragonState_Chase2.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase3.h" />
     <ClInclude Include="..\Header\VioletDragonState_Dead.h" />
+    <ClInclude Include="..\Header\VioletDragonState_HellFire.h" />
+    <ClInclude Include="..\Header\VioletDragonState_HellFire_Cast.h" />
     <ClInclude Include="..\Header\VioletDragonState_Intro_Down.h" />
     <ClInclude Include="..\Header\VioletDragonState_Intro_Sword.h" />
     <ClInclude Include="..\Header\VioletDragonState_Intro_Wing.h" />
@@ -681,6 +685,7 @@
     <ClCompile Include="..\Code\Bingo_Launcher.cpp" />
     <ClCompile Include="..\Code\BossSceneTriggerObj.cpp" />
     <ClCompile Include="..\Code\DrakothTable.cpp" />
+    <ClCompile Include="..\Code\Effect_Boss_HellFire.cpp" />
     <ClCompile Include="..\Code\Effect_Rain.cpp" />
     <ClCompile Include="..\Code\Effect_RainRipple.cpp" />
     <ClCompile Include="..\Code\Flag.cpp" />
@@ -713,6 +718,7 @@
     <ClCompile Include="..\Code\Quest_Legend.cpp" />
     <ClCompile Include="..\Code\Shadow_Boss.cpp" />
     <ClCompile Include="..\Code\Shadow_Zeolite.cpp" />
+    <ClCompile Include="..\Code\Skill_Boss_HellFire.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Arrow.cpp" />
     <ClCompile Include="..\Code\Skill_Player_Heal.cpp" />
     <ClCompile Include="..\Code\Terrain_Temple.cpp" />
@@ -734,6 +740,8 @@
     <ClCompile Include="..\Code\VioletDragonState_Chase2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase3.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Dead.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_HellFire.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_HellFire_Cast.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Down.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Sword.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Wing.cpp" />

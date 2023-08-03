@@ -72,6 +72,16 @@ private:
 	_bool					m_bBlueLate;
 	_float					m_BlueTime;
 
+	//Skill Hell Fire
+	CSkill* m_pHellFire;
+	_bool	m_bHellFire;
+	_bool	m_bHellLate;
+	_bool   m_bHellLast;
+	_bool   m_bHellFin;
+	_bool	m_bHellEnd;
+	_float	m_HellTime;
+
+
 
 	// Skill Create Wyvern
 	CSkill*					m_pCreateWyvern;

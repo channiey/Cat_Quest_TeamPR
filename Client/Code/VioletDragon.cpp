@@ -45,6 +45,10 @@
 #include "VioletDragonState_Dash_Attack_Back.h"
 // Ready Pattern
 #include "VioletDragonState_ReadyPattern.h"
+//Hell Fire
+#include "VioletDragonState_HellFire.h"
+#include "VioletDragonState_HellFire_Cast.h"
+
 
 // 2 Attack
 #include "VioletDragonState_Attack2.h"
@@ -92,7 +96,7 @@
 #include "MonstSpirit.h"
 #include "GoldCoin.h"
 #include "ExpCoin.h"
-
+#include "Skill_Boss_HellFire.h"
 #include "BossHpUI.h"
 #include "Management.h"
 
@@ -166,6 +170,7 @@ HRESULT CVioletDragon::Ready_Object()
 	m_BloodyTime = 0.f;
 	m_CreateTime = 0.f;
 	m_BlueTime = 0.f; 
+	m_HellTime = 0.f;
 
 	m_fJumpingSpeed = 0.05f;
 	m_fMaxJumpY = m_pTransformCom->Get_Scale().y + 1.f;
@@ -182,6 +187,12 @@ HRESULT CVioletDragon::Ready_Object()
 	m_bBlueLate = false;
 	m_bNearAttack = false;
 	m_bNearAttackCheck = false;
+
+	m_bHellFire = false;
+	m_bHellLate = false;
+	m_bHellLast = false;
+	m_bHellFin = false;
+	m_bHellEnd = false;
 
 	m_NearAttackTime = 0.f;
 	m_DeadCreatTime = 0.f;
@@ -219,6 +230,10 @@ HRESULT CVioletDragon::Ready_Object()
 		m_pNearAttack = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
 		NULL_CHECK_RETURN(m_pNearAttack, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Near_Base", m_pNearAttack), E_FAIL);
+
+		m_pHellFire = CSkill_Boss_HellFire::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pHellFire, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_HellFire", m_pHellFire), E_FAIL);
 
 
 	}
@@ -424,17 +439,24 @@ HRESULT CVioletDragon::Ready_Object()
 	pState = CVioletDragonState_Dead::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSSDEAD, pState);
 
+	// HellFire
+	pState = CVioletDragonState_HellFire::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_HELLFIRE, pState);
+	//HellFire Cast
+	pState = CVioletDragonState_HellFire_Cast::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_HELLFIRE_CAST, pState);
 
-	// Watch  ==============
-	pState = CVioletDragonState_Watch_Up::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_UP, pState);
 
-	pState = CVioletDragonState_Watch_Down::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_DOWN, pState);
 
-	pState = CVioletDragonState_Watch_In_Sky::Create(m_pGraphicDev, m_pStateMachineCom);
-	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_IN_SKY, pState);
+	//// Watch  ==============
+	//pState = CVioletDragonState_Watch_Up::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_UP, pState);
 
+	//pState = CVioletDragonState_Watch_Down::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_DOWN, pState);
+
+	//pState = CVioletDragonState_Watch_In_Sky::Create(m_pGraphicDev, m_pStateMachineCom);
+	//m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_WATCH_IN_SKY, pState);
 
 
 #pragma endregion
@@ -649,6 +671,16 @@ HRESULT CVioletDragon::Ready_Object()
 	//2B
 	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_NEAR_ATTACK2)], STATE_TYPE::BOSS_BACK_NEAR_ATTACK2, 0.05f, FALSE);
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_NEAR_ATTACK2, pAnimation);
+
+	// Hell Fire
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_HELLFIRE)], STATE_TYPE::BOSS_HELLFIRE, 0.1f, TRUE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_HELLFIRE, pAnimation);
+	// Hell Fire Cast
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_HELLFIRE_CAST)], STATE_TYPE::BOSS_HELLFIRE_CAST, 0.1f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_HELLFIRE_CAST, pAnimation);
+
+
+
 
 
 
@@ -964,6 +996,60 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 
 
+	// HellFire Skill Use Condition
+	if (STATE_TYPE::BOSS_HELLFIRE_CAST == CurState || STATE_TYPE::BOSS_HELLFIRE == CurState)
+	{
+		m_HellTime += fTimeDelta;
+
+		if (m_bHellFire == false && m_bHellLate == false && m_HellTime >= 1.f)
+		{
+			dynamic_cast<CSkill_Boss_HellFire*>(m_pHellFire)->EarlyPlay();
+			m_bHellFire = true;
+		}
+
+		if (m_bHellFire == true && m_bHellLate == false && m_HellTime >= 2.f)
+		{
+			dynamic_cast<CSkill_Boss_HellFire*>(m_pHellFire)->Play();
+			m_bHellLate = true;
+		}
+
+
+		if (m_bHellLast == false && m_bHellFin == false   && m_HellTime >= 2.5f)
+		{
+			dynamic_cast<CSkill_Boss_HellFire*>(m_pHellFire)->LatePlay();
+			m_bHellLast = true;
+		}
+		if (m_bHellLast == true && m_bHellFin == false &&  m_HellTime >= 3.f)
+		{
+			dynamic_cast<CSkill_Boss_HellFire*>(m_pHellFire)->LastPlay();
+			m_bHellFin = true;
+
+		}
+		if (m_bHellFin == true && m_bHellEnd == false &&  m_HellTime >= 3.5f)
+		{
+			dynamic_cast<CSkill_Boss_HellFire*>(m_pHellFire)->FinalPlay();
+			m_bHellEnd = true;
+		}
+		if (m_bHellEnd == true && m_HellTime >= 4.f)
+		{
+			dynamic_cast<CSkill_Boss_HellFire*>(m_pHellFire)->End();
+		}
+	
+
+	}
+	else
+	{
+	
+		m_HellTime = 0.f;
+		m_bHellFire = false;
+		m_bHellLate = false;
+		m_bHellFin = false;
+		m_bHellEnd = false;
+	}
+
+
+
+
 	// Create Wyvern Skill Use Condition
 	if (STATE_TYPE::BOSS_CREATE_CAST == CurState  || STATE_TYPE::BOSS_CREATE_WYVERN == CurState)
 	{
@@ -1026,11 +1112,6 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		CSoundMgr::GetInstance()->PlaySound(L"dragon_roar2.wav", CHANNEL_ID::MONSTER_BOSS_2, fSoundVolm);
 		m_fSoundCount++;
 	}
-
-
-
-
-
 
 
 	return iExit;
@@ -1401,7 +1482,17 @@ HRESULT CVioletDragon::Add_Component()
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
 
 
-	
+
+	// Hell Fire
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_HELLFIRE)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_HELLFIRE_CAST)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_SpreadBullet_VioletDragon_Cast", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
 
 
 

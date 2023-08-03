@@ -1064,6 +1064,14 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Purple/%d.png", 3)), E_FAIL);
 
 
+	// Effect Purple Range
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_range_Purple",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Big_Purple.png")), E_FAIL);
+
+	// Effect Boss HellFire
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_HellFire",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_HellFire/%d.png", 8)), E_FAIL);
+
 
 
 
