@@ -37,6 +37,9 @@ private:
 	LERP_FLOAT_INFO		m_tPosDownLerpY;
 	LERP_FLOAT_INFO		m_tPosDownLerpZ;
 	LERP_FLOAT_INFO		m_tDustCreateLerp;
+	LERP_FLOAT_INFO     m_tAlphaLerp;
+
+	_float				m_fAlpha;
 	_bool				m_bDelete;
 
 public:

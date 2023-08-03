@@ -47,9 +47,14 @@ HRESULT CZeolite::Ready_Object()
 
 	// 먼지 생성
 	m_tDustCreateLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tDustCreateLerp.Set_Lerp(0.1f, 1.f, 0.f);
+	m_tDustCreateLerp.Set_Lerp(0.02f, 1.f, 0.f);
+
+	// 알파 처리
+	m_tAlphaLerp.Init_Lerp(LERP_MODE::EASE_IN);
+	m_tAlphaLerp.Set_Lerp(5.f, 255.f, 0.f);
 
 	m_szName = L"Npc_Zeolite";
+	m_fAlpha = 255.f;
 
 	return S_OK;
 }
@@ -61,6 +66,9 @@ _int CZeolite::Update_Object(const _float& fTimeDelta)
 
 	if (m_bDelete)
 	{
+		m_tAlphaLerp.Update_Lerp(fTimeDelta);
+		m_fAlpha = m_tAlphaLerp.fCurValue;
+
 		m_tPosDownLerpY.Update_Lerp(fTimeDelta);
 		m_tPosDownLerpZ.Update_Lerp(fTimeDelta);
 		m_pTransformCom->Set_Pos({
@@ -97,12 +105,16 @@ void CZeolite::LateUpdate_Object()
 
 void CZeolite::Render_Object()
 {
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_fAlpha, 255, 255, 255));
+
 	m_pTextureCom->Render_Texture();
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_WorldMat());
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetTexture(0, NULL);
 	m_pGraphicDev->SetMaterial(&material.Get_Meretial(color.white));
+
+	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	CGameObject::Render_Object(); // 콜라이더 출력
 }

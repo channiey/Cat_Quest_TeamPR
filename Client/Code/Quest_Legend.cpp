@@ -191,10 +191,12 @@ _bool CQuest_Legend::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndica
 			
 			if (m_bReadyNext)
 			{
+				dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_IsShow(false);
+				dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_Active(false);
+
 				m_iLevel += 1;
 				*_IsAble = false;
 				m_bReadyNext = false;
-				dynamic_cast<CFlagStart*>(m_pFlagStart)->Set_IsShow(false);
 				break;
 			}
 		}

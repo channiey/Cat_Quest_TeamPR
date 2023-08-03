@@ -1,6 +1,8 @@
 #pragma once
 #include "Effect.h"
 
+class CZeolite;
+
 BEGIN(Engine)
 
 class CTexture;
@@ -26,6 +28,9 @@ private:
 private:
 	CTexture* m_pTextureCom;
 	_float	  m_fPosZ;
+
+	_float			m_fAlpha;
+	LERP_FLOAT_INFO m_tAlphaLerp;
 
 public:
 	static CShadow_Zeolite* Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject);

@@ -162,7 +162,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_Citizen1"), false);
 
 						m_tQuestContent[1].m_bClear = true;
-						m_tQuestContent.push_back({ L"3.µå·¡°ï Ã³Ä¡", false });
+						m_tQuestContent.push_back({ L"\n3.µå·¡°ï Ã³Ä¡", false });
 					
 						m_iLevel += 1;
 						*_IsAble = false;

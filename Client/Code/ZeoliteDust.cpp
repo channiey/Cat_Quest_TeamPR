@@ -4,6 +4,7 @@
 
 #include "ZeoliteDust.h"
 #include "Player.h"
+#include "SoundMgr.h"
 
 CZeoliteDust::CZeoliteDust(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pOwnerObject)
 	: CEffect(pGraphicDev, _pOwnerObject, OBJ_ID::EFFECT_ZEOLITE_DUST)
@@ -39,7 +40,9 @@ HRESULT CZeoliteDust::Ready_Object()
 
 	m_bActive = true;
 	m_iTranslucent = 250;
-	m_iDeAlpha = 5;
+	m_iDeAlpha = 10;
+
+	CSoundMgr::GetInstance()->PlaySound(L"Stone_Door.mp3", CHANNEL_ID::EFFECT_0, 1.f);
 
 	return S_OK;
 }
@@ -51,8 +54,8 @@ _int CZeoliteDust::Update_Object(const _float& fTimeDelta)
 
 	m_pTransformCom->Set_Pos({
 		m_pTransformCom->Get_Info(INFO_POS).x,
-		5.f,
-		m_pTransformCom->Get_Info(INFO_POS).z
+		4.f,
+		98.f
 		});
 
 	m_pAnimation->Update_Animation(fTimeDelta);
