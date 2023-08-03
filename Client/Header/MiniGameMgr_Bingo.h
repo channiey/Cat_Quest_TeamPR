@@ -67,6 +67,10 @@ private:
 	_bool			m_bGameClear; // 게임 끝
 	_bool			m_bGameOver; // 게임 끝
 
+	LERP_FLOAT_INFO	m_tFistWaveLerp; // 트랩 생성 (전체)
+	LERP_FLOAT_INFO	m_tFistCreateLerp; // 트랩 생성 (개별)
+	_bool			m_bDropFist;	 // 트랩 활성화
+
 	_bool			m_bGameReady; // 퀘스트 진행을 위한 게임 레디 변수
 private:
 	virtual void			Free();

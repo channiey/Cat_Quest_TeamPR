@@ -18,13 +18,16 @@
 #include "Zeolite.h"
 #include "CameraMgr.h"
 
+#include "TrapFist.h"
+
+
 IMPLEMENT_SINGLETON(CMiniGameMgr_Bingo)
 
 CMiniGameMgr_Bingo::CMiniGameMgr_Bingo()
 	: m_bActive(false), m_bInit(false), m_bStart(false), m_bShuffle(false)
 	, m_bShowFlag(false), m_bShowAgain(false), m_bFirstSound(false)
 	, m_bPushVec(false), m_bGameClear(false), m_bGameOver(false)
-	, m_bGameReady(false)
+	, m_bGameReady(false), m_bDropFist(false)
 	, m_iIndex(0), m_iLevel(1), m_iShowIndex(0), m_iBingoCount(0), m_iSetIndex(7)
 {
 }
@@ -58,7 +61,7 @@ HRESULT CMiniGameMgr_Bingo::Init(LPDIRECT3DDEVICE9 _pGraphicDev)
 	m_FlagVector.pop_back();
 
 	m_tGameOverLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tGameOverLerp.Set_Lerp(8.f, 0.1f, 1.f);
+	m_tGameOverLerp.Set_Lerp(5.5f, 0.1f, 1.f);
 
 	m_bInit = true;
 
@@ -162,18 +165,13 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 				m_iBingoCount = 1;
 				break;
 			case 2:
-				m_iBingoCount = 2;
-				break;
-			case 3:
 				m_iBingoCount = 3;
 				break;
-			case 4:
+			case 3:
 				m_iBingoCount = 5;
 				break;
-			case 5:
+			case 4:
 				m_iBingoCount = 7;
-				break;
-			case 6:
 				break;
 			}
 
@@ -186,8 +184,6 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 					m_BingoVector.push_back(m_FlagVector[iRand]);
 				}
 				m_bShuffle = true;
-				// 마지막 레벨을 초과하지 않을 때만.
-				// if(m_iLevel < 6) m_bShowFlag = true;
 
 				m_tFlagShowLerp.Init_Lerp(LERP_MODE::EASE_IN);
 				m_tFlagShowLerp.Set_Lerp(1.f, 1.f, 0.f);
@@ -253,6 +249,31 @@ void CMiniGameMgr_Bingo::Update(const _float& _fDelta)
 			}
 		}
 
+		// 주먹 연타
+		if (m_bDropFist && !CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"Bingo_FailUI"))
+		{
+			m_tFistWaveLerp.Update_Lerp(_fDelta);
+			m_tFistCreateLerp.Update_Lerp(_fDelta);
+			if (!m_tFistCreateLerp.bActive)
+			{
+				CSoundMgr::GetInstance()->PlaySound(L"woosh.wav", CHANNEL_ID::ENVIRONMENT_0, BINGO_DROP_FIST);
+				CGameObject* m_pFist = CTrapFist::Create(m_pGraphicDev);
+				NULL_CHECK(m_pFist, E_FAIL);
+				CEventMgr::GetInstance()->Add_Obj(L"TrapFist", m_pFist);
+				m_tFistCreateLerp.Init_Lerp(LERP_MODE::EASE_IN);
+				m_tFistCreateLerp.Set_Lerp(0.05f, 1.f, 0.f);
+			}
+
+			if (!m_tFistWaveLerp.bActive)
+			{
+				m_tShowAgainLerp.Init_Lerp(LERP_MODE::EASE_IN);
+				m_tShowAgainLerp.Set_Lerp(4.5f, 1.f, 0.f);
+				m_bShowAgain = true;
+				m_bFirstSound = true;
+				m_bDropFist = false;
+			}
+		}
+
 		if (m_bShowFlag && !m_bGameClear)
 		{
 			ShowFlag();
@@ -301,7 +322,7 @@ HRESULT CMiniGameMgr_Bingo::Flag_Check(const OBJ_ID& _eID)
 			// 전부 맞추면 
 			if (m_iIndex >= m_iBingoCount - 1)
 			{
-				if (m_iLevel < 5) // 클리어하자마자 레벨이 바로 오르는게 아님
+				if (m_iLevel < 4) // 클리어하자마자 레벨이 바로 오르는게 아님
 				{
 					CSoundMgr::GetInstance()->PlaySound(L"Bingo_AllSucces.mp3", CHANNEL_ID::ENVIRONMENT_0, BINGO_CLEAR_SOUND);
 
@@ -321,7 +342,7 @@ HRESULT CMiniGameMgr_Bingo::Flag_Check(const OBJ_ID& _eID)
 					m_BingoVector.clear();
 					m_bShuffle = false;
 				}
-				else if (m_iLevel >= 5) // 클리어 시점에 5레벨이라면
+				else if (m_iLevel >= 4) // 클리어 시점에 4레벨이라면
 				{
 					CSoundMgr::GetInstance()->PlaySound(L"Quest Complete.wav", CHANNEL_ID::ENVIRONMENT_0, BINGO_ALLCLEAR_SOUND);
 
@@ -346,15 +367,17 @@ HRESULT CMiniGameMgr_Bingo::Flag_Check(const OBJ_ID& _eID)
 		}
 		else
 		{
+			m_tFistWaveLerp.Init_Lerp(LERP_MODE::EASE_IN);
+			m_tFistWaveLerp.Set_Lerp(5.f, 1.f, 0.f);
+			m_tFistCreateLerp.Init_Lerp(LERP_MODE::EASE_IN);
+			m_tFistCreateLerp.Set_Lerp(0.05f, 1.f, 0.f);
+			m_bDropFist = true;
+
 			CSoundMgr::GetInstance()->PlaySound(L"Bingo_Fail.mp3", CHANNEL_ID::ENVIRONMENT_2, BINGO_FAIL_SOUND);
 			CGameObject* pUI = CBingo_FailUI::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pUI, E_FAIL);
 			CEventMgr::GetInstance()->Add_Obj(L"Bingo_FailUI", pUI);
 
-			m_tShowAgainLerp.Init_Lerp(LERP_MODE::EASE_IN);
-			m_tShowAgainLerp.Set_Lerp(4.5f, 1.f, 0.f);
-			m_bShowAgain = true;
-			m_bFirstSound = true;
 			// m_pLauncher->Set_ShowReady(true);
 			m_iIndex = 0;
 		}

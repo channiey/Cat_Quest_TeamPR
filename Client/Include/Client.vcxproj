@@ -238,6 +238,10 @@
     <ClInclude Include="..\Header\RedStar_Bullet.h" />
     <ClInclude Include="..\Header\Skill_Boss_BlueThunder.h" />
     <ClInclude Include="..\Header\TurretSkull.h" />
+    <ClInclude Include="..\Header\TrapBigFistDust.h" />
+    <ClInclude Include="..\Header\TrapFist.h" />
+    <ClInclude Include="..\Header\TrapFistDust.h" />
+    <ClInclude Include="..\Header\TrapBigFist.h" />
     <ClInclude Include="..\Header\UsePotion.h" />
     <ClInclude Include="..\Header\VioletDragonState_Attack2.h" />
     <ClInclude Include="..\Header\VioletDragonState_Attack3.h" />
@@ -736,6 +740,10 @@
     <ClCompile Include="..\Code\RedStar_Bullet.cpp" />
     <ClCompile Include="..\Code\Skill_Boss_BlueThunder.cpp" />
     <ClCompile Include="..\Code\TurretSkull.cpp" />
+    <ClCompile Include="..\Code\TrapBigFistDust.cpp" />
+    <ClCompile Include="..\Code\TrapFist.cpp" />
+    <ClCompile Include="..\Code\TrapFistDust.cpp" />
+    <ClCompile Include="..\Code\TrapBigFist.cpp" />
     <ClCompile Include="..\Code\UsePotion.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Attack2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Attack3.cpp" />

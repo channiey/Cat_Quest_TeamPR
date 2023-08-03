@@ -55,7 +55,7 @@ void CBingo_ClearUI::Ready_Lerp()
 
 	// 딜리트 러프 세팅(이 러프가 끝나면 UI 사라지게)
 	m_tDeleteLerp.Init_Lerp(LERP_MODE::EASE_IN);
-	m_tDeleteLerp.Set_Lerp(6.f, 1.f, 0.f);
+	m_tDeleteLerp.Set_Lerp(3.5f, 1.f, 0.f);
 
 	// 부유 러프
 	m_tPosUpLerp.Init_Lerp(LERP_MODE::EASE_IN);

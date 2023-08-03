@@ -660,6 +660,10 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Bingo",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/UI_checkbox_tick.png")), E_FAIL);
 
+	// Bingo_Trap
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Bingo_Trap_Fist",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/MiniGame/Bingo/Trap/Trap_Fist.png")), E_FAIL);
+
 
 #pragma endregion
 

@@ -78,8 +78,8 @@ void CShadow_Zeolite::Render_Object()
 	matWorld *= *D3DXMatrixInverse(&matBill, NULL, &CCameraMgr::GetInstance()->Get_Billboard_X());
 	memcpy(&matWorld.m[3], &vPos, sizeof(_vec3));
 
-	matWorld._11 = matWorld._11 * 1.2f; // 그림자 x사이즈
-	matWorld._33 = matWorld._33 * 0.5f + m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y * 0.1f; // 그림자 z사이즈
+	matWorld._11 = matWorld._11 * 1.3f; // 그림자 x사이즈
+	matWorld._33 = matWorld._33 * 0.7f + m_pOwnerobject->Get_Transform()->Get_Info(INFO_POS).y * 0.1f; // 그림자 z사이즈
 
 	m_pTextureCom->Render_Texture();
 

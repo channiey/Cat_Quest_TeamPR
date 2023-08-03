@@ -22,6 +22,7 @@
 
 #include "Zeolite.h"
 #include "BingoChest.h"
+#include "TrapBigFist.h"
 
 CScene_Dungeon_Temple::CScene_Dungeon_Temple(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::DUNGEON_TEMPLE)
@@ -347,7 +348,7 @@ HRESULT CScene_Dungeon_Temple::Ready_Layer_KSH()
 	pGameObject = CBingoChest::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(pGameObject->Get_Name(), pGameObject), E_FAIL);
-	
+
 	return S_OK;
 }
 
