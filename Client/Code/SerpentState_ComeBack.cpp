@@ -30,7 +30,7 @@ HRESULT CSerpentState_ComeBack::Ready_State(CStateMachine* pOwner)
     m_fChaseRange = 10.f; // Chase 전이
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
-    m_fAttackRange = 3.f;  // Attack 전이
+    m_fAttackRange = 20.f;  // Attack 전이
 
 
     return S_OK;
@@ -100,6 +100,7 @@ STATE_TYPE CSerpentState_ComeBack::Update_State(const _float& fTimeDelta)
 
     // Setting Value
     // Dir Vector
+    vPlayerPos.y = vOwnerPos.y;
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
@@ -156,21 +157,21 @@ STATE_TYPE CSerpentState_ComeBack::Update_State(const _float& fTimeDelta)
         //    }
         //}
         //// Attack 전이 조건
-        //if (fPlayerDistance <= m_fAttackRange)
-        //{
-        //    if (vOwnerDir.z < 0)
-        //    {
-        //       // cout << "attack 전이" << endl;
-        //      //  pOwnerTransform->Set_Dir(vec3.zero);
-        //        return STATE_TYPE::MONATTACK;
-        //    }
-        //    else
-        //    {
-        //       // cout << "back attack 전이" << endl;
-        //       // pOwnerTransform->Set_Dir(vec3.zero);
-        //        return STATE_TYPE::BACK_MONATTACK;
-        //    }
-        //}
+        if (fPlayerDistance <= m_fAttackRange)
+        {
+            if (vOwnerDir.z < 0)
+            {
+               // cout << "attack 전이" << endl;
+              //  pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::MONATTACK;
+            }
+            else
+            {
+               // cout << "back attack 전이" << endl;
+               // pOwnerTransform->Set_Dir(vec3.zero);
+                return STATE_TYPE::BACK_MONATTACK;
+            }
+        }
     }
     // BACK_COMEBACK 전이 조건
     if (vOwnerDir.z > 0)

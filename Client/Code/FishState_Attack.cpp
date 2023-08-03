@@ -1,6 +1,7 @@
 #include "FishState_Attack.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "Chase_Bullet.h"
 
 CFishState_Attack::CFishState_Attack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
@@ -30,7 +31,9 @@ HRESULT CFishState_Attack::Ready_State(CStateMachine* pOwner)
     m_fChaseRange = 10.f; // Chase 전이
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
-    m_fAttackRange = 3.f;  // Attack 전이
+    m_fAttackRange = 20.f;  // Attack 전이
+
+    m_fAccTime = 0.f;
 
     return S_OK;
 }
@@ -88,6 +91,7 @@ STATE_TYPE CFishState_Attack::Update_State(const _float& fTimeDelta)
     NULL_CHECK_RETURN(vOwnerScale, eState);
 
     // Monster - Dir
+
     _vec3 vOwnerDir = pOwnerTransform->Get_Dir();
     NULL_CHECK_RETURN(vOwnerDir, eState);
 
@@ -99,6 +103,7 @@ STATE_TYPE CFishState_Attack::Update_State(const _float& fTimeDelta)
 
     // Setting Value
     // Dir Vector
+    vPlayerPos.y = vOwnerPos.y;
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
@@ -117,9 +122,48 @@ STATE_TYPE CFishState_Attack::Update_State(const _float& fTimeDelta)
     // Attack 우선순위
     // back attack - chase - Comeback
 
-   if( dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
+    m_fAccTime += fTimeDelta;
+   if( m_fAccTime >= 1.2f)
    { 
+       CGameObject* pProjectile = CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, m_pOwner->Get_OwnerObject());
+       NULL_CHECK_RETURN(pProjectile, m_eState);
+       CEventMgr::GetInstance()->Add_Obj(L"Fish_Bullet", pProjectile);
 
+       random_device Random;
+       std::mt19937 gen(Random());
+
+       std::uniform_int_distribution<int> xDist(0, 6);
+
+       switch (xDist(gen))
+       {
+       case 0:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_0, 0.5f);
+           break;
+       case 1:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_1, 0.5f);
+           break;
+       case 2:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BOSS_2, 0.5f);
+           break;
+       case 3:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_FISH, 0.5f);
+           break;
+       case 4:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_HEDGEHOG, 0.5f);
+           break;
+       case 5:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_WYVERN_RED, 0.5f);
+           break;
+       case 6:
+           CSoundMgr::GetInstance()->PlaySound(L"BallSound.wav", CHANNEL_ID::MONSTER_BAT, 0.5f);
+           break;
+       default:
+           break;
+       }
+      
+
+
+       m_fAccTime = 0.f;
        return STATE_TYPE::MONREST;
    
    }

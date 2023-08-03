@@ -2,6 +2,8 @@
 #include "Export_Function.h"
 #include "Player.h"
 
+#include "Chase_Bullet.h"
+
 CFishState_bAttack::CFishState_bAttack(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
@@ -27,7 +29,7 @@ HRESULT CFishState_bAttack::Ready_State(CStateMachine* pOwner)
     m_fChaseRange = 10.f; // Chase 전이
     m_fComeBackRange = 20.f; // ComeBack 전이 - 현위치 -> 원 위치
     m_fPlayerTargetRange = 10.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
-    m_fAttackRange = 3.f;  // Attack 전이
+    m_fAttackRange = 20.f;  // Attack 전이
 
 
 
@@ -98,6 +100,7 @@ STATE_TYPE CFishState_bAttack::Update_State(const _float& fTimeDelta)
 
     // Setting Value
     // Dir Vector
+    vPlayerPos.y = vOwnerPos.y;
     _vec3       vDir = vPlayerPos - vOwnerPos;            // 방향 벡터 [플레이어 - 몬스터]
     _vec3       vOriginDir = vOwnerOriginPos - vOwnerPos; // 방향 벡터 [원위치  - 몬스터]
 
@@ -119,12 +122,18 @@ STATE_TYPE CFishState_bAttack::Update_State(const _float& fTimeDelta)
 #pragma region State Change
    // back Attack 우선순위
    // attack - chase - Comeback
-    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
+    m_fAccTime += fTimeDelta;
+    if (m_fAccTime >= 1.2f)
     {
-        return STATE_TYPE::BACK_MONREST;
-    }
+        CGameObject* pProjectile = CChase_Bullet::Create(m_pGraphicDev, vOwnerPos, pPlayer, m_pOwner->Get_OwnerObject());
+        NULL_CHECK_RETURN(pProjectile, m_eState);
+        CEventMgr::GetInstance()->Add_Obj(L"Fish_Bullet", pProjectile);
 
-   return STATE_TYPE::BACK_MONATTACK;
+        m_fAccTime = 0.f;
+        return STATE_TYPE::BACK_MONREST;
+
+    }
+    return STATE_TYPE::BACK_MONATTACK;
 
 
 #pragma endregion

@@ -27,7 +27,7 @@ HRESULT CEffect_Rain::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fSpeed = 28 + rand() % 5;
+	m_fSpeed = 32 + rand() % 5;
 
 	_float fMin = 0.5f;
 	_float fMax = 1.2f;

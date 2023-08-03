@@ -181,20 +181,28 @@ void CMonHpUI::LateUpdate_Object()
 		m_pUITransformCom[4]->Reset_Lerp();
 	}
 
-	if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::CHASE ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_CHASE ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONATTACK ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONREST ||
-		dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONREST ||
-		dynamic_cast<CMonster*>(m_pMonster)->IsHit())
+	if (m_pMonster->Get_ID() != OBJ_ID::MONSTER_TURRETSKULL)
 	{
-		m_bShow = true;
+		if (dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::CHASE ||
+			dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_CHASE ||
+			dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONATTACK ||
+			dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONATTACK ||
+			dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::MONREST ||
+			dynamic_cast<CMonster*>(m_pMonster)->Get_StateMachine()->Get_CurState() == STATE_TYPE::BACK_MONREST ||
+			dynamic_cast<CMonster*>(m_pMonster)->IsHit())
+		{
+			m_bShow = true;
+		}
+		else
+		{
+			m_bShow = false;
+		}
 	}
 	else
 	{
-		m_bShow = false;
+
 	}
+	
 
 	__super::LateUpdate_Object();
 

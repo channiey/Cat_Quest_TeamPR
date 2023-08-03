@@ -42,6 +42,11 @@ private:
 
 	_bool					m_bShrink;
 
+	_float					m_fLerpSizeX;
+	_float					m_fLerpSizeY;
+
+	_bool					m_bOut;
+
 	
 
 

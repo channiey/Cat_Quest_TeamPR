@@ -263,10 +263,10 @@ void CEffectGenerator::Cloud_Caculate_InitPos()
 	_float randomzM;
 	_float randomzP;
 
-	if (static_cast<CPlayer*>(m_pPlayer)->Get_StateM()->Get_CurState() == STATE_TYPE::FRONT_FLIGHT)
+	if (static_cast<CPlayer*>(m_pPlayer)->Is_Fly())
 	{
-		std::uniform_real_distribution<float> xDist1(-80.f, -65.f);
-		std::uniform_real_distribution<float> xDist2(65.f, 80.f);
+		std::uniform_real_distribution<float> xDist1(-90.f, -70.f);
+		std::uniform_real_distribution<float> xDist2(70.f, 90.f);
 		std::uniform_real_distribution<float> xDist3(-30.f, -5.f);
 		std::uniform_real_distribution<float> xDist4(5.f, 30.f);
 
@@ -389,14 +389,17 @@ void CEffectGenerator::Rain_Create(const _float& fTimeDelta)
 	m_fRain_AccTime += fTimeDelta;
 	if (m_fRain_AccTime >= m_fRain_CreateTime)
 	{
-		Rain_Caculate_InitPos();
+		for (_uint i = 0; i < 2; ++i)
+		{
+			Rain_Caculate_InitPos();
 
-		CGameObject* pRain = CEffect_Rain::Create(m_pGraphicDev, m_vRain_CreatePos);
-		NULL_CHECK(pRain);
-		CEventMgr::GetInstance()->Add_Obj(L"Effect_Rain", pRain);
+			CGameObject* pRain = CEffect_Rain::Create(m_pGraphicDev, m_vRain_CreatePos);
+			NULL_CHECK(pRain);
+			CEventMgr::GetInstance()->Add_Obj(L"Effect_Rain", pRain);
 
-		//m_fRain_AccTime -= m_fRain_CreateTime;
-		Rain_Caculate_CreateTime();
+			//m_fRain_AccTime -= m_fRain_CreateTime;
+			Rain_Caculate_CreateTime();
+		}
 	}
 }
 void CEffectGenerator::Rain_Caculate_CreateTime()
@@ -411,7 +414,7 @@ void CEffectGenerator::Rain_Caculate_CreateTime()
 void CEffectGenerator::Rain_Caculate_InitPos()
 {
 	_vec3 vInitPos = m_pPlayer->Get_Transform()->Get_Info(INFO::INFO_POS);
-
+	random_device m_Random;
 	std::mt19937 gen(m_Random());
 
 
@@ -437,7 +440,7 @@ void CEffectGenerator::Rain_Caculate_InitPos()
 	
 
 	iMin = -20.f;
-	iMax = 40.f;
+	iMax = 60.f;
 	std::uniform_int_distribution<int> xDistZ(iMin, iMax);
 	vInitPos.z += xDistZ(gen);
 

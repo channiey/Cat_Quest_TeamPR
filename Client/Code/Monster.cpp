@@ -144,7 +144,7 @@ Engine::_int CMonster::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
+	if (m_pStateMachineCom != nullptr && PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
 		m_pStateMachineCom->Update_StateMachine(fTimeDelta);
 
 
@@ -202,7 +202,7 @@ void CMonster::LateUpdate_Object()
 	}
 
 	__super::LateUpdate_Object();
-	if (PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
+	if (m_pStateMachineCom != nullptr && PLAY_MODE::TOOL != CManagement::GetInstance()->Get_PlayMode())
 		m_pStateMachineCom->LateUpdate_StateMachine();
 
 }
@@ -271,29 +271,34 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 	{
 	case Engine::OBJ_TYPE::PLAYER:
 	{
-		if ((m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
-			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK) )
+		if (!static_cast<CPlayer*>(_pColObj)->Is_Fly())
 		{
-
-			if (m_eID == OBJ_ID::MONSTER_HEDGEHOG  || m_eID == OBJ_ID::MONSTER_RAM)
+			if ((m_pStateMachineCom->Get_CurState() == STATE_TYPE::MONATTACK ||
+				m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK))
 			{
-				if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15 && m_bAttackCheck == false)
+
+				if (m_eID == OBJ_ID::MONSTER_HEDGEHOG || m_eID == OBJ_ID::MONSTER_RAM)
 				{
-					dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
-					m_bAttackCheck = true;
-				}
-			}
-			else if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() )
-			{
+					if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15 && m_bAttackCheck == false)
+					{
 
-				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);				
+						dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+						m_bAttackCheck = true;
+					}
+				}
+				else if (m_pAnimatorCom->Get_CurAniamtion()->Is_End())
+				{
+
+					dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+				}
+
 			}
-			
+			else
+			{
+				m_bAttackCheck = false;
+			}
 		}
-		else
-		{
-			m_bAttackCheck = false;
-		}
+		
 	}
 	break;
 	case Engine::OBJ_TYPE::SKILL:

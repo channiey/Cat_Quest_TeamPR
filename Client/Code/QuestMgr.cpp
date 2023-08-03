@@ -33,7 +33,7 @@ HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_mapQuestList.insert(make_pair(40, new CQuest_Legend(L"전설의 보물", m_pGraphicDev, _pPlayer)));
 	m_mapQuestList.insert(make_pair(50, new CQuest4(L"드래곤 처치", m_pGraphicDev, _pPlayer)));
 
-	m_iQuestID = 10;
+	m_iQuestID = 50;
 	// m_mapQuestList[m_iQuestID]->Set_TestLevel(1);
 
 	m_bInit = true;
