@@ -43,11 +43,11 @@ HRESULT CFadeUI::Ready_Object()
 
 	return S_OK;
 }
-
+static int k = 0;
 _int CFadeUI::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-
+	cout << ++k << "\n업데이트\t" << m_tLerpAlpha.fCurValue << endl;
 	m_tLerpAlpha.Update_Lerp(fTimeDelta);
 
 	return iExit;
@@ -88,6 +88,7 @@ void CFadeUI::Render_Object()
 	}
 
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	cout << "페이드\t" << m_tLerpAlpha.fCurValue << endl;
 }
 
 void CFadeUI::Start_Fade(const _float _fTime, const _float& _fStartvalue, const _float _fEndValue, const _bool& _bWhite, const LERP_MODE& _eMode, const _bool _bDelete)

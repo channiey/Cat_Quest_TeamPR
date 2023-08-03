@@ -15,11 +15,15 @@
 #include "ImGuiMgr.h"
 #include "Calculator.h"
 #include "SoundMgr.h"
+#include "FogMgr.h"
 
 #include "Scene_Intro.h"
 #include "Scene_Tool.h"
 #include "Scene_World.h"
 #include "Scene_Dungeon_Swamp.h"
+
+extern _bool g_FinishLoading;
+
 
 CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pManagementClass(nullptr)
 {
@@ -71,20 +75,39 @@ void CMainApp::LateUpdate_MainApp()
 void CMainApp::Render_MainApp()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-	
-	if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::INTRO ||
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	if ((CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::INTRO) || // && !g_FinishLoading)|| // 순수 동영상 재생
 		CManagement::GetInstance()->Is_Start_EndingVideo())
 	{
 		CEventMgr::GetInstance()->Update_Event();
 		return;
 	}
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);	
+	//else if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::INTRO && g_FinishLoading) // 동영상 재생 + 알파 페이드 올리기
+	//{
+	//	CGraphicDev::GetInstance()->Get_GraphicDev()->BeginScene();
+	//	NULL_CHECK(m_pManagementClass);
+
+	//	m_pManagementClass->Render_Scene(m_pGraphicDev); // 렌더러 호출
+	//	CGraphicDev::GetInstance()->Get_GraphicDev()->Present(nullptr, nullptr, nullptr, nullptr);
+	//	CEventMgr::GetInstance()->Update_Event();
+	//	//CGraphicDev::GetInstance()->Get_GraphicDev()->EndScene();
+
+	//	return;
+
+	//}
 
 	D3DXCOLOR tBackColor;
 
-	_float r = 0.f, g = 0.f, b = 0.f;
+	_float r = 255.f, g = 255.f, b = 255.f;
 
-	if (SCENE_TYPE::WORLD == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	if (SCENE_TYPE::INTRO == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		r = 255.f;
+		g = 255.f;
+		b = 255.f;
+	}
+	else if (SCENE_TYPE::WORLD == CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
 	{
 		r = 101.f; 
 		g = 202.f; 
@@ -198,6 +221,7 @@ void CMainApp::Free()
 	CImGuiMgr::GetInstance()->DestroyInstance();
 	CMiniGameMgr_Jump::GetInstance()->DestroyInstance();
 	CSoundMgr::GetInstance()->DestroyInstance();
+	CFogMgr::GetInstance()->DestroyInstance();
 
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);

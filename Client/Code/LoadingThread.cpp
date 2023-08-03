@@ -1476,13 +1476,13 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 			, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Small_Red.png")), E_FAIL);
 
 	// Logo
-	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Background_Black"
+	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Background_Black"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
 			, L"../Bin/Resource/Texture/Logo/black.png")), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Background_White"
 		, CTexture::Create(m_pGraphicDev, TEX_NORMAL
-			, L"../Bin/Resource/Texture/Logo/white.png")), E_FAIL);
+			, L"../Bin/Resource/Texture/Logo/white.png")), E_FAIL);*/
 
 	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_BackgroundShade"
 	//	, CTexture::Create(m_pGraphicDev, TEX_NORMAL

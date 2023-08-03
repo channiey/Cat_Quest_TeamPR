@@ -36,6 +36,9 @@ HRESULT CQuestMgr::Init(LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	m_iQuestID = 10;
 	//m_mapQuestList[m_iQuestID]->Set_TestLevel(5);
 
+	//m_iQuestID = 50;
+	//m_mapQuestList[m_iQuestID]->Set_TestLevel(5);
+
 	m_bInit = true;
 
 	m_pIndicator = CIndicatorUI::Create(m_pGraphicDev);

@@ -206,6 +206,7 @@
 
 #include "BossSceneMgr.h"
 #include "BossSceneTriggerObj.h"
+#include "FogMgr.h"
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
@@ -238,18 +239,32 @@ HRESULT CScene_World::Ready_Scene()
 
 	if (!CTalkMgr::GetInstance()->Get_IsInit()) CTalkMgr::GetInstance()->Init(); 
 	if (!CBossSceneMgr::GetInstance()->Is_Ready()) CBossSceneMgr::GetInstance()->Ready_BossSceneMgr(m_pGraphicDev);
-	
+	//if (!CFogMgr::GetInstance()->Is_Ready_FogMgr()) CFogMgr::GetInstance()->Ready_FogMgr(m_pGraphicDev);
 	m_bEndingFade = FALSE;
 	m_bFinish = FALSE;
 	m_fAcc = 0.f;
 
-	//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+	SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+
+	ZeroMemory(&m_tLerpVideoVolume, sizeof(LERP_FLOAT_INFO));
 
 	return S_OK;
 }
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
+	if (CInputDev::GetInstance()->Key_Down(VK_F1))
+	{
+		//m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+		//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+	}
+	if (CInputDev::GetInstance()->Key_Down(VK_F2))
+	{
+		//m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
+		//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, FALSE, 0.5f);
+	}
 	// Ending
 	if (m_bFinish)
 	{
@@ -266,7 +281,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 				CPlayer* pPlayer = static_cast<CPlayer*>(CManagement::GetInstance()->Get_Player());
 				pPlayer->Block_Input(TRUE);
 			}
-			//CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_IN, 6.5f, SOUND_VOLUME_BGM, 0.f);
+			CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_IN, 4.5f, SOUND_VOLUME_BGM, 0.f);
 			m_bFinish = FALSE;
 			m_bEndingFade = TRUE;
 		}
@@ -277,13 +292,14 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 		{
 			CFadeUI* pUI = static_cast<CFadeUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"FadeUI"));
 			pUI->Set_Alpha(255.f);
+
 			// 게임 종료 - 페이드 완료
-			// 여기 추가
+
 			if (!CManagement::GetInstance()->Is_Start_EndingVideo())
 			{
 				CManagement::GetInstance()->Set_Start_EndingVideo();
 
-				CSoundMgr::GetInstance()->StopAll();
+
 				// 동영상 
 				m_hVideo = MCIWndCreate(g_hWnd,			// 부모 윈도우 핸들
 					nullptr,		// mci 윈도우를 사용하는 인스턴스 핸들
@@ -300,8 +316,16 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 					return E_FAIL;
 
 				m_bShowEnding = false;
+
+				const _float fTime = 1.5f;
+
+				// 볼륨 보간
+				m_tLerpVideoVolume.Init_Lerp(LERP_MODE::EASE_IN);
+				m_tLerpVideoVolume.Set_Lerp(fTime, 0.f, 1000);
 			}
-			// title.png 움직이게 띄우기 
+
+			m_tLerpVideoVolume.Update_Lerp(fTimeDelta);
+			MCIWndSetVolume(m_hVideo, m_tLerpVideoVolume.fCurValue);
 		}
 	}
 
@@ -310,6 +334,7 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 	CSoundMgr::GetInstance()->Update(fTimeDelta);
 	CBossSceneMgr::GetInstance()->Update_BossSceneMgr(fTimeDelta);
+	//CFogMgr::GetInstance()->Update_FogMgr(fTimeDelta);
 
 	if (!m_bStartFade)
 	{
@@ -342,8 +367,12 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 
 				pPlayer->Get_Transform()->Set_Pos(vPos);
 			}
+
 			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_ENTER_FIELD);
 			CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::BLACK_FADE_IN);
+
+			//CFogMgr::GetInstance()->Start_Lerp_Near(2.5f, 100, 40, LERP_MODE::EASE_IN);
+			//CFogMgr::GetInstance()->Start_Lerp_Far(2.5f, 190, 130, LERP_MODE::EASE_IN);
 		}
 		m_bStartFade = TRUE;
 	}

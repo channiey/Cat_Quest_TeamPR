@@ -152,7 +152,7 @@ void CGraphicDev::Render_Begin(D3DXCOLOR Color)
 void CGraphicDev::Render_End()
 {
 	m_pGraphicDev->EndScene();
-	m_pGraphicDev->Present(nullptr, nullptr, nullptr, nullptr);
+	m_pGraphicDev->Present(nullptr, nullptr, nullptr, nullptr); // 
 }
 
 void CGraphicDev::Free()

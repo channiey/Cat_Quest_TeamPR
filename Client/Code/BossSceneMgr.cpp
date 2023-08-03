@@ -87,7 +87,7 @@ void CBossSceneMgr::Update_BossSceneMgr(const _float& fTimeDelta)
 				CCameraMgr::GetInstance()->Start_Fade(FADE_MODE::WHITE_FADE_IN);
 				CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::END_BOSS);
 				CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EXPONENTIAL, 2.5f, 0.f, SOUND_VOLUME_BGM);
-				CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_02_theme.wav", BGM_TYPE::ENDING);
+				CSoundMgr::GetInstance()->PlayBGM(L"catquest_overworld_theme.wav", BGM_TYPE::ENDING);
 				m_arrPage[(_uint)PAGE::FADE_OUT] = TRUE;
 				m_bFadeOut_End = TRUE;
 				Set_Npc();

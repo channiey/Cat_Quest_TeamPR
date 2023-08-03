@@ -15,6 +15,7 @@ HINSTANCE			g_hInst;
 HWND				g_hWnd;
 WCHAR				szTitle[MAX_LOADSTRING];                  
 WCHAR				szWindowClass[MAX_LOADSTRING];            
+_bool               g_FinishLoading = FALSE;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -28,11 +29,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     /*------------------ 콘솔 출력 매크로 (푸시시 해당 매크로 포함, cout 모두 주석처리 필수) ------------------*/
 
-//#ifdef UNICODE
-//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
-//#else
-//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-//#endif
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
 
      /*------------------ 마우스 커서 숨기기 (TRUE, FALSE) ------------------*/
     ShowCursor(FALSE);  

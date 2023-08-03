@@ -32,6 +32,8 @@ private:
 	HRESULT				Ready_Layer_YC(); 
 
 	void SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density);
+
+
 public:
 	static CScene_World*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
@@ -43,6 +45,9 @@ private:
 	_bool				m_bFinish;
 	_bool				m_bShowEnding; // 엔딩 영상 보기
 	_float				m_fAcc;
+
+	LERP_FLOAT_INFO		m_tLerpVideoVolume;
+
 
 private:
 	virtual void		Free() override;

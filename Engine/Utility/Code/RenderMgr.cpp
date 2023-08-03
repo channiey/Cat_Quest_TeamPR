@@ -140,11 +140,14 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 	D3DVIEWPORT9 BackUpViewPort;
 	_matrix		 BackUpProj;
 	_matrix		 BackUpView;
-	NULL_CHECK((CCameraMgr::GetInstance()->Get_CurCamera()))
- 	BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
-	BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
-	BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
-
+	
+	if (SCENE_TYPE::INTRO != CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		NULL_CHECK((CCameraMgr::GetInstance()->Get_CurCamera()))
+		BackUpViewPort = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_ViewPort();
+		BackUpProj = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatProj();
+		BackUpView = CCameraMgr::GetInstance()->Get_CurCamera()->Get_CameraCom()->Get_MatView();
+	}
 	
 	// UI 용 새로운 뷰 포트 생성 및 적용
 	D3DVIEWPORT9 UiViewPort;
@@ -186,12 +189,14 @@ void CRenderMgr::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 			iter->Render_Object();
 	}
 
-		
-	// 다시 원래 행렬 정보 복구
-	pGraphicDev->SetViewport(&BackUpViewPort);                   // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
-	pGraphicDev->SetTransform(D3DTS_PROJECTION, &BackUpProj);    // UI 전체 출력 후 다시 원근투영 행렬 적용.
-	pGraphicDev->SetTransform(D3DTS_VIEW, &BackUpView);
-	
+	if (SCENE_TYPE::INTRO != CManagement::GetInstance()->Get_CurScene()->Get_SceneType())
+	{
+		// 다시 원래 행렬 정보 복구
+		pGraphicDev->SetViewport(&BackUpViewPort);                   // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
+		pGraphicDev->SetTransform(D3DTS_PROJECTION, &BackUpProj);    // UI 전체 출력 후 다시 원근투영 행렬 적용.
+		pGraphicDev->SetTransform(D3DTS_VIEW, &BackUpView);
+	}
+
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
 
