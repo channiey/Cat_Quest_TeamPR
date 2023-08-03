@@ -28,7 +28,8 @@ private:
 
 private:
 	CLoadingThread*		m_pLoading;
-
+	LPDIRECT3DSURFACE9  m_pBackBuffer = nullptr; // Back Buffer
+	HWND				m_hVideo;
 public:
 	static CScene_Intro*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

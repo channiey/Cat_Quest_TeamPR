@@ -16,10 +16,9 @@ private:
 
 	_bool   m_bBossIntroScene;
 	_bool   m_bBossOutScene;
-	_bool	m_bEndingScene;
 	_bool	m_bBossKill;
+	_bool	m_bEndingScene;
 
 	_int	m_iStayEndingTime;
-
 };
 

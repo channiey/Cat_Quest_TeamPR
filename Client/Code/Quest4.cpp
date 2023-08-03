@@ -17,9 +17,12 @@
 
 #include "WeaponGetEffect.h"
 
+#include "FadeUI.h"
+#include "Scene_Ending.h"
+
 CQuest4::CQuest4(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
-	: m_bBossKill(false), m_bBossIntroScene(false)
-	, m_bBossOutScene(false), m_bEndingScene(false)
+	: m_bBossKill(false), m_bBossIntroScene(false), m_bBossOutScene(false)
+	, m_bEndingScene(false)
 	, m_iStayEndingTime(0), m_iMonsterCount(0)
 {
 	m_strQuestName = _QuestName;
@@ -214,9 +217,7 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 					Set_ReadyTalk(CManagement::GetInstance()->
 						Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith"), true);
 
-					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(
-						dynamic_cast<CNpc*>(CManagement::GetInstance()->
-							Get_GameObject(OBJ_TYPE::NPC, L"Npc_BlackSmith")));
+					dynamic_cast<CIndicatorUI*>(_pIndicator)->Set_IndicTarget(nullptr);
 					*_IsAble = true;
 				}
 
@@ -270,18 +271,32 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 						Set_ReadyTalk(CManagement::GetInstance()->
 							Get_GameObject(OBJ_TYPE::NPC, L"Npc_King"), false);
 
+						dynamic_cast<CScene_World*>
+							(CManagement::GetInstance()->Get_CurScene())->Finish_Game();
+						
 						m_iLevel += 1;
 						*_IsAble = false;
 						m_bShowQuestView = true;
-
-						dynamic_cast<CScene_World*>
-							(CManagement::GetInstance()->Get_CurScene())->Finish_Game();
 
 						break;
 					}
 				}				
 			}
 		}
+		break;
+	case 6:
+		//CPlayer_Camera * m_pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
+		//cout << m_pCam->Get_FadeUI()->Is_Fade() << endl;
+		//if (m_pCam->Get_FadeUI()->Is_Fade() == 1)
+		//{
+		//	m_bEndingScene = true;
+		//}
+		//
+		//if (m_bEndingScene && m_pCam->Get_FadeUI()->Is_Fade() == 0)
+		//{
+		//	CSoundMgr::GetInstance()->StopAll();
+		//}
+
 		break;
 	}
 
