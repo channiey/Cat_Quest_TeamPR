@@ -38,6 +38,16 @@ inline const SCENE_TYPE& Get_PrevSceneType()
 	return CManagement::GetInstance()->Get_PrevSceneType();
 }
 
+inline const _bool& Is_Start_EndingVideo()
+{
+	return CManagement::GetInstance()->Is_Start_EndingVideo();
+}
+
+inline void Set_Start_EndingVideo()
+{
+	CManagement::GetInstance()->Set_Start_EndingVideo();
+}
+
 HRESULT		Set_Scene(CScene* pScene)
 {
 	return CManagement::GetInstance()->Set_Scene(pScene);

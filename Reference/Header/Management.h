@@ -52,7 +52,8 @@ public:
 	const _bool&		Is_Enter_InGame() const { return m_bEnterInGame; }
 	void				Set_Enter_InGame(const _bool& _b) { m_bEnterInGame = _b; }
 
-
+	const _bool&		Is_Start_EndingVideo() const { return m_bStartEndingVideo; }
+	void				Set_Start_EndingVideo() { m_bStartEndingVideo = TRUE; }
 
 public:
 
@@ -70,6 +71,8 @@ private:
 	GAME_STATUS			m_eGameStatus;
 	_bool				m_bDebug;
 	_bool				m_bEnterInGame; //월드에 최초로 진입했는지
+
+	_bool				m_bStartEndingVideo;
 
 public:
 	virtual void		Free();

@@ -10,6 +10,7 @@ CManagement::CManagement()
 			, m_bDebug(FALSE)
 			, m_bEnterInGame(FALSE)
 			, m_ePrevSceneType(SCENE_TYPE::WORLD)
+			, m_bStartEndingVideo(FALSE)
 {
 }
 

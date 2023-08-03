@@ -71,9 +71,9 @@ void CMainApp::LateUpdate_MainApp()
 void CMainApp::Render_MainApp()
 {
 	/*--------------------- ! 수정이나 추가시 반드시 팀장 보고 !  ---------------------*/
-
+	
 	if (CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::INTRO ||
-		CManagement::GetInstance()->Get_CurScene()->Get_SceneType() == SCENE_TYPE::ENDING)
+		CManagement::GetInstance()->Is_Start_EndingVideo())
 	{
 		CEventMgr::GetInstance()->Update_Event();
 		return;

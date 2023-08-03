@@ -209,6 +209,7 @@
 
 CScene_World::CScene_World(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev, SCENE_TYPE::WORLD)
+	, m_bShowEnding(true)
 {
 }
 
@@ -277,7 +278,29 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 			CFadeUI* pUI = static_cast<CFadeUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"FadeUI"));
 			pUI->Set_Alpha(255.f);
 			// 게임 종료 - 페이드 완료
+			// 여기 추가
+			if (!CManagement::GetInstance()->Is_Start_EndingVideo())
+			{
+				CManagement::GetInstance()->Set_Start_EndingVideo();
 
+				CSoundMgr::GetInstance()->StopAll();
+				// 동영상 
+				m_hVideo = MCIWndCreate(g_hWnd,			// 부모 윈도우 핸들
+					nullptr,		// mci 윈도우를 사용하는 인스턴스 핸들
+					WS_CHILD | WS_VISIBLE | MCIWNDF_NOPLAYBAR, // WS_CHILD : 자식 창, WS_VISIBLE : 그 즉시 화면에 시연, MCIWNDF_NOPLAYBAR : 플레이 바를 생성하지 않음
+					L"../Bin/Resource/Video/ending.wmv");	// 재생할 파일의 경로
+
+												//MoveWindow : 동영상을 재생할 크기를 설정
+				MoveWindow(m_hVideo, 0, 0, WINCX, WINCY, FALSE);
+
+				MCIWndPlay(m_hVideo);
+
+				// 백버퍼 생성
+				if (FAILED(m_pGraphicDev->CreateRenderTarget(WINCX, WINCY, D3DFMT_X8R8G8B8, D3DMULTISAMPLE_NONE, 0, TRUE, &m_pBackBuffer, nullptr)))
+					return E_FAIL;
+
+				m_bShowEnding = false;
+			}
 			// title.png 움직이게 띄우기 
 		}
 	}

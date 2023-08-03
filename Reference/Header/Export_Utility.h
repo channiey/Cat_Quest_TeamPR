@@ -56,7 +56,8 @@ inline const _bool&		Is_Enter_InGame();
 inline void				Set_Enter_InGame(const _bool& _b);
 inline CGameObject*		Get_Player();
 inline const SCENE_TYPE& Get_PrevSceneType();
-
+inline const _bool&		Is_Start_EndingVideo();
+inline void				Set_Start_EndingVideo();
 // Scene
 inline HRESULT			Set_Scene(CScene* pScene);
 inline _int				Update_Scene(const _float& fTimeDelta);

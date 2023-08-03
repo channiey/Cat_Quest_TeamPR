@@ -17,9 +17,6 @@
 
 #include "WeaponGetEffect.h"
 
-#include "FadeUI.h"
-#include "Scene_Ending.h"
-
 CQuest4::CQuest4(wstring _QuestName, LPDIRECT3DDEVICE9 m_pGraphicDev, CGameObject* _pPlayer)
 	: m_bBossKill(false), m_bBossIntroScene(false), m_bBossOutScene(false)
 	, m_bEndingScene(false)
@@ -283,20 +280,6 @@ _bool CQuest4::Update(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* _pIndicator, _
 				}				
 			}
 		}
-		break;
-	case 6:
-		//CPlayer_Camera * m_pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
-		//cout << m_pCam->Get_FadeUI()->Is_Fade() << endl;
-		//if (m_pCam->Get_FadeUI()->Is_Fade() == 1)
-		//{
-		//	m_bEndingScene = true;
-		//}
-		//
-		//if (m_bEndingScene && m_pCam->Get_FadeUI()->Is_Fade() == 0)
-		//{
-		//	CSoundMgr::GetInstance()->StopAll();
-		//}
-
 		break;
 	}
 
