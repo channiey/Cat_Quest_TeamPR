@@ -134,8 +134,8 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
     if (m_fAccTime > 4.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
-        CEventMgr::GetInstance()->Add_Obj(L"Boom_Dagger_EFfect", CBoomEffect_Green::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
-
+        CEventMgr::GetInstance()->Add_Obj(L"Boom_Dagger_Effect", CBoomEffect_Green::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact", CHANNEL_ID::MONSTER_HEDGEHOG, 0.7f);
     }
     
 
@@ -201,6 +201,7 @@ void CDagger::OnCollision_Enter(CGameObject* _pColObj)
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
         CEventMgr::GetInstance()->Add_Obj(L"Hit_DaggerBullet_Effect", CHitEffect_Green::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact2", CHANNEL_ID::MONSTER_HEDGEHOG, 1.f);
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

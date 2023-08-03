@@ -23,7 +23,7 @@ HRESULT CVioletDragonState_FullDown_Fly::Ready_State(CStateMachine* pOwner)
     m_eState = STATE_TYPE::BOSS_FULLDOWN_FLY;
     
     m_fAccTime = 0.f;
-    
+    m_bSound = false;
     
 
 	return S_OK;
@@ -108,8 +108,11 @@ STATE_TYPE CVioletDragonState_FullDown_Fly::Update_State(const _float& fTimeDelt
 
 
 
-
-
+    if (m_bSound == false && pOwenrCurAnimation->Get_CurFrame() == 8)
+    {
+        m_bSound = true;
+        CSoundMgr::GetInstance()->PlaySound(L"map_transition_fast2.wav", CHANNEL_ID::MONSTER_BOSS_2, 1.f);
+    }
 
     m_fAccTime += fTimeDelta;
     

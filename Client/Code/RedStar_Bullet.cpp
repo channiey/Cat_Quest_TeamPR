@@ -120,6 +120,7 @@ _int CRedStar_Bullet::Update_Object(const _float& fTimeDelta)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
         CEventMgr::GetInstance()->Add_Obj(L"Bomm_RedStar_Effect", CBoomEffect_Red::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact", CHANNEL_ID::MONSTER_HEDGEHOG, 0.7f);
 
     }
 
@@ -192,6 +193,7 @@ void CRedStar_Bullet::OnCollision_Enter(CGameObject* _pColObj)
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
         CEventMgr::GetInstance()->Add_Obj(L"Hit_RedStar_Effect", CHitEffect_Red::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
         CEventMgr::GetInstance()->Delete_Obj(this);
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact2", CHANNEL_ID::MONSTER_HEDGEHOG, 1.f);
         break;
     default:
         break;

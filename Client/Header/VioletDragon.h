@@ -85,6 +85,9 @@ private:
 
 	_float					m_fFullDownDamage;
 
+
+
+	_float					m_fSoundCount;
 protected:
 	virtual void		Free() override;
 

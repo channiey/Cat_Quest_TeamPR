@@ -26,7 +26,7 @@ public:
 private:
 
 	_float  m_fAccTime;
-
+	_bool	m_bSound;
 
 private:
 	virtual void Free();

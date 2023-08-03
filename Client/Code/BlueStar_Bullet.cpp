@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "HitEffect_Blue.h"
 #include "BoomEffect_Blue.h"
+#include "SoundMgr.h"
 
 CBlueStar_Bullet::CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_STAR_BULLET)
@@ -124,7 +125,7 @@ _int CBlueStar_Bullet::Update_Object(const _float& fTimeDelta)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
         CEventMgr::GetInstance()->Add_Obj(L"Bomm_BlueStar_Effect", CBoomEffect_Blue::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
-
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact", CHANNEL_ID::MONSTER_HEDGEHOG, 0.7f);
     }
 
     // Lerp Before
@@ -191,7 +192,7 @@ void CBlueStar_Bullet::OnCollision_Enter(CGameObject* _pColObj)
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
         CEventMgr::GetInstance()->Add_Obj(L"Hit_Bluestar_Effect", CHitEffect_Blue::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
-
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact2", CHANNEL_ID::MONSTER_HEDGEHOG, 1.f);
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

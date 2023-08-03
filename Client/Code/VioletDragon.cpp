@@ -177,6 +177,7 @@ HRESULT CVioletDragon::Ready_Object()
 	
 	m_DeadCreatTime = 0.f;
 
+	m_fSoundCount = 0.f;
 	// 스킬 생성
 	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
 	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
@@ -761,7 +762,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		}
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() ==12 )
 		{
-			CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MON_FOOT_ATTACK);
+			CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MON_FOOT_ATTACK);
 		}
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15)
@@ -921,23 +922,58 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	}
 
 
+	_float fSoundVolm = 0.5f;
+
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.9f  && m_fSoundCount == 0)
+	{
+		CSoundMgr::GetInstance()->PlaySound(L"dragon_roar2.wav", CHANNEL_ID::MONSTER_BOSS_2, fSoundVolm);
+		m_fSoundCount++;
+	}
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.7f && m_fSoundCount == 1)
+	{
+		CSoundMgr::GetInstance()->PlaySound(L"short_growl.wav", CHANNEL_ID::MONSTER_BOSS_2, fSoundVolm);
+		m_fSoundCount++;
+	}
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.5f && m_fSoundCount == 2)
+	{
+		CSoundMgr::GetInstance()->PlaySound(L"dragon_roar2.wav", CHANNEL_ID::MONSTER_BOSS_2, fSoundVolm);
+		m_fSoundCount++;
+	}
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.3f && m_fSoundCount == 3)
+	{
+		CSoundMgr::GetInstance()->PlaySound(L"short_growl.wav", CHANNEL_ID::MONSTER_BOSS_2, fSoundVolm);
+		m_fSoundCount++;
+	}
+
+	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.2f && m_fSoundCount == 4)
+	{
+		CSoundMgr::GetInstance()->PlaySound(L"dragon_roar2.wav", CHANNEL_ID::MONSTER_BOSS_2, fSoundVolm);
+		m_fSoundCount++;
+	}
+
+
+
+
+
+
+
 	return iExit;
 }
 
 void CVioletDragon::LateUpdate_Object()
 {
 
-	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.9f   ))
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.9f))
 	{
 		m_bHP_90 = true;
 	}
 
-	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.5f)
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.5f))
 	{
 		m_bHP_50 = true;
 	}
 
-	if (m_tStatInfo.fCurHP <= m_tStatInfo.fMaxHP * 0.2f)
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.2f))
 	{
 		m_bHP_20 = true;
 	}

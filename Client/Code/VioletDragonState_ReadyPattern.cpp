@@ -35,6 +35,8 @@ HRESULT CVioletDragonState_ReadyPattern::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 20.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 10.f;  // Attack 전이
 
+
+    m_bSound = false;
     return S_OK;
 }
 
@@ -124,9 +126,19 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
         return STATE_TYPE::BOSSDEAD;
     }
 
+    if (m_bSound == false)
+    {
+
+        CSoundMgr::GetInstance()->PlaySound(L"magic_appear_2.wav", CHANNEL_ID::MONSTER_BOSS_0, 1.f);
+        m_bSound = true;
+    }
+
+
    
     if (pOwenrCurAnimation->Get_CurFrame() == 7.f)
     {
+
+
         _float fPosPMX   = rand() % 2;
         _float fPosPMZ   = rand() % 2;
         _float fRandomX = rand()  % 15;
@@ -168,7 +180,7 @@ STATE_TYPE CVioletDragonState_ReadyPattern::Update_State(const _float& fTimeDelt
 
     if (m_pOwner->Get_Animator()->Get_CurAniamtion()->Is_End())
     {
-
+        m_bSound = false;
         if (Owner_bHP90 == true && Owner_bHP50 == true && Owner_bHP20 == true)
         {
             return STATE_TYPE::BOSS_CREATE_CAST;

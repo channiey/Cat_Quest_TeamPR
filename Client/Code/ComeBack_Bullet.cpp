@@ -135,7 +135,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_bCollect = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(0.1f, m_pTransformCom->Get_Info(INFO_POS), m_vOriginPos);
+        m_tPos.Set_Lerp(0.2f, m_pTransformCom->Get_Info(INFO_POS), m_vOriginPos);
     }
 
 
@@ -191,6 +191,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
         m_fAccTime = 0.f;
         CEventMgr::GetInstance()->Delete_Obj(this);
         CEventMgr::GetInstance()->Add_Obj(L"Bomm_ComeBackBullet_Effect", CBoomEffect_Purple::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact", CHANNEL_ID::MONSTER_HEDGEHOG, 0.7f);
     }
   
 
@@ -280,7 +281,7 @@ void CComBack_Bullet::OnCollision_Enter(CGameObject* _pColObj)
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
         CEventMgr::GetInstance()->Add_Obj(L"Hit_ComeBackBullet_Effect", CHitEffect_Purple::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
-        
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact2", CHANNEL_ID::MONSTER_HEDGEHOG, 1.f);
         //CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:
