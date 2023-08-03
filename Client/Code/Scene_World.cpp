@@ -123,6 +123,7 @@
 #include "FlightUI.h"
 #include "DungeonTextUI.h"
 #include "QuestUI.h"
+#include "Quest_DialogUI.h"
 
 // NPC
 #include "Npc_King.h"
@@ -887,6 +888,8 @@ HRESULT CScene_World::Ready_Layer_LHJ()
 	pGameObject = CEffectGenerator::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Effect_Generator", pGameObject), E_FAIL);
+
+	
 
 	
 	return S_OK;

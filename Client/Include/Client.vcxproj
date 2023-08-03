@@ -216,6 +216,7 @@
     <ClInclude Include="..\Header\Paper.h" />
     <ClInclude Include="..\Header\Player_AfterImg.h" />
     <ClInclude Include="..\Header\Present.h" />
+    <ClInclude Include="..\Header\Quest_DialogUI.h" />
     <ClInclude Include="..\Header\Quest_Legend.h" />
     <ClInclude Include="..\Header\Shadow_Boss.h" />
     <ClInclude Include="..\Header\Shadow_Zeolite.h" />
@@ -696,6 +697,7 @@
     <ClCompile Include="..\Code\Paper.cpp" />
     <ClCompile Include="..\Code\Player_AfterImg.cpp" />
     <ClCompile Include="..\Code\Present.cpp" />
+    <ClCompile Include="..\Code\Quest_DialogUI.cpp" />
     <ClCompile Include="..\Code\Quest_Legend.cpp" />
     <ClCompile Include="..\Code\Shadow_Boss.cpp" />
     <ClCompile Include="..\Code\Shadow_Zeolite.cpp" />
