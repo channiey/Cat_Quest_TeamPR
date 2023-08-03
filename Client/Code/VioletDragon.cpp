@@ -58,6 +58,14 @@
 #include "VioletDragonState_bChase3.h"
 #include "VioletDragonState_Chase3.h"
 
+// Near Attack
+#include "VioletDragonState_NearAttack1.h"
+#include "VioletDragonState_NearAttack2.h"
+#include "VioletDragonState_bNearAttack1.h"
+#include "VioletDragonState_bNearAttack2.h"
+
+
+
 // Intro
 #include "VioletDragonState_Intro_Down.h"
 #include "VioletDragonState_Intro_Wing.h"
@@ -134,8 +142,8 @@ HRESULT CVioletDragon::Ready_Object()
 	m_fFullDownDamage = 50.f;
 
 	m_bHP_90 = false;
-	m_bHP_50 = false;
-	m_bHP_20 = false;
+	m_bHP_60 = false;
+	m_bHP_30 = false;
 
 	// 원래 이미지 크기
 	m_vImageSize.x = 5.f;  // 100px = 1.f
@@ -166,22 +174,22 @@ HRESULT CVioletDragon::Ready_Object()
 
 	m_bSkill = false;
 	m_bFullDown = false;
-
 	m_bBloodyTunder = false;
 	m_bBloodyLate = false;
 	m_bCreatWyvernPlay = false;
 	m_bCreatWyvernLate = false;
-
 	m_bBlueTunder = false;
 	m_bBlueLate = false;
-	
-	m_DeadCreatTime = 0.f;
+	m_bNearAttack = false;
+	m_bNearAttackCheck = false;
 
+	m_NearAttackTime = 0.f;
+	m_DeadCreatTime = 0.f;
 	m_fSoundCount = 0.f;
-	// 스킬 생성
-	/*m_pSkill = CSkill_Monster_Ice::Create(m_pGraphicDev, this);
-	NULL_CHECK_RETURN(m_pSkill, E_FAIL);
-	FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Monster_Ice", m_pSkill), E_FAIL);*/
+
+
+
+
 
 	if (PLAY_MODE::GAME == CManagement::GetInstance()->Get_PlayMode())  // 수정시 팀장 보고
 	{
@@ -206,6 +214,12 @@ HRESULT CVioletDragon::Ready_Object()
 		m_pBlueThunder = CSkill_Boss_BlueThunder::Create(m_pGraphicDev, this);
 		NULL_CHECK_RETURN(m_pBlueThunder, E_FAIL);
 		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Boss_BlueThunder", m_pBlueThunder), E_FAIL);
+
+
+		m_pNearAttack = CSkill_Monster_CircleAttack::Create(m_pGraphicDev, this);
+		NULL_CHECK_RETURN(m_pNearAttack, E_FAIL);
+		FAILED_CHECK_RETURN(CEventMgr::GetInstance()->Add_Obj(L"Skill_Near_Base", m_pNearAttack), E_FAIL);
+
 
 	}
 
@@ -377,6 +391,21 @@ HRESULT CVioletDragon::Ready_Object()
 
 	pState = CVioletDragonState_bChase3::Create(m_pGraphicDev, m_pStateMachineCom);
 	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_CHASE3, pState);
+
+
+	// Near Attack
+	// Near 1
+	pState = CVioletDragonState_NearAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_NEAR_ATTACK1, pState);
+	// Near Back 1
+	pState = CVioletDragonState_bNearAttack1::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_NEAR_ATTACK1, pState);
+	// Near 2
+	pState = CVioletDragonState_NearAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_NEAR_ATTACK2, pState);
+	// Near Back 2
+	pState = CVioletDragonState_bNearAttack2::Create(m_pGraphicDev, m_pStateMachineCom);
+	m_pStateMachineCom->Add_State(STATE_TYPE::BOSS_BACK_NEAR_ATTACK2, pState);
 
 
 	// Intro  ==========
@@ -606,6 +635,23 @@ HRESULT CVioletDragon::Ready_Object()
 	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSSDEAD, pAnimation);
 
 
+
+	// Near Attack
+	// 1F 
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_NEAR_ATTACK1)], STATE_TYPE::BOSS_NEAR_ATTACK1, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_NEAR_ATTACK1, pAnimation);
+	//1B
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_NEAR_ATTACK1)], STATE_TYPE::BOSS_BACK_NEAR_ATTACK1, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_NEAR_ATTACK1, pAnimation);
+	// 2F
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_NEAR_ATTACK2)], STATE_TYPE::BOSS_NEAR_ATTACK2, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_NEAR_ATTACK2, pAnimation);
+	//2B
+	pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_NEAR_ATTACK2)], STATE_TYPE::BOSS_BACK_NEAR_ATTACK2, 0.05f, FALSE);
+	m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_BACK_NEAR_ATTACK2, pAnimation);
+
+
+
 	// Watch
 	//pAnimation = CAnimation::Create(m_pGraphicDev, m_pTextureCom[_uint(STATE_TYPE::BOSS_WATCH_UP)], STATE_TYPE::BOSS_WATCH_UP, 0.1f, FALSE);
 	//m_pAnimatorCom->Add_Animation(STATE_TYPE::BOSS_WATCH_UP, pAnimation);
@@ -639,7 +685,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
-	
+
 
 
 	// Position Value
@@ -647,53 +693,53 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 	if (true == m_tStatInfo.bDead)
 	{
-	
-	/*	CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 10.f, vOwnerPos.y, vOwnerPos.z - 5.f }));
-		CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 10.f, vOwnerPos.y, vOwnerPos.z + 5.f }));
-*/
 
-		// Coin -> 생성 X
+		/*	CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit1", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 5.f , vOwnerPos.y, vOwnerPos.z }));
+			CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit2", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 5.f , vOwnerPos.y, vOwnerPos.z }));
+			CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit3", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x + 10.f, vOwnerPos.y, vOwnerPos.z - 5.f }));
+			CEventMgr::GetInstance()->Add_Obj(L"Violet_Spirit4", CMonstSpirit::Create(m_pGraphicDev, _vec3{ vOwnerPos.x - 10.f, vOwnerPos.y, vOwnerPos.z + 5.f }));
+	*/
 
-		// Near
-		//CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
-		//GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 10.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+	// Coin -> 생성 X
 
-		//CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
-		//GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 10.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
+	// Near
+	//CGameObject* GoldCoin1 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin1);
+	//GoldCoin1->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 10.f, GoldCoin1->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 
-		//CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
-		//GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 10.f });
+	//CGameObject* GoldCoin2 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin2);
+	//GoldCoin2->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 10.f , GoldCoin2->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z });
 
-		//CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
-		//GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 10.f });
+	//CGameObject* GoldCoin3 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin3);
+	//GoldCoin3->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin3->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 10.f });
 
-
-		//// Far
-		//CGameObject* GoldCoin5 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin5);
-		//GoldCoin5->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 15.f, GoldCoin5->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
-
-		//CGameObject* GoldCoin6 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin6);
-		//GoldCoin6->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x +15.f, GoldCoin6->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
-
-		//CGameObject* GoldCoin7 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin7);
-		//GoldCoin7->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin7->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
-
-		//CGameObject* GoldCoin8 = CGoldCoin::Create(m_pGraphicDev);
-		//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin8);
-		//GoldCoin8->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin8->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+	//CGameObject* GoldCoin4 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin4);
+	//GoldCoin4->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x, GoldCoin4->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 10.f });
 
 
+	//// Far
+	//CGameObject* GoldCoin5 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin5);
+	//GoldCoin5->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x + 15.f, GoldCoin5->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
 
-		// 스킬 삭제
+	//CGameObject* GoldCoin6 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin6);
+	//GoldCoin6->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x +15.f, GoldCoin6->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+
+	//CGameObject* GoldCoin7 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin7);
+	//GoldCoin7->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin7->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z + 15.f });
+
+	//CGameObject* GoldCoin8 = CGoldCoin::Create(m_pGraphicDev);
+	//CEventMgr::GetInstance()->Add_Obj(L"Item_GoldCoin", GoldCoin8);
+	//GoldCoin8->Get_Transform()->Set_Pos({ m_pTransformCom->Get_Info(INFO_POS).x - 15.f, GoldCoin8->Get_Transform()->Get_Info(INFO_POS).y , m_pTransformCom->Get_Info(INFO_POS).z - 15.f });
+
+
+
+	// 스킬 삭제
 		dynamic_cast<CSkill_Monster_CircleAttack*>(m_pBaseSkill)->End();
 
 		dynamic_cast<CSkill_Boss_BloodyThunder*>(m_pBloodyThunder)->End();
@@ -728,7 +774,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 		m_bStart = true;
 
 
-		// 병합 후 주석 풀기 
+		// 그림자  
 		if (CManagement::GetInstance()->Get_PlayMode() == PLAY_MODE::GAME)
 		{
 			CEventMgr::GetInstance()->Add_Obj(L"Monster_VioletDragon_Shadow", CShadow_Boss::Create(m_pGraphicDev, this));
@@ -753,14 +799,16 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	// Base Skill Use Condition
 	if (STATE_TYPE::BACK_MONATTACK == CurState || STATE_TYPE::MONATTACK == CurState ||
 		STATE_TYPE::BOSS_ATTACK2 == CurState || STATE_TYPE::BOSS_BACK_ATTACK2 == CurState ||
-		STATE_TYPE::BOSS_ATTACK3 == CurState || STATE_TYPE::BOSS_BACK_ATTACK3 == CurState )
+		STATE_TYPE::BOSS_ATTACK3 == CurState || STATE_TYPE::BOSS_BACK_ATTACK3 == CurState  || 
+		STATE_TYPE::BOSS_NEAR_ATTACK1 == CurState || STATE_TYPE::BOSS_NEAR_ATTACK2 == CurState||
+		STATE_TYPE::BOSS_BACK_NEAR_ATTACK1 == CurState || STATE_TYPE::BOSS_BACK_NEAR_ATTACK2 == CurState)
 	{
 		if (!m_bSkill)
 		{
 			m_pBaseSkill->Play();
 			m_bSkill = true;
 		}
-		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() ==12 )
+		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 12)
 		{
 			CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MON_FOOT_ATTACK);
 		}
@@ -772,7 +820,7 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 
 		if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
 		{
-			
+
 			m_pBaseSkill->End();
 			m_bSkill = false;
 		}
@@ -782,6 +830,34 @@ _int CVioletDragon::Update_Object(const _float& fTimeDelta)
 	{
 		m_pBaseSkill->End();
 	}
+
+
+	////  Near Attack 
+	//if (STATE_TYPE::BOSS_NEAR_ATTACK1 == CurState || STATE_TYPE::BOSS_BACK_NEAR_ATTACK1 == CurState ||
+	//	STATE_TYPE::BOSS_NEAR_ATTACK2 == CurState || STATE_TYPE::BOSS_BACK_NEAR_ATTACK2 == CurState)
+	//{
+	//	if (false == m_bNearAttack)
+	//	{
+	//		m_pNearAttack->Play();
+	//		m_bNearAttack = true;
+	//	}
+	//	if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 8)
+	//	{
+	//		CSoundMgr::GetInstance()->PlaySound(L"BossAttack.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MON_FOOT_ATTACK);
+	//	}
+	//	if (m_pAnimatorCom->Get_CurAniamtion()->Is_End() || this->m_bActive == false)
+	//	{
+	//		m_pNearAttack->End();
+	//		m_bNearAttack = false;
+	//	}
+
+	//}
+	//else
+	//{
+	//	m_pNearAttack->End();
+	//}
+
+
 
 
 	// Full Down Skill Use Condition
@@ -968,14 +1044,14 @@ void CVioletDragon::LateUpdate_Object()
 		m_bHP_90 = true;
 	}
 
-	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.5f))
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.6f))
 	{
-		m_bHP_50 = true;
+		m_bHP_60 = true;
 	}
 
-	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.2f))
+	if (m_tStatInfo.fCurHP <= (m_tStatInfo.fMaxHP * 0.3f))
 	{
-		m_bHP_20 = true;
+		m_bHP_30 = true;
 	}
 
 	__super::LateUpdate_Object();
@@ -1042,6 +1118,37 @@ void CVioletDragon::OnCollision_Enter(CGameObject* _pColObj)
 
 void CVioletDragon::OnCollision_Stay(CGameObject* _pColObj)
 {
+
+	STATE_TYPE CurState = m_pStateMachineCom->Get_CurState();
+
+
+	//switch (_pColObj->Get_Type())
+	//{
+	//case Engine::OBJ_TYPE::PLAYER:
+	//{
+	//	if ((m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_NEAR_ATTACK1 ||
+	//		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_BACK_NEAR_ATTACK1 ||
+	//		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_NEAR_ATTACK2 ||
+	//		m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_BACK_NEAR_ATTACK2))
+	//	{
+	//		if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 8 && m_bNearAttackCheck == false)
+	//		{
+	//			dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+	//			m_bNearAttackCheck = true;
+	//		}
+	//		
+	//	}
+	//	else
+	//	{
+	//		m_bNearAttackCheck = false;
+	//	}
+	//}
+	//break;
+	//default:
+	//{
+	//}
+	//break;
+	//} // Switch End
 	__super::OnCollision_Stay(_pColObj);
 
 }
@@ -1271,6 +1378,31 @@ HRESULT CVioletDragon::Add_Component()
 	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSSDEAD)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Dead_VioletDragon", this));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	// Near Attack 
+	// Near1 Front
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_NEAR_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Near1 Back
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_NEAR_ATTACK1)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+	// Near2 Front
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_NEAR_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Front_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+	// Near2 Back
+	pComponent = m_pTextureCom[_uint(STATE_TYPE::BOSS_BACK_NEAR_ATTACK2)] = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Back_VioletDragon_Attack", this));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENT_TYPE::TEXTURE, pComponent);
+
+
+	
+
 
 
 	//// Watch

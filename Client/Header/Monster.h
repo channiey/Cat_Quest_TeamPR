@@ -156,6 +156,7 @@ protected:
 
 	// Attack
 	_bool					m_bAttackCheck;
+	_bool					m_bAttackCheck2;
 
 protected:
 	

@@ -115,7 +115,7 @@ HRESULT CMonster::Ready_Object()
 
 
 	m_bAttackCheck = false;
-
+	m_bAttackCheck2 = false;
 	return S_OK;
 }
 
@@ -275,7 +275,7 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BACK_MONATTACK) )
 		{
 
-			if (m_eID == OBJ_ID::MONSTER_HEDGEHOG  || m_eID == OBJ_ID::MONSTER_RAM)
+			if (m_eID == OBJ_ID::MONSTER_HEDGEHOG || m_eID == OBJ_ID::MONSTER_RAM || m_eID == OBJ_ID::MONSTER_VIOLETDRAGON  )
 			{
 				if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15 && m_bAttackCheck == false)
 				{
@@ -294,6 +294,27 @@ void CMonster::OnCollision_Stay(CGameObject* _pColObj)
 		{
 			m_bAttackCheck = false;
 		}
+
+
+		if (m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_ATTACK2 || (m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_ATTACK3 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_BACK_NEAR_ATTACK1 || m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_BACK_NEAR_ATTACK2 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_NEAR_ATTACK1 || m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_NEAR_ATTACK2 ||
+			m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK2 || m_pStateMachineCom->Get_CurState() == STATE_TYPE::BOSS_BACK_ATTACK3))
+		{
+
+			if (m_pAnimatorCom->Get_CurAniamtion()->Get_CurFrame() == 15 && m_bAttackCheck2 == false)
+			{
+				dynamic_cast<CPlayer*>(_pColObj)->Damaged(m_tStatInfo.fAD, this);
+				m_bAttackCheck2 = true;
+			}
+
+		}
+		else
+		{
+			m_bAttackCheck2 = false;
+		}
+
+
 	}
 	break;
 	case Engine::OBJ_TYPE::SKILL:

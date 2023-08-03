@@ -87,8 +87,8 @@ STATE_TYPE CVioletDragonState_SpreadBullet_Cast::Update_State(const _float& fTim
 
     //Monster - Cur HP Condition
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
-    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
-    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+    _bool Owner_bHP60 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP60();
+    _bool Owner_bHP30 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP30();
 
     // Player Component ==============================
     // Player
@@ -146,7 +146,7 @@ STATE_TYPE CVioletDragonState_SpreadBullet_Cast::Update_State(const _float& fTim
 
 #pragma region State Change
 
-    if (Owner_bHP90 == true && Owner_bHP50 == true && Owner_bHP20 == false)
+    if (Owner_bHP90 == true && Owner_bHP60 == true && Owner_bHP30 == false)
     {
         return STATE_TYPE::BOSS_FULLDOWN_FLY;
     }

@@ -241,6 +241,8 @@
     <ClInclude Include="..\Header\VioletDragonState_bChase3.h" />
     <ClInclude Include="..\Header\VioletDragonState_BlueThunder.h" />
     <ClInclude Include="..\Header\VioletDragonState_BlueThunder_Cast.h" />
+    <ClInclude Include="..\Header\VioletDragonState_bNearAttack2.h" />
+    <ClInclude Include="..\Header\VioletDragonState_bNearAttack1.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase2.h" />
     <ClInclude Include="..\Header\VioletDragonState_Chase3.h" />
@@ -248,6 +250,8 @@
     <ClInclude Include="..\Header\VioletDragonState_Intro_Down.h" />
     <ClInclude Include="..\Header\VioletDragonState_Intro_Sword.h" />
     <ClInclude Include="..\Header\VioletDragonState_Intro_Wing.h" />
+    <ClInclude Include="..\Header\VioletDragonState_NearAttack1.h" />
+    <ClInclude Include="..\Header\VioletDragonState_NearAttack2.h" />
     <ClInclude Include="..\Header\VioletDragonState_ShootingStarRed.h" />
     <ClInclude Include="..\Header\VioletDragonState_Watch_Down.h" />
     <ClInclude Include="..\Header\VioletDragonState_Watch_In_Sky.h" />
@@ -725,12 +729,16 @@
     <ClCompile Include="..\Code\VioletDragonState_bChase3.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_BlueThunder.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_BlueThunder_Cast.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_bNearAttack1.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_bNearAttack2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Chase3.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Dead.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Down.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Sword.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Intro_Wing.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_NearAttack1.cpp" />
+    <ClCompile Include="..\Code\VioletDragonState_NearAttack2.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_ShootingStarRed.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Watch_Down.cpp" />
     <ClCompile Include="..\Code\VioletDragonState_Watch_In_Sky.cpp" />

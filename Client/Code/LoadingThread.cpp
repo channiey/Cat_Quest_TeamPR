@@ -904,6 +904,17 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dead_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dead/%d.png", 17)), E_FAIL);
 
+
+
+	//// Near
+	//// front
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Near_Front_VioletDragon",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/NearAttack/Front/%d.png", 16)), E_FAIL);
+	//// Back
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Near_Back_VioletDragon",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/NearAttack/Back/%d.png", 16)), E_FAIL);
+
+
 	// Watch in sky
 	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_WatchInSky_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/WatchInSky/%d.png", 17)), E_FAIL);*/
@@ -1002,11 +1013,11 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	//// Boss Skill =====================================================================
 	// Bloody Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 12)), E_FAIL);
 
 	// Blue Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder_Blue",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 9)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 12)), E_FAIL);
 
 
 	// Effect Range 

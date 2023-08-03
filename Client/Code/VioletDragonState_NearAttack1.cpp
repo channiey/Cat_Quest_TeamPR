@@ -1,10 +1,10 @@
-#include "VioletDragonState_Patrol.h"
+#include "VioletDragonState_NearAttack1.h"
 #include "Export_Function.h"
 #include "Player.h"
+
 #include "VioletDragon.h"
 
-
-CVioletDragonState_Patrol::CVioletDragonState_Patrol(LPDIRECT3DDEVICE9 pGraphicDev)
+CVioletDragonState_NearAttack1::CVioletDragonState_NearAttack1(LPDIRECT3DDEVICE9 pGraphicDev)
     : CState(pGraphicDev)
     , m_fAccTime(0.f)
     , m_fChaseRange(0.f)
@@ -15,18 +15,17 @@ CVioletDragonState_Patrol::CVioletDragonState_Patrol(LPDIRECT3DDEVICE9 pGraphicD
 {
 }
 
-CVioletDragonState_Patrol::~CVioletDragonState_Patrol()
+CVioletDragonState_NearAttack1::~CVioletDragonState_NearAttack1()
 {
 }
 
-HRESULT CVioletDragonState_Patrol::Ready_State(CStateMachine* pOwner)
+HRESULT CVioletDragonState_NearAttack1::Ready_State(CStateMachine* pOwner)
 {
     if (nullptr != pOwner)
     {
         m_pOwner = pOwner;
     }
-    m_eState = STATE_TYPE::PATROL;
-
+    m_eState = STATE_TYPE::BOSS_NEAR_ATTACK1;
 
     // 상태에 전이 조건 수치
     m_fPatrolRange = 5.f;  // Patrol 전이
@@ -35,11 +34,10 @@ HRESULT CVioletDragonState_Patrol::Ready_State(CStateMachine* pOwner)
     m_fPlayerTargetRange = 20.f; // ComeBack 전이 - 현위치 -> 플레이어 위치
     m_fAttackRange = 10.f;  // Attack 전이
 
-
     return S_OK;
 }
 
-STATE_TYPE CVioletDragonState_Patrol::Update_State(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_NearAttack1::Update_State(const _float& fTimeDelta)
 {
     STATE_TYPE eState = m_eState;
 
@@ -59,8 +57,6 @@ STATE_TYPE CVioletDragonState_Patrol::Update_State(const _float& fTimeDelta)
     // Monster - Cur Animation
     CAnimation* pOwenrCurAnimation = dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion();
     NULL_CHECK_RETURN(pOwenrCurAnimation, eState);
-
-
 
 
     //Monster - Cur HP Condition
@@ -121,125 +117,58 @@ STATE_TYPE CVioletDragonState_Patrol::Update_State(const _float& fTimeDelta)
 
 
    // 현재 상태의 기능
-    m_fAccTime += fTimeDelta;
+  /*  pOwnerTransform->Set_Dir(vec3.zero);
+    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);*/
 
-    if (vOwnerPatternTime <= m_fAccTime)
+    if (dynamic_cast<CMonster*>(m_pOwner->Get_OwnerObject())->Get_StatInfo().bDead == true)
     {
-        dynamic_cast<CAIComponent*>(pOwnerAI)->Random_Move(fTimeDelta, vOwnerSpeed);
-        m_fAccTime = 0.f;
-    }
-    pOwnerTransform->Translate(fTimeDelta * vOwnerSpeed);
-
-
-
-#pragma region State Change 
-    // PATROL 우선순위
-    // Back Patrol - Chase - Comeback - Attack
-
-    if (Owner_bHP90 == true && Owner_bHP60 == false && Owner_bHP30 == false)
-    {
-        CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_IN);
-
-        return STATE_TYPE::BOSS_FULLDOWN_FLY;
+        return STATE_TYPE::BOSSDEAD;
     }
 
 
-   // BACK Patrol 전이 조건
-    if (vOwnerDir.z > 0)
+#pragma region State Change
+    // Attack 우선순위
+    // back attack - chase - Comeback
+
+
+    if (dynamic_cast<CAnimator*>(pOwnerAnimator)->Get_CurAniamtion()->Is_End())
     {
-       // cout << "Back patrol 전이" << endl;
-        return STATE_TYPE::BACK_PATROL;
+
+        return STATE_TYPE::BOSS_SPREAD_CAST;
+       
     }
+    return STATE_TYPE::BOSS_NEAR_ATTACK1;
 
 
-    // CHASE 전이 조건
-    if (fPlayerDistance <= m_fChaseRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //cout << "Chase 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::CHASE;
-        }
-        else
-        {
-          //  cout << "Back Chase 전이" << endl;
-          //  pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_CHASE;
-        }
-    }
-
-    // COMEBACK 전이 조건
-    if (fOriginDistance >= m_fComeBackRange && fPlayerDistance > m_fPlayerTargetRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //cout << "comback 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::COMEBACK;
-        }
-        else
-        {
-            //cout << "back comback 전이" << endl;
-            //pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_COMEBACK;
-        }
-    }
-
-    //  ATTACK 전이 조건
-    if (fPlayerDistance <= m_fAttackRange)
-    {
-        if (vOwnerDir.z < 0)
-        {
-            //cout << "attack 전이" << endl;
-            //pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::MONATTACK;
-        }
-        else
-        {
-           // cout << "back attack 전이" << endl;
-           // pOwnerTransform->Set_Dir(vec3.zero);
-            return STATE_TYPE::BACK_MONATTACK;
-        }
-    }
-
-    // Default
-    return STATE_TYPE::PATROL;
 
 #pragma endregion
-
-
-
-
-
-
   
 }
 
-void CVioletDragonState_Patrol::LateUpdate_State()
+void CVioletDragonState_NearAttack1::LateUpdate_State()
 {
 
 }
 
-void CVioletDragonState_Patrol::Render_State()
+void CVioletDragonState_NearAttack1::Render_State()
 {
     
 }
 
-STATE_TYPE CVioletDragonState_Patrol::Key_Input(const _float& fTimeDelta)
+STATE_TYPE CVioletDragonState_NearAttack1::Key_Input(const _float& fTimeDelta)
 {
  
     return m_eState;
 }
 
-CVioletDragonState_Patrol* CVioletDragonState_Patrol::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
- {
-    CVioletDragonState_Patrol* pInstance = new CVioletDragonState_Patrol(pGraphicDev);
+CVioletDragonState_NearAttack1* CVioletDragonState_NearAttack1::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)
+{
+    CVioletDragonState_NearAttack1* pInstance = new CVioletDragonState_NearAttack1(pGraphicDev);
 
     if (FAILED(pInstance->Ready_State(pOwner)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("Wyvern Patrol Create Failed");
+        MSG_BOX("WyvernState Attack Create Failed");
         return nullptr;
 
     }
@@ -247,7 +176,7 @@ CVioletDragonState_Patrol* CVioletDragonState_Patrol::Create(LPDIRECT3DDEVICE9 p
     return pInstance;
 }
 
-void CVioletDragonState_Patrol::Free()
+void CVioletDragonState_NearAttack1::Free()
 {
     __super::Free();
 }
