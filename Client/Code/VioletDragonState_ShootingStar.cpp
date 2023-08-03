@@ -48,6 +48,22 @@ HRESULT CVioletDragonState_ShootingStar::Ready_State(CStateMachine* pOwner)
     m_bBullet15 = false;
     m_bBullet16 = false;
 
+    m_bBullet17 = false;
+    m_bBullet18 = false;
+    m_bBullet19 = false;
+    m_bBullet20 = false;
+               
+    m_bBullet21 = false;
+    m_bBullet22 = false;
+    m_bBullet23 = false;
+    m_bBullet24 = false;
+                
+    m_bBullet25 = false;
+    m_bBullet26 = false;
+    m_bBullet27 = false;
+    m_bBullet28 = false;
+
+
 
 
 
@@ -188,7 +204,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
     // Second Group
-    if (m_bBullet5 == false && m_fAccTime >= 1.f) //5
+    if (m_bBullet5 == false && m_fAccTime >= 0.6f) //5
     {
         CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging5",
@@ -197,21 +213,21 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
         m_bBullet5 = true;
     }
 
-    if (m_bBullet6 == false && m_fAccTime >= 1.f) //6
+    if (m_bBullet6 == false && m_fAccTime >= 0.6f) //6
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging6",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet6 = true;
     }
 
-    if (m_bBullet7 == false && m_fAccTime >= 1.f) //7
+    if (m_bBullet7 == false && m_fAccTime >= 0.6f) //7
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging7",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet7 = true;
     }
 
-    if (m_bBullet8 == false && m_fAccTime >= 1.f) //8
+    if (m_bBullet8 == false && m_fAccTime >= 0.6f) //8
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging8",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
@@ -221,7 +237,7 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
 
 
     // Third Group
-    if (m_bBullet9 == false && m_fAccTime >= 2.f) //9
+    if (m_bBullet9 == false && m_fAccTime >= 1.1f) //9
     {
         CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_2, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging9",
@@ -230,30 +246,29 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
         m_bBullet9 = true;
     }
 
-    if (m_bBullet10 == false && m_fAccTime >= 2.f) //10
+    if (m_bBullet10 == false && m_fAccTime >= 1.1f) //10
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging10",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet10 = true;
     }
 
-    if (m_bBullet11 == false && m_fAccTime >= 2.f) //11
+    if (m_bBullet11 == false && m_fAccTime >= 1.1f) //11
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging11",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet11 = true;
     }
 
-    if (m_bBullet12== false && m_fAccTime >= 2.f) //12
+    if (m_bBullet12== false && m_fAccTime >= 1.1f) //12
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging12",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet12 = true;
     }
 
-
     // Fourth Group
-    if (m_bBullet13 == false && m_fAccTime >= 3.f) //13
+    if (m_bBullet13 == false && m_fAccTime >= 1.6f) //13
     {
         CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging13",
@@ -262,26 +277,130 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
         m_bBullet13 = true;
     }
 
-    if (m_bBullet14 == false && m_fAccTime >= 3.f) //14
+    if (m_bBullet14 == false && m_fAccTime >= 1.6f) //14
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging14",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet14 = true;
     }
 
-    if (m_bBullet15 == false && m_fAccTime >= 3.f) //15
+    if (m_bBullet15 == false && m_fAccTime >= 1.6f) //15
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging15",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet15 = true;
     }
 
-    if (m_bBullet16 == false && m_fAccTime >= 3.f) //16
+    if (m_bBullet16 == false && m_fAccTime >= 1.6f) //16
     {
         CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging16",
             CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
         m_bBullet16 = true;
     }
+
+
+    // Fivth Group
+    if (m_bBullet17 == false && m_fAccTime >= 2.1f) //17
+    {
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging17",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+
+        m_bBullet17 = true;
+    }
+
+    if (m_bBullet18 == false && m_fAccTime >= 2.1f) //18
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging18",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet18 = true;
+    }
+
+    if (m_bBullet19 == false && m_fAccTime >= 2.1f) //19
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging19",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet19 = true;
+    }
+
+    if (m_bBullet20 == false && m_fAccTime >= 2.1f) //20
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging20",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet20 = true;
+    }
+
+
+
+    // Fourth Group
+    if (m_bBullet21 == false && m_fAccTime >= 2.6f) //21
+    {
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging21",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+
+        m_bBullet21 = true;
+    }
+
+    if (m_bBullet22 == false && m_fAccTime >= 2.6f) //22
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging22",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet22 = true;
+    }
+
+    if (m_bBullet23 == false && m_fAccTime >= 2.6f) //23
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging23",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet23 = true;
+    }
+
+    if (m_bBullet24 == false && m_fAccTime >= 2.6f) //24
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging24",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet24 = true;
+    }
+
+
+
+
+    // Fourth Group
+    if (m_bBullet25 == false && m_fAccTime >= 3.1f) //25
+    {
+        CSoundMgr::GetInstance()->PlaySound(L"ShootingStar.mp3", CHANNEL_ID::MONSTER_BOSS_0, SOUND_VOLUME_MONSKILL_THUNDER);
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging25",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 8.f , vOwnerPos.y + 2.f , vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+
+        m_bBullet25 = true;
+    }
+
+    if (m_bBullet26 == false && m_fAccTime >= 3.1f) //26
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging26",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 8.f , vOwnerPos.y + 2.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet26 = true;
+    }
+
+    if (m_bBullet27 == false && m_fAccTime >= 3.1f) //27
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging27",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x - 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet27 = true;
+    }
+
+    if (m_bBullet28 == false && m_fAccTime >= 3.1f) //28
+    {
+        CEventMgr::GetInstance()->Add_Obj(L"Projectile_Boss_Converging28",
+            CBlueStar_Bullet::Create(m_pGraphicDev, { vOwnerPos.x + 4.f , vOwnerPos.y + 6.f, vOwnerPos.z - 5.f }, pPlayer, m_pOwner->Get_OwnerObject()));
+        m_bBullet28 = true;
+    }
+
+
+
+
+
 
 
 
@@ -334,6 +453,22 @@ STATE_TYPE CVioletDragonState_ShootingStar::Update_State(const _float& fTimeDelt
         m_bBullet14 = false;
         m_bBullet15 = false;
         m_bBullet16 = false;
+
+
+        m_bBullet17 = false;
+        m_bBullet18 = false;
+        m_bBullet19 = false;
+        m_bBullet20 = false;
+
+        m_bBullet21 = false;
+        m_bBullet22 = false;
+        m_bBullet23 = false;
+        m_bBullet24 = false;
+
+        m_bBullet25 = false;
+        m_bBullet26 = false;
+        m_bBullet27 = false;
+        m_bBullet28 = false;
 
         CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_OUT);
 

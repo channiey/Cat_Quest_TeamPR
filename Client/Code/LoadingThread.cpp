@@ -1033,6 +1033,31 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 
 
+	//Effect Projectile Boom Blue
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Blue/%d.png", 3)), E_FAIL);
+
+
+	//Effect Projectile Boom Red
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Red/%d.png", 3)), E_FAIL);
+
+
+	//Effect Projectile Boom Green
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Green",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Green/%d.png", 3)), E_FAIL);
+
+
+	//Effect Projectile Boom Purple
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Purple",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Purple/%d.png", 3)), E_FAIL);
+
+
+
+
+
+
+
 
 #pragma endregion
 

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "SoundMgr.h"
 #include "HitEffect_Green.h"
+#include "BoomEffect_Green.h"
 
 CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)
@@ -133,6 +134,8 @@ _int CDagger::Update_Object(const _float& fTimeDelta)
     if (m_fAccTime > 4.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
+        CEventMgr::GetInstance()->Add_Obj(L"Boom_Dagger_EFfect", CBoomEffect_Green::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+
     }
     
 

@@ -50,6 +50,25 @@ private:
 	_bool   m_bBullet15;
 	_bool   m_bBullet16;
 
+	_bool   m_bBullet17;
+	_bool   m_bBullet18;
+	_bool   m_bBullet19;
+	_bool   m_bBullet20;
+
+	_bool   m_bBullet21;
+	_bool   m_bBullet22;
+	_bool   m_bBullet23;
+	_bool   m_bBullet24;
+
+
+	_bool   m_bBullet25;
+	_bool   m_bBullet26;
+	_bool   m_bBullet27;
+	_bool   m_bBullet28;
+
+
+
+
 
 private:
 	virtual void Free();

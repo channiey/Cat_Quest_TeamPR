@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "HitEffect_Red.h"
+#include "BoomEffect_Red.h"
 
 CRedStar_Bullet::CRedStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_REDSTAR_BULLET)
@@ -118,6 +119,8 @@ _int CRedStar_Bullet::Update_Object(const _float& fTimeDelta)
     if (m_fAccTime >= 2.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
+        CEventMgr::GetInstance()->Add_Obj(L"Bomm_RedStar_Effect", CBoomEffect_Red::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+
     }
 
 

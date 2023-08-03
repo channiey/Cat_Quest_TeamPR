@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "SoundMgr.h"
 #include "HitEffect_Purple.h"
+#include "BoomEffect_Purple.h"
+
 
 CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime)
 	: CBossProjectile(pGraphicDev, OBJ_ID::PROJECTILE_BOSS_CONVERGING)
@@ -133,7 +135,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_bCollect = false;
         m_tPos.Init_Lerp();
-        m_tPos.Set_Lerp(0.3f, m_pTransformCom->Get_Info(INFO_POS), m_vOriginPos);
+        m_tPos.Set_Lerp(0.1f, m_pTransformCom->Get_Info(INFO_POS), m_vOriginPos);
     }
 
 
@@ -188,6 +190,7 @@ _int CComBack_Bullet::Update_Object(const _float& fTimeDelta)
     {
         m_fAccTime = 0.f;
         CEventMgr::GetInstance()->Delete_Obj(this);
+        CEventMgr::GetInstance()->Add_Obj(L"Bomm_ComeBackBullet_Effect", CBoomEffect_Purple::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
     }
   
 
