@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "SoundMgr.h"
+#include "HitEffect_Green.h"
 
 CDagger::CDagger(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_CURVE_BULLET)
@@ -196,6 +197,7 @@ void CDagger::OnCollision_Enter(CGameObject* _pColObj)
     case OBJ_TYPE::PLAYER:
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
+        CEventMgr::GetInstance()->Add_Obj(L"Hit_DaggerBullet_Effect", CHitEffect_Green::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

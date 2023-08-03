@@ -3,6 +3,7 @@
 #include "EventMgr.h"
 #include "Player.h"
 #include "SoundMgr.h"
+#include "HitEffect_Purple.h"
 
 CComBack_Bullet::CComBack_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner, _float fCombackTime)
 	: CBossProjectile(pGraphicDev, OBJ_ID::PROJECTILE_BOSS_CONVERGING)
@@ -275,6 +276,8 @@ void CComBack_Bullet::OnCollision_Enter(CGameObject* _pColObj)
     case OBJ_TYPE::PLAYER:
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
+        CEventMgr::GetInstance()->Add_Obj(L"Hit_ComeBackBullet_Effect", CHitEffect_Purple::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        
         //CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

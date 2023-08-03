@@ -1,7 +1,7 @@
 #include "BlueStar_Bullet.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "HitEffect_Blue.h"
 
 CBlueStar_Bullet::CBlueStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_STAR_BULLET)
@@ -187,6 +187,8 @@ void CBlueStar_Bullet::OnCollision_Enter(CGameObject* _pColObj)
     case OBJ_TYPE::PLAYER:
 
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
+        CEventMgr::GetInstance()->Add_Obj(L"Hit_Bluestar_Effect", CHitEffect_Blue::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+
         CEventMgr::GetInstance()->Delete_Obj(this);
         break;
     default:

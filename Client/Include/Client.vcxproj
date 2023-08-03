@@ -207,6 +207,10 @@
     <ClInclude Include="..\Header\GetWorldEffect.h" />
     <ClInclude Include="..\Header\GreenBullet.h" />
     <ClInclude Include="..\Header\HealEffect.h" />
+    <ClInclude Include="..\Header\HitEffect_Blue.h" />
+    <ClInclude Include="..\Header\HitEffect_Green.h" />
+    <ClInclude Include="..\Header\HitEffect_Purple.h" />
+    <ClInclude Include="..\Header\HitEffect_Red.h" />
     <ClInclude Include="..\Header\LargeIceBush.h" />
     <ClInclude Include="..\Header\MiniGameMgr_Bingo.h" />
     <ClInclude Include="..\Header\Paper.h" />
@@ -682,6 +686,10 @@
     <ClCompile Include="..\Code\GetWorldEffect.cpp" />
     <ClCompile Include="..\Code\GreenBullet.cpp" />
     <ClCompile Include="..\Code\HealEffect.cpp" />
+    <ClCompile Include="..\Code\HitEffect_Blue.cpp" />
+    <ClCompile Include="..\Code\HitEffect_Green.cpp" />
+    <ClCompile Include="..\Code\HitEffect_Purple.cpp" />
+    <ClCompile Include="..\Code\HitEffect_Red.cpp" />
     <ClCompile Include="..\Code\LargeIceBush.cpp" />
     <ClCompile Include="..\Code\MiniGameMgr_Bingo.cpp" />
     <ClCompile Include="..\Code\Paper.cpp" />
