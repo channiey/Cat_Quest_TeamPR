@@ -235,17 +235,19 @@ const _bool CCollisionMgr::Check_Rect(CGameObject* const _pObj1, CGameObject* co
 	CTransform* pTrans2 = _pObj2->Get_Transform();
 	
 	_float fX = fabs(pTrans1->Get_Info(INFO_POS).x - pTrans2->Get_Info(INFO_POS).x);
+	_float fY = fabs(pTrans1->Get_Info(INFO_POS).y - pTrans2->Get_Info(INFO_POS).y); // Y 추가
 	_float fZ = fabs(pTrans1->Get_Info(INFO_POS).z - pTrans2->Get_Info(INFO_POS).z);
 
 	// 애니메이션에서 스케일을 -로 사용하는 경우에 대한 예외처리
 	_float fRadiusX = (fabs(pTrans1->Get_Scale().x) + fabs(pTrans2->Get_Scale().x)) * 0.5f;
+	_float fRadiusY = (fabs(pTrans1->Get_Scale().y) + fabs(pTrans2->Get_Scale().y)) * 0.5f; // Y 추가
 	_float fRadiusZ = (fabs(pTrans1->Get_Scale().z) + fabs(pTrans2->Get_Scale().z)) * 0.5f;
 
 	// Z 포지션 예외처리
 	//if (pTrans1->Get_Info(INFO_POS).z < pTrans2->Get_Info(INFO_POS).z)
 	//	fRadiusZ += fabs(pTrans2->Get_Scale().z);
 
-	if ((fRadiusX >= fX) && (fRadiusZ >= fZ))
+	if ((fRadiusX >= fX) && (fRadiusZ >= fZ) && (fRadiusY >= fY))  // Y 추가
 	{
 		_float fOverX = fRadiusX - fX;
 		_float fOverZ = fRadiusZ - fZ;
