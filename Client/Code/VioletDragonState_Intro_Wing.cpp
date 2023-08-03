@@ -24,6 +24,8 @@ HRESULT CVioletDragonState_Intro_Wing::Ready_State(CStateMachine* pOwner)
 
 
     m_fAccTime = 0.f;
+    m_bSound1 = false;
+    m_bSound2 = false;
 
     return S_OK;
 }
@@ -51,9 +53,8 @@ STATE_TYPE CVioletDragonState_Intro_Wing::Update_State(const _float& fTimeDelta)
 
     //Monster - Cur HP Condition
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
-    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
-    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
-
+    _bool Owner_bHP60 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP60();
+    _bool Owner_bHP30 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP30();
 
 
     // Player Component ==============================
@@ -110,13 +111,25 @@ STATE_TYPE CVioletDragonState_Intro_Wing::Update_State(const _float& fTimeDelta)
     m_fAccTime += fTimeDelta;
 
 
+    if (m_bSound1 == false)
+    {
+        CSoundMgr::GetInstance()->PlaySound(L"dragon_roar.wav", CHANNEL_ID::MONSTER_BOSS_2, 1.f);
+        m_bSound1 = true;
+    }
 
+    if (m_bSound2 == false && pOwenrCurAnimation->Get_CurFrame() == 11)
+    {
+        CSoundMgr::GetInstance()->PlaySound(L"dragon_roar.wav", CHANNEL_ID::MONSTER_BOSS_0, 1.f);
+        m_bSound2 = true;
 
+    }
 
 
     if (pOwenrCurAnimation->Is_End() && m_fAccTime >= 1.f )
     {
         m_fAccTime = 0.f;
+        m_bSound1 = false;
+        m_bSound2 = false;
         return STATE_TYPE::BOSS_INTRO_SWORD;
     }
 

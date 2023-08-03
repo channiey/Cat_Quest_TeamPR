@@ -59,10 +59,8 @@ STATE_TYPE CVioletDragonState_Chase::Update_State(const _float& fTimeDelta)
 
     //Monster - Cur HP Condition
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
-    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
-    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
-
-
+    _bool Owner_bHP60 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP60();
+    _bool Owner_bHP30 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP30();
 
     // Player Component ==============================
     // Player
@@ -131,7 +129,7 @@ STATE_TYPE CVioletDragonState_Chase::Update_State(const _float& fTimeDelta)
     // CHASE 우선순위
     //  Back Chase - Attack - Comeback - Patrol
 
-    if (Owner_bHP90 == true && Owner_bHP50 == false && Owner_bHP20 == false)
+    if (Owner_bHP90 == true && Owner_bHP60 == false && Owner_bHP30 == false)
     {
         CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::BOSS_SKILL_IN);
 

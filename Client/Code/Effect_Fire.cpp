@@ -68,6 +68,7 @@ void CEffect_Fire::Play_Effect(const _vec3& _vPos, const _vec3& _vSize)
 			else
 				m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);
 		}
+
 	}
 	else
 		m_pAnimatorCom->Set_Animation(STATE_TYPE::FRONT_IDLE);

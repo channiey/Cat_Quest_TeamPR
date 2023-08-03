@@ -42,5 +42,9 @@ private:
 	_float  m_fAttackRange;
 	_float  m_fComeBackRange;
 	_float  m_fPlayerTargetRange;
+
+
+
+    _bool 	m_bSound;
 };
 

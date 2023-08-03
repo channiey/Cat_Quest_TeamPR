@@ -36,6 +36,7 @@ HRESULT CEffect_Range_Quater::Ready_Object()
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_ATTACK:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_LARGE_PURPLE:  // New
 	{
 		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f * 0.7f }); 
 		m_vSize = m_pTransformCom->Get_Scale();
@@ -146,6 +147,7 @@ void CEffect_Range_Quater::Render_Object()
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_RED:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SKILL_YELLOW:
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_ATTACK:
+	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_LARGE_PURPLE:
 	{
 		Render_Circle(matWorld);
 	}
@@ -351,7 +353,8 @@ HRESULT CEffect_Range_Quater::Add_Component()
 	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_SMALL_RED:
 		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_Range_Skill_Small_Red", this));
 		break;
-		
+	case Engine::EFFECT_RANGE_QUATER_TYPE::CIRCLE_LARGE_PURPLE:
+		pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::Clone_Texture(L"Proto_Texture_Effect_range_Purple", this));
 	default:
 		break;
 	}

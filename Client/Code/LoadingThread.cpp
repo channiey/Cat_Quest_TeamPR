@@ -894,7 +894,7 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 
 	//Intro_Wing
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Intro_Wing_VioletDragon",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Intro_Wing/%d.png", 18)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Intro_Wing/%d.png", 17)), E_FAIL);
 
 	//Intro_Sword
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Intro_Sword_VioletDragon",
@@ -903,6 +903,17 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	// Dead
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Dead_VioletDragon",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/Dead/%d.png", 17)), E_FAIL);
+
+
+
+	//// Near
+	//// front
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Near_Front_VioletDragon",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/NearAttack/Front/%d.png", 16)), E_FAIL);
+	//// Back
+	//FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Near_Back_VioletDragon",
+	//	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Monster/VioletDragon/NearAttack/Back/%d.png", 16)), E_FAIL);
+
 
 	// Watch in sky
 	/*FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_WatchInSky_VioletDragon",
@@ -1014,11 +1025,11 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	//// Boss Skill =====================================================================
 	// Bloody Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 9)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder/%d.png", 12)), E_FAIL);
 
 	// Blue Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_Thunder_Blue",
-		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 9)), E_FAIL);
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_Thunder_Blue/%d.png", 12)), E_FAIL);
 
 
 	// Effect Range 
@@ -1042,6 +1053,39 @@ _uint CLoadingThread::Loading_For_ComponentAndTexture()
 	//Effect Projectile Hit Blue
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Hit_Blue",
 		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Hit_Blue/%d.png", 3)), E_FAIL);
+
+
+
+	//Effect Projectile Boom Blue
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Blue",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Blue/%d.png", 3)), E_FAIL);
+
+
+	//Effect Projectile Boom Red
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Red",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Red/%d.png", 3)), E_FAIL);
+
+
+	//Effect Projectile Boom Green
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Green",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Green/%d.png", 3)), E_FAIL);
+
+
+	//Effect Projectile Boom Purple
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Projectile_Boom_Purple",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Battle/Boom_Purple/%d.png", 3)), E_FAIL);
+
+
+	// Effect Purple Range
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_range_Purple",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/All/range/Range_Skill_Circle_Big_Purple.png")), E_FAIL);
+
+	// Effect Boss HellFire
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(L"Proto_Texture_Effect_Boss_HellFire",
+		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Completed/Boss_HellFire/%d.png", 8)), E_FAIL);
+
+
+
 
 
 

@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "HitEffect_Red.h"
+#include "BoomEffect_Red.h"
 
 CRedStar_Bullet::CRedStar_Bullet(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 _vPos, CGameObject* pTarget, CGameObject* pOwner)
     :CBasicProjectile(pGraphicDev, OBJ_ID::PROJECTILE_REDSTAR_BULLET)
@@ -118,6 +119,9 @@ _int CRedStar_Bullet::Update_Object(const _float& fTimeDelta)
     if (m_fAccTime >= 2.f)
     {
         CEventMgr::GetInstance()->Delete_Obj(this);
+        CEventMgr::GetInstance()->Add_Obj(L"Bomm_RedStar_Effect", CBoomEffect_Red::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact", CHANNEL_ID::MONSTER_HEDGEHOG, 0.7f);
+
     }
 
 
@@ -189,6 +193,7 @@ void CRedStar_Bullet::OnCollision_Enter(CGameObject* _pColObj)
         dynamic_cast<CPlayer*>(pPlayer)->Damaged(m_fDamage, this);
         CEventMgr::GetInstance()->Add_Obj(L"Hit_RedStar_Effect", CHitEffect_Red::Create(m_pGraphicDev, m_pTransformCom->Get_Info(INFO_POS)));
         CEventMgr::GetInstance()->Delete_Obj(this);
+        CSoundMgr::GetInstance()->PlaySound(L"enemy_impact2", CHANNEL_ID::MONSTER_HEDGEHOG, 1.f);
         break;
     default:
         break;

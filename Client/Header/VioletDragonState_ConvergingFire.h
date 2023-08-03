@@ -53,6 +53,25 @@ private:
 
 	_bool	m_bSound;
 
+	_bool	m_bSound1;
+	_bool	m_bSound2;
+	_bool	m_bSound3;
+	_bool	m_bSound4;
+	_bool	m_bSound5;
+	_bool	m_bSound6;
+	_bool	m_bSound7;
+	_bool	m_bSound8;
+	_bool	m_bSound9;
+	_bool	m_bSound10;
+	_bool	m_bSound11;
+	_bool	m_bSound12;
+	_bool	m_bSound13;
+	_bool	m_bSound14;
+	_bool	m_bSound15;
+	_bool	m_bSound16;
+	
+
+
 private:
 	virtual void Free();
 

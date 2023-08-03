@@ -457,9 +457,6 @@ HRESULT CSkill_Boss_BlueThunder::LatePlay()
 
 
 
-	
-
-
 
 	_float fSkillEffectScaleY = m_pSKillEffect1->Get_Transform()->Get_Scale().y;
 

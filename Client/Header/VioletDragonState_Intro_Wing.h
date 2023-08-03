@@ -36,6 +36,7 @@ private:
 private:
 
 	_float m_fAccTime;
-
+	_bool  m_bSound1;
+	_bool m_bSound2;
 };
 

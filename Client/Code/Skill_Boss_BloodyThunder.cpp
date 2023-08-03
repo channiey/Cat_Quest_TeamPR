@@ -5,6 +5,7 @@
 #include "Effect_Range_Quater.h"
 #include "RangeObj.h"
 #include "Player.h"
+#include "SoundMgr.h"
 
 CSkill_Boss_BloodyThunder::CSkill_Boss_BloodyThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CSkill(pGraphicDev, OBJ_ID::SKILL_BOSS_BLOODYTHUNDER)
@@ -253,6 +254,9 @@ HRESULT CSkill_Boss_BloodyThunder::Play()
 	//m_pBaseRangeEffect5->Alphaing(2.f, 80.f, 255.f);
 	//m_pBaseRangeEffect5->Scaling(2.f, 0.3f, 1.f);
 
+
+
+	CSoundMgr::GetInstance()->PlaySound(L"potal.wav", CHANNEL_ID::MONSTER_BOSS_1, SOUND_VOLUME_MONSKILL_THUNDER);
 
 	m_bActive = false;
 

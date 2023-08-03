@@ -23,7 +23,7 @@ HRESULT CVioletDragonState_FullDown_Fly::Ready_State(CStateMachine* pOwner)
     m_eState = STATE_TYPE::BOSS_FULLDOWN_FLY;
     
     m_fAccTime = 0.f;
-    
+    m_bSound = false;
     
 
 	return S_OK;
@@ -53,8 +53,9 @@ STATE_TYPE CVioletDragonState_FullDown_Fly::Update_State(const _float& fTimeDelt
 
     //Monster - Cur HP Condition
     _bool Owner_bHP90 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP90();
-    _bool Owner_bHP50 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP50();
-    _bool Owner_bHP20 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP20();
+    _bool Owner_bHP60 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP60();
+    _bool Owner_bHP30 = dynamic_cast<CVioletDragon*>(m_pOwner->Get_OwnerObject())->Get_HP30();
+
 
     // Player Component ==============================
     // Player
@@ -108,8 +109,11 @@ STATE_TYPE CVioletDragonState_FullDown_Fly::Update_State(const _float& fTimeDelt
 
 
 
-
-
+    if (m_bSound == false && pOwenrCurAnimation->Get_CurFrame() == 8)
+    {
+        m_bSound = true;
+        CSoundMgr::GetInstance()->PlaySound(L"map_transition_fast2.wav", CHANNEL_ID::MONSTER_BOSS_2, 1.f);
+    }
 
     m_fAccTime += fTimeDelta;
     
