@@ -322,7 +322,7 @@ HRESULT CCameraMgr::Start_Action(const CAMERA_ACTION& _eMode, const _vec3& _vSta
 		{
 			_float fEyeHeight = Get_CurCamera()->Get_CameraCom()->Get_ViewSpace().Eye.y;
 			_float fDeltaHeight = 45.f;
-			m_pCurCamera->Get_CameraCom()->Lerp_Height(3.f, 0, fDeltaHeight, LERP_MODE::EASE_IN);
+			m_pCurCamera->Get_CameraCom()->Lerp_Height(4.8f, 0, fDeltaHeight, LERP_MODE::EASE_IN);
 		}
 			break;
 

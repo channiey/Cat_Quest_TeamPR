@@ -31,7 +31,7 @@ public:
 	void					Start_Fade(const _float _fTime, const _float& _fStartvalue, const _float _fEndValue, 
 										const _bool& _bWhite = FALSE, const LERP_MODE& _eMode = LERP_MODE::DEFAULT, const _bool _bDelete = TRUE);
 	const _bool&			Is_Fade() const { return m_tLerpAlpha.bActive; }
-
+	void					Set_Alpha(const _float _fAlpha) { m_tLerpAlpha.fCurValue = _fAlpha; }
 private:
 	virtual HRESULT			Add_Component() override;
 

@@ -242,7 +242,7 @@ HRESULT CScene_World::Ready_Scene()
 	m_bFinish = FALSE;
 	m_fAcc = 0.f;
 
-	SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+	//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
 
 	return S_OK;
 }
@@ -259,7 +259,12 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 			CCameraMgr::GetInstance()->Start_Action(CAMERA_ACTION::SCENE_EXIT_INGAME);
 			CPlayer_Camera* pCam = dynamic_cast<CPlayer_Camera*>(CCameraMgr::GetInstance()->Get_CurCamera());
 			if (nullptr != pCam)
+			{
 				pCam->Get_FadeUI()->Start_Fade(4.5f, 0.f, 255.f, TRUE, LERP_MODE::EASE_OUT, FALSE);
+
+				CPlayer* pPlayer = static_cast<CPlayer*>(CManagement::GetInstance()->Get_Player());
+				pPlayer->Block_Input(TRUE);
+			}
 			//CSoundMgr::GetInstance()->Lerp_Volume_CurBGM(LERP_MODE::EASE_IN, 6.5f, SOUND_VOLUME_BGM, 0.f);
 			m_bFinish = FALSE;
 			m_bEndingFade = TRUE;
@@ -269,6 +274,8 @@ Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 	{
 		if (!CCameraMgr::GetInstance()->Is_Fade())
 		{
+			CFadeUI* pUI = static_cast<CFadeUI*>(CManagement::GetInstance()->Get_GameObject(OBJ_TYPE::UI, L"FadeUI"));
+			pUI->Set_Alpha(255.f);
 			// 게임 종료 - 페이드 완료
 
 			// title.png 움직이게 띄우기 
@@ -934,7 +941,7 @@ void CScene_World::SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT 
 {
 	//return;
 	float Start = 40; // 50.f;   // Linear fog distances
-	float End = 130; //  130.f;
+	float End = 125; //  130.f;
 
 	// Enable fog blending. d w ddda
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
