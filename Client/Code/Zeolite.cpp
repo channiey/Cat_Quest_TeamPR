@@ -58,7 +58,7 @@ HRESULT CZeolite::Ready_Object()
 
 	return S_OK;
 }
-
+static _bool bSound = FALSE;
 _int CZeolite::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CGameObject::Update_Object(fTimeDelta);
@@ -66,6 +66,12 @@ _int CZeolite::Update_Object(const _float& fTimeDelta)
 
 	if (m_bDelete)
 	{
+		if (!bSound)
+		{
+			// 사운드 플레이
+			bSound = TRUE;
+			CSoundMgr::GetInstance()->PlaySound(L"dragon_death.wav", CHANNEL_ID::ENVIRONMENT_0, 0.8f);
+		}
 		m_tAlphaLerp.Update_Lerp(fTimeDelta);
 		m_fAlpha = m_tAlphaLerp.fCurValue;
 

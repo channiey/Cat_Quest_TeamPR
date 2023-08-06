@@ -59,6 +59,12 @@ void CShadow_Item::LateUpdate_Object()
 
 void CShadow_Item::Render_Object()
 {
+	if (!m_pOwnerobject->Is_Active())
+	{
+		CEventMgr::GetInstance()->Delete_Obj(this);
+		return;
+	}
+
 	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(220, 255, 255, 255));
 	// 장판 텍스처 출력
 	// 빌보드 해제

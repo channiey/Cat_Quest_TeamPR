@@ -1421,17 +1421,17 @@ HRESULT CPlayer::Add_Component()
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down(VK_F9))
+	/*if (CInputDev::GetInstance()->Key_Down(VK_F9))
 	{
 		CBossSceneMgr::GetInstance()->Start_BossScene();
-	}
+	}*/
 
-	if (CInputDev::GetInstance()->Key_Down(VK_F8))
+	/*if (CInputDev::GetInstance()->Key_Down(VK_F8))
 	{
 		CGameObject* pMon = CTurretSkull::Create(m_pGraphicDev);
 		NULL_CHECK(pMon);
 		CEventMgr::GetInstance()->Add_Obj(L"Monster_Skull", pMon);
-	}
+	}*/
 
 	if (CInputDev::GetInstance()->Key_Down('Q'))
 		m_bhasFlight = true;

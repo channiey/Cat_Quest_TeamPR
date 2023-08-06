@@ -244,7 +244,7 @@ HRESULT CScene_World::Ready_Scene()
 	m_bFinish = FALSE;
 	m_fAcc = 0.f;
 
-	SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
+	//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
 
 	ZeroMemory(&m_tLerpVideoVolume, sizeof(LERP_FLOAT_INFO));
 
@@ -253,18 +253,7 @@ HRESULT CScene_World::Ready_Scene()
 
 Engine::_int CScene_World::Update_Scene(const _float& fTimeDelta)
 {
-	if (CInputDev::GetInstance()->Key_Down(VK_F1))
-	{
-		//m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 
-		//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, TRUE, 0.5f);
-	}
-	if (CInputDev::GetInstance()->Key_Down(VK_F2))
-	{
-		//m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
-		//SetupVertexFog(D3DCOLOR_ARGB(40, 255, 255, 255), D3DFOG_LINEAR, FALSE, 0.5f);
-	}
 	// Ending
 	if (m_bFinish)
 	{

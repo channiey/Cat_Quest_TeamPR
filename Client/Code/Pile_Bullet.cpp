@@ -50,6 +50,9 @@ _int CPile_Bullet::Update_Object(const _float& fTimeDelta)
     Engine::Add_RenderGroup(RENDER_ALPHA, this);
     _int iExit = __super::Update_Object(fTimeDelta);
 
+    if (!m_pOwner->Is_Active())
+        CEventMgr::GetInstance()->Delete_Obj(this);
+
     m_tAlpha.Update_Lerp(fTimeDelta);
 
     if (m_tAlpha.bActive)
@@ -93,11 +96,16 @@ void CPile_Bullet::LateUpdate_Object()
 {
 
     __super::LateUpdate_Object();
+
+       if (!m_pOwner->Is_Active())
+        CEventMgr::GetInstance()->Delete_Obj(this);
 }
 
 
 void CPile_Bullet::Render_Object()
 {
+    if (!m_pOwner->Is_Active())
+        CEventMgr::GetInstance()->Delete_Obj(this);
     m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(m_iAlpha, 255, 255, 255));
 
     _matrix matWorld = m_pTransformCom->Get_WorldMat();

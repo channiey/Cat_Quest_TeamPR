@@ -64,8 +64,8 @@ namespace Engine
 #define VTXITV							3
 
 // Player Pos
-#define START_POS_WORLD_X				 BOSS_POS_X			//346.f
-#define START_POS_WORLD_Z				(BOSS_POS_Z - 50)	//120.f
+#define START_POS_WORLD_X				346.f //  BOSS_POS_X			//346.f
+#define START_POS_WORLD_Z				120.f // (BOSS_POS_Z - 50)	//120.f
 #define START_POS_DUNGEON_X				53.f 
 #define START_POS_DUNGEON_Z				32.f // 204 168
 #define START_POS_TEMPLE_X				156.f 

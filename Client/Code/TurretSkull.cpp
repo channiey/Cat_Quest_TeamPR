@@ -86,7 +86,6 @@ _int CTurretSkull::Update_Object(const _float& fTimeDelta)
 	Engine::Add_RenderGroup(RENDER_ALPHA, this);
 	_int iExit = CMonster::Update_Object(fTimeDelta);
 
-
 	if (m_pTransformCom->Get_Info(INFO::INFO_POS).y == m_fHigh)
 	{
 		m_tPosY.Init_Lerp(LERP_MODE::SMOOTHSTEP);
@@ -144,6 +143,10 @@ _int CTurretSkull::Update_Object(const _float& fTimeDelta)
 
 void CTurretSkull::LateUpdate_Object()
 {
+	if (CInputDev::GetInstance()->Key_Down(VK_F7))
+	{
+		m_tStatInfo.bDead = TRUE;
+	}
 	if (m_bHit)
 		m_bHit = false;
 
